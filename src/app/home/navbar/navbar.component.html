@@ -5,7 +5,7 @@
 </mat-nav-list>
 <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
   <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding> <!-- Template for leaf nodes -->
-    {{node.name}}
+    <a [routerLink]="node.link">{{node.name}}</a>
   </mat-tree-node>
   <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding> <!-- Template for expandable nodes -->
     <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">

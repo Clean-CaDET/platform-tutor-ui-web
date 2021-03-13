@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit {
       return {
         expandable: !!node.children && node.children.length > 0,
         name: node.name,
+        link: node.link,
         level
       };
     };

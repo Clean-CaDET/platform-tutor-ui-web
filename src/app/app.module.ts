@@ -11,6 +11,8 @@ import { PageNotFoundComponent } from './home/page-not-found/page-not-found.comp
 import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
 import { NavbarComponent } from './home/navbar/navbar.component';
+import { LectureComponent } from './lecture/lecture.component';
+import { KnowledgeNodeModule } from './lecture/knowledge-node/knowledge-node.module';
 
 
 @NgModule({
@@ -19,7 +21,8 @@ import { NavbarComponent } from './home/navbar/navbar.component';
     HomeComponent,
     AboutComponent,
     PageNotFoundComponent,
-    NavbarComponent
+    NavbarComponent,
+    LectureComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +30,8 @@ import { NavbarComponent } from './home/navbar/navbar.component';
     AppRoutingModule,
     MaterialModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    KnowledgeNodeModule
   ],
   bootstrap: [AppComponent]
 })

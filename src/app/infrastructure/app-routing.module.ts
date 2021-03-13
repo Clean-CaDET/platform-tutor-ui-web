@@ -3,11 +3,17 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from '../home/home/home.component';
 import {AboutComponent} from '../home/about/about.component';
 import {PageNotFoundComponent} from '../home/page-not-found/page-not-found.component';
+import { LectureComponent } from '../lecture/lecture.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'about', component: AboutComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
+  { path: 'clean-classes',
+    children: [
+      { path: 'cohesion', component: LectureComponent }
+    ]
+  },
   { path: '**', component: PageNotFoundComponent}
 ];
 
