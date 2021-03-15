@@ -6,6 +6,12 @@ export abstract class LearningObject {
   role: LearningObjectRole;
   tags: string[];
 
+  constructor(role?: LearningObjectRole, tags?: string[]) {
+    this.role = role;
+    this.tags = tags;
+  }
+
+
   abstract getComponent(): Type<LearningObjectComponent>;
 
 }
