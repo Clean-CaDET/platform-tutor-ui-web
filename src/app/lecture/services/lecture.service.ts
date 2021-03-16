@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { KnowledgeNode } from '../knowledge-node/model/knowledge-node.model';
 import { Text } from '../knowledge-node/learning-objects/text/model/text.model';
 import { LearningObjectRole } from '../knowledge-node/learning-objects/enum/learning-object-role.enum';
+import { Image } from '../knowledge-node/learning-objects/image/model/image.model';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class LectureService {
         ' and described by its interface that sets its inputs and outputs.',
         LearningObjectRole.Definition
       ),
+      new Image('https://miro.medium.com/max/700/1*3jfye6OQFu_dROKb14BhaQ.png',
+        'The left class is playing with a few responsibilities, more than its name suggests anyway...',
+        LearningObjectRole.Example
+      )
     );
     return [knowledgeNode];
   }
