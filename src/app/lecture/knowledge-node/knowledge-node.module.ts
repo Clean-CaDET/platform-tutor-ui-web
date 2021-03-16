@@ -6,6 +6,9 @@ import { LearningObjectContainerComponent } from './learning-objects/learning-ob
 import { TextComponent } from './learning-objects/text/text.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { ImageComponent } from './learning-objects/image/image.component';
+import { VideoComponent } from './learning-objects/video/video.component';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -14,7 +17,8 @@ import { ImageComponent } from './learning-objects/image/image.component';
     LearningObjectDirective,
     LearningObjectContainerComponent,
     TextComponent,
-    ImageComponent
+    ImageComponent,
+    VideoComponent
   ],
   exports: [
     KnowledgeNodeComponent
@@ -22,6 +26,8 @@ import { ImageComponent } from './learning-objects/image/image.component';
   imports: [
     BrowserModule,
     MarkdownModule.forChild(),
+    YouTubePlayerModule,
+    FlexLayoutModule
   ]
 })
 export class KnowledgeNodeModule { }

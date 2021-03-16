@@ -3,6 +3,7 @@ import { KnowledgeNode } from '../knowledge-node/model/knowledge-node.model';
 import { Text } from '../knowledge-node/learning-objects/text/model/text.model';
 import { LearningObjectRole } from '../knowledge-node/learning-objects/enum/learning-object-role.enum';
 import { Image } from '../knowledge-node/learning-objects/image/model/image.model';
+import { Video } from '../knowledge-node/learning-objects/video/model/video.model';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,8 @@ export class LectureService {
       new Image('https://miro.medium.com/max/700/1*3jfye6OQFu_dROKb14BhaQ.png',
         'The left class is playing with a few responsibilities, more than its name suggests anyway...',
         LearningObjectRole.Example
-      )
+      ),
+      new Video('qE-Gmu_YuQE', LearningObjectRole.Example)
     );
     return [knowledgeNode];
   }
