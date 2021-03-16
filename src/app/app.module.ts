@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home/home.component';
@@ -31,7 +32,8 @@ import { KnowledgeNodeModule } from './lecture/knowledge-node/knowledge-node.mod
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    KnowledgeNodeModule
+    KnowledgeNodeModule,
+    MarkdownModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })

@@ -4,6 +4,7 @@ import { KnowledgeNodeComponent } from './knowledge-node.component';
 import { LearningObjectDirective } from './learning-objects/learning-object.directive';
 import { LearningObjectContainerComponent } from './learning-objects/learning-object-container/learning-object-container.component';
 import { TextComponent } from './learning-objects/text/text.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 @NgModule({
@@ -16,8 +17,9 @@ import { TextComponent } from './learning-objects/text/text.component';
   exports: [
     KnowledgeNodeComponent
   ],
-  imports: [
-    BrowserModule
-  ]
+    imports: [
+        BrowserModule,
+        MarkdownModule.forChild()
+    ]
 })
 export class KnowledgeNodeModule { }

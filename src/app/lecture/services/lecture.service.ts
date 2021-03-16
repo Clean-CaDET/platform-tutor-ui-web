@@ -14,13 +14,15 @@ export class LectureService {
     const knowledgeNode = new KnowledgeNode();
     knowledgeNode.learningObjects = [];
 
-    knowledgeNode.learningObjects.push(new Text(
-      'Cohesion is the degree to which a part of a code base forms a meaningful atomic module.' +
-      ' The components of a highly cohesive module work together towards a common, well defined goal' +
-      ' and have a clear (single) responsibility. This responsibility is defined by the module’s name' +
-      ' and described by its interface that sets its inputs and outputs.',
-      LearningObjectRole.Definition
-    ));
+    knowledgeNode.learningObjects.push(
+      new Text(
+        '<b>Cohesion</b> is the degree to which a part of a code base forms a meaningful atomic module<sup>1</sup>.' +
+        ' The components of a highly cohesive module work together towards a common, well defined goal' +
+        ' and have a clear (single) responsibility. This responsibility is defined by the module’s name' +
+        ' and described by its interface that sets its inputs and outputs.',
+        LearningObjectRole.Definition
+      ),
+    );
     return [knowledgeNode];
   }
 }
