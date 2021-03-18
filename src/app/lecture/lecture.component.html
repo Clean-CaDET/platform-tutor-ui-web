@@ -1,3 +1,6 @@
 <div id="lecture">
-  <cc-knowledge-node *ngFor="let knowledgeNode of knowledgeNodes" [learningObjects]="knowledgeNode.learningObjects"></cc-knowledge-node>
+  <h1 class="mat-h1">{{lecture.name}}</h1>
+  <h2 class="mat-h2">{{lecture.description}}</h2>
+  <hr/>
+  <cc-knowledge-node *ngFor="let knowledgeNode of lecture.knowledgeNodes" [knowledgeNode]="knowledgeNode"></cc-knowledge-node>
 </div>

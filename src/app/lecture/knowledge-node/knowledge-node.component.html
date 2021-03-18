@@ -1,3 +1,6 @@
-<div *ngFor="let learningObject of learningObjects">
-  <cc-learning-object-container [learningObject]="learningObject"></cc-learning-object-container>
+<div>
+  <h1>{{knowledgeNode.description}}</h1>
+  <cc-learning-object-container
+    *ngFor="let learningObject of knowledgeNode.learningObjects"
+    [learningObject]="learningObject"></cc-learning-object-container>
 </div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { LearningObject } from './learning-objects/model/learning-object.model';
+import { KnowledgeNode } from './model/knowledge-node.model';
 
 @Component({
   selector: 'cc-knowledge-node',
@@ -8,7 +8,7 @@ import { LearningObject } from './learning-objects/model/learning-object.model';
 })
 export class KnowledgeNodeComponent implements OnInit {
 
-  @Input() learningObjects: LearningObject[];
+  @Input() knowledgeNode: KnowledgeNode;
 
   constructor() { }
 

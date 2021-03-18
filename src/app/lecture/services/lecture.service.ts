@@ -4,6 +4,7 @@ import { Text } from '../knowledge-node/learning-objects/text/model/text.model';
 import { LearningObjectRole } from '../knowledge-node/learning-objects/enum/learning-object-role.enum';
 import { Image } from '../knowledge-node/learning-objects/image/model/image.model';
 import { Video } from '../knowledge-node/learning-objects/video/model/video.model';
+import { Lecture } from '../model/lecture.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class LectureService {
 
   constructor() { }
 
-  getLecture(): KnowledgeNode[] {
+  getLecture(): Lecture {
+    const lecture = new Lecture();
     const knowledgeNode = new KnowledgeNode();
     knowledgeNode.learningObjects = [];
 
@@ -30,6 +32,12 @@ export class LectureService {
       ),
       new Video('qE-Gmu_YuQE', LearningObjectRole.Example)
     );
-    return [knowledgeNode];
+
+    knowledgeNode.description = 'Description of a Cohesion factual knowledge node.';
+
+    lecture.name = 'Cohesion';
+    lecture.description = 'Description of a Cohesion lecture.';
+    lecture.knowledgeNodes = [knowledgeNode];
+    return lecture;
   }
 }

@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import { KnowledgeNode } from './knowledge-node/model/knowledge-node.model';
 import { Text } from './knowledge-node/learning-objects/text/model/text.model';
 import { LectureService } from './services/lecture.service';
+import { Lecture } from './model/lecture.model';
 
 @Component({
   selector: 'cc-lecture',
@@ -10,16 +11,13 @@ import { LectureService } from './services/lecture.service';
 })
 export class LectureComponent implements OnInit {
 
-  @Input() private title: string;
-  @Input() private subtitle: string;
-  @Input() knowledgeNodes: KnowledgeNode[];
-
+  @Input() lecture: Lecture;
 
   constructor(private lectureService: LectureService) {
   }
 
   ngOnInit(): void {
-    this.knowledgeNodes = this.lectureService.getLecture();
+    this.lecture = this.lectureService.getLecture();
   }
 
 }

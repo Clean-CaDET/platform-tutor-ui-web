@@ -1,18 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { KnowledgeNodeComponent } from './knowledge-node.component';
-import { LearningObjectDirective } from './learning-objects/learning-object.directive';
-import { LearningObjectContainerComponent } from './learning-objects/learning-object-container/learning-object-container.component';
-import { TextComponent } from './learning-objects/text/text.component';
+import { LectureComponent } from './lecture.component';
+import { KnowledgeNodeComponent } from './knowledge-node/knowledge-node.component';
+import { LearningObjectDirective } from './knowledge-node/learning-objects/learning-object.directive';
+import { LearningObjectContainerComponent } from './knowledge-node/learning-objects/learning-object-container/learning-object-container.component';
+import { TextComponent } from './knowledge-node/learning-objects/text/text.component';
 import { MarkdownModule } from 'ngx-markdown';
-import { ImageComponent } from './learning-objects/image/image.component';
-import { VideoComponent } from './learning-objects/video/video.component';
+import { ImageComponent } from './knowledge-node/learning-objects/image/image.component';
+import { VideoComponent } from './knowledge-node/learning-objects/video/video.component';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
   declarations: [
+    LectureComponent,
     KnowledgeNodeComponent,
     LearningObjectDirective,
     LearningObjectContainerComponent,
@@ -21,7 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     VideoComponent
   ],
   exports: [
-    KnowledgeNodeComponent
+    LectureComponent
   ],
   imports: [
     BrowserModule,
@@ -30,4 +32,4 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule
   ]
 })
-export class KnowledgeNodeModule { }
+export class LectureModule { }
