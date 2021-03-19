@@ -9,11 +9,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent},
   { path: 'about', component: AboutComponent},
   { path: '', redirectTo: '/home', pathMatch: 'full'},
-  { path: 'clean-classes',
-    children: [
-      { path: 'cohesion', component: LectureComponent }
-    ]
-  },
+  { path: 'lecture/:lectureId', component: LectureComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

@@ -13,7 +13,7 @@ export class LectureService {
 
   constructor() { }
 
-  getLecture(): Lecture {
+  getLectures(): Lecture[] {
     const lecture = new Lecture();
     const knowledgeNode = new KnowledgeNode();
     knowledgeNode.learningObjects = [];
@@ -36,9 +36,15 @@ export class LectureService {
 
     knowledgeNode.description = 'Description of a Cohesion factual knowledge node.';
 
+    lecture.id = 1;
     lecture.name = 'Cohesion';
     lecture.description = 'Description of a Cohesion lecture.';
     lecture.knowledgeNodes = [knowledgeNode];
-    return lecture;
+    return [lecture];
+  }
+
+  // TODO: API call to get lecture with a given id.
+  getLecture(id: number): Lecture {
+    return this.getLectures().find((lecture => lecture.id === id));
   }
 }
