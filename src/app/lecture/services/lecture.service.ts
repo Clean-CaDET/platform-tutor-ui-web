@@ -19,18 +19,19 @@ export class LectureService {
     knowledgeNode.learningObjects = [];
 
     knowledgeNode.learningObjects.push(
-      new Text(
-        '<b>Cohesion</b> is the degree to which a part of a code base forms a meaningful atomic module<sup>1</sup>.' +
-        ' The components of a highly cohesive module work together towards a common, well defined goal' +
-        ' and have a clear (single) responsibility. This responsibility is defined by the module’s name' +
-        ' and described by its interface that sets its inputs and outputs.',
-        LearningObjectRole.Definition
-      ),
-      new Image('https://miro.medium.com/max/700/1*3jfye6OQFu_dROKb14BhaQ.png',
-        'The left class is playing with a few responsibilities, more than its name suggests anyway...',
-        LearningObjectRole.Example
-      ),
-      new Video('qE-Gmu_YuQE', LearningObjectRole.Example)
+      new Text({
+        text: '<b>Cohesion</b> is the degree to which a part of a code base forms a meaningful atomic module<sup>1</sup>.' +
+          ' The components of a highly cohesive module work together towards a common, well defined goal' +
+          ' and have a clear (single) responsibility. This responsibility is defined by the module’s name' +
+          ' and described by its interface that sets its inputs and outputs.',
+        role: LearningObjectRole.Definition
+      }),
+      new Image({
+        url: 'https://miro.medium.com/max/700/1*3jfye6OQFu_dROKb14BhaQ.png',
+        caption: 'The left class is playing with a few responsibilities, more than its name suggests anyway...',
+        role: LearningObjectRole.Example
+      }),
+      new Video({videoId: 'qE-Gmu_YuQE', role: LearningObjectRole.Example})
     );
 
     knowledgeNode.description = 'Description of a Cohesion factual knowledge node.';
