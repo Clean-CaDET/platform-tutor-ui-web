@@ -31,7 +31,7 @@ export class LectureService {
         caption: 'The left class is playing with a few responsibilities, more than its name suggests anyway...',
         role: LearningObjectRole.Example
       }),
-      new Video({videoId: 'qE-Gmu_YuQE', role: LearningObjectRole.Example})
+      new Video({url: 'https://www.youtube.com/watch?v=qE-Gmu_YuQE', role: LearningObjectRole.Example})
     );
 
     knowledgeNode.description = 'Description of a Cohesion factual knowledge node.';

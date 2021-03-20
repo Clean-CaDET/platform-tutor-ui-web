@@ -5,13 +5,17 @@ import { VideoComponent } from '../video.component';
 
 export class Video extends LearningObject {
 
-  videoId: string;
+  url: string;
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
-      this.videoId = obj.videoId;
+      this.url = obj.url;
     }
+  }
+
+  getVideoId(): string {
+    return this.url.split('/').pop().slice(-11);
   }
 
   getComponent(): Type<LearningObjectComponent> {
