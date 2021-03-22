@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {FlatTreeControl} from '@angular/cdk/tree';
-import { NavigationService } from './services/navigation.service';
+import { LectureService } from '../../lecture/services/lecture.service';
 
 export interface ContentNode {
   name: string;
@@ -24,14 +24,14 @@ export class NavbarComponent implements OnInit {
   treeControl: FlatTreeControl<FlatNode>;
   dataSource: MatTreeFlatDataSource<any, any>;
 
-  constructor(private navigationService: NavigationService) { }
+  constructor(private lectureService: LectureService) { }
 
   private getTreeData(): ContentNode[] {
     return [
       {
         name: 'Lectures',
         link: '/lecture',
-        children: this.navigationService.getLectureRoutes()
+        children: this.lectureService.getLectureRoutes()
       }
     ];
   }

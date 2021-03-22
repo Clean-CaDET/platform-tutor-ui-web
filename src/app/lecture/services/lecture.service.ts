@@ -5,6 +5,7 @@ import { LearningObjectRole } from '../knowledge-node/learning-objects/enum/lear
 import { Image } from '../knowledge-node/learning-objects/image/model/image.model';
 import { Video } from '../knowledge-node/learning-objects/video/model/video.model';
 import { Lecture } from '../model/lecture.model';
+import { ContentNode } from '../../home/navbar/navbar.component';
 
 @Injectable({
   providedIn: 'root'
@@ -46,5 +47,11 @@ export class LectureService {
   // TODO: API call to get lecture with a given id.
   getLecture(id: number): Lecture {
     return this.getLectures().find((lecture => lecture.id === id));
+  }
+
+  getLectureRoutes(): ContentNode[] {
+    return this.getLectures().map(
+      lecture => ({ name: lecture.name, link: '/lecture/' + lecture.id })
+    );
   }
 }
