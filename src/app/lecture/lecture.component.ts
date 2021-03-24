@@ -12,13 +12,14 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class LectureComponent implements OnInit {
 
-  @Input() lecture: Lecture;
+  lecture: Lecture;
 
   constructor(private lectureService: LectureService, private route: ActivatedRoute) {  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.lecture = this.lectureService.getLecture(+params.lectureId);
+      this.lectureService.getLecture(+params.lectureId)
+        .subscribe(lecture => this.lecture = lecture);
     });
   }
 

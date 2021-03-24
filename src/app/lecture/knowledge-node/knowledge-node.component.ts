@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
+import { LearningObjectConverter } from './learning-objects/learning-object-converter';
 
 @Component({
   selector: 'cc-knowledge-node',
@@ -10,7 +11,7 @@ export class KnowledgeNodeComponent implements OnInit {
 
   @Input() knowledgeNode: KnowledgeNode;
 
-  constructor() { }
+  constructor(public converter: LearningObjectConverter) { }
 
   ngOnInit(): void {
   }
