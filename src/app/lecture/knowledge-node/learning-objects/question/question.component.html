@@ -1,0 +1,9 @@
+<div id="question" class="mat-card">
+  <p class="mat-card-header">{{data.text}}</p>
+  <mat-radio-group fxLayout="column" fxLayoutGap="5px">
+    <mat-radio-button class="mat-card-content" *ngFor="let answer of data.answers">
+      {{answer.text}}
+    </mat-radio-button>
+  </mat-radio-group>
+  <button mat-flat-button color="primary">Submit</button>
+</div>

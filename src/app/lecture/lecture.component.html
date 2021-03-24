@@ -1,6 +1,6 @@
 <div id="lecture" *ngIf="lecture">
   <h1 class="mat-h1">{{lecture.name}}</h1>
   <h2 class="mat-h2">{{lecture.description}}</h2>
-  <hr/>
+  <mat-divider></mat-divider>
   <cc-knowledge-node *ngFor="let knowledgeNode of lecture.knowledgeNodes" [knowledgeNode]="knowledgeNode"></cc-knowledge-node>
 </div>

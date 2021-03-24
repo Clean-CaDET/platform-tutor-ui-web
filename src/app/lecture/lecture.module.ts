@@ -10,6 +10,10 @@ import { ImageComponent } from './knowledge-node/learning-objects/image/image.co
 import { VideoComponent } from './knowledge-node/learning-objects/video/video.component';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { QuestionComponent } from './knowledge-node/learning-objects/question/question.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -20,7 +24,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     LearningObjectContainerComponent,
     TextComponent,
     ImageComponent,
-    VideoComponent
+    VideoComponent,
+    QuestionComponent
   ],
   exports: [
     LectureComponent
@@ -29,7 +34,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     BrowserModule,
     MarkdownModule.forChild(),
     YouTubePlayerModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatDividerModule,
+    MatRadioModule,
+    MatButtonModule,
   ]
 })
 export class LectureModule { }
