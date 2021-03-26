@@ -48,7 +48,6 @@ export class NavbarComponent implements OnInit {
           children: routes
         }
       ];
-      console.log(routes);
     });
   }
 

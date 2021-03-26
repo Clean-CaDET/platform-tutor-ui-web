@@ -10,9 +10,14 @@ import { Question } from './model/question.model';
 export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   data: Question;
+  answers: number[];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(): void {
+    //
   }
 }

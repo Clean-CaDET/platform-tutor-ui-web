@@ -16,7 +16,6 @@ export class LectureComponent implements OnInit {
 
   ngOnInit(): void {
     this.lecture = history.state.lecture;
-    console.log(history.state);
     history.pushState(history.state, '', '');
     this.route.params.subscribe((params: Params) => {
       this.lectureService.getLecture(+params.lectureId)

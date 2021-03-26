@@ -8,7 +8,7 @@ import { Question } from './question/model/question.model';
 @Injectable({
   providedIn: 'root'
 })
-export class LearningObjectConverter {
+export class LearningObjectMapper {
   convert(learningObject: any): LearningObject {
     switch (learningObject.typeDiscriminator) {
       case 'text':

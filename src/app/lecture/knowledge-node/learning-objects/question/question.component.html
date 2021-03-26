@@ -1,9 +1,9 @@
 <div id="question" class="mat-card">
-  <p class="mat-card-header">{{data.text}}</p>
-  <mat-radio-group fxLayout="column" fxLayoutGap="5px">
-    <mat-radio-button [value]="answer.id" class="mat-card-content" *ngFor="let answer of data.answers">
+  <h3 class="mat-h3">{{data.text}}</h3>
+  <mat-selection-list [(ngModel)]="answers">
+    <mat-list-option [value]="answer.id" *ngFor="let answer of data.answers">
       {{answer.text}}
-    </mat-radio-button>
-  </mat-radio-group>
-  <button mat-flat-button color="primary">Submit</button>
+    </mat-list-option>
+  </mat-selection-list>
+  <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
 </div>

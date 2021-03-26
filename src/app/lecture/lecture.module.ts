@@ -12,10 +12,10 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuestionComponent } from './knowledge-node/learning-objects/question/question.component';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -38,10 +38,10 @@ import { RouterModule } from '@angular/router';
     YouTubePlayerModule,
     FlexLayoutModule,
     MatDividerModule,
-    MatRadioModule,
     MatButtonModule,
     MatListModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ]
 })
 export class LectureModule { }
