@@ -2,5 +2,10 @@
   <h1 class="mat-h1">{{lecture.name}}</h1>
   <h2 class="mat-h2">{{lecture.description}}</h2>
   <mat-divider></mat-divider>
-  <cc-knowledge-node *ngFor="let knowledgeNode of lecture.knowledgeNodes" [knowledgeNode]="knowledgeNode"></cc-knowledge-node>
+  <mat-action-list>
+    <mat-list-item *ngFor="let knowledgeNode of lecture.knowledgeNodes" [routerLink]="'../../node/' + knowledgeNode.id">
+      {{knowledgeNode.learningObjective}}
+    </mat-list-item>
+  </mat-action-list>
+  <!--cc-knowledge-node *ngFor="let knowledgeNode of lecture.knowledgeNodes" [knowledgeNode]="knowledgeNode"></cc-knowledge-node-->
 </div>

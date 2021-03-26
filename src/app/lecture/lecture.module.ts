@@ -14,6 +14,8 @@ import { QuestionComponent } from './knowledge-node/learning-objects/question/qu
 import { MatDividerModule } from '@angular/material/divider';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
+import { MatListModule } from '@angular/material/list';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatDividerModule,
     MatRadioModule,
     MatButtonModule,
+    MatListModule,
+    RouterModule
   ]
 })
 export class LectureModule { }

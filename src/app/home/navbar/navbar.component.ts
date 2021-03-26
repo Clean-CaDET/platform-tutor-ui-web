@@ -6,6 +6,7 @@ import { LectureService } from '../../lecture/services/lecture.service';
 export interface ContentNode {
   name: string;
   link: string;
+  data?: any;
   children?: ContentNode[];
 }
 
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit {
         expandable: !!node.children && node.children.length > 0,
         name: node.name,
         link: node.link,
+        data: node.data,
         level
       };
     };
@@ -46,6 +48,7 @@ export class NavbarComponent implements OnInit {
           children: routes
         }
       ];
+      console.log(routes);
     });
   }
 
