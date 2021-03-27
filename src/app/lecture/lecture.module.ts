@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { FormsModule } from '@angular/forms';
     MatButtonModule,
     MatListModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    MatIconModule
   ]
 })
 export class LectureModule { }

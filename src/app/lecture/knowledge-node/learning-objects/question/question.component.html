@@ -1,9 +1,16 @@
 <div id="question" class="mat-card">
   <h3 class="mat-h3">{{data.text}}</h3>
-  <mat-selection-list [(ngModel)]="answers">
-    <mat-list-option [value]="answer.id" *ngFor="let answer of data.answers">
-      {{answer.text}}
-    </mat-list-option>
-  </mat-selection-list>
-  <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+  <div *ngIf="!answered; else answeredBlock">
+    <mat-selection-list [(ngModel)]="answers">
+      <mat-list-option [value]="answer.id" *ngFor="let answer of data.answers">
+        {{answer.text}}
+      </mat-list-option>
+    </mat-selection-list>
+    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+  </div>
+  <ng-template #answeredBlock>
+    <div fxLayout="row" fxFlexAlign="center">
+      <mat-icon color="primary">done</mat-icon><h2 class="mat-h2">Your answer has been submitted.</h2>
+    </div>
+  </ng-template>
 </div>

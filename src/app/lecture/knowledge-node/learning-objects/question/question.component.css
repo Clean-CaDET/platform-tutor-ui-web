@@ -9,4 +9,9 @@ button {
   margin: 10px;
 }
 
+mat-icon {
+  margin-right: 1em;
+  font-size: 2em;
+}
+
 
