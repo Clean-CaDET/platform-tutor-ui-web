@@ -4,6 +4,17 @@
 
 export const environment = {
   production: false,
+  apiUrl: 'http://localhost:8080',
+  keycloakConfig: {
+    url: 'http://localhost:8080/auth',
+    realm: 'master',
+    clientId: 'demo-app',
+    initOptions: {
+      onLoad: 'check-sso',
+      silentCheckSsoRedirectUri: window.location.origin + '/assets/silent-check-sso.html',
+      redirectUri: 'http://localhost:4200/second-component'
+    }
+  },
   apiHost: 'https://localhost:44333/api/'
 };
 
