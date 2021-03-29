@@ -11,12 +11,9 @@ import { VideoComponent } from './knowledge-node/learning-objects/video/video.co
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { QuestionComponent } from './knowledge-node/learning-objects/question/question.component';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
+import { MaterialModule } from '../infrastructure/material.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -38,12 +35,9 @@ import { MatIconModule } from '@angular/material/icon';
     MarkdownModule.forChild(),
     YouTubePlayerModule,
     FlexLayoutModule,
-    MatDividerModule,
-    MatButtonModule,
-    MatListModule,
     RouterModule,
     FormsModule,
-    MatIconModule
+    MaterialModule
   ]
 })
 export class LectureModule { }
