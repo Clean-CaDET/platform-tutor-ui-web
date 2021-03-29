@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
-import { LearningObjectMapper } from './learning-objects/learning-object-mapper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LectureService } from '../services/lecture.service';
 
@@ -15,7 +14,6 @@ export class KnowledgeNodeComponent implements OnInit {
 
 
   constructor(
-    public converter: LearningObjectMapper,
     private route: ActivatedRoute,
     private lectureService: LectureService) { }
 

@@ -3,27 +3,31 @@ import { KnowledgeNode } from '../knowledge-node/model/knowledge-node.model';
 import { Lecture } from '../model/lecture.model';
 import { ContentNode } from '../../home/navbar/navbar.component';
 import { environment } from '../../../environments/environment';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { LearningObjectMapper } from './learning-object-mapper';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LectureService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper) {
+  }
 
   getLectures(): Observable<Lecture[]> {
     return this.http.get<Lecture[]>(environment.apiHost + 'lecture/all');
   }
 
   getLecture(id: number): Observable<KnowledgeNode[]> {
-    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'lecture/nodes/' + id);
+    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'lecture/nodes/' + id)
+      .pipe(map(nodes => nodes.map(node => this.mapNodeLearningObjects(node))));
   }
 
   getKnowledgeNode(id: number): Observable<KnowledgeNode> {
-    return this.http.get<KnowledgeNode>(environment.apiHost + 'lecture/content/' + id);
+    return this.http.get<KnowledgeNode>(environment.apiHost + 'lecture/content/' + id)
+      .pipe(map(node => this.mapNodeLearningObjects(node)));
   }
 
   getLectureRoutes(): Observable<ContentNode[]> {
@@ -32,12 +36,8 @@ export class LectureService {
     );
   }
 
-  answerQuestion(questionId: number, answerIds: number[]): Observable<any> {
-    const answerDTO = {
-      questionId,
-      answerIds
-    };
-    // TODO: API call to answer a question
-    return of(null);
+  mapNodeLearningObjects(knowledgeNode: KnowledgeNode): KnowledgeNode {
+    knowledgeNode.learningObjects = knowledgeNode.learningObjects.map(lo => this.learningObjectMapper.convert(lo));
+    return knowledgeNode;
   }
 }
