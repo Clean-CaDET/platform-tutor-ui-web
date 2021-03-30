@@ -1,6 +1,4 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { KnowledgeNode } from './knowledge-node/model/knowledge-node.model';
-import { Text } from './knowledge-node/learning-objects/text/model/text.model';
 import { LectureService } from './services/lecture.service';
 import { Lecture } from './model/lecture.model';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -17,8 +15,13 @@ export class LectureComponent implements OnInit {
   constructor(private lectureService: LectureService, private route: ActivatedRoute) {  }
 
   ngOnInit(): void {
+    this.lecture = history.state.lecture;
+    history.pushState(history.state, '', '');
     this.route.params.subscribe((params: Params) => {
-      this.lecture = this.lectureService.getLecture(+params.lectureId);
+      this.lectureService.getLecture(+params.lectureId)
+        .subscribe(nodes => {
+          this.lecture.knowledgeNodes = nodes;
+        } );
     });
   }
 

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-import {FlatTreeControl} from '@angular/cdk/tree';
+import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { LectureService } from '../../lecture/services/lecture.service';
 
 export interface ContentNode {
   name: string;
   link: string;
+  data?: any;
   children?: ContentNode[];
 }
 
@@ -26,29 +27,28 @@ export class NavbarComponent implements OnInit {
 
   constructor(private lectureService: LectureService) { }
 
-  private getTreeData(): ContentNode[] {
-    return [
-      {
-        name: 'Lectures',
-        link: '/lecture',
-        children: this.lectureService.getLectureRoutes()
-      }
-    ];
-  }
-
   ngOnInit(): void {
     const transformer = (node: ContentNode, level: number) => {
       return {
         expandable: !!node.children && node.children.length > 0,
         name: node.name,
         link: node.link,
+        data: node.data,
         level
       };
     };
     const treeFlattener = new MatTreeFlattener(transformer, node => node.level, node => node.expandable, node => node.children);
     this.treeControl = new FlatTreeControl<FlatNode>(node => node.level, node => node.expandable);
     this.dataSource = new MatTreeFlatDataSource(this.treeControl, treeFlattener);
-    this.dataSource.data = this.getTreeData();
+    this.lectureService.getLectureRoutes().subscribe(routes => {
+      this.dataSource.data = [
+        {
+          name: 'Lectures',
+          link: '/lecture',
+          children: routes
+        }
+      ];
+    });
   }
 
   hasChild = (_: number, node: FlatNode) => node.expandable;

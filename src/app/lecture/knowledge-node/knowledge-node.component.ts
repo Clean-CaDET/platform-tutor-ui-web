@@ -1,5 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
+import { ActivatedRoute, Params } from '@angular/router';
+import { LectureService } from '../services/lecture.service';
 
 @Component({
   selector: 'cc-knowledge-node',
@@ -8,11 +10,20 @@ import { KnowledgeNode } from './model/knowledge-node.model';
 })
 export class KnowledgeNodeComponent implements OnInit {
 
-  @Input() knowledgeNode: KnowledgeNode;
+  knowledgeNode: KnowledgeNode;
 
-  constructor() { }
+
+  constructor(
+    private route: ActivatedRoute,
+    private lectureService: LectureService) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.lectureService.getKnowledgeNode(+params.nodeId)
+        .subscribe(node => {
+          this.knowledgeNode = node;
+        });
+    });
   }
 
 }
