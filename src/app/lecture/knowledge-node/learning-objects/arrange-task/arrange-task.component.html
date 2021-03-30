@@ -1,0 +1,40 @@
+<div id="arrange-task" class="mat-card">
+  <div cdkDropListGroup fxLayout="row" fxLayoutAlign="space-between">
+    <mat-list
+      cdkDropList
+      [cdkDropListData]="list1"
+      (cdkDropListDropped)="drop($event)"
+      fxFlex="30"
+      fxFlexAlign="stretch">
+      <mat-list-item
+        cdkDrag
+        *ngFor="let item of list1"
+        fxLayout="row"
+        fxLayoutAlign="none center">{{item}}</mat-list-item>
+    </mat-list>
+    <mat-list
+      cdkDropList
+      [cdkDropListData]="list2"
+      (cdkDropListDropped)="drop($event)"
+      fxFlex="30"
+      fxFlexAlign="stretch">
+      <mat-list-item
+        cdkDrag
+        *ngFor="let item of list2"
+        fxLayout="row"
+        fxLayoutAlign="none center">{{item}}</mat-list-item>
+    </mat-list>
+    <mat-list
+      cdkDropList
+      [cdkDropListData]="list3"
+      (cdkDropListDropped)="drop($event)"
+      fxFlex="30"
+      fxFlexAlign="stretch">
+      <mat-list-item
+        cdkDrag
+        *ngFor="let item of list3"
+        fxLayout="row"
+        fxLayoutAlign="none center">{{item}}</mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -1,19 +1,20 @@
 import { LearningObject } from '../../model/learning-object.model';
-import { TextComponent } from '../text.component';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { Type } from '@angular/core';
+import { ArrangeTaskComponent } from '../arrange-task.component';
 
-export class Text extends LearningObject {
-  content: string;
+export class ArrangeTask extends LearningObject {
+
+  elements: any[];
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
-      this.content = obj.content;
+      this.elements = obj.elements;
     }
   }
 
   getComponent(): Type<LearningObjectComponent> {
-    return TextComponent;
+    return ArrangeTaskComponent;
   }
 }
