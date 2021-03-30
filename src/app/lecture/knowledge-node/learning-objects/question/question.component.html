@@ -1,8 +1,8 @@
 <div id="question" class="mat-card">
-  <h3 class="mat-h3">{{data.text}}</h3>
+  <h3 class="mat-h3">{{learningObject.text}}</h3>
   <div>
     <mat-selection-list [(ngModel)]="answers">
-      <mat-list-option [value]="answer.id" *ngFor="let answer of data.answers">
+      <mat-list-option [value]="answer.id" *ngFor="let answer of learningObject.answers">
         {{answer.text}}
       </mat-list-option>
     </mat-selection-list>

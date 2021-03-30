@@ -9,7 +9,7 @@ import { Text } from './model/text.model';
 })
 export class TextComponent implements OnInit, LearningObjectComponent {
 
-  data: Text;
+  learningObject: Text;
 
   constructor() { }
 

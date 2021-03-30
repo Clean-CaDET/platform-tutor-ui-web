@@ -9,7 +9,7 @@ import { Video } from './model/video.model';
 })
 export class VideoComponent implements OnInit, LearningObjectComponent {
 
-  data: Video;
+  learningObject: Video;
 
   constructor() { }
 

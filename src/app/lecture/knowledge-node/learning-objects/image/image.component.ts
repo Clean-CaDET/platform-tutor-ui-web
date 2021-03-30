@@ -9,7 +9,7 @@ import { Image } from './model/image.model';
 })
 export class ImageComponent implements OnInit, LearningObjectComponent {
 
-  data: Image;
+  learningObject: Image;
 
   constructor() { }
 

@@ -18,7 +18,7 @@ export class LearningObjectContainerComponent implements OnInit {
   ngOnInit(): void {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.learningObject.getComponent());
     const componentRef = this.learningObjectHost.viewContainerRef.createComponent<LearningObjectComponent>(componentFactory);
-    componentRef.instance.data = this.learningObject;
+    componentRef.instance.learningObject = this.learningObject;
   }
 
 }

@@ -10,7 +10,7 @@ import { QuestionService } from './service/question.service';
 })
 export class QuestionComponent implements OnInit, LearningObjectComponent {
 
-  data: Question;
+  learningObject: Question;
   answers: number[];
   answered = false;
 
@@ -20,7 +20,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.data.id, this.answers).subscribe(data => {
+    this.questionService.answerQuestion(this.learningObject.id, this.answers).subscribe(data => {
       // TODO: Do something with the response data
       this.answered = true;
     });
