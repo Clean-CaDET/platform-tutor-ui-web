@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { ArrangeTask } from './model/arrange-task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { ArrangeTaskService } from './service/arrange-task.service';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -14,8 +15,9 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   list1: any[];
   list2: any[];
   list3: any[];
+  answered = false;
 
-  constructor() {
+  constructor(private arrangeTaskService: ArrangeTaskService) {
   }
 
   ngOnInit(): void {
@@ -33,6 +35,18 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
         event.previousIndex,
         event.currentIndex);
     }
+  }
+
+  onSubmit(): void {
+    const state = {
+      list1: this.list1,
+      list2: this.list2,
+      list3: this.list3
+    };
+    this.arrangeTaskService.submitTask(this.learningObject.id, state).subscribe(data => {
+      // TODO: Do something with the response data
+      this.answered = true;
+    });
   }
 
 }

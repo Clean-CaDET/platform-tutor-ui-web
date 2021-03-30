@@ -1,19 +1,29 @@
 #arrange-task {
   display: block;
-  width: 75%;
+  max-width: 75%;
   margin: auto;
   padding: 10px;
 }
 
-mat-list {
+.list-container {
   border-radius: 4px;
   border: solid 1px #cccccc;
 }
 
 mat-list-item {
   padding: 20px 10px;
+  margin: 5px;
   cursor: move;
-  border-bottom: solid 1px #cccccc;
+  border-radius: 4px;
+}
+
+button {
+  margin: 10px;
+}
+
+mat-icon {
+  margin-right: 1em;
+  font-size: 2em;
 }
 
 .cdk-drag-preview {

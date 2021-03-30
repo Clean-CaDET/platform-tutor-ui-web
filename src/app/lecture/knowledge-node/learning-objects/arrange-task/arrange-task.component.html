@@ -1,40 +1,54 @@
 <div id="arrange-task" class="mat-card">
+  <h3 class="mat-h3">Do something with the cards bellow.</h3>
   <div cdkDropListGroup fxLayout="row" fxLayoutAlign="space-between">
-    <mat-list
+    <div
+      class="list-container"
       cdkDropList
       [cdkDropListData]="list1"
       (cdkDropListDropped)="drop($event)"
       fxFlex="30"
       fxFlexAlign="stretch">
       <mat-list-item
+        class="mat-card"
         cdkDrag
         *ngFor="let item of list1"
         fxLayout="row"
         fxLayoutAlign="none center">{{item}}</mat-list-item>
-    </mat-list>
-    <mat-list
+    </div>
+    <div
+      class="list-container"
       cdkDropList
       [cdkDropListData]="list2"
       (cdkDropListDropped)="drop($event)"
       fxFlex="30"
       fxFlexAlign="stretch">
       <mat-list-item
+        class="mat-card"
         cdkDrag
         *ngFor="let item of list2"
         fxLayout="row"
         fxLayoutAlign="none center">{{item}}</mat-list-item>
-    </mat-list>
-    <mat-list
+    </div>
+    <div
+      class="list-container"
       cdkDropList
       [cdkDropListData]="list3"
       (cdkDropListDropped)="drop($event)"
       fxFlex="30"
       fxFlexAlign="stretch">
       <mat-list-item
+        class="mat-card"
         cdkDrag
         *ngFor="let item of list3"
         fxLayout="row"
         fxLayoutAlign="none center">{{item}}</mat-list-item>
-    </mat-list>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <div *ngIf="answered" fxLayout="row" fxFlexAlign="end">
+      <mat-icon color="primary">done</mat-icon>
+      <h2 class="mat-h2">Your answer has been submitted.</h2>
+    </div>
   </div>
 </div>
