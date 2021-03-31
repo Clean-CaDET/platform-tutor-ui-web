@@ -24,7 +24,16 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   resetState(): void {
-    this.state = this.learningObject.containers;
+    this.state = [];
+    let containerCopy;
+    this.learningObject.containers.forEach(container => {
+      containerCopy = {
+        title: container.title,
+        elements: [...container.elements]
+      };
+      this.state.push(containerCopy);
+    });
+    this.answered = false;
   }
 
   drop(event: CdkDragDrop<string[]>): void {

@@ -27,6 +27,7 @@
   </div>
   <div fxLayout="row">
     <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <button mat-flat-button color="accent" (click)="resetState()">Reset</button>
     <div *ngIf="answered" fxLayout="row" fxFlexAlign="end">
       <mat-icon color="primary">done</mat-icon>
       <h2 class="mat-h2">Your answer has been submitted.</h2>
