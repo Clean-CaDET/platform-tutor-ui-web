@@ -1,47 +1,28 @@
 <div id="arrange-task" class="mat-card">
   <h3 class="mat-h3">Do something with the cards bellow.</h3>
-  <div cdkDropListGroup fxLayout="row" fxLayoutAlign="space-between">
+  <div cdkDropListGroup fxLayout="row wrap" fxLayoutAlign="space-between">
     <div
-      class="list-container"
-      cdkDropList
-      [cdkDropListData]="list1"
-      (cdkDropListDropped)="drop($event)"
-      fxFlex="30"
-      fxFlexAlign="stretch">
-      <mat-list-item
-        class="mat-card"
-        cdkDrag
-        *ngFor="let item of list1"
-        fxLayout="row"
-        fxLayoutAlign="none center">{{item}}</mat-list-item>
-    </div>
-    <div
-      class="list-container"
-      cdkDropList
-      [cdkDropListData]="list2"
-      (cdkDropListDropped)="drop($event)"
-      fxFlex="30"
-      fxFlexAlign="stretch">
-      <mat-list-item
-        class="mat-card"
-        cdkDrag
-        *ngFor="let item of list2"
-        fxLayout="row"
-        fxLayoutAlign="none center">{{item}}</mat-list-item>
-    </div>
-    <div
-      class="list-container"
-      cdkDropList
-      [cdkDropListData]="list3"
-      (cdkDropListDropped)="drop($event)"
-      fxFlex="30"
-      fxFlexAlign="stretch">
-      <mat-list-item
-        class="mat-card"
-        cdkDrag
-        *ngFor="let item of list3"
-        fxLayout="row"
-        fxLayoutAlign="none center">{{item}}</mat-list-item>
+    *ngFor="let container of state"
+    fxFlex="30"
+    fxFlex.md="45"
+    fxFlex.sm="100"
+    fxFlex.xs="100"
+    fxFlexAlign="start">
+      <div class="mat-card-subtitle">{{container.title}}</div>
+      <div
+        class="list-container"
+        cdkDropList
+        [cdkDropListData]="container.elements"
+        (cdkDropListDropped)="drop($event)">
+        <mat-list-item
+          class="mat-card"
+          cdkDrag
+          *ngFor="let item of container.elements"
+          fxLayout="row"
+          fxLayoutAlign="none center">
+          {{item}}
+        </mat-list-item>
+      </div>
     </div>
   </div>
   <div fxLayout="row">

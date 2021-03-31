@@ -1,13 +1,17 @@
 #arrange-task {
-  display: block;
-  max-width: 75%;
-  margin: auto;
   padding: 10px;
 }
 
 .list-container {
   border-radius: 4px;
   border: solid 1px #cccccc;
+  min-height: 72px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.mat-card-subtitle {
+  margin-top: 1em;
 }
 
 mat-list-item {
@@ -15,6 +19,7 @@ mat-list-item {
   margin: 5px;
   cursor: move;
   border-radius: 4px;
+  overflow: hidden;
 }
 
 button {

@@ -3,6 +3,7 @@ import { LearningObjectComponent } from '../learning-object-component';
 import { ArrangeTask } from './model/arrange-task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ArrangeTaskService } from './service/arrange-task.service';
+import { Container } from './model/container.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -12,18 +13,18 @@ import { ArrangeTaskService } from './service/arrange-task.service';
 export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   learningObject: ArrangeTask;
-  list1: any[];
-  list2: any[];
-  list3: any[];
+  state: Container[];
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService) {
   }
 
   ngOnInit(): void {
-    this.list1 = this.learningObject.elements;
-    this.list2 = [];
-    this.list3 = [];
+    this.resetState();
+  }
+
+  resetState(): void {
+    this.state = this.learningObject.containers;
   }
 
   drop(event: CdkDragDrop<string[]>): void {
@@ -38,12 +39,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    const state = {
-      list1: this.list1,
-      list2: this.list2,
-      list3: this.list3
-    };
-    this.arrangeTaskService.submitTask(this.learningObject.id, state).subscribe(data => {
+    this.arrangeTaskService.submitTask(this.learningObject.id, this.state).subscribe(data => {
       // TODO: Do something with the response data
       this.answered = true;
     });
