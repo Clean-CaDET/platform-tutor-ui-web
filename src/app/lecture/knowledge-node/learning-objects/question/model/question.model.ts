@@ -7,13 +7,13 @@ import { Answer } from './answer.model';
 export class Question extends LearningObject {
 
   text: string;
-  answers: Answer[];
+  possibleAnswers: Answer[];
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
       this.text = obj.text;
-      this.answers = obj.answers;
+      this.possibleAnswers = obj.possibleAnswers;
     }
   }
 

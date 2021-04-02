@@ -17,16 +17,16 @@ export class LectureService {
   }
 
   getLectures(): Observable<Lecture[]> {
-    return this.http.get<Lecture[]>(environment.apiHost + 'lecture/all');
+    return this.http.get<Lecture[]>(environment.apiHost + 'lectures');
   }
 
   getLecture(id: number): Observable<KnowledgeNode[]> {
-    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'lecture/nodes/' + id)
+    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'lectures/' + id)
       .pipe(map(nodes => nodes.map(node => this.mapNodeLearningObjects(node))));
   }
 
   getKnowledgeNode(id: number): Observable<KnowledgeNode> {
-    return this.http.get<KnowledgeNode>(environment.apiHost + 'lecture/content/' + id)
+    return this.http.get<KnowledgeNode>(environment.apiHost + 'nodes/' + id + '/content')
       .pipe(map(node => this.mapNodeLearningObjects(node)));
   }
 
