@@ -14,4 +14,18 @@ mat-icon {
   font-size: 2em;
 }
 
+mat-checkbox {
+  margin-bottom: 1em;
+}
 
+mat-checkbox:hover {
+  background-color: #f7f7f7;
+}
+
+:host::ng-deep.mat-checkbox-layout{
+  white-space: normal !important;
+}
+
+:host::ng-deep.mat-checkbox-inner-container{
+  margin-top: 4px;
+}
