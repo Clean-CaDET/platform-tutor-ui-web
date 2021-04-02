@@ -6,11 +6,13 @@ import { Container } from './container.model';
 
 export class ArrangeTask extends LearningObject {
 
+  text: string;
   containers: Container[];
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
+      this.text = obj.text;
       this.containers = obj.containers;
     }
   }
