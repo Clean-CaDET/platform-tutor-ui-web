@@ -11,16 +11,28 @@ import { QuestionService } from './service/question.service';
 export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   learningObject: Question;
-  answers: number[];
+  checked: boolean[];
   answered = false;
 
-  constructor(private questionService: QuestionService) { }
+  constructor(private questionService: QuestionService) {
+    this.checked = [];
+  }
 
   ngOnInit(): void {
   }
 
+  get checkedAnswerIds(): number[] {
+    const checkedAnswerIds = [];
+    for (let i = 0; i < this.checked.length; i++) {
+      if (this.checked[i]) {
+        checkedAnswerIds.push(this.learningObject.possibleAnswers[i].id);
+      }
+    }
+    return checkedAnswerIds;
+  }
+
   onSubmit(): void {
-    this.questionService.answerQuestion(this.learningObject.id, this.answers).subscribe(data => {
+    this.questionService.answerQuestion(this.learningObject.id, this.checkedAnswerIds).subscribe(data => {
       // TODO: Do something with the response data
       this.answered = true;
     });

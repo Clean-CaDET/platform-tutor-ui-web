@@ -2,8 +2,10 @@
   <h3 class="mat-h3">{{learningObject.text}}</h3>
   <div>
     <ul>
-      <mat-list-item *ngFor="let answer of learningObject.possibleAnswers">
-        <mat-checkbox [value]="answer.id">{{answer.text}}</mat-checkbox>
+      <mat-list-item *ngFor="let answer of learningObject.possibleAnswers; let i = index">
+        <mat-checkbox [(ngModel)]="checked[i]">
+          {{answer.text}}
+        </mat-checkbox>
       </mat-list-item>
     </ul>
     <div fxLayout="row">
