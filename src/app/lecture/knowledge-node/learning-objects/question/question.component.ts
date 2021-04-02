@@ -2,8 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Question } from './model/question.model';
 import { QuestionService } from './service/question.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Answer } from './model/answer.model';
+
+interface Feedback {
+  text: string;
+  correct: boolean;
+}
 
 @Component({
   selector: 'cc-question',
@@ -15,6 +20,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   learningObject: Question;
   checked: boolean[];
   answered = false;
+  feedbacks: Feedback[];
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute) {
     this.checked = [];
@@ -39,7 +45,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      // TODO: Do something with the response data
+      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, feedback: answer.fullAnswer.feedback }));
       this.answered = true;
     });
   }

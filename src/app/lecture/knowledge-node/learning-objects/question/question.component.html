@@ -6,6 +6,7 @@
         <mat-checkbox [(ngModel)]="checked[i]">
           {{answer.text}}
         </mat-checkbox>
+        <div *ngIf="feedbacks">{{feedbacks[i].feedback}}</div>
       </mat-list-item>
     </ul>
     <div fxLayout="row">
