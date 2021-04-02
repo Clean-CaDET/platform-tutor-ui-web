@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Question } from './model/question.model';
 import { QuestionService } from './service/question.service';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Answer } from './model/answer.model';
 
 @Component({
   selector: 'cc-question',
@@ -14,25 +16,29 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   checked: boolean[];
   answered = false;
 
-  constructor(private questionService: QuestionService) {
+  constructor(private questionService: QuestionService, private route: ActivatedRoute) {
     this.checked = [];
   }
 
   ngOnInit(): void {
   }
 
-  get checkedAnswerIds(): number[] {
-    const checkedAnswerIds = [];
+  get nodeId(): number {
+    return +this.route.snapshot.paramMap.get('nodeId');
+  }
+
+  get checkedAnswers(): Answer[] {
+    const checkedAnswers = [];
     for (let i = 0; i < this.checked.length; i++) {
       if (this.checked[i]) {
-        checkedAnswerIds.push(this.learningObject.possibleAnswers[i].id);
+        checkedAnswers.push(this.learningObject.possibleAnswers[i]);
       }
     }
-    return checkedAnswerIds;
+    return checkedAnswers;
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.learningObject.id, this.checkedAnswerIds).subscribe(data => {
+    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
       // TODO: Do something with the response data
       this.answered = true;
     });
