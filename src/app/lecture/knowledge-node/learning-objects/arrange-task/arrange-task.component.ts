@@ -5,6 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { ArrangeTaskService } from './service/arrange-task.service';
 import { Container } from './model/container.model';
 import { Element } from './model/element.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -17,11 +18,15 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   state: Container[];
   answered = false;
 
-  constructor(private arrangeTaskService: ArrangeTaskService) {
+  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
     this.resetState();
+  }
+
+  get nodeId(): number {
+    return +this.route.snapshot.paramMap.get('nodeId');
   }
 
   resetState(): void {
@@ -46,7 +51,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService.submitTask(this.learningObject.id, this.state).subscribe(data => {
+    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.state).subscribe(data => {
       // TODO: Do something with the response data
       this.answered = true;
     });

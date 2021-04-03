@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
+import { Container } from '../model/container.model';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +11,9 @@ export class ArrangeTaskService {
 
   constructor(private http: HttpClient) { }
 
-  submitTask(arrangeTaskId: number, state: any): Observable<any> {
-    const answerDTO = {
-      arrangeTaskId,
-      state
-    };
-    // TODO: API call to submit a task
-    return of(null);
+  submitTask(nodeId: number, arrangeTaskId: number, state: Container[]): Observable<any> {
+    return this.http.post(
+      environment.apiHost + 'nodes/' + nodeId + '/content/' + arrangeTaskId,
+      state);
   }
 }
