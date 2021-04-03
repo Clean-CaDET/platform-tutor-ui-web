@@ -1,7 +1,4 @@
 #question {
-  display: block;
-  max-width: 75%;
-  margin: auto;
   padding: 10px;
 }
 
@@ -12,6 +9,10 @@ button {
 mat-icon {
   margin-right: 1em;
   font-size: 2em;
+}
+
+mat-list-option {
+  overflow: hidden;
 }
 
 

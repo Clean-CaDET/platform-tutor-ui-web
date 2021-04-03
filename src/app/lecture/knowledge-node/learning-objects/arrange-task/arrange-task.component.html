@@ -1,0 +1,36 @@
+<div id="arrange-task" class="mat-card">
+  <div class="mat-h3"><markdown>{{learningObject.text}}</markdown></div>
+  <div cdkDropListGroup fxLayout="row wrap" fxLayoutAlign="space-between">
+    <div
+    *ngFor="let container of state"
+    fxFlex="30"
+    fxFlex.md="45"
+    fxFlex.sm="100"
+    fxFlex.xs="100"
+    fxFlexAlign="start">
+      <div class="mat-card-subtitle">{{container.title}}</div>
+      <div
+        class="list-container"
+        cdkDropList
+        [cdkDropListData]="container.elements"
+        (cdkDropListDropped)="drop($event)">
+        <mat-list-item
+          class="mat-card"
+          cdkDrag
+          *ngFor="let item of container.elements"
+          fxLayout="row"
+          fxLayoutAlign="none center">
+          {{item.text}}
+        </mat-list-item>
+      </div>
+    </div>
+  </div>
+  <div fxLayout="row">
+    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <button mat-flat-button color="accent" (click)="resetState()">Reset</button>
+    <div *ngIf="answered" fxLayout="row" fxFlexAlign="end">
+      <mat-icon color="primary">done</mat-icon>
+      <h2 class="mat-h2">Your answer has been submitted.</h2>
+    </div>
+  </div>
+</div>
