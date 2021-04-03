@@ -7,6 +7,12 @@ import { Container } from './model/container.model';
 import { Element } from './model/element.model';
 import { ActivatedRoute } from '@angular/router';
 
+interface ArrangeTaskFeedback {
+  id: number;
+  submissionWasCorrect: boolean;
+  correctElements: Element[];
+}
+
 @Component({
   selector: 'cc-arrange-task',
   templateUrl: './arrange-task.component.html',
@@ -16,9 +22,11 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   learningObject: ArrangeTask;
   state: Container[];
+  feedbackMap: Map<number, ArrangeTaskFeedback>;
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
+    this.feedbackMap = new Map();
   }
 
   ngOnInit(): void {
@@ -52,7 +60,10 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.state).subscribe(data => {
-      // TODO: Do something with the response data
+      data.forEach(feedback => {
+        this.feedbackMap.set(feedback.id, feedback);
+      });
+      console.log(this.feedbackMap);
       this.answered = true;
     });
   }
