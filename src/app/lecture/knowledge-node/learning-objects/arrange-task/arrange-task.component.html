@@ -1,5 +1,5 @@
 <div id="arrange-task" class="mat-card">
-  <h3 class="mat-h3">{{learningObject.text}}</h3>
+  <div class="mat-h3"><markdown>{{learningObject.text}}</markdown></div>
   <div cdkDropListGroup fxLayout="row wrap" fxLayoutAlign="space-between">
     <div
     *ngFor="let container of state"
@@ -20,7 +20,7 @@
           *ngFor="let item of container.elements"
           fxLayout="row"
           fxLayoutAlign="none center">
-          {{item}}
+          {{item.text}}
         </mat-list-item>
       </div>
     </div>

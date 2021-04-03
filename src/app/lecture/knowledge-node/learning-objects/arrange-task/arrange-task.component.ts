@@ -4,6 +4,7 @@ import { ArrangeTask } from './model/arrange-task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ArrangeTaskService } from './service/arrange-task.service';
 import { Container } from './model/container.model';
+import { Element } from './model/element.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -25,18 +26,15 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   resetState(): void {
     this.state = [];
-    let containerCopy;
     this.learningObject.containers.forEach(container => {
-      containerCopy = {
-        title: container.title,
-        elements: [...container.elements]
-      };
-      this.state.push(containerCopy);
+      container.elements = [];
+      this.state.push(container);
     });
+    this.state[0].elements = [...this.learningObject.unarrangedElements];
     this.answered = false;
   }
 
-  drop(event: CdkDragDrop<string[]>): void {
+  drop(event: CdkDragDrop<Element[]>): void {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else {

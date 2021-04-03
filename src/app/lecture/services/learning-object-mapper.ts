@@ -22,7 +22,7 @@ export class LearningObjectMapper {
         return new Video(learningObject);
       case 'question':
         return new Question(learningObject);
-      case 'arrange-task':
+      case 'arrangeTask':
         return new ArrangeTask(learningObject);
     }
     return null;
