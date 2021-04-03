@@ -1,21 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { MarkdownModule } from 'ngx-markdown';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
+import {FlexLayoutModule} from '@angular/flex-layout';
+import {MarkdownModule} from 'ngx-markdown';
 
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home/home.component';
-import { AboutComponent } from './home/about/about.component';
-import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
-import { AppRoutingModule } from './infrastructure/app-routing.module';
-import { MaterialModule } from './infrastructure/material.module';
-import { NavbarComponent } from './home/navbar/navbar.component';
-import { LectureModule } from './lecture/lecture.module';
-import {initializeKeycloak} from './keycloak/keycloakinit/keycloakinit';
+import {AppComponent} from './app.component';
+import {HomeComponent} from './home/home/home.component';
+import {AboutComponent} from './home/about/about.component';
+import {PageNotFoundComponent} from './home/page-not-found/page-not-found.component';
+import {AppRoutingModule} from './infrastructure/app-routing.module';
+import {MaterialModule} from './infrastructure/material.module';
+import {NavbarComponent} from './home/navbar/navbar.component';
+import {LectureModule} from './lecture/lecture.module';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
-
 
 @NgModule({
   declarations: [
@@ -36,16 +34,8 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
     MarkdownModule.forRoot(),
     KeycloakAngularModule
   ],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
-    HttpClient,
-    BrowserModule,
-    HttpClientModule],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
