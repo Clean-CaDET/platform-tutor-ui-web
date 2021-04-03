@@ -45,7 +45,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, text: answer.fullAnswer.feedback }));
+      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, text: answer.feedback }));
       this.answered = true;
     });
   }
