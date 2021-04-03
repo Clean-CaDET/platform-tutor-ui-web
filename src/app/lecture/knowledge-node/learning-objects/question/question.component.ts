@@ -13,7 +13,7 @@ interface Feedback {
 @Component({
   selector: 'cc-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.css']
+  styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, LearningObjectComponent {
 
@@ -45,7 +45,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, feedback: answer.fullAnswer.feedback }));
+      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, text: answer.fullAnswer.feedback }));
       this.answered = true;
     });
   }
