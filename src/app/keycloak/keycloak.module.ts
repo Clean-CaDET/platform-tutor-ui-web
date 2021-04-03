@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {KeycloakRoutingModule} from './keycloak-routing.module';
 import {KeycloakComponent} from './keycloak.component';
-import {environment} from '../../environments/environment';
+import {environment, keycloakConfig} from '../../environments/environment';
 import {KeycloakOptions, KeycloakService} from 'keycloak-angular';
 import {Router} from '@angular/router';
 
@@ -18,7 +18,7 @@ export class KeycloakModule {
   constructor(private keycloakService: KeycloakService, private router: Router) {
 
     const options: KeycloakOptions = {
-      config: environment.keycloakConfig
+      config: keycloakConfig
     };
 
     this.keycloakService
