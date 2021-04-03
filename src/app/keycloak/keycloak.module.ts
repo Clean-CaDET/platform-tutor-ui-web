@@ -5,7 +5,7 @@ import {KeycloakRoutingModule} from './keycloak-routing.module';
 import {KeycloakComponent} from './keycloak.component';
 import {environment} from '../../environments/environment';
 import {KeycloakOptions, KeycloakService} from 'keycloak-angular';
-
+import {Router} from '@angular/router';
 
 @NgModule({
   declarations: [KeycloakComponent],
@@ -15,7 +15,7 @@ import {KeycloakOptions, KeycloakService} from 'keycloak-angular';
   ]
 })
 export class KeycloakModule {
-  constructor(private keycloakService: KeycloakService) {
+  constructor(private keycloakService: KeycloakService, private router: Router) {
 
     const options: KeycloakOptions = {
       config: environment.keycloakConfig
@@ -24,8 +24,8 @@ export class KeycloakModule {
     this.keycloakService
       .init(options)
       .then(() => {
-        console.log('[ngDoBootstrap] bootstrap app');
+        this.router.navigate(['keycloaktest'], {}).then(() => {}); // Test for keycloak login.
       })
-      .catch(error => console.error('[ngDoBootstrap] init Keycloak failed', error));
+      .catch(error => console.error('keycloak init failed', error));
   }
 }

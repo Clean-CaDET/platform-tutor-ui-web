@@ -14,6 +14,7 @@ import {MaterialModule} from './infrastructure/material.module';
 import {NavbarComponent} from './home/navbar/navbar.component';
 import {LectureModule} from './lecture/lecture.module';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import { KeycloakTestComponent } from './keycloak/keycloak-test/keycloak-test.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
     AboutComponent,
     PageNotFoundComponent,
     NavbarComponent,
+    KeycloakTestComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,6 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
     MarkdownModule.forRoot(),
     KeycloakAngularModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {
