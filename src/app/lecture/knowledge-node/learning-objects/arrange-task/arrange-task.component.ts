@@ -63,7 +63,6 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
       data.forEach(feedback => {
         this.feedbackMap.set(feedback.id, feedback);
       });
-      console.log(this.feedbackMap);
       this.answered = true;
     });
   }
