@@ -1,10 +1,16 @@
 <div id="arrange-task" class="mat-card">
   <div class="mat-h3"><markdown>{{learningObject.text}}</markdown></div>
-  <div cdkDropListGroup [cdkDropListGroupDisabled]="answered" fxLayout="row wrap" fxLayoutAlign="space-between">
+  <div
+    cdkDropListGroup
+    [cdkDropListGroupDisabled]="answered"
+    fxLayout="row wrap"
+    ngClass.xl="m-lg"
+    ngClass.lg="m-lg"
+    ngClass.md="m-md">
     <div
     *ngFor="let container of state"
     fxFlex="30"
-    fxFlex.md="45"
+    fxFlex.md="48"
     fxFlex.sm="100"
     fxFlex.xs="100"
     fxFlexAlign="start">
@@ -17,10 +23,18 @@
         <mat-list-item
           class="mat-card"
           cdkDrag
-          *ngFor="let item of container.elements"
+          *ngFor="let element of container.elements"
           fxLayout="row"
           fxLayoutAlign="none center">
-          {{item.text}}
+          <div fxFlex>
+            {{element.text}}
+          </div>
+          <div *ngIf="answered" fxFlex="10">
+            <mat-icon *ngIf="isElementCorrect(element.id, container.id); else wrongBlock" color="primary">done</mat-icon>
+            <ng-template #wrongBlock>
+              <mat-icon color="accent">close</mat-icon>
+            </ng-template>
+          </div>
         </mat-list-item>
       </div>
     </div>

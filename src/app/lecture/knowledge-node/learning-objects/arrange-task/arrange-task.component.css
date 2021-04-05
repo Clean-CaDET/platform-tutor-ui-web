@@ -10,6 +10,30 @@
   overflow-y: auto;
 }
 
+.border-correct {
+  border: solid 1px green;
+}
+
+.border-wrong {
+  border: solid 1px red;
+}
+
+.m-lg {
+  margin: 0 -1.65%
+}
+
+.m-lg>* {
+  margin: 0 1.65%
+}
+
+.m-md {
+  margin: 0 -1%;
+}
+
+.m-md>* {
+  margin: 0 1%
+}
+
 .mat-card-subtitle {
   margin-top: 1em;
 }
@@ -20,6 +44,10 @@ mat-list-item {
   cursor: move;
   border-radius: 4px;
   overflow: hidden;
+}
+
+.margin {
+
 }
 
 button {

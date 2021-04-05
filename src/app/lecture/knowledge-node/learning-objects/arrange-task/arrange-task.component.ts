@@ -37,6 +37,12 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     return +this.route.snapshot.paramMap.get('nodeId');
   }
 
+  private isElementCorrect(elementId: number, containerId: number): boolean {
+    return this.feedbackMap
+      .get(containerId).correctElements
+      .map(element => element.id).includes(elementId);
+  }
+
   resetState(): void {
     this.state = [];
     this.learningObject.containers.forEach(container => {
