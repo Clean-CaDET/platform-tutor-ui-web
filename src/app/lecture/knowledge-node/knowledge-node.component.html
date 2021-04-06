@@ -1,7 +1,15 @@
-<div id="knowledge-node" *ngIf="knowledgeNode">
-  <h1>{{knowledgeNode.learningObjective}}</h1>
-  <mat-divider></mat-divider>
-  <cc-learning-object-container
-    *ngFor="let learningObject of knowledgeNode.learningObjects"
-    [learningObject]="learningObject"></cc-learning-object-container>
-</div>
+<mat-drawer-container hasBackdrop="false">
+  <mat-drawer mode="over" position="end" [(opened)]="drawerOpened">
+    <cc-notes></cc-notes>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div id="knowledge-node" *ngIf="knowledgeNode">
+      <h1>{{knowledgeNode.learningObjective}}</h1>
+      <mat-divider></mat-divider>
+      <cc-learning-object-container
+        *ngFor="let learningObject of knowledgeNode.learningObjects"
+        [learningObject]="learningObject"></cc-learning-object-container>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>
+

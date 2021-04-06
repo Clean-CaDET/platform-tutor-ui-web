@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-task/arrange-task.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NotesComponent } from './knowledge-node/notes/notes.component';
 
 
 @NgModule({
@@ -28,20 +29,21 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ImageComponent,
     VideoComponent,
     QuestionComponent,
-    ArrangeTaskComponent
+    ArrangeTaskComponent,
+    NotesComponent
   ],
   exports: [
     LectureComponent
   ],
-  imports: [
-    BrowserModule,
-    MarkdownModule.forChild(),
-    YouTubePlayerModule,
-    FlexLayoutModule,
-    RouterModule,
-    FormsModule,
-    MaterialModule,
-    DragDropModule
-  ]
+    imports: [
+        BrowserModule,
+        MarkdownModule.forChild(),
+        YouTubePlayerModule,
+        FlexLayoutModule,
+        RouterModule,
+        FormsModule,
+        MaterialModule,
+        DragDropModule
+    ]
 })
 export class LectureModule { }

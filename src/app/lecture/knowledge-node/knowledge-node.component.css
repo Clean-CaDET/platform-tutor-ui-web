@@ -6,3 +6,7 @@
 h1 {
   font-weight: normal;
 }
+
+mat-drawer-container {
+  height: 100%;
+}

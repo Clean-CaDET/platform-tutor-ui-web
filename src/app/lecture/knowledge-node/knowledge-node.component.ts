@@ -11,7 +11,7 @@ import { LectureService } from '../services/lecture.service';
 export class KnowledgeNodeComponent implements OnInit {
 
   knowledgeNode: KnowledgeNode;
-
+  drawerOpened = true;
 
   constructor(
     private route: ActivatedRoute,
