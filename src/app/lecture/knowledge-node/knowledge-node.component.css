@@ -7,6 +7,10 @@ h1 {
   font-weight: normal;
 }
 
+h2 {
+  display: inline;
+}
+
 .sticky {
   position: -webkit-sticky;
   position: sticky;

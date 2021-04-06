@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotesComponent implements OnInit {
 
+  edit = false;
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  cancel(): void {
+    this.edit = false;
+  }
 }

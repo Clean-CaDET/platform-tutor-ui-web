@@ -1,1 +1,24 @@
-<p>notes works!</p>
+<div id="notes" fxLayout="column">
+  <div *ngIf="edit" class="mat-card" fxLayout="column">
+    <mat-form-field class="note-width">
+      <input matInput placeholder="Title">
+    </mat-form-field>
+    <mat-form-field>
+      <textarea
+        placeholder="Text"
+        matInput
+        cdkTextareaAutosize
+        cdkAutosizeMaxRows="6"
+      ></textarea>
+    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="10px">
+      <button mat-flat-button color="primary">Save</button>
+      <button mat-flat-button color="accent" (click)="cancel()">Cancel</button>
+    </div>
+  </div>
+  <div *ngIf="!edit" fxLayout="row" fxLayoutAlign="center none" class="note-width">
+    <button mat-icon-button mat-raised-button color="primary" (click)="edit = true">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</div>
