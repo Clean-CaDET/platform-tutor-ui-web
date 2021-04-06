@@ -43,6 +43,18 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
       .map(element => element.id).includes(elementId);
   }
 
+  getMissingElements(containerId: number): Element[] {
+    const elementIds = this.state.find(container => container.id === containerId)
+      .elements.map(element => element.id);
+    const missingElements = [];
+    this.feedbackMap.get(containerId).correctElements.forEach(element => {
+      if (!elementIds.includes(element.id)) {
+        missingElements.push(element);
+      }
+    });
+    return missingElements;
+  }
+
   resetState(): void {
     this.state = [];
     this.learningObject.containers.forEach(container => {

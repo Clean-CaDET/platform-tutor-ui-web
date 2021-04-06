@@ -1,5 +1,5 @@
 <div id="arrange-task" class="mat-card">
-  <div class="mat-h3"><markdown>{{learningObject.text}}</markdown></div>
+  <div><markdown>{{learningObject.text}}</markdown></div>
   <div
     cdkDropListGroup
     [cdkDropListGroupDisabled]="answered"
@@ -26,16 +26,25 @@
           *ngFor="let element of container.elements"
           fxLayout="row"
           fxLayoutAlign="none center">
-          <div fxFlex>
-            {{element.text}}
-          </div>
-          <div *ngIf="answered" fxFlex="10">
+          <div *ngIf="answered" fxFlex="12">
             <mat-icon *ngIf="isElementCorrect(element.id, container.id); else wrongBlock" color="primary">done</mat-icon>
             <ng-template #wrongBlock>
               <mat-icon color="accent">close</mat-icon>
             </ng-template>
           </div>
+          <div fxFlex>
+            {{element.text}}
+          </div>
         </mat-list-item>
+        <div *ngIf="answered">
+          <mat-list-item
+            *ngFor="let element of getMissingElements(container.id)"
+            class="card-disabled"
+            fxLayout="row"
+            fxLayoutAlign="none center">
+            {{element.text}}
+          </mat-list-item>
+        </div>
       </div>
     </div>
   </div>
