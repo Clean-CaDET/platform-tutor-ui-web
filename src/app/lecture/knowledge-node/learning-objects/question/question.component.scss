@@ -1,0 +1,41 @@
+#question {
+  display: block;
+  max-width: 75%;
+  margin: auto;
+  padding: 20px;
+}
+
+button {
+  margin: 10px;
+}
+
+@import "~@angular/material/theming";
+
+.color-correct {
+  color: mat-color(mat-palette($mat-indigo))
+}
+
+.color-wrong {
+  color: mat-color(mat-palette($mat-pink));
+}
+
+mat-icon {
+  margin-right: 1em;
+  font-size: 2em;
+}
+
+mat-checkbox {
+  margin-top: 1em;
+}
+
+mat-checkbox:hover {
+  background-color: #f7f7f7;
+}
+
+:host::ng-deep.mat-checkbox-layout{
+  white-space: normal !important;
+}
+
+:host::ng-deep.mat-checkbox-inner-container{
+  margin-top: 4px;
+}

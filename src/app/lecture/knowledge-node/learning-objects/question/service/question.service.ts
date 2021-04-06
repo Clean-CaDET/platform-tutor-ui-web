@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { Answer } from '../model/answer.model';
+import { environment } from '../../../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,12 +11,9 @@ export class QuestionService {
 
   constructor(private http: HttpClient) { }
 
-  answerQuestion(questionId: number, answerIds: number[]): Observable<any> {
-    const answerDTO = {
-      questionId,
-      answerIds
-    };
-    // TODO: API call to answer a question
-    return of(null);
+  answerQuestion(nodeId: number, questionId: number, answers: Answer[]): Observable<any> {
+    return this.http.post(
+      environment.apiHost + 'nodes/' + nodeId + '/content/' + questionId,
+      answers);
   }
 }

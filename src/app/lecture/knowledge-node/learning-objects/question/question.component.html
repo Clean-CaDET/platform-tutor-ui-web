@@ -1,17 +1,14 @@
 <div id="question" class="mat-card">
   <h3 class="mat-h3">{{learningObject.text}}</h3>
   <div>
-    <mat-selection-list [(ngModel)]="answers">
-      <mat-list-option [value]="answer.id" *ngFor="let answer of learningObject.possibleAnswers">
-        {{answer.text}}
-      </mat-list-option>
-    </mat-selection-list>
-    <div fxLayout="row">
-      <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
-      <div *ngIf="answered" fxLayout="row" fxFlexAlign="end">
-        <mat-icon color="primary">done</mat-icon>
-        <h2 class="mat-h2">Your answer has been submitted.</h2>
-      </div>
-    </div>
+    <ul>
+      <mat-list-item *ngFor="let answer of learningObject.possibleAnswers; let i = index">
+        <mat-checkbox [disabled]="answered" [(ngModel)]="checked[i]">
+          {{answer.text}}
+        </mat-checkbox>
+        <div [class]="feedbacks[i].correct ? 'color-correct' : 'color-wrong'" class="mat-card-subtitle" *ngIf="feedbacks">{{feedbacks[i].text}}</div>
+      </mat-list-item>
+    </ul>
+    <button *ngIf="!answered" mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
   </div>
 </div>
