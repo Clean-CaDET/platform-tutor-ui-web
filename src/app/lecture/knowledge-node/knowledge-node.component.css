@@ -12,6 +12,17 @@ h1 {
   position: sticky;
   top: 0;
   float: right;
+  z-index: 2;
 }
+
+.mat-icon-button {
+  margin: 10px;
+}
+
+mat-sidenav-container {
+  position: absolute;
+  width: 100%;
+}
+
 
 
