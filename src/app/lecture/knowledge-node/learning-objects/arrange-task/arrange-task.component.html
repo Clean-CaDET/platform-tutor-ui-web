@@ -27,10 +27,8 @@
           fxLayout="row"
           fxLayoutAlign="none center">
           <div *ngIf="answered" fxFlex="12">
-            <mat-icon *ngIf="isElementCorrect(element.id, container.id); else wrongBlock" color="primary">done</mat-icon>
-            <ng-template #wrongBlock>
-              <mat-icon color="accent">close</mat-icon>
-            </ng-template>
+            <mat-icon *ngIf="isElementCorrect(element.id, container.id)" color="primary">done</mat-icon>
+            <mat-icon *ngIf="!isElementCorrect(element.id, container.id)" color="accent">close</mat-icon>
           </div>
           <div fxFlex>
             {{element.text}}
