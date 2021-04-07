@@ -5,13 +5,35 @@
 .list-container {
   border-radius: 4px;
   border: solid 1px #cccccc;
+  height: 100%;
   min-height: 72px;
   max-height: 300px;
   overflow-y: auto;
 }
 
+.m-lg {
+  margin: 0 -1.65%
+}
+
+.m-lg>* {
+  margin: 0 1.65%
+}
+
+.m-md {
+  margin: 0 -1%;
+}
+
+.m-md>* {
+  margin: 0 1%
+}
+
 .mat-card-subtitle {
   margin-top: 1em;
+}
+
+.card-disabled {
+  background-color: #f5f5f5;
+  color: #aaaaaa;
 }
 
 mat-list-item {

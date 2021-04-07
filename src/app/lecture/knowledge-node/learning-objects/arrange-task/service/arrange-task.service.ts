@@ -13,7 +13,7 @@ export class ArrangeTaskService {
 
   submitTask(nodeId: number, arrangeTaskId: number, state: Container[]): Observable<any> {
     return this.http.post(
-      environment.apiHost + 'nodes/' + nodeId + '/content/' + arrangeTaskId,
+      environment.apiHost + 'nodes/' + nodeId + '/content/arrange-task/' + arrangeTaskId,
       state);
   }
 }
