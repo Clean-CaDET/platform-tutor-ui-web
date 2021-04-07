@@ -8,4 +8,9 @@
 
 .mat-card {
   padding: 10px;
+  margin-bottom: 10px;
+}
+
+.mat-icon-button {
+  margin-bottom: 10px;
 }

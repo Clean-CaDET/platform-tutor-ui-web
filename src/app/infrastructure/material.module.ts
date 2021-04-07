@@ -7,6 +7,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatTreeModule} from '@angular/material/tree';
 import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import {MatInputModule} from '@angular/material/input';
     MatToolbarModule,
     MatTreeModule,
     MatListModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ],
   exports: [
     MatButtonModule,
@@ -27,7 +29,8 @@ import {MatInputModule} from '@angular/material/input';
     MatToolbarModule,
     MatTreeModule,
     MatListModule,
-    MatInputModule
+    MatInputModule,
+    MatCardModule
   ]
 })
 export class MaterialModule { }

@@ -1,7 +1,7 @@
 <div id="notes" fxLayout="column">
   <div *ngIf="edit" class="mat-card" fxLayout="column">
     <mat-form-field class="note-width">
-      <input matInput placeholder="Title">
+      <input matInput placeholder="Title" [(ngModel)]="note.title">
     </mat-form-field>
     <mat-form-field>
       <textarea
@@ -9,11 +9,11 @@
         matInput
         cdkTextareaAutosize
         cdkAutosizeMaxRows="6"
-      ></textarea>
+        [(ngModel)]="note.content"></textarea>
     </mat-form-field>
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-flat-button color="primary">Save</button>
-      <button mat-flat-button color="accent" (click)="cancel()">Cancel</button>
+      <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!note.title || !note.content">Save</button>
+      <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
     </div>
   </div>
   <div *ngIf="!edit" fxLayout="row" fxLayoutAlign="center none" class="note-width">
@@ -21,4 +21,19 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
+  <div *ngIf="notes.length === 0 && !edit" fxFlexAlign="center">
+    You have not added your first note yet.
+  </div>
+  <mat-card class="note-width" *ngFor="let note of notes">
+    <mat-card-title>
+      {{note.title}}
+      <mat-divider inset="true"></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <p>{{note.content}}</p>
+    </mat-card-content>
+    <mat-card-actions align="end">
+      <button mat-icon-button><mat-icon color="accent">delete</mat-icon></button>
+    </mat-card-actions>
+  </mat-card>
 </div>
