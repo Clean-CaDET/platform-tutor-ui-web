@@ -30,4 +30,9 @@ export class NotesComponent implements OnInit {
     this.notes.push(this.note);
     this.onCancel();
   }
+
+  onDelete(noteId: number): void {
+    // TODO: Make an API call to delete the note
+    this.notes.splice(this.notes.findIndex(note => note.id === noteId), 1);
+  }
 }

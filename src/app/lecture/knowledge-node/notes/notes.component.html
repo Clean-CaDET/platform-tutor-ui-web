@@ -33,7 +33,7 @@
       <p>{{note.content}}</p>
     </mat-card-content>
     <mat-card-actions align="end">
-      <button mat-icon-button><mat-icon color="accent">delete</mat-icon></button>
+      <button mat-icon-button (click)="onDelete(note.id)"><mat-icon color="accent">delete</mat-icon></button>
     </mat-card-actions>
   </mat-card>
 </div>
