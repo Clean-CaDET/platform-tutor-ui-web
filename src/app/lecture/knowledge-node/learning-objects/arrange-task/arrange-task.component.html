@@ -8,12 +8,12 @@
     ngClass.lg="m-lg"
     ngClass.md="m-md">
     <div
-    *ngFor="let container of state"
-    fxFlex="30"
-    fxFlex.md="48"
-    fxFlex.sm="100"
-    fxFlex.xs="100"
-    fxFlexAlign="start">
+      *ngFor="let container of state"
+      fxFlex="30"
+      fxFlex.md="48"
+      fxFlex.sm="100"
+      fxFlex.xs="100"
+      fxLayout="column">
       <div class="mat-card-subtitle">{{container.title}}</div>
       <div
         class="list-container"

@@ -5,6 +5,7 @@
 .list-container {
   border-radius: 4px;
   border: solid 1px #cccccc;
+  height: 100%;
   min-height: 72px;
   max-height: 300px;
   overflow-y: auto;
