@@ -1,10 +1,12 @@
 <div id="lecture" *ngIf="lecture">
   <h1 class="mat-h1">{{lecture.name}}</h1>
-  <h2 class="mat-h2">{{lecture.description}}</h2>
+  <h3 class="mat-h3">{{lecture.description}}</h3>
   <mat-divider></mat-divider>
-  <mat-action-list>
-    <mat-list-item *ngFor="let knowledgeNode of lecture.knowledgeNodes" [routerLink]="'../../node/' + knowledgeNode.id">
+  <div *ngFor="let knowledgeNode of knowledgeNodes">
+    <mat-card matRipple class="node-link" [routerLink]="'../../node/' + knowledgeNode.id">
       {{knowledgeNode.learningObjective}}
-    </mat-list-item>
-  </mat-action-list>
+    </mat-card>
+    <br>
+    <br>
+  </div>
 </div>

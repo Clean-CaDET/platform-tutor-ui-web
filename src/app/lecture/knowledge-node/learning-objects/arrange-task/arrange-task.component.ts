@@ -7,6 +7,12 @@ import { Container } from './model/container.model';
 import { Element } from './model/element.model';
 import { ActivatedRoute } from '@angular/router';
 
+interface ArrangeTaskFeedback {
+  id: number;
+  submissionWasCorrect: boolean;
+  correctElements: Element[];
+}
+
 @Component({
   selector: 'cc-arrange-task',
   templateUrl: './arrange-task.component.html',
@@ -16,9 +22,11 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   learningObject: ArrangeTask;
   state: Container[];
+  feedbackMap: Map<number, ArrangeTaskFeedback>;
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
+    this.feedbackMap = new Map();
   }
 
   ngOnInit(): void {
@@ -27,6 +35,24 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   get nodeId(): number {
     return +this.route.snapshot.paramMap.get('nodeId');
+  }
+
+  private isElementCorrect(elementId: number, containerId: number): boolean {
+    return this.feedbackMap
+      .get(containerId).correctElements
+      .map(element => element.id).includes(elementId);
+  }
+
+  getMissingElements(containerId: number): Element[] {
+    const elementIds = this.state.find(container => container.id === containerId)
+      .elements.map(element => element.id);
+    const missingElements = [];
+    this.feedbackMap.get(containerId).correctElements.forEach(element => {
+      if (!elementIds.includes(element.id)) {
+        missingElements.push(element);
+      }
+    });
+    return missingElements;
   }
 
   resetState(): void {
@@ -52,7 +78,9 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.state).subscribe(data => {
-      // TODO: Do something with the response data
+      data.forEach(feedback => {
+        this.feedbackMap.set(feedback.id, feedback);
+      });
       this.answered = true;
     });
   }

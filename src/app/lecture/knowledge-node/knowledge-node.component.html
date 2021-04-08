@@ -3,6 +3,16 @@
     <mat-icon>assignment</mat-icon>
   </button>
 </div>
+<div id="knowledge-node" *ngIf="knowledgeNode">
+  <br>
+  <h3>Goal: {{knowledgeNode.learningObjective}}</h3>
+  <mat-divider></mat-divider>
+  <cc-learning-object-container
+    *ngFor="let learningObject of knowledgeNode.learningObjects" [learningObject]="learningObject">
+  </cc-learning-object-container>
+  <br>
+  <br>
+</div>
 <mat-sidenav-container hasBackdrop="false" class="overlap">
   <mat-sidenav fixedInViewport="true" mode="over" position="end" [opened]="sidenavOpened">
     <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
