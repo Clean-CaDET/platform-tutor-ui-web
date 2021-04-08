@@ -1,20 +1,5 @@
-<div class="sticky" *ngIf="!sidenavOpened">
-  <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-    <mat-icon>assignment</mat-icon>
-  </button>
-</div>
-<div id="knowledge-node" *ngIf="knowledgeNode">
-  <br>
-  <h3>Goal: {{knowledgeNode.learningObjective}}</h3>
-  <mat-divider></mat-divider>
-  <cc-learning-object-container
-    *ngFor="let learningObject of knowledgeNode.learningObjects" [learningObject]="learningObject">
-  </cc-learning-object-container>
-  <br>
-  <br>
-</div>
-<mat-sidenav-container hasBackdrop="false" class="overlap">
-  <mat-sidenav fixedInViewport="true" mode="over" position="end" [opened]="sidenavOpened">
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav fixedInViewport="true" mode="side" position="end" [opened]="sidenavOpened">
     <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
@@ -24,12 +9,20 @@
     <cc-notes></cc-notes>
   </mat-sidenav>
   <mat-sidenav-content>
+    <div class="fixed">
+      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
+        <mat-icon>assignment</mat-icon>
+      </button>
+    </div>
     <div id="knowledge-node" *ngIf="knowledgeNode">
-      <h1>{{knowledgeNode.learningObjective}}</h1>
+      <br>
+      <h3>Goal: {{knowledgeNode.learningObjective}}</h3>
       <mat-divider></mat-divider>
       <cc-learning-object-container
         *ngFor="let learningObject of knowledgeNode.learningObjects"
         [learningObject]="learningObject"></cc-learning-object-container>
+      <br>
+      <br>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
