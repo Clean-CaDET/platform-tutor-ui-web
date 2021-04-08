@@ -4,7 +4,7 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary" [class.mat-elevation-z4]="true">
+    <mat-toolbar class="stickyBar" color="primary" [class.mat-elevation-z4]="true">
       <span [hidden]="opened"><button mat-raised-button mat-icon-button (click)="toggl()">
         <mat-icon>keyboard_arrow_right</mat-icon>
       </button></span>
@@ -17,6 +17,7 @@
       <span fxFlex></span>
       <span><img src="assets/images/logo.png" width="80px" alt="Clean CaDET"></span>
     </mat-toolbar>
+    <br><br><br>
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

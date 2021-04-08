@@ -1,7 +1,10 @@
 <div id="knowledge-node" *ngIf="knowledgeNode">
+  <br>
   <h3>Goal: {{knowledgeNode.learningObjective}}</h3>
   <mat-divider></mat-divider>
   <cc-learning-object-container
     *ngFor="let learningObject of knowledgeNode.learningObjects" [learningObject]="learningObject">
   </cc-learning-object-container>
+  <br>
+  <br>
 </div>
