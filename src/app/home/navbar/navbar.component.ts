@@ -48,6 +48,7 @@ export class NavbarComponent implements OnInit {
           children: routes
         }
       ];
+      this.treeControl.expandAll();
     });
   }
 

@@ -2,7 +2,7 @@
   <h1 class="mat-h1">{{lecture.name}}</h1>
   <h3 class="mat-h3">{{lecture.description}}</h3>
   <mat-divider></mat-divider>
-  <div *ngFor="let knowledgeNode of lecture.knowledgeNodes">
+  <div *ngFor="let knowledgeNode of knowledgeNodes">
     <mat-card matRipple class="node-link" [routerLink]="'../../node/' + knowledgeNode.id">
       {{knowledgeNode.learningObjective}}
     </mat-card>
