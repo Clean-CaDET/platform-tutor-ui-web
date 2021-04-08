@@ -6,10 +6,6 @@ mat-sidenav {
   width: 200px;
 }
 
-mat-toolbar{
-  display: initial;
-}
-.stickyBar {
-  position: fixed;
-  z-index:1;
+#router-outlet {
+  overflow-y: auto;
 }
