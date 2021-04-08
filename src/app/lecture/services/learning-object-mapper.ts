@@ -5,6 +5,7 @@ import { Image } from '../knowledge-node/learning-objects/image/model/image.mode
 import { Video } from '../knowledge-node/learning-objects/video/model/video.model';
 import { Question } from '../knowledge-node/learning-objects/question/model/question.model';
 import { ArrangeTask } from '../knowledge-node/learning-objects/arrange-task/model/arrange-task.model';
+import { Challenge } from '../knowledge-node/learning-objects/challenge/model/challenge.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,8 @@ export class LearningObjectMapper {
         return new Question(learningObject);
       case 'arrangeTask':
         return new ArrangeTask(learningObject);
+      case 'challenge':
+        return new Challenge(learningObject);
     }
     return null;
   }
