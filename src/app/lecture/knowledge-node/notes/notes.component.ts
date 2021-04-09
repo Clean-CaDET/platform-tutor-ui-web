@@ -8,13 +8,12 @@ import { Note } from './model/note.model';
 })
 export class NotesComponent implements OnInit {
 
-  note: Note;
+  text = '# Note';
   notes: Note[];
   edit = false;
 
   constructor() {
     this.notes = [];
-    this.note = new Note();
   }
 
   ngOnInit(): void {
@@ -22,12 +21,12 @@ export class NotesComponent implements OnInit {
 
   onCancel(): void {
     this.edit = false;
-    this.note = new Note();
+    this.text = '# Note';
   }
 
   onSave(): void {
     // TODO: Make an API call to save the users note
-    this.notes.push(this.note);
+    this.notes.push(new Note({text: this.text}));
     this.onCancel();
   }
 

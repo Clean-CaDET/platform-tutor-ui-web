@@ -16,7 +16,7 @@
 }
 
 ngx-mat-markdown-text-editor {
-  width: 360px;
+  width: 340px;
   word-break: break-word;
 }
 
@@ -26,4 +26,8 @@ mat-card-content {
 
 mat-form-field {
   margin-bottom: 20px;
+}
+
+.pointer:hover {
+  cursor: pointer;
 }

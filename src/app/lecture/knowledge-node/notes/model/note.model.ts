@@ -1,10 +1,11 @@
 export class Note {
   id: number;
-  title: string;
-  content: string;
+  text: string;
 
-  constructor() {
-    this.title = '';
-    this.content = '';
+  constructor(obj?: any) {
+    if (obj) {
+      this.id = obj.id;
+      this.text = obj.text;
+    }
   }
 }
