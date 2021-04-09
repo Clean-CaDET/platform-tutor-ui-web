@@ -3,14 +3,11 @@
     <mat-form-field class="note-width">
       <input matInput placeholder="Title" [(ngModel)]="note.title">
     </mat-form-field>
-    <mat-form-field>
-      <textarea
-        placeholder="Text"
-        matInput
-        cdkTextareaAutosize
-        cdkAutosizeMaxRows="6"
-        [(ngModel)]="note.content"></textarea>
-    </mat-form-field>
+    <ngx-mat-markdown-text-editor
+      [(ngModel)]="note.content"
+      livePreviewEnabled="true"
+      matAutosize="true"
+      placeholder="Text"></ngx-mat-markdown-text-editor>
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!note.title || !note.content">Save</button>
       <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
@@ -30,7 +27,7 @@
       <mat-divider inset="true"></mat-divider>
     </mat-card-title>
     <mat-card-content>
-      <p>{{note.content}}</p>
+      <markdown>{{note.content}}</markdown>
     </mat-card-content>
     <mat-card-actions align="end">
       <button mat-icon-button (click)="onDelete(note.id)"><mat-icon color="accent">delete</mat-icon></button>

@@ -14,3 +14,16 @@
 .mat-icon-button {
   margin-bottom: 10px;
 }
+
+ngx-mat-markdown-text-editor {
+  width: 360px;
+  word-break: break-word;
+}
+
+mat-card-content {
+  word-break: break-word;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}

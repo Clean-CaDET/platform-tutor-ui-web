@@ -17,6 +17,7 @@ import { FormsModule } from '@angular/forms';
 import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-task/arrange-task.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesComponent } from './knowledge-node/notes/notes.component';
+import { NgxMatMarkdownTextEditorModule } from 'ngx-mat-markdown-text-editor';
 
 
 @NgModule({
@@ -35,15 +36,16 @@ import { NotesComponent } from './knowledge-node/notes/notes.component';
   exports: [
     LectureComponent
   ],
-    imports: [
-        BrowserModule,
-        MarkdownModule.forChild(),
-        YouTubePlayerModule,
-        FlexLayoutModule,
-        RouterModule,
-        FormsModule,
-        MaterialModule,
-        DragDropModule
-    ]
+  imports: [
+    BrowserModule,
+    MarkdownModule.forChild(),
+    YouTubePlayerModule,
+    FlexLayoutModule,
+    RouterModule,
+    FormsModule,
+    MaterialModule,
+    DragDropModule,
+    NgxMatMarkdownTextEditorModule
+  ]
 })
 export class LectureModule { }
