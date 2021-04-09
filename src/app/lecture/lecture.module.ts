@@ -16,6 +16,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-task/arrange-task.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     ImageComponent,
     VideoComponent,
     QuestionComponent,
-    ArrangeTaskComponent
+    ArrangeTaskComponent,
+    ChallengeComponent
   ],
   exports: [
     LectureComponent

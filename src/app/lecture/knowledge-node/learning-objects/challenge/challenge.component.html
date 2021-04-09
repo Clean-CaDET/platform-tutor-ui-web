@@ -1,4 +1,5 @@
-<div>
+<mat-card>
+    <h3><b>Challenge ID</b>: {{ learningObject.id }}</h3>
     <p>{{ learningObject.description }}</p>
-    <a class="mat-raised-button" href="{{learningObject.url}}" target="_blank">Download challenge code</a>
-</div>
+    <a mat-raised-button color="primary" href="{{learningObject.url}}" target="_blank">Download challenge code</a>
+</mat-card>
