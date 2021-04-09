@@ -18,6 +18,7 @@ import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesComponent } from './knowledge-node/notes/notes.component';
 import { NgxMatMarkdownTextEditorModule } from 'ngx-mat-markdown-text-editor';
+import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { NgxMatMarkdownTextEditorModule } from 'ngx-mat-markdown-text-editor';
     VideoComponent,
     QuestionComponent,
     ArrangeTaskComponent,
-    NotesComponent
+    NotesComponent,
+    ChallengeComponent
   ],
   exports: [
     LectureComponent
