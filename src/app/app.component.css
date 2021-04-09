@@ -9,3 +9,7 @@ mat-sidenav {
 #router-outlet {
   overflow-y: auto;
 }
+
+mat-toolbar {
+  z-index: 2;
+}
