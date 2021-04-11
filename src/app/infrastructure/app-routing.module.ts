@@ -6,6 +6,7 @@ import { PageNotFoundComponent } from '../home/page-not-found/page-not-found.com
 import { LectureComponent } from '../lecture/lecture.component';
 import { KnowledgeNodeComponent } from '../lecture/knowledge-node/knowledge-node.component';
 import { LoginComponent } from '../trainee/login/login.component';
+import { RegisterComponent } from '../trainee/register/register.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'lecture/:lectureId', component: LectureComponent},
   { path: 'node/:nodeId', component: KnowledgeNodeComponent},
   { path: 'login', component: LoginComponent},
+  { path: 'register', component: RegisterComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
     this.traineeService.login(this.loginForm.value).subscribe(() => {
-      this.router.navigate(['']);
+      this.router.navigate(['/']);
     });
   }
 }

@@ -1,1 +1,25 @@
-<p>register works!</p>
+<form [formGroup]="registerForm" (ngSubmit)="onRegister()" fxLayout="column">
+  <mat-form-field fxFlex="10">
+    <mat-label>Index</mat-label>
+    <input matInput type="text" name="index" formControlName="index">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Visual score</mat-label>
+    <input matInput type="number" min="0" max="5" formControlName="visualScore">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Aural score</mat-label>
+    <input matInput type="number" min="0" max="5" formControlName="auralScore">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Read-Write score</mat-label>
+    <input matInput type="number" min="0" max="5" formControlName="readWriteScore">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Kinaesthetic score</mat-label>
+    <input matInput type="number" min="0" max="5" formControlName="kinaestheticScore">
+  </mat-form-field>
+  <div>
+    <button mat-raised-button type="submit" color="primary">Register</button>
+  </div>
+</form>
