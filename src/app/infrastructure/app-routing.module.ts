@@ -5,6 +5,7 @@ import { AboutComponent } from '../home/about/about.component';
 import { PageNotFoundComponent } from '../home/page-not-found/page-not-found.component';
 import { LectureComponent } from '../lecture/lecture.component';
 import { KnowledgeNodeComponent } from '../lecture/knowledge-node/knowledge-node.component';
+import { LoginComponent } from '../trainee/login/login.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'lecture/:lectureId', component: LectureComponent},
   { path: 'node/:nodeId', component: KnowledgeNodeComponent},
+  { path: 'login', component: LoginComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 
