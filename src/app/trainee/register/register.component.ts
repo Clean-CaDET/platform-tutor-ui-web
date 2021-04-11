@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   registerForm = new FormGroup({
-    index: new FormControl(''),
+    studentIndex: new FormControl(''),
     visualScore: new FormControl(''),
     auralScore: new FormControl(''),
     readWriteScore: new FormControl(''),

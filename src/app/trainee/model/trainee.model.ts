@@ -1,9 +1,9 @@
 export class Trainee {
-  index: string;
+  studentIndex: string;
 
   constructor(obj?: any) {
     if (obj) {
-      this.index = obj.index;
+      this.studentIndex = obj.studentIndex;
     }
   }
 }
