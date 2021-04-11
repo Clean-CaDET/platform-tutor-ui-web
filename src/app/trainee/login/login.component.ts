@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { TraineeService } from '../service/trainee.service';
 import { Router } from '@angular/router';
 
@@ -11,8 +11,7 @@ import { Router } from '@angular/router';
 export class LoginComponent implements OnInit {
 
   loginForm = new FormGroup({
-    index: new FormControl(''),
-    password: new FormControl('')
+    studentIndex: new FormControl('', [ Validators.required ]),
   });
 
   constructor(
@@ -23,8 +22,10 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin(): void {
-    this.traineeService.login(this.loginForm.value).subscribe(() => {
-      this.router.navigate(['/']);
-    });
+    if (this.loginForm.valid) {
+      this.traineeService.login(this.loginForm.value).subscribe(() => {
+        this.router.navigate(['/']);
+      });
+    }
   }
 }
