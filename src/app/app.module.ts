@@ -13,7 +13,6 @@ import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
 import { NavbarComponent } from './home/navbar/navbar.component';
 import { LectureModule } from './lecture/lecture.module';
-import { TraineeComponent } from './trainee/trainee.component';
 import { LoginComponent } from './trainee/login/login.component';
 import { RegisterComponent } from './trainee/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     AboutComponent,
     PageNotFoundComponent,
     NavbarComponent,
-    TraineeComponent,
     LoginComponent,
     RegisterComponent,
   ],
