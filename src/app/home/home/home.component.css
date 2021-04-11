@@ -1,0 +1,12 @@
+.content {
+  width: 75%;
+  margin: auto;
+  text-align: justify;
+  line-height: 150%;
+}
+
+mat-icon.mat-card-avatar {
+  width: 36px;
+  height: 36px;
+  font-size: 36px;
+}
