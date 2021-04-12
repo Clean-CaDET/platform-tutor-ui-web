@@ -9,6 +9,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatRippleModule} from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import {MatRippleModule} from '@angular/material/core';
     MatListModule,
     MatInputModule,
     MatCardModule,
-    MatRippleModule
+    MatRippleModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -33,7 +35,8 @@ import {MatRippleModule} from '@angular/material/core';
     MatListModule,
     MatInputModule,
     MatCardModule,
-    MatRippleModule
+    MatRippleModule,
+    MatMenuModule
   ]
 })
 export class MaterialModule { }

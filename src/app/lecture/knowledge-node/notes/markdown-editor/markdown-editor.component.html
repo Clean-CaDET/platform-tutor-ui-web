@@ -4,7 +4,12 @@
       <mat-icon (click)="insertElement('bold')">format_bold</mat-icon>
       <mat-icon (click)="insertElement('italic')">format_italic</mat-icon>
       <mat-divider vertical="true"></mat-divider>
-      <mat-icon>title</mat-icon>
+      <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
+      <mat-menu #menu class="mat-menu" fxLayout="column">
+        <div (click)="insertElement('h' + h)" *ngFor="let h of [1, 2, 3, 4, 5, 6]" mat-menu-item>
+          {{'h' + h }}
+        </div>
+      </mat-menu>
       <mat-divider vertical="true"></mat-divider>
       <mat-icon (click)="insertElement('bulleted')">format_list_bulleted</mat-icon>
       <mat-icon (click)="insertElement('numbered')">format_list_numbered</mat-icon>

@@ -43,6 +43,30 @@ export class MarkdownEditorComponent implements OnInit {
         tagBegin = tagEnd = '```';
         tagText = 'Code';
         break;
+      case 'h1':
+        tagBegin = '# ';
+        tagText = 'Heading 1';
+        break;
+      case 'h2':
+        tagBegin = '## ';
+        tagText = 'Heading 2';
+        break;
+      case 'h3':
+        tagBegin = '### ';
+        tagText = 'Heading 3';
+        break;
+      case 'h4':
+        tagBegin = '#### ';
+        tagText = 'Heading 4';
+        break;
+      case 'h5':
+        tagBegin = '##### ';
+        tagText = 'Heading 5';
+        break;
+      case 'h6':
+        tagBegin = '###### ';
+        tagText = 'Heading 6';
+        break;
     }
     if (this.selection) {
       if (this.selection.selectionStart !== this.selection.selectionEnd) {
