@@ -1,9 +1,10 @@
 <div id="notes" fxLayout="column">
   <div *ngIf="edit" class="mat-card" fxLayout="column">
-    <ngx-mat-markdown-text-editor
+    <!--ngx-mat-markdown-text-editor
       [(ngModel)]="text"
       livePreviewEnabled="true"
-      matAutosize="true"></ngx-mat-markdown-text-editor>
+      matAutosize="true"></ngx-mat-markdown-text-editor-->
+    <cc-markdown-editor></cc-markdown-editor>
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Save</button>
       <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>

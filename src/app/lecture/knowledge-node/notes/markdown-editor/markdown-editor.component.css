@@ -1,0 +1,19 @@
+.editor-container {
+  width: 340px;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+textarea {
+  width: 100%;
+}
+
+p {
+  font-size: smaller;
+}
+
+mat-icon:hover {
+  cursor: pointer;
+}

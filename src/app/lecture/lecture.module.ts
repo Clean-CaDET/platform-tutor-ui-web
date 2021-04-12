@@ -19,6 +19,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesComponent } from './knowledge-node/notes/notes.component';
 import { NgxMatMarkdownTextEditorModule } from 'ngx-mat-markdown-text-editor';
 import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
+import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/markdown-editor.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/
     QuestionComponent,
     ArrangeTaskComponent,
     NotesComponent,
-    ChallengeComponent
+    ChallengeComponent,
+    MarkdownEditorComponent
   ],
   exports: [
     LectureComponent
