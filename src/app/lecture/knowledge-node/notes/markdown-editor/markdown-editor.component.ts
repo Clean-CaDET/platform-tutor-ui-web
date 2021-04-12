@@ -76,21 +76,14 @@ export class MarkdownEditorComponent implements OnInit {
     const text = tagBegin + tagText + tagEnd;
 
     if (this.selection) {
-      console.log(this.selection);
       this.text = this.text.slice(0, this.selection.selectionStart) + text + this.text.slice(this.selection.selectionEnd);
     } else {
-      console.log(this.textArea.selectionStart);
       this.text += text;
     }
   }
 
   onSelect(event): void {
-    console.log(event.target.selectionStart + ' ' + event.target.selectionEnd);
     this.selection = event.target;
-  }
-
-  onChange(event): void {
-    console.log(event);
   }
 
   onClick(event): void {
