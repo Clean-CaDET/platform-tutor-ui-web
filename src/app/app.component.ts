@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { TraineeService } from './trainee/service/trainee.service';
 import { Trainee } from './trainee/model/trainee.model';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cc-root',

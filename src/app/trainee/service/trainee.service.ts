@@ -3,16 +3,18 @@ import { Trainee } from '../model/trainee.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 interface LoginDTO {
   index: string;
-  password: string;
 }
 
 interface RegisterDTO {
   index: string;
-  password: string;
+  visualScore: number;
+  auralScore: number;
+  readWriteScore: number;
+  kinaestheticScore: number;
 }
 
 @Injectable({
