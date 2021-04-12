@@ -17,7 +17,6 @@ import { FormsModule } from '@angular/forms';
 import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-task/arrange-task.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesComponent } from './knowledge-node/notes/notes.component';
-import { NgxMatMarkdownTextEditorModule } from 'ngx-mat-markdown-text-editor';
 import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
 import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/markdown-editor.component';
 
@@ -48,8 +47,7 @@ import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/
     RouterModule,
     FormsModule,
     MaterialModule,
-    DragDropModule,
-    NgxMatMarkdownTextEditorModule
+    DragDropModule
   ]
 })
 export class LectureModule { }

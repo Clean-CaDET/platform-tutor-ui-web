@@ -24,7 +24,6 @@
     "@angular/router": "~11.0.9",
     "@angular/youtube-player": "^11.2.8",
     "ngx-markdown": "^11.1.2",
-    "ngx-mat-markdown-text-editor": "0.0.3",
     "rxjs": "^6.6.7",
     "tslib": "^2.2.0",
     "zone.js": "~0.10.2"
