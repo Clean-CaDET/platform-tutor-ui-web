@@ -8,7 +8,7 @@ import { Note } from './model/note.model';
 })
 export class NotesComponent implements OnInit {
 
-  text = '# Note';
+  text = '';
   notes: Note[];
   edit = false;
 

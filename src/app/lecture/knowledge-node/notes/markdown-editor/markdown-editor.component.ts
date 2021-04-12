@@ -1,11 +1,19 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, forwardRef } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'cc-markdown-editor',
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.css']
+  styleUrls: ['./markdown-editor.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MarkdownEditorComponent),
+      multi: true
+    }
+  ]
 })
-export class MarkdownEditorComponent implements OnInit {
+export class MarkdownEditorComponent implements ControlValueAccessor {
 
   text = '';
   livePreview = true;
@@ -15,7 +23,42 @@ export class MarkdownEditorComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  get value(): string {
+    return this.text;
+  }
+
+  set value(value: string) {
+    this.text = value;
+    this.updateChanges();
+  }
+
+  updateChanges(): void {
+    this.onChange(this.value);
+    this.onTouched();
+  }
+
+  onChange: any = () => {};
+
+  onTouched: any = () => {};
+
+  writeValue(obj: any): void {
+    if (obj) {
+      this.value = obj;
+    } else {
+      this.value = '';
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    this.textArea.disabled = isDisabled;
   }
 
   insertElement(type: string): void {
@@ -80,6 +123,7 @@ export class MarkdownEditorComponent implements OnInit {
     } else {
       this.text += text;
     }
+    this.updateChanges();
   }
 
   onSelect(event): void {
