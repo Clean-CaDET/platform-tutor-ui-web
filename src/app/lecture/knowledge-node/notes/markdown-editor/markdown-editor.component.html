@@ -1,30 +1,32 @@
 <div fxLayout="column" class="editor-container">
-  <div fxLayout="row" fxLayoutAlign="space-between none">
-    <div fxLayout="row" fxLayoutGap="5px">
-      <mat-icon (click)="insertElement('bold')">format_bold</mat-icon>
-      <mat-icon (click)="insertElement('italic')">format_italic</mat-icon>
-      <mat-divider vertical="true"></mat-divider>
-      <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
-      <mat-menu #menu class="mat-menu" fxLayout="column">
-        <div (click)="insertElement('h' + h)" *ngFor="let h of [1, 2, 3, 4, 5, 6]" mat-menu-item>
-          {{'h' + h }}
-        </div>
-      </mat-menu>
-      <mat-divider vertical="true"></mat-divider>
-      <mat-icon (click)="insertElement('bulleted')">format_list_bulleted</mat-icon>
-      <mat-icon (click)="insertElement('numbered')">format_list_numbered</mat-icon>
-      <mat-divider vertical="true"></mat-divider>
-      <mat-icon (click)="insertElement('code')">code</mat-icon>
-    </div>
-    <mat-icon (click)="livePreview = !livePreview">
-      {{ livePreview ? 'visibility_off' : 'visibility' }}
-    </mat-icon>
-  </div>
   <div *ngIf="mode === 'edit'">
-    <mat-form-field>
-      <mat-label>Note</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" (select)="onSelect($event)" (click)="onClick($event)" mat-autosize="true"></textarea>
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutAlign="space-between none">
+      <div fxLayout="row" fxLayoutGap="5px">
+        <mat-icon (click)="insertElement('bold')">format_bold</mat-icon>
+        <mat-icon (click)="insertElement('italic')">format_italic</mat-icon>
+        <mat-divider vertical="true"></mat-divider>
+        <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
+        <mat-menu #menu class="mat-menu" fxLayout="column">
+          <div (click)="insertElement('h' + h)" *ngFor="let h of [1, 2, 3, 4, 5, 6]" mat-menu-item>
+            {{'h' + h }}
+          </div>
+        </mat-menu>
+        <mat-divider vertical="true"></mat-divider>
+        <mat-icon (click)="insertElement('bulleted')">format_list_bulleted</mat-icon>
+        <mat-icon (click)="insertElement('numbered')">format_list_numbered</mat-icon>
+        <mat-divider vertical="true"></mat-divider>
+        <mat-icon (click)="insertElement('code')">code</mat-icon>
+      </div>
+      <mat-icon (click)="livePreview = !livePreview">
+        {{ livePreview ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+    </div>
+    <div>
+      <mat-form-field>
+        <mat-label>Note</mat-label>
+        <textarea #textAreaElement matInput [(ngModel)]="text" (select)="onSelect($event)" (click)="onClick($event)" mat-autosize="true"></textarea>
+      </mat-form-field>
+    </div>
   </div>
   <p *ngIf="mode === 'preview' || livePreview" [data]="text" markdown></p>
 </div>
