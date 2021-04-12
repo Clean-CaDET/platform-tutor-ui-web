@@ -21,13 +21,18 @@ export class NotesComponent implements OnInit {
 
   onCancel(): void {
     this.edit = false;
-    this.text = '# Note';
+    this.text = '';
   }
 
   onSave(): void {
     // TODO: Make an API call to save the users note
     this.notes.push(new Note({text: this.text}));
     this.onCancel();
+  }
+
+  onUpdate(note: Note): void {
+    // TODO: Make an API call to update the note
+    note.mode = 'preview';
   }
 
   onDelete(noteId: number): void {

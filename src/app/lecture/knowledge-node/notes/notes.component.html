@@ -1,9 +1,5 @@
 <div id="notes" fxLayout="column">
   <div *ngIf="edit" class="mat-card" fxLayout="column">
-    <!--ngx-mat-markdown-text-editor
-      [(ngModel)]="text"
-      livePreviewEnabled="true"
-      matAutosize="true"></ngx-mat-markdown-text-editor-->
     <cc-markdown-editor [(ngModel)]="text"></cc-markdown-editor>
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Save</button>
@@ -19,9 +15,17 @@
     You have not added your first note yet.
   </div>
   <mat-card class="note-width" *ngFor="let note of notes">
-    <markdown>{{note.text}}</markdown>
-    <mat-card-actions align="end">
-      <mat-icon class="pointer" (click)="onDelete(note.id)" color="accent">delete</mat-icon>
-    </mat-card-actions>
+    <cc-markdown-editor [mode]="note.mode" [(ngModel)]="note.text"></cc-markdown-editor>
+    <div fxLayout="row" fxLayoutAlign="space-between end">
+      <div>
+        <div fxLayout="row" fxLayoutGap="10px" *ngIf="note.mode === 'edit'">
+          <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Save</button>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutGap="5px">
+        <mat-icon class="pointer" (click)="note.mode = 'edit'" color="primary">edit</mat-icon>
+        <mat-icon class="pointer" (click)="onDelete(note.id)" color="accent">delete</mat-icon>
+      </div>
+    </div>
   </mat-card>
 </div>
