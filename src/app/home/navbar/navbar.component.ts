@@ -43,7 +43,7 @@ export class NavbarComponent implements OnInit {
     this.lectureService.getLectureRoutes().subscribe(routes => {
       this.dataSource.data = [
         {
-          name: 'Lectures',
+          name: 'Lecture catalog',
           link: '/lecture',
           children: routes
         }

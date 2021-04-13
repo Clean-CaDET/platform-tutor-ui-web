@@ -13,6 +13,9 @@ import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
 import { NavbarComponent } from './home/navbar/navbar.component';
 import { LectureModule } from './lecture/lecture.module';
+import { LoginComponent } from './trainee/login/login.component';
+import { RegisterComponent } from './trainee/register/register.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -22,6 +25,8 @@ import { LectureModule } from './lecture/lecture.module';
     AboutComponent,
     PageNotFoundComponent,
     NavbarComponent,
+    LoginComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +36,8 @@ import { LectureModule } from './lecture/lecture.module';
     HttpClientModule,
     FlexLayoutModule,
     LectureModule,
-    MarkdownModule.forRoot()
+    MarkdownModule.forRoot(),
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent]
 })
