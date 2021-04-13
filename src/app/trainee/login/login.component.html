@@ -1,0 +1,11 @@
+<form [formGroup]="loginForm" (ngSubmit)="onLogin()" fxLayout="column">
+  <mat-error *ngIf="hasError">Index not found.</mat-error>
+  <mat-form-field>
+    <mat-label>Index</mat-label>
+    <input matInput type="text" name="index" formControlName="studentIndex">
+  </mat-form-field>
+  <div fxLayout="row" fxLayoutAlign="space-between end">
+    <button type="submit" mat-raised-button color="primary">Login</button>
+    <a routerLink="/register">Register here.</a>
+  </div>
+</form>
