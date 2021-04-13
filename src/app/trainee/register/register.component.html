@@ -2,7 +2,7 @@
   <mat-form-field fxFlex="10">
     <mat-label>Index</mat-label>
     <input matInput type="text" name="index" formControlName="studentIndex" placeholder="Ex. xx-111-2020">
-    <mat-error *ngIf="registerForm.controls['studentIndex'].errors.invalidIndex">
+    <mat-error *ngIf="registerForm.controls['studentIndex'].errors?.invalidIndex">
       Please enter a valid index.
     </mat-error>
   </mat-form-field>
