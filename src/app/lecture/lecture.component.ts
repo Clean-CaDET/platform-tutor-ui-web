@@ -12,7 +12,7 @@ import { KnowledgeNode } from './knowledge-node/model/knowledge-node.model';
 export class LectureComponent implements OnInit {
 
   lecture: Lecture;
-  knowledgeNodes: KnowledgeNode[];
+  knowledgeNodes: KnowledgeNode[] = [];
 
   constructor(private lectureService: LectureService, private route: ActivatedRoute) {  }
 
