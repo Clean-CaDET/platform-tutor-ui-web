@@ -1,0 +1,33 @@
+#notes {
+  padding: 10px;
+}
+
+.note-width {
+  width: 360px;
+}
+
+.mat-card {
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.mat-icon-button {
+  margin-bottom: 10px;
+}
+
+ngx-mat-markdown-text-editor {
+  width: 340px;
+  word-break: break-word;
+}
+
+mat-card-content {
+  word-break: break-word;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}

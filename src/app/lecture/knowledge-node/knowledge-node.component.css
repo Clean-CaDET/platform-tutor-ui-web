@@ -8,3 +8,21 @@
 h1 {
   font-weight: normal;
 }
+
+h2 {
+  display: inline;
+}
+
+.fixed {
+  position: fixed;
+  top: 65px;
+  right: 20px;
+  float: right;
+}
+
+.mat-icon-button {
+  margin: 10px;
+}
+
+
+

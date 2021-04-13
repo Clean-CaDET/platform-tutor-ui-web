@@ -16,7 +16,9 @@ import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ArrangeTaskComponent } from './knowledge-node/learning-objects/arrange-task/arrange-task.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NotesComponent } from './knowledge-node/notes/notes.component';
 import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
+import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/markdown-editor.component';
 
 
 @NgModule({
@@ -30,7 +32,9 @@ import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/
     VideoComponent,
     QuestionComponent,
     ArrangeTaskComponent,
-    ChallengeComponent
+    NotesComponent,
+    ChallengeComponent,
+    MarkdownEditorComponent
   ],
   exports: [
     LectureComponent
