@@ -101,17 +101,25 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
     }
     if (this.selection) {
       if (this.selection.selectionStart !== this.selection.selectionEnd) {
-        tagText = this.text.slice(this.selection.selectionStart, this.selection.selectionEnd);
+        tagText = this.value.slice(this.selection.selectionStart, this.selection.selectionEnd);
       }
     }
     const text = tagBegin + tagText + tagEnd;
 
+    let selectionStart;
     if (this.selection) {
-      this.text = this.text.slice(0, this.selection.selectionStart) + text + this.text.slice(this.selection.selectionEnd);
+      this.value = this.value.slice(0, this.selection.selectionStart) + text + this.text.slice(this.selection.selectionEnd);
+      selectionStart = this.selection.selectionStart + tagBegin.length;
     } else {
-      this.text += text;
+      selectionStart = this.value.length + tagBegin.length;
+      this.value += text;
     }
-    this.updateChanges();
+
+    // TODO: Usage of setTimeout() should be avoided. Find a better solution.
+    setTimeout(() => {
+      this.textArea.nativeElement.focus();
+      this.textArea.nativeElement.setSelectionRange(selectionStart, selectionStart + tagText.length);
+    });
   }
 
   onSelect(event): void {
