@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, forwardRef } from '@angular/core';
+import { Component, Input, ViewChild, forwardRef, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -18,7 +18,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   text = '';
   livePreview = true;
   selection: any;
-  @ViewChild('textAreaElement') textArea: HTMLTextAreaElement;
+  @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
   @Input() mode = 'edit';
 
   constructor() { }
@@ -58,7 +58,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
   }
 
   setDisabledState?(isDisabled: boolean): void {
-    this.textArea.disabled = isDisabled;
+    this.textArea.nativeElement.disabled = isDisabled;
   }
 
   insertElement(type: string): void {
@@ -97,18 +97,6 @@ export class MarkdownEditorComponent implements ControlValueAccessor {
       case 'h3':
         tagBegin = '### ';
         tagText = 'Heading 3';
-        break;
-      case 'h4':
-        tagBegin = '#### ';
-        tagText = 'Heading 4';
-        break;
-      case 'h5':
-        tagBegin = '##### ';
-        tagText = 'Heading 5';
-        break;
-      case 'h6':
-        tagBegin = '###### ';
-        tagText = 'Heading 6';
         break;
     }
     if (this.selection) {

@@ -7,8 +7,14 @@
         <mat-divider vertical="true"></mat-divider>
         <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
         <mat-menu #menu class="mat-menu" fxLayout="column">
-          <div (click)="insertElement('h' + h)" *ngFor="let h of [1, 2, 3, 4, 5, 6]" mat-menu-item>
-            {{'h' + h }}
+          <div (click)="insertElement('h1')" mat-menu-item>
+            h1
+          </div>
+          <div (click)="insertElement('h2')" mat-menu-item>
+            h2
+          </div>
+          <div (click)="insertElement('h3')" mat-menu-item>
+            h3
           </div>
         </mat-menu>
         <mat-divider vertical="true"></mat-divider>
