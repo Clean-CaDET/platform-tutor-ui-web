@@ -27,19 +27,12 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
   livePreview = true;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
-  @Input() mode = 'edit';
 
   constructor(private changeDetector: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
-    if (this.mode === 'edit') {
-      this.textArea.nativeElement.focus();
-      this.changeDetector.detectChanges();
-    }
-  }
-
-  onLoad(): void {
-    console.log('onload');
+    this.textArea.nativeElement.focus();
+    this.changeDetector.detectChanges();
   }
 
   get value(): string {
