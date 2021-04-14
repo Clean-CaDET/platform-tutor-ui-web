@@ -22,7 +22,34 @@
         *ngFor="let learningObject of knowledgeNode.learningObjects"
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
-      <br>
+      <div id="navigation" fxLayoutGap="20px">
+        <span fxFlex></span>
+        <span id="prev-button">
+          <a *ngIf="previousPage?.type == 'lecture'"
+            mat-raised-button color="accent"
+            [routerLink]="'/lecture/' + previousPage.id">
+            Previous Lecture
+          </a>
+          <a *ngIf="previousPage?.type == 'node'"
+            mat-raised-button color="primary"
+            [routerLink]="'/node/' + previousPage.id">
+            Previous Segment
+          </a>
+        </span>
+        <span id="next-button">
+          <a *ngIf="nextPage?.type == 'lecture'"
+            mat-raised-button color="accent"
+            [routerLink]="'/lecture/' + nextPage.id">
+            Next Lecture
+          </a>
+          <a *ngIf="nextPage?.type == 'node'"
+            mat-raised-button color="primary"
+            [routerLink]="'/node/' + nextPage.id">
+            Next Segment
+          </a>
+        </span>
+      </div>
+      <br><br>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

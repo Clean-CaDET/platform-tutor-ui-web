@@ -12,6 +12,8 @@ export class KnowledgeNodeComponent implements OnInit {
 
   knowledgeNode: KnowledgeNode;
   sidenavOpened = false;
+  previousPage: { type: string; id: number; };
+  nextPage: { type: string; id: number; };
 
   constructor(
     private route: ActivatedRoute,
@@ -19,11 +21,54 @@ export class KnowledgeNodeComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.lectureService.getKnowledgeNode(+params.nodeId)
-        .subscribe(node => {
-          this.knowledgeNode = node;
-        });
+      let nodeId = +params.nodeId;
+      this.getLearningObjects(nodeId);
+      this.createPrevAndNextButtons(nodeId);
     });
   }
 
+  private getLearningObjects(nodeId: number) {
+    this.lectureService.getKnowledgeNode(nodeId).subscribe(node => {
+      this.knowledgeNode = node;
+    });
+  }
+
+  private createPrevAndNextButtons(nodeId: number) {
+    this.previousPage = null;
+    this.nextPage = null;
+    this.lectureService.getLectures().subscribe(lectures => {
+      let lecture = lectures.find(l => l.knowledgeNodeIds.includes(nodeId));
+      let nodeIndex = lecture.knowledgeNodeIds.indexOf(nodeId);
+      
+      if(nodeIndex > 0) {
+        this.previousPage = {
+          type: "node",
+          id: lecture.knowledgeNodeIds[nodeIndex - 1]
+        }
+      } else {
+        let previousLectureIndex = lectures.indexOf(lecture) - 1;
+        if(previousLectureIndex >= 0) {
+          this.previousPage = {
+            type: "lecture",
+            id: lectures[previousLectureIndex].id
+          }
+        }
+      }
+
+      if(nodeIndex < lecture.knowledgeNodeIds.length - 1) {
+        this.nextPage = {
+          type: "node",
+          id: lecture.knowledgeNodeIds[nodeIndex + 1]
+        }
+      } else {
+        let nextLectureIndex = lectures.indexOf(lecture) + 1;
+          if(nextLectureIndex < lectures.length) {
+          this.nextPage = {
+            type: "lecture",
+            id: lectures[nextLectureIndex].id
+          }
+        }
+      }
+    });
+  }
 }
