@@ -19,6 +19,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesComponent } from './knowledge-node/notes/notes.component';
 import { ChallengeComponent } from './knowledge-node/learning-objects/challenge/challenge.component';
 import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/markdown-editor.component';
+import { FeedbackComponent} from './knowledge-node/feedback/feedback.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 
 @NgModule({
@@ -34,7 +36,8 @@ import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/
     ArrangeTaskComponent,
     NotesComponent,
     ChallengeComponent,
-    MarkdownEditorComponent
+    MarkdownEditorComponent,
+    FeedbackComponent
   ],
   exports: [
     LectureComponent
@@ -47,7 +50,8 @@ import { MarkdownEditorComponent } from './knowledge-node/notes/markdown-editor/
     RouterModule,
     FormsModule,
     MaterialModule,
-    DragDropModule
+    DragDropModule,
+    MatButtonToggleModule
   ]
 })
 export class LectureModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LectureService } from '../services/lecture.service';
+import {FeedbackService} from "../services/feedback.service";
 
 @Component({
   selector: 'cc-knowledge-node',
@@ -18,7 +19,9 @@ export class KnowledgeNodeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private lectureService: LectureService) { }
+    private lectureService: LectureService,
+    private feedbackService: FeedbackService) {
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -26,6 +29,10 @@ export class KnowledgeNodeComponent implements OnInit {
       this.getLearningObjects(nodeId);
       this.createPrevAndNextButtons(nodeId);
     });
+  }
+
+  submitRating(rating: number): void {
+    this.feedbackService.submitRating(rating);
   }
 
   private getLearningObjects(nodeId: number) {
@@ -40,15 +47,15 @@ export class KnowledgeNodeComponent implements OnInit {
     this.lectureService.getLectures().subscribe(lectures => {
       let lecture = lectures.find(l => l.knowledgeNodeIds.includes(nodeId));
       let nodeIndex = lecture.knowledgeNodeIds.indexOf(nodeId);
-      
-      if(nodeIndex > 0) {
+
+      if (nodeIndex > 0) {
         this.previousPage = {
           type: "node",
           id: lecture.knowledgeNodeIds[nodeIndex - 1]
         }
       } else {
         let previousLectureIndex = lectures.indexOf(lecture) - 1;
-        if(previousLectureIndex >= 0) {
+        if (previousLectureIndex >= 0) {
           this.previousPage = {
             type: "lecture",
             id: lectures[previousLectureIndex].id
@@ -56,14 +63,14 @@ export class KnowledgeNodeComponent implements OnInit {
         }
       }
 
-      if(nodeIndex < lecture.knowledgeNodeIds.length - 1) {
+      if (nodeIndex < lecture.knowledgeNodeIds.length - 1) {
         this.nextPage = {
           type: "node",
           id: lecture.knowledgeNodeIds[nodeIndex + 1]
         }
       } else {
         let nextLectureIndex = lectures.indexOf(lecture) + 1;
-          if(nextLectureIndex < lectures.length) {
+        if (nextLectureIndex < lectures.length) {
           this.nextPage = {
             type: "lecture",
             id: lectures[nextLectureIndex].id
