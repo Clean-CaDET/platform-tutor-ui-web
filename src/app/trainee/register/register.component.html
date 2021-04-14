@@ -2,7 +2,7 @@
   <mat-form-field fxFlex="10">
     <mat-label>Index</mat-label>
     <input matInput type="text" name="index" formControlName="studentIndex" placeholder="Ex. xx-111-2020">
-    <mat-error *ngIf="registerForm.controls['studentIndex'].errors.invalidIndex">
+    <mat-error *ngIf="registerForm.controls['studentIndex'].errors?.invalidIndex">
       Please enter a valid index.
     </mat-error>
   </mat-form-field>
@@ -23,6 +23,6 @@
     <input matInput type="number" min="0" max="5" formControlName="kinaestheticScore">
   </mat-form-field>
   <div>
-    <button mat-raised-button type="submit" color="primary">Register</button>
+    <button [disabled]="!registerForm.valid" mat-raised-button type="submit" color="primary">Register</button>
   </div>
 </form>
