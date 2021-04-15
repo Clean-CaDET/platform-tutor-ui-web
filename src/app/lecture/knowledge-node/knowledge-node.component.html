@@ -25,28 +25,28 @@
       <div id="navigation" fxLayoutGap="20px">
         <span fxFlex></span>
         <span id="prev-button">
-          <a *ngIf="previousPage?.type == 'lecture'"
+          <button *ngIf="previousPage?.type == 'lecture'"
             mat-raised-button color="accent"
-            [routerLink]="'/lecture/' + previousPage.id">
+            (click)="changePage('/lecture/' + previousPage.id)">
             Previous Lecture
-          </a>
-          <a *ngIf="previousPage?.type == 'node'"
+          </button>
+          <button *ngIf="previousPage?.type == 'node'"
             mat-raised-button color="primary"
-            [routerLink]="'/node/' + previousPage.id">
+            (click)="changePage('/node/' + previousPage.id)">
             Previous Segment
-          </a>
+          </button>
         </span>
         <span id="next-button">
-          <a *ngIf="nextPage?.type == 'lecture'"
+          <button *ngIf="nextPage?.type == 'lecture'"
             mat-raised-button color="accent"
-            [routerLink]="'/lecture/' + nextPage.id">
+            (click)="changePage('/lecture/' + nextPage.id)">
             Next Lecture
-          </a>
-          <a *ngIf="nextPage?.type == 'node'"
+          </button>
+          <button *ngIf="nextPage?.type == 'node'"
             mat-raised-button color="primary"
-            [routerLink]="'/node/' + nextPage.id">
+            (click)="changePage('/node/' + nextPage.id)">
             Next Segment
-          </a>
+          </button>
         </span>
       </div>
       <br><br>

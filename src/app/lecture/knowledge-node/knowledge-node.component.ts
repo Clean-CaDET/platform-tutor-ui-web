@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LectureService } from '../services/lecture.service';
 
 @Component({
@@ -17,6 +17,7 @@ export class KnowledgeNodeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private lectureService: LectureService) { }
 
   ngOnInit(): void {
@@ -70,5 +71,12 @@ export class KnowledgeNodeComponent implements OnInit {
         }
       }
     });
+  }
+
+  changePage(url: string) {
+    this.knowledgeNode = null;
+    this.nextPage = null;
+    this.previousPage = null;
+    this.router.navigate([url]);
   }
 }
