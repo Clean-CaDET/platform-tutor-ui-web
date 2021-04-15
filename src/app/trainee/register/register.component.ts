@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
 
   indexValidator(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any } | null => {
-      const indexRe = new RegExp('[A-Za-z]{2,3}-[0-9]{1,3}-[0-9]{4}');
+      const indexRe = new RegExp('^[A-Za-z]{2,3}-[0-9]{1,3}-[0-9]{4}$');
       const valid = indexRe.test(control.value);
       return valid ? null : { invalidIndex: { value: control.value } };
     };
