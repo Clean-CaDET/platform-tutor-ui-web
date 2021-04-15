@@ -2,6 +2,7 @@ import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@
 import { LearningObjectDirective } from '../learning-object.directive';
 import { LearningObject } from '../model/learning-object.model';
 import { LearningObjectComponent } from '../learning-object-component';
+import {FeedbackService} from '../../../services/feedback.service';
 
 @Component({
   selector: 'cc-learning-object-container',
@@ -13,7 +14,7 @@ export class LearningObjectContainerComponent implements OnInit {
   @Input() learningObject: LearningObject;
   @ViewChild(LearningObjectDirective, {static: true}) learningObjectHost: LearningObjectDirective;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private feedbackService: FeedbackService) { }
 
   ngOnInit(): void {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.learningObject.getComponent());
@@ -21,4 +22,7 @@ export class LearningObjectContainerComponent implements OnInit {
     componentRef.instance.learningObject = this.learningObject;
   }
 
+  submitRating(rating: number): void {
+    this.feedbackService.submitRating(rating, this.learningObject.id);
+  }
 }

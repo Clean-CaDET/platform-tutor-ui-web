@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -10,7 +10,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatCardModule} from '@angular/material/card';
 import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { MatMenuModule } from '@angular/material/menu';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCardModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatMenuModule
+    MatMenuModule,
+    MatButtonToggleModule
   ],
   exports: [
     MatButtonModule,
@@ -39,7 +41,9 @@ import { MatMenuModule } from '@angular/material/menu';
     MatCardModule,
     MatRippleModule,
     MatFormFieldModule,
-    MatMenuModule
+    MatMenuModule,
+    MatButtonToggleModule
   ]
 })
-export class MaterialModule { }
+export class MaterialModule {
+}

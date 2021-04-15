@@ -1,10 +1,13 @@
-<div>
-  <p>Rate this content</p>
-  <mat-button-toggle-group (change)="onToggle($event)">
+<div fxLayoutGap="20px">
+  <span fxFlex></span>
+  <span><p>Oceni ovaj sadržaj</p></span>
+  <span>
+    <mat-button-toggle-group (change)="onToggle($event)">
     <mat-button-toggle value="1">1</mat-button-toggle>
     <mat-button-toggle value="2">2</mat-button-toggle>
     <mat-button-toggle value="3">3</mat-button-toggle>
     <mat-button-toggle value="4">4</mat-button-toggle>
     <mat-button-toggle value="5">5</mat-button-toggle>
   </mat-button-toggle-group>
+  </span>
 </div>

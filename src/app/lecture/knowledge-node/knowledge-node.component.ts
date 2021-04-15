@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from './model/knowledge-node.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LectureService } from '../services/lecture.service';
-import {FeedbackService} from "../services/feedback.service";
 
 @Component({
   selector: 'cc-knowledge-node',
@@ -19,8 +18,7 @@ export class KnowledgeNodeComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private lectureService: LectureService,
-    private feedbackService: FeedbackService) {
+    private lectureService: LectureService) {
   }
 
   ngOnInit(): void {
@@ -29,10 +27,6 @@ export class KnowledgeNodeComponent implements OnInit {
       this.getLearningObjects(nodeId);
       this.createPrevAndNextButtons(nodeId);
     });
-  }
-
-  submitRating(rating: number): void {
-    this.feedbackService.submitRating(rating);
   }
 
   private getLearningObjects(nodeId: number) {
