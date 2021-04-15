@@ -1,19 +1,21 @@
 <div class="content">
     <h1>Clean CaDET Smart Tutor</h1>
-    <markdown>
-        {{content.introduction}}
-    </markdown>
-    <div style="align-items: center;">
-        <markdown fxFlex="70">
-            {{content.challengeTutorialText}}
-            {{content.adaptive}}
-        </markdown>
-        <img src="{{content.challengeTutorialImage}}" fxFlex="30" style="padding-left: 20px;">
+    <p>
+      Clean CaDET Smart Tutor je interaktivan i adaptivan sistem za elektronski podržano učenje, fokusiran na domen softverskog inženjerstva i specijalizovan za oblast dizajniranja čistog koda.
+    </p>
+    <p>
+      Kako bi sistem mogao da se adaptira tvojim preferencama i prati tvoj progres kroz modul, neophodno je da se registruješ. Koristeći <b>Login</b> taster u navigacionoj traci pronađi formu za registraciju gde ćeš uneti svoj indeks i VARK ocene. Kada umesto Login tastera stoji tvoj indeks nastavi sa prolaskom ove stranice.
+    </p>
+    <hr>
+    <h2>Šta je čist kod i zašto je bitan?</h2>
+    <div style="text-align: center;">
+      <p style="text-align: justify;">Svaki izazov zahteva dobru motivaciju za njegovo rešavanje kako bismo uložili potrebnu energiju i vreme. Za izazov učenja čistog koda sagledavamo šta lideri iz naše industrije misle o značaju ove priče.</p>
+      <iframe width="888" height="500" src="https://www.youtube.com/embed/wcFFghYt8Js" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <br>
-    <hr>
     <h2>Lecture Catalog</h2>
-    <p>{{content.lectureCatalog}}</p>
+    <p>Edukativni sadržaj Tutora je organizovan u lekcije, koje su potom segmentirane na module. Deo modula je fokusiran na prezentaciju novog gradiva, dok se praktični moduli fokusiraju na izazove. Neophodno je savladati sve module lekcije da bi se ona kompletirala.</p>
+    <p>Danas na tacni imaš dve lekcije - "Jasna imena" i "Kratke funkcije". Odaberi "Jasna imena" iz kataloga ispod ili navigacione trake sa strane i nakon što prođeš njen opis izaberi prvi modul.</p>
     <div fxLayout="row wrap">
         <mat-card style="margin: 10px;" *ngFor="let lecture of lectures"
             fxFlex="30"
