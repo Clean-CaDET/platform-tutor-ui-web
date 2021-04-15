@@ -15,7 +15,8 @@
     You have not added your first note yet.
   </div>
   <mat-card class="note-width" *ngFor="let note of notes">
-    <cc-markdown-editor [mode]="note.mode" [(ngModel)]="note.text"></cc-markdown-editor>
+    <cc-markdown-editor *ngIf="note.mode === 'edit'" [(ngModel)]="note.text"></cc-markdown-editor>
+    <p *ngIf="note.mode === 'preview'" markdown>{{note.text}}</p>
     <div fxLayout="row" fxLayoutAlign="space-between end">
       <div>
         <div fxLayout="row" fxLayoutGap="10px" *ngIf="note.mode === 'edit'">
