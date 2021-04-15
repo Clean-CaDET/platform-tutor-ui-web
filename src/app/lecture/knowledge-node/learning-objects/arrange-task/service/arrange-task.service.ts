@@ -14,8 +14,9 @@ export class ArrangeTaskService {
 
   submitTask(nodeId: number, arrangeTaskId: number, containers: Container[]): Observable<any> {
     return this.http.post(
-      environment.apiHost + 'nodes/' + nodeId + '/content/arrange-task/' + arrangeTaskId,
+      environment.apiHost + 'nodes/' + nodeId + '/content/arrange-task',
       {
+        arrangeTaskId,
         traineeId: this.traineeService.trainee$.value.id,
         containers
       });

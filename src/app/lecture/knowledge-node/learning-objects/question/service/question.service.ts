@@ -17,7 +17,7 @@ export class QuestionService {
     return this.http.post(
       environment.apiHost + 'nodes/' + nodeId + '/content/question',
       {
-        questionId: questionId,
+        questionId,
         traineeId: this.traineeService.trainee$.value.id,
         answers
       });
