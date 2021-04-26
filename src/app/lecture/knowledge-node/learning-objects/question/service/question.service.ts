@@ -15,10 +15,10 @@ export class QuestionService {
 
   answerQuestion(nodeId: number, questionId: number, answers: Answer[]): Observable<any> {
     return this.http.post(
-      environment.apiHost + 'nodes/' + nodeId + '/content/question',
+      environment.apiHost + 'submissions/question',
       {
         questionId,
-        traineeId: this.traineeService.trainee$.value.id,
+        learnerId: this.traineeService.trainee$.value.id,
         answers
       });
   }

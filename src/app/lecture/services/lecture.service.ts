@@ -23,12 +23,12 @@ export class LectureService {
   }
 
   getLecture(id: number): Observable<KnowledgeNode[]> {
-    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'lectures/' + id)
+    return this.http.get<KnowledgeNode[]>(environment.apiHost + 'nodes/' + id)
       .pipe(map(nodes => nodes.map(node => this.mapNodeLearningObjects(node))));
   }
 
   getKnowledgeNode(id: number): Observable<KnowledgeNode> {
-    return this.http.get<KnowledgeNode>(environment.apiHost + 'nodes/' + id + '/content')
+    return this.http.get<KnowledgeNode>(environment.apiHost + 'nodes/content/' + id)
       .pipe(map(node => this.mapNodeLearningObjects(node)));
   }
 

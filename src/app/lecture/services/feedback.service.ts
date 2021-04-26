@@ -5,7 +5,7 @@ import {TraineeService} from '../../trainee/service/trainee.service';
 
 interface FeedbackDTO {
   rating: number;
-  traineeId: number;
+  learnerId: number;
   learningObjectId: number;
 }
 
@@ -18,8 +18,8 @@ export class FeedbackService {
   }
 
   submitRating(rating: number, learningObjectId: number): void {
-    const traineeId: number = this.traineeService.trainee$.value.id;
-    const feedback = {rating, traineeId, learningObjectId};
-    this.http.post<FeedbackDTO>(environment.apiHost + 'feedbacks/submit', feedback).subscribe();
+    const learnerId: number = this.traineeService.trainee$.value.id;
+    const feedback = {rating, learnerId, learningObjectId};
+    this.http.post<FeedbackDTO>(environment.apiHost + 'feedback/submit', feedback).subscribe();
   }
 }

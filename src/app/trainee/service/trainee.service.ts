@@ -27,12 +27,12 @@ export class TraineeService {
   constructor(private http: HttpClient) { }
 
   login(loginDTO: LoginDTO): Observable<Trainee> {
-    return this.http.post<Trainee>(environment.apiHost + 'trainees/login', loginDTO)
+    return this.http.post<Trainee>(environment.apiHost + 'learners/login', loginDTO)
       .pipe(tap(trainee => this.trainee$.next(trainee)));
   }
 
   register(registerDTO: RegisterDTO): Observable<Trainee> {
-    return this.http.post<Trainee>(environment.apiHost + 'trainees/register', registerDTO)
+    return this.http.post<Trainee>(environment.apiHost + 'learners/register', registerDTO)
       .pipe(tap(trainee => this.trainee$.next(trainee)));
   }
 
