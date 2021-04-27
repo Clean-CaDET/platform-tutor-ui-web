@@ -20,6 +20,6 @@ export class FeedbackService {
   submitRating(rating: number, learningObjectId: number): void {
     const learnerId: number = this.traineeService.trainee$.value.id;
     const feedback = {rating, learnerId, learningObjectId};
-    this.http.post<FeedbackDTO>(environment.apiHost + 'feedback/submit', feedback).subscribe();
+    this.http.post<FeedbackDTO>(environment.apiHost + 'feedback/', feedback).subscribe();
   }
 }
