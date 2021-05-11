@@ -16,8 +16,8 @@ import { LectureModule } from './lecture/lecture.module';
 import { LoginComponent } from './trainee/login/login.component';
 import { RegisterComponent } from './trainee/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
-import {initializeKeycloak} from "./keycloak/keycloak.init";
+import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
+import {initializeKeycloak} from './keycloak/keycloak.init';
 import { KeycloakLoginComponent } from './keycloak-login/keycloak-login.component';
 
 

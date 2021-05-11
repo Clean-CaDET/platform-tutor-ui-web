@@ -19,7 +19,7 @@ const routes: Routes = [
   { path: 'node/:nodeId', component: KnowledgeNodeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
-  { path: 'keycloaklogin', component: KeycloakLoginComponent, canActivate: [KeycloakGuard]},
+  { path: 'test', component: KeycloakLoginComponent, canActivate: [KeycloakGuard]},
   { path: '**', component: PageNotFoundComponent}
 ];
 

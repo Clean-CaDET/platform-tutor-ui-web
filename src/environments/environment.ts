@@ -6,15 +6,20 @@ import {KeycloakOptions} from 'keycloak-angular';
 
 export const environment = {
   production: false,
-  apiHost: 'https://localhost:44333/api/',
-  isKeycloakOn: true
+  apiHost: 'https://localhost:5001/api/',
+  isKeycloakOn: false
 };
 
 export const keycloakConfig: KeycloakOptions = {
   config: {
-    url: 'http://127.0.0.1:8085/auth',
+    url: 'http://localhost:8080/auth',
     realm: 'master',
     clientId: 'demo-app',
+  },
+  initOptions: {
+    onLoad: 'check-sso',
+    silentCheckSsoRedirectUri:
+      window.location.origin + '/assets/silent-check-sso.html',
   }
 };
 
