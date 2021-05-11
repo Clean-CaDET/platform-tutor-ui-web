@@ -7,7 +7,7 @@ import {KeycloakOptions} from 'keycloak-angular';
 export const environment = {
   production: false,
   apiHost: 'https://localhost:44333/api/',
-  isKeycloakOn: false
+  isKeycloakOn: true
 };
 
 export const keycloakConfig: KeycloakOptions = {
