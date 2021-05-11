@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, NgModule} from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -16,6 +16,8 @@ import { LectureModule } from './lecture/lecture.module';
 import { LoginComponent } from './trainee/login/login.component';
 import { RegisterComponent } from './trainee/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
+import {initializeKeycloak} from "./keycloak/keycloak.init";
 
 
 @NgModule({
@@ -37,7 +39,16 @@ import { ReactiveFormsModule } from '@angular/forms';
     FlexLayoutModule,
     LectureModule,
     MarkdownModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    KeycloakAngularModule
+  ],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService],
+    },
   ],
   bootstrap: [AppComponent]
 })
