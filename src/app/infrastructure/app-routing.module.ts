@@ -8,6 +8,8 @@ import { KnowledgeNodeComponent } from '../lecture/knowledge-node/knowledge-node
 import { LoginComponent } from '../trainee/login/login.component';
 import { RegisterComponent } from '../trainee/register/register.component';
 import { AuthGuard } from './guard/auth.guard';
+import {KeycloakLoginComponent} from '../keycloak-login/keycloak-login.component';
+import {KeycloakGuard} from '../keycloak/keycloak.auth.guard';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -17,6 +19,7 @@ const routes: Routes = [
   { path: 'node/:nodeId', component: KnowledgeNodeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
+  { path: 'keycloaklogin', component: KeycloakLoginComponent, canActivate: [KeycloakGuard]},
   { path: '**', component: PageNotFoundComponent}
 ];
 

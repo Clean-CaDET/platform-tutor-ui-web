@@ -18,6 +18,7 @@ import { RegisterComponent } from './trainee/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import {KeycloakAngularModule, KeycloakService} from "keycloak-angular";
 import {initializeKeycloak} from "./keycloak/keycloak.init";
+import { KeycloakLoginComponent } from './keycloak-login/keycloak-login.component';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import {initializeKeycloak} from "./keycloak/keycloak.init";
     NavbarComponent,
     LoginComponent,
     RegisterComponent,
+    KeycloakLoginComponent,
   ],
   imports: [
     BrowserModule,

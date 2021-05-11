@@ -12,7 +12,7 @@ export const environment = {
 
 export const keycloakConfig: KeycloakOptions = {
   config: {
-    url: 'http://localhost:8080/auth',
+    url: 'http://127.0.0.1:8085/auth',
     realm: 'master',
     clientId: 'demo-app',
   }
