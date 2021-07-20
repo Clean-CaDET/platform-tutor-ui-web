@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Lecture} from 'src/app/lecture/model/lecture.model';
 import {LectureService} from 'src/app/lecture/services/lecture.service';
-import {KeycloakService} from 'keycloak-angular';
 
 @Component({
   selector: 'cc-home',
