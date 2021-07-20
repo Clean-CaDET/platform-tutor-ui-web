@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { TraineeService } from './trainee/service/trainee.service';
-import { Trainee } from './trainee/model/trainee.model';
+import { TraineeService } from './modules/users/trainee.service';
+import { Trainee } from './modules/users/trainee.model';
 
 @Component({
   selector: 'cc-root',

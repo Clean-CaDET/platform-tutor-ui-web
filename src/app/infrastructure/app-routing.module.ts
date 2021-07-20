@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from '../home/home/home.component';
-import { AboutComponent } from '../home/about/about.component';
-import { PageNotFoundComponent } from '../home/page-not-found/page-not-found.component';
-import { LectureComponent } from '../lecture/lecture.component';
-import { KnowledgeNodeComponent } from '../lecture/knowledge-node/knowledge-node.component';
-import { LoginComponent } from '../trainee/login/login.component';
-import { RegisterComponent } from '../trainee/register/register.component';
+import { HomeComponent } from '../modules/pages/home/home.component';
+import { AboutComponent } from '../modules/pages/about/about.component';
+import { PageNotFoundComponent } from '../modules/pages/page-not-found/page-not-found.component';
+import { LectureComponent } from '../modules/lecture/lecture.component';
+import { KnowledgeNodeComponent } from '../modules/lecture/knowledge-node/knowledge-node.component';
+import { LoginComponent } from '../modules/users/login/login.component';
+import { RegisterComponent } from '../modules/users/register/register.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [

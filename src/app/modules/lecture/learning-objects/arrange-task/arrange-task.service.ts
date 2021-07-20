@@ -1,0 +1,24 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { Container } from '../../../../model/arrange-task/container.model';
+import { environment } from '../../../../../environments/environment';
+import { TraineeService } from '../../../users/trainee.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ArrangeTaskService {
+
+  constructor(private http: HttpClient, private traineeService: TraineeService) { }
+
+  submitTask(nodeId: number, arrangeTaskId: number, containers: Container[]): Observable<any> {
+    return this.http.post(
+      environment.apiHost + 'submissions/arrange-task',
+      {
+        arrangeTaskId,
+        learnerId: this.traineeService.trainee$.value.id,
+        containers
+      });
+  }
+}

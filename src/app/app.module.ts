@@ -4,29 +4,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarkdownModule } from 'ngx-markdown';
-
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home/home.component';
-import { AboutComponent } from './home/about/about.component';
-import { PageNotFoundComponent } from './home/page-not-found/page-not-found.component';
 import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
-import { NavbarComponent } from './home/navbar/navbar.component';
-import { LectureModule } from './lecture/lecture.module';
-import { LoginComponent } from './trainee/login/login.component';
-import { RegisterComponent } from './trainee/register/register.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { NavbarModule } from './modules/navbar/navbar.module';
+import { LectureModule } from './modules/lecture/lecture.module';
+import { PagesModule } from './modules/pages/pages.module';
+import { UsersModule } from './modules/users/users.module';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
-    PageNotFoundComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,8 +25,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     FlexLayoutModule,
     LectureModule,
-    MarkdownModule.forRoot(),
-    ReactiveFormsModule
+    NavbarModule,
+    PagesModule,
+    UsersModule,
+    MarkdownModule.forRoot()
   ],
   bootstrap: [AppComponent]
 })
