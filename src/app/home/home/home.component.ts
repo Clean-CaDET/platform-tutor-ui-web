@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Lecture } from 'src/app/lecture/model/lecture.model';
-import { LectureService } from 'src/app/lecture/services/lecture.service';
+import {Component, OnInit} from '@angular/core';
+import {Lecture} from 'src/app/lecture/model/lecture.model';
+import {LectureService} from 'src/app/lecture/services/lecture.service';
 
 @Component({
   selector: 'cc-home',
@@ -9,8 +9,9 @@ import { LectureService } from 'src/app/lecture/services/lecture.service';
 })
 export class HomeComponent implements OnInit {
   lectures: Lecture[];
-  
-  constructor(private lectureService: LectureService) { }
+
+  constructor(private lectureService: LectureService) {
+  }
 
   ngOnInit(): void {
     this.lectureService.getLectures().subscribe(lectures => this.lectures = lectures);

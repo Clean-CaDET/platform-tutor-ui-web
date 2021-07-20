@@ -2,9 +2,25 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+import {KeycloakOptions} from 'keycloak-angular';
+
 export const environment = {
   production: false,
-  apiHost: 'https://localhost:44333/api/'
+  apiHost: 'https://localhost:5001/api/',
+  isKeycloakOn: false
+};
+
+export const keycloakConfig: KeycloakOptions = {
+  config: {
+    url: 'http://localhost:8080/auth',
+    realm: 'master',
+    clientId: 'demo-app',
+  },
+  initOptions: {
+    onLoad: 'check-sso',
+    silentCheckSsoRedirectUri:
+      window.location.origin + '/assets/silent-check-sso.html',
+  }
 };
 
 /*
