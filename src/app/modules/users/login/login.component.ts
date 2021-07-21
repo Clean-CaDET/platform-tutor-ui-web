@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { TraineeService } from '../trainee.service';
+import { LearnerService } from '../learner.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   hasError: boolean;
 
   constructor(
-    private traineeService: TraineeService,
+    private learnerService: LearnerService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   onLogin(): void {
     if (this.loginForm.valid) {
-      this.traineeService.login(this.loginForm.value).subscribe(() => {
+      this.learnerService.login(this.loginForm.value).subscribe(() => {
         this.router.navigate(['/']);
       }, (error) => {
         if (error instanceof HttpErrorResponse) {

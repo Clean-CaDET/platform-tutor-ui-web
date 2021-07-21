@@ -1,4 +1,4 @@
-export class Trainee {
+export class Learner {
   id: number;
   studentIndex: string;
   visualScore: number;

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Answer } from './model/answer.model';
 import { environment } from '../../../../../environments/environment';
-import { TraineeService } from '../../../users/trainee.service';
+import { LearnerService } from '../../../users/learner.service';
 
 
 @Injectable({
@@ -11,14 +11,14 @@ import { TraineeService } from '../../../users/trainee.service';
 })
 export class QuestionService {
 
-  constructor(private http: HttpClient, private traineeService: TraineeService) { }
+  constructor(private http: HttpClient, private learnerService: LearnerService) { }
 
   answerQuestion(nodeId: number, questionId: number, answers: Answer[]): Observable<any> {
     return this.http.post(
       environment.apiHost + 'submissions/question',
       {
         questionId,
-        learnerId: this.traineeService.trainee$.value.id,
+        learnerId: this.learnerService.learner$.value.id,
         answers
       });
   }

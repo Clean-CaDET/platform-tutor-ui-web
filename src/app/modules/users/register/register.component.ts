@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { TraineeService } from '../trainee.service';
+import { LearnerService } from '../learner.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -21,7 +21,7 @@ export class RegisterComponent implements OnInit {
   });
 
   constructor(
-    private traineeService: TraineeService,
+    private learnerService: LearnerService,
     private router: Router) { }
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
 
   onRegister(): void {
     if (this.registerForm.valid) {
-      this.traineeService.register(this.registerForm.value).subscribe(() => {
+      this.learnerService.register(this.registerForm.value).subscribe(() => {
         this.router.navigate(['/']);
       });
     }
