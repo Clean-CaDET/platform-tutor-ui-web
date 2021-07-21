@@ -1,34 +1,24 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {MarkdownModule} from 'ngx-markdown';
-
-import {AppComponent} from './app.component';
-import {HomeComponent} from './home/home/home.component';
-import {AboutComponent} from './home/about/about.component';
-import {PageNotFoundComponent} from './home/page-not-found/page-not-found.component';
-import {AppRoutingModule} from './infrastructure/app-routing.module';
-import {MaterialModule} from './infrastructure/material.module';
-import {NavbarComponent} from './home/navbar/navbar.component';
-import {LectureModule} from './lecture/lecture.module';
-import {LoginComponent} from './trainee/login/login.component';
-import {RegisterComponent} from './trainee/register/register.component';
-import {ReactiveFormsModule} from '@angular/forms';
-import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
-import {initializeKeycloak} from './keycloak/keycloak.init';
+import { BrowserModule } from '@angular/platform-browser';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MarkdownModule } from 'ngx-markdown';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './infrastructure/app-routing.module';
+import { MaterialModule } from './infrastructure/material.module';
+import { ContentModule } from './modules/content/content.module';
+import { NavbarModule } from './modules/navbar/navbar.module';
+import { PagesModule } from './modules/pages/pages.module';
+import { UsersModule } from './modules/users/users.module';
+import { ReactiveFormsModule } from '@angular/forms';
+import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
+import { initializeKeycloak } from './keycloak/keycloak.init';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AboutComponent,
-    PageNotFoundComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +27,10 @@ import {initializeKeycloak} from './keycloak/keycloak.init';
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    LectureModule,
+    ContentModule,
+    NavbarModule,
+    PagesModule,
+    UsersModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
     KeycloakAngularModule
@@ -52,5 +45,4 @@ import {initializeKeycloak} from './keycloak/keycloak.init';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-}
+export class AppModule { }
