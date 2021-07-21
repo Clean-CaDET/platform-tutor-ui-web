@@ -1,8 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { LectureService } from './lecture.service';
-import { Lecture } from '../../model/lecture/lecture.model';
+import { Lecture } from '../../../model/lecture/lecture.model';
 import { ActivatedRoute, Params } from '@angular/router';
-import { KnowledgeNode } from '../../model/knowledge-node/knowledge-node.model';
+import { KnowledgeNode } from '../../../model/knowledge-node/knowledge-node.model';
 
 @Component({
   selector: 'cc-lecture',

@@ -7,8 +7,8 @@ import { MarkdownModule } from 'ngx-markdown';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
+import { ContentModule } from './modules/content/content.module';
 import { NavbarModule } from './modules/navbar/navbar.module';
-import { LectureModule } from './modules/lecture/lecture.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { UsersModule } from './modules/users/users.module';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -27,7 +27,7 @@ import { initializeKeycloak } from './keycloak/keycloak.init';
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    LectureModule,
+    ContentModule,
     NavbarModule,
     PagesModule,
     UsersModule,

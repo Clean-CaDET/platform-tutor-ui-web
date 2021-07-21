@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree';
 import { FlatTreeControl } from '@angular/cdk/tree';
-import { LectureService } from '../lecture/lecture.service';
+import { LectureService } from '../content/lecture/lecture.service';
 
 export interface ContentNode {
   name: string;

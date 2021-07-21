@@ -1,7 +1,7 @@
 import { LearningObject } from '../learning-object/learning-object.model';
-import { LearningObjectComponent } from '../../modules/lecture/learning-objects/learning-object-component';
+import { LearningObjectComponent } from '../../modules/content/learning-objects/learning-object-component';
 import { Type } from '@angular/core';
-import { QuestionComponent } from '../../modules/lecture/learning-objects/question/question.component';
+import { QuestionComponent } from '../../modules/content/learning-objects/question/question.component';
 import { Answer } from './answer.model';
 
 export class Question extends LearningObject {

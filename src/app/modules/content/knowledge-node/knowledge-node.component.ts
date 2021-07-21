@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { KnowledgeNode } from '../../../model/knowledge-node/knowledge-node.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { LectureService } from '../lecture.service';
+import { LectureService } from '../lecture/lecture.service';
 
 @Component({
   selector: 'cc-knowledge-node',

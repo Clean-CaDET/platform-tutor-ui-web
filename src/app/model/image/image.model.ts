@@ -1,7 +1,7 @@
 import { LearningObject } from '../learning-object/learning-object.model';
-import { LearningObjectComponent } from '../../modules/lecture/learning-objects/learning-object-component';
+import { LearningObjectComponent } from '../../modules/content/learning-objects/learning-object-component';
 import { Type } from '@angular/core';
-import { ImageComponent } from '../../modules/lecture/learning-objects/image/image.component';
+import { ImageComponent } from '../../modules/content/learning-objects/image/image.component';
 
 export class Image extends LearningObject {
 

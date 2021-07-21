@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { KnowledgeNode } from '../../model/knowledge-node/knowledge-node.model';
-import { Lecture } from '../../model/lecture/lecture.model';
-import { ContentNode } from '../navbar/navbar.component';
-import { environment } from '../../../environments/environment';
+import { KnowledgeNode } from '../../../model/knowledge-node/knowledge-node.model';
+import { Lecture } from '../../../model/lecture/lecture.model';
+import { ContentNode } from '../../navbar/navbar.component';
+import { environment } from '../../../../environments/environment';
 import { Observable, of } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { map, tap } from 'rxjs/operators';
-import { LearningObjectMapper } from './learning-objects/learning-object-mapper';
+import { LearningObjectMapper } from '../learning-objects/learning-object-mapper';
 
 @Injectable({
   providedIn: 'root'
