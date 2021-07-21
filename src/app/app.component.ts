@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { LearnerService } from './modules/users/learner.service';
-import { Learner } from './modules/users/learner.model';
+import { Learner } from './modules/users/model/learner.model';
 
 @Component({
   selector: 'cc-root',
