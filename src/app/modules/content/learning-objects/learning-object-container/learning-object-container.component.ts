@@ -1,6 +1,6 @@
 import { Component, ComponentFactoryResolver, Input, OnInit, ViewChild } from '@angular/core';
 import { LearningObjectDirective } from '../learning-object.directive';
-import { LearningObject } from '../../../../model/learning-object/learning-object.model';
+import { LearningObject } from '../model/learning-object.model';
 import { LearningObjectComponent } from '../learning-object-component';
 import {FeedbackService} from '../../feedback/feedback.service';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Lecture } from 'src/app/model/lecture/lecture.model';
+import { Lecture } from 'src/app/modules/content/lecture/model/lecture.model';
 import { LectureService } from 'src/app/modules/content/lecture/lecture.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
-import { Text } from '../../../../model/text/text.model';
+import { Text } from './model/text.model';
 
 @Component({
   selector: 'cc-text',

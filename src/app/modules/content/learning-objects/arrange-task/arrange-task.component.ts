@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
-import { ArrangeTask } from '../../../../model/arrange-task/arrange-task.model';
+import { ArrangeTask } from './model/arrange-task.model';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ArrangeTaskService } from './arrange-task.service';
-import { Container } from '../../../../model/arrange-task/container.model';
-import { Element } from '../../../../model/arrange-task/element.model';
+import { Container } from './model/container.model';
+import { Element } from './model/element.model';
 import { ActivatedRoute } from '@angular/router';
 
 interface ArrangeTaskFeedback {

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LearningObject } from '../../../model/learning-object/learning-object.model';
-import { Text } from '../../../model/text/text.model';
-import { Image } from '../../../model/image/image.model';
-import { Video } from '../../../model/video/video.model';
-import { Question } from '../../../model/question/question.model';
-import { ArrangeTask } from '../../../model/arrange-task/arrange-task.model';
-import { Challenge } from '../../../model/challenge/challenge.model';
+import { LearningObject } from './model/learning-object.model';
+import { Text } from './text/model/text.model';
+import { Image } from './image/model/image.model';
+import { Video } from './video/model/video.model';
+import { Question } from './question/model/question.model';
+import { ArrangeTask } from './arrange-task/model/arrange-task.model';
+import { Challenge } from './challenge/model/challenge.model';
 
 @Injectable({
   providedIn: 'root'

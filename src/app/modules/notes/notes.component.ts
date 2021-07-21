@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from '../../model/note/note.model';
+import { Note } from './model/note.model';
 
 @Component({
   selector: 'cc-notes',

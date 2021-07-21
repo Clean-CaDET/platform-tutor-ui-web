@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { KnowledgeNode } from '../../../model/knowledge-node/knowledge-node.model';
-import { Lecture } from '../../../model/lecture/lecture.model';
+import { KnowledgeNode } from '../knowledge-node/model/knowledge-node.model';
+import { Lecture } from './model/lecture.model';
 import { ContentNode } from '../../navbar/navbar.component';
 import { environment } from '../../../../environments/environment';
 import { Observable, of } from 'rxjs';

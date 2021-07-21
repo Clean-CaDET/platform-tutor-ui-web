@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
-import { Question } from '../../../../model/question/question.model';
+import { Question } from './model/question.model';
 import { QuestionService } from './question.service';
 import { ActivatedRoute } from '@angular/router';
-import { Answer } from '../../../../model/question/answer.model';
+import { Answer } from './model/answer.model';
 
 interface Feedback {
   text: string;

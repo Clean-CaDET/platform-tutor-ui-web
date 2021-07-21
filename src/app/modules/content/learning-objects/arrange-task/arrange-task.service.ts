@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Container } from '../../../../model/arrange-task/container.model';
+import { Container } from './model/container.model';
 import { environment } from '../../../../../environments/environment';
 import { TraineeService } from '../../../users/trainee.service';
 

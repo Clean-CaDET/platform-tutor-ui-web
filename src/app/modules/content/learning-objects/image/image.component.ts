@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
-import { Image } from '../../../../model/image/image.model';
+import { Image } from './model/image.model';
 
 @Component({
   selector: 'cc-image',

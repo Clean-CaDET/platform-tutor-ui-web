@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { LearningObjectComponent } from '../../modules/content/learning-objects/learning-object-component';
+import { LearningObjectComponent } from '../learning-object-component';
 
 export abstract class LearningObject {
   id: number;

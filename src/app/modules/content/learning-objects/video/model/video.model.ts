@@ -1,7 +1,7 @@
-import { LearningObject } from '../learning-object/learning-object.model';
+import { LearningObject } from '../../model/learning-object.model';
 import { Type } from '@angular/core';
-import { LearningObjectComponent } from '../../modules/content/learning-objects/learning-object-component';
-import { VideoComponent } from '../../modules/content/learning-objects/video/video.component';
+import { LearningObjectComponent } from '../../learning-object-component';
+import { VideoComponent } from '../video.component';
 
 export class Video extends LearningObject {
 

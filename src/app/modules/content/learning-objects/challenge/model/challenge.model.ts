@@ -1,7 +1,7 @@
-import { LearningObject } from '../learning-object/learning-object.model';
-import { LearningObjectComponent } from '../../modules/content/learning-objects/learning-object-component';
+import { LearningObject } from '../../model/learning-object.model';
+import { LearningObjectComponent } from '../../learning-object-component';
 import { Type } from '@angular/core';
-import { ChallengeComponent } from '../../modules/content/learning-objects/challenge/challenge.component';
+import { ChallengeComponent } from '../challenge.component';
 
 export class Challenge extends LearningObject {
 

@@ -1,4 +1,4 @@
-import { LearningObject } from '../../../model/learning-object/learning-object.model';
+import { LearningObject } from './model/learning-object.model';
 
 export interface LearningObjectComponent {
   learningObject: LearningObject;

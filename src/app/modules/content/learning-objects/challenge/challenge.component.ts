@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
-import { Challenge } from '../../../../model/challenge/challenge.model';
+import { Challenge } from './model/challenge.model';
 
 @Component({
   selector: 'cc-challenge',

@@ -1,5 +1,5 @@
 import { KnowledgeType } from './knowledge-type.enum';
-import { LearningObject } from '../learning-object/learning-object.model';
+import { LearningObject } from '../../learning-objects/model/learning-object.model';
 import { NodeStatus } from './node-status.enum';
 
 export class KnowledgeNode {
