@@ -62,7 +62,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
       container.elements = [];
       this.state.push(container);
     });
-    this.state[0].elements = shuffleArray(this.learningObject.unarrangedElements);
+    this.state[0].elements = shuffleArray([...this.learningObject.unarrangedElements]);
     this.answered = false;
   }
 
