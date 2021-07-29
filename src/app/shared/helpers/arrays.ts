@@ -9,8 +9,8 @@ export function shuffleArray<Type>(arr: Array<Type>): Array<Type>  {
     return arr;
   }
   for (let i = 0; i < arr.length; i++) {
-    const randomChoiceIndex = getRandom(i, arr.length - 1);
-    [arr[i], arr[randomChoiceIndex]] = [arr[randomChoiceIndex], arr[i]];
+    const randomIndex = getRandom(i, arr.length);
+    [arr[i], arr[randomIndex]] = [arr[randomIndex], arr[i]];
   }
   return arr;
 }
