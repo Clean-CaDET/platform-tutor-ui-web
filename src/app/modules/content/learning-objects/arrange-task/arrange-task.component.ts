@@ -6,6 +6,7 @@ import { ArrangeTaskService } from './arrange-task.service';
 import { Container } from './model/container.model';
 import { Element } from './model/element.model';
 import { ActivatedRoute } from '@angular/router';
+import { shuffleArray } from '../../../../shared/helpers/arrays';
 
 interface ArrangeTaskFeedback {
   id: number;
@@ -61,7 +62,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
       container.elements = [];
       this.state.push(container);
     });
-    this.state[0].elements = [...this.learningObject.unarrangedElements];
+    this.state[0].elements = shuffleArray([...this.learningObject.unarrangedElements]);
     this.answered = false;
   }
 

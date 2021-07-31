@@ -4,8 +4,10 @@ import { Question } from './model/question.model';
 import { QuestionService } from './question.service';
 import { ActivatedRoute } from '@angular/router';
 import { Answer } from './model/answer.model';
+import { shuffleArray } from '../../../../shared/helpers/arrays';
 
-interface Feedback {
+interface Result {
+  id: number;
   text: string;
   correct: boolean;
 }
@@ -20,13 +22,14 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   learningObject: Question;
   checked: boolean[];
   answered = false;
-  feedbacks: Feedback[];
+  results: Result[];
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute) {
     this.checked = [];
   }
 
   ngOnInit(): void {
+    this.learningObject.possibleAnswers = shuffleArray(this.learningObject.possibleAnswers);
   }
 
   get nodeId(): number {
@@ -45,8 +48,12 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      this.feedbacks = data.map(answer => ({ correct: answer.submissionWasCorrect, text: answer.feedback }));
+      this.results = data.map(result => ({id: result.id, correct: result.submissionWasCorrect, text: result.feedback }));
       this.answered = true;
     });
+  }
+
+  getAnswerResult(answerId: number): Result {
+    return this.results.find(result => result.id === answerId);
   }
 }
