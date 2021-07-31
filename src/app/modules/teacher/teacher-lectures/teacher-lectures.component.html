@@ -1,0 +1,52 @@
+<div mat-card style="margin: 3% 10% 1.5% 10%">
+  <h1>Create lecture</h1>
+  <table style="width: 100%">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width" style="width: 100%; height: 1%">
+          <mat-label>Lecture name</mat-label>
+          <input type="text" matInput [(ngModel)]="lectureToBeCreated.lecture.name"/>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width" style="width: 100%; height: 1%">
+          <mat-label>Lecture description</mat-label>
+          <textarea matInput [(ngModel)]="lectureToBeCreated.lecture.description"></textarea>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Courses <mat-icon>keyboard_arrow_down</mat-icon></button>
+        <mat-menu #menu="matMenu">
+          <div *ngFor="let course of courses">
+            <input class="courseRadio" [checked]="selectedCourse.id === course.id" type="radio" [id]="course.id" (change)="onCourseSelectionChange(course)">
+            <label [for]="course.id">{{course.name}}</label><br>
+          </div>
+        </mat-menu>
+        Selected: {{selectedCourse.name}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-flat-button color="primary" style="width: 100%;margin: 1% auto 1.5% auto" (click)="createLecture()">Create course</button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h1>My lectures</h1>
+        <div *ngFor="let l of lectures">
+          <mat-card>
+            <mat-card-title>{{l.name}}</mat-card-title>
+            <br>
+            <mat-card-subtitle>Description: {{l.description}}</mat-card-subtitle>
+          </mat-card>
+          <br>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+</div>

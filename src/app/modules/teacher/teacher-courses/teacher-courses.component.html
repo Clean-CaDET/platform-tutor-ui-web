@@ -1,0 +1,17 @@
+<div mat-card class="base-div">
+  <h1>Create course</h1>
+  <mat-form-field class="full-width">
+    <mat-label>Course name</mat-label>
+    <input type="text" matInput [(ngModel)]="courseToBeCreated.course.name"/>
+  </mat-form-field>
+  <br>
+  <button mat-flat-button color="primary" class="full-width" (click)="createCourse()">Create course</button>
+  <h1>My Courses</h1>
+  <div *ngFor="let c of courseList">
+    <mat-card>
+      <mat-card-title>{{c.name}}</mat-card-title><br>
+      <mat-card-subtitle>Id: {{c.name}}</mat-card-subtitle>
+    </mat-card><br>
+  </div>
+
+</div>

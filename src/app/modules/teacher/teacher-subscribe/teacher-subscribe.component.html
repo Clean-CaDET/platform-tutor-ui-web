@@ -1,0 +1,15 @@
+<div>
+  <h1 style="text-align: center">Subscribe</h1>
+  <mat-card *ngFor="let plan of plans" class="card">
+    <mat-card-content>
+      <h2>Number of courses: {{plan.numberOfCourses}}</h2>
+      <h2>Number of lectures: {{plan.numberOfLectures}}</h2>
+      <h2>Duration: {{plan.duration.days}} days</h2>
+    </mat-card-content>
+    <mat-card-footer>
+      <button mat-raised-button color="primary" class="full-width" (click)="subscribe(plan.id)">Subscribe</button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+<div>
+</div>

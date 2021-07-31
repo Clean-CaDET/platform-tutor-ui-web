@@ -11,14 +11,24 @@ import { ContentModule } from './modules/content/content.module';
 import { NavbarModule } from './modules/navbar/navbar.module';
 import { PagesModule } from './modules/pages/pages.module';
 import { UsersModule } from './modules/users/users.module';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './keycloak/keycloak.init';
+import { TeacherHomePageComponent } from './modules/teacher/teacher-home-page/teacher-home-page.component';
+import {MatOptionModule} from '@angular/material/core';
+import { TeacherCoursesComponent } from './modules/teacher/teacher-courses/teacher-courses.component';
+import { TeacherLecturesComponent } from './modules/teacher/teacher-lectures/teacher-lectures.component';
+import {MatTableModule} from '@angular/material/table';
+import { TeacherSubscribeComponent } from './modules/teacher/teacher-subscribe/teacher-subscribe.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
+    TeacherHomePageComponent,
+    TeacherCoursesComponent,
+    TeacherLecturesComponent,
+    TeacherSubscribeComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,7 +43,10 @@ import { initializeKeycloak } from './keycloak/keycloak.init';
     UsersModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
-    KeycloakAngularModule
+    KeycloakAngularModule,
+    MatOptionModule,
+    FormsModule,
+    MatTableModule
   ],
   providers: [
     {
