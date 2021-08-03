@@ -4,6 +4,10 @@ img {
   margin: auto;
 }
 
+img:hover {
+  cursor: zoom-in;
+}
+
 #caption {
   text-align: center;
 }

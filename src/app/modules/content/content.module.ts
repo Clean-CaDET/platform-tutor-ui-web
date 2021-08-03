@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { LectureComponent } from './lecture/lecture.component';
 import { KnowledgeNodeComponent } from './knowledge-node/knowledge-node.component';
 import { FeedbackComponent } from './feedback/feedback.component';
@@ -20,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../infrastructure/material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesModule } from '../notes/notes.module';
+import { ImageDialogComponent } from './learning-objects/image/image-dialog/image-dialog.component';
 
 
 
@@ -35,7 +35,8 @@ import { NotesModule } from '../notes/notes.module';
     TextComponent,
     VideoComponent,
     LearningObjectDirective,
-    LearningObjectContainerComponent
+    LearningObjectContainerComponent,
+    ImageDialogComponent
   ],
   imports: [
     BrowserModule,
