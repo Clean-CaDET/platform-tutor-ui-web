@@ -5,6 +5,7 @@ import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.compo
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../../infrastructure/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MarkdownModule } from 'ngx-markdown';
 
 
 
@@ -17,7 +18,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MarkdownModule.forChild()
   ],
   exports: [
     NotesComponent
