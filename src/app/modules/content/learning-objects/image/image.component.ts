@@ -1,19 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Image } from './model/image.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 @Component({
   selector: 'cc-image',
   templateUrl: './image.component.html',
   styleUrls: ['./image.component.css']
 })
-export class ImageComponent implements OnInit, LearningObjectComponent {
+export class ImageComponent implements LearningObjectComponent {
 
   learningObject: Image;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  openImageDialog(): void {
+    this.dialog.closeAll();
+    this.dialog.open(ImageDialogComponent, {
+      data: {
+        url: this.learningObject.url
+      }
+    });
   }
 
 }

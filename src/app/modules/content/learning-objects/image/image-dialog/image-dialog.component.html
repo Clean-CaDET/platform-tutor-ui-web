@@ -1,0 +1,8 @@
+<div>
+  <button tabindex="-1" mat-icon-button (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+  <div id="image-container">
+    <img [class]="zoomedIn ? 'zoomed-in' : 'zoomed-out'" src="{{url}}" (click)="zoomedIn = !zoomedIn"/>
+  </div>
+</div>
