@@ -1,11 +1,10 @@
-import {TimeStampFromCSharp} from './time-stamp-from-csharp';
-
 export class IndividualPlanModel {
   id: number;
   numberOfUsers: number;
   numberOfCourses: number;
   numberOfLectures: number;
-  duration: TimeStampFromCSharp;
+  duration: any;
+  days: number;
 
   constructor(obj?: any) {
     if (obj){
@@ -14,6 +13,7 @@ export class IndividualPlanModel {
       this.numberOfCourses = obj.numberOfCourses;
       this.numberOfLectures = obj.numberOfLectures;
       this.duration = obj.duration;
+      this.days = obj.days;
     }
   }
 }

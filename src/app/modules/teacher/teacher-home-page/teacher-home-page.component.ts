@@ -14,8 +14,4 @@ export class TeacherHomePageComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
-  navigate(link: string): void {
-    this.router.navigate([link], {relativeTo: this.route});
-  }
 }

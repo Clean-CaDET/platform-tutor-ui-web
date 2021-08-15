@@ -12,6 +12,8 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatTableModule} from '@angular/material/table';
+import {MatOptionModule} from '@angular/material/core';
 
 @NgModule({
   imports: [
@@ -27,7 +29,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatRippleModule,
     MatFormFieldModule,
     MatMenuModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatOptionModule,
   ],
   exports: [
     MatButtonModule,
@@ -42,7 +46,9 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
     MatRippleModule,
     MatFormFieldModule,
     MatMenuModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatTableModule,
+    MatOptionModule,
   ]
 })
 export class MaterialModule {
