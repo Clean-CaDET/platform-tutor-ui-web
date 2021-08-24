@@ -14,6 +14,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
 import { initializeKeycloak } from './keycloak/keycloak.init';
+import {TeacherModule} from './modules/teacher/teacher.module';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { initializeKeycloak } from './keycloak/keycloak.init';
     UsersModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
+    TeacherModule,
     KeycloakAngularModule
   ],
   providers: [

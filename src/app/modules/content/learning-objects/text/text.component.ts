@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Text } from './model/text.model';
 
@@ -9,7 +9,7 @@ import { Text } from './model/text.model';
 })
 export class TextComponent implements OnInit, LearningObjectComponent {
 
-  learningObject: Text;
+  @Input() learningObject: Text;
 
   constructor() { }
 

@@ -1,0 +1,79 @@
+<div>
+  <button mat-flat-button color="primary" style="width: 100%" (click)="editing=true">Create new learning object
+    summary
+  </button>
+  <br>
+  <div *ngIf="editing">
+    <button mat-fab color="primary" [matMenuTriggerFor]="menu" title="Add learning object to summary"
+            style="margin-top: 1%">+
+    </button>
+    <mat-menu #menu="matMenu">
+      <input type="radio" class="courseRadio" id="Image" [checked]="selectedType === 'Image'"
+             (click)="selectType('Image')">
+      <label type="radio" for="Image">Image</label><br>
+      <input type="radio" class="courseRadio" id="Video" [checked]="selectedType === 'Video'"
+             (click)="selectType('Video')">
+      <label type="radio" for="Video">Video</label><br>
+      <input type="radio" class="courseRadio" id="Text" [checked]="selectedType === 'Text'"
+             (click)="selectType('Text')">
+      <label type="radio" for="Text">Text</label><br>
+    </mat-menu>
+    <br>
+    <br>
+    <div>
+      <table style="width: 100%">
+        <mat-form-field class="example-full-width">
+          <mat-label>Summary description</mat-label>
+          <input type="text" matInput style="width: 100%; height: 1%" [(ngModel)]="description"/>
+        </mat-form-field>
+        <tr *ngIf="selectedType === 'Text'">
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Content</mat-label>
+              <input type="text" matInput style="width: 100%; height: 1%" [(ngModel)]="content"/>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr *ngIf="selectedType === 'Video' || selectedType === 'Image'">
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Url</mat-label>
+              <input type="text" matInput style="width: 100%; height: 1%" [(ngModel)]="url"/>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr *ngIf="selectedType === 'Image'">
+          <td>
+            <mat-form-field class="example-full-width">
+              <mat-label>Caption</mat-label>
+              <input type="text" matInput style="width: 100%; height: 1%" [ngModel]="caption"/>
+            </mat-form-field>
+          </td>
+        </tr>
+        <tr *ngIf="selectedType === 'Video' || selectedType === 'Image' || selectedType === 'Text'">
+          <button mat-flat-button color="primary" (click)="add()">Add</button>
+        </tr>
+      </table>
+    </div>
+    <br>
+    <div>
+      <span *ngFor="let lo of learningObjects">
+        <button mat-icon-button (click)="remove(lo)">
+          <mat-icon aria-label="Example icon-button with a heart icon">cancel</mat-icon>
+        </button>
+        <div style="width: 30%; height: auto" *ngIf="lo.getComponent()==ImageComponent"><cc-image
+          [learningObject]="lo"></cc-image></div><br>
+        <div style="width: 30%; height: auto" *ngIf="lo.getComponent()==VideoComponent"><cc-video
+          [learningObject]="lo"></cc-video></div><br>
+        <div style="width: 30%; height: auto" *ngIf="lo.getComponent()==TextComponent"><cc-text
+          [learningObject]="lo"></cc-text></div><br>
+      </span>
+    </div>
+    <br>
+    <button mat-flat-button color="primary" [disabled]="description.length==0||learningObjects.length==0"
+            (click)="createLearningObjectSummary()">Create
+    </button>
+    <button mat-flat-button color="primary" style="margin-left: 1%" (click)="editing=false;learningObjects=[]">Cancel
+    </button>
+  </div>
+</div>

@@ -9,6 +9,7 @@ export class Video extends LearningObject {
 
   constructor(obj?: any) {
     if (obj) {
+      obj.TypeDiscriminator = 'video';
       super(obj);
       this.url = obj.url;
     }

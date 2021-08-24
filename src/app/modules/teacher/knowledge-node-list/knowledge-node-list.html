@@ -1,0 +1,14 @@
+<div *ngFor="let n of nodes">
+  <mat-card>
+    <mat-card-header><h2>Knowledge node: {{n.id}}</h2></mat-card-header>
+    <mat-card-subtitle><h3>Learning objective: {{n.learningObjective}}</h3></mat-card-subtitle>
+    <br>
+    <div>
+      <cc-learning-object-summary *ngFor="let los of n.learningObjectSummaries"
+                                  [learningObjectSummary]="los"></cc-learning-object-summary>
+    </div>
+    <br>
+    <cc-create-learning-object-summary [knowledgeNodeId]="n.id"></cc-create-learning-object-summary>
+  </mat-card>
+  <br>
+</div>

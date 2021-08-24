@@ -10,6 +10,7 @@ export class Challenge extends LearningObject {
 
   constructor(obj?: any) {
     if (obj) {
+      obj.TypeDiscriminator = 'challenge';
       super(obj);
       this.description = obj.description;
       this.url = obj.url;

@@ -7,6 +7,7 @@ import { LectureComponent } from '../modules/content/lecture/lecture.component';
 import { KnowledgeNodeComponent } from '../modules/content/knowledge-node/knowledge-node.component';
 import { LoginComponent } from '../modules/users/login/login.component';
 import { RegisterComponent } from '../modules/users/register/register.component';
+import { TeacherCreateKnowledgeNodeComponent} from '../modules/teacher/teacher-create-knowledge-node/teacher-create-knowledge-node.component';
 import { AuthGuard } from './guard/auth.guard';
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'lecture/:lectureId', component: LectureComponent},
   { path: 'node/:nodeId', component: KnowledgeNodeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
+  { path: 'teacher/knowledgenodes', component: TeacherCreateKnowledgeNodeComponent},
   { path: 'register', component: RegisterComponent},
   { path: '**', component: PageNotFoundComponent}
 ];

@@ -1,0 +1,18 @@
+<div>
+  <p>Learning object summaries description: {{learningObjectSummary.description}}</p>
+  <div style="width: 40%; height: auto; margin-right: 30%; margin-left: 30%">
+      <span *ngFor="let lo of learningObjectSummary.learningObjects">
+    <span *ngIf="lo.getComponent() == VideoComponent">
+      <cc-video [learningObject]="lo"></cc-video>
+    </span>
+    <span *ngIf="lo.getComponent() == ImageComponent">
+      <cc-image [learningObject]="lo"></cc-image>
+    </span>
+    <span *ngIf="lo.getComponent() == TextComponent">
+      <cc-text [learningObject]="lo"></cc-text>
+    </span>
+  </span>
+  </div>
+  <br>
+  <hr>
+</div>

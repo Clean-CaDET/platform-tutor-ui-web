@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Video } from './model/video.model';
 
@@ -9,7 +9,7 @@ import { Video } from './model/video.model';
 })
 export class VideoComponent implements OnInit, LearningObjectComponent {
 
-  learningObject: Video;
+  @Input() learningObject: Video;
 
   constructor() { }
 

@@ -1,0 +1,82 @@
+<div mat-card style="margin: 3% 10% 1.5% 10%">
+  <h1>Create knowledge node</h1>
+  <table style="width: 100%">
+    <tr>
+      <td>
+        <mat-form-field class="example-full-width">
+          <mat-label>Learning objective</mat-label>
+          <input type="text" matInput style="width: 100%; height: 1%"
+                 [(ngModel)]="knowledgeNodeToBeCreated.learningObjective"/>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Type
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <input type="radio" class="courseRadio" id="Factual" value="1"
+                 [checked]="selectedType == KnowledgeType.Factual"
+                 (change)="onTypeSelectionChange(KnowledgeType.Factual)">
+          <label type="radio" for="Factual">Factual</label><br>
+          <input type="radio" class="courseRadio" id="Procedural" value="2"
+                 [checked]="selectedType == KnowledgeType.Conceptual"
+                 (change)="onTypeSelectionChange(KnowledgeType.Conceptual)">
+          <label type="radio" for="Procedural">Procedural</label><br>
+          <input type="radio" class="courseRadio" id="Conceptual" value="3"
+                 [checked]="selectedType == KnowledgeType.Procedural"
+                 (change)="onTypeSelectionChange(KnowledgeType.Procedural)">
+          <label type="radio" for="Conceptual">Conceptual</label><br>
+        </mat-menu>
+        <p>Selected: {{KnowledgeType[selectedType]}}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="lectureMenu">Lecture
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <mat-menu #lectureMenu="matMenu">
+          <div *ngFor="let lecture of lectures">
+            <input type="radio" [id]="lecture.id" [checked]="lecture.id === selectedLecture.id" class="courseRadio"
+                   (change)="onLectureSelectionChange(lecture)"/>
+            <label type="radio" [for]="lecture.id">{{lecture.name}}</label><br>
+          </div>
+        </mat-menu>
+        <p>Selected: {{selectedLecture.name}}</p>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <button mat-raised-button color="primary" style="width: 100%" (click)="createKnowledgeNode()">Create knowledge
+          node
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <hr>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h1>My knowledge nodes</h1>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div *ngFor="let l of lectures">
+          <mat-card style="background-color: #3f51b5">
+            <mat-card-title style="color: white">{{l.name}}</mat-card-title>
+            <br>
+            <cc-knowledge-node-list [lectureId]="l.id">
+
+            </cc-knowledge-node-list>
+          </mat-card>
+          <br>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Image } from './model/image.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,7 +11,7 @@ import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 })
 export class ImageComponent implements LearningObjectComponent {
 
-  learningObject: Image;
+  @Input() learningObject: Image;
 
   constructor(private dialog: MatDialog) { }
 

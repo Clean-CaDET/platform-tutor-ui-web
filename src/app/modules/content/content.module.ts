@@ -20,6 +20,7 @@ import { MaterialModule } from '../../infrastructure/material.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { NotesModule } from '../notes/notes.module';
 import { ImageDialogComponent } from './learning-objects/image/image-dialog/image-dialog.component';
+import { LearningObjectSummaryComponent } from './learning-object-summary/learning-object-summary.component';
 
 
 
@@ -36,7 +37,8 @@ import { ImageDialogComponent } from './learning-objects/image/image-dialog/imag
     VideoComponent,
     LearningObjectDirective,
     LearningObjectContainerComponent,
-    ImageDialogComponent
+    ImageDialogComponent,
+    LearningObjectSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -50,7 +52,11 @@ import { ImageDialogComponent } from './learning-objects/image/image-dialog/imag
     NotesModule
   ],
   exports: [
-    LectureComponent
+    LectureComponent,
+    LearningObjectSummaryComponent,
+    VideoComponent,
+    ImageComponent,
+    TextComponent
   ]
 })
 export class ContentModule { }

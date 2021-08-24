@@ -8,6 +8,7 @@ export class Text extends LearningObject {
 
   constructor(obj?: any) {
     if (obj) {
+      obj.TypeDiscriminator = 'text';
       super(obj);
       this.content = obj.content;
     }
