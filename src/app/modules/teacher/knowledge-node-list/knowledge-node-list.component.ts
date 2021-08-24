@@ -19,8 +19,13 @@ export class KnowledgeNodeListComponent implements OnInit {
   ngOnInit(): void {
     this.service.getNodesByLecture(this.lectureId).toPromise().then(value => {
       this.nodes = value;
-      console.table(this.nodes);
+      this.getLosByNodes();
     });
+  }
+
+  getLosByNodes(): void {
+    this.nodes.forEach(node => this.service.getLosByNode(node.id).toPromise()
+      .then(value => node.learningObjectSummaries = value));
   }
 
 }

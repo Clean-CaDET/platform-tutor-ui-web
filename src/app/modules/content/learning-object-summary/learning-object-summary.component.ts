@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {LearningObjectSummary} from './model/learning-object-summary';
-import {LearningObjectSummaryService} from './learning-object-summary.service';
 import {VideoComponent} from '../learning-objects/video/video.component';
 import {ImageComponent} from '../learning-objects/image/image.component';
 import {TextComponent} from '../learning-objects/text/text.component';
@@ -16,12 +15,10 @@ export class LearningObjectSummaryComponent implements OnInit {
   ImageComponent = ImageComponent;
   TextComponent = TextComponent;
 
-  constructor(private service: LearningObjectSummaryService) {
+  constructor() {
   }
 
   ngOnInit(): void {
-    this.service.getLearningObjects(this.learningObjectSummary.id).toPromise()
-      .then(value => this.learningObjectSummary.learningObjects = value);
   }
 
 }

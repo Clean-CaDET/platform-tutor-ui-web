@@ -9,6 +9,7 @@ import {Text} from '../../content/learning-objects/text/model/text.model';
 import {VideoComponent} from '../../content/learning-objects/video/video.component';
 import {ImageComponent} from '../../content/learning-objects/image/image.component';
 import {TextComponent} from '../../content/learning-objects/text/text.component';
+import {KnowledgeNode} from '../../content/knowledge-node/model/knowledge-node.model';
 
 @Component({
   selector: 'cc-create-learning-object-summary',
@@ -48,7 +49,11 @@ export class CreateLearningObjectSummaryComponent implements OnInit {
   createLearningObjectSummary(): void {
     const learningObjects = this.service.mapNodeLearningObjects(this.learningObjects);
     const learningObjectSummary = new LearningObjectSummary(
-      {description: this.description, knowledgeNodeId: this.knowledgeNodeId, learningObjects: this.learningObjects});
+      {description: this.description, knowledgeNode: new KnowledgeNode({id: this.knowledgeNodeId}
+  ),
+    learningObjects: this.learningObjects
+  })
+    ;
     this.service.createLearningObjectSummary(learningObjectSummary);
   }
 
