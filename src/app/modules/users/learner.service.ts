@@ -11,10 +11,6 @@ interface LoginDTO {
 
 interface RegisterDTO {
   index: string;
-  visualScore: number;
-  auralScore: number;
-  readWriteScore: number;
-  kinaestheticScore: number;
 }
 
 @Injectable({

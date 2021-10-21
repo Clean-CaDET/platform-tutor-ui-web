@@ -14,10 +14,6 @@ export class RegisterComponent implements OnInit {
     studentIndex: new FormControl('', [
       Validators.required,
       this.indexValidator()]),
-    visualScore: new FormControl('', [Validators.required]),
-    auralScore: new FormControl('', [Validators.required]),
-    readWriteScore: new FormControl('', [Validators.required]),
-    kinaestheticScore: new FormControl('', [Validators.required])
   });
 
   constructor(
