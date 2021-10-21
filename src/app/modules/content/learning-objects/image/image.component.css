@@ -1,0 +1,13 @@
+img {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+}
+
+img:hover {
+  cursor: zoom-in;
+}
+
+#caption {
+  text-align: center;
+}

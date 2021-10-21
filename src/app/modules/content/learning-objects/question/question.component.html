@@ -1,0 +1,20 @@
+<div id="question" class="mat-card">
+  <markdown>{{learningObject.text}}</markdown>
+  <div>
+    <ul>
+      <mat-list-item *ngFor="let answer of learningObject.possibleAnswers; let i = index">
+        <mat-checkbox [disabled]="answered" [(ngModel)]="checked[i]">
+          {{answer.text}}
+        </mat-checkbox>
+        <div
+          [class]="getAnswerResult(answer.id).correct ? 'color-correct' : 'color-wrong'"
+          class="mat-card-subtitle"
+          *ngIf="results"
+        >
+          {{getAnswerResult(answer.id).text}}
+        </div>
+      </mat-list-item>
+    </ul>
+    <button *ngIf="!answered" mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+  </div>
+</div>

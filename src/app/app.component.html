@@ -15,13 +15,13 @@
         &nbsp;&nbsp;Smart Tutor
       </span>
       <span fxFlex></span>
-      <span *ngIf="trainee">
-        <button mat-button [matMenuTriggerFor]="menu">{{trainee.studentIndex}}<mat-icon>expand_more</mat-icon></button>
+      <span *ngIf="learner">
+        <button mat-button [matMenuTriggerFor]="menu">{{learner.studentIndex}}<mat-icon>expand_more</mat-icon></button>
         <mat-menu #menu>
           <button mat-menu-item (click)="onLogout()">Log out</button>
         </mat-menu>
       </span>
-      <span *ngIf="!trainee">
+      <span *ngIf="!learner">
         <a mat-raised-button routerLink="login">Login</a>
       </span>
       <span><img src="assets/images/logo.png" width="80px" alt="Clean CaDET"></span>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import { TraineeService } from './trainee/service/trainee.service';
-import { Trainee } from './trainee/model/trainee.model';
+import { LearnerService } from './modules/users/learner.service';
+import { Learner } from './modules/users/model/learner.model';
 
 @Component({
   selector: 'cc-root',
@@ -9,18 +9,18 @@ import { Trainee } from './trainee/model/trainee.model';
 })
 export class AppComponent implements OnInit {
   opened = false;
-  trainee: Trainee;
+  learner: Learner;
 
-  constructor(private traineeService: TraineeService) {
+  constructor(private learnerService: LearnerService) {
   }
 
   ngOnInit(): void {
     this.opened = true;
-    this.traineeService.trainee$.subscribe(trainee => this.trainee = trainee);
+    this.learnerService.learner$.subscribe(learner => this.learner = learner);
   }
 
   onLogout(): void {
-    this.traineeService.logout();
+    this.learnerService.logout();
   }
 
   toggl(): void {
