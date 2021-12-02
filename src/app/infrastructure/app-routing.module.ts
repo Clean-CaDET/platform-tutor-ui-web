@@ -8,6 +8,7 @@ import { KnowledgeNodeComponent } from '../modules/content/knowledge-node/knowle
 import { LoginComponent } from '../modules/users/login/login.component';
 import { RegisterComponent } from '../modules/users/register/register.component';
 import { AuthGuard } from './guard/auth.guard';
+import {UnitComponent} from '../modules/content/unit/unit.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent},
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'node/:nodeId', component: KnowledgeNodeComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
+  { path: 'units', component: UnitComponent},
   { path: '**', component: PageNotFoundComponent}
 ];
 

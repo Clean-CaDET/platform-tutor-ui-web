@@ -1,4 +1,31 @@
+::ng-deep mat-form-field {
+  color: white !important;
+}
+
+::ng-deep mat-form-field .mat-form-field-label {
+  color: white !important;
+}
+
+::ng-deep mat-form-field .mat-form-field-underline {
+  background-color: #868686 !important;
+}
+
+::ng-deep mat-form-field .mat-input-element {
+  caret-color: #052959 !important;
+}
+
+::ng-deep mat-form-field .mat-form-field-ripple {
+  background-color: #052959 !important;
+}
+
 form {
-  width: 360px;
-  margin: 100px auto auto;
+  width: 35%;
+  margin-left: 32.5%;
+  margin-right: 32.5%;
+  margin-top: 10%;
+}
+
+button {
+  background-color: #052959;
+  color: white;
 }
