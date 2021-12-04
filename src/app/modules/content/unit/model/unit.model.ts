@@ -4,7 +4,7 @@ export class Unit {
   id: number;
   name: string;
   description: string;
-  private knowledgeComponents: KnowledgeComponent[];
+  knowledgeComponents: KnowledgeComponent[];
 
   constructor(obj?: any) {
     if (obj) {

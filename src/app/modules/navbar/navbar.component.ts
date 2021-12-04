@@ -4,6 +4,8 @@ import {Unit} from '../content/unit/model/unit.model';
 import {KnowledgeComponent} from '../content/knowledge-component/model/knowledge-component.model';
 import {Learner} from '../users/model/learner.model';
 import {LearnerService} from '../users/learner.service';
+import {Subject} from 'rxjs';
+import {NavbarService} from './navbar.service';
 
 
 export interface ContentNode {
@@ -28,7 +30,8 @@ export class NavbarComponent implements OnInit {
   unitButtonText = 'Select Unit';
   kcButtonText = 'Select Knowledge Component';
 
-  constructor(private unitService: UnitService, private learnerService: LearnerService) {
+  constructor(private unitService: UnitService, private learnerService: LearnerService,
+              private navBarService: NavbarService) {
   }
 
   ngOnInit(): void {
@@ -41,6 +44,7 @@ export class NavbarComponent implements OnInit {
     this.selectedUnit = unit;
     this.unitButtonText = unit.name;
     this.kcButtonText = 'Select Knowledge Component';
+    this.navBarService.setUnit(unit);
   }
 
   onKCSelected(kc): void {

@@ -1,16 +1,17 @@
 <mat-nav-list>
   <p mat-list-item>
     <button id="home" mat-flat-button routerLink="home">Home</button>
-    <button id="unit" mat-flat-button [matMenuTriggerFor]="unit" [disabled]="!learner">{{unitButtonText}}</button>
+    <button id="unit" mat-flat-button [matMenuTriggerFor]="unit">{{unitButtonText}}</button>
     <mat-menu #unit="matMenu">
-      <button (click)="onUnitSelected(unit)" *ngFor="let unit of units" mat-menu-item>
+      <button (click)="onUnitSelected(unit)" [routerLink]="['units']" *ngFor="let unit of units" mat-menu-item>
         {{unit.name}}
       </button>
     </mat-menu>
     <button id="kc" mat-flat-button [matMenuTriggerFor]="kc"
             [disabled]="unitButtonText == 'Select Unit'">{{kcButtonText}}</button>
     <mat-menu #kc="matMenu">
-      <button (click)="onKCSelected(kc)" *ngFor="let kc of knowledgeComponents" mat-menu-item>
+      <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id]" *ngFor="let kc of knowledgeComponents"
+              mat-menu-item>
         {{kc.name}}
       </button>
     </mat-menu>

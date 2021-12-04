@@ -1,1 +1,55 @@
-<p>knowledge-component works!</p>
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav fixedInViewport="true" fixedTopGap="65" mode="side" position="end" [opened]="sidenavOpened">
+    <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <h2 class="mat-h2">
+      Notes
+    </h2>
+    <cc-notes></cc-notes>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="fixed">
+      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
+        <mat-icon>assignment</mat-icon>
+      </button>
+    </div>
+    <div id="knowledge-component" *ngIf="knowledgeComponent">
+      <br>
+      <h3>Goal: {{knowledgeComponent.name}}</h3>
+      <mat-divider></mat-divider>
+      <cc-learning-object-container
+        *ngFor="let learningObject of instructionalEvents"
+        [learningObject]="learningObject"></cc-learning-object-container>
+      <br>
+<!--      <div id="navigation" fxLayoutGap="20px">-->
+<!--        <span fxFlex></span>-->
+<!--        <span id="prev-button">-->
+<!--          <button-->
+<!--            mat-raised-button color="accent"-->
+<!--            (click)="changePage('/lecture/' + previousPage.id)">-->
+<!--            Previous Lecture-->
+<!--          </button>-->
+<!--          <button-->
+<!--            mat-raised-button color="primary"-->
+<!--            (click)="changePage('/node/' + previousPage.id)">-->
+<!--            Previous Segment-->
+<!--          </button>-->
+<!--        </span>-->
+<!--        <span id="next-button">-->
+<!--          <button-->
+<!--            mat-raised-button color="accent"-->
+<!--            (click)="changePage('/lecture/' + nextPage.id)">-->
+<!--            Next Lecture-->
+<!--          </button>-->
+<!--          <button-->
+<!--            mat-raised-button color="primary"-->
+<!--            (click)="changePage('/node/' + nextPage.id)">-->
+<!--            Next Segment-->
+<!--          </button>-->
+<!--        </span>-->
+<!--      </div>-->
+      <br><br>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

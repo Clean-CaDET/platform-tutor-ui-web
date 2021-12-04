@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UnitService} from './unit.service';
 import {Unit} from './model/unit.model';
+import {NavbarService} from '../../navbar/navbar.service';
 
 @Component({
   selector: 'cc-unit',
@@ -10,11 +11,12 @@ import {Unit} from './model/unit.model';
 export class UnitComponent implements OnInit {
 
   units: Unit[];
+  selectedUnit: Unit;
 
-  constructor(private unitService: UnitService) { }
-
-  ngOnInit(): void {
-    this.unitService.getUnits().subscribe(units => this.units = units);
+  constructor(private unitService: UnitService, private navBarService: NavbarService) {
   }
 
+  ngOnInit(): void {
+    this.navBarService.currentUnit.subscribe(unit => this.selectedUnit = unit);
+  }
 }

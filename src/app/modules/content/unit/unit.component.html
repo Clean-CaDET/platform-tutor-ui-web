@@ -1,1 +1,10 @@
-<p>unit works!</p>
+<div id="lecture" *ngIf="selectedUnit">
+  <h1 class="mat-h1">{{selectedUnit.name}}</h1>
+  <h3 class="mat-h3">{{selectedUnit.description}}</h3>
+  <mat-divider></mat-divider>
+  <div *ngIf="selectedUnit.knowledgeComponents?.length == 0">
+    <p>
+      <b>Lekcija je u najavi i trenutno je nema u ponudi.</b>
+    </p>
+  </div>
+</div>

@@ -1,0 +1,39 @@
+.mat-sidenav-container {
+  color: white;
+  background-color: #141414;
+}
+
+#knowledge-component {
+  width: 75%;
+  line-height: 150%;
+  text-align: justify;
+  margin: auto;
+  color: white;
+  background-color: #1a1e24;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+h2 {
+  display: inline;
+}
+
+h3 {
+  padding-left: 5%;
+}
+
+.fixed {
+  position: fixed;
+  top: 65px;
+  right: 20px;
+  float: right;
+}
+
+.mat-icon-button {
+  margin: 10px;
+}
+
+
+
