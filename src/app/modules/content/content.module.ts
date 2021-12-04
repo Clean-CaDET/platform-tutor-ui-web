@@ -20,6 +20,8 @@ import {MaterialModule} from '../../infrastructure/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NotesModule} from '../notes/notes.module';
 import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-dialog.component';
+import {UnitComponent} from './unit/unit.component';
+import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
 
 
 @NgModule({
@@ -35,7 +37,9 @@ import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-
     VideoComponent,
     LearningObjectDirective,
     LearningObjectContainerComponent,
-    ImageDialogComponent
+    ImageDialogComponent,
+    UnitComponent,
+    KnowledgeComponentComponent
   ],
   imports: [
     BrowserModule,

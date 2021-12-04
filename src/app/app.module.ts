@@ -14,16 +14,12 @@ import {UsersModule} from './modules/users/users.module';
 import {ReactiveFormsModule} from '@angular/forms';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {initializeKeycloak} from './keycloak/keycloak.init';
-import {UnitComponent} from './modules/content/unit/unit.component';
-import {KnowledgeComponentComponent} from './modules/content/knowledge-component/knowledge-component.component';
 import {NotesModule} from './modules/notes/notes.module';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    UnitComponent,
-    KnowledgeComponentComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule,
