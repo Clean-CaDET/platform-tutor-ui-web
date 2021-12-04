@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Unit} from '../content/unit/model/unit.model';
-import {BehaviorSubject, Subject} from 'rxjs';
+import {BehaviorSubject} from 'rxjs';
 
 
 @Injectable({

@@ -4,7 +4,6 @@ import {Unit} from '../content/unit/model/unit.model';
 import {KnowledgeComponent} from '../content/knowledge-component/model/knowledge-component.model';
 import {Learner} from '../users/model/learner.model';
 import {LearnerService} from '../users/learner.service';
-import {Subject} from 'rxjs';
 import {NavbarService} from './navbar.service';
 
 

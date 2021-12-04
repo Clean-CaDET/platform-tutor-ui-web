@@ -19,8 +19,8 @@
       <h3>Goal: {{knowledgeComponent.name}}</h3>
       <mat-divider></mat-divider>
       <cc-learning-object-container
-        *ngFor="let learningObject of instructionalEvents"
-        [learningObject]="learningObject"></cc-learning-object-container>
+        *ngFor="let instructionalEvent of instructionalEvents"
+        [learningObject]="instructionalEvent"></cc-learning-object-container>
       <br>
 <!--      <div id="navigation" fxLayoutGap="20px">-->
 <!--        <span fxFlex></span>-->
