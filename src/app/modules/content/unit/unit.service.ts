@@ -35,6 +35,11 @@ export class UnitService {
       .pipe(map(los => this.mapLearningObjects(los)));
   }
 
+  getAssessmentEvents(kcId: number): Observable<LearningObject[]> {
+    return this.http.get<LearningObject[]>(environment.apiHost + 'units/knowledge-components/' + kcId + '/assessment-events')
+      .pipe(map(los => this.mapLearningObjects(los)));
+  }
+
   mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {
     instructionalEvents = instructionalEvents.map(ie => this.learningObjectMapper.convert(ie));
     return instructionalEvents;

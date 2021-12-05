@@ -14,10 +14,12 @@ import {LearningObject} from '../learning-objects/model/learning-object.model';
 export class KnowledgeComponentComponent implements OnInit {
 
   knowledgeComponent: KnowledgeComponent;
-  instructionalEvents: LearningObject[];
+  learningObjects: LearningObject[];
   sidenavOpened = false;
   previousPage: { type: string; id: number; };
   nextPage: { type: string; id: number; };
+  instructionalEventChecked = true;
+  kcId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,29 +29,39 @@ export class KnowledgeComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      const kcId = +params.kcId;
-      this.getKnowledgeComponent(kcId);
-      this.getInstructionalEvents(kcId);
+      this.kcId = +params.kcId;
+      this.getKnowledgeComponent();
+      this.getInstructionalEvents();
 //      this.createPrevAndNextButtons(kcId);
     });
   }
 
-  private getKnowledgeComponent(kcId: number): void {
-    this.unitService.getKnowledgeComponent(kcId).subscribe(kc => {
+  onInstructionalEventClicked(): void {
+    this.instructionalEventChecked = true;
+    this.getInstructionalEvents();
+  }
+
+  onAssessmentEventClicked(): void {
+    this.instructionalEventChecked = false;
+    this.getAssessmentEvents();
+  }
+
+  private getKnowledgeComponent(): void {
+    this.unitService.getKnowledgeComponent(this.kcId).subscribe(kc => {
       this.knowledgeComponent = kc;
       console.log(this.knowledgeComponent.name);
     });
   }
 
-  private getInstructionalEvents(kcId: number): void {
-    this.unitService.getInstructionalEvents(kcId).subscribe(instructionalEvents => {
-      this.instructionalEvents = instructionalEvents;
+  private getInstructionalEvents(): void {
+    this.unitService.getInstructionalEvents(this.kcId).subscribe(instructionalEvents => {
+      this.learningObjects = instructionalEvents;
     });
   }
 
-  private getAssessmentEvents(kcId: number): void {
-    this.unitService.getInstructionalEvents(kcId).subscribe(instructionalEvents => {
-      this.instructionalEvents = instructionalEvents;
+  private getAssessmentEvents(): void {
+    this.unitService.getAssessmentEvents(this.kcId).subscribe(assessmentEvents => {
+      this.learningObjects = assessmentEvents;
     });
   }
 

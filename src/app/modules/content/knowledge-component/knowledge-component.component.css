@@ -12,6 +12,13 @@
   background-color: #1a1e24;
 }
 
+#ie-button, #ae-button {
+  float: right;
+  margin-top: 10px;
+  margin-right: 5px;
+  color: white;
+}
+
 h1 {
   font-weight: normal;
 }
