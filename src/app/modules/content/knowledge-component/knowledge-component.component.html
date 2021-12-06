@@ -11,12 +11,12 @@
   <mat-sidenav-content>
     <div id="knowledge-component" *ngIf="knowledgeComponent">
       <br>
-      <button id="ae-button" mat-raised-button
-              [ngStyle]="{'background-color': instructionalEventChecked ? '#04234e' : '#031e43'}"
+      <button color = "primary" id="ae-button" mat-raised-button
+              [ngStyle]="{'opacity': instructionalEventChecked ? '1' : '0.5'}"
               (click)="onAssessmentEventClicked()">AE
       </button>
-      <button id="ie-button" mat-raised-button
-              [ngStyle]="{'background-color': instructionalEventChecked ? '#031e43' : '#04234e'}"
+      <button color = "primary" id="ie-button" mat-raised-button
+              [ngStyle]="{'opacity': instructionalEventChecked ? '0.5' : '1'}"
               (click)="onInstructionalEventClicked()">IE
       </button>
       <h3>Goal: {{knowledgeComponent.name}}</h3>
@@ -25,33 +25,6 @@
         *ngFor="let learningObject of learningObjects"
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
-      <!--      <div id="navigation" fxLayoutGap="20px">-->
-      <!--        <span fxFlex></span>-->
-      <!--        <span id="prev-button">-->
-      <!--          <button-->
-      <!--            mat-raised-button color="accent"-->
-      <!--            (click)="changePage('/lecture/' + previousPage.id)">-->
-      <!--            Previous Lecture-->
-      <!--          </button>-->
-      <!--          <button-->
-      <!--            mat-raised-button color="primary"-->
-      <!--            (click)="changePage('/node/' + previousPage.id)">-->
-      <!--            Previous Segment-->
-      <!--          </button>-->
-      <!--        </span>-->
-      <!--        <span id="next-button">-->
-      <!--          <button-->
-      <!--            mat-raised-button color="accent"-->
-      <!--            (click)="changePage('/lecture/' + nextPage.id)">-->
-      <!--            Next Lecture-->
-      <!--          </button>-->
-      <!--          <button-->
-      <!--            mat-raised-button color="primary"-->
-      <!--            (click)="changePage('/node/' + nextPage.id)">-->
-      <!--            Next Segment-->
-      <!--          </button>-->
-      <!--        </span>-->
-      <!--      </div>-->
       <br><br>
     </div>
   </mat-sidenav-content>

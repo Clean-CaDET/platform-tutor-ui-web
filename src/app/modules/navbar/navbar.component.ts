@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UnitService} from '../content/unit/unit.service';
 import {Unit} from '../content/unit/model/unit.model';
 import {KnowledgeComponent} from '../content/knowledge-component/model/knowledge-component.model';
@@ -28,6 +28,7 @@ export class NavbarComponent implements OnInit {
   selectedKC: KnowledgeComponent;
   unitButtonText = 'Select Unit';
   kcButtonText = 'Select Knowledge Component';
+  @Input() isDarkTheme: boolean;
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
               private navBarService: NavbarService) {

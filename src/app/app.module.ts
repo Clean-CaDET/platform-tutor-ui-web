@@ -11,10 +11,12 @@ import {ContentModule} from './modules/content/content.module';
 import {NavbarModule} from './modules/navbar/navbar.module';
 import {PagesModule} from './modules/pages/pages.module';
 import {UsersModule} from './modules/users/users.module';
-import {ReactiveFormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {initializeKeycloak} from './keycloak/keycloak.init';
 import {NotesModule} from './modules/notes/notes.module';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatIconModule} from '@angular/material/icon';
 
 
 @NgModule({
@@ -35,7 +37,10 @@ import {NotesModule} from './modules/notes/notes.module';
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
     KeycloakAngularModule,
-    NotesModule
+    NotesModule,
+    MatSlideToggleModule,
+    FormsModule,
+    MatIconModule
   ],
   providers: [
     {

@@ -1,13 +1,10 @@
 :host {
   display: block;
-  background-color: #031e43;
 }
 
 #home, #unit, #menu, #kc, #login, #logout, #profile {
   margin-top: 20px;
-  background-color: #052959;
-  color: white;
-  font-size: 22px !important;
+  font-size: 18px;
   width: 85%;
   margin-left: 7.5%;
   white-space: normal;
@@ -16,16 +13,9 @@
   text-overflow: ellipsis;
 }
 
-#kc:disabled {
-  opacity: 0.5;
-}
-
-#unit:disabled {
-  opacity: 0.5;
-}
-
-.mat-menu {
-  background-color: #052959;
+img {
+  width: 85%;
+  margin-left: 7.5%;
 }
 
 #login, #logout {

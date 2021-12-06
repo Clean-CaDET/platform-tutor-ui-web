@@ -3,4 +3,4 @@
 html, body { min-height: 100vh; height: auto }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 pre { white-space: pre-wrap; }
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import './cc-primary-theme.scss';

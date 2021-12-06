@@ -3,8 +3,6 @@
   margin: auto;
   text-align: justify;
   line-height: 150%;
-  background-color: #141414;
-  color: white;
 }
 
 mat-icon.mat-card-avatar {
@@ -13,8 +11,8 @@ mat-icon.mat-card-avatar {
   font-size: 36px;
 }
 
-.mat-card {
-  display: flex;
+.mat-card{
+  display:flex;
   flex-direction: column;
 }
 
@@ -22,7 +20,7 @@ mat-icon.mat-card-avatar {
   flex-shrink: 0;
 }
 
-.mat-card-content {
+.mat-card-content{
   flex-grow: 1;
   overflow: auto;
 }

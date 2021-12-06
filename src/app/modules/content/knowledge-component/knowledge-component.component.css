@@ -1,22 +1,14 @@
-.mat-sidenav-container {
-  color: white;
-  background-color: #141414;
-}
-
 #knowledge-component {
   width: 75%;
   line-height: 150%;
   text-align: justify;
   margin: auto;
-  color: white;
-  background-color: #1a1e24;
 }
 
 #ie-button, #ae-button {
   float: right;
   margin-top: 10px;
   margin-right: 5px;
-  color: white;
 }
 
 h1 {
@@ -25,10 +17,6 @@ h1 {
 
 h2 {
   display: inline;
-}
-
-h3 {
-  padding-left: 5%;
 }
 
 .fixed {

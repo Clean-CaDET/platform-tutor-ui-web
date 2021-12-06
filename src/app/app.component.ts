@@ -1,6 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { LearnerService } from './modules/users/learner.service';
 import { Learner } from './modules/users/model/learner.model';
+import {OverlayContainer} from '@angular/cdk/overlay';
 
 @Component({
   selector: 'cc-root',
@@ -9,21 +10,23 @@ import { Learner } from './modules/users/model/learner.model';
 })
 export class AppComponent implements OnInit {
   opened = false;
+  isDarkTheme = true;
   learner: Learner;
 
-  constructor(private learnerService: LearnerService) {
+  constructor(private learnerService: LearnerService, private overlayContainer: OverlayContainer) {
   }
 
   ngOnInit(): void {
     this.opened = true;
     this.learnerService.learner$.subscribe(learner => this.learner = learner);
+    this.changeTheme();
   }
 
-  onLogout(): void {
-    this.learnerService.logout();
-  }
-
-  toggl(): void {
-    this.opened = !this.opened;
+  changeTheme(): void {
+    const themeToAdd = this.isDarkTheme ? 'dark-theme-mode' : 'light-theme-mode';
+    const themeToRemove = !this.isDarkTheme ? 'dark-theme-mode' : 'light-theme-mode';
+    const overlayContainerClasses = this.overlayContainer.getContainerElement().classList;
+    overlayContainerClasses.remove(themeToRemove);
+    overlayContainerClasses.add(themeToAdd);
   }
 }

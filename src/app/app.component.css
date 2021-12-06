@@ -3,21 +3,18 @@
 }
 
 mat-sidenav {
-  width: 200px;
-  background-color: #031e43;
-}
-
-mat-sidenav-content {
-  background-color: #141414;
-  color: white;
+  width: 150px;
 }
 
 #router-outlet {
   overflow-y: auto;
-  background-color: #141414;
-  color: white;
 }
 
 mat-toolbar {
   z-index: 2;
+}
+
+mat-slide-toggle {
+  width: 85%;
+  margin-left: 7.5%;
 }
