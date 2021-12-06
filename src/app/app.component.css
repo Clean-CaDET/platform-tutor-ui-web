@@ -14,6 +14,10 @@ mat-toolbar {
   z-index: 2;
 }
 
+mat-icon {
+  margin-top:5px;
+}
+
 mat-slide-toggle {
   width: 85%;
   margin-left: 7.5%;
