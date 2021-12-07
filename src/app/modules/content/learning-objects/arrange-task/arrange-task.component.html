@@ -1,5 +1,11 @@
 <div id="arrange-task" class="mat-card">
-  <div><markdown>{{learningObject.text}}</markdown></div>
+  <div>
+    <markdown lineNumbers [start]="0" ngPreserveWhitespaces>
+      ```csharp
+      {{learningObject.text}}
+      ```
+    </markdown>
+  </div>
   <div
     cdkDropListGroup
     [cdkDropListGroupDisabled]="answered"
