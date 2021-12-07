@@ -9,6 +9,11 @@
     <cc-notes></cc-notes>
   </mat-sidenav>
   <mat-sidenav-content>
+    <div class="fixed">
+      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
+        <mat-icon>assignment</mat-icon>
+      </button>
+    </div>
     <div id="knowledge-component" *ngIf="knowledgeComponent">
       <br>
       <button color = "primary" id="ae-button" mat-raised-button
