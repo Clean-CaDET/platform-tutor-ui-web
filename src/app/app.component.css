@@ -4,6 +4,7 @@
 
 mat-sidenav {
   width: 150px;
+  background-color: #052959 !important;
 }
 
 #router-outlet {
@@ -21,4 +22,11 @@ mat-icon {
 mat-slide-toggle {
   width: 85%;
   margin-left: 7.5%;
+}
+
+.fixed {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  float: right;
 }

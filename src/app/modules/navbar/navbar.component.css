@@ -1,5 +1,6 @@
 :host {
   display: block;
+  background-color: #052959 !important;
 }
 
 #home, #unit, #menu, #kc, #login, #logout, #profile {
@@ -14,6 +15,7 @@
 }
 
 img {
+  margin-top: -20%;
   width: 85%;
   margin-left: 7.5%;
 }

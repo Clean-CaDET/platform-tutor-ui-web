@@ -1,6 +1,5 @@
-/* You can add global styles to this file, and also import other style files */
+@import './cc-primary-theme.scss'; /* You can add global styles to this file, and also import other style files */
 
 html, body { min-height: 100vh; height: auto }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 pre { white-space: pre-wrap; }
-@import './cc-primary-theme.scss';
