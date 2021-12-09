@@ -10,7 +10,7 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 })
 export class AppComponent implements OnInit {
   opened = false;
-  isDarkTheme = true;
+  isDarkTheme: boolean;
   learner: Learner;
 
   constructor(private learnerService: LearnerService, private overlayContainer: OverlayContainer) {
@@ -19,19 +19,25 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.opened = true;
     this.learnerService.learner$.subscribe(learner => this.learner = learner);
+    this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
     this.applyThemeOnLayers();
   }
 
   changeTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
     this.applyThemeOnLayers();
+    this.storeThemeSelection();
   }
 
-  applyThemeOnLayers(): void {
+  private applyThemeOnLayers(): void {
     const themeToAdd = this.isDarkTheme ? 'dark-theme-mode' : 'light-theme-mode';
     const themeToRemove = !this.isDarkTheme ? 'dark-theme-mode' : 'light-theme-mode';
     const overlayContainerClasses = this.overlayContainer.getContainerElement().classList;
     overlayContainerClasses.remove(themeToRemove);
     overlayContainerClasses.add(themeToAdd);
+  }
+
+  private storeThemeSelection(): void {
+    localStorage.setItem('theme', this.isDarkTheme ? 'Dark' : 'Light');
   }
 }

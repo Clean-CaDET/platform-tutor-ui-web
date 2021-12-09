@@ -1,22 +1,22 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Injectable, OnInit} from '@angular/core';
 import {UnitService} from './unit.service';
-import {Unit} from './model/unit.model';
-import {NavbarService} from '../../navbar/navbar.service';
+import {ActivatedRoute, Data} from '@angular/router';
 
 @Component({
   selector: 'cc-unit',
   templateUrl: './unit.component.html',
   styleUrls: ['./unit.component.css']
 })
+@Injectable({providedIn: 'root'})
 export class UnitComponent implements OnInit {
 
-  units: Unit[];
-  selectedUnit: Unit;
+  data: Data;
 
-  constructor(private unitService: UnitService, private navBarService: NavbarService) {
+  constructor(private unitService: UnitService,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
-    this.navBarService.currentUnit.subscribe(unit => this.selectedUnit = unit);
+    this.data = this.route.snapshot.data;
   }
 }

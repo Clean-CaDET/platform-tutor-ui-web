@@ -1,14 +1,15 @@
-<mat-nav-list>
+<mat-nav-list >
   <p mat-list-item>
-    <span><img src="assets/images/logo.png" width="160px" alt="Clean CaDET" [routerLink]="['home']"></span>
-    <button color="primary" id="unit" mat-flat-button [matMenuTriggerFor]="unit">{{unitButtonText}}</button>
+    <span *ngIf="isDarkTheme"><img src="assets/images/logo.png" width="160px" alt="Clean CaDET" [routerLink]="['home']"></span>
+    <span *ngIf="!isDarkTheme"><img src="assets/images/black.png" width="160px" alt="Clean CaDET" [routerLink]="['home']"></span>
+    <button color="primary" id="unit" mat-flat-button [matMenuTriggerFor]="unit">{{selectedUnit ? selectedUnit.name : 'Select Unit'}}</button>
     <mat-menu #unit="matMenu">
-      <button (click)="onUnitSelected(unit)" [routerLink]="['units']" *ngFor="let unit of units" mat-menu-item>
+      <button (click)="onUnitSelected(unit)" [routerLink]="['unit/' + unit.id]" *ngFor="let unit of units" mat-menu-item>
         {{unit.name}}
       </button>
     </mat-menu>
     <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc"
-            [disabled]="unitButtonText == 'Select Unit' && 'opacity'">{{kcButtonText}}</button>
+            [disabled]="selectedUnit == null">{{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}</button>
     <mat-menu #kc="matMenu">
       <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id]" *ngFor="let kc of knowledgeComponents"
               mat-menu-item>

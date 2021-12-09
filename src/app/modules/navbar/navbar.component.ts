@@ -4,15 +4,6 @@ import {Unit} from '../content/unit/model/unit.model';
 import {KnowledgeComponent} from '../content/knowledge-component/model/knowledge-component.model';
 import {Learner} from '../users/model/learner.model';
 import {LearnerService} from '../users/learner.service';
-import {NavbarService} from './navbar.service';
-
-
-export interface ContentNode {
-  name: string;
-  link: string;
-  data?: any;
-  children?: ContentNode[];
-}
 
 @Component({
   selector: 'cc-navbar',
@@ -26,12 +17,9 @@ export class NavbarComponent implements OnInit {
   learner: Learner;
   selectedUnit: Unit;
   selectedKC: KnowledgeComponent;
-  unitButtonText = 'Select Unit';
-  kcButtonText = 'Select Knowledge Component';
   @Input() isDarkTheme: boolean;
 
-  constructor(private unitService: UnitService, private learnerService: LearnerService,
-              private navBarService: NavbarService) {
+  constructor(private unitService: UnitService, private learnerService: LearnerService) {
   }
 
   ngOnInit(): void {
@@ -42,19 +30,14 @@ export class NavbarComponent implements OnInit {
   onUnitSelected(unit): void {
     this.knowledgeComponents = unit.knowledgeComponents;
     this.selectedUnit = unit;
-    this.unitButtonText = unit.name;
-    this.kcButtonText = 'Select Knowledge Component';
-    this.navBarService.setUnit(unit);
+    this.selectedKC = null;
   }
 
   onKCSelected(kc): void {
     this.selectedKC = kc;
-    this.kcButtonText = kc.name;
   }
 
   onLogout(): void {
     this.learnerService.logout();
-    this.kcButtonText = 'Select Knowledge Component';
-    this.unitButtonText = 'Select Unit';
   }
 }

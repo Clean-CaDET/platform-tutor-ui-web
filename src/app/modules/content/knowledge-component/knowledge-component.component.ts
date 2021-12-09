@@ -45,7 +45,6 @@ export class KnowledgeComponentComponent implements OnInit {
   private getKnowledgeComponent(): void {
     this.unitService.getKnowledgeComponent(this.kcId).subscribe(kc => {
       this.knowledgeComponent = kc;
-      console.log(this.knowledgeComponent.name);
     });
   }
 

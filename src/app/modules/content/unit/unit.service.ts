@@ -14,6 +14,7 @@ import {LearningObject} from '../learning-objects/model/learning-object.model';
 })
 export class UnitService {
   units: Unit[];
+  unit: Unit;
   kc: KnowledgeComponent;
 
   constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper) {
@@ -23,6 +24,11 @@ export class UnitService {
   getUnits(): Observable<Unit[]> {
     return this.http.get<Unit[]>(environment.apiHost + 'units')
       .pipe(tap(units => this.units = units));
+  }
+
+  getUnit(unitId: number): Observable<Unit> {
+    return this.http.get<Unit>(environment.apiHost + 'units/' + unitId)
+      .pipe(tap(unit => this.unit = unit));
   }
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
