@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import { LearningObjectComponent } from '../learning-object-component';
-import { ArrangeTask } from './model/arrange-task.model';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { ArrangeTaskService } from './arrange-task.service';
-import { Container } from './model/container.model';
-import { Element } from './model/element.model';
-import { ActivatedRoute } from '@angular/router';
-import { shuffleArray } from '../../../../shared/helpers/arrays';
+import {Component, OnInit} from '@angular/core';
+import {LearningObjectComponent} from '../learning-object-component';
+import {ArrangeTask} from './model/arrange-task.model';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {ArrangeTaskService} from './arrange-task.service';
+import {Container} from './model/container.model';
+import {Element} from './model/element.model';
+import {ActivatedRoute} from '@angular/router';
+import {shuffleArray} from '../../../../shared/helpers/arrays';
+import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 
 interface ArrangeTaskFeedback {
   id: number;
@@ -78,7 +79,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.state).subscribe(data => {
+    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmission()).subscribe(data => {
       data.forEach(feedback => {
         this.feedbackMap.set(feedback.id, feedback);
       });
@@ -86,4 +87,19 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     });
   }
 
+  createArrangeTaskContainerSubmission(): ArrangeTaskContainerSubmission[] {
+    const containerRequests = [];
+    const elements: number[] = [];
+
+    this.state.forEach(container => {
+      const containerRequest = new ArrangeTaskContainerSubmission(container.id);
+      container.elements.forEach(element => {
+        elements.push(element.id);
+        containerRequest.elementIds = elements;
+      });
+      containerRequests.push(containerRequest);
+    });
+
+    return containerRequests;
+  }
 }

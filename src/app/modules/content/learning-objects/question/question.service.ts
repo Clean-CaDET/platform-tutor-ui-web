@@ -17,7 +17,7 @@ export class QuestionService {
     return this.http.post(
       environment.apiHost + 'submissions/question',
       {
-        questionId,
+        assessmentEventId: questionId,
         learnerId: this.learnerService.learner$.value.id,
         answers
       });

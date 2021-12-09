@@ -10,7 +10,7 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 })
 export class AppComponent implements OnInit {
   opened = false;
-  isDarkTheme: boolean;
+  isDarkTheme = true;
   learner: Learner;
 
   constructor(private learnerService: LearnerService, private overlayContainer: OverlayContainer) {
