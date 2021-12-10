@@ -5,7 +5,11 @@
   "projects": {
     "platform-smart-tutor-web": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+	    "@schematics/angular:component": {
+          "style": "scss"
+        }
+	  },
       "root": "",
       "sourceRoot": "src",
       "prefix": "cc",
@@ -24,7 +28,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
+              "src/styles.scss",
               "src/cc-primary-theme.scss",
               "./node_modules/prismjs/themes/prism-tomorrow.css",
               "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
@@ -63,10 +67,18 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+			"development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
           }
         },
-        "serve": {
+		"serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "platform-smart-tutor-web:build"
@@ -74,8 +86,12 @@
           "configurations": {
             "production": {
               "browserTarget": "platform-smart-tutor-web:build:production"
+            },
+            "development": {
+              "browserTarget": "platform-smart-tutor-web:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
