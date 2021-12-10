@@ -1,6 +1,6 @@
 import {Element} from './element.model';
 
-export class ArrangeTaskFeedback {
+export class ArrangeTaskContainerEvaluation {
   id: number;
   submissionWasCorrect: boolean;
   correctElements: Element[];

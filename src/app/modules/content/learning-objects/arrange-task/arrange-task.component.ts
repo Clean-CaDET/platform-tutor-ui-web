@@ -8,7 +8,7 @@ import {Element} from './model/element.model';
 import {ActivatedRoute} from '@angular/router';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
-import {ArrangeTaskFeedback} from './model/arrange-task-feedback.model';
+import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -19,7 +19,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   learningObject: ArrangeTask;
   state: Container[];
-  feedbackMap: Map<number, ArrangeTaskFeedback>;
+  feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
@@ -75,8 +75,10 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
-      .subscribe(data => {
-        console.log(data.submissionWasCorrect);
+      .subscribe(containerEvaluation => {
+        containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
+          this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
+        });
       });
     this.answered = true;
   }

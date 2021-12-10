@@ -1,17 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { LearningObjectComponent } from '../learning-object-component';
-import { Question } from './model/question.model';
-import { QuestionService } from './question.service';
-import { ActivatedRoute } from '@angular/router';
-import { MrqItem } from './model/answer.model';
-import { shuffleArray } from '../../../../shared/helpers/arrays';
-
-interface Result {
-  id: number;
-  text: string;
-  feedback: string;
-  submissionWasCorrect: boolean;
-}
+import {Component, OnInit} from '@angular/core';
+import {LearningObjectComponent} from '../learning-object-component';
+import {Question} from './model/question.model';
+import {QuestionService} from './question.service';
+import {ActivatedRoute} from '@angular/router';
+import {MrqItem} from './model/answer.model';
+import {shuffleArray} from '../../../../shared/helpers/arrays';
+import {Result} from './model/result';
 
 @Component({
   selector: 'cc-question',
@@ -48,13 +42,16 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      this.results = data;
+    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(mrqEvaluation => {
+      this.results = [];
+      mrqEvaluation.itemEvaluations.forEach(mrqItemEvaluation => {
+        this.results.push(new Result(mrqItemEvaluation));
+      });
       this.answered = true;
     });
   }
 
   getAnswerResult(answerId: number): Result {
-    return Array.from(this.results).find(result => result.id === answerId);
+    return this.results.find(result => result.id === answerId);
   }
 }
