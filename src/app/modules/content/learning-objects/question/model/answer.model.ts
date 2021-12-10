@@ -1,4 +1,4 @@
-export class Answer {
+export class MrqItem {
   id: number;
   text: string;
 }

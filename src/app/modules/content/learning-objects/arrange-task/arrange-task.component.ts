@@ -8,12 +8,7 @@ import {Element} from './model/element.model';
 import {ActivatedRoute} from '@angular/router';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
-
-interface ArrangeTaskFeedback {
-  id: number;
-  submissionWasCorrect: boolean;
-  correctElements: Element[];
-}
+import {ArrangeTaskFeedback} from './model/arrange-task-feedback.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -79,27 +74,26 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmission()).subscribe(data => {
-      data.forEach(feedback => {
-        this.feedbackMap.set(feedback.id, feedback);
+    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
+      .subscribe(data => {
+        console.log(data.submissionWasCorrect);
       });
-      this.answered = true;
-    });
+    this.answered = true;
   }
 
-  createArrangeTaskContainerSubmission(): ArrangeTaskContainerSubmission[] {
-    const containerRequests = [];
+  createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {
+    const arrangeTaskContainerSubmissionList = [];
     const elements: number[] = [];
 
-    this.state.forEach(container => {
-      const containerRequest = new ArrangeTaskContainerSubmission(container.id);
-      container.elements.forEach(element => {
+    this.state.forEach((container, key) => {
+      const arrangeTaskContainerSubmission = new ArrangeTaskContainerSubmission(container.id);
+      container.elements.forEach((element, keyEl) => {
         elements.push(element.id);
-        containerRequest.elementIds = elements;
+        arrangeTaskContainerSubmission.elementIds = elements;
       });
-      containerRequests.push(containerRequest);
+      arrangeTaskContainerSubmissionList.push(arrangeTaskContainerSubmission);
     });
 
-    return containerRequests;
+    return arrangeTaskContainerSubmissionList;
   }
 }

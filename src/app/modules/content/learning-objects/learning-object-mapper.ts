@@ -21,7 +21,7 @@ export class LearningObjectMapper {
         return new Image(learningObject);
       case 'video':
         return new Video(learningObject);
-      case 'question':
+      case 'multiResponseQuestion':
         return new Question(learningObject);
       case 'arrangeTask':
         return new ArrangeTask(learningObject);
