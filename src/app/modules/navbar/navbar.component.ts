@@ -40,4 +40,8 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     this.learnerService.logout();
   }
+
+  resetNavBar(): void {
+    this.selectedUnit = null;
+  }
 }
