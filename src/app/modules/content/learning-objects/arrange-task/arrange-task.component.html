@@ -1,5 +1,11 @@
 <div id="arrange-task" class="mat-card">
-  <div><markdown>{{learningObject.text}}</markdown></div>
+  <div>
+    <markdown lineNumbers [start]="0" ngPreserveWhitespaces>
+      ```{{"csharp"}}  <!-- This is just example how we can load our language dynamically. -->
+      {{learningObject.text}}
+      ```
+    </markdown>
+  </div>
   <div
     cdkDropListGroup
     [cdkDropListGroupDisabled]="answered"
@@ -37,7 +43,7 @@
         <div *ngIf="answered">
           <mat-list-item
             *ngFor="let element of getMissingElements(container.id)"
-            class="card-disabled"
+            class="card"
             fxLayout="row"
             fxLayoutAlign="none center">
             {{element.text}}

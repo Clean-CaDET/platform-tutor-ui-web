@@ -1,3 +1,6 @@
+@import "../../../../../../node_modules/@angular/material/theming";
+@import "../../../../../../src/cc-primary-theme";
+
 #question {
   display: block;
   max-width: 75%;
@@ -9,14 +12,12 @@ button {
   margin: 10px;
 }
 
-@import "../../../../../../node_modules/@angular/material/theming";
-
 .color-correct {
-  color: mat-color(mat-palette($mat-indigo))
+  color: #3CA0FF
 }
 
 .color-wrong {
-  color: mat-color(mat-palette($mat-pink));
+  color: #FF3C47
 }
 
 mat-icon {
@@ -26,10 +27,6 @@ mat-icon {
 
 mat-checkbox {
   margin-top: 1em;
-}
-
-mat-checkbox:hover {
-  background-color: #f7f7f7;
 }
 
 :host::ng-deep.mat-checkbox-layout{

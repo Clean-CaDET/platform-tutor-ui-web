@@ -1,0 +1,36 @@
+<mat-sidenav-container hasBackdrop="false">
+  <mat-sidenav fixedInViewport="true" fixedTopGap="65" mode="side" position="end" [opened]="sidenavOpened">
+    <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <h2 class="mat-h2">
+      Notes
+    </h2>
+    <cc-notes></cc-notes>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="fixed">
+      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
+        <mat-icon>assignment</mat-icon>
+      </button>
+    </div>
+    <div id="knowledge-component" *ngIf="knowledgeComponent">
+      <br>
+      <button color = "primary" id="ae-button" mat-raised-button
+              [ngStyle]="{'opacity': instructionalEventChecked ? '1' : '0.5'}"
+              (click)="onAssessmentEventClicked()">AE
+      </button>
+      <button color = "primary" id="ie-button" mat-raised-button
+              [ngStyle]="{'opacity': instructionalEventChecked ? '0.5' : '1'}"
+              (click)="onInstructionalEventClicked()">IE
+      </button>
+      <h3>Goal: {{knowledgeComponent.name}}</h3>
+      <mat-divider></mat-divider>
+      <cc-learning-object-container
+        *ngFor="let learningObject of learningObjects"
+        [learningObject]="learningObject"></cc-learning-object-container>
+      <br>
+      <br><br>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

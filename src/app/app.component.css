@@ -3,7 +3,7 @@
 }
 
 mat-sidenav {
-  width: 200px;
+  width: 150px;
 }
 
 #router-outlet {
@@ -12,4 +12,20 @@ mat-sidenav {
 
 mat-toolbar {
   z-index: 2;
+}
+
+mat-icon {
+  margin-top:5px;
+}
+
+mat-slide-toggle {
+  width: 85%;
+  margin-left: 7.5%;
+}
+
+.fixed {
+  position: fixed;
+  top: 23px;
+  right: 30px;
+  float: right;
 }

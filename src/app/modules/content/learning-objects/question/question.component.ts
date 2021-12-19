@@ -1,16 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { LearningObjectComponent } from '../learning-object-component';
-import { Question } from './model/question.model';
-import { QuestionService } from './question.service';
-import { ActivatedRoute } from '@angular/router';
-import { Answer } from './model/answer.model';
-import { shuffleArray } from '../../../../shared/helpers/arrays';
-
-interface Result {
-  id: number;
-  text: string;
-  correct: boolean;
-}
+import {Component, OnInit} from '@angular/core';
+import {LearningObjectComponent} from '../learning-object-component';
+import {Question} from './model/question.model';
+import {QuestionService} from './question.service';
+import {ActivatedRoute} from '@angular/router';
+import {MrqItem} from './model/answer.model';
+import {shuffleArray} from '../../../../shared/helpers/arrays';
+import {Result} from './model/result';
 
 @Component({
   selector: 'cc-question',
@@ -29,26 +24,29 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   ngOnInit(): void {
-    this.learningObject.possibleAnswers = shuffleArray(this.learningObject.possibleAnswers);
+    this.learningObject.items = shuffleArray(this.learningObject.items);
   }
 
   get nodeId(): number {
     return +this.route.snapshot.paramMap.get('nodeId');
   }
 
-  get checkedAnswers(): Answer[] {
+  get checkedAnswers(): MrqItem[] {
     const checkedAnswers = [];
     for (let i = 0; i < this.checked.length; i++) {
       if (this.checked[i]) {
-        checkedAnswers.push(this.learningObject.possibleAnswers[i]);
+        checkedAnswers.push(this.learningObject.items[i]);
       }
     }
     return checkedAnswers;
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(data => {
-      this.results = data.map(result => ({id: result.id, correct: result.submissionWasCorrect, text: result.feedback }));
+    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(mrqEvaluation => {
+      this.results = [];
+      mrqEvaluation.itemEvaluations.forEach(mrqItemEvaluation => {
+        this.results.push(new Result(mrqItemEvaluation));
+      });
       this.answered = true;
     });
   }

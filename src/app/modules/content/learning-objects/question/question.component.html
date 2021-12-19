@@ -2,12 +2,12 @@
   <markdown>{{learningObject.text}}</markdown>
   <div>
     <ul>
-      <mat-list-item *ngFor="let answer of learningObject.possibleAnswers; let i = index">
+      <mat-list-item *ngFor="let answer of learningObject.items; let i = index">
         <mat-checkbox [disabled]="answered" [(ngModel)]="checked[i]">
           {{answer.text}}
         </mat-checkbox>
         <div
-          [class]="getAnswerResult(answer.id).correct ? 'color-correct' : 'color-wrong'"
+          [class]="getAnswerResult(answer.id).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
           class="mat-card-subtitle"
           *ngIf="results"
         >

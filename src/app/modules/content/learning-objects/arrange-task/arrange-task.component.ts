@@ -1,18 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { LearningObjectComponent } from '../learning-object-component';
-import { ArrangeTask } from './model/arrange-task.model';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
-import { ArrangeTaskService } from './arrange-task.service';
-import { Container } from './model/container.model';
-import { Element } from './model/element.model';
-import { ActivatedRoute } from '@angular/router';
-import { shuffleArray } from '../../../../shared/helpers/arrays';
-
-interface ArrangeTaskFeedback {
-  id: number;
-  submissionWasCorrect: boolean;
-  correctElements: Element[];
-}
+import {Component, OnInit} from '@angular/core';
+import {LearningObjectComponent} from '../learning-object-component';
+import {ArrangeTask} from './model/arrange-task.model';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {ArrangeTaskService} from './arrange-task.service';
+import {Container} from './model/container.model';
+import {Element} from './model/element.model';
+import {ActivatedRoute} from '@angular/router';
+import {shuffleArray} from '../../../../shared/helpers/arrays';
+import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
+import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -23,7 +19,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   learningObject: ArrangeTask;
   state: Container[];
-  feedbackMap: Map<number, ArrangeTaskFeedback>;
+  feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
@@ -78,12 +74,28 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.state).subscribe(data => {
-      data.forEach(feedback => {
-        this.feedbackMap.set(feedback.id, feedback);
+    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
+      .subscribe(containerEvaluation => {
+        containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
+          this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
+        });
       });
-      this.answered = true;
-    });
+    this.answered = true;
   }
 
+  createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {
+    const arrangeTaskContainerSubmissionList = [];
+    const elements: number[] = [];
+
+    this.state.forEach((container, key) => {
+      const arrangeTaskContainerSubmission = new ArrangeTaskContainerSubmission(container.id);
+      container.elements.forEach((element, keyEl) => {
+        elements.push(element.id);
+        arrangeTaskContainerSubmission.elementIds = elements;
+      });
+      arrangeTaskContainerSubmissionList.push(arrangeTaskContainerSubmission);
+    });
+
+    return arrangeTaskContainerSubmissionList;
+  }
 }

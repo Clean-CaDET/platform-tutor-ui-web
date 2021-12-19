@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+#home, #unit, #menu, #kc, #login, #logout, #profile {
+  margin-top: 20px;
+  font-size: 18px;
+  width: 85%;
+  margin-left: 7.5%;
+  white-space: normal;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+img {
+  margin-top: -20%;
+  width: 85%;
+  margin-left: 7.5%;
+}
+
+#login, #logout {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 20%;
+}
+
+#profile {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin-bottom: 50%;
+}
+
+.mat-drawer-inner-container::-webkit-scrollbar {
+  display: none;
+}
