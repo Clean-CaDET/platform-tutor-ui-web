@@ -17,6 +17,7 @@ export class KnowledgeComponentComponent implements OnInit {
   nextPage: { type: string; id: number; };
   instructionalEventChecked = true;
   kcId: number;
+  learnerId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -27,8 +28,10 @@ export class KnowledgeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.kcId = +params.kcId;
+      this.learnerId = +params.learnerId;
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
+      this.instructionalEventChecked = true;
     });
   }
 
@@ -39,7 +42,7 @@ export class KnowledgeComponentComponent implements OnInit {
 
   onAssessmentEventClicked(): void {
     this.instructionalEventChecked = false;
-    this.getAssessmentEvents();
+    this.getSuitableAssessmentEvent();
   }
 
   private getKnowledgeComponent(): void {
@@ -54,9 +57,10 @@ export class KnowledgeComponentComponent implements OnInit {
     });
   }
 
-  private getAssessmentEvents(): void {
-    this.unitService.getAssessmentEvents(this.kcId).subscribe(assessmentEvents => {
-      this.learningObjects = assessmentEvents;
+  private getSuitableAssessmentEvent(): void {
+    this.unitService.getSuitableAssessmentEvent(this.kcId, this.learnerId).subscribe(assessmentEvent => {
+      this.learningObjects = [];
+      this.learningObjects[0] = assessmentEvent;
     });
   }
 }

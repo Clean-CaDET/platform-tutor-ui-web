@@ -41,9 +41,9 @@ export class UnitService {
       .pipe(map(los => this.mapLearningObjects(los)));
   }
 
-  getAssessmentEvents(kcId: number): Observable<LearningObject[]> {
-    return this.http.get<LearningObject[]>(environment.apiHost + 'units/knowledge-components/' + kcId + '/assessment-events')
-      .pipe(map(los => this.mapLearningObjects(los)));
+  getSuitableAssessmentEvent(kcId: number, learnerId: number): Observable<LearningObject> {
+    return this.http.get<LearningObject>(environment.apiHost + 'units/knowledge-components/' + kcId + '/assessment-events/' + learnerId)
+      .pipe(map(ae => this.learningObjectMapper.convert(ae)));
   }
 
   mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {
