@@ -39,9 +39,11 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     this.learnerService.logout();
+    this.resetNavBar();
   }
 
   resetNavBar(): void {
     this.selectedUnit = null;
+    this.selectedKC = null;
   }
 }

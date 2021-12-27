@@ -2,6 +2,13 @@
   display: block;
 }
 
+button {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-size: 12px !important;
+  line-height: 180%;
+}
+
 #home, #unit, #menu, #kc, #login, #logout, #profile {
   margin-top: 20px;
   font-size: 18px;
@@ -14,7 +21,6 @@
 }
 
 img {
-  margin-top: -20%;
   width: 85%;
   margin-left: 7.5%;
 }

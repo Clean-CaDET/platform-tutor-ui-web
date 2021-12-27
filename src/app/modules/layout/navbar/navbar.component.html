@@ -1,24 +1,25 @@
-<mat-nav-list >
-  <p mat-list-item>
+<div>
     <span>
-      <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="160px" alt="Clean CaDET" [routerLink]="['home']" (click)="resetNavBar()">
-      <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="160px" alt="Clean CaDET" [routerLink]="['home'] " (click)="resetNavBar()">
+      <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="120px" alt="Clean CaDET" [routerLink]="['home']" (click)="resetNavBar()">
+      <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home'] " (click)="resetNavBar()">
     </span>
-    <button color="primary" id="unit" mat-flat-button [disabled]="!learner" [matMenuTriggerFor]="unit">{{selectedUnit ? selectedUnit.name : 'Select Unit'}}</button>
+    <button color="primary" id="unit" mat-flat-button [disabled]="!learner" [matMenuTriggerFor]="unit">
+      {{selectedUnit ? selectedUnit.name : 'Select Unit'}}
+    </button>
     <mat-menu #unit="matMenu">
       <button (click)="onUnitSelected(unit)" [routerLink]="['unit/' + unit.id]" *ngFor="let unit of units" mat-menu-item>
         {{unit.name}}
       </button>
     </mat-menu>
-    <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc"
-            [disabled]="selectedUnit == null">{{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}</button>
+    <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc" [disabled]="selectedUnit == null">
+      {{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}
+    </button>
     <mat-menu #kc="matMenu">
-      <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id]" *ngFor="let kc of knowledgeComponents"
-              mat-menu-item>
+      <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id]" *ngFor="let kc of knowledgeComponents" mat-menu-item>
         {{kc.name}}
       </button>
     </mat-menu>
-    <button color="primary" *ngIf="learner" id="profile" mat-flat-button routerLink="profile">Profile</button>
-    <button color="primary" *ngIf="!learner" id="login" mat-flat-button id="login" routerLink="login">Login</button>
-    <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()">Logout</button>
-</mat-nav-list>
+    <button color="primary" *ngIf="learner" id="profile" mat-flat-button [routerLink]="['profile']">Profile</button>
+    <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Login</button>
+    <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">Logout</button>
+</div>
