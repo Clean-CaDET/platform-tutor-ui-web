@@ -34,9 +34,9 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     return +this.route.snapshot.paramMap.get('nodeId');
   }
 
-  private isElementCorrect(elementId: number, containerId: number): boolean {
+  isElementCorrect(elementId: number, containerId: number): boolean {
     return this.feedbackMap
-      .get(containerId).correctElements
+      .get(containerId)?.correctElements
       .map(element => element.id).includes(elementId);
   }
 
@@ -44,7 +44,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     const elementIds = this.state.find(container => container.id === containerId)
       .elements.map(element => element.id);
     const missingElements = [];
-    this.feedbackMap.get(containerId).correctElements.forEach(element => {
+    this.feedbackMap.get(containerId)?.correctElements.forEach(element => {
       if (!elementIds.includes(element.id)) {
         missingElements.push(element);
       }

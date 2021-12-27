@@ -31,14 +31,12 @@
             "styles": [
               "src/styles.scss",
               "src/cc-primary-theme.scss",
-              "./node_modules/prismjs/themes/prism-tomorrow.css",
-              "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
+              "./node_modules/prismjs/themes/prism-tomorrow.css"
             ],
             "scripts": [
               "./node_modules/marked/lib/marked.js",
               "./node_modules/prismjs/prism.js",
-              "./node_modules/prismjs/components/prism-csharp.min.js",
-              "./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+              "./node_modules/prismjs/components/prism-csharp.min.js"
             ]
           },
           "configurations": {
