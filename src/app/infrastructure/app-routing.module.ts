@@ -3,14 +3,14 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from '../modules/pages/home/home.component';
 import {AboutComponent} from '../modules/pages/about/about.component';
 import {PageNotFoundComponent} from '../modules/pages/page-not-found/page-not-found.component';
-import {LectureComponent} from '../modules/content/lecture/lecture.component';
-import {KnowledgeNodeComponent} from '../modules/content/knowledge-node/knowledge-node.component';
-import {LoginComponent} from '../modules/users/login/login.component';
-import {RegisterComponent} from '../modules/users/register/register.component';
-import {AuthGuard} from './guard/auth.guard';
-import {UnitComponent} from '../modules/content/unit/unit.component';
-import {KnowledgeComponentComponent} from '../modules/content/knowledge-component/knowledge-component.component';
-import {UnitResolver} from '../modules/content/unit/unit.resolver';
+import {LectureComponent} from '../modules/domain/lecture/lecture.component';
+import {KnowledgeNodeComponent} from '../modules/domain/knowledge-node/knowledge-node.component';
+import {LoginComponent} from '../modules/learner/login/login.component';
+import {RegisterComponent} from '../modules/learner/register/register.component';
+import {AuthGuard} from './auth/auth.guard';
+import {UnitComponent} from '../modules/domain/unit/unit.component';
+import {KnowledgeComponentComponent} from '../modules/domain/knowledge-component/knowledge-component.component';
+import {UnitResolver} from '../modules/domain/unit/unit.resolver';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},

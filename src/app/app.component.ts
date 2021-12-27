@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {LearnerService} from './modules/users/learner.service';
-import {Learner} from './modules/users/model/learner.model';
+import {LearnerService} from './modules/learner/learner.service';
+import {Learner} from './modules/learner/learner.model';
 import {OverlayContainer} from '@angular/cdk/overlay';
 
 @Component({

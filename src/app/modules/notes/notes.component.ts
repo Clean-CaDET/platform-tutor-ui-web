@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from './model/note.model';
+import { Note } from './note.model';
 
 @Component({
   selector: 'cc-notes',
@@ -25,7 +25,7 @@ export class NotesComponent implements OnInit {
   }
 
   onSave(): void {
-    // TODO: Make an API call to save the users note
+    // TODO: Make an API call to save the learner note
     this.notes.push(new Note({text: this.text}));
     this.onCancel();
   }
