@@ -3,18 +3,18 @@
   <div>
     <ul>
       <mat-list-item *ngFor="let answer of learningObject.items; let i = index">
-        <mat-checkbox [disabled]="answered" [(ngModel)]="checked[i]">
+        <mat-checkbox [disabled]="evaluation" [(ngModel)]="checked[i]">
           {{answer.text}}
         </mat-checkbox>
         <div
           [class]="getAnswerResult(answer.id).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
           class="mat-card-subtitle"
-          *ngIf="results"
+          *ngIf="evaluation"
         >
-          {{getAnswerResult(answer.id).text}}
+          {{getAnswerResult(answer.id).feedback}}
         </div>
       </mat-list-item>
     </ul>
-    <button *ngIf="!answered" mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <button *ngIf="!evaluation" mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
   </div>
 </div>

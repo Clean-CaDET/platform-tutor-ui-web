@@ -7,8 +7,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-
-
 @NgModule({
   declarations: [
     LoginComponent,

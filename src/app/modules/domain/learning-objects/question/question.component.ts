@@ -5,7 +5,8 @@ import {QuestionService} from './question.service';
 import {ActivatedRoute} from '@angular/router';
 import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
-import {Result} from './model/result';
+import {MrqEvaluation} from './model/mrq-evaluation.model';
+import {MrqItemEvaluation} from './model/mrq-item-evaluation.model';
 
 @Component({
   selector: 'cc-question',
@@ -13,11 +14,9 @@ import {Result} from './model/result';
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent implements OnInit, LearningObjectComponent {
-
   learningObject: Question;
   checked: boolean[];
-  answered = false;
-  results: Result[];
+  evaluation: MrqEvaluation;
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute) {
     this.checked = [];
@@ -42,16 +41,11 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers).subscribe(mrqEvaluation => {
-      this.results = [];
-      mrqEvaluation.itemEvaluations.forEach(mrqItemEvaluation => {
-        this.results.push(new Result(mrqItemEvaluation));
-      });
-      this.answered = true;
-    });
+    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers)
+      .subscribe(mrqEvaluation => this.evaluation = mrqEvaluation);
   }
 
-  getAnswerResult(answerId: number): Result {
-    return this.results.find(result => result.id === answerId);
+  getAnswerResult(answerId: number): MrqItemEvaluation {
+    return this.evaluation.itemEvaluations.find(item => item.id === answerId);
   }
 }

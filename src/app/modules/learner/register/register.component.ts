@@ -27,6 +27,12 @@ export class RegisterComponent implements OnInit {
     if (this.registerForm.valid) {
       this.learnerService.register(this.registerForm.value).subscribe(() => {
         this.router.navigate(['/']);
+      }, () => {
+        // Assumes user is already registered if there is an error.
+        // TODO: Remove this logic when we enable real authentication.
+        this.learnerService.login(this.registerForm.value).subscribe(() => {
+          this.router.navigate(['/']);
+        });
       });
     }
   }

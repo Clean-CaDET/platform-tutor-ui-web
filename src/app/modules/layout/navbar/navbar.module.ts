@@ -4,8 +4,6 @@ import { NavbarComponent } from './navbar.component';
 import { MaterialModule } from '../../../infrastructure/material.module';
 import { AppRoutingModule } from '../../../infrastructure/app-routing.module';
 
-
-
 @NgModule({
   declarations: [
     NavbarComponent

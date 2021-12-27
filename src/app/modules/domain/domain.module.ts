@@ -21,7 +21,6 @@ import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-
 import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
 
-
 @NgModule({
   declarations: [
     FeedbackComponent,

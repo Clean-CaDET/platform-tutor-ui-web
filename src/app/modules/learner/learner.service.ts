@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { Learner } from './learner.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { tap } from 'rxjs/operators';
+import {catchError, tap} from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
+import {error} from 'protractor';
 
 interface LoginDTO {
   index: string;
