@@ -1,8 +1,8 @@
 <mat-nav-list >
   <p mat-list-item>
     <span>
-      <img *ngIf="isDarkTheme" src="assets/images/logo.png" width="160px" alt="Clean CaDET" [routerLink]="['home']" (click)="resetNavBar()">
-      <img *ngIf="!isDarkTheme" src="assets/images/black.png" width="160px" alt="Clean CaDET" [routerLink]="['home'] " (click)="resetNavBar()">
+      <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="160px" alt="Clean CaDET" [routerLink]="['home']" (click)="resetNavBar()">
+      <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="160px" alt="Clean CaDET" [routerLink]="['home'] " (click)="resetNavBar()">
     </span>
     <button color="primary" id="unit" mat-flat-button [disabled]="!learner" [matMenuTriggerFor]="unit">{{selectedUnit ? selectedUnit.name : 'Select Unit'}}</button>
     <mat-menu #unit="matMenu">

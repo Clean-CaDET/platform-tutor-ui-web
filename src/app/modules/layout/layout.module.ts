@@ -4,8 +4,6 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
-
-
 @NgModule({
   declarations: [
     HomeComponent,
@@ -16,4 +14,4 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     CommonModule
   ]
 })
-export class PagesModule { }
+export class LayoutModule { }

@@ -1,6 +1,4 @@
 import {NgModule} from '@angular/core';
-import {LectureComponent} from './lecture/lecture.component';
-import {KnowledgeNodeComponent} from './knowledge-node/knowledge-node.component';
 import {FeedbackComponent} from './feedback/feedback.component';
 import {ArrangeTaskComponent} from './learning-objects/arrange-task/arrange-task.component';
 import {ChallengeComponent} from './learning-objects/challenge/challenge.component';
@@ -18,7 +16,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {MaterialModule} from '../../infrastructure/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
-import {NotesModule} from '../notes/notes.module';
+import {NotesModule} from './notes/notes.module';
 import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-dialog.component';
 import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
@@ -26,8 +24,6 @@ import {KnowledgeComponentComponent} from './knowledge-component/knowledge-compo
 
 @NgModule({
   declarations: [
-    LectureComponent,
-    KnowledgeNodeComponent,
     FeedbackComponent,
     ArrangeTaskComponent,
     ChallengeComponent,
@@ -53,9 +49,8 @@ import {KnowledgeComponentComponent} from './knowledge-component/knowledge-compo
     NotesModule
   ],
   exports: [
-    LectureComponent,
     LearningObjectContainerComponent
   ]
 })
-export class ContentModule {
+export class DomainModule {
 }

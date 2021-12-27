@@ -1,9 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {UnitService} from '../domain/unit/unit.service';
-import {Unit} from '../domain/unit/model/unit.model';
-import {KnowledgeComponent} from '../domain/knowledge-component/model/knowledge-component.model';
-import {Learner} from '../learner/learner.model';
-import {LearnerService} from '../learner/learner.service';
+import {UnitService} from '../../domain/unit/unit.service';
+import {Unit} from '../../domain/unit/unit.model';
+import {KnowledgeComponent} from '../../domain/knowledge-component/model/knowledge-component.model';
+import {Learner} from '../../learner/learner.model';
+import {LearnerService} from '../../learner/learner.service';
 
 @Component({
   selector: 'cc-navbar',

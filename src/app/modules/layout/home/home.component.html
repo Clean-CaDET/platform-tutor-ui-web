@@ -16,25 +16,6 @@
     <h2>Lecture Catalog</h2>
     <p>Edukativni sadržaj Tutora je organizovan u lekcije, koje su potom segmentirane na module. Deo modula je fokusiran na prezentaciju novog gradiva, dok se praktični moduli fokusiraju na izazove. Neophodno je savladati sve module lekcije da bi se ona kompletirala.</p>
     <p>Danas na tacni imaš dve lekcije - "Jasna imena" i "Kratke funkcije". Odaberi "Jasna imena" iz kataloga ispod ili navigacione trake sa strane i nakon što prođeš njen opis izaberi prvi modul.</p>
-    <div fxLayout="row wrap">
-        <mat-card style="margin: 10px;" *ngFor="let lecture of lectures"
-            fxFlex="30"
-            fxFlex.md="45"
-            fxFlex.sm="100"
-            fxFlex.xs="100">
-            <mat-card-header>
-                <mat-icon mat-card-avatar>book</mat-icon>
-                <mat-card-title style="text-align: left;">{{lecture.name}}</mat-card-title>
-              </mat-card-header>
-              <mat-card-content>
-                <p>
-                  {{lecture.description}}
-                </p>
-              </mat-card-content>
-              <mat-card-actions>
-                <a mat-raised-button [routerLink]="'/lecture/' + lecture.id">Explore</a>
-              </mat-card-actions>
-        </mat-card>
-    </div>
+
 </div>
 <br><br>

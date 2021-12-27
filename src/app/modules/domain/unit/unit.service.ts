@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
-import {Unit} from './model/unit.model';
+import {Unit} from './unit.model';
 import {environment} from '../../../../environments/environment';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 import {LearningObjectMapper} from '../learning-objects/learning-object-mapper';

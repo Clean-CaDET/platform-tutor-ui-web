@@ -1,4 +1,4 @@
-import {KnowledgeComponent} from '../../knowledge-component/model/knowledge-component.model';
+import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 
 export class Unit {
   id: number;

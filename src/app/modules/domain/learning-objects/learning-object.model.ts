@@ -5,7 +5,7 @@ export abstract class LearningObject {
   id: number;
   learningObjectSummaryId: number;
 
-  constructor(obj?: any) {
+  protected constructor(obj?: any) {
     if (obj) {
       this.id = obj.id;
       this.learningObjectSummaryId = obj.learningObjectSummaryId;
