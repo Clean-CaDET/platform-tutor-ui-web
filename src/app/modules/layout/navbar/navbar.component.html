@@ -1,9 +1,7 @@
 <div>
     <span>
-      <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="120px" alt="Clean CaDET"
-           [routerLink]="['home']" (click)="resetNavBar()">
-      <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET"
-           [routerLink]="['home'] " (click)="resetNavBar()">
+      <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="120px" alt="Clean CaDET" [routerLink]="['home']" (click)="resetNavBar()">
+      <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home'] " (click)="resetNavBar()">
     </span>
   <button color="primary" id="unit" mat-flat-button [disabled]="!learner" [matMenuTriggerFor]="unit">
     {{selectedUnit ? selectedUnit.name : 'Select Unit'}}
@@ -17,16 +15,11 @@
     {{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}
   </button>
   <mat-menu #kc="matMenu">
-    <ng-container *ngIf="selectedUnit != null">
-      <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id + '/learner/' + learner.id]"
-              *ngFor="let kc of knowledgeComponents" mat-menu-item>
-        {{kc.name}}
-      </button>
-    </ng-container>
+    <button (click)="onKCSelected(kc)" [routerLink]="['kc/' + kc.id]" *ngFor="let kc of knowledgeComponents" mat-menu-item>
+      {{kc.name}}
+    </button>
   </mat-menu>
   <button color="primary" *ngIf="learner" id="profile" mat-flat-button [routerLink]="['profile']">Profile</button>
   <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Login</button>
-  <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">
-    Logout
-  </button>
+  <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">Logout</button>
 </div>

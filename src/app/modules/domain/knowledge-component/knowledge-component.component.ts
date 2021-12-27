@@ -3,6 +3,7 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
+import {LearnerService} from '../../learner/learner.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -22,13 +23,14 @@ export class KnowledgeComponentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private unitService: UnitService) {
+    private unitService: UnitService,
+    private learnerService: LearnerService) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.kcId = +params.kcId;
-      this.learnerId = +params.learnerId;
+      this.learnerId = this.learnerService.learner$.value.id;
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
