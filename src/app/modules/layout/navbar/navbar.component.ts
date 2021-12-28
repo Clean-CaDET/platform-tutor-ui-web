@@ -4,6 +4,7 @@ import {Unit} from '../../domain/unit/unit.model';
 import {KnowledgeComponent} from '../../domain/knowledge-component/model/knowledge-component.model';
 import {Learner} from '../../learner/learner.model';
 import {LearnerService} from '../../learner/learner.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'cc-navbar',
@@ -19,7 +20,7 @@ export class NavbarComponent implements OnInit {
   selectedKC: KnowledgeComponent;
   @Input() isDarkTheme: boolean;
 
-  constructor(private unitService: UnitService, private learnerService: LearnerService) {
+  constructor(private unitService: UnitService, private learnerService: LearnerService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -35,6 +36,7 @@ export class NavbarComponent implements OnInit {
 
   onKCSelected(kc): void {
     this.selectedKC = kc;
+    this.router.navigate(['kc/' + kc.id]);
   }
 
   onLogout(): void {

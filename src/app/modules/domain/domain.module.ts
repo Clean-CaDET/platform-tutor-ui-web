@@ -20,6 +20,7 @@ import {NotesModule} from './notes/notes.module';
 import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-dialog.component';
 import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
+import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import {KnowledgeComponentComponent} from './knowledge-component/knowledge-compo
     LearningObjectContainerComponent,
     ImageDialogComponent,
     UnitComponent,
-    KnowledgeComponentComponent
+    KnowledgeComponentComponent,
+    KnowledgeMapComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,8 @@ import {KnowledgeComponentComponent} from './knowledge-component/knowledge-compo
     NotesModule
   ],
   exports: [
-    LearningObjectContainerComponent
+    LearningObjectContainerComponent,
+    KnowledgeMapComponent
   ]
 })
 export class DomainModule {

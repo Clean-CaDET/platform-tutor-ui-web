@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NavbarComponent } from './navbar.component';
 import { MaterialModule } from '../../../infrastructure/material.module';
 import { AppRoutingModule } from '../../../infrastructure/app-routing.module';
+import {DomainModule} from '../../domain/domain.module';
 
 @NgModule({
   declarations: [
@@ -11,7 +12,8 @@ import { AppRoutingModule } from '../../../infrastructure/app-routing.module';
   imports: [
     BrowserModule,
     MaterialModule,
-    AppRoutingModule
+    AppRoutingModule,
+    DomainModule
   ],
   exports: [
     NavbarComponent
