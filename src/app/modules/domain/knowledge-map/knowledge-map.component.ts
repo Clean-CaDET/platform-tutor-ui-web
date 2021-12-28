@@ -1,26 +1,15 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
-import {MatTreeNestedDataSource} from '@angular/material/tree';
-import {NestedTreeControl} from '@angular/cdk/tree';
 
 @Component({
   selector: 'cc-knowledge-map',
   templateUrl: './knowledge-map.component.html',
   styleUrls: ['./knowledge-map.component.scss']
 })
-export class KnowledgeMapComponent implements OnChanges {
+export class KnowledgeMapComponent {
   @Input() knowledgeComponents: KnowledgeComponent[];
+  @Input() level = 0;
   @Output() selectedKC = new EventEmitter<KnowledgeComponent>();
 
-  treeControl = new NestedTreeControl<KnowledgeComponent>(node => node.knowledgeComponents);
-
-  dataSource = new MatTreeNestedDataSource<KnowledgeComponent>();
-
-  hasChild = (_: number, node: KnowledgeComponent) => !!node.knowledgeComponents && node.knowledgeComponents.length > 0;
-
   constructor() { }
-
-  ngOnChanges(): void {
-    this.dataSource.data = this.knowledgeComponents;
-  }
 }

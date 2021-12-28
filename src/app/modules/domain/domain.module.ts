@@ -38,17 +38,17 @@ import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
     KnowledgeComponentComponent,
     KnowledgeMapComponent
   ],
-  imports: [
-    BrowserModule,
-    MarkdownModule.forChild(),
-    YouTubePlayerModule,
-    FlexLayoutModule,
-    RouterModule,
-    FormsModule,
-    MaterialModule,
-    DragDropModule,
-    NotesModule
-  ],
+    imports: [
+        BrowserModule,
+        MarkdownModule.forChild(),
+        YouTubePlayerModule,
+        FlexLayoutModule,
+        RouterModule,
+        FormsModule,
+        MaterialModule,
+        DragDropModule,
+        NotesModule
+    ],
   exports: [
     LearningObjectContainerComponent,
     KnowledgeMapComponent

@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports: [
@@ -21,7 +22,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatCheckboxModule,
     MatIconModule,
     MatToolbarModule,
-    MatTreeModule,
+    MatTooltipModule,
     MatListModule,
     MatInputModule,
     MatCardModule,
@@ -37,7 +38,7 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatCheckboxModule,
     MatIconModule,
     MatToolbarModule,
-    MatTreeModule,
+    MatTooltipModule,
     MatListModule,
     MatInputModule,
     MatCardModule,
