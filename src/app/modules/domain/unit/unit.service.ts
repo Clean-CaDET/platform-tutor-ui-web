@@ -1,39 +1,35 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {map} from 'rxjs/operators';
 import {Unit} from './unit.model';
 import {environment} from '../../../../environments/environment';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 import {LearningObjectMapper} from '../learning-objects/learning-object-mapper';
 import {LearningObject} from '../learning-objects/learning-object.model';
+import {query} from '@angular/animations';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class UnitService {
-  units: Unit[];
-  unit: Unit;
-  kc: KnowledgeComponent;
-
   constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper) {
 
   }
 
   getUnits(): Observable<Unit[]> {
-    return this.http.get<Unit[]>(environment.apiHost + 'units')
-      .pipe(tap(units => this.units = units));
+    return this.http.get<Unit[]>(environment.apiHost + 'units');
   }
 
-  getUnit(unitId: number): Observable<Unit> {
-    return this.http.get<Unit>(environment.apiHost + 'units/' + unitId)
-      .pipe(tap(unit => this.unit = unit));
+  getUnit(unitId: number, learnerId: number): Observable<Unit> {
+    return this.http.get<Unit>(environment.apiHost + 'units/' + unitId, {params: {learnerId}})
+      .pipe(map(unit => new Unit(unit)));
   }
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
     return this.http.get<KnowledgeComponent>(environment.apiHost + 'units/knowledge-components/' + kcId)
-      .pipe(tap(kc => this.kc = kc));
+      .pipe(map(kc => new KnowledgeComponent(kc)));
   }
 
   getInstructionalEvents(kcId: number): Observable<LearningObject[]> {

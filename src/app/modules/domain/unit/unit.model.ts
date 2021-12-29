@@ -11,7 +11,7 @@ export class Unit {
       this.id = obj.id;
       this.name = obj.name;
       this.description = obj.description;
-      this.knowledgeComponents = obj.knowledgeComponents;
+      this.knowledgeComponents = obj.knowledgeComponents?.map(kc => new KnowledgeComponent(kc));
     }
   }
 }

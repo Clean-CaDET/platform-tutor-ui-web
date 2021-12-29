@@ -29,9 +29,12 @@ export class NavbarComponent implements OnInit {
   }
 
   onUnitSelected(unit): void {
-    this.knowledgeComponents = unit.knowledgeComponents;
-    this.selectedUnit = unit;
-    this.selectedKC = null;
+    this.unitService.getUnit(unit.id, this.learner.id).subscribe(fullUnit => {
+      this.knowledgeComponents = fullUnit.knowledgeComponents;
+      this.selectedUnit = fullUnit;
+      this.selectedKC = null;
+      this.router.navigate(['unit/' + fullUnit.id], {state: {unit: fullUnit}});
+    });
   }
 
   onKCSelected(kc): void {

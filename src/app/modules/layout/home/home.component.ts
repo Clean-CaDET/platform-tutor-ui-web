@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {UnitService} from '../../domain/unit/unit.service';
+import {Unit} from '../../domain/unit/unit.model';
 
 @Component({
   selector: 'cc-home',
@@ -6,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  units: Unit[];
 
-  constructor() { }
+  constructor(private unitService: UnitService) { }
 
   ngOnInit(): void {
-    // TODO: Update homepage content.
+    this.unitService.getUnits().subscribe(units => this.units = units);
   }
 
 }

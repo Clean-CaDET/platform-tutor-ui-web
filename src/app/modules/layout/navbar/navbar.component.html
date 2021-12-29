@@ -7,7 +7,7 @@
     {{selectedUnit ? selectedUnit.name : 'Select Unit'}}
   </button>
   <mat-menu #unit="matMenu">
-    <button (click)="onUnitSelected(unit)" [routerLink]="['unit/' + unit.id]" *ngFor="let unit of units" mat-menu-item>
+    <button (click)="onUnitSelected(unit)" *ngFor="let unit of units" mat-menu-item>
       {{unit.name}}
     </button>
   </mat-menu>

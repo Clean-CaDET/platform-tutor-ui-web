@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import {LearnerService} from './modules/learner/learner.service';
-import {Learner} from './modules/learner/learner.model';
 import {OverlayContainer} from '@angular/cdk/overlay';
 
 @Component({
@@ -11,14 +10,12 @@ import {OverlayContainer} from '@angular/cdk/overlay';
 export class AppComponent implements OnInit {
   opened = false;
   isDarkTheme = true;
-  learner: Learner;
 
   constructor(private learnerService: LearnerService, private overlayContainer: OverlayContainer) {
   }
 
   ngOnInit(): void {
     this.opened = true;
-    this.learnerService.learner$.subscribe(learner => this.learner = learner);
     this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
     this.applyThemeOnLayers();
   }

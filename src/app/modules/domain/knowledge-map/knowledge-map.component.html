@@ -1,7 +1,14 @@
 <div *ngFor="let kc of knowledgeComponents">
-  <div mat-menu-item (click)="selectedKC.emit(kc)" [matTooltip]="kc.name" [matTooltipPosition]="'after'">
+  <div mat-menu-item (click)="selectedKC.emit(kc)" [matTooltip]="kc.name" [matTooltipPosition]="'after'"
+       [disabled]="isLocked(kc)" [ngClass]="{'mat-accent': isCompleted(kc)}">
     <span [ngStyle]="{'padding-left': 16*level+'px'}" class="kc-menu">
-      <mat-icon>lock</mat-icon>{{kc.name}}
+      <mat-icon *ngIf="isLocked(kc)">lock</mat-icon>
+      <mat-icon *ngIf="isCompleted(kc)">done</mat-icon>
+      <span *ngIf="isInProgress(kc)">
+        {{kc.mastery.mastery * 100}}
+        <mat-icon>percent</mat-icon>
+      </span>
+      {{kc.name}}
     </span>
   </div>
   <cc-knowledge-map

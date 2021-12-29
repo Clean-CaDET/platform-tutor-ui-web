@@ -12,4 +12,20 @@ export class KnowledgeMapComponent {
   @Output() selectedKC = new EventEmitter<KnowledgeComponent>();
 
   constructor() { }
+
+  isLocked(kc: KnowledgeComponent): boolean {
+    return this.areChildrenIncomplete(kc.knowledgeComponents);
+  }
+
+  isCompleted(kc: KnowledgeComponent): boolean {
+    return !this.areChildrenIncomplete(kc.knowledgeComponents) && kc.mastery.mastery >= 0.9;
+  }
+
+  isInProgress(kc: KnowledgeComponent): boolean {
+    return !this.areChildrenIncomplete(kc.knowledgeComponents) && kc.mastery.mastery < 0.9;
+  }
+
+  private areChildrenIncomplete(childrenKCs: KnowledgeComponent[]): boolean {
+    return childrenKCs.some(kc => kc.mastery.mastery < 0.9);
+  }
 }

@@ -1,6 +1,8 @@
 import {Component, Injectable, OnInit} from '@angular/core';
 import {UnitService} from './unit.service';
-import {ActivatedRoute, Data} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
+import {Unit} from './unit.model';
+import {LearnerService} from '../../learner/learner.service';
 
 @Component({
   selector: 'cc-unit',
@@ -9,14 +11,14 @@ import {ActivatedRoute, Data} from '@angular/router';
 })
 @Injectable({providedIn: 'root'})
 export class UnitComponent implements OnInit {
+  unit: Unit;
 
-  data: Data;
-
-  constructor(private unitService: UnitService,
-              private route: ActivatedRoute) {
-  }
+  constructor(private unitService: UnitService, private learnerService: LearnerService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.data = this.route.snapshot.data;
+    this.route.params.subscribe(params => {
+      this.unitService.getUnit(this.route.snapshot.params.unitId, this.learnerService.learner$.value.id)
+        .subscribe(unit => this.unit = unit);
+    });
   }
 }
