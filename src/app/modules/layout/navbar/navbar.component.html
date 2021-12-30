@@ -11,7 +11,7 @@
       {{unit.name}}
     </button>
   </mat-menu>
-  <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc" [disabled]="selectedUnit == null">
+  <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc" [disabled]="!selectedUnit">
     {{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}
   </button>
   <mat-menu #kc="matMenu">
@@ -21,7 +21,7 @@
     >
     </cc-knowledge-map>
   </mat-menu>
-  <button color="primary" *ngIf="learner" id="profile" mat-flat-button [routerLink]="['profile']">Profile</button>
   <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Login</button>
+  <button color="primary" *ngIf="learner" id="profile" mat-flat-button [routerLink]="['profile']">Profile</button>
   <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">Logout</button>
 </div>

@@ -11,7 +11,7 @@ export class KnowledgeMapComponent {
   @Input() level = 0;
   @Output() selectedKC = new EventEmitter<KnowledgeComponent>();
 
-  constructor() { }
+  constructor() {}
 
   isLocked(kc: KnowledgeComponent): boolean {
     return this.areChildrenIncomplete(kc.knowledgeComponents);

@@ -1,16 +1,17 @@
 <div *ngFor="let kc of knowledgeComponents">
-  <div mat-menu-item (click)="selectedKC.emit(kc)" [matTooltip]="kc.name" [matTooltipPosition]="'after'"
-       [disabled]="isLocked(kc)" [ngClass]="{'mat-accent': isCompleted(kc)}">
+  <button mat-menu-item (click)="selectedKC.emit(kc)" [matTooltip]="kc.name" [matTooltipPosition]="'after'"
+      [disabled]="isLocked(kc)"
+      [ngClass]="{'kc-in-progress': isInProgress(kc)}">
     <span [ngStyle]="{'padding-left': 16*level+'px'}" class="kc-menu">
       <mat-icon *ngIf="isLocked(kc)">lock</mat-icon>
       <mat-icon *ngIf="isCompleted(kc)">done</mat-icon>
       <span *ngIf="isInProgress(kc)">
-        {{kc.mastery.mastery * 100}}
-        <mat-icon>percent</mat-icon>
+        <b>{{kc.mastery.mastery * 100}}</b>
+        <mat-icon color="accent">percent</mat-icon>
       </span>
       {{kc.name}}
     </span>
-  </div>
+  </button>
   <cc-knowledge-map
     [level]="level+1"
     [knowledgeComponents]="kc.knowledgeComponents" (selectedKC)="selectedKC.emit($event)">

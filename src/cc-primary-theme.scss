@@ -1,4 +1,5 @@
 @use '~@angular/material' as mat;
+@use './src/app/modules/domain/knowledge-map/knowledge-map.component-theme' as knowledge-map;
 
 @include mat.core();
 
@@ -35,8 +36,8 @@ $cc-palette: (
   )
 );
 
-$cc-primary-dark: mat.define-palette($cc-palette);
-$cc-accent-dark: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
+$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 700, 400, 900);
 $cc-warn-dark: mat.define-palette(mat.$red-palette);
 
 $cc-dark-theme: mat.define-dark-theme((
@@ -49,10 +50,11 @@ $cc-dark-theme: mat.define-dark-theme((
 
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
+  @include knowledge-map.color($cc-dark-theme);
 }
 
-$cc-primary-light: mat.define-palette(mat.$indigo-palette);
-$cc-accent-light: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+$cc-primary-light: mat.define-palette(mat.$teal-palette);
+$cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
 $cc-warn-light: mat.define-palette(mat.$red-palette);
 
 $cc-theme: mat.define-light-theme((
@@ -64,5 +66,9 @@ $cc-theme: mat.define-light-theme((
 ));
 
 .light-theme-mode {
-  @include mat.all-component-themes($cc-theme)
+  @include mat.all-component-themes($cc-theme);
+  @include knowledge-map.color($cc-theme);
 }
+
+
+
