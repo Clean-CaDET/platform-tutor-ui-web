@@ -7,7 +7,7 @@
     {{selectedUnit ? selectedUnit.name : 'Select Unit'}}
   </button>
   <mat-menu #unit="matMenu">
-    <button (click)="onUnitSelected(unit)" *ngFor="let unit of units" mat-menu-item>
+    <button [routerLink]="['unit', unit.id]" *ngFor="let unit of units" mat-menu-item>
       {{unit.name}}
     </button>
   </mat-menu>
@@ -15,10 +15,7 @@
     {{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}
   </button>
   <mat-menu #kc="matMenu">
-    <cc-knowledge-map *ngIf="selectedUnit"
-      [knowledgeComponents]="selectedUnit.knowledgeComponents"
-      (selectedKC)="onKCSelected($event)"
-    >
+    <cc-knowledge-map *ngIf="selectedUnit" [knowledgeComponents]="selectedUnit.knowledgeComponents">
     </cc-knowledge-map>
   </mat-menu>
   <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Login</button>

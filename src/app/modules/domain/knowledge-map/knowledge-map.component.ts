@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 
 @Component({
@@ -9,7 +9,7 @@ import {KnowledgeComponent} from '../knowledge-component/model/knowledge-compone
 export class KnowledgeMapComponent {
   @Input() knowledgeComponents: KnowledgeComponent[];
   @Input() level = 0;
-  @Output() selectedKC = new EventEmitter<KnowledgeComponent>();
+  @Input() expanded = false;
 
   constructor() {}
 
