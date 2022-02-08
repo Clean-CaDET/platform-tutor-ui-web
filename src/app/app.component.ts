@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     this.opened = true;
     this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
     this.applyThemeOnLayers();
+    this.setUser();
   }
 
   changeTheme(): void {
