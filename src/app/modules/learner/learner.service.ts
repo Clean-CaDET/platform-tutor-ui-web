@@ -6,6 +6,7 @@ import {tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenService} from '../../infrastructure/auth/jwt/token.service';
 import {AuthenticationResponse} from '../../infrastructure/auth/jwt/authentication-response.model';
+import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../shared/constants';
 
 interface LoginDTO {
   index: string;
@@ -51,7 +52,7 @@ export class LearnerService {
 
   logout(): void {
     this.learner$.next(null);
-    localStorage.setItem('auth-token', null);
-    localStorage.setItem('auth-refresh-token', null);
+    localStorage.setItem(ACCESS_TOKEN, null);
+    localStorage.setItem(REFRESH_TOKEN, null);
   }
 }
