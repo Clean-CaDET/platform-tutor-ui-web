@@ -15,8 +15,8 @@ export class TokenService {
 
   refreshToken(): Observable<AuthenticationResponse> {
     const data = {
-      accessToken: window.sessionStorage.getItem(ACCESS_TOKEN),
-      refreshToken: window.sessionStorage.getItem(REFRESH_TOKEN)
+      accessToken: localStorage.getItem(ACCESS_TOKEN),
+      refreshToken: localStorage.getItem(REFRESH_TOKEN)
     };
 
     return this.http.post<AuthenticationResponse>(environment.apiHost + 'learners/refresh', data)
@@ -28,16 +28,16 @@ export class TokenService {
   }
 
   public saveAccessToken(token: string): void {
-    window.sessionStorage.removeItem(ACCESS_TOKEN);
-    window.sessionStorage.setItem(ACCESS_TOKEN, token);
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.setItem(ACCESS_TOKEN, token);
   }
 
   public saveRefreshToken(token: string): void {
-    window.sessionStorage.removeItem(REFRESH_TOKEN);
-    window.sessionStorage.setItem(REFRESH_TOKEN, token);
+    localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.setItem(REFRESH_TOKEN, token);
   }
 
   public getRefreshToken(): string | null {
-    return window.sessionStorage.getItem(REFRESH_TOKEN);
+    return localStorage.getItem(REFRESH_TOKEN);
   }
 }

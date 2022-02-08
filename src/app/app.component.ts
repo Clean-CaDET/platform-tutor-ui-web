@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {LearnerService} from './modules/learner/learner.service';
 import {OverlayContainer} from '@angular/cdk/overlay';
+import {Learner} from './modules/learner/learner.model';
+import {ACCESS_TOKEN} from './shared/constants';
 
 @Component({
   selector: 'cc-root',
@@ -36,5 +38,13 @@ export class AppComponent implements OnInit {
 
   private storeThemeSelection(): void {
     localStorage.setItem('theme', this.isDarkTheme ? 'Dark' : 'Light');
+  }
+
+  private setUser(): void {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    if (accessToken == null) { return; }
+    const decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
+    const learner = new Learner({id: +decodedJWT.id}); // TODO: We should add User model in future.
+    this.learnerService.setLearner(learner);
   }
 }
