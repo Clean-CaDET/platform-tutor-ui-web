@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
     studentIndex: new FormControl('', [
       Validators.required,
       this.indexValidator()]),
+    password: new FormControl('', [ Validators.required ])
   });
 
   constructor(

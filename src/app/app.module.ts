@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MarkdownModule} from 'ngx-markdown';
 import {AppComponent} from './app.component';
@@ -17,6 +17,7 @@ import {initializeKeycloak} from './infrastructure/auth/keycloak/keycloak.init';
 import {NotesModule} from './modules/domain/notes/notes.module';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
+import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
 
 
 @NgModule({
@@ -48,6 +49,11 @@ import {MatIconModule} from '@angular/material/icon';
       useFactory: initializeKeycloak,
       multi: true,
       deps: [KeycloakService],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true
     },
   ],
   bootstrap: [AppComponent]
