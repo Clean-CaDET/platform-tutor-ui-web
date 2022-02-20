@@ -5,6 +5,7 @@ import { Image } from './image/image.model';
 import { Video } from './video/video.model';
 import { Question } from './question/model/question.model';
 import { ArrangeTask } from './arrange-task/model/arrange-task.model';
+import { ShortAnswerQuestion } from './short-answer-question/short-answer-question.model';
 import { Challenge } from './challenge/challenge.model';
 
 @Injectable({
@@ -25,6 +26,8 @@ export class LearningObjectMapper {
         return new Question(learningObject);
       case 'arrangeTask':
         return new ArrangeTask(learningObject);
+      case 'shortAnswerQuestion':
+        return new ShortAnswerQuestion(learningObject);
       case 'challenge':
         return new Challenge(learningObject);
     }
