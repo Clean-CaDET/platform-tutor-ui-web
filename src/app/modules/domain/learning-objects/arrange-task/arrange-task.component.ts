@@ -85,13 +85,11 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {
     const arrangeTaskContainerSubmissionList = [];
-    const elements: number[] = [];
 
     this.state.forEach((container, key) => {
       const arrangeTaskContainerSubmission = new ArrangeTaskContainerSubmission(container.id);
       container.elements.forEach((element, keyEl) => {
-        elements.push(element.id);
-        arrangeTaskContainerSubmission.elementIds = elements;
+        arrangeTaskContainerSubmission.elementIds.push(element.id);
       });
       arrangeTaskContainerSubmissionList.push(arrangeTaskContainerSubmission);
     });
