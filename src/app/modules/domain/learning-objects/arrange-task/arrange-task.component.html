@@ -32,7 +32,7 @@
             <mat-icon *ngIf="isElementCorrect(element.id, container.id)" color="primary">done</mat-icon>
             <mat-icon *ngIf="!isElementCorrect(element.id, container.id)" color="accent">close</mat-icon>
           </div>
-          <div fxFlex>
+          <div fxFlex id="card-text">
             {{element.text}}
           </div>
         </mat-list-item>
