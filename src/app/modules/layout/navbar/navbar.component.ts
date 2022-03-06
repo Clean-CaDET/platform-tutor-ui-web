@@ -7,6 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {NavbarService} from './navbar.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -23,10 +24,20 @@ export class NavbarComponent implements OnInit {
   @Input() isDarkTheme: boolean;
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
-              private router: Router, private route: ActivatedRoute) {
+              private router: Router, private route: ActivatedRoute,
+              private navbarService: NavbarService) {
+    this.navbarService.invokeEvent.subscribe(value => {
+      if (value === 'updateContent') {
+        this.updateContent();
+      }
+    });
   }
 
   ngOnInit(): void {
+    this.updateContent();
+  }
+
+  private updateContent(): void {
     this.unitService.getUnits().subscribe(units => this.units = units);
     this.learnerService.learner$.subscribe(learner => this.learner = learner);
     this.setupActiveUnitAndKCUpdate();

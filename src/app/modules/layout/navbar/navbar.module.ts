@@ -16,7 +16,7 @@ import {DomainModule} from '../../domain/domain.module';
     DomainModule
   ],
   exports: [
-    NavbarComponent
+    NavbarComponent,
   ]
 })
 export class NavbarModule { }
