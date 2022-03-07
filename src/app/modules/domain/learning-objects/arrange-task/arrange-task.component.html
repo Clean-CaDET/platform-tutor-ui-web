@@ -34,6 +34,9 @@
           </div>
           <div fxFlex id="card-text">
             {{element.text}}
+            <div class="card-feedback" *ngIf="answered && isElementCorrect(element.id, container.id)">
+              {{element.feedback}}
+            </div>
           </div>
         </mat-list-item>
         <div *ngIf="answered">
@@ -44,6 +47,9 @@
             fxLayout="row"
             fxLayoutAlign="none center">
             {{element.text}}
+            <div class="card-feedback">
+              {{element.feedback}}
+            </div>
           </mat-list-item>
         </div>
       </div>
