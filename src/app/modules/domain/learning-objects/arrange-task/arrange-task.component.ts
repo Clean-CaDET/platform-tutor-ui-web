@@ -9,6 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
+import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -22,7 +23,8 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
 
-  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
+  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute,
+              private knowledgeComponentService: KnowledgeComponentService) {
     this.feedbackMap = new Map();
   }
 
@@ -76,6 +78,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
+        this.knowledgeComponentService.submit(containerEvaluation.correctnessLevel);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
         });

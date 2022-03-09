@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {LearningObjectComponent} from '../learning-object-component';
 import {Question} from './model/question.model';
 import {QuestionService} from './question.service';
@@ -7,6 +7,7 @@ import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 import {MrqItemEvaluation} from './model/mrq-item-evaluation.model';
+import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
 
 @Component({
   selector: 'cc-question',
@@ -18,7 +19,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   checked: boolean[];
   evaluation: MrqEvaluation;
 
-  constructor(private questionService: QuestionService, private route: ActivatedRoute) {
+  constructor(private questionService: QuestionService, private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService) {
     this.checked = [];
   }
 
@@ -27,7 +28,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   get nodeId(): number {
-    return +this.route.snapshot.paramMap.get('nodeId');
+    return + this.route.snapshot.paramMap.get('nodeId');
   }
 
   get checkedAnswers(): MrqItem[] {
@@ -42,7 +43,10 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers)
-      .subscribe(mrqEvaluation => this.evaluation = mrqEvaluation);
+      .subscribe(mrqEvaluation => {
+        this.knowledgeComponentService.submit(mrqEvaluation.correctnessLevel);
+        this.evaluation = mrqEvaluation;
+      });
   }
 
   getAnswerResult(answerId: number): MrqItemEvaluation {

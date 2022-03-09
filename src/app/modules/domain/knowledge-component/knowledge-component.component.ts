@@ -4,6 +4,7 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
+import {KnowledgeComponentService} from './knowledge-component.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -19,12 +20,16 @@ export class KnowledgeComponentComponent implements OnInit {
   instructionalEventChecked = true;
   kcId: number;
   learnerId: number;
+  aeCorrectnessLevel: number;
+  aeSubmitted = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private unitService: UnitService,
-    private learnerService: LearnerService) {
+    private learnerService: LearnerService,
+    private knowledgeComponentService: KnowledgeComponentService) {
+    this.registerEventListeners();
   }
 
   ngOnInit(): void {
@@ -34,6 +39,8 @@ export class KnowledgeComponentComponent implements OnInit {
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
+      this.aeSubmitted = false;
+      this.aeCorrectnessLevel = 0.0;
     });
   }
 
@@ -63,6 +70,27 @@ export class KnowledgeComponentComponent implements OnInit {
     this.unitService.getSuitableAssessmentEvent(this.kcId, this.learnerId).subscribe(assessmentEvent => {
       this.learningObjects = [];
       this.learningObjects[0] = assessmentEvent;
+    });
+  }
+
+  private registerEventListeners(): void {
+    this.knowledgeComponentService.submitEvent.subscribe(value => {
+      {
+        this.aeCorrectnessLevel = value;
+        this.aeSubmitted = true;
+      }
+    });
+
+    this.knowledgeComponentService.nextPageEvent.subscribe(value => {
+      {
+        this.aeCorrectnessLevel = 0.0;
+        this.aeSubmitted = false;
+        if (value === 'AE') {
+          this.onAssessmentEventClicked();
+        } else if (value === 'IE') {
+          this.onInstructionalEventClicked();
+        }
+      }
     });
   }
 }
