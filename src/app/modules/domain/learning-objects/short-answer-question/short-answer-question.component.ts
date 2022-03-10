@@ -7,6 +7,7 @@ import {LearnerService} from '../../../learner/learner.service';
 import {environment} from '../../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
+import {NavbarService} from '../../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-short-answer-question',
@@ -19,7 +20,8 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   answer: string;
 
   constructor(private http: HttpClient, private learnerService: LearnerService,
-              private knowledgeComponentService: KnowledgeComponentService) {
+              private knowledgeComponentService: KnowledgeComponentService,
+              private navbarService: NavbarService) {
   }
 
   onSubmit(): void {
@@ -32,6 +34,7 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
       }).pipe(map(data => {
       return new SaqEvaluation(data);
     })).subscribe(evaluation => {
+      this.navbarService.updateContent('updateKnowledgeComponents');
       this.knowledgeComponentService.submit(evaluation.correctnessLevel);
       this.response = evaluation;
     });

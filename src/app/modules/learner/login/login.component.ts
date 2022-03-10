@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     if (this.loginForm.valid) {
       this.learnerService.login(this.loginForm.value).subscribe(() => {
-        this.navbarService.updateContent();
+        this.navbarService.updateContent('updateUnits');
         this.router.navigate(['/']);
       }, (error) => {
         if (error instanceof HttpErrorResponse) {

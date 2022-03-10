@@ -27,20 +27,22 @@ export class NavbarComponent implements OnInit {
               private router: Router, private route: ActivatedRoute,
               private navbarService: NavbarService) {
     this.navbarService.invokeEvent.subscribe(value => {
-      if (value === 'updateContent') {
-        this.updateContent();
+      if (value === 'updateUnits') {
+        this.updateUnits();
+      } else if (value === 'updateKnowledgeComponents') {
+        this.updateKnowledgeComponents(this.selectedUnit.id);
       }
     });
   }
 
   ngOnInit(): void {
-    this.updateContent();
-  }
-
-  private updateContent(): void {
-    this.unitService.getUnits().subscribe(units => this.units = units);
+    this.updateUnits();
     this.learnerService.learner$.subscribe(learner => this.learner = learner);
     this.setupActiveUnitAndKCUpdate();
+  }
+
+  private updateUnits(): void {
+    this.unitService.getUnits().subscribe(units => this.units = units);
   }
 
   private setupActiveUnitAndKCUpdate(): void {
@@ -67,11 +69,17 @@ export class NavbarComponent implements OnInit {
     return params;
   }
 
-  onUnitSelected(unitId): void {
+  private onUnitSelected(unitId): void {
     this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
       this.knowledgeComponents = fullUnit.knowledgeComponents;
       this.selectedUnit = fullUnit;
       this.selectedKC = null;
+    });
+  }
+
+  private updateKnowledgeComponents(unitId): void {
+    this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
+      this.selectedUnit = fullUnit;
     });
   }
 

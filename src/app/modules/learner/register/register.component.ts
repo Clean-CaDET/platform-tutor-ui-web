@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
       this.clicked = true;
       this.learnerService.register(this.registerForm.value).subscribe(() => {
         this.clicked = false;
-        this.navbarService.updateContent();
+        this.navbarService.updateContent('updateUnits');
         this.router.navigate(['/']);
       }, () => {
         // Assumes user is already registered if there is an error.

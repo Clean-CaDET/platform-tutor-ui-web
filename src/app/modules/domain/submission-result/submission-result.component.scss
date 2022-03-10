@@ -1,3 +1,26 @@
+h2 {
+  margin-top: 10px;
+}
+
 #ie-button {
   margin-left: 10px;
+  margin-top: 20px;
+}
+
+#ae-button {
+  margin-top: 20px;
+}
+
+#correctness {
+  display: flex;
+  margin-top: 20px;
+}
+
+#mastery {
+  display: flex;
+  margin-top: 20px;
+}
+
+* {
+  margin:0;
 }

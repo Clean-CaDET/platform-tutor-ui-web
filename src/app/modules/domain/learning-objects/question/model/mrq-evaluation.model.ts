@@ -6,7 +6,7 @@ export class MrqEvaluation {
 
   constructor(obj?: any) {
     if (obj) {
-      this.correctnessLevel = Math.round(obj.correctnessLevel * 100) / 100 * 100;
+      this.correctnessLevel = obj.correctnessLevel.toFixed(2);
       this.itemEvaluations = obj.itemEvaluations
         .map(itemEvaluations => new MrqItemEvaluation(itemEvaluations));
     }

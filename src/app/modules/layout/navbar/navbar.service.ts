@@ -7,7 +7,7 @@ import {Subject} from 'rxjs';
 export class NavbarService {
   invokeEvent: Subject<any> = new Subject();
 
-  updateContent(): void {
-    this.invokeEvent.next('updateContent');
+  updateContent(task: string): void {
+    this.invokeEvent.next(task);
   }
 }

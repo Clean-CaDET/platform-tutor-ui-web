@@ -3,7 +3,7 @@ export class KCMastery {
 
   constructor(obj?: any) {
     if (obj) {
-      this.mastery = Math.round(obj.mastery * 100) / 100;
+      this.mastery = obj.mastery.toFixed(2);
     }
   }
 }

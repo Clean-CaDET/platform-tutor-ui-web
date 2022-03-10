@@ -10,6 +10,7 @@ import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
 import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
+import {NavbarService} from '../../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -24,7 +25,8 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute,
-              private knowledgeComponentService: KnowledgeComponentService) {
+              private knowledgeComponentService: KnowledgeComponentService,
+              private navbarService: NavbarService) {
     this.feedbackMap = new Map();
   }
 
@@ -78,6 +80,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
+        this.navbarService.updateContent('updateKnowledgeComponents');
         this.knowledgeComponentService.submit(containerEvaluation.correctnessLevel);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);

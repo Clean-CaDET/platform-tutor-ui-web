@@ -8,7 +8,7 @@ export class ArrangeTaskEvaluation {
 
   constructor(obj?: any) {
     if (obj) {
-      this.correctnessLevel = Math.round(obj.correctnessLevel * 100) / 100 * 100;
+      this.correctnessLevel = obj.correctnessLevel.toFixed(2);
       this.containerEvaluations = obj.containerEvaluations
         .map(containerEvaluation => new ArrangeTaskContainerEvaluation(containerEvaluation));
     }
