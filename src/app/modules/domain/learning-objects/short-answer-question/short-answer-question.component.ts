@@ -6,7 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {LearnerService} from '../../../learner/learner.service';
 import {environment} from '../../../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
+import {AeService} from '../../knowledge-component/ae.service';
 import {NavbarService} from '../../../layout/navbar/navbar.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   answer: string;
 
   constructor(private http: HttpClient, private learnerService: LearnerService,
-              private knowledgeComponentService: KnowledgeComponentService,
+              private aeService: AeService,
               private navbarService: NavbarService) {
   }
 
@@ -35,7 +35,7 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
       return new SaqEvaluation(data);
     })).subscribe(evaluation => {
       this.navbarService.updateContent('updateKnowledgeComponents');
-      this.knowledgeComponentService.submit(evaluation.correctnessLevel);
+      this.aeService.submit(evaluation.correctnessLevel);
       this.response = evaluation;
     });
   }

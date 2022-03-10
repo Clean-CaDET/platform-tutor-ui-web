@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {KnowledgeComponentService} from '../knowledge-component/knowledge-component.service';
+import {AeService} from '../knowledge-component/ae.service';
 import {UnitService} from '../unit/unit.service';
+import { Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cc-submission-result',
@@ -12,9 +13,10 @@ export class SubmissionResultComponent implements OnInit {
   @Input() correctness: number;
   @Input() kcId: number;
   @Input() mastery: number;
+  @Output() nextPageEvent = new EventEmitter<string>();
 
-  constructor(private knowledgeComponentService: KnowledgeComponentService, private unitService: UnitService) {
-    this.knowledgeComponentService.submitEvent.subscribe(value => {
+  constructor(private aeService: AeService, private unitService: UnitService) {
+    this.aeService.submitAeEvent.subscribe(value => {
       {
         this.correctness = value;
       }
@@ -25,12 +27,8 @@ export class SubmissionResultComponent implements OnInit {
     this.unitService.getKnowledgeComponentMastery(this.kcId).subscribe(result => this.mastery = result.mastery);
   }
 
-  nextAE(): void {
-    this.knowledgeComponentService.nextPage('AE');
-  }
-
-  backToIE(): void {
-    this.knowledgeComponentService.nextPage('IE');
+  nextPage(page: string): void {
+    this.nextPageEvent.emit(page);
   }
 
 }

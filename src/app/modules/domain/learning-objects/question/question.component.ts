@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {LearningObjectComponent} from '../learning-object-component';
 import {Question} from './model/question.model';
 import {QuestionService} from './question.service';
@@ -7,7 +7,7 @@ import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 import {MrqItemEvaluation} from './model/mrq-item-evaluation.model';
-import {KnowledgeComponentService} from '../../knowledge-component/knowledge-component.service';
+import {AeService} from '../../knowledge-component/ae.service';
 import {NavbarService} from '../../../layout/navbar/navbar.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   evaluation: MrqEvaluation;
 
   constructor(private questionService: QuestionService, private route: ActivatedRoute,
-              private knowledgeComponentService: KnowledgeComponentService,
+              private aeService: AeService,
               private navbarService: NavbarService) {
     this.checked = [];
   }
@@ -48,7 +48,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
     this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers)
       .subscribe(mrqEvaluation => {
         this.navbarService.updateContent('updateKnowledgeComponents');
-        this.knowledgeComponentService.submit(mrqEvaluation.correctnessLevel);
+        this.aeService.submit(mrqEvaluation.correctnessLevel);
         this.evaluation = mrqEvaluation;
       });
   }

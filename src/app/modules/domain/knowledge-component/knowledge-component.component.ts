@@ -4,7 +4,7 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
-import {KnowledgeComponentService} from './knowledge-component.service';
+import {AeService} from './ae.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -16,7 +16,6 @@ export class KnowledgeComponentComponent implements OnInit {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
   sidenavOpened = false;
-  nextPage: { type: string; id: number; };
   instructionalEventChecked = true;
   kcId: number;
   learnerId: number;
@@ -28,7 +27,7 @@ export class KnowledgeComponentComponent implements OnInit {
     private router: Router,
     private unitService: UnitService,
     private learnerService: LearnerService,
-    private knowledgeComponentService: KnowledgeComponentService) {
+    private aeService: AeService) {
     this.registerEventListeners();
   }
 
@@ -42,6 +41,16 @@ export class KnowledgeComponentComponent implements OnInit {
       this.aeSubmitted = false;
       this.aeCorrectnessLevel = 0.0;
     });
+  }
+
+  nextPage(page: string): void {
+    this.aeCorrectnessLevel = 0.0;
+    this.aeSubmitted = false;
+    if (page === 'AE') {
+      this.onAssessmentEventClicked();
+    } else if (page === 'IE') {
+      this.onInstructionalEventClicked();
+    }
   }
 
   onInstructionalEventClicked(): void {
@@ -74,22 +83,10 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   private registerEventListeners(): void {
-    this.knowledgeComponentService.submitEvent.subscribe(value => {
+    this.aeService.submitAeEvent.subscribe(value => {
       {
         this.aeCorrectnessLevel = value;
         this.aeSubmitted = true;
-      }
-    });
-
-    this.knowledgeComponentService.nextPageEvent.subscribe(value => {
-      {
-        this.aeCorrectnessLevel = 0.0;
-        this.aeSubmitted = false;
-        if (value === 'AE') {
-          this.onAssessmentEventClicked();
-        } else if (value === 'IE') {
-          this.onInstructionalEventClicked();
-        }
       }
     });
   }

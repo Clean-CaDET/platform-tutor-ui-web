@@ -31,7 +31,7 @@
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
       <div *ngIf="!instructionalEventChecked && aeSubmitted">
-        <cc-submission-result [correctness]="aeCorrectnessLevel" [kcId]="knowledgeComponent.id"></cc-submission-result>
+        <cc-submission-result (nextPageEvent)="nextPage($event)" [correctness]="aeCorrectnessLevel" [kcId]="knowledgeComponent.id"></cc-submission-result>
       </div>
       <br>
       <br><br>
