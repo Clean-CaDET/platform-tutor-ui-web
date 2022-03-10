@@ -4,6 +4,7 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
+import {AeService} from './ae.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -15,16 +16,19 @@ export class KnowledgeComponentComponent implements OnInit {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
   sidenavOpened = false;
-  nextPage: { type: string; id: number; };
   instructionalEventChecked = true;
   kcId: number;
   learnerId: number;
+  aeCorrectnessLevel: number;
+  aeSubmitted = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private unitService: UnitService,
-    private learnerService: LearnerService) {
+    private learnerService: LearnerService,
+    private aeService: AeService) {
+    this.registerEventListeners();
   }
 
   ngOnInit(): void {
@@ -34,7 +38,19 @@ export class KnowledgeComponentComponent implements OnInit {
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
+      this.aeSubmitted = false;
+      this.aeCorrectnessLevel = 0.0;
     });
+  }
+
+  nextPage(page: string): void {
+    this.aeCorrectnessLevel = 0.0;
+    this.aeSubmitted = false;
+    if (page === 'AE') {
+      this.onAssessmentEventClicked();
+    } else if (page === 'IE') {
+      this.onInstructionalEventClicked();
+    }
   }
 
   onInstructionalEventClicked(): void {
@@ -63,6 +79,15 @@ export class KnowledgeComponentComponent implements OnInit {
     this.unitService.getSuitableAssessmentEvent(this.kcId, this.learnerId).subscribe(assessmentEvent => {
       this.learningObjects = [];
       this.learningObjects[0] = assessmentEvent;
+    });
+  }
+
+  private registerEventListeners(): void {
+    this.aeService.submitAeEvent.subscribe(value => {
+      {
+        this.aeCorrectnessLevel = value;
+        this.aeSubmitted = true;
+      }
     });
   }
 }

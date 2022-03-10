@@ -7,6 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
+import {NavbarService} from './navbar.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -23,13 +24,25 @@ export class NavbarComponent implements OnInit {
   @Input() isDarkTheme: boolean;
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
-              private router: Router, private route: ActivatedRoute) {
+              private router: Router, private route: ActivatedRoute,
+              private navbarService: NavbarService) {
+    this.navbarService.invokeEvent.subscribe(value => {
+      if (value === 'updateUnits') {
+        this.updateUnits();
+      } else if (value === 'updateKnowledgeComponents') {
+        this.updateKnowledgeComponents(this.selectedUnit.id);
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.unitService.getUnits().subscribe(units => this.units = units);
+    this.updateUnits();
     this.learnerService.learner$.subscribe(learner => this.learner = learner);
     this.setupActiveUnitAndKCUpdate();
+  }
+
+  private updateUnits(): void {
+    this.unitService.getUnits().subscribe(units => this.units = units);
   }
 
   private setupActiveUnitAndKCUpdate(): void {
@@ -56,11 +69,17 @@ export class NavbarComponent implements OnInit {
     return params;
   }
 
-  onUnitSelected(unitId): void {
+  private onUnitSelected(unitId): void {
     this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
       this.knowledgeComponents = fullUnit.knowledgeComponents;
       this.selectedUnit = fullUnit;
       this.selectedKC = null;
+    });
+  }
+
+  private updateKnowledgeComponents(unitId): void {
+    this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
+      this.selectedUnit = fullUnit;
     });
   }
 

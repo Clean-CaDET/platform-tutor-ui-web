@@ -8,6 +8,7 @@ import {KnowledgeComponent} from '../knowledge-component/model/knowledge-compone
 import {LearningObjectMapper} from '../learning-objects/learning-object-mapper';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {query} from '@angular/animations';
+import {KCMastery} from '../knowledge-component/model/knowledge-component-mastery.model';
 
 
 @Injectable({
@@ -41,6 +42,11 @@ export class UnitService {
     const assessmentEventRequest = {knowledgeComponentId, learnerId};
     return this.http.post<LearningObject>(environment.apiHost + 'units/knowledge-component/', assessmentEventRequest)
       .pipe(map(ae => this.learningObjectMapper.convert(ae)));
+  }
+
+  getKnowledgeComponentMastery(kcId: number): Observable<KCMastery> {
+    return this.http.get<KCMastery>(environment.apiHost + 'units/knowledge-components/mastery/' + kcId)
+      .pipe(map(kcm => new KCMastery(kcm)));
   }
 
   mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {

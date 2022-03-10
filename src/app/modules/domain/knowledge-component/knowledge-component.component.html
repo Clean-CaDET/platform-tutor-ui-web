@@ -30,6 +30,10 @@
         *ngFor="let learningObject of learningObjects"
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
+      <div *ngIf="!instructionalEventChecked && aeSubmitted">
+        <cc-submission-result (nextPageEvent)="nextPage($event)" [correctness]="aeCorrectnessLevel" [kcId]="knowledgeComponent.id"></cc-submission-result>
+      </div>
+      <br>
       <br><br>
     </div>
   </mat-sidenav-content>

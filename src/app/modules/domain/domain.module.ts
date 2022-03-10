@@ -22,6 +22,7 @@ import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
 import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
 import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-question/short-answer-question.component';
+import {SubmissionResultComponent} from './submission-result/submission-result.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-qu
     UnitComponent,
     KnowledgeComponentComponent,
     KnowledgeMapComponent,
-    ShortAnswerQuestionComponent
+    ShortAnswerQuestionComponent,
+    SubmissionResultComponent
   ],
     imports: [
         BrowserModule,
@@ -53,6 +55,7 @@ import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-qu
     ],
   exports: [
     LearningObjectContainerComponent,
+    SubmissionResultComponent,
     KnowledgeMapComponent
   ]
 })

@@ -48,6 +48,15 @@ mat-icon {
   font-size: 2em;
 }
 
+#card-text {
+  margin-top: 5px;
+  margin-left: 20px;
+}
+
+.card-feedback {
+  font-size: smaller;
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   border-radius: 4px;
