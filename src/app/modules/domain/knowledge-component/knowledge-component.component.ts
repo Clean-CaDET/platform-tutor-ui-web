@@ -5,6 +5,8 @@ import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {EmotionsComponent} from '../feedback/emotions/emotions.component';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -27,7 +29,8 @@ export class KnowledgeComponentComponent implements OnInit {
     private router: Router,
     private unitService: UnitService,
     private learnerService: LearnerService,
-    private aeService: AeService) {
+    private aeService: AeService,
+    private dialog: MatDialog) {
     this.registerEventListeners();
   }
 
@@ -51,6 +54,13 @@ export class KnowledgeComponentComponent implements OnInit {
     } else if (page === 'IE') {
       this.onInstructionalEventClicked();
     }
+  }
+
+  openFeedbackDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(EmotionsComponent, dialogConfig);
   }
 
   onInstructionalEventClicked(): void {
