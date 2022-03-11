@@ -13,14 +13,16 @@ import {MarkdownModule} from 'ngx-markdown';
 import {YouTubePlayerModule} from '@angular/youtube-player';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../infrastructure/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NotesModule} from './notes/notes.module';
 import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-dialog.component';
 import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
-import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
+import {KnowledgeMapComponent} from './knowledge-map/knowledge-map.component';
+import {EmotionsComponent} from './feedback/emotions/emotions.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -36,23 +38,28 @@ import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
     ImageDialogComponent,
     UnitComponent,
     KnowledgeComponentComponent,
-    KnowledgeMapComponent
+    KnowledgeMapComponent,
+    EmotionsComponent
   ],
-    imports: [
-        BrowserModule,
-        MarkdownModule.forChild(),
-        YouTubePlayerModule,
-        FlexLayoutModule,
-        RouterModule,
-        FormsModule,
-        MaterialModule,
-        DragDropModule,
-        NotesModule
-    ],
+  imports: [
+    BrowserModule,
+    MarkdownModule.forChild(),
+    YouTubePlayerModule,
+    FlexLayoutModule,
+    RouterModule,
+    FormsModule,
+    MaterialModule,
+    DragDropModule,
+    NotesModule,
+    ReactiveFormsModule,
+    MatDialogModule
+  ],
   exports: [
     LearningObjectContainerComponent,
-    KnowledgeMapComponent
-  ]
+    KnowledgeMapComponent,
+    EmotionsComponent
+  ],
+  entryComponents: [EmotionsComponent]
 })
 export class DomainModule {
 }

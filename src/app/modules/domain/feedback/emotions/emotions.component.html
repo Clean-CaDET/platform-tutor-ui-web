@@ -1,12 +1,11 @@
 <form [formGroup]="emotionsForm" (ngSubmit)="onSubmit()" fxLayout="column">
-    <mat-form-field fxFlex="10">
-        <mat-label>Kako bih opisao interakciju i učenje uz pomoć Smart Tutora?</mat-label>
-        <input matInput type="text" name="emotions" formControlName="emotionsFeedback">
-        <mat-error *ngIf="emotionsForm.controls['emotions'].errors?.shortText">
-            Molimo unesite tekst od barem 10 karaktera.
-        </mat-error>
-    </mat-form-field>
-    <div>
-        <button color="primary" [disabled]="!emotionsForm.valid" mat-raised-button type="submit">Sačuvaj</button>
-    </div>
+  <mat-form-field fxFlex="10">
+    <mat-label>Kako bi opisao interakciju i učenje uz pomoć Smart Tutora? (minimalno 10 karaktera)</mat-label>
+    <input matInput type="text" name="emotions" formControlName="emotionsFeedback">
+  </mat-form-field>
+  <div>
+    <button [disabled]="!emotionsForm.valid" color="primary" [disabled]="!emotionsForm.valid" mat-raised-button
+            type="submit">Sačuvaj
+    </button>
+  </div>
 </form>

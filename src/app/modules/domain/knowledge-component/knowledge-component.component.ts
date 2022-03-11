@@ -4,6 +4,8 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {EmotionsComponent} from '../feedback/emotions/emotions.component';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -24,7 +26,7 @@ export class KnowledgeComponentComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private unitService: UnitService,
-    private learnerService: LearnerService) {
+    private learnerService: LearnerService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -35,6 +37,13 @@ export class KnowledgeComponentComponent implements OnInit {
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
     });
+  }
+
+  openFeedbackDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+    this.dialog.open(EmotionsComponent, dialogConfig);
   }
 
   onInstructionalEventClicked(): void {
