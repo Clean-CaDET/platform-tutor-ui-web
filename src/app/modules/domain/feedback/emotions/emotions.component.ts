@@ -1,4 +1,4 @@
-import {Component, OnInit, Output, EventEmitter, Inject} from '@angular/core';
+import {Component, OnInit, Inject} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 
@@ -8,8 +8,6 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
   styleUrls: ['./emotions.component.css']
 })
 export class EmotionsComponent implements OnInit {
-  @Output() submitFeedbackEvent = new EventEmitter<boolean>();
-
   emotionsForm = new FormGroup({
     emotionsFeedback: new FormControl('', [
       Validators.required,
