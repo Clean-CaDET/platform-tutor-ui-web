@@ -60,6 +60,7 @@ export class KnowledgeComponentComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
+    dialogConfig.data = {kcId: this.kcId};
     this.dialog.open(EmotionsComponent, dialogConfig);
   }
 
