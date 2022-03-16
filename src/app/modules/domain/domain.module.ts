@@ -25,6 +25,7 @@ import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-qu
 import {SubmissionResultComponent} from './submission-result/submission-result.component';
 import {EmotionsComponent} from './feedback/emotions/emotions.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {TutorImprovementComponent} from './feedback/tutor-improvment/tutor-improvment/tutor-improvement.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     KnowledgeMapComponent,
     ShortAnswerQuestionComponent,
     SubmissionResultComponent,
-    EmotionsComponent
+    EmotionsComponent,
+    TutorImprovementComponent
   ],
   imports: [
     BrowserModule,
@@ -62,9 +64,10 @@ import {MatDialogModule} from '@angular/material/dialog';
     LearningObjectContainerComponent,
     SubmissionResultComponent,
     KnowledgeMapComponent,
-    EmotionsComponent
+    EmotionsComponent,
+    TutorImprovementComponent
   ],
-  entryComponents: [EmotionsComponent]
+  entryComponents: [EmotionsComponent, TutorImprovementComponent]
 })
 export class DomainModule {
 }

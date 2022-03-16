@@ -1,0 +1,18 @@
+<form [formGroup]="improvementForm" (ngSubmit)="onSubmit()" fxLayout="column">
+  <mat-form-field fxFlex="10">
+    <mat-label class="question">Kako bi unapredio Smart Tutora kao softver? (minimalno 10 karaktera)
+    </mat-label>
+    <textarea matInput type="text" name="tutorImprovement" formControlName="tutorImprovement"></textarea>
+  </mat-form-field>
+  <mat-form-field fxFlex="10">
+    <mat-label class="question">Kako bi unapredio edukativni sadržaj? (minimalno 10 karaktera)
+    </mat-label>
+    <textarea matInput type="text" name="educationalContentImprovement" formControlName="educationalContentImprovement"></textarea>
+  </mat-form-field>
+  <div id="submit">
+    <button [disabled]="!improvementForm.valid" color="primary" mat-raised-button
+            type="submit">Sačuvaj
+    </button>
+    <mat-icon matTooltip="Ovde unesi pomocni tekst." id="help-icon">help_outline</mat-icon>
+  </div>
+</form>
