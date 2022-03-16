@@ -25,7 +25,7 @@ import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-qu
 import {SubmissionResultComponent} from './submission-result/submission-result.component';
 import {EmotionsComponent} from './feedback/emotions/emotions.component';
 import {MatDialogModule} from '@angular/material/dialog';
-import {TutorImprovementComponent} from './feedback/tutor-improvment/tutor-improvment/tutor-improvement.component';
+import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 
 @NgModule({
   declarations: [

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LearnerService} from '../../../../learner/learner.service';
-import {environment} from '../../../../../../environments/environment';
+import {LearnerService} from '../../../learner/learner.service';
+import {environment} from '../../../../../environments/environment';
 
 interface TutorImprovementDTO {
   learnerId: number;

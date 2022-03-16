@@ -4,7 +4,7 @@ import {ActivatedRoute} from '@angular/router';
 import {Unit} from './unit.model';
 import {LearnerService} from '../../learner/learner.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {TutorImprovementComponent} from '../feedback/tutor-improvment/tutor-improvment/tutor-improvement.component';
+import {TutorImprovementComponent} from '../feedback/tutor-improvement/tutor-improvement.component';
 
 @Component({
   selector: 'cc-unit',

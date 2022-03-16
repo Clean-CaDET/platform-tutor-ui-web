@@ -4,7 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {ImprovementService} from './improvement.service';
 
 @Component({
-  selector: 'cc-tutor-improvment',
+  selector: 'cc-tutor-improvement',
   templateUrl: './tutor-improvement.component.html',
   styleUrls: ['./tutor-improvement.component.scss']
 })
