@@ -7,7 +7,6 @@ import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
-import {EmotionsService} from '../feedback/emotions/emotions.service';
 
 @Component({
   selector: 'cc-knowledge-component',
