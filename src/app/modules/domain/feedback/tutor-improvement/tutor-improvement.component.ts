@@ -26,6 +26,7 @@ export class TutorImprovementComponent implements OnInit {
 
   onSubmit(): void {
     this.improvementService.submitImprovement(this.data.unitId, this.improvementForm);
+    this.dialogRef.close();
   }
 
   improvementValidator(): ValidatorFn {
