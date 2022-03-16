@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {AeService} from '../knowledge-component/ae.service';
 import {UnitService} from '../unit/unit.service';
-import { Output, EventEmitter } from '@angular/core';
+import {Output, EventEmitter} from '@angular/core';
+import {EmotionsService} from '../feedback/emotions/emotions.service';
 
 @Component({
   selector: 'cc-submission-result',
@@ -14,8 +15,9 @@ export class SubmissionResultComponent implements OnInit {
   @Input() kcId: number;
   @Input() mastery: number;
   @Output() nextPageEvent = new EventEmitter<string>();
+  @Output() emotionDialogEvent = new EventEmitter<number>();
 
-  constructor(private aeService: AeService, private unitService: UnitService) {
+  constructor(private aeService: AeService, private unitService: UnitService, private emotionsService: EmotionsService) {
     this.aeService.submitAeEvent.subscribe(value => {
       {
         this.correctness = value;
@@ -24,11 +26,13 @@ export class SubmissionResultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.unitService.getKnowledgeComponentMastery(this.kcId).subscribe(result => this.mastery = result.mastery);
+    this.unitService.getKnowledgeComponentMastery(this.kcId).subscribe(result => {
+      this.mastery = result.mastery;
+      this.emotionDialogEvent.emit(this.mastery);
+    });
   }
 
   nextPage(page: string): void {
     this.nextPageEvent.emit(page);
   }
-
 }

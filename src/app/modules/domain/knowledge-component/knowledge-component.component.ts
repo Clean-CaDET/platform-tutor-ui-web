@@ -7,6 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
+import {EmotionsService} from '../feedback/emotions/emotions.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -21,6 +22,7 @@ export class KnowledgeComponentComponent implements OnInit {
   instructionalEventChecked = true;
   kcId: number;
   learnerId: number;
+  kcm: number;
   aeCorrectnessLevel: number;
   aeSubmitted = false;
 
@@ -56,7 +58,14 @@ export class KnowledgeComponentComponent implements OnInit {
     }
   }
 
-  openFeedbackDialog(): void {
+  updateKCM(mastery: number): void {
+    this.kcm = mastery;
+    if (this.kcm >= 0.9) {
+      this.openEmotionsDialog();
+    }
+  }
+
+  openEmotionsDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;

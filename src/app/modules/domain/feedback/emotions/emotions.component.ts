@@ -1,11 +1,12 @@
 import {Component, OnInit, Inject} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
+import {EmotionsService} from './emotions.service';
 
 @Component({
   selector: 'cc-emotions',
   templateUrl: './emotions.component.html',
-  styleUrls: ['./emotions.component.css']
+  styleUrls: ['./emotions.component.scss']
 })
 export class EmotionsComponent implements OnInit {
   emotionsForm = new FormGroup({
@@ -15,20 +16,16 @@ export class EmotionsComponent implements OnInit {
   });
 
   constructor(private dialogRef: MatDialogRef<EmotionsComponent>,
-              @Inject(MAT_DIALOG_DATA) private data) {
+              @Inject(MAT_DIALOG_DATA) private data,
+              private emotionsService: EmotionsService) {
   }
 
   ngOnInit(): void {
   }
 
   onSubmit(): void {
-    if (this.emotionsForm.valid) {
-      console.log(this.data.kcId);
-      this.dialogRef.close();
-      alert('Ok');
-    } else {
-      alert('Fail');
-    }
+    this.emotionsService.submitEmotionsFeedback(this.data.kcId, this.emotionsForm.value.emotionsFeedback);
+    this.dialogRef.close();
   }
 
   emotionsValidator(): ValidatorFn {
