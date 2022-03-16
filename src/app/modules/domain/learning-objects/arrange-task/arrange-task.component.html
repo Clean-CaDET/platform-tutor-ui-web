@@ -1,6 +1,6 @@
 <div id="arrange-task" class="mat-card">
   <div>
-    <markdown>{{learningObject.text | language: 'csharp'}}</markdown>
+    <markdown lineNumbers>{{learningObject.text}}</markdown>
   </div>
   <div
     cdkDropListGroup
@@ -32,8 +32,11 @@
             <mat-icon *ngIf="isElementCorrect(element.id, container.id)" color="primary">done</mat-icon>
             <mat-icon *ngIf="!isElementCorrect(element.id, container.id)" color="accent">close</mat-icon>
           </div>
-          <div fxFlex>
+          <div fxFlex id="card-text">
             {{element.text}}
+            <div class="card-feedback" *ngIf="answered && isElementCorrect(element.id, container.id)">
+              {{element.feedback}}
+            </div>
           </div>
         </mat-list-item>
         <div *ngIf="answered">
@@ -44,6 +47,9 @@
             fxLayout="row"
             fxLayoutAlign="none center">
             {{element.text}}
+            <div class="card-feedback">
+              {{element.feedback}}
+            </div>
           </mat-list-item>
         </div>
       </div>

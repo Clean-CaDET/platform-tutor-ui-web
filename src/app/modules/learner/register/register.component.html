@@ -11,6 +11,6 @@
     <input matInput type="password" name="password" formControlName="password">
   </mat-form-field>
   <div>
-    <button color="primary" [disabled]="!registerForm.valid" mat-raised-button type="submit">Register</button>
+    <button color="primary" [disabled]="!registerForm.valid || clicked" mat-raised-button type="submit">Register</button>
   </div>
 </form>

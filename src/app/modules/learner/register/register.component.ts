@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { LearnerService } from '../learner.service';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {LearnerService} from '../learner.service';
+import {Router} from '@angular/router';
+import {NavbarService} from '../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-register',
@@ -14,19 +15,25 @@ export class RegisterComponent implements OnInit {
     studentIndex: new FormControl('', [
       Validators.required,
       this.indexValidator()]),
-    password: new FormControl('', [ Validators.required ])
+    password: new FormControl('', [Validators.required])
   });
+  clicked = false;
 
   constructor(
     private learnerService: LearnerService,
-    private router: Router) { }
+    private router: Router,
+    private navbarService: NavbarService) {
+  }
 
   ngOnInit(): void {
   }
 
   onRegister(): void {
     if (this.registerForm.valid) {
+      this.clicked = true;
       this.learnerService.register(this.registerForm.value).subscribe(() => {
+        this.clicked = false;
+        this.navbarService.updateContent('updateUnits');
         this.router.navigate(['/']);
       }, () => {
         // Assumes user is already registered if there is an error.
@@ -39,10 +46,10 @@ export class RegisterComponent implements OnInit {
   }
 
   indexValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any } | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const indexRe = new RegExp('^[A-Za-z]{2,3}-[0-9]{1,3}-[0-9]{4}$');
       const valid = indexRe.test(control.value);
-      return valid ? null : { invalidIndex: { value: control.value } };
+      return valid ? null : {invalidIndex: {value: control.value}};
     };
   }
 

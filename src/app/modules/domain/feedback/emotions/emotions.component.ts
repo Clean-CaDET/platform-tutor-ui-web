@@ -15,7 +15,7 @@ export class EmotionsComponent implements OnInit {
   });
 
   constructor(private dialogRef: MatDialogRef<EmotionsComponent>,
-              @Inject(MAT_DIALOG_DATA) data) {
+              @Inject(MAT_DIALOG_DATA) private data) {
   }
 
   ngOnInit(): void {
@@ -23,6 +23,7 @@ export class EmotionsComponent implements OnInit {
 
   onSubmit(): void {
     if (this.emotionsForm.valid) {
+      console.log(this.data.kcId);
       this.dialogRef.close();
       alert('Ok');
     } else {

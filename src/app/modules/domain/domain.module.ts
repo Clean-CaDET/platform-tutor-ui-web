@@ -20,7 +20,9 @@ import {NotesModule} from './notes/notes.module';
 import {ImageDialogComponent} from './learning-objects/image/image-dialog/image-dialog.component';
 import {UnitComponent} from './unit/unit.component';
 import {KnowledgeComponentComponent} from './knowledge-component/knowledge-component.component';
-import {KnowledgeMapComponent} from './knowledge-map/knowledge-map.component';
+import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
+import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-question/short-answer-question.component';
+import {SubmissionResultComponent} from './submission-result/submission-result.component';
 import {EmotionsComponent} from './feedback/emotions/emotions.component';
 import {MatDialogModule} from '@angular/material/dialog';
 
@@ -39,6 +41,8 @@ import {MatDialogModule} from '@angular/material/dialog';
     UnitComponent,
     KnowledgeComponentComponent,
     KnowledgeMapComponent,
+    ShortAnswerQuestionComponent,
+    SubmissionResultComponent,
     EmotionsComponent
   ],
   imports: [
@@ -56,6 +60,7 @@ import {MatDialogModule} from '@angular/material/dialog';
   ],
   exports: [
     LearningObjectContainerComponent,
+    SubmissionResultComponent,
     KnowledgeMapComponent,
     EmotionsComponent
   ],

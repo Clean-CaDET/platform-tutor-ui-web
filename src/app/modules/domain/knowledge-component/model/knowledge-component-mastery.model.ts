@@ -3,7 +3,7 @@ export class KCMastery {
 
   constructor(obj?: any) {
     if (obj) {
-      this.mastery = obj.mastery;
+      this.mastery = obj.mastery.toFixed(2);
     }
   }
 }

@@ -38,6 +38,11 @@ export class TokenService {
   }
 
   public getRefreshToken(): string | null {
-    return localStorage.getItem(REFRESH_TOKEN);
+    const refreshToken = localStorage.getItem(REFRESH_TOKEN);
+    if (refreshToken === 'null') {
+      return null;
+    } else {
+      return refreshToken;
+    }
   }
 }

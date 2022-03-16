@@ -1,0 +1,18 @@
+<mat-card>
+  <div>
+    <h2>Zadatak uspešno poslat!</h2>
+    <hr>
+    <div id="result">
+      <div id="correctness">
+        <h4>Tačnost: {{correctness * 100}}</h4>
+        <mat-icon color="accent">percent</mat-icon>
+      </div>
+      <div id="mastery">
+        <h4>Mastery: {{mastery * 100}}</h4>
+        <mat-icon color="accent">percent</mat-icon>
+      </div>
+    </div>
+    <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
+    <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
+  </div>
+</mat-card>

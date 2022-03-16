@@ -9,6 +9,8 @@ import {ActivatedRoute} from '@angular/router';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
+import {AeService} from '../../knowledge-component/ae.service';
+import {NavbarService} from '../../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -22,7 +24,9 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
 
-  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute) {
+  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute,
+              private aeService: AeService,
+              private navbarService: NavbarService) {
     this.feedbackMap = new Map();
   }
 
@@ -76,6 +80,8 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
+        this.navbarService.updateContent('updateKnowledgeComponents');
+        this.aeService.submit(containerEvaluation.correctnessLevel);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
         });
@@ -85,13 +91,11 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {
     const arrangeTaskContainerSubmissionList = [];
-    const elements: number[] = [];
 
     this.state.forEach((container, key) => {
       const arrangeTaskContainerSubmission = new ArrangeTaskContainerSubmission(container.id);
       container.elements.forEach((element, keyEl) => {
-        elements.push(element.id);
-        arrangeTaskContainerSubmission.elementIds = elements;
+        arrangeTaskContainerSubmission.elementIds.push(element.id);
       });
       arrangeTaskContainerSubmissionList.push(arrangeTaskContainerSubmission);
     });

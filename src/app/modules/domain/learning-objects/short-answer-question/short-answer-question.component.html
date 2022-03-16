@@ -1,0 +1,21 @@
+<div>
+  <markdown lineNumbers>{{learningObject.text}}</markdown>
+  <div>
+    <mat-form-field fxFlexFill>
+      <mat-label>Odgovor</mat-label>
+      <input matInput type="text" name="index" [(ngModel)]="answer">
+    </mat-form-field>
+    <div *ngIf="!response">
+      <button (click)="onSubmit()" color="primary" type="submit" mat-raised-button>Submit</button>
+    </div>
+    <div id="answer" *ngIf="response">
+      <div>
+        <mat-icon class="icon" *ngIf="response.correctnessLevel >= 0.95" color="primary">done</mat-icon>
+        <mat-icon class="icon" *ngIf="response.correctnessLevel < 0.95" color="accent">close</mat-icon>
+      </div>
+      <div>
+        Prihvatljivi odgovori: {{response.acceptableAnswers.join("; ")}}
+      </div>
+    </div>
+  </div>
+</div>
