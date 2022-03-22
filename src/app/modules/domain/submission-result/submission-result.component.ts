@@ -14,7 +14,7 @@ export class SubmissionResultComponent implements OnInit {
   @Input() kcId: number;
   @Input() mastery: number;
   @Output() nextPageEvent = new EventEmitter<string>();
-  @Output() emotionDialogEvent = new EventEmitter<number>();
+  @Output() emotionDialogEvent = new EventEmitter<boolean>();
 
   constructor(private aeService: AeService, private unitService: UnitService) {
     this.aeService.submitAeEvent.subscribe(value => {
@@ -27,7 +27,7 @@ export class SubmissionResultComponent implements OnInit {
   ngOnInit(): void {
     this.unitService.getKnowledgeComponentMastery(this.kcId).subscribe(result => {
       this.mastery = result.mastery;
-      this.emotionDialogEvent.emit(this.mastery);
+      this.emotionDialogEvent.emit(result.isSatisfied);
     });
   }
 

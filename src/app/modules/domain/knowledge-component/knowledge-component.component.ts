@@ -21,9 +21,9 @@ export class KnowledgeComponentComponent implements OnInit {
   instructionalEventChecked = true;
   kcId: number;
   learnerId: number;
-  kcm: number;
   aeCorrectnessLevel: number;
   aeSubmitted = false;
+  unitId: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -44,6 +44,7 @@ export class KnowledgeComponentComponent implements OnInit {
       this.instructionalEventChecked = true;
       this.aeSubmitted = false;
       this.aeCorrectnessLevel = 0.0;
+      this.unitId = +params.unitId;
     });
   }
 
@@ -57,9 +58,8 @@ export class KnowledgeComponentComponent implements OnInit {
     }
   }
 
-  updateKCM(mastery: number): void {
-    this.kcm = mastery;
-    if (this.kcm >= 0.9) {
+  updateKCM(isSatisfied: boolean): void {
+    if (isSatisfied) {
       this.openEmotionsDialog();
     }
   }
@@ -67,8 +67,8 @@ export class KnowledgeComponentComponent implements OnInit {
   openEmotionsDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = true;
-    dialogConfig.data = {kcId: this.kcId};
+    dialogConfig.autoFocus = false;
+    dialogConfig.data = {kcId: this.kcId, unitId: this.unitId};
     this.dialog.open(EmotionsComponent, dialogConfig);
   }
 

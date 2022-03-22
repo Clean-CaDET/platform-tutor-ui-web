@@ -9,3 +9,12 @@ form {
 #question {
   font-size: 20px;
 }
+
+#notification {
+  display: flex;
+}
+
+mat-icon {
+  margin-left: 4px;
+  margin-top: 10px;
+}
