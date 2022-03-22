@@ -33,14 +33,21 @@ export class KnowledgeComponentComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      if (this.kcId)
+        this.unitService.terminateSession(this.kcId);
       this.kcId = +params.kcId;
       this.learnerId = this.learnerService.learner$.value.id;
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
+      this.unitService.launchSession(this.kcId);
       this.instructionalEventChecked = true;
       this.aeSubmitted = false;
       this.aeCorrectnessLevel = 0.0;
     });
+  }
+
+  ngOnDestroy(): void {
+    this.unitService.terminateSession(this.kcId);
   }
 
   nextPage(page: string): void {

@@ -9,6 +9,7 @@ import {LearningObjectMapper} from '../learning-objects/learning-object-mapper';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {query} from '@angular/animations';
 import {KCMastery} from '../knowledge-component/model/knowledge-component-mastery.model';
+import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
 
 
 @Injectable({
@@ -52,5 +53,15 @@ export class UnitService {
   mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {
     instructionalEvents = instructionalEvents.map(ie => this.learningObjectMapper.convert(ie));
     return instructionalEvents;
+  }
+
+  launchSession(kcId: number) : void {
+    this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/launch', null)
+      .subscribe(() => console.log("launched!"));
+  }
+
+  terminateSession(kcId: number) : void {
+    this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/terminate', null)
+      .subscribe(() => console.log("terminated!"));
   }
 }
