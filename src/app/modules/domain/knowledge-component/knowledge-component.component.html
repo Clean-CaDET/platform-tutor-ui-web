@@ -18,13 +18,13 @@
       <br>
       <button color="primary" id="ae-button" mat-raised-button
               [ngStyle]="{'opacity': instructionalEventChecked ? '1' : '0.5'}"
-              (click)="onAssessmentEventClicked()">AE
+              (click)="onAssessmentEventClicked()">Zadatak
       </button>
       <button color="primary" id="ie-button" mat-raised-button
               [ngStyle]="{'opacity': instructionalEventChecked ? '0.5' : '1'}"
-              (click)="onInstructionalEventClicked()">IE
+              (click)="onInstructionalEventClicked()">Gradivo
       </button>
-      <h3>Goal: {{knowledgeComponent.name}}</h3>
+      <h3>Cilj: {{knowledgeComponent.name}}</h3>
       <mat-divider></mat-divider>
       <cc-learning-object-container
         *ngFor="let learningObject of learningObjects"
