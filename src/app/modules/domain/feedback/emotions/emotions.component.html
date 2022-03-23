@@ -1,0 +1,16 @@
+<form [formGroup]="emotionsForm" (ngSubmit)="onSubmit()" fxLayout="column">
+  <div id="notification">
+    <p>Prošli ste kroz sve zadatke </p><mat-icon color="primary" style="float:right">done_outline</mat-icon>
+  </div>
+  <mat-form-field fxFlex="10">
+    <mat-label id="question">Kako bi opisao interakciju i učenje uz pomoć Smart Tutora? (minimalno 10 karaktera)
+    </mat-label>
+    <textarea matInput type="text" name="emotions" formControlName="emotionsFeedback"></textarea>
+  </mat-form-field>
+  <div id="submit">
+    <button [disabled]="!emotionsForm.valid" color="primary" [disabled]="!emotionsForm.valid" mat-raised-button
+            type="submit">Sačuvaj
+    </button>
+    <mat-icon matTooltip="Ovde unesi pomocni tekst." id="help-icon">help_outline</mat-icon>
+  </div>
+</form>

@@ -12,7 +12,7 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard]},
-  {path: 'kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard]},
+  {path: 'kc/:unitId/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard]},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
 ];

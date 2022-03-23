@@ -1,5 +1,5 @@
 <div *ngFor="let kc of knowledgeComponents">
-  <button mat-menu-item [routerLink]="['/kc', kc.id]" [matTooltip]="kc.name" [matTooltipDisabled]="expanded" [matTooltipPosition]="'after'"
+  <button mat-menu-item [routerLink]="['/kc',unitId,kc.id]" [matTooltip]="kc.name" [matTooltipDisabled]="expanded" [matTooltipPosition]="'after'"
       [disabled]="isLocked(kc)"
       [ngClass]="{'kc-in-progress': isInProgress(kc)}">
     <span [ngStyle]="{'padding-left': 16*level+'px'}" class="kc-menu">
@@ -14,6 +14,7 @@
   </button>
   <cc-knowledge-map
     [level]="level+1" [expanded]="expanded"
-    [knowledgeComponents]="kc.knowledgeComponents">
+    [knowledgeComponents]="kc.knowledgeComponents"
+    [unitId]="unitId">
   </cc-knowledge-map>
 </div>

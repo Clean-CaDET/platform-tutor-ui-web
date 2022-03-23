@@ -15,7 +15,7 @@
     {{selectedKC ? selectedKC.name : 'Select Knowledge Component'}}
   </button>
   <mat-menu #kc="matMenu">
-    <cc-knowledge-map *ngIf="selectedUnit" [knowledgeComponents]="selectedUnit.knowledgeComponents">
+    <cc-knowledge-map *ngIf="selectedUnit" [unitId]="selectedUnit.id" [knowledgeComponents]="selectedUnit.knowledgeComponents">
     </cc-knowledge-map>
   </mat-menu>
   <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Login</button>

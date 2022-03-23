@@ -5,6 +5,8 @@ import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
+import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {EmotionsComponent} from '../feedback/emotions/emotions.component';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -21,13 +23,15 @@ export class KnowledgeComponentComponent implements OnInit {
   learnerId: number;
   aeCorrectnessLevel: number;
   aeSubmitted = false;
+  unitId: number;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private unitService: UnitService,
     private learnerService: LearnerService,
-    private aeService: AeService) {
+    private aeService: AeService,
+    private dialog: MatDialog) {
     this.registerEventListeners();
   }
 
@@ -40,6 +44,7 @@ export class KnowledgeComponentComponent implements OnInit {
       this.instructionalEventChecked = true;
       this.aeSubmitted = false;
       this.aeCorrectnessLevel = 0.0;
+      this.unitId = +params.unitId;
     });
   }
 
@@ -51,6 +56,20 @@ export class KnowledgeComponentComponent implements OnInit {
     } else if (page === 'IE') {
       this.onInstructionalEventClicked();
     }
+  }
+
+  updateKCM(isSatisfied: boolean): void {
+    if (isSatisfied) {
+      this.openEmotionsDialog();
+    }
+  }
+
+  openEmotionsDialog(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
+    dialogConfig.data = {kcId: this.kcId, unitId: this.unitId};
+    this.dialog.open(EmotionsComponent, dialogConfig);
   }
 
   onInstructionalEventClicked(): void {

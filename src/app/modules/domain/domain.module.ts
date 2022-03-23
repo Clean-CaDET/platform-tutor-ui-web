@@ -13,7 +13,7 @@ import {MarkdownModule} from 'ngx-markdown';
 import {YouTubePlayerModule} from '@angular/youtube-player';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {RouterModule} from '@angular/router';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../../infrastructure/material.module';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {NotesModule} from './notes/notes.module';
@@ -23,6 +23,9 @@ import {KnowledgeComponentComponent} from './knowledge-component/knowledge-compo
 import { KnowledgeMapComponent } from './knowledge-map/knowledge-map.component';
 import { ShortAnswerQuestionComponent } from './learning-objects/short-answer-question/short-answer-question.component';
 import {SubmissionResultComponent} from './submission-result/submission-result.component';
+import {EmotionsComponent} from './feedback/emotions/emotions.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 
 @NgModule({
   declarations: [
@@ -40,24 +43,31 @@ import {SubmissionResultComponent} from './submission-result/submission-result.c
     KnowledgeComponentComponent,
     KnowledgeMapComponent,
     ShortAnswerQuestionComponent,
-    SubmissionResultComponent
+    SubmissionResultComponent,
+    EmotionsComponent,
+    TutorImprovementComponent
   ],
-    imports: [
-        BrowserModule,
-        MarkdownModule.forChild(),
-        YouTubePlayerModule,
-        FlexLayoutModule,
-        RouterModule,
-        FormsModule,
-        MaterialModule,
-        DragDropModule,
-        NotesModule
-    ],
+  imports: [
+    BrowserModule,
+    MarkdownModule.forChild(),
+    YouTubePlayerModule,
+    FlexLayoutModule,
+    RouterModule,
+    FormsModule,
+    MaterialModule,
+    DragDropModule,
+    NotesModule,
+    ReactiveFormsModule,
+    MatDialogModule
+  ],
   exports: [
     LearningObjectContainerComponent,
     SubmissionResultComponent,
-    KnowledgeMapComponent
-  ]
+    KnowledgeMapComponent,
+    EmotionsComponent,
+    TutorImprovementComponent
+  ],
+  entryComponents: [EmotionsComponent, TutorImprovementComponent]
 })
 export class DomainModule {
 }

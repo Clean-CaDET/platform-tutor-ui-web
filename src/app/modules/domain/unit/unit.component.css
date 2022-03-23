@@ -14,3 +14,7 @@ h1 {
   display: flex;
   cursor: pointer;
 }
+
+#rate {
+  margin-top: 20px;
+}
