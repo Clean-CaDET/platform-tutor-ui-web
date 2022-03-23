@@ -1,15 +1,30 @@
 <mat-card>
   <div>
-    <h2>Zadatak uspešno poslat!</h2>
+    <h2>Statistika modula</h2>
     <hr>
     <div id="result">
       <div id="correctness">
-        <h4>Tačnost: {{correctness * 100}}</h4>
-        <mat-icon color="accent">percent</mat-icon>
+        <div id="correctness-result">
+          <h4>Tačnost: {{correctness * 100}}</h4>
+          <mat-icon class="percent-icon" color="accent">percent</mat-icon>
+        </div>
+        <mat-icon matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="help-icon">help_outline</mat-icon>
       </div>
       <div id="mastery">
-        <h4>Vičnost: {{mastery * 100}}</h4>
-        <mat-icon color="accent">percent</mat-icon>
+        <div id="mastery-result">
+          <h4>Vičnost: {{mastery * 100}}</h4>
+          <mat-icon class="percent-icon" color="accent">percent</mat-icon>
+        </div>
+        <mat-icon matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="help-icon">help_outline</mat-icon>
+      </div>
+      <div id="aeCount">
+        <h4>Broj zadataka: {{numberOfAssessmentEvents}}</h4>
+      </div>
+      <div id="aeCompletedCount">
+        <h4>Kompletirani: {{numberOfCompletedAssessmentEvents}}</h4>
+      </div>
+      <div id="aeTriedCount">
+        <h4>Pokušani: {{numberOfTriedAssessmentEvents}}</h4>
       </div>
     </div>
     <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>

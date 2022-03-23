@@ -12,11 +12,39 @@ h2 {
 }
 
 #correctness {
-  display: flex;
-  margin-top: 20px;
+  margin-left: 20px;
 }
 
 #mastery {
+  margin-left: 20px;
+}
+
+#aeCount {
+  margin-left: 40px;
+}
+
+#aeCompletedCount {
+  margin-left: 20px;
+}
+
+#aeTriedCount {
+  margin-left: 20px;
+}
+
+#correctness-result {
+  display: flex;
+}
+
+#mastery-result {
+  display: flex;
+}
+
+.percent-icon {
+  margin-top: 3px;
+  font-size: 17px;
+}
+
+#result{
   display: flex;
   margin-top: 20px;
 }
