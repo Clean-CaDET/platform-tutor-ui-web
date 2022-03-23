@@ -39,7 +39,6 @@ export class NavbarComponent implements OnInit {
     this.updateUnits();
     this.learnerService.learner$.subscribe(learner => {
       this.learner = learner;
-      console.log(this.learner);
     });
     this.setupActiveUnitAndKCUpdate();
   }
