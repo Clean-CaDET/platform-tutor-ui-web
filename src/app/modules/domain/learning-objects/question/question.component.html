@@ -1,4 +1,4 @@
-<div id="question" class="mat-card">
+<div id="question">
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
     <ul>
@@ -15,6 +15,6 @@
         </div>
       </mat-list-item>
     </ul>
-    <button *ngIf="!evaluation" mat-flat-button color="primary" (click)="onSubmit()">Pošalji</button>
+    <button *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()">Pošalji</button>
   </div>
 </div>
