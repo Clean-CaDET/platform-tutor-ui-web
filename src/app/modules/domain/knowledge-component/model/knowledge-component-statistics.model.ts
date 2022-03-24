@@ -8,9 +8,9 @@ export class KnowledgeComponentStatistics {
   constructor(obj?: any) {
     if (obj) {
       this.mastery = obj.mastery;
-      this.totalCount = obj.numberOfAssessmentEvents;
-      this.completedCount = obj.numberOfCompletedAssessmentEvents;
-      this.attemptedCount = obj.numberOfTriedAssessmentEvents;
+      this.totalCount = obj.totalCount;
+      this.completedCount = obj.completedCount;
+      this.attemptedCount = obj.attemptedCount;
       this.isSatisfied = obj.isSatisfied;
     }
   }
