@@ -16,9 +16,9 @@ export class SubmissionResultComponent implements OnInit {
   @Output() nextPageEvent = new EventEmitter<string>();
   @Output() emotionDialogEvent = new EventEmitter<boolean>();
   mastery: number;
-  numberOfAssessmentEvents: number;
-  numberOfCompletedAssessmentEvents: number;
-  numberOfTriedAssessmentEvents: number;
+  totalCount: number;
+  completedCount: number;
+  attemptedCount: number;
   @Input() aeSubmittedEvent: Observable<void>;
   private eventsSubscription: Subscription;
 
@@ -39,9 +39,9 @@ export class SubmissionResultComponent implements OnInit {
   getKnowledgeComponentStatistics(): void {
     this.unitService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
       this.mastery = result.mastery;
-      this.numberOfAssessmentEvents = result.numberOfAssessmentEvents;
-      this.numberOfCompletedAssessmentEvents = result.numberOfCompletedAssessmentEvents;
-      this.numberOfTriedAssessmentEvents = result.numberOfTriedAssessmentEvents;
+      this.totalCount = result.totalCount;
+      this.completedCount = result.completedCount;
+      this.attemptedCount = result.attemptedCount;
       this.emotionDialogEvent.emit(result.isSatisfied);
     });
   }
