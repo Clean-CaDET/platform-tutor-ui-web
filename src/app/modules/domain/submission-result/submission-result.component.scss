@@ -1,54 +1,18 @@
-h2 {
-  margin-top: 10px;
+.small-text {
+  font-size: 12px;
+  text-align: center;
 }
 
-#ie-button {
-  margin-left: 10px;
-  margin-top: 20px;
+.small-icon {
+  font-size: 16px;
 }
 
-#ae-button {
-  margin-top: 20px;
+.accent-text {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 10px;
 }
 
-#correctness {
-  margin-left: 20px;
-}
-
-#mastery {
-  margin-left: 20px;
-}
-
-#aeCount {
-  margin-left: 40px;
-}
-
-#aeCompletedCount {
-  margin-left: 20px;
-}
-
-#aeTriedCount {
-  margin-left: 20px;
-}
-
-#correctness-result {
-  display: flex;
-}
-
-#mastery-result {
-  display: flex;
-}
-
-.percent-icon {
-  margin-top: 3px;
-  font-size: 17px;
-}
-
-#result{
-  display: flex;
-  margin-top: 20px;
-}
-
-* {
-  margin:0;
+.accent-icon {
+  font-size: 22px;
 }
