@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
-import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
 import {Subject} from 'rxjs';
 
@@ -28,7 +28,6 @@ export class KnowledgeComponentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private unitService: UnitService,
     private learnerService: LearnerService,
     private aeService: AeService,
@@ -43,13 +42,13 @@ export class KnowledgeComponentComponent implements OnInit {
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
-      this.aeCorrectnessLevel = 0.0;
+      this.aeCorrectnessLevel = -1;
       this.unitId = +params.currentUnitId;
     });
   }
 
   nextPage(page: string): void {
-    this.aeCorrectnessLevel = 0.0;
+    this.aeCorrectnessLevel = -1;
     if (page === 'AE') {
       this.onAssessmentEventClicked();
     } else if (page === 'IE') {

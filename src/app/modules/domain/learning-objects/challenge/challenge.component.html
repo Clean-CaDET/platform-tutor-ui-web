@@ -1,4 +1,7 @@
 <h3><b>ID izazova</b>: {{ learningObject.id }}</h3>
-<small>Jel ovo tvoj prvi izazov? Ako jeste, pogledaj <a href="https://youtu.be/GEUTc-q2juw" target="_blank">ovaj video</a>.</small>
+<small>Da li je ovo tvoj prvi izazov? Ako jeste, pogledaj <a href="https://youtu.be/GEUTc-q2juw" target="_blank">ovaj video</a>.</small>
 <p>{{ learningObject.description }}</p>
-<a mat-raised-button color="primary" href="{{learningObject.url}}" target="_blank">Preuzmi kod za izazov</a>
+<div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <a mat-raised-button color="primary" href="{{learningObject.url}}" target="_blank">Preuzmi kod za izazov</a>
+    <button color="primary" id="ie-button" mat-raised-button (click)="reloadSubmission()">Osveži tačnost submisije</button>
+</div>

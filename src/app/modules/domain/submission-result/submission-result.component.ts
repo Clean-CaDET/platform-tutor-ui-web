@@ -2,7 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {AeService} from '../knowledge-component/ae.service';
 import {UnitService} from '../unit/unit.service';
 import {Output, EventEmitter} from '@angular/core';
-import {Observable, Subscription} from 'rxjs';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'cc-submission-result',
@@ -20,7 +20,6 @@ export class SubmissionResultComponent implements OnInit {
   completedCount: number;
   attemptedCount: number;
   @Input() aeSubmittedEvent: Observable<void>;
-  private eventsSubscription: Subscription;
 
   constructor(private aeService: AeService, private unitService: UnitService) {
     this.aeService.submitAeEvent.subscribe(value => {
@@ -31,8 +30,7 @@ export class SubmissionResultComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.eventsSubscription = this.aeSubmittedEvent.subscribe(() =>
-      this.getKnowledgeComponentStatistics());
+    this.aeSubmittedEvent.subscribe(() => this.getKnowledgeComponentStatistics());
     this.getKnowledgeComponentStatistics();
   }
 

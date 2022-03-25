@@ -5,7 +5,7 @@
     <div fxLayout="row" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
       <div fxLayout="column" fxFlex>
-        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{correctness == 0 ? '?' : (correctness * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{correctness == -1 ? '?' : (correctness * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
           tačnost
           <mat-icon matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
