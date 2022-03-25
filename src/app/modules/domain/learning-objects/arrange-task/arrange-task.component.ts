@@ -5,7 +5,6 @@ import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag
 import {ArrangeTaskService} from './arrange-task.service';
 import {Container} from './model/container.model';
 import {Element} from './model/element.model';
-import {ActivatedRoute} from '@angular/router';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';

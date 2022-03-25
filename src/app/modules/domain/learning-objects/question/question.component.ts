@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {LearningObjectComponent} from '../learning-object-component';
 import {Question} from './model/question.model';
 import {QuestionService} from './question.service';
-import {ActivatedRoute} from '@angular/router';
 import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
