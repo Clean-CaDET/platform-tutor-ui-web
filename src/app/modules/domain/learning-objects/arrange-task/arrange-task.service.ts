@@ -15,7 +15,7 @@ export class ArrangeTaskService {
   constructor(private http: HttpClient, private learnerService: LearnerService) {
   }
 
-  submitTask(nodeId: number, arrangeTaskId: number, containers: ArrangeTaskContainerSubmission[]): Observable<ArrangeTaskEvaluation> {
+  submitTask(arrangeTaskId: number, containers: ArrangeTaskContainerSubmission[]): Observable<ArrangeTaskEvaluation> {
     return this.http.post(
       environment.apiHost + 'submissions/arrange-task',
       {

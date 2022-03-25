@@ -16,7 +16,7 @@ export class QuestionService {
   constructor(private http: HttpClient, private learnerService: LearnerService) {
   }
 
-  answerQuestion(nodeId: number, questionId: number, answers: MrqItem[]): Observable<MrqEvaluation> {
+  answerQuestion(questionId: number, answers: MrqItem[]): Observable<MrqEvaluation> {
     return this.http.post(
       environment.apiHost + 'submissions/question',
       {

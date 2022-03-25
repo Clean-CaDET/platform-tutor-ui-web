@@ -20,7 +20,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   checked: boolean[];
   evaluation: MrqEvaluation;
 
-  constructor(private questionService: QuestionService, private route: ActivatedRoute,
+  constructor(private questionService: QuestionService,
               private aeService: AeService,
               private navbarService: NavbarService) {
     this.checked = [];
@@ -28,10 +28,6 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
 
   ngOnInit(): void {
     this.learningObject.items = shuffleArray(this.learningObject.items);
-  }
-
-  get nodeId(): number {
-    return +this.route.snapshot.paramMap.get('nodeId');
   }
 
   get checkedAnswers(): MrqItem[] {
@@ -45,7 +41,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.questionService.answerQuestion(this.nodeId, this.learningObject.id, this.checkedAnswers)
+    this.questionService.answerQuestion(this.learningObject.id, this.checkedAnswers)
       .subscribe(mrqEvaluation => {
         this.navbarService.updateContent('updateKnowledgeComponents');
         this.aeService.submit(mrqEvaluation.correctnessLevel);

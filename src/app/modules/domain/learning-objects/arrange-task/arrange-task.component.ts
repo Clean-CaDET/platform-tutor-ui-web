@@ -24,7 +24,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
 
-  constructor(private arrangeTaskService: ArrangeTaskService, private route: ActivatedRoute,
+  constructor(private arrangeTaskService: ArrangeTaskService,
               private aeService: AeService,
               private navbarService: NavbarService) {
     this.feedbackMap = new Map();
@@ -32,10 +32,6 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   ngOnInit(): void {
     this.resetState();
-  }
-
-  get nodeId(): number {
-    return +this.route.snapshot.paramMap.get('nodeId');
   }
 
   isElementCorrect(elementId: number, containerId: number): boolean {
@@ -78,7 +74,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService.submitTask(this.nodeId, this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
+    this.arrangeTaskService.submitTask(this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
         this.navbarService.updateContent('updateKnowledgeComponents');
         this.aeService.submit(containerEvaluation.correctnessLevel);
