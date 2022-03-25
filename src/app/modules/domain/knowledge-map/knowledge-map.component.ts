@@ -10,7 +10,7 @@ export class KnowledgeMapComponent{
   @Input() knowledgeComponents: KnowledgeComponent[];
   @Input() level = 0;
   @Input() expanded = false;
-  @Input() unitId: string;
+  @Input() unitId: number;
 
   constructor() {
   }

@@ -15,7 +15,7 @@ mat-toolbar {
 }
 
 mat-icon {
-  margin-top:5px;
+  vertical-align: middle;
 }
 
 mat-slide-toggle {

@@ -7,6 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {AeService} from './ae.service';
 import {MatDialog, MatDialogConfig, MatDialogRef} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -22,8 +23,8 @@ export class KnowledgeComponentComponent implements OnInit {
   kcId: number;
   learnerId: number;
   aeCorrectnessLevel: number;
-  aeSubmitted = false;
   unitId: number;
+  aeSubmitted: Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -42,15 +43,13 @@ export class KnowledgeComponentComponent implements OnInit {
       this.getKnowledgeComponent();
       this.getInstructionalEvents();
       this.instructionalEventChecked = true;
-      this.aeSubmitted = false;
       this.aeCorrectnessLevel = 0.0;
-      this.unitId = +params.unitId;
+      this.unitId = +params.currentUnitId;
     });
   }
 
   nextPage(page: string): void {
     this.aeCorrectnessLevel = 0.0;
-    this.aeSubmitted = false;
     if (page === 'AE') {
       this.onAssessmentEventClicked();
     } else if (page === 'IE') {
@@ -105,7 +104,7 @@ export class KnowledgeComponentComponent implements OnInit {
     this.aeService.submitAeEvent.subscribe(value => {
       {
         this.aeCorrectnessLevel = value;
-        this.aeSubmitted = true;
+        this.aeSubmitted.next();
       }
     });
   }

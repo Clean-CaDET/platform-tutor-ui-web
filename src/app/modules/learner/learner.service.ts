@@ -9,11 +9,11 @@ import {AuthenticationResponse} from '../../infrastructure/auth/jwt/authenticati
 import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../shared/constants';
 
 interface LoginDTO {
-  index: string;
+  studentIndex: string;
 }
 
 interface RegisterDTO {
-  index: string;
+  studentIndex: string;
 }
 
 @Injectable({
@@ -31,17 +31,17 @@ export class LearnerService {
       .pipe(tap(authenticationResponse => {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.tokenStorage.saveRefreshToken(authenticationResponse.refreshToken);
-        const learner = new Learner({id: authenticationResponse.id});
+        const learner = new Learner({id: authenticationResponse.id, studentIndex: loginDTO.studentIndex});
         this.setLearner(learner);
       }));
   }
 
-  register(registerDTO: RegisterDTO): Observable<any> { // TODO: Check if <any> is ok. I put <any> instead of <AuthenticationResponse> because Tutor sends back Task<> instead of ActionResponse<>.
+  register(registerDTO: RegisterDTO): Observable<any> {
     return this.http.post<any>(environment.apiHost + 'learners/register', registerDTO)
       .pipe(tap(registrationResponse => {
         this.tokenStorage.saveAccessToken(registrationResponse.value.accessToken);
         this.tokenStorage.saveRefreshToken(registrationResponse.value.refreshToken);
-        const learner = new Learner({id: registrationResponse.value.id});
+        const learner = new Learner({id: registrationResponse.value.id, studentIndex: registerDTO.studentIndex});
         this.setLearner(learner);
       }));
   }

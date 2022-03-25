@@ -2,11 +2,11 @@
   <button mat-menu-item [routerLink]="['/kc',unitId,kc.id]" [matTooltip]="kc.name" [matTooltipDisabled]="expanded" [matTooltipPosition]="'after'"
       [disabled]="isLocked(kc)"
       [ngClass]="{'kc-in-progress': isInProgress(kc)}">
-    <span [ngStyle]="{'padding-left': 16*level+'px'}" class="kc-menu">
+    <span [ngStyle]="{'padding-left': 33*level+'px'}" class="kc-menu">
       <mat-icon *ngIf="isLocked(kc)">lock</mat-icon>
       <mat-icon *ngIf="isCompleted(kc)">done</mat-icon>
       <span *ngIf="isInProgress(kc)">
-        <b class="mastery">{{kc.mastery.mastery * 100}}</b>
+        <b class="mastery">{{(kc.mastery.mastery * 100).toFixed(0)}}</b>
         <mat-icon class="percent-icon" color="accent">percent</mat-icon>
       </span>
       {{kc.name}}

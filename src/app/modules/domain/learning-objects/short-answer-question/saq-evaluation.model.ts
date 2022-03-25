@@ -5,7 +5,7 @@ export class SaqEvaluation {
   constructor(obj?: any) {
     if (obj) {
       this.acceptableAnswers = obj.acceptableAnswers;
-      this.correctnessLevel = obj.correctnessLevel.toFixed(2);
+      this.correctnessLevel = obj.correctnessLevel;
     }
   }
 }

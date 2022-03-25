@@ -37,7 +37,9 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.updateUnits();
-    this.learnerService.learner$.subscribe(learner => this.learner = learner);
+    this.learnerService.learner$.subscribe(learner => {
+      this.learner = learner;
+    });
     this.setupActiveUnitAndKCUpdate();
   }
 
