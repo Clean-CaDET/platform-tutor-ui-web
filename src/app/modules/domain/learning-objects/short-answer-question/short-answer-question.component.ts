@@ -3,7 +3,6 @@ import {LearningObjectComponent} from '../learning-object-component';
 import {ShortAnswerQuestion} from './short-answer-question.model';
 import {SaqEvaluation} from './saq-evaluation.model';
 import {AeService} from '../../knowledge-component/ae.service';
-import {NavbarService} from '../../../layout/navbar/navbar.service';
 import { ShortAnswerQuestionService } from './short-answer-question.service';
 
 @Component({
@@ -17,13 +16,11 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   answer: string;
 
   constructor(private saqService: ShortAnswerQuestionService,
-              private aeService: AeService,
-              private navbarService: NavbarService) {
+              private aeService: AeService) {
   }
 
   onSubmit(): void {
     this.saqService.answerQuestion(this.learningObject.id, this.answer).subscribe(evaluation => {
-      this.navbarService.updateContent('updateKnowledgeComponents');
       this.aeService.submit(evaluation.correctnessLevel);
       this.response = evaluation;
     });

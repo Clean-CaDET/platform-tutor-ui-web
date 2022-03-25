@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 
 @Component({
@@ -12,8 +12,7 @@ export class KnowledgeMapComponent{
   @Input() expanded = false;
   @Input() unitId: number;
 
-  constructor() {
-  }
+  constructor() {}
 
   isLocked(kc: KnowledgeComponent): boolean {
     return this.areChildrenIncomplete(kc.knowledgeComponents);

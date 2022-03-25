@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LearnerService } from '../learner.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
-import {NavbarService} from '../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-login',
@@ -20,8 +19,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private learnerService: LearnerService,
-    private router: Router,
-    private navbarService: NavbarService) { }
+    private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -29,7 +27,6 @@ export class LoginComponent implements OnInit {
   onLogin(): void {
     if (this.loginForm.valid) {
       this.learnerService.login(this.loginForm.value).subscribe(() => {
-        this.navbarService.updateContent('updateUnits');
         this.router.navigate(['/']);
       }, (error) => {
         if (error instanceof HttpErrorResponse) {

@@ -4,10 +4,8 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
-import {AeService} from './ae.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
-import {Subject} from 'rxjs';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -33,7 +31,7 @@ export class KnowledgeComponentComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.learnerId = this.learnerService.learner$.value.id;
       this.getKnowledgeComponent(+params.kcId);
-      this.unitId = +params.currentUnitId;
+      this.unitId = +params.unitId;
     });
   }
 
