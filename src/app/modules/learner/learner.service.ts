@@ -47,12 +47,16 @@ export class LearnerService {
   }
 
   setLearner(learner: Learner): void {
+    if(learner.studentIndex) {
+      localStorage.setItem('STUDENT_INDEX', learner.studentIndex);
+    } else {
+      learner.studentIndex = localStorage.getItem('STUDENT_INDEX');
+    }
     this.learner$.next(learner);
   }
 
   logout(): void {
     this.learner$.next(null);
-    localStorage.setItem(ACCESS_TOKEN, null);
-    localStorage.setItem(REFRESH_TOKEN, null);
+    this.tokenStorage.clear();
   }
 }

@@ -10,8 +10,7 @@ import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../shared/constants';
   providedIn: 'root'
 })
 export class TokenService {
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   refreshToken(): Observable<AuthenticationResponse> {
     const data = {
@@ -44,5 +43,10 @@ export class TokenService {
     } else {
       return refreshToken;
     }
+  }
+
+  public clear() {
+    localStorage.setItem(ACCESS_TOKEN, null);
+    localStorage.setItem(REFRESH_TOKEN, null);
   }
 }

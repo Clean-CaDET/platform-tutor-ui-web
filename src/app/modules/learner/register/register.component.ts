@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {LearnerService} from '../learner.service';
 import {Router} from '@angular/router';
-import {NavbarService} from '../../layout/navbar/navbar.service';
 
 @Component({
   selector: 'cc-register',
@@ -21,8 +20,7 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private learnerService: LearnerService,
-    private router: Router,
-    private navbarService: NavbarService) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -33,7 +31,6 @@ export class RegisterComponent implements OnInit {
       this.clicked = true;
       this.learnerService.register(this.registerForm.value).subscribe(() => {
         this.clicked = false;
-        this.navbarService.updateContent('updateUnits');
         this.router.navigate(['/']);
       }, () => {
         // Assumes user is already registered if there is an error.

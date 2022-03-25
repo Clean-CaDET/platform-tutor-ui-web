@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AeService } from '../../knowledge-component/ae.service';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Challenge } from './challenge.model';
+import { ChallengeService } from './challenge.service';
 
 @Component({
   selector: 'cc-challenge',
@@ -11,9 +13,16 @@ export class ChallengeComponent implements OnInit, LearningObjectComponent {
 
   learningObject: Challenge;
 
-  constructor() { }
+  constructor(private challengeService: ChallengeService,
+    private aeService: AeService) { }
 
   ngOnInit(): void {
+  }
+
+  reloadSubmission(): void {
+    this.challengeService.getMaxCorrectness(this.learningObject.id).subscribe(correctness => {
+      this.aeService.submit(correctness);
+    });
   }
 
 }
