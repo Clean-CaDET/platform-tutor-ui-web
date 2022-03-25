@@ -1,37 +1,40 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, OnDestroy} from '@angular/core';
 import {AeService} from '../knowledge-component/ae.service';
 import {UnitService} from '../unit/unit.service';
 import {Output, EventEmitter} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'cc-submission-result',
   templateUrl: './submission-result.component.html',
   styleUrls: ['./submission-result.component.scss']
 })
-export class SubmissionResultComponent implements OnInit {
+export class SubmissionResultComponent implements OnInit, OnDestroy {
 
-  @Input() correctness: number;
   @Input() kcId: number;
   @Output() nextPageEvent = new EventEmitter<string>();
   @Output() emotionDialogEvent = new EventEmitter<boolean>();
+  correctness = -1;
   mastery: number;
   totalCount: number;
   completedCount: number;
   attemptedCount: number;
-  @Input() aeSubmittedEvent: Observable<void>;
+  private subscription: Subscription;
 
-  constructor(private aeService: AeService, private unitService: UnitService) {
-    this.aeService.submitAeEvent.subscribe(value => {
-      {
-        this.correctness = value;
-      }
-    });
-  }
+  constructor(private aeService: AeService, private unitService: UnitService) {}
 
   ngOnInit(): void {
-    this.aeSubmittedEvent.subscribe(() => this.getKnowledgeComponentStatistics());
+    this.subscription = this.aeService.submitAeEvent.subscribe(value => {
+      {
+        this.correctness = value;
+        this.getKnowledgeComponentStatistics();
+      }
+    });
     this.getKnowledgeComponentStatistics();
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   getKnowledgeComponentStatistics(): void {
@@ -45,6 +48,7 @@ export class SubmissionResultComponent implements OnInit {
   }
 
   nextPage(page: string): void {
+    this.correctness = -1;
     this.nextPageEvent.emit(page);
   }
 }
