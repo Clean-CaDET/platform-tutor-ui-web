@@ -2,7 +2,6 @@ import {Component, OnInit, Inject} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {MAT_DIALOG_DATA, MatDialogRef} from '@angular/material/dialog';
 import {EmotionsService} from './emotions.service';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'cc-emotions',
@@ -17,7 +16,6 @@ export class EmotionsComponent implements OnInit {
   });
 
   constructor(private dialogRef: MatDialogRef<EmotionsComponent>,
-              private router: Router,
               @Inject(MAT_DIALOG_DATA) private data,
               private emotionsService: EmotionsService) {
   }
@@ -27,7 +25,6 @@ export class EmotionsComponent implements OnInit {
 
   onSubmit(): void {
     this.emotionsService.submitEmotionsFeedback(this.data.kcId, this.emotionsForm.value.emotionsFeedback);
-    this.router.navigate(['/unit', this.data.unitId]);
     this.dialogRef.close();
   }
 

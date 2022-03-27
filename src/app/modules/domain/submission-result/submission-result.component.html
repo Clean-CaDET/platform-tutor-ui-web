@@ -11,7 +11,7 @@
           <mat-icon matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
         </div>
       </div>
-      <div fxLayout="column" fxFlex>
+      <div  [ngClass]="{'kc-satisfied': isSatisfied}" fxLayout="column" fxFlex>
         <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{(mastery * 100).toFixed(0)}} <mat-icon>percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
           vičnost <mat-icon matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
@@ -28,6 +28,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
       <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
       <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
+      <button *ngIf="isSatisfied" color="accent" id="unit-button" mat-raised-button (click)="onUnitClicked()">Pregled lekcije</button>
     </div>
   </div>
 </mat-card>
