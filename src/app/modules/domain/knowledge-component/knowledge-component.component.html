@@ -11,7 +11,7 @@
   <mat-sidenav-content>
     <div class="fixed">
       <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-        <mat-icon>assignment</mat-icon>
+        <mat-icon matTooltip="Tvoje beleške.">assignment</mat-icon>
       </button>
     </div>
     <div id="knowledge-component" *ngIf="knowledgeComponent">
@@ -22,8 +22,7 @@
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
       <div *ngIf="instructionalEventChecked">
-        <hr>
-        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentEventClicked()">Zadatak</button>
+        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentEventClicked()">Pređi na zadatke</button>
       </div>
       <div *ngIf="!instructionalEventChecked">
         <cc-submission-result (nextPageEvent)="nextPage($event)" [kcId]="knowledgeComponent.id">
