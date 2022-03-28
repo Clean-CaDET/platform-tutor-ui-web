@@ -7,7 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {NavbarService} from './navbar.service';
+import { AeService } from '../../domain/knowledge-component/ae.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -25,37 +25,38 @@ export class NavbarComponent implements OnInit {
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
               private router: Router, private route: ActivatedRoute,
-              private navbarService: NavbarService) {
-    this.navbarService.invokeEvent.subscribe(value => {
-      if (value === 'updateUnits') {
-        this.updateUnits();
-      } else if (value === 'updateKnowledgeComponents') {
-        this.updateKnowledgeComponents(this.selectedUnit.id);
-      }
-    });
-  }
+              private aeService: AeService) {}
 
   ngOnInit(): void {
+    this.learnerService.learner$.subscribe(learner => {
+      this.learner = learner;
+      this.updateUnits();
+    });
+    this.aeService.submitAeEvent.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
+    this.learner = this.learnerService.learner$.value;
     this.updateUnits();
-    this.learnerService.learner$.subscribe(learner => this.learner = learner);
     this.setupActiveUnitAndKCUpdate();
   }
 
   private updateUnits(): void {
-    this.unitService.getUnits().subscribe(units => this.units = units);
+    this.unitService.getUnits().subscribe(units => { this.units = units });
   }
 
   private setupActiveUnitAndKCUpdate(): void {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd),
       map(e => this.getParams(this.route))
     ).subscribe(params => {
-      if (params.unitId) {
-        this.onUnitSelected(+params.unitId);
+      if (this.unitIsChanged(params)) {
+        this.selectNewUnit(params);
       }
-      if (params.kcId) {
+      else if (params.kcId) {
         this.selectedKC = this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId);
       }
     });
+  }
+
+  private unitIsChanged(params: Params) {
+    return params.unitId && this.selectedUnit?.id != params.unitId;
   }
 
   private getParams(route: ActivatedRoute): Params {
@@ -69,11 +70,11 @@ export class NavbarComponent implements OnInit {
     return params;
   }
 
-  private onUnitSelected(unitId): void {
-    this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
+  private selectNewUnit(params: Params): void {
+    this.unitService.getUnit(+params.unitId, this.learner.id).subscribe(fullUnit => {
       this.knowledgeComponents = fullUnit.knowledgeComponents;
       this.selectedUnit = fullUnit;
-      this.selectedKC = null;
+      this.selectedKC = params.kcId ? this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId) : null;
     });
   }
 

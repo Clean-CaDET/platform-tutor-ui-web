@@ -1,4 +1,4 @@
-<div id="arrange-task" class="mat-card">
+<div id="arrange-task">
   <div>
     <markdown lineNumbers>{{learningObject.text}}</markdown>
   </div>
@@ -56,7 +56,7 @@
     </div>
   </div>
   <div *ngIf="!answered" fxLayout="row">
-    <button mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
-    <button mat-flat-button color="accent" (click)="resetState()">Reset</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Pošalji</button>
+    <button mat-raised-button color="accent" (click)="resetState()">Resetuj</button>
   </div>
 </div>

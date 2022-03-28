@@ -19,7 +19,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatIconModule} from '@angular/material/icon';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
 
-
 @NgModule({
   declarations: [
     AppComponent

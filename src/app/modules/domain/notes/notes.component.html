@@ -11,8 +11,8 @@
       <mat-icon>add</mat-icon>
     </button>
   </div>
-  <div *ngIf="notes.length === 0 && !edit" fxFlexAlign="center">
-    You have not added your first note yet.
+  <div class="note-width" *ngIf="notes.length === 0 && !edit" fxFlexAlign="center">
+    Beleške se trenutno ne čuvaju na serveru, no svakako možeš isprobati komponentu.
   </div>
   <mat-card class="note-width" *ngFor="let note of notes">
     <cc-markdown-editor *ngIf="note.mode === 'edit'" [(ngModel)]="note.text"></cc-markdown-editor>

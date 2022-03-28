@@ -1,18 +1,34 @@
 <mat-card>
   <div>
-    <h2>Zadatak uspešno poslat!</h2>
+    <small>Statistika modula</small>
     <hr>
-    <div id="result">
-      <div id="correctness">
-        <h4>Tačnost: {{correctness * 100}}</h4>
-        <mat-icon color="accent">percent</mat-icon>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
+      <div fxLayout="column" fxFlex>
+        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{correctness == -1 ? '?' : (correctness * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+        <div class="small-text" fxLayout="row" fxLayoutAlign="center">
+          tačnost
+          <mat-icon matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
+        </div>
       </div>
-      <div id="mastery">
-        <h4>Mastery: {{mastery * 100}}</h4>
-        <mat-icon color="accent">percent</mat-icon>
+      <div  [ngClass]="{'kc-satisfied': isSatisfied}" fxLayout="column" fxFlex>
+        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{(mastery * 100).toFixed(0)}} <mat-icon>percent</mat-icon></div>
+        <div class="small-text" fxLayout="row" fxLayoutAlign="center">
+          vičnost <mat-icon matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
+        </div>
+      </div>
+      </div>
+      <div fxFlex></div>
+      <div fxLayout="column">
+        <div class="accent-text">{{attemptedCount}} / {{completedCount}} / {{totalCount}}</div>
+        <div class="small-text">pokušano / urađeno / ukupno</div>
       </div>
     </div>
-    <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
-    <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
+    <hr>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
+      <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
+      <button *ngIf="isSatisfied" color="accent" id="unit-button" mat-raised-button (click)="onUnitClicked()">Pregled lekcije</button>
+    </div>
   </div>
 </mat-card>

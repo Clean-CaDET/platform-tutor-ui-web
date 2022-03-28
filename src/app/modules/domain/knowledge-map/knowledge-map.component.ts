@@ -6,10 +6,11 @@ import {KnowledgeComponent} from '../knowledge-component/model/knowledge-compone
   templateUrl: './knowledge-map.component.html',
   styleUrls: ['./knowledge-map.component.scss']
 })
-export class KnowledgeMapComponent {
+export class KnowledgeMapComponent{
   @Input() knowledgeComponents: KnowledgeComponent[];
   @Input() level = 0;
   @Input() expanded = false;
+  @Input() unitId: number;
 
   constructor() {}
 
@@ -18,14 +19,14 @@ export class KnowledgeMapComponent {
   }
 
   isCompleted(kc: KnowledgeComponent): boolean {
-    return !this.areChildrenIncomplete(kc.knowledgeComponents) && kc.mastery.mastery >= 0.9;
+    return !this.areChildrenIncomplete(kc.knowledgeComponents) && kc.mastery.isSatisfied;
   }
 
   isInProgress(kc: KnowledgeComponent): boolean {
-    return !this.areChildrenIncomplete(kc.knowledgeComponents) && kc.mastery.mastery < 0.9;
+    return !this.areChildrenIncomplete(kc.knowledgeComponents) && !kc.mastery.isSatisfied;
   }
 
   private areChildrenIncomplete(childrenKCs: KnowledgeComponent[]): boolean {
-    return childrenKCs.some(kc => kc.mastery.mastery < 0.9);
+    return childrenKCs.some(kc => !kc.mastery.isSatisfied);
   }
 }

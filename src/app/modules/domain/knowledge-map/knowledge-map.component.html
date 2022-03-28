@@ -1,19 +1,20 @@
 <div *ngFor="let kc of knowledgeComponents">
-  <button mat-menu-item [routerLink]="['/kc', kc.id]" [matTooltip]="kc.name" [matTooltipDisabled]="expanded" [matTooltipPosition]="'after'"
+  <button mat-menu-item [routerLink]="['/unit', unitId, 'kc', kc.id]" [matTooltip]="kc.name" [matTooltipDisabled]="expanded" [matTooltipPosition]="'after'"
       [disabled]="isLocked(kc)"
-      [ngClass]="{'kc-in-progress': isInProgress(kc)}">
-    <span [ngStyle]="{'padding-left': 16*level+'px'}" class="kc-menu">
+      [ngClass]="{'kc-completed': isCompleted(kc)}">
+    <span [ngStyle]="{'padding-left': 33*level+'px'}" class="kc-menu">
       <mat-icon *ngIf="isLocked(kc)">lock</mat-icon>
-      <mat-icon *ngIf="isCompleted(kc)">done</mat-icon>
+      <mat-icon *ngIf="isCompleted(kc)" color="accent">done</mat-icon>
       <span *ngIf="isInProgress(kc)">
-        <b class="mastery">{{kc.mastery.mastery * 100}}</b>
-        <mat-icon class="percent-icon" color="accent">percent</mat-icon>
+        <b class="mastery">{{(kc.mastery.mastery * 100).toFixed(0)}}</b>
+        <mat-icon class="percent-icon">percent</mat-icon>
       </span>
       {{kc.name}}
     </span>
   </button>
   <cc-knowledge-map
     [level]="level+1" [expanded]="expanded"
-    [knowledgeComponents]="kc.knowledgeComponents">
+    [knowledgeComponents]="kc.knowledgeComponents"
+    [unitId]="unitId">
   </cc-knowledge-map>
 </div>

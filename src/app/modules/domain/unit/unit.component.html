@@ -1,11 +1,13 @@
 <div id="lecture" *ngIf="unit">
   <h1 class="mat-h1">{{unit.name}}</h1>
-  <h3 class="mat-h3">{{unit.description}}</h3>
+  <h3 class="mat-h3"><markdown>{{unit.description}}</markdown></h3>
   <mat-divider></mat-divider>
-  <cc-knowledge-map [knowledgeComponents]="unit.knowledgeComponents" [expanded]="true"></cc-knowledge-map>
+  <cc-knowledge-map [unitId]="unit.id" [knowledgeComponents]="unit.knowledgeComponents" [expanded]="true"></cc-knowledge-map>
   <div *ngIf="unit.knowledgeComponents?.length == 0">
     <p>
       <b>Lekcija je u najavi i trenutno je nema u ponudi.</b>
     </p>
   </div>
+  <mat-divider></mat-divider>
+  <button id="rate" mat-raised-button color="primary" (click)="openImprovementDialog()">Oceni Tutora</button>
 </div>

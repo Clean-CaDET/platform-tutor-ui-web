@@ -1,9 +1,9 @@
-<div id="question" class="mat-card">
+<div id="question">
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
     <ul>
       <mat-list-item *ngFor="let answer of learningObject.items; let i = index">
-        <mat-checkbox [disabled]="evaluation" [(ngModel)]="checked[i]">
+        <mat-checkbox [disabled]="evaluation" [(ngModel)]="checked[i]" style="text-align: left">
           {{answer.text}}
         </mat-checkbox>
         <div
@@ -15,6 +15,6 @@
         </div>
       </mat-list-item>
     </ul>
-    <button *ngIf="!evaluation" mat-flat-button color="primary" (click)="onSubmit()">Submit</button>
+    <button *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()">Pošalji</button>
   </div>
 </div>

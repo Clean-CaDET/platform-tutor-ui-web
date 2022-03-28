@@ -1,10 +1,7 @@
 <div class="content">
-    <h1>Clean CaDET Smart Tutor</h1>
+    <h1>Clean CaDET Tutor</h1>
     <p>
-      Clean CaDET Smart Tutor je interaktivan i adaptivan sistem za elektronski podržano učenje, fokusiran na domen softverskog inženjerstva i specijalizovan za oblast dizajniranja čistog koda.
-    </p>
-    <p>
-      Kako bi sistem mogao da se adaptira tvojim preferencama i prati tvoj progres kroz modul, neophodno je da se registruješ. Koristeći <b>Login</b> taster u navigacionoj traci pronađi formu za registraciju gde ćeš uneti svoj indeks i VARK ocene. Kada umesto Login tastera stoji tvoj indeks nastavi sa prolaskom ove stranice.
+      Clean CaDET Tutor je interaktivan i adaptivan sistem za elektronski podržano učenje, fokusiran na domen softverskog inženjerstva i specijalizovan za oblast dizajniranja čistog koda. Kako bi sistem mogao da se prati tvoj progres kroz gradivo, neophodno je da se prijaviš. Koristeći <b>Login</b> taster u navigacionoj traci pronađi formu za prijavu gde ćeš uneti svoj indeks i lozinku.
     </p>
     <hr>
     <h2>Šta je čist kod i zašto je bitan?</h2>
@@ -13,9 +10,8 @@
       <iframe width="888" height="500" src="https://www.youtube.com/embed/wcFFghYt8Js" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
     <br>
-    <h2>Lecture Catalog</h2>
-    <p>Edukativni sadržaj Tutora je organizovan u lekcije, koje su potom segmentirane na module. Deo modula je fokusiran na prezentaciju novog gradiva, dok se praktični moduli fokusiraju na izazove. Neophodno je savladati sve module lekcije da bi se ona kompletirala.</p>
-    <p>Danas na tacni imaš dve lekcije - "Jasna imena" i "Kratke funkcije". Odaberi "Jasna imena" iz kataloga ispod ili navigacione trake sa strane i nakon što prođeš njen opis izaberi prvi modul.</p>
+    <h2>Katalog lekcija</h2>
+    <p>Edukativni sadržaj Tutora je organizovan u <b>lekcije</b>, koje su potom segmentirane na <b>module</b>. Svaki modul prezentuje određeno znanje kroz <b>gradivo</b>. Zatim je neophodno da pristupiš rešavanju povezanih <b>zadataka</b> kako bi demonstrirao da si usvojio znanje i razvio zadovoljavajući stepen povezane veštine. Neophodno je savladati sve module lekcije da bi se ona kompletirala.</p>
     <div fxLayout="row wrap">
       <mat-card style="margin: 10px;" *ngFor="let unit of units"
                 fxFlex="30"
@@ -28,11 +24,11 @@
         </mat-card-header>
         <mat-card-content>
           <p>
-            {{unit.description}}
+            <markdown>{{unit.description}}</markdown>
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <a mat-raised-button [routerLink]="'/unit/' + unit.id">Explore</a>
+          <a mat-raised-button [routerLink]="'/unit/' + unit.id">Istraži</a>
         </mat-card-actions>
       </mat-card>
     </div>

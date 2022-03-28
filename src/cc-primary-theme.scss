@@ -1,5 +1,6 @@
 @use '~@angular/material' as mat;
 @use './src/app/modules/domain/knowledge-map/knowledge-map.component-theme' as knowledge-map;
+@use './src/app/modules/domain/submission-result/submission-result.component-theme' as submission-result;
 
 @include mat.core();
 
@@ -36,6 +37,10 @@ $cc-palette: (
   )
 );
 
+a {
+  color: #5b78ff;
+}
+
 $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
 $cc-accent-dark: mat.define-palette(mat.$yellow-palette, 700, 400, 900);
 $cc-warn-dark: mat.define-palette(mat.$red-palette);
@@ -51,6 +56,7 @@ $cc-dark-theme: mat.define-dark-theme((
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
   @include knowledge-map.color($cc-dark-theme);
+  @include submission-result.color($cc-dark-theme);
 }
 
 $cc-primary-light: mat.define-palette(mat.$teal-palette);
@@ -68,6 +74,7 @@ $cc-theme: mat.define-light-theme((
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
   @include knowledge-map.color($cc-theme);
+  @include submission-result.color($cc-theme);
 }
 
 

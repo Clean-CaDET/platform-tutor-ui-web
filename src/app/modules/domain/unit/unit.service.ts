@@ -7,9 +7,7 @@ import {environment} from '../../../../environments/environment';
 import {KnowledgeComponent} from '../knowledge-component/model/knowledge-component.model';
 import {LearningObjectMapper} from '../learning-objects/learning-object-mapper';
 import {LearningObject} from '../learning-objects/learning-object.model';
-import {query} from '@angular/animations';
-import {KCMastery} from '../knowledge-component/model/knowledge-component-mastery.model';
-import { NullVisitor } from '@angular/compiler/src/render3/r3_ast';
+import {KnowledgeComponentStatistics} from '../knowledge-component/model/knowledge-component-statistics.model';
 
 
 @Injectable({
@@ -45,9 +43,9 @@ export class UnitService {
       .pipe(map(ae => this.learningObjectMapper.convert(ae)));
   }
 
-  getKnowledgeComponentMastery(kcId: number): Observable<KCMastery> {
-    return this.http.get<KCMastery>(environment.apiHost + 'units/knowledge-components/mastery/' + kcId)
-      .pipe(map(kcm => new KCMastery(kcm)));
+  getKnowledgeComponentStatistics(kcId: number): Observable<KnowledgeComponentStatistics> {
+    return this.http.get<KnowledgeComponentStatistics>(environment.apiHost + 'units/knowledge-components/statistics/' + kcId)
+      .pipe(map(knowledgeComponentStatistics => new KnowledgeComponentStatistics(knowledgeComponentStatistics)));
   }
 
   mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {

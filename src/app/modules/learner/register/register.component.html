@@ -1,16 +1,16 @@
 <form [formGroup]="registerForm" (ngSubmit)="onRegister()" fxLayout="column">
   <mat-form-field fxFlex="10">
-    <mat-label>Index</mat-label>
+    <mat-label>Indeks</mat-label>
     <input matInput type="text" name="index" formControlName="studentIndex" placeholder="Ex. xx-111-2020">
     <mat-error *ngIf="registerForm.controls['studentIndex'].errors?.invalidIndex">
-      Please enter a valid index.
+      Molim vas unesite validan indeks.
     </mat-error>
   </mat-form-field>
   <mat-form-field fxFlex="10">
-    <mat-label>Password</mat-label>
+    <mat-label>Lozinka</mat-label>
     <input matInput type="password" name="password" formControlName="password">
   </mat-form-field>
   <div>
-    <button color="primary" [disabled]="!registerForm.valid || clicked" mat-raised-button type="submit">Register</button>
+    <button color="primary" [disabled]="!registerForm.valid || clicked" mat-raised-button type="submit">Registruj se</button>
   </div>
 </form>

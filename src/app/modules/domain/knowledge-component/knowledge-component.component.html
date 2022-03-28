@@ -4,34 +4,29 @@
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
     <h2 class="mat-h2">
-      Notes
+      Beleške
     </h2>
     <cc-notes></cc-notes>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="fixed">
       <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-        <mat-icon>assignment</mat-icon>
+        <mat-icon matTooltip="Tvoje beleške.">assignment</mat-icon>
       </button>
     </div>
     <div id="knowledge-component" *ngIf="knowledgeComponent">
-      <br>
-      <button color = "primary" id="ae-button" mat-raised-button
-              [ngStyle]="{'opacity': instructionalEventChecked ? '1' : '0.5'}"
-              (click)="onAssessmentEventClicked()">AE
-      </button>
-      <button color = "primary" id="ie-button" mat-raised-button
-              [ngStyle]="{'opacity': instructionalEventChecked ? '0.5' : '1'}"
-              (click)="onInstructionalEventClicked()">IE
-      </button>
-      <h3>Goal: {{knowledgeComponent.name}}</h3>
+      <h3>Cilj: {{knowledgeComponent.name}}</h3>
       <mat-divider></mat-divider>
       <cc-learning-object-container
         *ngFor="let learningObject of learningObjects"
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
-      <div *ngIf="!instructionalEventChecked && aeSubmitted">
-        <cc-submission-result (nextPageEvent)="nextPage($event)" [correctness]="aeCorrectnessLevel" [kcId]="knowledgeComponent.id"></cc-submission-result>
+      <div *ngIf="instructionalEventChecked">
+        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentEventClicked()">Pređi na zadatke</button>
+      </div>
+      <div *ngIf="!instructionalEventChecked">
+        <cc-submission-result (nextPageEvent)="nextPage($event)" [kcId]="knowledgeComponent.id">
+        </cc-submission-result>
       </div>
       <br>
       <br><br>
