@@ -4,8 +4,6 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {EmotionsComponent} from '../feedback/emotions/emotions.component';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -23,8 +21,7 @@ export class KnowledgeComponentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private unitService: UnitService,
-    private learnerService: LearnerService,
-    private dialog: MatDialog) {
+    private learnerService: LearnerService) {
   }
 
   ngOnInit(): void {
@@ -41,20 +38,6 @@ export class KnowledgeComponentComponent implements OnInit {
     } else if (page === 'IE') {
       this.onInstructionalEventClicked();
     }
-  }
-
-  updateKCM(isSatisfied: boolean): void {
-    if (isSatisfied) {
-      this.openEmotionsDialog();
-    }
-  }
-
-  openEmotionsDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.data = {kcId: this.knowledgeComponent.id, unitId: this.unitId};
-    this.dialog.open(EmotionsComponent, dialogConfig);
   }
 
   private getKnowledgeComponent(kcId: number): void {

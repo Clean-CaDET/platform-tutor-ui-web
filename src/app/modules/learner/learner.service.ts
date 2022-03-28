@@ -49,6 +49,7 @@ export class LearnerService {
   setLearner(learner: Learner): void {
     if(learner.studentIndex) {
       localStorage.setItem('STUDENT_INDEX', learner.studentIndex);
+      localStorage.setItem('ON_SUBMIT_CLICKED_COUNTER', String(0));
     } else {
       learner.studentIndex = localStorage.getItem('STUDENT_INDEX');
     }

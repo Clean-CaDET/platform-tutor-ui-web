@@ -6,8 +6,8 @@
     </div>
     <div class="fixed mat-app-background">
       <button mat-raised-button mat-icon-button color="primary" (click)="changeTheme()">
-        <mat-icon *ngIf="!isDarkTheme">bedtime</mat-icon>
-        <mat-icon *ngIf="isDarkTheme">light_mode</mat-icon>
+        <mat-icon *ngIf="!isDarkTheme" matTooltip="Tamna tema.">bedtime</mat-icon>
+        <mat-icon *ngIf="isDarkTheme" matTooltip="Svetla tema.">light_mode</mat-icon>
       </button>
     </div>
   </mat-sidenav>
