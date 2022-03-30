@@ -4,6 +4,7 @@ import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
 import {LearnerService} from '../../learner/learner.service';
+import {SessionService} from './session.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -21,21 +22,21 @@ export class KnowledgeComponentComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private unitService: UnitService,
-    private learnerService: LearnerService) {
+    private learnerService: LearnerService,
+    private sessionService: SessionService) {
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      if (this.knowledgeComponent)
-        this.unitService.terminateSession(this.knowledgeComponent.id);
       this.learnerId = this.learnerService.learner$.value.id;
+      this.sessionService.launchSession(+params.kcId, this.learnerId);
       this.getKnowledgeComponent(+params.kcId);
       this.unitId = +params.unitId;
     });
   }
 
   ngOnDestroy(): void {
-    this.unitService.terminateSession(this.knowledgeComponent.id);
+    this.sessionService.terminateSession();
   }
 
   nextPage(page: string): void {
