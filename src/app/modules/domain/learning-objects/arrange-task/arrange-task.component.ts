@@ -73,12 +73,12 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
+        this.answered = true;
         this.aeService.submit(containerEvaluation.correctnessLevel);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
         });
       });
-    this.answered = true;
   }
 
   createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {

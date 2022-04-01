@@ -48,17 +48,23 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   onInstructionalEventClicked(): void {
-    this.instructionalEventChecked = true;
     this.unitService.getInstructionalEvents(this.knowledgeComponent.id).subscribe(instructionalEvents => {
+      this.instructionalEventChecked = true;
       this.learningObjects = instructionalEvents;
+      this.scrollToTop();
     });
   }
 
   onAssessmentEventClicked(): void {
-    this.instructionalEventChecked = false;
     this.unitService.getSuitableAssessmentEvent(this.knowledgeComponent.id, this.learnerId).subscribe(assessmentEvent => {
+      this.instructionalEventChecked = false;
       this.learningObjects = [];
       this.learningObjects[0] = assessmentEvent;
+      this.scrollToTop();
     });
+  }
+
+  private scrollToTop() {
+    document.querySelector('#router-outlet').scrollTop = 0;
   }
 }

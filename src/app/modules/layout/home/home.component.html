@@ -11,7 +11,7 @@
     </div>
     <br>
     <h2>Katalog lekcija</h2>
-    <p>Edukativni sadržaj Tutora je organizovan u <b>lekcije</b>, koje su potom segmentirane na <b>module</b>. Svaki modul prezentuje određeno znanje kroz <b>gradivo</b>. Zatim je neophodno da pristupiš rešavanju povezanih <b>zadataka</b> kako bi demonstrirao da si usvojio znanje i razvio zadovoljavajući stepen povezane veštine. Neophodno je savladati sve module lekcije da bi se ona kompletirala.</p>
+    <p>Edukativni sadržaj Tutora je organizovan u <b>lekcije</b>, koje su potom segmentirane na <b>veštine</b>. Svaka veština prezentuje određeno znanje kroz <b>gradivo</b>. Zatim je neophodno da pristupiš rešavanju povezanih <b>zadataka</b> kako bi demonstrirao da si usvojio znanje i razvio zadovoljavajući stepen povezane veštine. Neophodno je savladati sve veštine lekcije da bi se ona kompletirala.</p>
     <div fxLayout="row wrap">
       <mat-card style="margin: 10px;" *ngFor="let unit of units"
                 fxFlex="30"
@@ -28,7 +28,7 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <a mat-raised-button [routerLink]="'/unit/' + unit.id">Istraži</a>
+          <a mat-raised-button color="primary" [routerLink]="'/unit/' + unit.id">Istraži</a>
         </mat-card-actions>
       </mat-card>
     </div>
