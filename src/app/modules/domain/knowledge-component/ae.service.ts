@@ -38,27 +38,27 @@ export class AeSubmissionService {
           if(rnd < 7) return false;
 
           if(rnd < 9) {
-            this.snackBar.open('Hmm, ' + (correctness * 100).toFixed(0) + '% 🤔. Nešto ti nije legao zadatak. Da li ima smisla ponovo da pogledaš gradivo?', 'Ok');
+            this.snackBar.open('Hmm, ' + (correctness * 100).toFixed(0) + '% 🤔. Nešto ti nije legao zadatak. Da li ima smisla ponovo da pogledaš gradivo?', 'Ok', { duration: 7000 });
           } else {
-            this.snackBar.open('Huh, ' + (correctness * 100).toFixed(0) + '% 😟. Savetujem da se zamisliš nad tvojim i tačnim odgovorima.', 'Ok');
+            this.snackBar.open('Huh, ' + (correctness * 100).toFixed(0) + '% 😟. Savetujem da se zamisliš nad tvojim i tačnim odgovorima.', 'Ok', { duration: 7000 });
           }
           break;
       case (correctness < 0.9):
           if(rnd < 7) return false;
 
           if(rnd < 9) {
-            this.snackBar.open((correctness * 100).toFixed(0) + '%, not great, not terrible 😐. Analiziraj deo pitanja koji si kiksnuo i zašto.', 'Ok');
+            this.snackBar.open((correctness * 100).toFixed(0) + '%, not great, not terrible 😐. Analiziraj deo pitanja koji si kiksnuo i zašto.', 'Ok', { duration: 7000 });
           } else {
-            this.snackBar.open((correctness * 100).toFixed(0) + '%, ima još posla 😯. Da li ima smisla da ponovo pogledaš gradivo?');
+            this.snackBar.open((correctness * 100).toFixed(0) + '%, ima još posla 😯. Da li ima smisla da ponovo pogledaš gradivo?', 'Ok', { duration: 7000 });
           }
           break;
       default:
           if(rnd < 3) return false;
 
           if(rnd < 7) {
-            this.snackBar.open('Opa, ' + (correctness * 100).toFixed(0) + '% 😄. Ovo je super rezultat, samo napred!', '👌');
+            this.snackBar.open('Opa, ' + (correctness * 100).toFixed(0) + '% 😄. Ovo je super rezultat, samo napred!', '👌', { duration: 7000 });
           } else {
-            this.snackBar.open((correctness * 100).toFixed(0) + '%, strava 😎. Idemo dalje!', '✔️');
+            this.snackBar.open((correctness * 100).toFixed(0) + '%, strava 😎. Idemo dalje!', '✔️', { duration: 7000 });
           }
           break;
     }
