@@ -53,13 +53,12 @@ export class UnitService {
     return instructionalEvents;
   }
 
-  launchSession(kcId: number) : void {
-    this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/launch', null)
-      .subscribe(() => console.log("launched!"));
+  launchSession(kcId: number) : Observable<unknown> {
+    return this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/launch', null);
   }
 
   terminateSession(kcId: number) : void {
     this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/terminate', null)
-      .subscribe(() => console.log("terminated!"));
+      .subscribe(() => { });
   }
 }
