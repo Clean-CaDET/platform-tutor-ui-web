@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {LearnerService} from '../../../learner/learner.service';
 import {environment} from '../../../../../environments/environment';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface TutorImprovementDTO {
   learnerId: number;
@@ -15,7 +16,7 @@ interface TutorImprovementDTO {
 })
 export class ImprovementService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService) {
+  constructor(private http: HttpClient, private learnerService: LearnerService, private snackBar: MatSnackBar) {
   }
 
   submitImprovement(unitId: number, improvement: any): void {
@@ -23,6 +24,9 @@ export class ImprovementService {
     const softwareComment = improvement.value.tutorImprovement;
     const contentComment = improvement.value.educationalContentImprovement;
     const tutorImprovement = {learnerId, unitId, softwareComment, contentComment};
-    this.http.post<TutorImprovementDTO>(environment.apiHost + 'feedback/improvements', tutorImprovement).subscribe();
+    this.http.post<TutorImprovementDTO>(environment.apiHost + 'feedback/improvements', tutorImprovement).subscribe(() => {
+      this.snackBar.open('Hvala puno na savetima za unapređenje 😊! Tvoji komentari utiču na stotine učenika koji će doći posle tebe.',
+      null, { duration: 5000 });
+    });
   }
 }

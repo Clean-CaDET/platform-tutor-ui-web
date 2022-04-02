@@ -27,6 +27,7 @@
 
 .mat-card-subtitle {
   margin-top: 1em;
+  text-align: left;
 }
 
 mat-list-item {

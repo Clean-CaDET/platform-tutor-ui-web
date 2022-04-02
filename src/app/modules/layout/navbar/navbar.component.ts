@@ -7,7 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { AeService } from '../../domain/knowledge-component/ae.service';
+import { AeSubmissionService } from '../../domain/knowledge-component/ae.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -25,7 +25,7 @@ export class NavbarComponent implements OnInit {
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
               private router: Router, private route: ActivatedRoute,
-              private aeService: AeService) {}
+              private aeService: AeSubmissionService) {}
 
   ngOnInit(): void {
     this.learnerService.learner$.subscribe(learner => {

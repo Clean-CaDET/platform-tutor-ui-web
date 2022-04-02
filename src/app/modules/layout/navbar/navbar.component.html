@@ -12,7 +12,7 @@
     </button>
   </mat-menu>
   <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc" [disabled]="!selectedUnit">
-    {{selectedKC ? selectedKC.name : 'Izaberi modul'}}
+    {{selectedKC ? selectedKC.name : 'Izaberi veštinu'}}
   </button>
   <mat-menu #kc="matMenu">
     <cc-knowledge-map *ngIf="selectedUnit" [unitId]="selectedUnit.id" [knowledgeComponents]="selectedUnit.knowledgeComponents">

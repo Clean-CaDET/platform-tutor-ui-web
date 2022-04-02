@@ -8,7 +8,7 @@ import {Element} from './model/element.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
-import {AeService} from '../../knowledge-component/ae.service';
+import {AeSubmissionService} from '../../knowledge-component/ae.service';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -23,7 +23,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   answered = false;
 
   constructor(private arrangeTaskService: ArrangeTaskService,
-              private aeService: AeService) {
+              private aeService: AeSubmissionService) {
     this.feedbackMap = new Map();
   }
 
@@ -73,12 +73,12 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.arrangeTaskService.submitTask(this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
+        this.answered = true;
         this.aeService.submit(containerEvaluation.correctnessLevel);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
         });
       });
-    this.answered = true;
   }
 
   createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {

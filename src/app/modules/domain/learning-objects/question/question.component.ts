@@ -6,7 +6,7 @@ import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 import {MrqItemEvaluation} from './model/mrq-item-evaluation.model';
-import {AeService} from '../../knowledge-component/ae.service';
+import {AeSubmissionService} from '../../knowledge-component/ae.service';
 
 @Component({
   selector: 'cc-question',
@@ -19,7 +19,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   evaluation: MrqEvaluation;
 
   constructor(private questionService: QuestionService,
-              private aeService: AeService) {
+              private aeService: AeSubmissionService) {
     this.checked = [];
   }
 

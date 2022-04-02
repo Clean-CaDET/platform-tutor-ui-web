@@ -1,6 +1,6 @@
 <mat-card>
   <div>
-    <small>Statistika modula</small>
+    <small>Statistika veštine</small>
     <hr>
     <div fxLayout="row" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
@@ -26,7 +26,7 @@
     </div>
     <hr>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-      <button color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
+      <button [disabled]="correctness == -1" color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
       <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
       <button *ngIf="isSatisfied" color="accent" id="unit-button" mat-raised-button (click)="onUnitClicked()">Pregled lekcije</button>
     </div>

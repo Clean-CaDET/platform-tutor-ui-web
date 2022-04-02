@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {AeService} from '../knowledge-component/ae.service';
+import {AeSubmissionService} from '../knowledge-component/ae.service';
 import {UnitService} from '../unit/unit.service';
 import {Output, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
@@ -27,7 +27,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   private submitAeEventSubscription: Subscription;
   private openEmotionsFormSubscription: Subscription;
 
-  constructor(private aeService: AeService,
+  constructor(private aeService: AeSubmissionService,
               private unitService: UnitService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
