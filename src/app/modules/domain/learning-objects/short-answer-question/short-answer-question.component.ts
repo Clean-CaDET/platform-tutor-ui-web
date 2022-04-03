@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {LearningObjectComponent} from '../learning-object-component';
 import {ShortAnswerQuestion} from './short-answer-question.model';
 import {SaqEvaluation} from './saq-evaluation.model';
-import {AeSubmissionService} from '../../knowledge-component/ae.service';
+import {InterfacingInstructor} from '../../../instructor/interfacing-instructor.service';
 import { ShortAnswerQuestionService } from './short-answer-question.service';
 
 @Component({
@@ -16,12 +16,12 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   answer: string;
 
   constructor(private saqService: ShortAnswerQuestionService,
-              private aeService: AeSubmissionService) {
+              private instructor: InterfacingInstructor) {
   }
 
   onSubmit(): void {
     this.saqService.answerQuestion(this.learningObject.id, this.answer).subscribe(evaluation => {
-      this.aeService.submit(evaluation.correctnessLevel);
+      this.instructor.submit(evaluation.correctnessLevel);
       this.response = evaluation;
     });
   }

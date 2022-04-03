@@ -3,3 +3,7 @@
 html, body { min-height: 100vh; height: auto }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 pre { white-space: pre-wrap; }
+
+.mat-snack-bar-container.interfacing-instructor {
+    transform: scale(1.2)!important;
+}

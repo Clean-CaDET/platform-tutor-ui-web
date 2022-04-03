@@ -7,7 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { AeSubmissionService } from '../../domain/knowledge-component/ae.service';
+import { InterfacingInstructor } from '../../instructor/interfacing-instructor.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -25,14 +25,14 @@ export class NavbarComponent implements OnInit {
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
               private router: Router, private route: ActivatedRoute,
-              private aeService: AeSubmissionService) {}
+              private instructor: InterfacingInstructor) {}
 
   ngOnInit(): void {
     this.learnerService.learner$.subscribe(learner => {
       this.learner = learner;
       this.updateUnits();
     });
-    this.aeService.submitAeEvent.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
+    this.instructor.observedAeEvaluations.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
     this.learner = this.learnerService.learner$.value;
     this.updateUnits();
     this.setupActiveUnitAndKCUpdate();

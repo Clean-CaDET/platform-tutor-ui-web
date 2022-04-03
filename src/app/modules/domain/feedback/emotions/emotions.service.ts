@@ -22,7 +22,8 @@ export class EmotionsService {
     const learnerId: number = this.learnerService.learner$.value.id;
     const feedback = {learnerId, knowledgeComponentId, comment};
     this.http.post<EmotionsFeedbackDTO>(environment.apiHost + 'feedback/emotions', feedback).subscribe(() => {
-      this.snackBar.open('Hvala na povratnoj informaciji 🙂!', null, { duration: 3000 });
+      // We should consider how this service and the improvement service tie in with the interfacing instructor.
+      this.snackBar.open('Hvala na povratnoj informaciji 🙂!', null, { duration: 3000, panelClass: 'interfacing-instructor' });
     });
   }
 }
