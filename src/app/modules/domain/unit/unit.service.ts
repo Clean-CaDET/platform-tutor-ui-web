@@ -52,4 +52,12 @@ export class UnitService {
     instructionalEvents = instructionalEvents.map(ie => this.learningObjectMapper.convert(ie));
     return instructionalEvents;
   }
+
+  launchSession(kcId: number) : Observable<unknown> {
+    return this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/launch', null);
+  }
+
+  terminateSession(kcId: number) : Observable<unknown> {
+    return this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/terminate', null);
+  }
 }
