@@ -27,7 +27,7 @@ export class KnowledgeComponentComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       if (this.knowledgeComponent)
-        this.unitService.terminateSession(this.knowledgeComponent.id);        
+        this.unitService.terminateSession(this.knowledgeComponent.id).subscribe();        
       this.unitService.launchSession(+params.kcId).subscribe(() => {
         this.learnerId = this.learnerService.learner$.value.id;
         this.getKnowledgeComponent(+params.kcId);
@@ -37,7 +37,7 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.unitService.terminateSession(this.knowledgeComponent.id);
+    this.unitService.terminateSession(this.knowledgeComponent.id).subscribe();
   }
 
   nextPage(page: string): void {

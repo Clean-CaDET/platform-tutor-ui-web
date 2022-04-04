@@ -57,8 +57,7 @@ export class UnitService {
     return this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/launch', null);
   }
 
-  terminateSession(kcId: number) : void {
-    this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/terminate', null)
-      .subscribe(() => { });
+  terminateSession(kcId: number) : Observable<unknown> {
+    return this.http.post(environment.apiHost + 'units/knowledge-components/' + kcId + '/session/terminate', null);
   }
 }
