@@ -19,7 +19,7 @@ export class ArrangeTaskService {
     return this.http.post(
       environment.apiHost + 'submissions/arrange-task',
       {
-        assessmentEventId: arrangeTaskId,
+        assessmentItemId: arrangeTaskId,
         learnerId: this.learnerService.learner$.value.id,
         containers
       }).pipe(map(data => {

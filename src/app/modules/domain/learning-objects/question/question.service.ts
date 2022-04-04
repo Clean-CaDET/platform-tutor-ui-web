@@ -20,7 +20,7 @@ export class QuestionService {
     return this.http.post(
       environment.apiHost + 'submissions/question',
       {
-        assessmentEventId: questionId,
+        assessmentItemId: questionId,
         learnerId: this.learnerService.learner$.value.id,
         answers
       }).pipe(map(data => {
