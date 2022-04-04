@@ -13,11 +13,11 @@ export class ChallengeService {
   constructor(private http: HttpClient, private learnerService: LearnerService) {
   }
 
-  getMaxCorrectness(assessmentEventId: number): Observable<number> {
+  getMaxCorrectness(assessmentItemId: number): Observable<number> {
     return this.http.post(
       environment.apiHost + 'submissions/max-correctness',
       {
-        assessmentEventId: assessmentEventId,
+        assessmentItemId: assessmentItemId,
         learnerId: this.learnerService.learner$.value.id
       })
       .pipe(map(data => +data));

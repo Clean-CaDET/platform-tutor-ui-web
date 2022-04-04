@@ -32,14 +32,14 @@ export class UnitService {
       .pipe(map(kc => new KnowledgeComponent(kc)));
   }
 
-  getInstructionalEvents(kcId: number): Observable<LearningObject[]> {
-    return this.http.get<LearningObject[]>(environment.apiHost + 'units/knowledge-components/' + kcId + '/instructional-events')
+  getInstructionalItems(kcId: number): Observable<LearningObject[]> {
+    return this.http.get<LearningObject[]>(environment.apiHost + 'units/knowledge-components/' + kcId + '/instructional-items')
       .pipe(map(los => this.mapLearningObjects(los)));
   }
 
-  getSuitableAssessmentEvent(knowledgeComponentId: number, learnerId: number): Observable<LearningObject> {
-    const assessmentEventRequest = {knowledgeComponentId, learnerId};
-    return this.http.post<LearningObject>(environment.apiHost + 'units/knowledge-component/', assessmentEventRequest)
+  getSuitableAssessmentItem(knowledgeComponentId: number, learnerId: number): Observable<LearningObject> {
+    const assessmentItemRequest = {knowledgeComponentId, learnerId};
+    return this.http.post<LearningObject>(environment.apiHost + 'units/knowledge-component/', assessmentItemRequest)
       .pipe(map(ae => this.learningObjectMapper.convert(ae)));
   }
 
@@ -48,9 +48,9 @@ export class UnitService {
       .pipe(map(knowledgeComponentStatistics => new KnowledgeComponentStatistics(knowledgeComponentStatistics)));
   }
 
-  mapLearningObjects(instructionalEvents: LearningObject[]): LearningObject[] {
-    instructionalEvents = instructionalEvents.map(ie => this.learningObjectMapper.convert(ie));
-    return instructionalEvents;
+  mapLearningObjects(instructionalItems: LearningObject[]): LearningObject[] {
+    instructionalItems = instructionalItems.map(ie => this.learningObjectMapper.convert(ie));
+    return instructionalItems;
   }
 
   launchSession(kcId: number) : Observable<unknown> {

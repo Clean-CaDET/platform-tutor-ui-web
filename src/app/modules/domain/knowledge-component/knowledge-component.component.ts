@@ -14,7 +14,7 @@ export class KnowledgeComponentComponent implements OnInit {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
   sidenavOpened = false;
-  instructionalEventChecked = true;
+  instructionalItemsShown = true;
   learnerId: number;
   unitId: number;
 
@@ -42,32 +42,32 @@ export class KnowledgeComponentComponent implements OnInit {
 
   nextPage(page: string): void {
     if (page === 'AE') {
-      this.onAssessmentEventClicked();
+      this.onAssessmentItemClicked();
     } else if (page === 'IE') {
-      this.onInstructionalEventClicked();
+      this.onInstructionalItemsClicked();
     }
   }
 
   private getKnowledgeComponent(kcId: number): void {
     this.unitService.getKnowledgeComponent(kcId).subscribe(kc => {
       this.knowledgeComponent = kc;
-      this.onInstructionalEventClicked();
+      this.onInstructionalItemsClicked();
     });
   }
 
-  onInstructionalEventClicked(): void {
-    this.unitService.getInstructionalEvents(this.knowledgeComponent.id).subscribe(instructionalEvents => {
-      this.instructionalEventChecked = true;
-      this.learningObjects = instructionalEvents;
+  onInstructionalItemsClicked(): void {
+    this.unitService.getInstructionalItems(this.knowledgeComponent.id).subscribe(instructionalItems => {
+      this.instructionalItemsShown = true;
+      this.learningObjects = instructionalItems;
       this.scrollToTop();
     });
   }
 
-  onAssessmentEventClicked(): void {
-    this.unitService.getSuitableAssessmentEvent(this.knowledgeComponent.id, this.learnerId).subscribe(assessmentEvent => {
-      this.instructionalEventChecked = false;
+  onAssessmentItemClicked(): void {
+    this.unitService.getSuitableAssessmentItem(this.knowledgeComponent.id, this.learnerId).subscribe(assessmentItem => {
+      this.instructionalItemsShown = false;
       this.learningObjects = [];
-      this.learningObjects[0] = assessmentEvent;
+      this.learningObjects[0] = assessmentItem;
       this.scrollToTop();
     });
   }

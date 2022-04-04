@@ -14,11 +14,11 @@ export class ShortAnswerQuestionService {
   constructor(private http: HttpClient, private learnerService: LearnerService) {
   }
 
-  answerQuestion(assessmentEventId: number, answer: string): Observable<SaqEvaluation> {
+  answerQuestion(assessmentItemId: number, answer: string): Observable<SaqEvaluation> {
     return this.http.post(
       environment.apiHost + 'submissions/short-answer',
       {
-        assessmentEventId: assessmentEventId,
+        assessmentItemId: assessmentItemId,
         learnerId: this.learnerService.learner$.value.id,
         answer: answer
       }).pipe(map(data => {
