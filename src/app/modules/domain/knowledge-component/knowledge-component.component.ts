@@ -3,7 +3,6 @@ import {ActivatedRoute, Params} from '@angular/router';
 import {UnitService} from '../unit/unit.service';
 import {KnowledgeComponent} from './model/knowledge-component.model';
 import {LearningObject} from '../learning-objects/learning-object.model';
-import {LearnerService} from '../../learner/learner.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -15,13 +14,11 @@ export class KnowledgeComponentComponent implements OnInit {
   learningObjects: LearningObject[];
   sidenavOpened = false;
   instructionalItemsShown = true;
-  learnerId: number;
   unitId: number;
 
   constructor(
     private route: ActivatedRoute,
-    private unitService: UnitService,
-    private learnerService: LearnerService) {
+    private unitService: UnitService) {
   }
 
   ngOnInit(): void {
@@ -29,7 +26,6 @@ export class KnowledgeComponentComponent implements OnInit {
       if (this.knowledgeComponent)
         this.unitService.terminateSession(this.knowledgeComponent.id).subscribe();        
       this.unitService.launchSession(+params.kcId).subscribe(() => {
-        this.learnerId = this.learnerService.learner$.value.id;
         this.getKnowledgeComponent(+params.kcId);
         this.unitId = +params.unitId;
       });
@@ -64,7 +60,7 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   onAssessmentItemClicked(): void {
-    this.unitService.getSuitableAssessmentItem(this.knowledgeComponent.id, this.learnerId).subscribe(assessmentItem => {
+    this.unitService.getSuitableAssessmentItem(this.knowledgeComponent.id).subscribe(assessmentItem => {
       this.instructionalItemsShown = false;
       this.learningObjects = [];
       this.learningObjects[0] = assessmentItem;
