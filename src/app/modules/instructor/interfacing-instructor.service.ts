@@ -72,21 +72,21 @@ export class InterfacingInstructor {
     this.presentMessage(message, '👌', 7);
     return true;
   }
-  
+
   private getRandomNumber(max: number) {
     return Math.floor(Math.random() * max) + 1;
   }
 
   inform(event: string): void {
     if(this.tutorActionActivated) return;
-  
+
     switch(event) {
       case 'passed':
         this.passCongratulations();
         break;
     }
-  } 
-  
+  }
+
   private passCongratulations(): void {
     const rnd = this.getRandomNumber(3);
     let message: string;
@@ -101,8 +101,7 @@ export class InterfacingInstructor {
   }
 
   greet(): void {
-    //TODO: studentName
-    let studentName = 'Test';
+    const studentName = JSON.parse(localStorage.getItem('STUDENT')).name;
     const rnd = this.getRandomNumber(3);
     let message: string;
     if(rnd == 1) {
@@ -119,7 +118,7 @@ export class InterfacingInstructor {
   }
 
   private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
-    this.tutorToaster.open(message, action, { 
+    this.tutorToaster.open(message, action, {
       duration: durationInSeconds * 1000,
       panelClass: 'interfacing-instructor'
     });

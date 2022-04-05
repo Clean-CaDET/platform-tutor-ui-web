@@ -7,7 +7,7 @@ import {LearnerService} from '../../learner/learner.service';
 import {ActivatedRoute, NavigationEnd, Params, Router} from '@angular/router';
 import {filter} from 'rxjs';
 import {map} from 'rxjs/operators';
-import { InterfacingInstructor } from '../../instructor/interfacing-instructor.service';
+import {InterfacingInstructor} from '../../instructor/interfacing-instructor.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -25,10 +25,14 @@ export class NavbarComponent implements OnInit {
 
   constructor(private unitService: UnitService, private learnerService: LearnerService,
               private router: Router, private route: ActivatedRoute,
-              private instructor: InterfacingInstructor) {}
+              private instructor: InterfacingInstructor) {
+  }
 
   ngOnInit(): void {
     this.learnerService.learner$.subscribe(learner => {
+      if (learner == null) {
+        this.resetNavBar();
+      }
       this.learner = learner;
       this.updateUnits();
     });
@@ -39,7 +43,9 @@ export class NavbarComponent implements OnInit {
   }
 
   private updateUnits(): void {
-    this.unitService.getUnits().subscribe(units => { this.units = units });
+    this.unitService.getUnits().subscribe(units => {
+      this.units = units;
+    });
   }
 
   private setupActiveUnitAndKCUpdate(): void {
@@ -48,8 +54,7 @@ export class NavbarComponent implements OnInit {
     ).subscribe(params => {
       if (this.unitIsChanged(params)) {
         this.selectNewUnit(params);
-      }
-      else if (params.kcId) {
+      } else if (params.kcId) {
         this.selectedKC = this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId);
       }
     });
@@ -100,7 +105,6 @@ export class NavbarComponent implements OnInit {
 
   onLogout(): void {
     this.learnerService.logout();
-    this.resetNavBar();
   }
 
   resetNavBar(): void {
