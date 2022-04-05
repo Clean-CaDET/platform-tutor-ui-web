@@ -9,6 +9,7 @@ import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {ArrangeTaskContainerSubmission} from './model/arrange-task-container-submission.model';
 import {ArrangeTaskContainerEvaluation} from './model/arrange-task-container-evaluation.model';
 import {InterfacingInstructor} from '../../../instructor/interfacing-instructor.service';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -21,14 +22,19 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   state: Container[];
   feedbackMap: Map<number, ArrangeTaskContainerEvaluation>;
   answered = false;
+  kcId: number;
 
   constructor(private arrangeTaskService: ArrangeTaskService,
-              private instructor: InterfacingInstructor) {
+              private instructor: InterfacingInstructor,
+              private route: ActivatedRoute) {
     this.feedbackMap = new Map();
   }
 
   ngOnInit(): void {
     this.resetState();
+    this.route.params.subscribe((params: Params) => {
+      this.kcId = +params.kcId;
+    });
   }
 
   isElementCorrect(elementId: number, containerId: number): boolean {
@@ -74,7 +80,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     this.arrangeTaskService.submitTask(this.learningObject.id, this.createArrangeTaskContainerSubmissionList())
       .subscribe(containerEvaluation => {
         this.answered = true;
-        this.instructor.submit(containerEvaluation.correctnessLevel);
+        this.instructor.submit(containerEvaluation.correctnessLevel, this.kcId);
         containerEvaluation.containerEvaluations.forEach(arrangeTaskContainerEvaluation => {
           this.feedbackMap.set(arrangeTaskContainerEvaluation.id, arrangeTaskContainerEvaluation);
         });

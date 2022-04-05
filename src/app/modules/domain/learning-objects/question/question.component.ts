@@ -7,6 +7,7 @@ import {shuffleArray} from '../../../../shared/helpers/arrays';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 import {MrqItemEvaluation} from './model/mrq-item-evaluation.model';
 import {InterfacingInstructor} from '../../../instructor/interfacing-instructor.service';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'cc-question',
@@ -17,14 +18,19 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   learningObject: Question;
   checked: boolean[];
   evaluation: MrqEvaluation;
+  private kcId: number;
 
   constructor(private questionService: QuestionService,
-              private instructor: InterfacingInstructor) {
+              private instructor: InterfacingInstructor,
+              private route: ActivatedRoute) {
     this.checked = [];
   }
 
   ngOnInit(): void {
     this.learningObject.items = shuffleArray(this.learningObject.items);
+    this.route.params.subscribe((params: Params) => {
+      this.kcId = +params.kcId;
+    });
   }
 
   get checkedAnswers(): MrqItem[] {
@@ -40,7 +46,7 @@ export class QuestionComponent implements OnInit, LearningObjectComponent {
   onSubmit(): void {
     this.questionService.answerQuestion(this.learningObject.id, this.checkedAnswers)
       .subscribe(mrqEvaluation => {
-        this.instructor.submit(mrqEvaluation.correctnessLevel);
+        this.instructor.submit(mrqEvaluation.correctnessLevel, this.kcId);
         this.evaluation = mrqEvaluation;
       });
   }

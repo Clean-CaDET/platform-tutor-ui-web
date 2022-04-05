@@ -15,11 +15,11 @@ export class InterfacingInstructor {
 
   constructor(private tutorToaster: MatSnackBar, private http: HttpClient) {}
 
-  submit(correctnessLevel: number): void {
+  submit(correctnessLevel: number, kcId: number): void {
     this.tutorActionActivated = false;
     this.tutorActionActivated = this.tryFeedbackPopup();
-    if(!this.tutorActionActivated) {
-      this.tutorActionActivated = this.tryAeEvaluationMessage(correctnessLevel);
+    if (!this.tutorActionActivated) {
+      this.tutorActionActivated = this.tryAeEvaluationMessage(correctnessLevel, kcId);
     }
     this.observedAeEvaluations.next(correctnessLevel);
   }
@@ -34,8 +34,9 @@ export class InterfacingInstructor {
     localStorage.setItem('ON_SUBMIT_CLICKED_COUNTER', onSubmitClickedCounter.toString());
     return onSubmitClickedCounter == 0;
   }
+
   // Consider moving this to a standalone service.
-  private tryAeEvaluationMessage(correctness: number): boolean {
+  private tryAeEvaluationMessage(correctness: number, kcId: number): boolean {
     const rnd = this.getRandomNumber(10);
     let message: string;
     switch (true) {
@@ -69,7 +70,7 @@ export class InterfacingInstructor {
           }
           break;
     }
-    this.presentMessage(message, '👌', 7);
+    this.presentMessage(message, '👌', 7, undefined, kcId);
     return true;
   }
 
@@ -117,12 +118,14 @@ export class InterfacingInstructor {
     this.presentMessage(message, '👋', 11, false);
   }
 
-  private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
+  private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true, kcId = 0) {
     this.tutorToaster.open(message, action, {
       duration: durationInSeconds * 1000,
       panelClass: 'interfacing-instructor'
     });
-    if(!generateEvent) return;
-    //this.http.post(environment.apiHost + 'events/tutor-message', { message: message, kcId: 9}).subscribe();
+    if (!generateEvent) {
+      return;
+    }
+    this.http.post(environment.apiHost + 'submissions/tutor-message', {message, kcId}).subscribe();
   }
 }
