@@ -26,7 +26,7 @@ export class ImprovementService {
     const tutorImprovement = {learnerId, unitId, softwareComment, contentComment};
     this.http.post<TutorImprovementDTO>(environment.apiHost + 'feedback/improvements', tutorImprovement).subscribe(() => {
       this.snackBar.open('Hvala puno na savetima za unapređenje 😊! Tvoji komentari utiču na stotine učenika koji će doći posle tebe.',
-      null, { duration: 5000 });
+      null, { duration: 5000, panelClass: 'interfacing-instructor' });
     });
   }
 }

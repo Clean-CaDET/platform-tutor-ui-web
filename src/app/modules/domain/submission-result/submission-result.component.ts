@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, OnDestroy} from '@angular/core';
-import {AeSubmissionService} from '../knowledge-component/ae.service';
+import {InterfacingInstructor} from '../../instructor/interfacing-instructor.service';
 import {UnitService} from '../unit/unit.service';
 import {Output, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
@@ -24,10 +24,10 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   attemptedCount: number;
   unitId: number;
   isSatisfied: boolean;
-  private submitAeEventSubscription: Subscription;
+  private observedAeEvaluations: Subscription;
   private openEmotionsFormSubscription: Subscription;
 
-  constructor(private aeService: AeSubmissionService,
+  constructor(private instructor: InterfacingInstructor,
               private unitService: UnitService,
               private dialog: MatDialog,
               private route: ActivatedRoute,
@@ -38,20 +38,20 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
     });
-    this.submitAeEventSubscription = this.aeService.submitAeEvent.subscribe(value => {
+    this.observedAeEvaluations = this.instructor.observedAeEvaluations.subscribe(value => {
       {
         this.correctness = value;
         this.getKnowledgeComponentStatistics();
       }
     });
-    this.openEmotionsFormSubscription = this.aeService.openEmotionsFormEvent.subscribe(_ => {
+    this.openEmotionsFormSubscription = this.instructor.openEmotionsFormEvent.subscribe(_ => {
       this.openEmotionsDialog();
     });
     this.getKnowledgeComponentStatistics();
   }
 
   ngOnDestroy(): void {
-    this.submitAeEventSubscription.unsubscribe();
+    this.observedAeEvaluations.unsubscribe();
     this.openEmotionsFormSubscription.unsubscribe();
   }
 
@@ -66,6 +66,8 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     });
   }
 
+  //TODO: This belongs to the interfacing instructor, but that service is growing into a god class.
+  //We should consider how to decompose the interfacing instructor 
   openEmotionsDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
