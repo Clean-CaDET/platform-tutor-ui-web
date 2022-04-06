@@ -3,7 +3,6 @@ import { InterfacingInstructor } from '../../../instructor/interfacing-instructo
 import { LearningObjectComponent } from '../learning-object-component';
 import { Challenge } from './challenge.model';
 import { ChallengeService } from './challenge.service';
-import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'cc-challenge',
@@ -13,20 +12,16 @@ import {ActivatedRoute, Params} from '@angular/router';
 export class ChallengeComponent implements OnInit, LearningObjectComponent {
 
   learningObject: Challenge;
-  private kcId: number;
 
   constructor(private challengeService: ChallengeService,
-    private instructor: InterfacingInstructor, private route: ActivatedRoute) { }
+              private instructor: InterfacingInstructor) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.kcId = +params.kcId;
-    });
   }
 
   reloadSubmission(): void {
     this.challengeService.getMaxCorrectness(this.learningObject.id).subscribe(correctness => {
-      this.instructor.submit(correctness, this.kcId);
+      this.instructor.submit(correctness);
     });
   }
 
