@@ -12,7 +12,7 @@
     </button>
   </div>
   <div class="note-width" *ngIf="notes.length === 0 && !edit" fxFlexAlign="center">
-    Beleške se trenutno ne čuvaju na serveru, no svakako možeš isprobati komponentu.
+    Prostor za pitanja, ideje, nejasnoće i ostale beleške.
   </div>
   <mat-card class="note-width" *ngFor="let note of notes">
     <cc-markdown-editor *ngIf="note.mode === 'edit'" [(ngModel)]="note.text"></cc-markdown-editor>

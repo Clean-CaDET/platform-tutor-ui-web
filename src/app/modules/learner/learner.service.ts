@@ -31,7 +31,7 @@ export class LearnerService {
       .pipe(tap(authenticationResponse => {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.tokenStorage.saveRefreshToken(authenticationResponse.refreshToken);
-      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/info').pipe((tap(learnerInfo => {
+      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
         const learner = new Learner({id: authenticationResponse.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
         this.setLearner(learner);
       })))));
@@ -42,7 +42,7 @@ export class LearnerService {
       .pipe(tap(registrationResponse => {
         this.tokenStorage.saveAccessToken(registrationResponse.value.accessToken);
         this.tokenStorage.saveRefreshToken(registrationResponse.value.refreshToken);
-      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/info').pipe((tap(learnerInfo => {
+      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
         const learner = new Learner({id: authenticationResponse.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
         this.setLearner(learner);
       })))));
