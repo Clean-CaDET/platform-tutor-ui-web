@@ -9,3 +9,7 @@ form {
 .question {
   font-size: 20px;
 }
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line;
+}

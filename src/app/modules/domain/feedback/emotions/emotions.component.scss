@@ -14,3 +14,7 @@ mat-icon {
   margin-left: 4px;
   margin-top: 10px;
 }
+
+::ng-deep .mat-tooltip {
+  white-space: pre-line;
+}
