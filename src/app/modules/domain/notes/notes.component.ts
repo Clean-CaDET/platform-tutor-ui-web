@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Note } from './note.model';
+import {Component, OnInit} from '@angular/core';
+import {Note} from './note.model';
+import {NotesService} from './notes-service';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'cc-notes',
@@ -11,12 +13,19 @@ export class NotesComponent implements OnInit {
   text = '';
   notes: Note[];
   edit = false;
+  unitId: number;
 
-  constructor() {
+  constructor(private noteService: NotesService, private route: ActivatedRoute) {
     this.notes = [];
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params: Params) => {
+      this.unitId = +params.unitId;
+    });
+
+    this.noteService.getNotes(this.unitId).subscribe(notes =>
+      this.notes = notes);
   }
 
   onCancel(): void {
@@ -25,18 +34,29 @@ export class NotesComponent implements OnInit {
   }
 
   onSave(): void {
-    // TODO: Make an API call to save the learner note
-    this.notes.push(new Note({text: this.text}));
-    this.onCancel();
+    this.noteService.saveNote(new Note({text: this.text, unitId: this.unitId})).subscribe(
+      note => {
+        this.notes.push(note);
+        this.onCancel();
+      }
+    );
+    console.log(this.notes);
   }
 
   onUpdate(note: Note): void {
-    // TODO: Make an API call to update the note
-    note.mode = 'preview';
+    this.noteService.updateNote(note).subscribe(
+      _ => {
+        note.mode = 'preview';
+      }
+    );
   }
 
-  onDelete(noteId: number): void {
-    // TODO: Make an API call to delete the note
-    this.notes.splice(this.notes.findIndex(note => note.id === noteId), 1);
+  onDelete(noteId: string): void {
+    console.log(noteId);
+    this.noteService.deleteNote(+noteId).subscribe(
+      id => {
+        this.notes.splice(this.notes.findIndex(note => note.id === id), 1);
+      }
+    );
   }
 }
