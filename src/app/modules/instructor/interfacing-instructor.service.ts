@@ -55,11 +55,11 @@ export class InterfacingInstructor {
     let message: string;
     switch (true) {
       case (correctness < 0.4):
-        if (rnd < 7) {
+        if (rnd < 9) {
           return false;
         }
 
-        if (rnd < 9) {
+        if (rnd == 9) {
           message = 'Hmm, ' + (correctness * 100).toFixed(0) + '% 🤔. Nešto ti nije legao zadatak. Da li ima smisla ponovo da pogledaš gradivo?';
         } else {
           message = 'Huh, ' + (correctness * 100).toFixed(0) + '% 🙀. Savetujem da se zamisliš nad tvojim i tačnim odgovorima.';
@@ -77,13 +77,13 @@ export class InterfacingInstructor {
         }
         break;
       default:
-        if (rnd < 5) {
+        if (rnd < 8) {
           return false;
         }
 
-        if (rnd < 7) {
+        if (rnd == 8) {
           message = 'Opa, ' + (correctness * 100).toFixed(0) + '% 😄. Ovo je super rezultat, samo napred!';
-        } else if (rnd < 9) {
+        } else if (rnd == 9) {
           message = (correctness * 100).toFixed(0) + '%, strava 😎. Idemo dalje!';
         } else {
           message = 'Super, ' + (correctness * 100).toFixed(0) + '% 😸. Baš mi je drago što se snalaziš!';
@@ -124,7 +124,7 @@ export class InterfacingInstructor {
   }
 
   greet(): void {
-    const studentName = JSON.parse(localStorage.getItem('STUDENT')).name;
+    const studentName = getName();
     const rnd = this.getRandomNumber(3);
     let message: string;
     if (rnd == 1) {
@@ -132,12 +132,12 @@ export class InterfacingInstructor {
       message = 'Ćaos, ' + studentName + ' 🙂. Moje ime je ' + this.tutorName + ' i danas ću te pratiti dok razvijaš svoje veštine, kako bih ja nešto naučio. Sretno sa zadacima!';
     } else if (rnd == 2) {
       this.tutorName = 'Mona';
-      message = 'Hej, ' + studentName + ' 🙂. Zovem se ' + this.tutorName + ' i danas ćemo se družiti. Posebno bih volela da čujem kako se snalaziš tokom rada i koja su ti osećanja prisutna.';
+      message = 'Hej, ' + studentName + ' 🙂. Zovem se ' + this.tutorName + ' i danas ćemo se družiti. Posebno bih volela da čujem kako se snalaziš tokom rada, pa te molim da podeliš svoje misli i osećanja kad te pingam.';
     } else {
       this.tutorName = 'Nirko';
       message = 'Zdravo, ' + studentName + ' 🙂. Ime mi je ' + this.tutorName + ' i danas te bodrim dok učiš. Zamolio bih te da ostaviš par komentara na samom kraju tvoje sesije o čitavom utisku, pa da uposlim profesore da me unapređuju.';
     }
-    this.presentMessage(message, '👋', 11, false);
+    this.presentMessage(message, '👋', 15, false);
   }
 
   private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
@@ -151,3 +151,11 @@ export class InterfacingInstructor {
     this.http.post(environment.apiHost + 'submissions/tutor-message', {message, kcId: this.kcId}).subscribe();
   }
 }
+function getName() {
+  let baseName: string = JSON.parse(localStorage.getItem('STUDENT')).name;
+  if(baseName.endsWith('a') || baseName.endsWith('e') || baseName.endsWith('i') || baseName.endsWith('o') || baseName.endsWith('u')) {
+    return baseName;
+  }
+  return baseName + 'e';
+}
+
