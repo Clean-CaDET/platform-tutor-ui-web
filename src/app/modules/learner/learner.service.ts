@@ -23,7 +23,7 @@ export class LearnerService {
   }
 
   login(loginDTO: LoginDTO): Observable<any> {
-    return this.http.post<AuthenticationResponse>(environment.apiHost + 'learners/login', loginDTO)
+    return this.http.post<AuthenticationResponse>(environment.apiHost + 'users/login', loginDTO)
       .pipe(tap(authenticationResponse => {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.tokenStorage.saveRefreshToken(authenticationResponse.refreshToken);

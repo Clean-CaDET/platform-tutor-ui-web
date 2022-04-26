@@ -18,7 +18,7 @@ export class TokenService {
       refreshToken: localStorage.getItem(REFRESH_TOKEN)
     };
 
-    return this.http.post<AuthenticationResponse>(environment.apiHost + 'learners/refresh', data)
+    return this.http.post<AuthenticationResponse>(environment.apiHost + 'users/refresh', data)
       .pipe(map(refreshResponse => {
         this.saveAccessToken(refreshResponse.accessToken);
         this.saveRefreshToken(refreshResponse.refreshToken);
