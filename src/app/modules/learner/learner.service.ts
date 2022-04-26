@@ -12,10 +12,6 @@ interface LoginDTO {
   studentIndex: string;
 }
 
-interface RegisterDTO {
-  studentIndex: string;
-}
-
 @Injectable({
   providedIn: 'root'
 })
@@ -31,19 +27,8 @@ export class LearnerService {
       .pipe(tap(authenticationResponse => {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.tokenStorage.saveRefreshToken(authenticationResponse.refreshToken);
-      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
-        const learner = new Learner({id: authenticationResponse.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
-        this.setLearner(learner);
-      })))));
-  }
-
-  register(registerDTO: RegisterDTO): Observable<any> {
-    return this.http.post<any>(environment.apiHost + 'learners/register', registerDTO)
-      .pipe(tap(registrationResponse => {
-        this.tokenStorage.saveAccessToken(registrationResponse.value.accessToken);
-        this.tokenStorage.saveRefreshToken(registrationResponse.value.refreshToken);
-      }), switchMap(authenticationResponse => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
-        const learner = new Learner({id: authenticationResponse.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
+      }), switchMap(() => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
+        const learner = new Learner({id: learnerInfo.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
         this.setLearner(learner);
       })))));
   }
