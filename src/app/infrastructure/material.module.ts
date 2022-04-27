@@ -14,6 +14,8 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTableModule} from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -31,7 +33,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTableModule
   ],
   exports: [
     MatButtonModule,
@@ -48,7 +52,9 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTableModule
   ]
 })
 export class MaterialModule {
