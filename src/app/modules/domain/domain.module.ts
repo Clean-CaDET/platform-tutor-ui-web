@@ -28,46 +28,45 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 
 @NgModule({
-  declarations: [
-    FeedbackComponent,
-    ArrangeTaskComponent,
-    ChallengeComponent,
-    ImageComponent,
-    QuestionComponent,
-    TextComponent,
-    VideoComponent,
-    LearningObjectDirective,
-    LearningObjectContainerComponent,
-    ImageDialogComponent,
-    UnitComponent,
-    KnowledgeComponentComponent,
-    KnowledgeMapComponent,
-    ShortAnswerQuestionComponent,
-    SubmissionResultComponent,
-    EmotionsComponent,
-    TutorImprovementComponent
-  ],
-  imports: [
-    BrowserModule,
-    MarkdownModule.forChild(),
-    YouTubePlayerModule,
-    FlexLayoutModule,
-    RouterModule,
-    FormsModule,
-    MaterialModule,
-    DragDropModule,
-    NotesModule,
-    ReactiveFormsModule,
-    MatDialogModule
-  ],
-  exports: [
-    LearningObjectContainerComponent,
-    SubmissionResultComponent,
-    KnowledgeMapComponent,
-    EmotionsComponent,
-    TutorImprovementComponent
-  ],
-  entryComponents: [EmotionsComponent, TutorImprovementComponent]
+    declarations: [
+        FeedbackComponent,
+        ArrangeTaskComponent,
+        ChallengeComponent,
+        ImageComponent,
+        QuestionComponent,
+        TextComponent,
+        VideoComponent,
+        LearningObjectDirective,
+        LearningObjectContainerComponent,
+        ImageDialogComponent,
+        UnitComponent,
+        KnowledgeComponentComponent,
+        KnowledgeMapComponent,
+        ShortAnswerQuestionComponent,
+        SubmissionResultComponent,
+        EmotionsComponent,
+        TutorImprovementComponent
+    ],
+    imports: [
+        BrowserModule,
+        MarkdownModule.forChild(),
+        YouTubePlayerModule,
+        FlexLayoutModule,
+        RouterModule,
+        FormsModule,
+        MaterialModule,
+        DragDropModule,
+        NotesModule,
+        ReactiveFormsModule,
+        MatDialogModule
+    ],
+    exports: [
+        LearningObjectContainerComponent,
+        SubmissionResultComponent,
+        KnowledgeMapComponent,
+        EmotionsComponent,
+        TutorImprovementComponent
+    ]
 })
 export class DomainModule {
 }

@@ -9,7 +9,8 @@ import {AuthenticationResponse} from '../../infrastructure/auth/jwt/authenticati
 import {Router} from '@angular/router';
 
 interface LoginDTO {
-  studentIndex: string;
+  username: string;
+  password: string;
 }
 
 @Injectable({
@@ -28,17 +29,17 @@ export class LearnerService {
         this.tokenStorage.saveAccessToken(authenticationResponse.accessToken);
         this.tokenStorage.saveRefreshToken(authenticationResponse.refreshToken);
       }), switchMap(() => this.http.get<Learner>(environment.apiHost + 'learners/profile').pipe((tap(learnerInfo => {
-        const learner = new Learner({id: learnerInfo.id, studentIndex: learnerInfo.studentIndex, name: learnerInfo.name});
+        const learner = new Learner({id: learnerInfo.id, index: learnerInfo.index, name: learnerInfo.name});
         this.setLearner(learner);
       })))));
   }
 
   setLearner(learner: Learner): void {
-    if (learner.studentIndex) {
+    if (learner.index) {
       localStorage.setItem('STUDENT', JSON.stringify(learner));
       localStorage.setItem('ON_SUBMIT_CLICKED_COUNTER', String(0));
     } else {
-      learner.studentIndex = JSON.parse(localStorage.getItem('STUDENT')).studentIndex;
+      learner.index = JSON.parse(localStorage.getItem('STUDENT')).index;
     }
     this.learner$.next(learner);
   }
