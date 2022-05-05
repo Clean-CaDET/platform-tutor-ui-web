@@ -5,14 +5,16 @@ import {LoginComponent} from '../modules/learner/login/login.component';
 import {AuthGuard} from './auth/auth.guard';
 import {UnitComponent} from '../modules/domain/unit/unit.component';
 import {KnowledgeComponentComponent} from '../modules/domain/knowledge-component/knowledge-component.component';
-import { AnalyticsInstructorComponent } from '../modules/analytics-instructor/analytics-instructor.component';
+import { EventsTableComponent } from '../modules/learner-analytics/events-table/events-table.component';
+import { KcmProgressComponent } from '../modules/learner-analytics/kcm-progress/kcm-progress.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
   {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard]},
   {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard]},
-  {path: 'analytics', component: AnalyticsInstructorComponent},
+  {path: 'analytics/events', component: EventsTableComponent},
+  {path: 'analytics/learner-progress', component: KcmProgressComponent},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
 ];

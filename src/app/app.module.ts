@@ -16,7 +16,7 @@ import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {initializeKeycloak} from './infrastructure/auth/keycloak/keycloak.init';
 import {NotesModule} from './modules/domain/notes/notes.module';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
-import { AnalyticsInstructorModule } from './modules/analytics-instructor/analytics-instructor.module';
+import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +38,7 @@ import { AnalyticsInstructorModule } from './modules/analytics-instructor/analyt
     DomainModule,
     NotesModule,
     FormsModule,
-    AnalyticsInstructorModule
+    LearnerAnalyticsModule
   ],
   providers: [
     {

@@ -1,0 +1,40 @@
+<div>
+    <div *ngFor="let l of learners" fxLayout="column" fxLayoutGap="40px">
+        <mat-card>
+            <mat-card-title>{{l.name}} {{l.surname}}</mat-card-title>
+            <mat-card-subtitle>{{l.index}}</mat-card-subtitle>
+            <mat-card-content>
+                <table mat-table [dataSource]="l.knowledgeComponentMasteries" class="mat-elevation-z5">
+                    <!-- TODO: Simplify following the "let column of columsnToDisplay" approach-->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef width="60%"> Veština </th>
+                        <td mat-cell *matCellDef="let element" width="60%"> {{element.knowledgeComponent.code}} : {{element.knowledgeComponent.name}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="mastery">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> Vičnost </th>
+                        <td mat-cell *matCellDef="let element"width="10%"> {{(element.mastery * 100).toFixed(0)}}% </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="attemptedCount">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> # pokušanih zadataka </th>
+                        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.attemptedCount}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="completedCount">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> # kompletiranih zadataka </th>
+                        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.completedCount}} </td>
+                    </ng-container>
+                
+                    <ng-container matColumnDef="totalCount">
+                        <th mat-header-cell *matHeaderCellDef width="10%"> Ukupan # zadataka </th>
+                        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.totalCount}} </td>
+                    </ng-container>
+                
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
