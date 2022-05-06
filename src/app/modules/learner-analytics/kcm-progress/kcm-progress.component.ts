@@ -10,8 +10,7 @@ export class KcmProgressComponent implements OnInit {
   learners: any[];
   count: number;
   page = 1;
-  pageSize = 50;
-  displayedColumns: string[] = ['name', 'mastery', 'attemptedCount', 'completedCount', 'totalCount'];
+  pageSize = 10;
 
   constructor(private analyticsService: LearnerAnalyticsService) { }
 

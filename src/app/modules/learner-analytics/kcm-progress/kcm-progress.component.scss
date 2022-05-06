@@ -1,12 +1,4 @@
-tr.detail-row {
-    height: 0;
-}
-
-.detail-row td {
-    border-bottom-width: 0;
-}
-  
-.element-detail {
-    overflow: hidden;
-    display: flex;
-}
+.container-with-footer {
+    max-height: calc(100vh - 56px); // or height: calc(100vh - 155px); depending on your need  change
+    overflow: auto;
+  }

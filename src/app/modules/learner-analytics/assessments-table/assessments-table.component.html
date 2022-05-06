@@ -1,0 +1,60 @@
+<table mat-table [dataSource]="knowledgeComponentMasteries" class="mat-elevation-z5" multiTemplateDataRows>
+    <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef width="60%"> Veština </th>
+        <td mat-cell *matCellDef="let element" width="60%"> <b>{{element.knowledgeComponent.code}} : {{element.knowledgeComponent.name}}</b> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="mastery">
+        <th mat-header-cell *matHeaderCellDef width="10%"> Vičnost </th>
+        <td mat-cell *matCellDef="let element"width="10%"> {{(element.mastery * 100).toFixed(0)}}% </td>
+    </ng-container>
+
+    <ng-container matColumnDef="totalCount">
+        <th mat-header-cell *matHeaderCellDef width="10%"> Broj dostupnih zadataka </th>
+        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.totalCount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="completedCount">
+        <th mat-header-cell *matHeaderCellDef width="10%"> Broj kompletiranih zadataka </th>
+        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.completedCount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="attemptedCount">
+        <th mat-header-cell *matHeaderCellDef width="10%"> Broj pokušanih zadataka </th>
+        <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.attemptedCount}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+        <div fxLayout="column" class="example-element-detail" [@detailExpand] *ngIf="element == expandedElement[element.id]">
+            <br>
+            <div fxLayout="row layout-wrap">
+            <div *ngFor="let am of element.assessmentMasteries" fxFlex="25">
+                <div fxLayout="column" fxFill class="border">
+                    <div>
+                        <b>Zadatak: {{am.assessmentItemId}} </b>
+                    </div>
+                    <p>
+                        Broj datih odgovora: {{am.submissionCount}}<br>
+                        <span [hidden]="!am.lastSubmissionTime">
+                            Najviša tačnost: {{(am.mastery * 100).toFixed(0)}}%<br>
+                            Vreme poslednjeg odgovora: {{am.lastSubmissionTime | date:'short'}}
+                        </span>
+                    </p>
+                    <div fxFlex></div>
+                    <div>
+                        <button fxFlex="80%" mat-raised-button color="primary" (click)="loadAssessmentEvent(am.assessmentItemId)">Učitaj zadatak</button>
+                    </div>
+                    <br>
+                </div>
+            </div> 
+            </div>
+        </div>
+    </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row assessments-table"
+    (click)="expandedElement[element.id] = expandedElement[element.id] === element ? null : element"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
