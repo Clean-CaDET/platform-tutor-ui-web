@@ -46,7 +46,7 @@ export class LearnerService {
 
   logout(): void {
     this.tokenStorage.clear();
-    localStorage.setItem('STUDENT', null);
+    localStorage.removeItem('STUDENT');
     this.learner$.next(null);
     this.router.navigate(['home']);
   }

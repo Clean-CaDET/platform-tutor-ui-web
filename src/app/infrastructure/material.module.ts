@@ -14,6 +14,10 @@ import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   imports: [
@@ -31,7 +35,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatPaginatorModule,
+    FlexLayoutModule
   ],
   exports: [
     MatButtonModule,
@@ -48,7 +56,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatMenuModule,
     MatButtonToggleModule,
     MatDialogModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule,
+    MatTableModule,
+    MatPaginatorModule,
+    FlexLayoutModule
   ]
 })
 export class MaterialModule {

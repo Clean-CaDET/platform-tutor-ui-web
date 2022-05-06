@@ -32,13 +32,12 @@ export class NavbarComponent implements OnInit {
     this.learnerService.learner$.subscribe(learner => {
       if (learner == null) {
         this.resetNavBar();
+        return;
       }
       this.learner = learner;
       this.updateUnits();
     });
     this.instructor.observedAeEvaluations.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
-    this.learner = this.learnerService.learner$.value;
-    this.updateUnits();
     this.setupActiveUnitAndKCUpdate();
   }
 
@@ -108,6 +107,7 @@ export class NavbarComponent implements OnInit {
   }
 
   resetNavBar(): void {
+    this.learner = null;
     this.selectedUnit = null;
     this.selectedKC = null;
   }

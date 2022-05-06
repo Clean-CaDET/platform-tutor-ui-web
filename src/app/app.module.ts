@@ -15,9 +15,8 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
 import {initializeKeycloak} from './infrastructure/auth/keycloak/keycloak.init';
 import {NotesModule} from './modules/domain/notes/notes.module';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatIconModule} from '@angular/material/icon';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
+import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
 
 @NgModule({
   declarations: [
@@ -30,17 +29,16 @@ import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    DomainModule,
-    NavbarModule,
-    LayoutModule,
     LearnersModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
     KeycloakAngularModule,
+    LayoutModule,
+    NavbarModule,
+    DomainModule,
     NotesModule,
-    MatSlideToggleModule,
     FormsModule,
-    MatIconModule
+    LearnerAnalyticsModule
   ],
   providers: [
     {

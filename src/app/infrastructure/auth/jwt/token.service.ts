@@ -4,7 +4,7 @@ import {environment} from '../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthenticationResponse} from './authentication-response.model';
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../shared/constants';
+import {ACCESS_TOKEN, REFRESH_TOKEN, ROLE} from '../../../shared/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,9 @@ export class TokenService {
   public saveAccessToken(token: string): void {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.setItem(ACCESS_TOKEN, token);
+    
+    const decodedJwt = JSON.parse(window.atob(token.split('.')[1]));
+    localStorage.setItem(ROLE, decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']);
   }
 
   public saveRefreshToken(token: string): void {
@@ -46,7 +49,8 @@ export class TokenService {
   }
 
   public clear() {
-    localStorage.setItem(ACCESS_TOKEN, null);
-    localStorage.setItem(REFRESH_TOKEN, null);
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem(ROLE);
   }
 }

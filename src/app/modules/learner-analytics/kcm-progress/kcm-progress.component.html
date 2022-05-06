@@ -1,0 +1,17 @@
+<div fxLayout="column" fxLayoutGap="20px" class="container-with-footer">
+    <div *ngFor="let p of progress">
+        <mat-card fxFlex="95" class="mat-elevation-z7">
+            <mat-card-title>{{p.learner.name}} {{p.learner.surname}}</mat-card-title>
+            <mat-card-subtitle>{{p.learner.index}}</mat-card-subtitle>
+            <mat-card-content>
+                <cc-assessments-table [knowledgeComponentMasteries]="p.knowledgeComponentProgress"></cc-assessments-table>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+<mat-paginator
+    (page)="changePage($event)"
+    [length]="count"
+    [pageSizeOptions]="['10', '25', '50']"
+    [pageSize]="pageSize">
+</mat-paginator>
