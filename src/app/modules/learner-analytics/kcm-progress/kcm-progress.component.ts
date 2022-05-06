@@ -7,7 +7,7 @@ import { LearnerAnalyticsService } from '../learner-analytics.service';
   styleUrls: ['./kcm-progress.component.scss']
 })
 export class KcmProgressComponent implements OnInit {
-  learners: any[];
+  progress: any[];
   count: number;
   page = 1;
   pageSize = 10;
@@ -20,7 +20,7 @@ export class KcmProgressComponent implements OnInit {
 
   private getLearnerProgress() {
     this.analyticsService.getLearners(this.page, this.pageSize).subscribe(data => {
-      this.learners = data.learners;
+      this.progress = data.learnersProgress;
       this.count = data.count;
     });
   }

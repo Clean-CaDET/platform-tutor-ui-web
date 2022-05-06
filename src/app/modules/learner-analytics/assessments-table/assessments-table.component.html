@@ -1,12 +1,12 @@
 <table mat-table [dataSource]="knowledgeComponentMasteries" class="mat-elevation-z5" multiTemplateDataRows>
     <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef width="60%"> Veština </th>
-        <td mat-cell *matCellDef="let element" width="60%"> <b>{{element.knowledgeComponent.code}} : {{element.knowledgeComponent.name}}</b> </td>
+        <td mat-cell *matCellDef="let element" width="60%"> <b>{{element.kcCode}} : {{element.kcName}}</b> </td>
     </ng-container>
 
     <ng-container matColumnDef="mastery">
         <th mat-header-cell *matHeaderCellDef width="10%"> Vičnost </th>
-        <td mat-cell *matCellDef="let element"width="10%"> {{(element.mastery * 100).toFixed(0)}}% </td>
+        <td mat-cell *matCellDef="let element"width="10%"> {{(element.statistics.mastery * 100).toFixed(0)}}% </td>
     </ng-container>
 
     <ng-container matColumnDef="totalCount">
@@ -26,17 +26,17 @@
 
     <ng-container matColumnDef="expandedDetail">
     <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
-        <div fxLayout="column" class="example-element-detail" [@detailExpand] *ngIf="element == expandedElement[element.id]">
+        <div fxLayout="column" class="example-element-detail" [@detailExpand] *ngIf="element == expandedElement[element.kcId]">
             <br>
             <div fxLayout="row layout-wrap">
-            <div *ngFor="let am of element.assessmentMasteries" fxFlex="25">
+            <div *ngFor="let am of element.assessmentItemMasteries" fxFlex="25">
                 <div fxLayout="column" fxFill class="border">
                     <div>
                         <b>Zadatak: {{am.assessmentItemId}} </b>
                     </div>
                     <p>
                         Broj datih odgovora: {{am.submissionCount}}<br>
-                        <span [hidden]="!am.lastSubmissionTime">
+                        <span [hidden]="am.submissionCount == 0">
                             Najviša tačnost: {{(am.mastery * 100).toFixed(0)}}%<br>
                             Vreme poslednjeg odgovora: {{am.lastSubmissionTime | date:'short'}}
                         </span>
@@ -55,6 +55,6 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row assessments-table"
-    (click)="expandedElement[element.id] = expandedElement[element.id] === element ? null : element"></tr>
+    (click)="expandedElement[element.kcId] = expandedElement[element.kcId] === element ? null : element"></tr>
     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>

@@ -1,10 +1,10 @@
 <div fxLayout="column" fxLayoutGap="20px" class="container-with-footer">
-    <div *ngFor="let l of learners">
+    <div *ngFor="let p of progress">
         <mat-card fxFlex="95" class="mat-elevation-z7">
-            <mat-card-title>{{l.name}} {{l.surname}}</mat-card-title>
-            <mat-card-subtitle>{{l.index}}</mat-card-subtitle>
+            <mat-card-title>{{p.learner.name}} {{p.learner.surname}}</mat-card-title>
+            <mat-card-subtitle>{{p.learner.index}}</mat-card-subtitle>
             <mat-card-content>
-                <cc-assessments-table [knowledgeComponentMasteries]="l.knowledgeComponentMasteries"></cc-assessments-table>
+                <cc-assessments-table [knowledgeComponentMasteries]="p.knowledgeComponentProgress"></cc-assessments-table>
             </mat-card-content>
         </mat-card>
     </div>
