@@ -11,10 +11,10 @@ import { KcmProgressComponent } from '../modules/learner-analytics/kcm-progress/
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard]},
-  {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard]},
-  {path: 'analytics/events', component: EventsTableComponent},
-  {path: 'analytics/learner-progress', component: KcmProgressComponent},
+  {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
+  {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
+  {path: 'analytics/events', component: EventsTableComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
+  {path: 'analytics/learner-progress', component: KcmProgressComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
 ];
