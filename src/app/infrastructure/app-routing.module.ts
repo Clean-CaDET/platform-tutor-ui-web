@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
   {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
   {path: 'analytics/events', component: EventsTableComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
-  {path: 'analytics/learner-progress', component: KcmProgressComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
+  {path: 'analytics/:groupId/learner-progress', component: KcmProgressComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
 ];

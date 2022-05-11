@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { NavigationEnd, Params, ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { KnowledgeComponent } from 'src/app/modules/domain/knowledge-component/model/knowledge-component.model';
@@ -12,7 +12,7 @@ import { Learner } from 'src/app/modules/learner/learner.model';
   templateUrl: './learner-controls.component.html',
   styleUrls: ['./learner-controls.component.scss']
 })
-export class LearnerControlsComponent implements OnInit {
+export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   units: Unit[];
   knowledgeComponents: KnowledgeComponent[];
   selectedUnit: Unit;
@@ -35,6 +35,10 @@ export class LearnerControlsComponent implements OnInit {
     else {
       this.updateUnits();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.instructor.observedAeEvaluations.unsubscribe();
   }
 
   private updateUnits(): void {

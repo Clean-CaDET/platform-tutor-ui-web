@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Learner} from './learner.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {switchMap, tap} from 'rxjs/operators';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {TokenService} from '../../infrastructure/auth/jwt/token.service';
 import {AuthenticationResponse} from '../../infrastructure/auth/jwt/authentication-response.model';
@@ -17,7 +17,6 @@ interface LoginDTO {
   providedIn: 'root'
 })
 export class LearnerService {
-
   learner$ = new BehaviorSubject(null);
 
   constructor(private http: HttpClient, private tokenStorage: TokenService, private router: Router) {
@@ -49,5 +48,9 @@ export class LearnerService {
     localStorage.removeItem('STUDENT');
     this.learner$.next(null);
     this.router.navigate(['home']);
+  }
+
+  getGroups() {
+    return this.http.get<any[]>(environment.apiHost + 'learners/groups');
   }
 }

@@ -21,8 +21,11 @@ export class LearnerAnalyticsService {
     }));
   }
 
-  getLearners(page: number, pageSize: number) {
-    return this.http.get<any>(environment.apiHost + 'analytics/learner-progress', this.createParams(page, pageSize)).pipe(map(data => {
+  getLearners(page: number, pageSize: number, groupId: number) {
+    var baseParams = this.createParams(page, pageSize);
+    baseParams.params = baseParams.params.append("groupId", groupId);
+
+    return this.http.get<any>(environment.apiHost + 'analytics/learner-progress', baseParams).pipe(map(data => {
         return {
           learnersProgress: data.results,
           count: data.totalCount
