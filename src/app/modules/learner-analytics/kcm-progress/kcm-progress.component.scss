@@ -1,4 +1,8 @@
 .container-with-footer {
-    max-height: calc(100vh - 56px); // or height: calc(100vh - 155px); depending on your need  change
-    overflow: auto;
-  }
+  max-height: calc(100vh - 56px); // or height: calc(100vh - 155px); depending on your need  change
+  overflow: auto;
+}
+
+.margin {
+  margin: 10px;
+}
