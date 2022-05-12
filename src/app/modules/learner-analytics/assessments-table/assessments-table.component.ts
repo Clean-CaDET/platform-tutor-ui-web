@@ -1,5 +1,5 @@
 import { trigger, style, transition, animate } from '@angular/animations';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'cc-assessments-table',
@@ -27,13 +27,17 @@ import { Component, Input, OnInit } from '@angular/core';
     )
   ]
 })
-export class AssessmentsTableComponent implements OnInit {
+export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentMasteries: any[];
+  @Input() kcUnitId: number;
+  dataSource;
   displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'completedCount', 'attemptedCount'];
   expandedElement = new Object();
 
   constructor() { }
 
-  ngOnInit(): void {}
-
+  ngOnChanges(): void {
+    if(+this.kcUnitId == 0) this.dataSource = this.knowledgeComponentMasteries;
+    else this.dataSource = this.knowledgeComponentMasteries.filter(kcm => kcm.kcUnitId == this.kcUnitId);
+  }
 }

@@ -1,4 +1,13 @@
-.container-with-footer {
-    max-height: calc(100vh - 56px); // or height: calc(100vh - 155px); depending on your need  change
-    overflow: auto;
-  }
+.margin {
+  margin: 10px;
+}
+
+.right-margin {
+  margin-right: 50px;
+}
+
+.sticky {
+  position: sticky;
+  top:0;
+  z-index: 5;
+}

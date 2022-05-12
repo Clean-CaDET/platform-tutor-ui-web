@@ -17,6 +17,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -39,6 +40,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSelectModule,
     FlexLayoutModule
   ],
   exports: [
@@ -60,6 +62,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSelectModule,
     FlexLayoutModule
   ]
 })

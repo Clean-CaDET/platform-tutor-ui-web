@@ -5,6 +5,7 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { EventsTableComponent } from './events-table/events-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AssessmentsTableComponent } from './assessments-table/assessments-table.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { AssessmentsTableComponent } from './assessments-table/assessments-table
   imports: [
     CommonModule,
     MaterialModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FormsModule
   ]
 })
 export class LearnerAnalyticsModule { }

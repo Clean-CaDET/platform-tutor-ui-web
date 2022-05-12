@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import { LearningEvent } from './events-table/learning-event';
+import { Unit } from '../domain/unit/unit.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -21,12 +23,24 @@ export class LearnerAnalyticsService {
     }));
   }
 
-  getLearners(page: number, pageSize: number) {
-    return this.http.get<any>(environment.apiHost + 'analytics/learner-progress', this.createParams(page, pageSize)).pipe(map(data => {
+  getLearners(page: number, pageSize: number, groupId: number) {
+    var baseParams = this.createParams(page, pageSize);
+    baseParams.params = baseParams.params.append("groupId", groupId);
+
+    return this.http.get<any>(environment.apiHost + 'analytics/learner-progress', baseParams).pipe(map(data => {
         return {
           learnersProgress: data.results,
           count: data.totalCount
         };
+    }));
+  }
+
+  getUnits(): Observable<Unit[]> {
+    // TODO: Find a better place for this code
+    return this.http.get<Unit[]>(environment.apiHost + "domain/units").pipe(map(data => {
+      let retVal = new Array();
+      data.forEach(d => retVal.push(new Unit(d)));
+      return retVal;
     }));
   }
 
