@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ROLE } from 'src/app/shared/constants';
-import {Learner} from '../../learner/learner.model';
-import {LearnerService} from '../../learner/learner.service';
+import {Learner} from '../../../infrastructure/auth/learner.model';
+import {LearnerService} from '../../../infrastructure/auth/learner.service';
 
 @Component({
   selector: 'cc-navbar',

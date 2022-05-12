@@ -5,7 +5,7 @@ import {HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 import {Observable, throwError} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
 import {TokenService} from './token.service';
-import {LearnerService} from '../../../modules/learner/learner.service';
+import {LearnerService} from '../learner.service';
 import {AuthenticationResponse} from './authentication-response.model';
 import {ACCESS_TOKEN} from '../../../shared/constants';
 

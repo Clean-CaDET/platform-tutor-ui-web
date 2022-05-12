@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {FeedbackComponent} from './feedback/feedback.component';
 import {ArrangeTaskComponent} from './learning-objects/arrange-task/arrange-task.component';
 import {ChallengeComponent} from './learning-objects/challenge/challenge.component';
 import {ImageComponent} from './learning-objects/image/image.component';
@@ -29,7 +28,6 @@ import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-impr
 
 @NgModule({
     declarations: [
-        FeedbackComponent,
         ArrangeTaskComponent,
         ChallengeComponent,
         ImageComponent,

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LearnerService} from '../../../learner/learner.service';
+import {LearnerService} from '../../../../infrastructure/auth/learner.service';
 import {environment} from '../../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Note} from './note.model';
 import {environment} from '../../../../environments/environment';
-import {LearnerService} from '../../learner/learner.service';
+import {LearnerService} from '../../../infrastructure/auth/learner.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 

@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {MrqItem} from './model/answer.model';
 import {environment} from '../../../../../environments/environment';
-import {LearnerService} from '../../../learner/learner.service';
+import {LearnerService} from '../../../../infrastructure/auth/learner.service';
 import {map} from 'rxjs/operators';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 

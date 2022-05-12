@@ -5,7 +5,7 @@ import { KnowledgeComponent } from 'src/app/modules/domain/knowledge-component/m
 import { Unit } from 'src/app/modules/domain/unit/unit.model';
 import { UnitService } from 'src/app/modules/domain/unit/unit.service';
 import { InterfacingInstructor } from 'src/app/modules/instructor/interfacing-instructor.service';
-import { Learner } from 'src/app/modules/learner/learner.model';
+import { Learner } from 'src/app/infrastructure/auth/learner.model';
 
 @Component({
   selector: 'cc-learner-controls',

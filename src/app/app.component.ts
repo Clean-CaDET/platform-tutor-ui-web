@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {LearnerService} from './modules/learner/learner.service';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {Learner} from './modules/learner/learner.model';
+import {LearnerService} from './infrastructure/auth/learner.service';
+import {Learner} from './infrastructure/auth/learner.model';
 import {ACCESS_TOKEN} from './shared/constants';
 
 @Component({

@@ -10,9 +10,9 @@ import {MaterialModule} from './infrastructure/material.module';
 import {DomainModule} from './modules/domain/domain.module';
 import {NavbarModule} from './modules/layout/navbar/navbar.module';
 import {LayoutModule} from './modules/layout/layout.module';
-import {LearnersModule} from './modules/learner/learners.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotesModule} from './modules/domain/notes/notes.module';
+import {LearnersModule} from './infrastructure/auth/learners.module';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
 

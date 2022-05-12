@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {LearnerService} from '../../../learner/learner.service';
+import {LearnerService} from '../../../../infrastructure/auth/learner.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 interface EmotionsFeedbackDTO {

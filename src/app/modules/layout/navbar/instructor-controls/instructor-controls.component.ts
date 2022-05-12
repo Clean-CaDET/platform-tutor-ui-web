@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { LearnerService } from 'src/app/modules/learner/learner.service';
+import { LearnerService } from '../../../../infrastructure/auth/learner.service';
 
 @Component({
   selector: 'cc-instructor-controls',
