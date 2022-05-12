@@ -3,6 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {environment} from '../../../environments/environment';
 import { LearningEvent } from './events-table/learning-event';
+import { Unit } from '../domain/unit/unit.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +32,15 @@ export class LearnerAnalyticsService {
           learnersProgress: data.results,
           count: data.totalCount
         };
+    }));
+  }
+
+  getUnits(): Observable<Unit[]> {
+    // TODO: Find a better place for this code
+    return this.http.get<Unit[]>(environment.apiHost + "domain/units").pipe(map(data => {
+      let retVal = new Array();
+      data.forEach(d => retVal.push(new Unit(d)));
+      return retVal;
     }));
   }
 

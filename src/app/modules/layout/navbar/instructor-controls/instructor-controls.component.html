@@ -1,5 +1,5 @@
 <button color="primary" id="progress" mat-flat-button [matMenuTriggerFor]="progress">
-    {{selectedGroup ? selectedGroup.name : 'Odaberi grupu'}}
+    {{selectedGroup ? 'Grupa: ' + selectedGroup.name : 'Odaberi grupu'}}
 </button>
 <mat-menu #progress="matMenu">
 <button [routerLink]="['analytics', group.id, 'learner-progress']" *ngFor="let group of groups" mat-menu-item>

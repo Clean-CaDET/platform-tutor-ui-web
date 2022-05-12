@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
+import { Unit } from '../../domain/unit/unit.model';
 import { LearnerAnalyticsService } from '../learner-analytics.service';
 
 @Component({
@@ -14,6 +15,9 @@ export class KcmProgressComponent implements OnInit {
   pageSize = 10;
   groupId: number;
 
+  unitId = "0";
+  units: Unit[];
+
   constructor(private route: ActivatedRoute, private analyticsService: LearnerAnalyticsService) { }
 
   ngOnInit(): void {
@@ -21,6 +25,7 @@ export class KcmProgressComponent implements OnInit {
       this.groupId = +params.groupId;
       this.getLearnerProgress();
     });
+    this.analyticsService.getUnits().subscribe(units => this.units = units);
   }
 
   private getLearnerProgress() {
