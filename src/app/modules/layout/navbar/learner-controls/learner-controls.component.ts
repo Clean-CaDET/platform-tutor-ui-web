@@ -5,7 +5,6 @@ import { KnowledgeComponent } from 'src/app/modules/domain/knowledge-component/m
 import { Unit } from 'src/app/modules/domain/unit/unit.model';
 import { UnitService } from 'src/app/modules/domain/unit/unit.service';
 import { InterfacingInstructor } from 'src/app/modules/instructor/interfacing-instructor.service';
-import { Learner } from 'src/app/infrastructure/auth/learner.model';
 
 @Component({
   selector: 'cc-learner-controls',
@@ -17,7 +16,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   knowledgeComponents: KnowledgeComponent[];
   selectedUnit: Unit;
   selectedKC: KnowledgeComponent;
-  @Input() learner: Learner;
+  @Input() learnerId: number;
 
   constructor(private unitService: UnitService,
     private router: Router, private route: ActivatedRoute,
@@ -29,7 +28,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(): void {
-    if (this.learner == null) {
+    if (!this.learnerId) {
       this.resetNavBar();
     }
     else {
@@ -75,7 +74,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private selectNewUnit(params: Params): void {
-    this.unitService.getUnit(+params.unitId, this.learner.id).subscribe(fullUnit => {
+    this.unitService.getUnit(+params.unitId, this.learnerId).subscribe(fullUnit => {
       this.knowledgeComponents = fullUnit.knowledgeComponents;
       this.selectedUnit = fullUnit;
       this.selectedKC = params.kcId ? this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId) : null;
@@ -83,7 +82,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private updateKnowledgeComponents(unitId): void {
-    this.unitService.getUnit(unitId, this.learner.id).subscribe(fullUnit => {
+    this.unitService.getUnit(unitId, this.learnerId).subscribe(fullUnit => {
       this.selectedUnit = fullUnit;
     });
   }

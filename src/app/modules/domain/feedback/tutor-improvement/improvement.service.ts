@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {LearnerService} from '../../../../infrastructure/auth/learner.service';
+import {AuthenticationService} from '../../../../infrastructure/auth/auth.service';
 import {environment} from '../../../../../environments/environment';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -16,11 +16,11 @@ interface TutorImprovementDTO {
 })
 export class ImprovementService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService, private snackBar: MatSnackBar) {
+  constructor(private http: HttpClient, private authService: AuthenticationService, private snackBar: MatSnackBar) {
   }
 
   submitImprovement(unitId: number, improvement: any): void {
-    const learnerId: number = this.learnerService.learner$.value.id;
+    const learnerId: number = this.authService.user$.value.learnerId;
     const softwareComment = improvement.value.tutorImprovement;
     const contentComment = improvement.value.educationalContentImprovement;
     const tutorImprovement = {learnerId, unitId, softwareComment, contentComment};

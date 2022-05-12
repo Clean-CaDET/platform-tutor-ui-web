@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { LearnerService } from '../learner.service';
+import { AuthenticationService } from '../auth.service';
 import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { InterfacingInstructor } from '../../../modules/instructor/interfacing-instructor.service';
@@ -19,13 +19,13 @@ export class LoginComponent {
   hasError: boolean;
 
   constructor(
-    private learnerService: LearnerService,
+    private authService: AuthenticationService,
     private router: Router,
     private instructor: InterfacingInstructor) { }
 
   login(): void {
     if (this.loginForm.valid) {
-      this.learnerService.login(this.loginForm.value).subscribe(() => {
+      this.authService.login(this.loginForm.value).subscribe(() => {
         this.router.navigate(['/'])
           .then(() => this.instructor.greet());
       }, (error) => {

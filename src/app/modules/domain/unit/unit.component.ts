@@ -2,7 +2,7 @@ import {Component, Injectable, OnInit} from '@angular/core';
 import {UnitService} from './unit.service';
 import {ActivatedRoute} from '@angular/router';
 import {Unit} from './unit.model';
-import {LearnerService} from '../../../infrastructure/auth/learner.service';
+import {AuthenticationService} from '../../../infrastructure/auth/auth.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {TutorImprovementComponent} from '../feedback/tutor-improvement/tutor-improvement.component';
 
@@ -15,12 +15,12 @@ import {TutorImprovementComponent} from '../feedback/tutor-improvement/tutor-imp
 export class UnitComponent implements OnInit {
   unit: Unit;
 
-  constructor(private unitService: UnitService, private learnerService: LearnerService,
+  constructor(private unitService: UnitService, private authService: AuthenticationService,
               private route: ActivatedRoute, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      this.unitService.getUnit(this.route.snapshot.params.unitId, this.learnerService.learner$.value.id)
+      this.unitService.getUnit(this.route.snapshot.params.unitId, this.authService.user$.value.learnerId)
         .subscribe(unit => this.unit = unit);
     });
   }

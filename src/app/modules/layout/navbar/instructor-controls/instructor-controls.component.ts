@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { LearnerService } from '../../../../infrastructure/auth/learner.service';
+import { AuthenticationService } from '../../../../infrastructure/auth/auth.service';
 
 @Component({
   selector: 'cc-instructor-controls',
@@ -12,7 +12,7 @@ export class InstructorControlsComponent implements OnInit {
   groups: LearnerGroup[];
   selectedGroup: any;
 
-  constructor(private learnerService: LearnerService,
+  constructor(private learnerService: AuthenticationService,
     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {

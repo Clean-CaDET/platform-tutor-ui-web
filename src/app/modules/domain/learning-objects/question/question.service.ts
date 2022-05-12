@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {MrqItem} from './model/answer.model';
 import {environment} from '../../../../../environments/environment';
-import {LearnerService} from '../../../../infrastructure/auth/learner.service';
+import {AuthenticationService} from '../../../../infrastructure/auth/auth.service';
 import {map} from 'rxjs/operators';
 import {MrqEvaluation} from './model/mrq-evaluation.model';
 
@@ -13,7 +13,7 @@ import {MrqEvaluation} from './model/mrq-evaluation.model';
 })
 export class QuestionService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService) {
+  constructor(private http: HttpClient, private authService: AuthenticationService) {
   }
 
   answerQuestion(questionId: number, answers: MrqItem[]): Observable<MrqEvaluation> {
@@ -21,7 +21,7 @@ export class QuestionService {
       environment.apiHost + 'submissions/question',
       {
         assessmentItemId: questionId,
-        learnerId: this.learnerService.learner$.value.id,
+        learnerId: this.authService.user$.value.learnerId,
         answers
       }).pipe(map(data => {
       return new MrqEvaluation(data);

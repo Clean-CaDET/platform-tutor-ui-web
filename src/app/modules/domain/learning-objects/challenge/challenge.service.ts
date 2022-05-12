@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {LearnerService} from '../../../../infrastructure/auth/learner.service';
+import {AuthenticationService} from '../../../../infrastructure/auth/auth.service';
 import {map} from 'rxjs/operators';
 
 @Injectable({
@@ -10,7 +10,7 @@ import {map} from 'rxjs/operators';
 })
 export class ChallengeService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService) {
+  constructor(private http: HttpClient, private authService: AuthenticationService) {
   }
 
   getMaxCorrectness(assessmentItemId: number): Observable<number> {
@@ -18,7 +18,7 @@ export class ChallengeService {
       environment.apiHost + 'submissions/max-correctness',
       {
         assessmentItemId: assessmentItemId,
-        learnerId: this.learnerService.learner$.value.id
+        learnerId: this.authService.user$.value.learnerId
       })
       .pipe(map(data => +data));
   }

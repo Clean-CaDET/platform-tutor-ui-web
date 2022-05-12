@@ -12,7 +12,7 @@ import {NavbarModule} from './modules/layout/navbar/navbar.module';
 import {LayoutModule} from './modules/layout/layout.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NotesModule} from './modules/domain/notes/notes.module';
-import {LearnersModule} from './infrastructure/auth/learners.module';
+import {AuthenticationModule} from './infrastructure/auth/auth.module';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
 
@@ -27,7 +27,7 @@ import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-anal
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    LearnersModule,
+    AuthenticationModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
     LayoutModule,

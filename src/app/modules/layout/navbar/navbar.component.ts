@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
-import { ROLE } from 'src/app/shared/constants';
-import {Learner} from '../../../infrastructure/auth/learner.model';
-import {LearnerService} from '../../../infrastructure/auth/learner.service';
+import { USER } from 'src/app/shared/constants';
+import { User } from 'src/app/infrastructure/auth/user.model';
+import {AuthenticationService} from '../../../infrastructure/auth/auth.service';
 
 @Component({
   selector: 'cc-navbar',
@@ -9,20 +9,18 @@ import {LearnerService} from '../../../infrastructure/auth/learner.service';
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  role: string;
-  learner: Learner;
+  user: User;
   @Input() isDarkTheme: boolean;
 
-  constructor(private learnerService: LearnerService) {}
+  constructor(private authService: AuthenticationService) {}
 
   ngOnInit(): void {
-    this.learnerService.learner$.subscribe(learner => {
-      this.learner = learner;
-      this.role = localStorage.getItem(ROLE);
+    this.authService.user$.subscribe(user => {
+      this.user = user;
     });
   }
 
   onLogout(): void {
-    this.learnerService.logout();
+    this.authService.logout();
   }
 }
