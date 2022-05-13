@@ -2,8 +2,9 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {filter, Subject} from 'rxjs';
+import {filter, map, Subject} from 'rxjs';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import { Learner } from '../learner/learner.model';
 
 @Injectable({
   providedIn: 'root'
@@ -124,8 +125,25 @@ export class InterfacingInstructor {
   }
 
   greet(): void {
-    const studentName = getName();
-    const rnd = this.getRandomNumber(3);
+    this.http.get(environment.apiHost + "learners/profile").pipe(map(data => { //TODO: Move to learner service.
+      return new Learner(data)
+    }))
+    .subscribe(learner => {
+      const studentName = this.modifyName(learner.name);
+      const rnd = this.getRandomNumber(3);
+      const message = this.prepareGreetMessage(studentName, rnd);
+      this.presentMessage(message, '👋', 15, false);
+    });
+  }
+
+  private modifyName(baseName: string) {
+    if(baseName.endsWith('a') || baseName.endsWith('e') || baseName.endsWith('i') || baseName.endsWith('o') || baseName.endsWith('u')) {
+      return baseName;
+    }
+    return baseName + 'e';
+  }
+
+  prepareGreetMessage(studentName: string, rnd: number) {
     let message: string;
     if (rnd == 1) {
       this.tutorName = 'Kadet';
@@ -137,7 +155,7 @@ export class InterfacingInstructor {
       this.tutorName = 'Nirko';
       message = 'Zdravo, ' + studentName + ' 🙂. Ime mi je ' + this.tutorName + ' i danas te bodrim dok učiš. Zamolio bih te da ostaviš par komentara na samom kraju tvoje sesije o čitavom utisku, pa da uposlim profesore da me unapređuju.';
     }
-    this.presentMessage(message, '👋', 15, false);
+    return message;
   }
 
   private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
@@ -150,12 +168,5 @@ export class InterfacingInstructor {
     }
     this.http.post(environment.apiHost + 'submissions/tutor-message', {message, kcId: this.kcId}).subscribe();
   }
-}
-function getName() {
-  let baseName: string = JSON.parse(localStorage.getItem('STUDENT')).name;
-  if(baseName.endsWith('a') || baseName.endsWith('e') || baseName.endsWith('i') || baseName.endsWith('o') || baseName.endsWith('u')) {
-    return baseName;
-  }
-  return baseName + 'e';
 }
 

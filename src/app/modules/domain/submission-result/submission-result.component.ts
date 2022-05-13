@@ -5,7 +5,7 @@ import {Output, EventEmitter} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {EmotionsComponent} from '../feedback/emotions/emotions.component';
-import {ActivatedRoute, Params, Router} from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 
 @Component({
   selector: 'cc-submission-result',
@@ -30,8 +30,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   constructor(private instructor: InterfacingInstructor,
               private unitService: UnitService,
               private dialog: MatDialog,
-              private route: ActivatedRoute,
-              private router: Router) {
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
@@ -74,10 +73,6 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     dialogConfig.autoFocus = false;
     dialogConfig.data = {kcId: this.kcId, unitId: this.unitId};
     this.dialog.open(EmotionsComponent, dialogConfig);
-  }
-
-  onUnitClicked(): void {
-    this.router.navigate(['/unit', this.unitId]);
   }
 
   nextPage(page: string): void {

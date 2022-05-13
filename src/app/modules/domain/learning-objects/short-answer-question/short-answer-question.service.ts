@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../../../environments/environment';
-import {LearnerService} from '../../../learner/learner.service';
 import {map} from 'rxjs/operators';
 import { SaqEvaluation } from './saq-evaluation.model';
 
@@ -11,7 +10,7 @@ import { SaqEvaluation } from './saq-evaluation.model';
 })
 export class ShortAnswerQuestionService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService) {
+  constructor(private http: HttpClient) {
   }
 
   answerQuestion(assessmentItemId: number, answer: string): Observable<SaqEvaluation> {
@@ -19,7 +18,6 @@ export class ShortAnswerQuestionService {
       environment.apiHost + 'submissions/short-answer',
       {
         assessmentItemId: assessmentItemId,
-        learnerId: this.learnerService.learner$.value.id,
         answer: answer
       }).pipe(map(data => {
       return new SaqEvaluation(data);

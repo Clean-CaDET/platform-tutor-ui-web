@@ -4,15 +4,15 @@ import {HttpInterceptor, HttpHandler, HttpRequest} from '@angular/common/http';
 
 import {Observable, throwError} from 'rxjs';
 import {catchError, switchMap} from 'rxjs/operators';
-import {TokenService} from './token.service';
-import {LearnerService} from '../../../modules/learner/learner.service';
+import {TokenStorage} from './token.service';
+import {AuthenticationService} from '../auth.service';
 import {AuthenticationResponse} from './authentication-response.model';
 import {ACCESS_TOKEN} from '../../../shared/constants';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
 
-  constructor(private tokenService: TokenService, private learnerService: LearnerService) {
+  constructor(private tokenService: TokenStorage, private authService: AuthenticationService) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -23,7 +23,7 @@ export class JwtInterceptor implements HttpInterceptor {
     });
 
     return next.handle(accessTokenRequest).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401 && this.learnerService.learner$.value != null) {
+      if (error instanceof HttpErrorResponse && error.status === 401 && this.authService.user$.value != null) {
         return this.handle401Error(accessTokenRequest, next);
       }
       return throwError(error);
@@ -36,7 +36,7 @@ export class JwtInterceptor implements HttpInterceptor {
         return next.handle(JwtInterceptor.addTokenHeader(request, authenticationResponse.accessToken));
       }),
       catchError((err) => {
-        this.learnerService.logout();
+        this.authService.logout();
         return throwError(err);
       })
     );

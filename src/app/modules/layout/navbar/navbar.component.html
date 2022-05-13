@@ -4,10 +4,10 @@
     <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
   </span>
 
-  <cc-learner-controls [learner]="learner" *ngIf="role === 'learner'"></cc-learner-controls>
-  <cc-instructor-controls *ngIf="role === 'instructor'"></cc-instructor-controls>
+  <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role === 'learner'"></cc-learner-controls>
+  <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
 
-  <button color="primary" *ngIf="!learner" id="login" mat-flat-button [routerLink]="['login']">Prijavi se</button>
-  <p *ngIf="learner" color="primary" id="studentIndex">{{learner.index}}</p>
-  <button color="primary" *ngIf="learner" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">Odjavi se</button>
+  <button color="primary" *ngIf="!user" id="login" mat-flat-button [routerLink]="['login']">Prijavi se</button>
+  <p *ngIf="user" color="primary" id="username">{{user.username}}</p>
+  <button color="primary" *ngIf="user" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']">Odjavi se</button>
 </div>
