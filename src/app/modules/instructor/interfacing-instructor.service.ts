@@ -41,7 +41,7 @@ export class InterfacingInstructor {
   private tryFeedbackPopup(): boolean {
     let onSubmitClickedCounter = +localStorage.getItem('ON_SUBMIT_CLICKED_COUNTER');
     onSubmitClickedCounter++;
-    if (onSubmitClickedCounter >= 5) {
+    if (onSubmitClickedCounter >= 12) {
       onSubmitClickedCounter = 0;
       this.openEmotionsFormEvent.next();
     }
