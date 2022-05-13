@@ -28,7 +28,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
       <button [disabled]="correctness == -1" color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')">Sledeći zadatak</button>
       <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')">Pregled gradiva</button>
-      <button *ngIf="isSatisfied" color="accent" id="unit-button" mat-raised-button (click)="onUnitClicked()">Pregled lekcije</button>
+      <button *ngIf="isSatisfied" color="accent" id="unit-button" mat-raised-button [routerLink]="['/unit', unitId]">Pregled lekcije</button>
     </div>
   </div>
 </mat-card>

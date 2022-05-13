@@ -74,7 +74,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private selectNewUnit(params: Params): void {
-    this.unitService.getUnit(+params.unitId, this.learnerId).subscribe(fullUnit => {
+    this.unitService.getUnit(+params.unitId).subscribe(fullUnit => {
       this.knowledgeComponents = fullUnit.knowledgeComponents;
       this.selectedUnit = fullUnit;
       this.selectedKC = params.kcId ? this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId) : null;
@@ -82,7 +82,7 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private updateKnowledgeComponents(unitId): void {
-    this.unitService.getUnit(unitId, this.learnerId).subscribe(fullUnit => {
+    this.unitService.getUnit(unitId).subscribe(fullUnit => {
       this.selectedUnit = fullUnit;
     });
   }

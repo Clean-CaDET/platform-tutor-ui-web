@@ -22,8 +22,8 @@ export class UnitService {
     return this.http.get<Unit[]>(environment.apiHost + 'units');
   }
 
-  getUnit(unitId: number, learnerId: number): Observable<Unit> {
-    return this.http.get<Unit>(environment.apiHost + 'units/' + unitId, {params: {learnerId}})
+  getUnit(unitId: number): Observable<Unit> {
+    return this.http.get<Unit>(environment.apiHost + 'units/' + unitId)
       .pipe(map(unit => new Unit(unit)));
   }
 
