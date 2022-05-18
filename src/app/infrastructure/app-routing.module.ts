@@ -7,6 +7,7 @@ import {UnitComponent} from '../modules/domain/unit/unit.component';
 import {KnowledgeComponentComponent} from '../modules/domain/knowledge-component/knowledge-component.component';
 import { EventsTableComponent } from '../modules/learner-analytics/events-table/events-table.component';
 import { KcmProgressComponent } from '../modules/learner-analytics/kcm-progress/kcm-progress.component';
+import { KcStatisticsComponent } from '../modules/learner-analytics/kc-statistics/kc-statistics.component';
 
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
   {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
   {path: 'analytics/events', component: EventsTableComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
+  {path: 'analytics/kc-statistics', component: KcStatisticsComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: 'analytics/:groupId/learner-progress', component: KcmProgressComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}

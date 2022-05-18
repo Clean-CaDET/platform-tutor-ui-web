@@ -1,11 +1,14 @@
 <button color="primary" id="progress" mat-flat-button [matMenuTriggerFor]="progress">
-    {{selectedGroup ? 'Grupa: ' + selectedGroup.name : 'Odaberi grupu'}}
+    {{selectedGroup ? 'Napredak grupe: ' + selectedGroup.name : 'Napredak grupe'}}
 </button>
 <mat-menu #progress="matMenu">
 <button [routerLink]="['analytics', group.id, 'learner-progress']" *ngFor="let group of groups" mat-menu-item>
     {{group.name}}
 </button>
 </mat-menu>
+<button color="primary" id="kc-statistics" mat-flat-button [routerLink]="['analytics', 'kc-statistics']">
+    Pregled veština
+</button>
 <button color="primary" id="events" mat-flat-button [routerLink]="['analytics', 'events']">
     Pregled svih događaja
 </button>

@@ -1,5 +1,5 @@
 import { trigger, style, transition, animate } from '@angular/animations';
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 
 @Component({
   selector: 'cc-assessments-table',
