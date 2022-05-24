@@ -44,6 +44,7 @@
                     </div>
                     <div fxFlex="50" fxLayout="column" *ngIf="timeChartData[kc.kcCode]">
                         <div fxFlex="90"><ngx-charts-box-chart
+                            [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
                             [results]="timeChartData[kc.kcCode]"
                             [xAxis]="false"
                             [yAxis]="false">
