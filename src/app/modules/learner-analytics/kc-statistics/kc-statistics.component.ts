@@ -12,6 +12,7 @@ export class KcStatisticsComponent implements OnInit {
   knowledgeComponentStatistics: any[];
   totalCountChartData = {};
   percentageChartData = {};
+  timeChartData = {};
 
   unitId = "0";
   units: Unit[];
@@ -36,10 +37,11 @@ export class KcStatisticsComponent implements OnInit {
       this.knowledgeComponentStatistics.forEach(kc => {
         this.createTotalCountCharts(kc);
         this.createPercentageCharts(kc);
+        this.createTimeBoxData(kc);
       });
     });
   }
-
+  
   private createTotalCountCharts(kc: any) {
     this.totalCountChartData[kc.kcCode] = new Array();
     this.totalCountChartData[kc.kcCode].push({
@@ -47,7 +49,7 @@ export class KcStatisticsComponent implements OnInit {
       'value': kc.totalRegistered
     });
     this.totalCountChartData[kc.kcCode].push({
-      'name': 'Broj započetih',
+      'name': 'Broj započelih',
       'value': kc.totalStarted
     });
     this.totalCountChartData[kc.kcCode].push({
@@ -63,7 +65,11 @@ export class KcStatisticsComponent implements OnInit {
   private createPercentageCharts(kc: any) {
     this.percentageChartData[kc.kcCode] = new Array();
     this.percentageChartData[kc.kcCode].push({
-      'name': '% započetih',
+      'name': '% prijavljenih',
+      'value': kc.totalRegistered * 100 / kc.totalRegistered
+    });
+    this.percentageChartData[kc.kcCode].push({
+      'name': '% započelih',
       'value': kc.totalStarted * 100 / kc.totalRegistered
     });
     this.percentageChartData[kc.kcCode].push({
@@ -74,5 +80,30 @@ export class KcStatisticsComponent implements OnInit {
       'name': '% rešenih',
       'value': kc.totalPassed * 100 / kc.totalRegistered
     });
+  }
+
+  private createTimeBoxData(kc: any) {
+    delete this.timeChartData[kc.kcCode];
+    if(kc.minutesToCompletion.length == 0 && kc.minutesToPass.length == 0) return;
+
+    this.timeChartData[kc.kcCode] = new Array();
+    if(kc.minutesToCompletion.length != 0) {
+      this.timeChartData[kc.kcCode].push({
+        'name': 'Vreme pregleda (u minutima)',
+        'series': this.createTimeSeries(kc.minutesToCompletion)
+      });
+    }
+    if(kc.minutesToPass.length != 0) {
+      this.timeChartData[kc.kcCode].push({
+        'name': 'Vreme rešavanja (u minutima)',
+        'series': this.createTimeSeries(kc.minutesToPass)
+      });
+    }
+  }
+
+  private createTimeSeries(minutes: number[]) {
+    let result = new Array();
+    minutes.forEach(m => result.push({ "name": 'a', "value": m}));
+    return result;
   }
 }

@@ -28,21 +28,26 @@
             <mat-card class="mat-elevation-z2 margin">
                 <h3>{{kc.kcCode}}: {{kc.kcName}}</h3>
                 <div fxLayout="row">
-                    <div fxFlex="50">
-                    <ngx-charts-bar-vertical
-                        [results]="totalCountChartData[kc.kcCode]"
-                        [xAxis]="true"
-                        [yAxis]="true"
-                        [showDataLabel]="true">
-                    </ngx-charts-bar-vertical>
+                    <div fxFlex="50" fxLayout="column">
+                        <div><ngx-charts-bar-vertical
+                            [results]="totalCountChartData[kc.kcCode]"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [showDataLabel]="true">
+                        </ngx-charts-bar-vertical></div>
+                        <div><ngx-charts-bar-vertical
+                            [results]="percentageChartData[kc.kcCode]"
+                            [xAxis]="true"
+                            [yAxis]="true"
+                            [showDataLabel]="true">
+                        </ngx-charts-bar-vertical></div>
                     </div>
-                    <div fxFlex="50">
-                    <ngx-charts-bar-vertical
-                        [results]="percentageChartData[kc.kcCode]"
-                        [xAxis]="true"
-                        [yAxis]="true"
-                        [showDataLabel]="true">
-                    </ngx-charts-bar-vertical>
+                    <div fxFlex="50" fxLayout="column" *ngIf="timeChartData[kc.kcCode]">
+                        <div fxFlex="90"><ngx-charts-box-chart
+                            [results]="timeChartData[kc.kcCode]"
+                            [xAxis]="false"
+                            [yAxis]="false">
+                        </ngx-charts-box-chart></div>
                     </div>
                 </div>
             </mat-card>
