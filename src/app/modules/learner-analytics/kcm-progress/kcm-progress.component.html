@@ -1,0 +1,30 @@
+<div class="right-margin">
+    <mat-card fxLayout="row" class="mat-elevation-z5 margin sticky">
+        <span fxFlex="30">
+            <mat-form-field appearance="fill">
+                <mat-label>Lekcije</mat-label>
+                <mat-select [(value)]="unitId">
+                    <mat-option value="0">Sve</mat-option>
+                    <mat-option *ngFor="let unit of units" [value]="unit.id">
+                        {{unit.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+        <span fxFlex></span>
+        <mat-paginator (page)="changePage($event)" [length]="count"
+            [pageSizeOptions]="['10', '25', '50']" [pageSize]="pageSize">
+        </mat-paginator>
+    </mat-card>
+    <div fxLayout="row wrap">
+        <div *ngFor="let p of progress" fxFlex="50">
+            <mat-card class="mat-elevation-z2 margin">
+                <mat-card-title>{{p.learner.name}} {{p.learner.surname}}</mat-card-title>
+                <mat-card-subtitle>{{p.learner.index}}</mat-card-subtitle>
+                <mat-card-content>
+                    <cc-assessments-table [knowledgeComponentMasteries]="p.knowledgeComponentProgress" [kcUnitId]="unitId"></cc-assessments-table>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

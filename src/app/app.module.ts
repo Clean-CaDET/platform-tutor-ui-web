@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
@@ -10,14 +10,11 @@ import {MaterialModule} from './infrastructure/material.module';
 import {DomainModule} from './modules/domain/domain.module';
 import {NavbarModule} from './modules/layout/navbar/navbar.module';
 import {LayoutModule} from './modules/layout/layout.module';
-import {LearnersModule} from './modules/learner/learners.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {KeycloakAngularModule, KeycloakService} from 'keycloak-angular';
-import {initializeKeycloak} from './infrastructure/auth/keycloak/keycloak.init';
 import {NotesModule} from './modules/domain/notes/notes.module';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatIconModule} from '@angular/material/icon';
+import {AuthenticationModule} from './infrastructure/auth/auth.module';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
+import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
 
 @NgModule({
   declarations: [
@@ -30,30 +27,22 @@ import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
-    DomainModule,
-    NavbarModule,
-    LayoutModule,
-    LearnersModule,
+    AuthenticationModule,
     MarkdownModule.forRoot(),
     ReactiveFormsModule,
-    KeycloakAngularModule,
+    LayoutModule,
+    NavbarModule,
+    DomainModule,
     NotesModule,
-    MatSlideToggleModule,
     FormsModule,
-    MatIconModule
+    LearnerAnalyticsModule
   ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
-      multi: true,
-      deps: [KeycloakService],
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
       multi: true
-    },
+    }
   ],
   bootstrap: [AppComponent]
 })

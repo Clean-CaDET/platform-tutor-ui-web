@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {LearnerService} from './modules/learner/learner.service';
 import {OverlayContainer} from '@angular/cdk/overlay';
-import {Learner} from './modules/learner/learner.model';
+import {AuthenticationService} from './infrastructure/auth/auth.service';
 import {ACCESS_TOKEN} from './shared/constants';
+import { User } from './infrastructure/auth/user.model';
 
 @Component({
   selector: 'cc-root',
@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   opened = false;
   isDarkTheme = true;
 
-  constructor(private learnerService: LearnerService, private overlayContainer: OverlayContainer) {
+  constructor(private authService: AuthenticationService, private overlayContainer: OverlayContainer) {
   }
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
     const accessToken = localStorage.getItem(ACCESS_TOKEN);
     if (accessToken == null) { return; }
     const decodedJWT = JSON.parse(window.atob(accessToken.split('.')[1]));
-    const learner = new Learner({id: +decodedJWT.id}); // TODO: We should add User model in future.
-    this.learnerService.setLearner(learner);
+    const user = new User({id: +decodedJWT.id});
+    this.authService.setUser(user);
   }
 }

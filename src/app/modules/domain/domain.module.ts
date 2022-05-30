@@ -1,5 +1,4 @@
 import {NgModule} from '@angular/core';
-import {FeedbackComponent} from './feedback/feedback.component';
 import {ArrangeTaskComponent} from './learning-objects/arrange-task/arrange-task.component';
 import {ChallengeComponent} from './learning-objects/challenge/challenge.component';
 import {ImageComponent} from './learning-objects/image/image.component';
@@ -28,46 +27,44 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 
 @NgModule({
-  declarations: [
-    FeedbackComponent,
-    ArrangeTaskComponent,
-    ChallengeComponent,
-    ImageComponent,
-    QuestionComponent,
-    TextComponent,
-    VideoComponent,
-    LearningObjectDirective,
-    LearningObjectContainerComponent,
-    ImageDialogComponent,
-    UnitComponent,
-    KnowledgeComponentComponent,
-    KnowledgeMapComponent,
-    ShortAnswerQuestionComponent,
-    SubmissionResultComponent,
-    EmotionsComponent,
-    TutorImprovementComponent
-  ],
-  imports: [
-    BrowserModule,
-    MarkdownModule.forChild(),
-    YouTubePlayerModule,
-    FlexLayoutModule,
-    RouterModule,
-    FormsModule,
-    MaterialModule,
-    DragDropModule,
-    NotesModule,
-    ReactiveFormsModule,
-    MatDialogModule
-  ],
-  exports: [
-    LearningObjectContainerComponent,
-    SubmissionResultComponent,
-    KnowledgeMapComponent,
-    EmotionsComponent,
-    TutorImprovementComponent
-  ],
-  entryComponents: [EmotionsComponent, TutorImprovementComponent]
+    declarations: [
+        ArrangeTaskComponent,
+        ChallengeComponent,
+        ImageComponent,
+        QuestionComponent,
+        TextComponent,
+        VideoComponent,
+        LearningObjectDirective,
+        LearningObjectContainerComponent,
+        ImageDialogComponent,
+        UnitComponent,
+        KnowledgeComponentComponent,
+        KnowledgeMapComponent,
+        ShortAnswerQuestionComponent,
+        SubmissionResultComponent,
+        EmotionsComponent,
+        TutorImprovementComponent
+    ],
+    imports: [
+        BrowserModule,
+        MarkdownModule.forChild(),
+        YouTubePlayerModule,
+        FlexLayoutModule,
+        RouterModule,
+        FormsModule,
+        MaterialModule,
+        DragDropModule,
+        NotesModule,
+        ReactiveFormsModule,
+        MatDialogModule
+    ],
+    exports: [
+        LearningObjectContainerComponent,
+        SubmissionResultComponent,
+        KnowledgeMapComponent,
+        EmotionsComponent,
+        TutorImprovementComponent
+    ]
 })
 export class DomainModule {
 }

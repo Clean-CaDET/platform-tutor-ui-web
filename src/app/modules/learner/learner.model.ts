@@ -1,13 +1,13 @@
 export class Learner {
   id: number;
-  studentIndex: string;
+  index: string;
   name: string;
   surname: string;
 
   constructor(obj?: any) {
     if (obj) {
       this.id = obj.id;
-      this.studentIndex = obj.studentIndex;
+      this.index = obj.index;
       this.name = obj.name;
       this.surname = obj.surname;
     }

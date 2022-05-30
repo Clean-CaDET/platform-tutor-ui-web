@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Note} from './note.model';
 import {environment} from '../../../../environments/environment';
-import {LearnerService} from '../../learner/learner.service';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -12,7 +11,7 @@ import {map} from 'rxjs/operators';
 })
 export class NotesService {
 
-  constructor(private http: HttpClient, private learnerService: LearnerService) {
+  constructor(private http: HttpClient) {
   }
 
   saveNote(note: Note): Observable<Note> {
@@ -21,7 +20,6 @@ export class NotesService {
       {
         text: note.text,
         unitId: note.unitId,
-        learnerId: this.learnerService.learner$.value.id
       }).pipe(map(data => {
       return new Note(data);
     }));

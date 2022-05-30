@@ -4,13 +4,20 @@ import {environment} from '../../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {AuthenticationResponse} from './authentication-response.model';
-import {ACCESS_TOKEN, REFRESH_TOKEN} from '../../../shared/constants';
+import {ACCESS_TOKEN, REFRESH_TOKEN, USER} from '../../../shared/constants';
+import { User } from '../user.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TokenService {
+export class TokenStorage {
   constructor(private http: HttpClient) {}
+
+  saveTokensAndUser(authenticationResponse: AuthenticationResponse, username: string) {
+    this.saveAccessToken(authenticationResponse.accessToken);
+    this.saveRefreshToken(authenticationResponse.refreshToken);
+    this.saveUser(username);
+  }
 
   refreshToken(): Observable<AuthenticationResponse> {
     const data = {
@@ -18,7 +25,7 @@ export class TokenService {
       refreshToken: localStorage.getItem(REFRESH_TOKEN)
     };
 
-    return this.http.post<AuthenticationResponse>(environment.apiHost + 'learners/refresh', data)
+    return this.http.post<AuthenticationResponse>(environment.apiHost + 'users/refresh', data)
       .pipe(map(refreshResponse => {
         this.saveAccessToken(refreshResponse.accessToken);
         this.saveRefreshToken(refreshResponse.refreshToken);
@@ -26,17 +33,21 @@ export class TokenService {
       }));
   }
 
-  public saveAccessToken(token: string): void {
+  saveAccessToken(token: string): void {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.setItem(ACCESS_TOKEN, token);
   }
 
-  public saveRefreshToken(token: string): void {
+  getAccessToken() {
+    return localStorage.getItem(ACCESS_TOKEN);
+  }
+
+  saveRefreshToken(token: string): void {
     localStorage.removeItem(REFRESH_TOKEN);
     localStorage.setItem(REFRESH_TOKEN, token);
   }
 
-  public getRefreshToken(): string | null {
+  getRefreshToken(): string | null {
     const refreshToken = localStorage.getItem(REFRESH_TOKEN);
     if (refreshToken === 'null') {
       return null;
@@ -45,8 +56,25 @@ export class TokenService {
     }
   }
 
-  public clear() {
-    localStorage.setItem(ACCESS_TOKEN, null);
-    localStorage.setItem(REFRESH_TOKEN, null);
+  saveUser(username: string) {
+    const accessToken = localStorage.getItem(ACCESS_TOKEN);
+    const decodedJwt = JSON.parse(window.atob(accessToken.split('.')[1]));
+    const user = new User({
+      id: +decodedJwt.id,
+      learnerId: +decodedJwt.learnerId,
+      username: username,
+      role: decodedJwt['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+    })
+    localStorage.setItem(USER, JSON.stringify(user));
+  }
+
+  getUser(): User {
+    return JSON.parse(localStorage.getItem(USER));
+  }
+
+  clear() {
+    localStorage.removeItem(ACCESS_TOKEN);
+    localStorage.removeItem(REFRESH_TOKEN);
+    localStorage.removeItem(USER);
   }
 }
