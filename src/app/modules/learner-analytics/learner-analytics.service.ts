@@ -35,8 +35,18 @@ export class LearnerAnalyticsService {
     }));
   }
 
+  getKnowledgeComponentStatistics(groupId: string, unitId: string) {
+    let params = new HttpParams();
+    params = params.append("groupId", groupId);
+    params = params.append("unitId", unitId);
+
+    return this.http.get<any>(environment.apiHost + 'analytics/kc-statistics', {params: params}).pipe(map(data => {
+        return data;
+    }));
+  }
+
   getUnits(): Observable<Unit[]> {
-    // TODO: Find a better place for this code
+    // TODO: Find a better place for this code & refactor analytics
     return this.http.get<Unit[]>(environment.apiHost + "domain/units").pipe(map(data => {
       let retVal = new Array();
       data.forEach(d => retVal.push(new Unit(d)));

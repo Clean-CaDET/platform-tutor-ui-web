@@ -6,18 +6,22 @@ import { EventsTableComponent } from './events-table/events-table.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AssessmentsTableComponent } from './assessments-table/assessments-table.component';
 import { FormsModule } from '@angular/forms';
+import { KcStatisticsComponent } from './kc-statistics/kc-statistics.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
     EventsTableComponent,
     KcmProgressComponent,
-    AssessmentsTableComponent
+    AssessmentsTableComponent,
+    KcStatisticsComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
+    NgxChartsModule
   ]
 })
 export class LearnerAnalyticsModule { }

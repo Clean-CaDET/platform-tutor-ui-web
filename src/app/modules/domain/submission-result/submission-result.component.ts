@@ -50,8 +50,8 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.observedAeEvaluations.unsubscribe();
-    this.openEmotionsFormSubscription.unsubscribe();
+    this.observedAeEvaluations?.unsubscribe();
+    this.openEmotionsFormSubscription?.unsubscribe();
   }
 
   getKnowledgeComponentStatistics(): void {

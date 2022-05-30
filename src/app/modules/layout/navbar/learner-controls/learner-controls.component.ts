@@ -17,13 +17,14 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   selectedUnit: Unit;
   selectedKC: KnowledgeComponent;
   @Input() learnerId: number;
+  aeEvaluationsSubscription: any;
 
   constructor(private unitService: UnitService,
     private router: Router, private route: ActivatedRoute,
     private instructor: InterfacingInstructor) { }
 
   ngOnInit(): void {
-    this.instructor.observedAeEvaluations.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
+    this.aeEvaluationsSubscription = this.instructor.observedAeEvaluations.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
     this.setupActiveUnitAndKCUpdate();
   }
 
@@ -37,12 +38,13 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.instructor.observedAeEvaluations.unsubscribe();
+    this.aeEvaluationsSubscription.unsubscribe();
   }
 
   private updateUnits(): void {
     this.unitService.getUnits().subscribe(units => {
       this.units = units;
+      this.setupActiveUnitAndKCUpdate();
     });
   }
 
