@@ -2,6 +2,6 @@
 <small>Da li je ovo tvoj prvi izazov? Ako jeste, pogledaj <a href="https://youtu.be/GEUTc-q2juw" target="_blank">ovaj video</a>.</small>
 <p>{{ learningObject.description }}</p>
 <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-    <a mat-raised-button color="primary" href="{{learningObject.url}}" target="_blank">Preuzmi kod za izazov</a>
-    <button color="primary" id="ie-button" mat-raised-button (click)="reloadSubmission()">Osveži tačnost submisije</button>
+    <a mat-raised-button color="primary" href="{{learningObject.url}}" target="_blank" i18n>Preuzmi kod za izazov</a>
+    <button color="primary" id="ie-button" mat-raised-button (click)="reloadSubmission()" i18n>Osveži tačnost submisije</button>
 </div>

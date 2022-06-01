@@ -58,6 +58,18 @@
           <context context-type="linenumber">3,4</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="save" datatype="html">
+        <source>Sačuvaj </source>
+        <target>Save </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/emotions/emotions.component.html</context>
+          <context context-type="linenumber">9,10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/tutor-improvement/tutor-improvement.component.html</context>
+          <context context-type="linenumber">14,15</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="2aa7ec992b53d148cd9821591d54fc4055534b39" datatype="html">
         <source>Povratna informacija vezana za iskustvo učenja. Npr.:
                           - Lekcija je bila lagana za razumevanje i veoma korisna.
@@ -156,6 +168,30 @@
           <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="4a8bea0a2ec550762c87a17db3216bdd79beba7d" datatype="html">
+        <source>Preuzmi kod za izazov</source>
+        <target>Download the challenge code</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/challenge/challenge.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3c98817e85870347d439a45304bebcafb9e039eb" datatype="html">
+        <source>Osveži tačnost submisije</source>
+        <target>Refresh correctness of the submission</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/challenge/challenge.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="88ff3cc4625cf1a87d902923966e8bf790bfc3c0" datatype="html">
+        <source>Primer odgovora: NazivJedan, NazivDva</source>
+        <target>Example of answer: NameOne, NameTwo</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/short-answer-question/short-answer-question.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="d20b9492c33c9dca3fd7766e746596d2ba17f568" datatype="html">
         <source> Prostor za pitanja, ideje, nejasnoće i ostale beleške. </source>
         <target> Space for questions, ideas, ambiguities and other notes. </target>
@@ -210,6 +246,31 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
           <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="628377d234cd9c14d5004de1554cf5372dff05e8" datatype="html">
+        <source>Sledeći zadatak</source>
+        <target>Next task</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="149eba6cec3685192a8d26f80dbb57fb8bd250a0" datatype="html">
+        <source>Pregled gradiva</source>
+        <target>Back to materials</target>
+        <target></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f13c0cd9e47d7ad336c1d4f2e62ac8addb146a28" datatype="html">
+        <source>Pregled lekcije</source>
+        <target>Lesson overview</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7c8e2b7f55ccc57c9cd8b840d3ff909ff86b4f18" datatype="html">
