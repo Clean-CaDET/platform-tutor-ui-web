@@ -69,6 +69,11 @@
                 }
               ]
             },
+            "en": {
+              "localize": ["en"],
+              "outputPath": "dist/",
+              "i18nMissingTranslation": "error"
+            },
 			"development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -90,6 +95,9 @@
             },
             "development": {
               "browserTarget": "platform-smart-tutor-web:build:development"
+            },
+            "en": {
+              "browserTarget": "platform-smart-tutor-web:build:en"
             }
           },
           "defaultConfiguration": "development"
@@ -128,6 +136,14 @@
             "production": {
               "devServerTarget": "platform-smart-tutor-web:serve:production"
             }
+          }
+        }
+      },
+      "i18n": {
+        "sourceLocale": "sr",
+        "locales": {
+          "en": {
+            "translation": "/locale/messages.en.xlf"
           }
         }
       }

@@ -1,27 +1,27 @@
 <mat-card>
   <div>
-    <small>Statistika veštine</small>
+    <small i18n>Statistika veštine</small>
     <hr>
     <div fxLayout="row" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
       <div fxLayout="column" fxFlex>
         <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{correctness == -1 ? '?' : (correctness * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
-          tačnost
-          <mat-icon matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
+          <ng-container i18n> tačnost </ng-container>
+          <mat-icon i18n-matTooltip matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
         </div>
       </div>
       <div  [ngClass]="{'kc-satisfied': isSatisfied}" fxLayout="column" fxFlex>
         <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{(mastery * 100).toFixed(0)}} <mat-icon>percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
-          vičnost <mat-icon matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
+          <ng-container i18n> vičnost </ng-container><mat-icon i18n-matTooltip matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
         </div>
       </div>
       </div>
       <div fxFlex></div>
       <div fxLayout="column">
         <div class="accent-text">{{attemptedCount}} / {{completedCount}} / {{totalCount}}</div>
-        <div class="small-text">pokušano / urađeno / ukupno</div>
+        <div class="small-text" i18n>pokušano / urađeno / ukupno</div>
       </div>
     </div>
     <hr>

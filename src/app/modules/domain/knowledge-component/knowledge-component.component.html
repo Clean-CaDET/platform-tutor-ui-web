@@ -3,7 +3,7 @@
     <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
-    <h2 class="mat-h2">
+    <h2 class="mat-h2" i18n>
       Beleške
     </h2>
     <cc-notes></cc-notes>
@@ -11,7 +11,7 @@
   <mat-sidenav-content>
     <div class="fixed">
       <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-        <mat-icon matTooltip="Tvoje beleške.">assignment</mat-icon>
+        <mat-icon i18n-matTooltip matTooltip="Tvoje beleške.">assignment</mat-icon>
       </button>
     </div>
     <div id="knowledge-component" *ngIf="knowledgeComponent">
@@ -22,7 +22,7 @@
         [learningObject]="learningObject"></cc-learning-object-container>
       <br>
       <div *ngIf="instructionalItemsShown">
-        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentItemClicked()">Pređi na zadatke</button>
+        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
       </div>
       <div *ngIf="!instructionalItemsShown">
         <cc-submission-result (nextPageEvent)="nextPage($event)" [kcId]="knowledgeComponent.id">

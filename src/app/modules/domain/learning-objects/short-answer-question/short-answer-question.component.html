@@ -6,7 +6,7 @@
       <input autocomplete="off" matInput type="text" name="index" [(ngModel)]="answer">
     </mat-form-field>
     <div *ngIf="!response">
-      <button (click)="onSubmit()" color="primary" type="submit" mat-raised-button>Pošalji</button>
+      <button (click)="onSubmit()" color="primary" type="submit" mat-raised-button i18n="@@submit">Pošalji</button>
     </div>
     <div id="answer" *ngIf="response">
       <div>

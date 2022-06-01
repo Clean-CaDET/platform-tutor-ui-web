@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="sr" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="f87577414e0e853c5ac4c37feb7569dccfc1cdec" datatype="html">
+        <source>Tamna tema.</source>
+        <target>Dark theme.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c70c6457f999c1fbb41e803860c9e26b8eb02295" datatype="html">
+        <source>Svetla tema.</source>
+        <target>Light theme.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/app.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="62a9e375c8b88270455cd90e323f846a281be067" datatype="html">
+        <source>Korisničko ime ili lozinka nisu ispravni.</source>
+        <target>Username or password is incorrect.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/infrastructure/auth/login/login.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c6ad01a727669a8c2b190518c0ee480c13f7e243" datatype="html">
+        <source>Korisničko ime</source>
+        <target>Username</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/infrastructure/auth/login/login.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="67cb2e265f4c096649e78c8f426736612c9fef73" datatype="html">
+        <source>Lozinka</source>
+        <target>Password</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/infrastructure/auth/login/login.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d55d5c0743e4a095a1b444e97621a579be312e7b" datatype="html">
+        <source>Prijava</source>
+        <target>Sign in</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/infrastructure/auth/login/login.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a4add8b5be0c26fd8f7185f1295429e337bf7703" datatype="html">
+        <source>Kako biste opisali vaše iskustvo učenja sa Tutorom? (minimalno 10 karaktera) </source>
+        <target>How would you describe your learning experience with Tutor? (minimum 10 characters) </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/emotions/emotions.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2aa7ec992b53d148cd9821591d54fc4055534b39" datatype="html">
+        <source>Povratna informacija vezana za iskustvo učenja. Npr.:
+                          - Lekcija je bila lagana za razumevanje i veoma korisna.
+                          - Bilo mi je naporno.
+                          - Svideli su mi se izazovi.</source>
+                          <target>Feedback related to the learning experience. For example.:
+                                                             - The lesson was easy to understand and very useful.
+                                                             - It was hard for me.
+                                                             - I liked the challenges.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/emotions/emotions.component.html</context>
+          <context context-type="linenumber">11,14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="00af69a8be64eb98a350b3468808d58b60ced5d1" datatype="html">
+        <source>Kako biste unapredili Tutora kao softver? (minimalno 10 karaktera) </source>
+        <target>How would you improve Tutor as software? (minimum 10 characters)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/tutor-improvement/tutor-improvement.component.html</context>
+          <context context-type="linenumber">3,4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9882ac011b7aec52717f9f85812355ff89ee518e" datatype="html">
+        <source>Kako biste unapredili edukativni sadržaj? (minimalno 10 karaktera) </source>
+        <target>How would you improve educational content? (minimum 10 characters)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/tutor-improvement/tutor-improvement.component.html</context>
+          <context context-type="linenumber">8,9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e157840d5e20103dc26e5a937f66eba66fbc6691" datatype="html">
+        <source>Za Tutora kao softver prijaviti eventualne bug-ove ili predložiti nove funkcionalnosti. Npr.:
+                          - Napravio bih ga u potpunosti na srpskom jeziku :)
+                          - Procenti nisu dobro zaokruženi.
+
+                          Za sadržaj navesti da li određeni tip sadržaja treba da se menja, ili nekog sadržaja treba više/manje. Npr.:
+                          - Izazovi su previše lagani.
+                          - Mislim da ima previše teksta. Želeo bih više videa.</source>
+                          <target>For Tutor as software to report possible bugs or suggest new functionalities. For example.:
+                                                             - I would make it entirely in Serbian :)
+                                                             - The percentages are not well rounded.
+
+                                                             For content, specify whether a certain type of content needs to be changed, or whether some content needs more / less. For example.:
+                                                             - The challenges are too easy.
+                                                             - I think there is too much text. I would like more videos.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/feedback/tutor-improvement/tutor-improvement.component.html</context>
+          <context context-type="linenumber">16,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="530acbf521f26d7a97ef7c86a6d21688e1d9004b" datatype="html">
+        <source> Beleške </source>
+        <target> Notes </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/knowledge-component/knowledge-component.component.html</context>
+          <context context-type="linenumber">6,8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d02bd605b4bd08c738d492816b7ed057fd839e0d" datatype="html">
+        <source>Tvoje beleške.</source>
+        <target> Your notes. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/knowledge-component/knowledge-component.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cddb44c9c9a4443701c4f1b7991f984928e39717" datatype="html">
+        <source>Pređi na zadatke</source>
+        <target> Tasks </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/knowledge-component/knowledge-component.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="submit" datatype="html">
+        <source>Pošalji</source>
+        <target> Submit </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/arrange-task/arrange-task.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/question/question.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/short-answer-question/short-answer-question.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4a9206367355646f1d7a72f0ad553af1ad895cf1" datatype="html">
+        <source>Resetuj</source>
+        <target> Reset </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/learning-objects/arrange-task/arrange-task.component.html</context>
+          <context context-type="linenumber">60</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d20b9492c33c9dca3fd7766e746596d2ba17f568" datatype="html">
+        <source> Prostor za pitanja, ideje, nejasnoće i ostale beleške. </source>
+        <target> Space for questions, ideas, ambiguities and other notes. </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/notes/notes.component.html</context>
+          <context context-type="linenumber">14,16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="325c798273aeb20daa2b6b05715a6d3311419cbf" datatype="html">
+        <source>Statistika veštine</source>
+        <target>Skills statistics</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6724093c9e6dcca27f785bb68beacd0d795b4d44" datatype="html">
+        <source> tačnost </source>
+        <target> correctness </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8413b287984e1832f4b257058196b9348fc65a88" datatype="html">
+        <source>Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka.</source>
+        <target>Correctness shows success on the current task. Correctness will be displayed after sending the task.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="221b63537643b117467b23b5a1cf237f2007120b" datatype="html">
+        <source> vičnost </source>
+        <target> mastery </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b8ecfcad598a1c5385c7369f8bac93a4fc67d952" datatype="html">
+        <source>Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima.</source>
+        <target>Mastery shows success in the current module. Mastery increases with successfully completed tasks.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="61bef9d36e244bead9d6c7ffa05e747ba40f0fd2" datatype="html">
+        <source>pokušano / urađeno / ukupno</source>
+        <target>tried / done / total</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/submission-result/submission-result.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7c8e2b7f55ccc57c9cd8b840d3ff909ff86b4f18" datatype="html">
+        <source>Oceni Tutora</source>
+        <target>Review Tutor</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/domain/unit/unit.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9c5df7f71182e18202d0714fe2afeb1349a11dcd" datatype="html">
+        <source>Izaberi lekciju</source>
+        <target>Choose a lesson</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/layout/navbar/learner-controls/learner-controls.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b712fa42cc29740a6df5b31780dca3357a5f50ca" datatype="html">
+        <source>Izaberi veštinu</source>
+        <target>Choose a skill</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/layout/navbar/learner-controls/learner-controls.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="626071a15a12cf11e048b144d53c14996e5abc94" datatype="html">
+        <source>Prijavi se</source>
+        <target>Sign in</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/layout/navbar/navbar.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="822214108e64ad71535ad6360141321da9f0a756" datatype="html">
+        <source>Odjavi se</source>
+        <target>Sign out</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/modules/layout/navbar/navbar.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

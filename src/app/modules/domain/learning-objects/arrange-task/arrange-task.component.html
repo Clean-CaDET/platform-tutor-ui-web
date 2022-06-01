@@ -56,7 +56,7 @@
     </div>
   </div>
   <div *ngIf="!answered" fxLayout="row">
-    <button mat-raised-button color="primary" (click)="onSubmit()">Pošalji</button>
-    <button mat-raised-button color="accent" (click)="resetState()">Resetuj</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
+    <button mat-raised-button color="accent" (click)="resetState()" i18n>Resetuj</button>
   </div>
 </div>

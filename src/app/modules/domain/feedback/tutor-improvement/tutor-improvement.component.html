@@ -1,11 +1,11 @@
 <form [formGroup]="improvementForm" (ngSubmit)="onSubmit()" fxLayout="column">
   <mat-form-field fxFlex="10">
-    <mat-label class="question">Kako biste unapredili Tutora kao softver? (minimalno 10 karaktera)
+    <mat-label class="question" i18n>Kako biste unapredili Tutora kao softver? (minimalno 10 karaktera)
     </mat-label>
     <textarea matInput type="text" name="tutorImprovement" formControlName="tutorImprovement"></textarea>
   </mat-form-field>
   <mat-form-field fxFlex="10">
-    <mat-label class="question">Kako biste unapredili edukativni sadržaj? (minimalno 10 karaktera)
+    <mat-label class="question" i18n>Kako biste unapredili edukativni sadržaj? (minimalno 10 karaktera)
     </mat-label>
     <textarea matInput type="text" name="educationalContentImprovement" formControlName="educationalContentImprovement"></textarea>
   </mat-form-field>
@@ -13,10 +13,10 @@
     <button [disabled]="!improvementForm.valid" color="primary" mat-raised-button
             type="submit">Sačuvaj
     </button>
-    <mat-icon matTooltip="Za Tutora kao softver prijaviti eventualne bug-ove ili predložiti nove funkcionalnosti. Npr.:
+    <mat-icon i18n-matTooltip matTooltip="Za Tutora kao softver prijaviti eventualne bug-ove ili predložiti nove funkcionalnosti. Npr.:
                           - Napravio bih ga u potpunosti na srpskom jeziku :)
                           - Procenti nisu dobro zaokruženi.
-                          
+
                           Za sadržaj navesti da li određeni tip sadržaja treba da se menja, ili nekog sadržaja treba više/manje. Npr.:
                           - Izazovi su previše lagani.
                           - Mislim da ima previše teksta. Želeo bih više videa." id="help-icon">help_outline</mat-icon>
