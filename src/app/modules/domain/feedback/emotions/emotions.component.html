@@ -1,14 +1,14 @@
 <form [formGroup]="emotionsForm" (ngSubmit)="onSubmit()" fxLayout="column">
   <mat-form-field fxFlex="10">
-    <mat-label id="question">Kako biste opisali vaše iskustvo učenja sa Tutorom? (minimalno 10 karaktera)
+    <mat-label id="question" i18n>Kako biste opisali vaše iskustvo učenja sa Tutorom? (minimalno 10 karaktera)
     </mat-label>
     <textarea matInput type="text" name="emotions" formControlName="emotionsFeedback"></textarea>
   </mat-form-field>
   <div id="submit">
     <button [disabled]="!emotionsForm.valid" color="primary" [disabled]="!emotionsForm.valid" mat-raised-button
-            type="submit">Sačuvaj
+            type="submit" i18n="@@save">Sačuvaj
     </button>
-    <mat-icon matTooltip="Povratna informacija vezana za iskustvo učenja. Npr.:
+    <mat-icon i18n-matTooltip matTooltip="Povratna informacija vezana za iskustvo učenja. Npr.:
                           - Lekcija je bila lagana za razumevanje i veoma korisna.
                           - Bilo mi je naporno.
                           - Svideli su mi se izazovi." id="help-icon">help_outline</mat-icon>

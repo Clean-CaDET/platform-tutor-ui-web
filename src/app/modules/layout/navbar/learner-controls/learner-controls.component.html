@@ -1,15 +1,18 @@
 <button color="primary" id="unit" mat-flat-button [disabled]="!learnerId" [matMenuTriggerFor]="unit">
-    {{selectedUnit ? selectedUnit.name : 'Izaberi lekciju'}}
+  <ng-container *ngIf="selectedUnit">{{ selectedUnit.name }}</ng-container>
+  <ng-container *ngIf="!selectedUnit" i18n>Izaberi lekciju</ng-container>
 </button>
 <mat-menu #unit="matMenu">
-<button [routerLink]="['unit', unit.id]" *ngFor="let unit of units" mat-menu-item>
+  <button [routerLink]="['unit', unit.id]" *ngFor="let unit of units" mat-menu-item>
     {{unit.name}}
-</button>
+  </button>
 </mat-menu>
 <button color="primary" id="kc" mat-flat-button [matMenuTriggerFor]="kc" [disabled]="!selectedUnit">
-    {{selectedKC ? selectedKC.name : 'Izaberi veštinu'}}
+  <ng-container *ngIf="selectedKC">{{ selectedKC.name }}</ng-container>
+  <ng-container *ngIf="!selectedKC" i18n>Izaberi veštinu</ng-container>
 </button>
 <mat-menu #kc="matMenu">
-<cc-knowledge-map *ngIf="selectedUnit" [unitId]="selectedUnit.id" [knowledgeComponents]="selectedUnit.knowledgeComponents">
-</cc-knowledge-map>
+  <cc-knowledge-map *ngIf="selectedUnit" [unitId]="selectedUnit.id"
+                    [knowledgeComponents]="selectedUnit.knowledgeComponents">
+  </cc-knowledge-map>
 </mat-menu>
