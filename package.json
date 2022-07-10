@@ -27,6 +27,7 @@
     "@angular/router": "~13.3.4",
     "@angular/youtube-player": "^12.2.11",
     "@swimlane/ngx-charts": "^20.1.0",
+    "ngx-csv": "^0.3.2",
     "ngx-markdown": "^12.0.1",
     "rxjs": "^7.4.0",
     "tslib": "^2.3.1",

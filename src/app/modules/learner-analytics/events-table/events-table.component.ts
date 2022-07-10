@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LearnerAnalyticsService } from '../learner-analytics.service';
 import { LearningEvent } from './learning-event';
+import {ngxCsv} from 'ngx-csv';
 
 @Component({
   selector: 'cc-events-table',
@@ -31,5 +32,27 @@ export class EventsTableComponent implements OnInit {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getEvents();
+  }
+
+  exportToCSV(): void {
+    const options = {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Events',
+      useBom: true,
+      noDownload: false,
+      headers: ['Timestamp', 'Type', 'Knowledge Component Id', 'Learner Id', 'Event-specific data']
+    };
+
+    const data = JSON.parse(JSON.stringify(this.events));
+    for (const event of data) {
+      if (event.specificData) {
+        event.specificData = JSON.stringify(event.specificData);
+      }
+    }
+    new ngxCsv(data, 'Events', options);
   }
 }
