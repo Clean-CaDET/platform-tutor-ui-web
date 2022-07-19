@@ -1,8 +1,8 @@
 name: Release
 on:
   push:
-    branches:
-      - master
+#    branches:
+#      - master
 
 jobs:
   release:
@@ -20,4 +20,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.PAT }}
-        run: npx semantic-release
+        run: npx semantic-release --branches test-cicd
