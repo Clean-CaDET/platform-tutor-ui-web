@@ -159,14 +159,14 @@ export class InterfacingInstructor {
   }
 
   private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
-    this.tutorToaster.open(message, action, {
-      duration: durationInSeconds * 1000,
-      panelClass: 'interfacing-instructor'
-    });
-    if (!generateEvent) {
-      return;
-    }
-    this.http.post(environment.apiHost + 'submissions/tutor-message', {message, kcId: this.kcId}).subscribe();
+    // this.tutorToaster.open(message, action, {
+    //   duration: durationInSeconds * 1000,
+    //   panelClass: 'interfacing-instructor'
+    // });
+    // if (!generateEvent) {
+    //   return;
+    // }
+    // this.http.post(environment.apiHost + 'submissions/tutor-message', {message, kcId: this.kcId}).subscribe();
   }
 }
 
