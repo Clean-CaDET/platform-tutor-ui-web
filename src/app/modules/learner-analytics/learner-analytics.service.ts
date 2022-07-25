@@ -23,6 +23,16 @@ export class LearnerAnalyticsService {
     }));
   }
 
+  getAllEvents() {
+    return this.http.get<any>(environment.apiHost + 'analytics/all-events').pipe(map(data => {
+      const events = new Array<LearningEvent>();
+      data.forEach(event => events.push(new LearningEvent(event)));
+      return {
+        events,
+      };
+    }));
+  }
+
   getLearners(page: number, pageSize: number, groupId: number) {
     var baseParams = this.createParams(page, pageSize);
     baseParams.params = baseParams.params.append("groupId", groupId);

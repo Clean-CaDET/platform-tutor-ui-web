@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @use './src/app/modules/domain/knowledge-map/knowledge-map.component-theme' as knowledge-map;
 @use './src/app/modules/domain/submission-result/submission-result.component-theme' as submission-result;
 @use './src/app/modules/learner-analytics/assessments-table/assessments-table.component-theme' as assessments-table;
