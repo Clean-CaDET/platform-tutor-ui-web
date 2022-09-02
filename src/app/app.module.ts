@@ -3,7 +3,7 @@ import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FlexLayoutModule} from '@angular/flex-layout';
-import {MarkdownModule} from 'ngx-markdown';
+import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
 import {AppComponent} from './app.component';
 import {AppRoutingModule} from './infrastructure/app-routing.module';
 import {MaterialModule} from './infrastructure/material.module';
@@ -15,6 +15,23 @@ import {NotesModule} from './modules/domain/notes/notes.module';
 import {AuthenticationModule} from './infrastructure/auth/auth.module';
 import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
+
+export function markdownConfiguration(): MarkedOptions {
+  const renderer = new MarkedRenderer();
+
+  renderer.image = (href: string, title: string, text: string) => {
+    return '<img width="100%" src="' + href + '" alt="' + text + '">';
+  };
+
+  return {
+    renderer: renderer,
+    gfm: true,
+    breaks: false,
+    pedantic: false,
+    smartLists: true,
+    smartypants: false,
+  };
+}
 
 @NgModule({
   declarations: [
@@ -28,7 +45,12 @@ import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-anal
     HttpClientModule,
     FlexLayoutModule,
     AuthenticationModule,
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useFactory: markdownConfiguration
+      }
+    }),
     ReactiveFormsModule,
     LayoutModule,
     NavbarModule,
