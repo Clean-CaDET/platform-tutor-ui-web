@@ -1,7 +1,7 @@
 import { LearningObject } from '../../learning-object.model';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { Type } from '@angular/core';
-import { QuestionComponent } from '../question.component';
+import { MultipleResponseQuestionComponent } from '../multiple-response-question.component';
 import { MrqItem } from './answer.model';
 
 export class Question extends LearningObject {
@@ -18,6 +18,6 @@ export class Question extends LearningObject {
   }
 
   getComponent(): Type<LearningObjectComponent> {
-    return QuestionComponent;
+    return MultipleResponseQuestionComponent;
   }
 }
