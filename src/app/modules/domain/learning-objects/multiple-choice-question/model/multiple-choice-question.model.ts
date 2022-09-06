@@ -1,23 +1,21 @@
 import { LearningObject } from '../../learning-object.model';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { Type } from '@angular/core';
-import { MultipleResponseQuestionComponent } from '../multiple-response-question.component';
-import { MrqItem } from './answer.model';
+import { MultipleChoiceQuestionComponent } from '../multiple-choice-question.component';
 
-export class MultipleReponseQuestion extends LearningObject {
-
+export class MultipleChoiceQuestion extends LearningObject {
   text: string;
-  items: MrqItem[];
+  possibleAnswers: string[];
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
       this.text = obj.text;
-      this.items = obj.items;
+      this.possibleAnswers = obj.possibleAnswers;
     }
   }
 
   getComponent(): Type<LearningObjectComponent> {
-    return MultipleResponseQuestionComponent;
+    return MultipleChoiceQuestionComponent;
   }
 }

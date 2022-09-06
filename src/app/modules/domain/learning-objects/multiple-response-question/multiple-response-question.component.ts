@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {LearningObjectComponent} from '../learning-object-component';
-import {Question} from './model/multiple-response-question.model';
+import {MultipleReponseQuestion} from './model/multiple-response-question.model';
 import {QuestionService as MultipleResponseQuestionService} from './multiple-response-question.service';
 import {MrqItem} from './model/answer.model';
 import {shuffleArray} from '../../../../shared/helpers/arrays';
@@ -14,7 +14,7 @@ import {InterfacingInstructor} from '../../../instructor/interfacing-instructor.
   styleUrls: ['./multiple-response-question.component.scss']
 })
 export class MultipleResponseQuestionComponent implements OnInit, LearningObjectComponent {
-  learningObject: Question;
+  learningObject: MultipleReponseQuestion;
   checked: boolean[];
   evaluation: MrqEvaluation;
 
