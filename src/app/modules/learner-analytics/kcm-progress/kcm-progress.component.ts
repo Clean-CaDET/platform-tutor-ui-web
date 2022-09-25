@@ -20,8 +20,6 @@ export class KcmProgressComponent implements OnInit {
   groups: LearnerGroup[];
 
   courseId = 0;
-  courseName = '';
-
   unitId = 0;
   units: Unit[];
 
@@ -59,14 +57,14 @@ export class KcmProgressComponent implements OnInit {
     this.getLearnerProgress();
   }
 
-  countKcInUnit(progress) {
+  countKc(progress) {
     if (this.unitId == 0) {
       return progress.length;
     }
     return progress.filter(p => p.kcUnitId === this.unitId).length;
   }
 
-  countSatisfiedKcUnit(progress){
+  countSatisfiedKc(progress) {
     if (this.unitId == 0) {
       return progress.filter(p => p.statistics.isSatisfied).length;
     }
