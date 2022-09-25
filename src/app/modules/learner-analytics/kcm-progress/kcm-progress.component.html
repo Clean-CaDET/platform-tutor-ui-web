@@ -1,6 +1,6 @@
 <div class="right-margin">
-    <mat-card fxLayout="row" class="mat-elevation-z5 margin sticky">
-        <span fxFlex="30">
+  <mat-card fxLayout="row" class="mat-elevation-z5 margin sticky">
+    <span fxFlex>
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
                 <mat-select [(value)]="unitId">
@@ -10,21 +10,44 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-        </span>
-        <span fxFlex></span>
-        <mat-paginator (page)="changePage($event)" [length]="count"
-            [pageSizeOptions]="['10', '25', '50']" [pageSize]="pageSize">
-        </mat-paginator>
-    </mat-card>
-    <div fxLayout="row wrap">
-        <div *ngFor="let p of progress" fxFlex="50">
-            <mat-card class="mat-elevation-z2 margin">
-                <mat-card-title>{{p.learner.name}} {{p.learner.surname}}</mat-card-title>
-                <mat-card-subtitle>{{p.learner.index}}</mat-card-subtitle>
-                <mat-card-content>
-                    <cc-assessments-table [knowledgeComponentMasteries]="p.knowledgeComponentProgress" [kcUnitId]="unitId"></cc-assessments-table>
-                </mat-card-content>
-            </mat-card>
-        </div>
+    </span>
+    <span fxFlex>
+            <mat-form-field appearance="fill">
+                <mat-label>Grupa</mat-label>
+                <mat-select [(value)]="groupId" (selectionChange)="getLearnerProgress()">
+                    <mat-option value="0">Sve</mat-option>
+                    <mat-option *ngFor="let group of groups" [value]="group.id">
+                        {{group.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+    </span>
+    <span fxFlex></span>
+    <mat-paginator (page)="changePage($event)" [length]="count"
+                   [pageSizeOptions]="['16', '32', '48']" [pageSize]="pageSize">
+    </mat-paginator>
+  </mat-card>
+  <div fxLayout="row wrap">
+    <div *ngFor="let p of progress" fxFlex="50">
+      <mat-card class="mat-elevation-z2 margin">
+        <mat-accordion>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+              <mat-panel-title>
+                <mat-card-title>{{p.learner.name}} {{p.learner.surname}}<br>{{p.learner.index}}</mat-card-title>
+              </mat-panel-title>
+              <mat-panel-description>
+                <div>
+                  Broj ukupnih KC:{{countKcInUnit(p.knowledgeComponentProgress)}}<br>
+                  Broj zadovoljenih KC:{{countSatisfiedKcUnit(p.knowledgeComponentProgress)}}
+                </div>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <cc-assessments-table [knowledgeComponentMasteries]="p.knowledgeComponentProgress" [groupId]="groupId"
+                                  [kcUnitId]="unitId"></cc-assessments-table>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </mat-card>
     </div>
+  </div>
 </div>

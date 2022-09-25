@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { LearnerService } from 'src/app/modules/learner/learner.service';
+import {Course} from '../../../domain/course/course.model';
+import {InstructorService} from '../../../instructor/instructor.service';
 
 @Component({
   selector: 'cc-instructor-controls',
@@ -11,16 +13,41 @@ import { LearnerService } from 'src/app/modules/learner/learner.service';
 export class InstructorControlsComponent implements OnInit {
   groups: LearnerGroup[];
   selectedGroup: any;
+  selectedCourse: Course;
+  courses: Course[];
 
   constructor(private learnerService: LearnerService,
+    private instructorService: InstructorService,
     private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.setupCourseUpdate();
     this.setupGroupUpdate();
+    this.instructorService.getCourses().subscribe( courses => {
+      this.courses = courses;
+    });
     this.learnerService.getGroups().subscribe(groups => {
       this.groups = groups;
       this.selectedGroup = this.groups.find(g => g.id == this.getParams(this.route).groupId); // extract this common behavior somewhere
     });
+  }
+
+  private setupCourseUpdate(): void {
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
+      map(e => this.getParams(this.route))
+    ).subscribe(params => {
+      if(!params.courseId) {
+        this.selectedCourse = null;
+        return;
+      }
+      if (this.courseIsChanged(params)) {
+        this.selectedCourse = this.courses?.find(c => c.id == +params.courseId);
+      }
+    });
+  }
+
+  private courseIsChanged(params: Params) {
+    return this.selectedCourse?.id != params.courseId;
   }
 
   private setupGroupUpdate(): void {

@@ -26,6 +26,7 @@ import {EmotionsComponent} from './feedback/emotions/emotions.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 import { MultipleChoiceQuestionComponent } from './learning-objects/multiple-choice-question/multiple-choice-question.component';
+import {CourseComponent} from './course/course.component';
 
 @NgModule({
     declarations: [
@@ -45,7 +46,8 @@ import { MultipleChoiceQuestionComponent } from './learning-objects/multiple-cho
         SubmissionResultComponent,
         EmotionsComponent,
         TutorImprovementComponent,
-        MultipleChoiceQuestionComponent
+        MultipleChoiceQuestionComponent,
+        CourseComponent
     ],
     imports: [
         BrowserModule,

@@ -5,22 +5,22 @@
     </ng-container>
 
     <ng-container matColumnDef="mastery">
-        <th mat-header-cell *matHeaderCellDef width="10%"> Vičnost </th>
+        <th mat-header-cell *matHeaderCellDef width="15%"> Vičnost </th>
         <td mat-cell *matCellDef="let element"width="10%"> {{(element.statistics.mastery * 100).toFixed(0)}}% </td>
     </ng-container>
 
     <ng-container matColumnDef="totalCount">
-        <th mat-header-cell *matHeaderCellDef width="10%"> Broj dostupnih zadataka </th>
+        <th mat-header-cell *matHeaderCellDef width="15%"> Broj dostupnih zadataka </th>
         <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.totalCount}} </td>
     </ng-container>
 
     <ng-container matColumnDef="completedCount">
-        <th mat-header-cell *matHeaderCellDef width="10%"> Broj urađenih zadataka </th>
+        <th mat-header-cell *matHeaderCellDef width="15%"> Broj urađenih zadataka </th>
         <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.completedCount}} </td>
     </ng-container>
 
     <ng-container matColumnDef="attemptedCount">
-        <th mat-header-cell *matHeaderCellDef width="10%"> Broj pokušanih zadataka </th>
+        <th mat-header-cell *matHeaderCellDef width="15%"> Broj pokušanih zadataka </th>
         <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.attemptedCount}} </td>
     </ng-container>
 
@@ -47,7 +47,7 @@
                     </div>
                     <br>
                 </div>
-            </div> 
+            </div>
             </div>
         </div>
     </td>
