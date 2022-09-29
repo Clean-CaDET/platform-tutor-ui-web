@@ -31,7 +31,7 @@ export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentMasteries: any[];
   @Input() kcUnitId: number;
   dataSource;
-  displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'completedCount', 'attemptedCount'];
+  displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'completedCount', 'attemptedCount', 'time'];
   expandedElement = new Object();
 
   constructor() { }

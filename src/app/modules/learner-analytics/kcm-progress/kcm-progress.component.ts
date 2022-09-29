@@ -32,8 +32,8 @@ export class KcmProgressComponent implements OnInit {
       this.unitId = +params.unitId;
       this.courseId = +params.courseId;
       this.getLearnerGroups();
+      this.analyticsService.getUnitsByCourse(this.courseId).subscribe(units => this.units = units);
     });
-    this.analyticsService.getUnits().subscribe(units => this.units = units);
   }
 
   private getLearnerGroups() {
@@ -45,7 +45,7 @@ export class KcmProgressComponent implements OnInit {
   }
 
   public getLearnerProgress() {
-    this.analyticsService.getLearners(this.page, this.pageSize, +this.groupId).subscribe(data => {
+    this.analyticsService.getLearners(this.page, this.pageSize, +this.groupId, +this.courseId).subscribe(data => {
       this.progress = data.learnersProgress;
       this.count = data.count;
     });
@@ -69,5 +69,17 @@ export class KcmProgressComponent implements OnInit {
       return progress.filter(p => p.statistics.isSatisfied).length;
     }
     return progress.filter(p => p.kcUnitId === this.unitId && p.statistics.isSatisfied).length;
+  }
+
+  checkSuspiciousKcs(progress) {
+    let suspiciousKcs = 0;
+    const progressFiltered = progress.filter(p => p.kcUnitId === this.unitId);
+    progressFiltered.forEach(pf => {
+        if (pf.expectedDurationInMinutes > pf.durationOfFinishedSessionsInMinutes && pf.statistics.isSatisfied === true) {
+          suspiciousKcs++;
+        }
+      }
+    );
+    return suspiciousKcs;
   }
 }

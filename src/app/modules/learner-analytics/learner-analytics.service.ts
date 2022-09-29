@@ -33,10 +33,10 @@ export class LearnerAnalyticsService {
     }));
   }
 
-  getLearners(page: number, pageSize: number, groupId: number) {
+  getLearners(page: number, pageSize: number, groupId: number, courseId: number) {
     var baseParams = this.createParams(page, pageSize);
     baseParams.params = baseParams.params.append("groupId", groupId);
-
+    baseParams.params = baseParams.params.append("courseId", courseId);
     return this.http.get<any>(environment.apiHost + 'analytics/learner-progress', baseParams).pipe(map(data => {
         return {
           learnersProgress: data.results,
@@ -58,6 +58,14 @@ export class LearnerAnalyticsService {
   getUnits(): Observable<Unit[]> {
     // TODO: Find a better place for this code & refactor analytics
     return this.http.get<Unit[]>(environment.apiHost + "domain/units").pipe(map(data => {
+      let retVal = new Array();
+      data.forEach(d => retVal.push(new Unit(d)));
+      return retVal;
+    }));
+  }
+
+  getUnitsByCourse(courseId): Observable<Unit[]> {
+    return this.http.get<Unit[]>(environment.apiHost + "domain/units/" + courseId).pipe(map(data => {
       let retVal = new Array();
       data.forEach(d => retVal.push(new Unit(d)));
       return retVal;
