@@ -1,7 +1,7 @@
 export class KnowledgeComponentStatistics {
   mastery: number;
   totalCount: number;
-  completedCount: number;
+  passedCount: number;
   attemptedCount: number;
   isSatisfied: boolean;
 
@@ -9,7 +9,7 @@ export class KnowledgeComponentStatistics {
     if (obj) {
       this.mastery = obj.mastery;
       this.totalCount = obj.totalCount;
-      this.completedCount = obj.completedCount;
+      this.passedCount = obj.passedCount;
       this.attemptedCount = obj.attemptedCount;
       this.isSatisfied = obj.isSatisfied;
     }
