@@ -7,17 +7,17 @@ import { Component, Input, OnChanges } from '@angular/core';
   styleUrls: ['./assessments-table.component.scss'],
   animations: [
     trigger(
-      'detailExpand', 
+      'detailExpand',
       [
         transition(
-          ':enter', 
+          ':enter',
           [
             style({ height: 0, opacity: 0 }),
             animate('0.2s ease-out', style({ height: '*', opacity: 1 }))
           ]
         ),
         transition(
-          ':leave', 
+          ':leave',
           [
             style({ height: '*', opacity: 1 }),
             animate('0.2s ease-in', style({ height: 0, opacity: 0 }))
@@ -31,7 +31,7 @@ export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentMasteries: any[];
   @Input() kcUnitId: number;
   dataSource;
-  displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'completedCount', 'attemptedCount'];
+  displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'completedCount', 'attemptedCount', 'time'];
   expandedElement = new Object();
 
   constructor() { }

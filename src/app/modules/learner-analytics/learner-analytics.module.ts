@@ -8,6 +8,7 @@ import { AssessmentsTableComponent } from './assessments-table/assessments-table
 import { FormsModule } from '@angular/forms';
 import { KcStatisticsComponent } from './kc-statistics/kc-statistics.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -16,12 +17,13 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     AssessmentsTableComponent,
     KcStatisticsComponent
   ],
-  imports: [
-    CommonModule,
-    MaterialModule,
-    BrowserAnimationsModule,
-    FormsModule,
-    NgxChartsModule
-  ]
+    imports: [
+        CommonModule,
+        MaterialModule,
+        BrowserAnimationsModule,
+        FormsModule,
+        NgxChartsModule,
+        MatExpansionModule
+    ]
 })
 export class LearnerAnalyticsModule { }

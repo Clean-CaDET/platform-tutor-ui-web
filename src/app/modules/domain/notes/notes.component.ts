@@ -40,7 +40,6 @@ export class NotesComponent implements OnInit {
         this.onCancel();
       }
     );
-    console.log(this.notes);
   }
 
   onUpdate(note: Note): void {
@@ -52,7 +51,6 @@ export class NotesComponent implements OnInit {
   }
 
   onDelete(noteId: string): void {
-    console.log(noteId);
     this.noteService.deleteNote(+noteId).subscribe(
       id => {
         this.notes.splice(this.notes.findIndex(note => note.id === id), 1);
