@@ -2,9 +2,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {filter, map, Subject} from 'rxjs';
+import {filter, Subject} from 'rxjs';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import { Learner } from '../learner/learner.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +12,6 @@ export class InterfacingInstructor {
   observedAeEvaluations: Subject<number> = new Subject();
   openEmotionsFormEvent: Subject<void> = new Subject<void>();
   private tutorActionActivated = false;
-  private tutorName = 'Kadet';
   kcId: number;
 
   constructor(private tutorToaster: MatSnackBar, private http: HttpClient,
@@ -32,7 +30,7 @@ export class InterfacingInstructor {
 
   submit(correctnessLevel: number): void {
     this.tutorActionActivated = false;
-    this.tutorActionActivated = this.tryFeedbackPopup();
+    //this.tutorActionActivated = this.tryFeedbackPopup();
     if (!this.tutorActionActivated) {
       this.tutorActionActivated = this.tryAeEvaluationMessage(correctnessLevel);
     }
@@ -122,40 +120,6 @@ export class InterfacingInstructor {
       message = 'Svakim satom sve više napredujemo 🤓.';
     }
     this.presentMessage(message, '🎉', 5);
-  }
-
-  greet(): void {
-    this.http.get(environment.apiHost + "learners/profile").pipe(map(data => { //TODO: Move to learner service.
-      return new Learner(data)
-    }))
-    .subscribe(learner => {
-      const studentName = this.modifyName(learner.name);
-      const rnd = this.getRandomNumber(3);
-      const message = this.prepareGreetMessage(studentName, rnd);
-      this.presentMessage(message, '👋', 15, false);
-    });
-  }
-
-  private modifyName(baseName: string) {
-    if(baseName.endsWith('a') || baseName.endsWith('e') || baseName.endsWith('i') || baseName.endsWith('o') || baseName.endsWith('u')) {
-      return baseName;
-    }
-    return baseName + 'e';
-  }
-
-  prepareGreetMessage(studentName: string, rnd: number) {
-    let message: string;
-    if (rnd == 1) {
-      this.tutorName = 'Kadet';
-      message = 'Ćaos, ' + studentName + ' 🙂. Moje ime je ' + this.tutorName + ' i danas ću te pratiti dok razvijaš svoje veštine, kako bih ja nešto naučio. Sretno sa zadacima!';
-    } else if (rnd == 2) {
-      this.tutorName = 'Mona';
-      message = 'Hej, ' + studentName + ' 🙂. Zovem se ' + this.tutorName + ' i danas ćemo se družiti. Posebno bih volela da čujem kako se snalaziš tokom rada, pa te molim da podeliš svoje misli i osećanja kad te pingam.';
-    } else {
-      this.tutorName = 'Nirko';
-      message = 'Zdravo, ' + studentName + ' 🙂. Ime mi je ' + this.tutorName + ' i danas te bodrim dok učiš. Zamolio bih te da ostaviš par komentara na samom kraju tvoje sesije o čitavom utisku, pa da uposlim profesore da me unapređuju.';
-    }
-    return message;
   }
 
   private presentMessage(message: string, action: string, durationInSeconds: number, generateEvent = true) {
