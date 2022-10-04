@@ -27,6 +27,8 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
 import { MultipleChoiceQuestionComponent } from './learning-objects/multiple-choice-question/multiple-choice-question.component';
 import {CourseComponent} from './course/course.component';
+import {InstructorCourseComponent} from './course/instructor-course/instructor-course.component';
+import {LearnerCourseComponent} from './course/learner-course/learner-course.component';
 
 @NgModule({
     declarations: [
@@ -47,7 +49,9 @@ import {CourseComponent} from './course/course.component';
         EmotionsComponent,
         TutorImprovementComponent,
         MultipleChoiceQuestionComponent,
-        CourseComponent
+        CourseComponent,
+        InstructorCourseComponent,
+        LearnerCourseComponent
     ],
     imports: [
         BrowserModule,
@@ -67,7 +71,9 @@ import {CourseComponent} from './course/course.component';
         SubmissionResultComponent,
         KnowledgeMapComponent,
         EmotionsComponent,
-        TutorImprovementComponent
+        TutorImprovementComponent,
+        InstructorCourseComponent,
+        LearnerCourseComponent
     ]
 })
 export class DomainModule {

@@ -22,10 +22,10 @@ export class CourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      this.authService.user$.subscribe(user => {
+        this.user = user;
+      });
       this.courseService.getCourse(+params.courseId).subscribe(course => this.course = course);
-    });
-    this.authService.user$.subscribe(user => {
-      this.user = user;
     });
   }
 }
