@@ -13,14 +13,14 @@ import {CourseComponent} from '../modules/domain/course/course.component';
 const routes: Routes = [
   {path: 'home', component: HomeComponent},
   {path: 'login', component: LoginComponent},
+  {path: 'courses/:courseId', component: CourseComponent},
 
-  {path: 'unit/:unitId', component: UnitComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
-  {path: 'unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
+  {path: 'course/:courseId/unit/:unitId', component: UnitComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
+  {path: 'course/:courseId/unit/:unitId/kc/:kcId', component: KnowledgeComponentComponent, canActivate: [AuthGuard], data: {role: 'learner'}},
 
   {path: 'analytics/events', component: EventsTableComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: 'analytics/kc-statistics', component: KcStatisticsComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
   {path: 'course/:courseId/learner-progress/:unitId', component: KcmProgressComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
-  {path: 'courses/:courseId', component: CourseComponent, canActivate: [AuthGuard], data: {role: 'instructor'}},
 
   {path: '', redirectTo: '/home', pathMatch: 'full'},
   {path: '**', component: HomeComponent}
