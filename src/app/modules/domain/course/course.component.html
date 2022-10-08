@@ -1,5 +1,8 @@
-<br>
-<h2 id="courseName">{{course.name}}</h2>
-<markdown>{{course.description}}</markdown>
-<cc-instructor-course *ngIf="user?.role === 'instructor'"></cc-instructor-course>
-<cc-learner-course [course]=course *ngIf="user?.role === 'learner'"></cc-learner-course>
+<div fxFlex></div>
+<div *ngIf="course" fxFlex="90">
+    <h2 id="courseName">{{course.name}}</h2>
+    <markdown>{{course.description}}</markdown>
+    <cc-instructor-course *ngIf="user?.role === 'instructor'"></cc-instructor-course>
+    <cc-learner-course [course]=course *ngIf="user?.role === 'learner'"></cc-learner-course>
+</div>
+<div fxFlex></div>

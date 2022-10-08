@@ -23,6 +23,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   passedCount: number;
   attemptedCount: number;
   unitId: number;
+  courseId: number;
   isSatisfied: boolean;
   private observedAeEvaluations: Subscription;
   private openEmotionsFormSubscription: Subscription;
@@ -36,6 +37,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
+      this.courseId = +params.courseId;
     });
     this.observedAeEvaluations = this.instructor.observedAeEvaluations.subscribe(value => {
       {

@@ -10,7 +10,7 @@ import {CourseService} from '../course.service';
 })
 export class InstructorCourseComponent implements OnInit {
 
-  course: Course;
+  course: Course = new Course();
 
   constructor(private route: ActivatedRoute,
               private courseService: CourseService) {

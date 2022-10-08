@@ -13,17 +13,14 @@ import {InstructorService} from '../../instructor/instructor.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  units: Unit[];
   courses: Course[];
   user: User;
 
-  constructor(private unitService: UnitService,
-              private authService: AuthenticationService,
+  constructor(private authService: AuthenticationService,
               private learnerService: LearnerService,
               private instructorService: InstructorService) { }
 
   ngOnInit(): void {
-    this.unitService.getUnits().subscribe(units => this.units = units);
     this.authService.user$.subscribe(user => {
       if(user == null) return;
       this.user = user;
