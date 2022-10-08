@@ -20,9 +20,10 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   correctness = -1;
   mastery: number;
   totalCount: number;
-  completedCount: number;
+  passedCount: number;
   attemptedCount: number;
   unitId: number;
+  courseId: number;
   isSatisfied: boolean;
   private observedAeEvaluations: Subscription;
   private openEmotionsFormSubscription: Subscription;
@@ -36,6 +37,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
+      this.courseId = +params.courseId;
     });
     this.observedAeEvaluations = this.instructor.observedAeEvaluations.subscribe(value => {
       {
@@ -58,7 +60,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     this.unitService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
       this.mastery = result.mastery;
       this.totalCount = result.totalCount;
-      this.completedCount = result.completedCount;
+      this.passedCount = result.passedCount;
       this.attemptedCount = result.attemptedCount;
       this.emotionDialogEvent.emit(result.isSatisfied);
       this.isSatisfied = result.isSatisfied;
@@ -66,7 +68,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   }
 
   //TODO: This belongs to the interfacing instructor, but that service is growing into a god class.
-  //We should consider how to decompose the interfacing instructor 
+  //We should consider how to decompose the interfacing instructor
   openEmotionsDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;

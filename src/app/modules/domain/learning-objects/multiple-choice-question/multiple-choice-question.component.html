@@ -1,0 +1,16 @@
+<div>
+    <markdown lineNumbers>{{learningObject.text}}</markdown>
+    <mat-radio-group [(ngModel)]="checked" fxLayout="column" fxLayoutGap="10px">
+        <mat-radio-button *ngFor="let item of learningObject.possibleAnswers"
+            [value]="item" style="text-align: left" fxFlex [disabled]="evaluation"
+            [class]="evaluation ? checkItemCorrectness(item) : ''">
+            {{item}}
+        </mat-radio-button>
+    </mat-radio-group>
+    <br>
+    <div class="mat-card-subtitle" [class]="evaluation.correctnessLevel ? 'color-correct' : 'color-wrong'" *ngIf="evaluation">
+        Tačan odgovor: {{evaluation.correctAnswer}}<br>
+        {{evaluation.feedback}}
+    </div>
+    <button disabled="{{!checked}}" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
+</div>

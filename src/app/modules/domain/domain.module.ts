@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {ArrangeTaskComponent} from './learning-objects/arrange-task/arrange-task.component';
 import {ChallengeComponent} from './learning-objects/challenge/challenge.component';
 import {ImageComponent} from './learning-objects/image/image.component';
-import {QuestionComponent} from './learning-objects/question/question.component';
+import {MultipleResponseQuestionComponent} from './learning-objects/multiple-response-question/multiple-response-question.component';
 import {TextComponent} from './learning-objects/text/text.component';
 import {VideoComponent} from './learning-objects/video/video.component';
 import {LearningObjectDirective} from './learning-objects/learning-object.directive';
@@ -25,13 +25,17 @@ import {SubmissionResultComponent} from './submission-result/submission-result.c
 import {EmotionsComponent} from './feedback/emotions/emotions.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-improvement.component';
+import { MultipleChoiceQuestionComponent } from './learning-objects/multiple-choice-question/multiple-choice-question.component';
+import {CourseComponent} from './course/course.component';
+import {InstructorCourseComponent} from './course/instructor-course/instructor-course.component';
+import {LearnerCourseComponent} from './course/learner-course/learner-course.component';
 
 @NgModule({
     declarations: [
         ArrangeTaskComponent,
         ChallengeComponent,
         ImageComponent,
-        QuestionComponent,
+        MultipleResponseQuestionComponent,
         TextComponent,
         VideoComponent,
         LearningObjectDirective,
@@ -43,7 +47,11 @@ import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-impr
         ShortAnswerQuestionComponent,
         SubmissionResultComponent,
         EmotionsComponent,
-        TutorImprovementComponent
+        TutorImprovementComponent,
+        MultipleChoiceQuestionComponent,
+        CourseComponent,
+        InstructorCourseComponent,
+        LearnerCourseComponent
     ],
     imports: [
         BrowserModule,
@@ -63,7 +71,9 @@ import {TutorImprovementComponent} from './feedback/tutor-improvement/tutor-impr
         SubmissionResultComponent,
         KnowledgeMapComponent,
         EmotionsComponent,
-        TutorImprovementComponent
+        TutorImprovementComponent,
+        InstructorCourseComponent,
+        LearnerCourseComponent
     ]
 })
 export class DomainModule {

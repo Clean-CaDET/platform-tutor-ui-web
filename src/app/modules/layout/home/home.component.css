@@ -24,3 +24,5 @@ mat-icon.mat-card-avatar {
   flex-grow: 1;
   overflow: auto;
 }
+
+.card { cursor: pointer; }

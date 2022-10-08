@@ -5,63 +5,48 @@ import { KnowledgeComponent } from 'src/app/modules/domain/knowledge-component/m
 import { Unit } from 'src/app/modules/domain/unit/unit.model';
 import { UnitService } from 'src/app/modules/domain/unit/unit.service';
 import { InterfacingInstructor } from 'src/app/modules/instructor/interfacing-instructor.service';
+import {Course} from '../../../domain/course/course.model';
+import {LearnerService} from '../../../learner/learner.service';
 
 @Component({
   selector: 'cc-learner-controls',
   templateUrl: './learner-controls.component.html',
   styleUrls: ['./learner-controls.component.scss']
 })
-export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
+export class LearnerControlsComponent implements OnInit {
   units: Unit[];
   knowledgeComponents: KnowledgeComponent[];
-  selectedUnit: Unit;
-  selectedKC: KnowledgeComponent;
   @Input() learnerId: number;
-  aeEvaluationsSubscription: any;
+  courses: Course[];
+  selectedCourse: Course;
 
   constructor(private unitService: UnitService,
-    private router: Router, private route: ActivatedRoute,
-    private instructor: InterfacingInstructor) { }
+    private learnerService: LearnerService,
+    private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.aeEvaluationsSubscription = this.instructor.observedAeEvaluations.subscribe(() => this.updateKnowledgeComponents(this.selectedUnit.id));
-    this.setupActiveUnitAndKCUpdate();
-  }
-
-  ngOnChanges(): void {
-    if (!this.learnerId) {
-      this.resetNavBar();
-    }
-    else {
-      this.updateUnits();
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.aeEvaluationsSubscription.unsubscribe();
-  }
-
-  private updateUnits(): void {
-    this.unitService.getUnits().subscribe(units => {
-      this.units = units;
-      this.setupActiveUnitAndKCUpdate();
+    this.learnerService.getCourses().subscribe( courses => {
+      this.courses = courses;
     });
+    this.setupCourseUpdate();
   }
 
-  private setupActiveUnitAndKCUpdate(): void {
+  private setupCourseUpdate(): void {
     this.router.events.pipe(filter(e => e instanceof NavigationEnd),
       map(e => this.getParams(this.route))
     ).subscribe(params => {
-      if (this.unitIsChanged(params)) {
-        this.selectNewUnit(params);
-      } else if (params.kcId) {
-        this.selectedKC = this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId);
+      if(!params.courseId) {
+        this.selectedCourse = null;
+        return;
+      }
+      if (this.courseIsChanged(params)) {
+        this.selectedCourse = this.courses?.find(c => c.id == +params.courseId);
       }
     });
   }
 
-  private unitIsChanged(params: Params) {
-    return params.unitId && this.selectedUnit?.id != params.unitId;
+  private courseIsChanged(params: Params) {
+    return this.selectedCourse?.id != params.courseId;
   }
 
   private getParams(route: ActivatedRoute): Params {
@@ -73,38 +58,5 @@ export class LearnerControlsComponent implements OnInit, OnChanges, OnDestroy {
       };
     });
     return params;
-  }
-
-  private selectNewUnit(params: Params): void {
-    this.unitService.getUnit(+params.unitId).subscribe(fullUnit => {
-      this.knowledgeComponents = fullUnit.knowledgeComponents;
-      this.selectedUnit = fullUnit;
-      this.selectedKC = params.kcId ? this.findKC(this.selectedUnit.knowledgeComponents, +params.kcId) : null;
-    });
-  }
-
-  private updateKnowledgeComponents(unitId): void {
-    this.unitService.getUnit(unitId).subscribe(fullUnit => {
-      this.selectedUnit = fullUnit;
-    });
-  }
-
-  private findKC(knowledgeComponents: KnowledgeComponent[], id: number): KnowledgeComponent {
-    for (const kc of knowledgeComponents) {
-      if (kc.id === id) {
-        return kc;
-      }
-
-      const child = this.findKC(kc.knowledgeComponents, id);
-      if (child) {
-        return child;
-      }
-    }
-    return null;
-  }
-
-  resetNavBar(): void {
-    this.selectedUnit = null;
-    this.selectedKC = null;
   }
 }

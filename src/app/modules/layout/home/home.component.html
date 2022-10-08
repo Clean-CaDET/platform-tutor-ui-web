@@ -1,36 +1,56 @@
 <div class="content">
-    <h1>Clean CaDET Tutor</h1>
-    <p>
-      Clean CaDET Tutor je interaktivan i adaptivan sistem za elektronski podržano učenje, fokusiran na domen softverskog inženjerstva i specijalizovan za oblast dizajniranja čistog koda. Kako bi sistem mogao da se prati tvoj progres kroz gradivo, neophodno je da se prijaviš. Koristeći <b>Login</b> taster u navigacionoj traci pronađi formu za prijavu gde ćeš uneti svoj indeks i lozinku.
-    </p>
-    <hr>
-    <h2>Šta je čist kod i zašto je bitan?</h2>
-    <div style="text-align: center;">
-      <p style="text-align: justify;">Svaki izazov zahteva dobru motivaciju za njegovo rešavanje kako bismo uložili potrebnu energiju i vreme. Za izazov učenja čistog koda sagledavamo šta lideri iz naše industrije misle o značaju ove priče.</p>
-      <iframe width="888" height="500" src="https://www.youtube.com/embed/wcFFghYt8Js" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    </div>
-    <br>
-    <h2>Katalog lekcija</h2>
-    <p>Edukativni sadržaj Tutora je organizovan u <b>lekcije</b>, koje su potom segmentirane na <b>veštine</b>. Svaka veština prezentuje određeno znanje kroz <b>gradivo</b>. Zatim je neophodno da pristupiš rešavanju povezanih <b>zadataka</b> kako bi demonstrirao da si usvojio znanje i razvio zadovoljavajući stepen povezane veštine. Neophodno je savladati sve veštine lekcije da bi se ona kompletirala.</p>
-    <div fxLayout="row wrap">
-      <mat-card style="margin: 10px;" *ngFor="let unit of units"
-                fxFlex="30"
-                fxFlex.md="45"
-                fxFlex.sm="100"
-                fxFlex.xs="100">
-        <mat-card-header>
-          <mat-icon mat-card-avatar>book</mat-icon>
-          <mat-card-title style="text-align: left;">{{unit.name}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            <markdown>{{unit.description}}</markdown>
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-raised-button color="primary" [routerLink]="'/unit/' + unit.id">Istraži</a>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+  <h1>Clean CaDET Tutor</h1>
+  <p>
+    Clean CaDET Tutor je interaktivan sistem za elektronski podržano učenje, fokusiran na domen softverskog
+    inženjerstva. Kako bi sistem mogao da se prati tvoj progres kroz gradivo, neophodno je da se prijaviš. Koristeći <b>Login</b>
+    taster u navigacionoj traci pronađi formu za prijavu gde ćeš uneti svoj indeks i lozinku.
+  </p>
+  <p>
+    Edukativni sadržaj Tutora je definisan u okviru <b>kursa</b>, koji se sastoji od <b>lekcija</b>. Lekcije su
+    segmentirane na sitne celine koje zovemo <b>veštine</b>. Odabirom veštine sistem ti prezentuje znanje kroz <b>gradivo</b>.
+    Kada prođeš gradivo, neophodno je da pristupiš rešavanju povezanih <b>zadataka</b> kako bi demonstrirao da si
+    usvojio znanje i razvio zadovoljavajući stepen povezane veštine. Neophodno je savladati sve veštine lekcije da bi se
+    ona kompletirala.</p>
+  <p>
+    Nakon što se prijaviš, videćeš spisak kurseva na koje si prijavljen u nastavku. Odabirom kursa dobijaš spisak
+    lekcija koje su ti dostupne. Postaraj se da pregledaš i savladaš svaku lekciju.
+  </p>
+  <hr>
+  <h2>Katalog kurseva</h2>
+
+  <div fxLayout="row wrap" *ngIf="user?.role === 'instructor'">
+    <mat-card class="card" style="margin: 10px;" *ngFor="let course of courses"
+              fxFlex="45"
+              fxFlex.sm="100"
+              fxFlex.xs="100"
+              [routerLink]="'/courses/' + course.id">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>book</mat-icon>
+        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <markdown>{{course.description}}</markdown>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div fxLayout="row wrap" *ngIf="user?.role === 'learner'">
+    <mat-card class="card" style="margin: 10px;" *ngFor="let course of courses"
+              fxFlex="45"
+              fxFlex.sm="100"
+              fxFlex.xs="100"
+              [routerLink]="'/courses/' + course.id">
+      <mat-card-header>
+        <mat-icon mat-card-avatar>book</mat-icon>
+        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          <markdown>{{course.description}}</markdown>
+        </p>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>
 <br><br>

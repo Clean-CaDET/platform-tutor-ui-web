@@ -1,0 +1,15 @@
+:host ::ng-deep .color-correct .mat-radio-label-content {
+  color: #3CA0FF !important
+}
+
+:host ::ng-deep .color-wrong .mat-radio-label-content {
+  color: #FF3C47 !important
+}
+
+.color-correct {
+  color: #3CA0FF
+}
+
+.color-wrong {
+  color: #FF3C47
+}

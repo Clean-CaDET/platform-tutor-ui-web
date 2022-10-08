@@ -17,6 +17,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatRadioModule} from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -40,6 +41,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatRadioModule,
     MatSelectModule,
     FlexLayoutModule
   ],
@@ -62,6 +64,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSlideToggleModule,
     MatTableModule,
     MatPaginatorModule,
+    MatRadioModule,
     MatSelectModule,
     FlexLayoutModule
   ]

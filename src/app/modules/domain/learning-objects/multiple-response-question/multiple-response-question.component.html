@@ -6,6 +6,7 @@
         <mat-checkbox [disabled]="evaluation" [(ngModel)]="checked[i]" style="text-align: left">
           {{answer.text}}
         </mat-checkbox>
+        <br>
         <div
           [class]="getAnswerResult(answer.id).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
           class="mat-card-subtitle"
