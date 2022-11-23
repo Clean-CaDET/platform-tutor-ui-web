@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { LearnerService } from 'src/app/modules/learner/learner.service';
-import {Course} from '../../../domain/course/course.model';
-import {InstructorService} from '../../../instructor/instructor.service';
+import { Course } from '../../../learning/course/course.model';
+import { InstructorService } from '../../../group-monitoring/instructor/instructor.service';
+import { LayoutService } from '../../layout.service';
 
 @Component({
   selector: 'cc-instructor-controls',
   templateUrl: './instructor-controls.component.html',
-  styleUrls: ['./instructor-controls.component.scss']
+  styleUrls: ['./instructor-controls.component.scss'],
 })
 export class InstructorControlsComponent implements OnInit {
   groups: LearnerGroup[];
@@ -16,34 +16,44 @@ export class InstructorControlsComponent implements OnInit {
   selectedCourse: Course;
   courses: Course[];
 
-  constructor(private learnerService: LearnerService,
+  constructor(
+    private layoutService: LayoutService,
     private instructorService: InstructorService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.setupCourseUpdate();
     this.setupGroupUpdate();
-    this.instructorService.getCourses().subscribe( courses => {
+    this.instructorService.getCourses().subscribe((courses) => {
       this.courses = courses;
     });
-    this.learnerService.getGroups().subscribe(groups => {
+    this.layoutService.getGroups().subscribe((groups) => {
       this.groups = groups;
-      this.selectedGroup = this.groups.find(g => g.id == this.getParams(this.route).groupId); // extract this common behavior somewhere
+      this.selectedGroup = this.groups.find(
+        (g) => g.id == this.getParams(this.route).groupId
+      ); // extract this common behavior somewhere
     });
   }
 
   private setupCourseUpdate(): void {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
-      map(e => this.getParams(this.route))
-    ).subscribe(params => {
-      if(!params.courseId) {
-        this.selectedCourse = null;
-        return;
-      }
-      if (this.courseIsChanged(params)) {
-        this.selectedCourse = this.courses?.find(c => c.id == +params.courseId);
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e) => this.getParams(this.route))
+      )
+      .subscribe((params) => {
+        if (!params.courseId) {
+          this.selectedCourse = null;
+          return;
+        }
+        if (this.courseIsChanged(params)) {
+          this.selectedCourse = this.courses?.find(
+            (c) => c.id == +params.courseId
+          );
+        }
+      });
   }
 
   private courseIsChanged(params: Params) {
@@ -51,17 +61,22 @@ export class InstructorControlsComponent implements OnInit {
   }
 
   private setupGroupUpdate(): void {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
-      map(e => this.getParams(this.route))
-    ).subscribe(params => {
-      if(!params.groupId) {
-        this.selectedGroup = null;
-        return;
-      }
-      if (this.groupIsChanged(params)) {
-        this.selectedGroup = this.groups?.find(g => g.id == +params.groupId);
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e) => this.getParams(this.route))
+      )
+      .subscribe((params) => {
+        if (!params.groupId) {
+          this.selectedGroup = null;
+          return;
+        }
+        if (this.groupIsChanged(params)) {
+          this.selectedGroup = this.groups?.find(
+            (g) => g.id == +params.groupId
+          );
+        }
+      });
   }
 
   private groupIsChanged(params: Params) {
@@ -70,10 +85,10 @@ export class InstructorControlsComponent implements OnInit {
 
   private getParams(route: ActivatedRoute): Params {
     let params = route.snapshot.params;
-    route.children?.forEach(c => {
+    route.children?.forEach((c) => {
       params = {
         ...this.getParams(c),
-        ...params
+        ...params,
       };
     });
     return params;

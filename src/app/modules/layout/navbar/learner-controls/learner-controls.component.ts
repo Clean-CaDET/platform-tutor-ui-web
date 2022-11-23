@@ -1,17 +1,15 @@
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { NavigationEnd, Params, ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { KnowledgeComponent } from 'src/app/modules/domain/knowledge-component/model/knowledge-component.model';
-import { Unit } from 'src/app/modules/domain/unit/unit.model';
-import { UnitService } from 'src/app/modules/domain/unit/unit.service';
-import { InterfacingInstructor } from 'src/app/modules/instructor/interfacing-instructor.service';
-import {Course} from '../../../domain/course/course.model';
-import {LearnerService} from '../../../learner/learner.service';
+import { KnowledgeComponent } from 'src/app/modules/learning/knowledge-component/model/knowledge-component.model';
+import { Unit } from 'src/app/modules/learning/unit/unit.model';
+import { Course } from '../../../learning/course/course.model';
+import { LayoutService } from '../../layout.service';
 
 @Component({
   selector: 'cc-learner-controls',
   templateUrl: './learner-controls.component.html',
-  styleUrls: ['./learner-controls.component.scss']
+  styleUrls: ['./learner-controls.component.scss'],
 })
 export class LearnerControlsComponent implements OnInit {
   units: Unit[];
@@ -20,29 +18,36 @@ export class LearnerControlsComponent implements OnInit {
   courses: Course[];
   selectedCourse: Course;
 
-  constructor(private unitService: UnitService,
-    private learnerService: LearnerService,
-    private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private layoutService: LayoutService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.learnerService.getCourses().subscribe( courses => {
+    this.layoutService.getCourses().subscribe((courses) => {
       this.courses = courses;
     });
     this.setupCourseUpdate();
   }
 
   private setupCourseUpdate(): void {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
-      map(e => this.getParams(this.route))
-    ).subscribe(params => {
-      if(!params.courseId) {
-        this.selectedCourse = null;
-        return;
-      }
-      if (this.courseIsChanged(params)) {
-        this.selectedCourse = this.courses?.find(c => c.id == +params.courseId);
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e) => this.getParams(this.route))
+      )
+      .subscribe((params) => {
+        if (!params.courseId) {
+          this.selectedCourse = null;
+          return;
+        }
+        if (this.courseIsChanged(params)) {
+          this.selectedCourse = this.courses?.find(
+            (c) => c.id == +params.courseId
+          );
+        }
+      });
   }
 
   private courseIsChanged(params: Params) {
@@ -51,10 +56,10 @@ export class LearnerControlsComponent implements OnInit {
 
   private getParams(route: ActivatedRoute): Params {
     let params = route.snapshot.params;
-    route.children?.forEach(c => {
+    route.children?.forEach((c) => {
       params = {
         ...this.getParams(c),
-        ...params
+        ...params,
       };
     });
     return params;

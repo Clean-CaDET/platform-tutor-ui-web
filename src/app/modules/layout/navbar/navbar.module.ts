@@ -1,26 +1,19 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NavbarComponent } from './navbar.component';
-import { MaterialModule } from '../../../infrastructure/material.module';
-import { AppRoutingModule } from '../../../infrastructure/app-routing.module';
-import {DomainModule} from '../../domain/domain.module';
-import { LearnerControlsComponent } from './learner-controls/learner-controls.component';
+import { AppRoutingModule } from 'src/app/infrastructure/app-routing.module';
+import { MaterialModule } from 'src/app/infrastructure/material.module';
+import { LearningModule } from '../../learning/learning.module';
 import { InstructorControlsComponent } from './instructor-controls/instructor-controls.component';
+import { LearnerControlsComponent } from './learner-controls/learner-controls.component';
+import { NavbarComponent } from './navbar.component';
 
 @NgModule({
   declarations: [
     NavbarComponent,
     LearnerControlsComponent,
-    InstructorControlsComponent
+    InstructorControlsComponent,
   ],
-  imports: [
-    BrowserModule,
-    MaterialModule,
-    AppRoutingModule,
-    DomainModule
-  ],
-  exports: [
-    NavbarComponent,
-  ]
+  imports: [BrowserModule, MaterialModule, AppRoutingModule, LearningModule],
+  exports: [NavbarComponent],
 })
-export class NavbarModule { }
+export class NavbarModule {}

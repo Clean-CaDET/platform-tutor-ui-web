@@ -1,20 +1,21 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {FlexLayoutModule} from '@angular/flex-layout';
-import {MarkdownModule, MarkedOptions, MarkedRenderer} from 'ngx-markdown';
-import {AppComponent} from './app.component';
-import {AppRoutingModule} from './infrastructure/app-routing.module';
-import {MaterialModule} from './infrastructure/material.module';
-import {DomainModule} from './modules/domain/domain.module';
-import {NavbarModule} from './modules/layout/navbar/navbar.module';
-import {LayoutModule} from './modules/layout/layout.module';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NotesModule} from './modules/domain/notes/notes.module';
-import {AuthenticationModule} from './infrastructure/auth/auth.module';
-import {JwtInterceptor} from './infrastructure/auth/jwt/jwt.interceptor';
-import { LearnerAnalyticsModule } from './modules/learner-analytics/learner-analytics.module';
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { AppComponent } from './app.component';
+import { AppRoutingModule } from './infrastructure/app-routing.module';
+import { MaterialModule } from './infrastructure/material.module';
+import { LayoutModule } from './modules/layout/layout.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthenticationModule } from './infrastructure/auth/auth.module';
+import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
+import { LearningModule } from './modules/learning/learning.module';
+import { LearningUtilitiesModule } from './modules/learning-utilities/learning-utilities.module';
+import { NavbarModule } from './modules/layout/navbar/navbar.module';
+import { GroupMonitoringModule } from './modules/group-monitoring/group-monitoring.module';
+import { DomainKnowledgeAnalyticsModule } from './modules/domain-knowledge-analytics/domain-knowledge-analytics.module';
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -34,9 +35,7 @@ export function markdownConfiguration(): MarkedOptions {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -48,25 +47,24 @@ export function markdownConfiguration(): MarkedOptions {
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MarkedOptions,
-        useFactory: markdownConfiguration
-      }
+        useFactory: markdownConfiguration,
+      },
     }),
     ReactiveFormsModule,
     LayoutModule,
     NavbarModule,
-    DomainModule,
-    NotesModule,
+    LearningModule,
     FormsModule,
-    LearnerAnalyticsModule
+    GroupMonitoringModule,
+    DomainKnowledgeAnalyticsModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: JwtInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}
