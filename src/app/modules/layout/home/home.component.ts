@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
+import { User } from 'src/app/infrastructure/auth/user.model';
 import { Course } from '../../learning/course/course.model';
-import { User } from '../../../infrastructure/auth/user.model';
-import { AuthenticationService } from '../../../infrastructure/auth/auth.service';
-import { InstructorService } from '../../group-monitoring/instructor/instructor.service';
+import { LayoutInstructorService } from '../layout-instructor.service';
 import { LayoutService } from '../layout.service';
 
 @Component({
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private layoutService: LayoutService,
-    private instructorService: InstructorService
+    private layoutInstructorService: LayoutInstructorService
   ) {}
 
   ngOnInit(): void {
@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
           this.courses = courses;
         });
       } else if (this.user.role == 'instructor') {
-        this.instructorService.getCourses().subscribe((courses) => {
+        this.layoutInstructorService.getCourses().subscribe((courses) => {
           this.courses = courses;
         });
       }

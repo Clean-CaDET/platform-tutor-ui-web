@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { InterfacingInstructor } from '../../../group-monitoring/instructor/interfacing-instructor.service';
+import { InterfacingInstructor } from '../../../learning-utilities/interfacing-instructor.service';
 import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';

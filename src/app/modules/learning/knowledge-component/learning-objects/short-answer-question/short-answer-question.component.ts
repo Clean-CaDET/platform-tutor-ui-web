@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { LearningObjectComponent } from '../learning-object-component';
 import { ShortAnswerQuestion } from './short-answer-question.model';
 import { SaqEvaluation } from './saq-evaluation.model';
-import { InterfacingInstructor } from '../../../../group-monitoring/instructor/interfacing-instructor.service';
+import { InterfacingInstructor } from '../../../../learning-utilities/interfacing-instructor.service';
 import { ShortAnswerQuestionService } from './short-answer-question.service';
 
 @Component({

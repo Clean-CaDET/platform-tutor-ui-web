@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearnerGroup } from '../../learning/learner/learner-group.model';
 import { Unit } from '../../learning/unit/unit.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
-import { InstructorService } from '../instructor/instructor.service';
 
 @Component({
   selector: 'cc-kcm-progress',
@@ -25,8 +24,7 @@ export class KcmProgressComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private groupMonitoringService: GroupMonitoringService,
-    private instructorService: InstructorService
+    private groupMonitoringService: GroupMonitoringService
   ) {}
 
   ngOnInit(): void {
@@ -41,7 +39,7 @@ export class KcmProgressComponent implements OnInit {
   }
 
   private getLearnerGroups() {
-    this.instructorService.getGroups(this.courseId).subscribe((groups) => {
+    this.groupMonitoringService.getGroups(this.courseId).subscribe((groups) => {
       this.groups = groups;
       this.groupId = this.groups[0].id;
       this.getLearnerProgress();

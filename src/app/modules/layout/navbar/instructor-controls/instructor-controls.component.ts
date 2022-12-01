@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { Course } from '../../../learning/course/course.model';
-import { InstructorService } from '../../../group-monitoring/instructor/instructor.service';
+import { Course } from 'src/app/modules/learning/course/course.model';
+import { LayoutInstructorService } from '../../layout-instructor.service';
 import { LayoutService } from '../../layout.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class InstructorControlsComponent implements OnInit {
 
   constructor(
     private layoutService: LayoutService,
-    private instructorService: InstructorService,
+    private layoutInstructorService: LayoutInstructorService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -26,7 +26,7 @@ export class InstructorControlsComponent implements OnInit {
   ngOnInit(): void {
     this.setupCourseUpdate();
     this.setupGroupUpdate();
-    this.instructorService.getCourses().subscribe((courses) => {
+    this.layoutInstructorService.getCourses().subscribe((courses) => {
       this.courses = courses;
     });
     this.layoutService.getGroups().subscribe((groups) => {

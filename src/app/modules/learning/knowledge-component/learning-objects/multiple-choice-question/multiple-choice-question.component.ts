@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InterfacingInstructor } from 'src/app/modules/group-monitoring/instructor/interfacing-instructor.service';
+import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
 import { shuffleArray } from 'src/app/shared/helpers/arrays';
 import { LearningObjectComponent } from '../learning-object-component';
 import { McqEvaluation } from './model/mcq-evaluation.model';

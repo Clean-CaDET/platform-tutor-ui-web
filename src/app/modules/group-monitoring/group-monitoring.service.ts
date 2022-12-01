@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Course } from '../learning/course/course.model';
+import { LearnerGroup } from '../learning/learner/learner-group.model';
 import { Unit } from '../learning/unit/unit.model';
 
 @Injectable({
@@ -46,6 +47,20 @@ export class GroupMonitoringService {
           let retVal = new Array();
           data.forEach((d) => retVal.push(new Unit(d)));
           return retVal;
+        })
+      );
+  }
+
+  getGroups(courseId: number): Observable<LearnerGroup[]> {
+    return this.http
+      .get<LearnerGroup[]>(
+        environment.apiHost + 'instructors/groups/' + courseId
+      )
+      .pipe(
+        map((g) => {
+          const groups = [];
+          g.forEach((group) => groups.push(new LearnerGroup(group)));
+          return groups;
         })
       );
   }

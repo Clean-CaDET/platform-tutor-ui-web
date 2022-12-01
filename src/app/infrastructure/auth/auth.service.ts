@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {environment} from '../../../environments/environment';
-import {tap} from 'rxjs/operators';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {TokenStorage} from './jwt/token.service';
-import {AuthenticationResponse} from './jwt/authentication-response.model';
-import {Router} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { TokenStorage } from './jwt/token.service';
+import { AuthenticationResponse } from './jwt/authentication-response.model';
+import { Router } from '@angular/router';
 import { User } from './user.model';
-import {FormControl, ɵFormGroupValue, ɵTypedOrUntyped} from '@angular/forms';
+import { FormControl, ɵFormGroupValue, ɵTypedOrUntyped } from '@angular/forms';
 
 interface CredentialsDto {
   username: string;
@@ -15,21 +15,44 @@ interface CredentialsDto {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   user$ = new BehaviorSubject(null);
 
-  constructor(private http: HttpClient, private tokenStorage: TokenStorage, private router: Router) {
-  }
+  constructor(
+    private http: HttpClient,
+    private tokenStorage: TokenStorage,
+    private router: Router
+  ) {}
 
-  login(credentialsDto: ɵTypedOrUntyped<{ password: FormControl<string | null>; username: FormControl<string | null> },
-    ɵFormGroupValue<{ password: FormControl<string | null>; username: FormControl<string | null> }>, any>): Observable<any> {
-    return this.http.post<AuthenticationResponse>(environment.apiHost + 'users/login', credentialsDto)
-      .pipe(tap(authenticationResponse => {
-        this.tokenStorage.saveTokensAndUser(authenticationResponse, credentialsDto.username);
-        this.setUser(this.tokenStorage.getUser());
-      }));
+  login(
+    credentialsDto: ɵTypedOrUntyped<
+      {
+        password: FormControl<string | null>;
+        username: FormControl<string | null>;
+      },
+      ɵFormGroupValue<{
+        password: FormControl<string | null>;
+        username: FormControl<string | null>;
+      }>,
+      any
+    >
+  ): Observable<any> {
+    return this.http
+      .post<AuthenticationResponse>(
+        environment.apiHost + 'users/login',
+        credentialsDto
+      )
+      .pipe(
+        tap((authenticationResponse) => {
+          this.tokenStorage.saveTokensAndUser(
+            authenticationResponse,
+            credentialsDto.username
+          );
+          this.setUser(this.tokenStorage.getUser());
+        })
+      );
   }
 
   setUser(user: User): void {
@@ -46,9 +69,5 @@ export class AuthenticationService {
     this.tokenStorage.clear();
     this.user$.next(null);
     this.router.navigate(['home']);
-  }
-
-  getGroups() {
-    return this.http.get<any[]>(environment.apiHost + 'learners/groups');
   }
 }

@@ -12,8 +12,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthenticationModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearningModule } from './modules/learning/learning.module';
-import { LearningUtilitiesModule } from './modules/learning-utilities/learning-utilities.module';
-import { NavbarModule } from './modules/layout/navbar/navbar.module';
 import { GroupMonitoringModule } from './modules/group-monitoring/group-monitoring.module';
 import { DomainKnowledgeAnalyticsModule } from './modules/domain-knowledge-analytics/domain-knowledge-analytics.module';
 
@@ -52,7 +50,6 @@ export function markdownConfiguration(): MarkedOptions {
     }),
     ReactiveFormsModule,
     LayoutModule,
-    NavbarModule,
     LearningModule,
     FormsModule,
     GroupMonitoringModule,

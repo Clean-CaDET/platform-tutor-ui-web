@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InterfacingInstructor } from '../../../../group-monitoring/instructor/interfacing-instructor.service';
+import { InterfacingInstructor } from '../../../../learning-utilities/interfacing-instructor.service';
 import { LearningObjectComponent } from '../learning-object-component';
 import { Challenge } from './challenge.model';
 import { ChallengeService } from './challenge.service';

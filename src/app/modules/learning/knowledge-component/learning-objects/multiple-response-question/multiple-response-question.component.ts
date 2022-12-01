@@ -6,7 +6,7 @@ import { MrqItem } from './model/answer.model';
 import { shuffleArray } from '../../../../../shared/helpers/arrays';
 import { MrqEvaluation } from './model/mrq-evaluation.model';
 import { MrqItemEvaluation } from './model/mrq-item-evaluation.model';
-import { InterfacingInstructor } from '../../../../group-monitoring/instructor/interfacing-instructor.service';
+import { InterfacingInstructor } from '../../../../learning-utilities/interfacing-instructor.service';
 
 @Component({
   selector: 'cc-multiple-response-question',
