@@ -9,6 +9,7 @@ import { EventsTableComponent } from '../modules/domain-knowledge-analytics/even
 import { CourseComponent } from '../modules/learning/course/course.component';
 import { KcmProgressComponent } from '../modules/group-monitoring/kcm-progress/kcm-progress.component';
 import { KcStatisticsComponent } from '../modules/domain-knowledge-analytics/kc-statistics/kc-statistics.component';
+import { StakeholdersComponent } from '../modules/management/stakeholders/stakeholders/stakeholders.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -45,6 +46,12 @@ const routes: Routes = [
     component: KcmProgressComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
+  },
+  {
+    path: 'management/stakeholders/:type',
+    component: StakeholdersComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'administrator' },
   },
 
   { path: '', redirectTo: '/home', pathMatch: 'full' },

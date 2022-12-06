@@ -14,6 +14,7 @@ import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearningModule } from './modules/learning/learning.module';
 import { GroupMonitoringModule } from './modules/group-monitoring/group-monitoring.module';
 import { DomainKnowledgeAnalyticsModule } from './modules/domain-knowledge-analytics/domain-knowledge-analytics.module';
+import { StakeholdersModule } from './modules/management/stakeholders/stakeholders.module';
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -54,6 +55,7 @@ export function markdownConfiguration(): MarkedOptions {
     FormsModule,
     GroupMonitoringModule,
     DomainKnowledgeAnalyticsModule,
+    StakeholdersModule
   ],
   providers: [
     {
