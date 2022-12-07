@@ -9,11 +9,6 @@ import { Router } from '@angular/router';
 import { User } from './user.model';
 import { FormControl, ɵFormGroupValue, ɵTypedOrUntyped } from '@angular/forms';
 
-interface CredentialsDto {
-  username: string;
-  password: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LearningEvent } from './learning-event';
 import { ngxCsv } from 'ngx-csv';
-import { DomainKnowledgeAnalyticsService } from '../domain-knowledge-analytics.service';
+import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 
 @Component({
   selector: 'cc-events-table',
@@ -40,7 +40,7 @@ export class EventsTableComponent implements OnInit {
   };
 
   constructor(
-    private domainKnowledgeAnalyticsService: DomainKnowledgeAnalyticsService
+    private domainKnowledgeAnalyticsService: KnowledgeAnalyticsService
   ) {}
 
   ngOnInit(): void {

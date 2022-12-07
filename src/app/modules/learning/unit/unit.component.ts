@@ -1,7 +1,7 @@
 import { Component, Injectable, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
-import { TutorImprovementComponent } from '../../learning-utilities/tutor-improvement/tutor-improvement.component';
+import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
 import { LearningService } from '../learning.service';
 import { Unit } from './unit.model';
 
