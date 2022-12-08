@@ -1,5 +1,11 @@
-<cc-generic-table
-  [columns]="columns"
-  [labels]="labels"
-  [httpService]="service">
-</cc-generic-table>
+<div fxFlex fxLayout="row">
+  <cc-generic-table fxFlex="75"
+    [columnConfiguration]="columns"
+    [labels]="labels"
+    [httpService]="service">
+  </cc-generic-table>
+  <cc-generic-form fxFlex="25"
+    [columnConfiguration]="columns"
+    [labels]="labels">
+  </cc-generic-form>
+</div>

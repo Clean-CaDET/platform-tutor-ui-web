@@ -13,13 +13,14 @@ export class GenericTableComponent implements OnInit {
   @Input() httpService : CrudService<any>;
   data;
 
-  @Input() columns;
+  @Input() columnConfiguration;
+  columns;
   @Input() labels;
 
   @Input() pageProperties = {
     page: 0,
-    pageSize: 2,
-    pageSizeOptions: [1, 2, 6]
+    pageSize: 36,
+    pageSizeOptions: [18, 36, 72]
   };
   
   constructor() {
@@ -27,6 +28,7 @@ export class GenericTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.columns = Object.keys(this.columnConfiguration);
     this.getPagedEntities();
   }
 

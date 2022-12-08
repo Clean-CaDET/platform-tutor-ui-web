@@ -1,0 +1,27 @@
+<mat-card class="crud-form mat-elevation-z5 ">
+<form [formGroup]="formGroup" fxLayout="column">
+  <div fxFlex *ngFor="let c of columns">
+    <mat-form-field appearance="fill" *ngIf="columnConfiguration[c] == 'email'" fxFlex>
+      <mat-label>{{labels[c]}}</mat-label>
+      <input matInput placeholder="pera@gmail.com" formControlName="{{c}}">
+      <mat-error *ngIf="formGroup.controls[c].invalid && formGroup.controls[c].touched">{{getErrorMessage(c)}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="columnConfiguration[c] == 'string'" fxFlex>
+      <mat-label>{{labels[c]}}</mat-label>
+      <input matInput formControlName="{{c}}">
+      <mat-error *ngIf="formGroup.controls[c].invalid">{{getErrorMessage(c)}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="columnConfiguration[c] == 'date'" fxFlex>
+      <mat-label>{{labels[c]}}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="{{c}}">
+      <span fxFlex></span>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="formGroup.controls[c].invalid">{{getErrorMessage(c)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <button mat-raised-button color="primary" (click)="onSubmit()">Sačuvaj novu stavku</button>
+</form>
+</mat-card>
