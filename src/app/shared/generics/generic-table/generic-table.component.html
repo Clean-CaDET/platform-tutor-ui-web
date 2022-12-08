@@ -8,15 +8,15 @@
 
   <table mat-table [dataSource]="data?.results" multiTemplateDataRows>
     <ng-container [matColumnDef]="c" *ngFor="let c of columns">
-      <th mat-header-cell *matHeaderCellDef>{{labels[c]}}</th>
+      <th mat-header-cell *matHeaderCellDef>{{fieldConfiguration[c].label}}</th>
       <td mat-cell *matCellDef="let element">
-        <span *ngIf="columnConfiguration[c] == 'string' || columnConfiguration[c] == 'email'">
+        <span *ngIf="fieldConfiguration[c].type == 'string' || fieldConfiguration[c].type == 'email'">
           {{element[c]}}
         </span>
-        <span *ngIf="columnConfiguration[c] == 'date'">
+        <span *ngIf="fieldConfiguration[c].type == 'date'">
           {{element[c] | date : 'd/M/yy'}}
         </span>
-        <span *ngIf="columnConfiguration[c] == 'control'">
+        <span *ngIf="fieldConfiguration[c].type == 'control'">
           <button>Edit</button>
         </span>
       </td>

@@ -7,20 +7,32 @@ import { StakeholdersService } from '../stakeholders.service';
   styleUrls: ['./stakeholders.component.scss']
 })
 export class StakeholdersComponent implements OnInit {
-  columns = {
-    creationDate: 'date',
-    name: 'string',
-    surname: 'string',
-    email: 'email',
-    index: 'string',
-    CRUD: 'controls'
-  };
-  labels = {
-    creationDate : 'Datum kreiranja',
-    name : 'Ime',
-    surname : 'Prezime',
-    email : 'Email / Username',
-    index : 'Indeks'
+  fields = {
+    index: {
+      type: 'string',
+      label: 'Indeks'
+    },
+    name: {
+      type: 'string',
+      label: 'Ime'
+    },
+    surname: {
+      type: 'string',
+      label: 'Prezime'
+    },
+    email: {
+      type: 'email',
+      label: 'Email / Username'
+    },
+    creationDate: {
+      type: 'date',
+      label: 'Datum kreiranja',
+      readonly: true
+    },
+    CRUD: {
+      type: 'controls',
+      label: 'Kontrole'
+    }
   };
   
   constructor(public service : StakeholdersService) { }

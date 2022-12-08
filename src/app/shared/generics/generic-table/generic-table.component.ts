@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,9 +12,8 @@ export class GenericTableComponent implements OnInit {
   @Input() httpService : CrudService<any>;
   data;
 
-  @Input() columnConfiguration;
+  @Input() fieldConfiguration;
   columns;
-  @Input() labels;
 
   @Input() pageProperties = {
     page: 0,
@@ -28,7 +26,7 @@ export class GenericTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.columns = Object.keys(this.columnConfiguration);
+    this.columns = Object.keys(this.fieldConfiguration);
     this.getPagedEntities();
   }
 

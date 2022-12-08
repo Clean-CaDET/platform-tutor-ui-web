@@ -7,15 +7,14 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
   styleUrls: ['./generic-form.component.scss']
 })
 export class GenericFormComponent implements OnInit {
-  @Input() labels;
-  @Input() columnConfiguration;
+  @Input() fieldConfiguration;
   columns: string[];
   formGroup: FormGroup;
 
   constructor(private builder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.columns = Object.keys(this.columnConfiguration);
+    this.columns = Object.keys(this.fieldConfiguration);
     this.createForm();
   }
 
@@ -23,7 +22,7 @@ export class GenericFormComponent implements OnInit {
     let controls = {}
 
     this.columns.forEach(c => {
-      controls[c] = this.createControl(this.columnConfiguration[c]);
+      controls[c] = this.createControl(this.fieldConfiguration[c].type);
     });
     
     this.formGroup = this.builder.group(controls);
