@@ -12,8 +12,14 @@ export abstract class CrudService<T> {
     this.url = url;
   }
 
-  getAll(params?: HttpParams) : Observable<T[]> {
-    return this.http.get<T[]>(this.url, { params: params});
+  getAll(pageProperties) : Observable<PagedResults<T>> {
+    let params = new HttpParams();
+    if(pageProperties) {
+      params = params
+      .set('page', pageProperties.page+1)
+      .set('pageSize', pageProperties.pageSize)
+    }
+    return this.http.get<PagedResults<T>>(this.url, { params: params});
   }
 
   get(id: number): Observable<T> {
@@ -31,4 +37,9 @@ export abstract class CrudService<T> {
   delete(id: string): Observable<any> {
       return this.http.delete(this.url + id);
   }
+}
+
+interface PagedResults<T> {
+  results: T[];
+  count: number
 }

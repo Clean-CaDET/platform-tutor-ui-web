@@ -1,5 +1,12 @@
-<div>
-  <table fxFlex mat-table [dataSource]="data" class="mat-elevation-z5" multiTemplateDataRows>
+<div fxFlex fxLayout="column">
+  <mat-card fxLayout="row" class="mat-elevation-z5 sticky">
+    <span fxFlex></span>
+    <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
+    [length]="data?.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
+    class="margin-right" showFirstLastButtons="true"></mat-paginator>
+  </mat-card>
+
+  <table fxFlex mat-table [dataSource]="data?.results" multiTemplateDataRows>
     <ng-container [matColumnDef]="c" *ngFor="let c of columns">
       <div *ngIf="c != 'CRUD'">
         <th mat-header-cell *matHeaderCellDef>{{labels[c]}}</th>

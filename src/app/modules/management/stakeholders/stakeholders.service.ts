@@ -12,10 +12,10 @@ export class StakeholdersService extends CrudService<Stakeholder> {
 }
 
 interface Stakeholder {
-  'id': number,
-  'email': string,
-  'name': string,
-  'surname': string,
-  'index': string,
-  'password': string
+  id: number,
+  email: string,
+  name: string,
+  surname: string,
+  index: string,
+  password: string
 }

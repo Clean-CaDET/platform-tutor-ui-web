@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { StakeholdersService } from '../stakeholders.service';
 
 @Component({
@@ -8,9 +7,7 @@ import { StakeholdersService } from '../stakeholders.service';
   styleUrls: ['./stakeholders.component.scss']
 })
 export class StakeholdersComponent implements OnInit {
-  displaysLearners: boolean;
-  data;
-  columns: string[] = ['creationDate', 'name', 'surname', 'email'];
+  columns: string[] = ['creationDate', 'name', 'surname', 'email', 'index', 'CRUD'];
   labels = {
     'creationDate' : 'Datum kreiranja',
     'name' : 'Ime',
@@ -19,19 +16,7 @@ export class StakeholdersComponent implements OnInit {
     'index' : 'Indeks'
   }
   
-  constructor(private service : StakeholdersService, private route: ActivatedRoute) { }
+  constructor(public service : StakeholdersService) { }
 
-  ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      if(!params['type']) return;
-      this.displaysLearners = params['type'] == 'learners';
-      if(this.displaysLearners) {
-        this.columns.push('index');
-      }
-      this.columns.push('CRUD');
-      this.service.getAll().subscribe(stakeholders => {
-        this.data = stakeholders;
-      });
-    });
-  }
+  ngOnInit(): void {}
 }
