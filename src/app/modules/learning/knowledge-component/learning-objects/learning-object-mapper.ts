@@ -10,7 +10,7 @@ import { Challenge } from './challenge/challenge.model';
 import { MultipleChoiceQuestion } from './multiple-choice-question/model/multiple-choice-question.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LearningObjectMapper {
   constructor() {}

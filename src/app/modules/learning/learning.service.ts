@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Course } from './course/course.model';
+import { LearningObjectMapper } from './knowledge-component/learning-objects/learning-object-mapper';
 import { LearningObject } from './knowledge-component/learning-objects/learning-object.model';
 import { KnowledgeComponentStatistics } from './knowledge-component/model/knowledge-component-statistics.model';
 import { KnowledgeComponent } from './knowledge-component/model/knowledge-component.model';
@@ -12,9 +13,10 @@ import { Unit } from './unit/unit.model';
   providedIn: 'root',
 })
 export class LearningService {
-  learningObjectMapper: any;
-
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private learningObjectMapper: LearningObjectMapper
+  ) {}
 
   getCourse(courseId: number): Observable<Course> {
     return this.http

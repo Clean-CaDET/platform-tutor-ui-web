@@ -19,4 +19,4 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
     MatExpansionModule,
   ],
 })
-export class DomainKnowledgeAnalyticsModule {}
+export class KnowledgeAnalyticsModule {}

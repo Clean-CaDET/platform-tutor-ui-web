@@ -26,10 +26,10 @@ import { ShortAnswerQuestionComponent } from './knowledge-component/learning-obj
 import { TextComponent } from './knowledge-component/learning-objects/text/text.component';
 import { VideoComponent } from './knowledge-component/learning-objects/video/video.component';
 import { SubmissionResultComponent } from './knowledge-component/submission-result/submission-result.component';
-import { TutorImprovementComponent } from '../learning-utilities/tutor-improvement/tutor-improvement.component';
 import { UnitComponent } from './unit/unit.component';
 import { MatIconModule } from '@angular/material/icon';
 import { LearningUtilitiesModule } from '../learning-utilities/learning-utilities.module';
+import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improvement.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +51,7 @@ import { LearningUtilitiesModule } from '../learning-utilities/learning-utilitie
     CourseComponent,
     InstructorCourseComponent,
     LearnerCourseComponent,
+    TutorImprovementComponent,
   ],
   imports: [
     CommonModule,

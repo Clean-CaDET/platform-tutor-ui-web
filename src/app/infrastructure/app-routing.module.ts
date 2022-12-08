@@ -5,11 +5,14 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthGuard } from './auth/auth.guard';
 import { UnitComponent } from '../modules/learning/unit/unit.component';
 import { KnowledgeComponentComponent } from '../modules/learning/knowledge-component/knowledge-component.component';
-import { EventsTableComponent } from '../modules/domain-knowledge-analytics/events-table/events-table.component';
 import { CourseComponent } from '../modules/learning/course/course.component';
 import { KcmProgressComponent } from '../modules/group-monitoring/kcm-progress/kcm-progress.component';
-import { KcStatisticsComponent } from '../modules/domain-knowledge-analytics/kc-statistics/kc-statistics.component';
+
 import { StakeholdersComponent } from '../modules/management/stakeholders/stakeholders/stakeholders.component';
+
+import { EventsTableComponent } from '../modules/knowledge-analytics/events-table/events-table.component';
+import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },

@@ -1,16 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../../infrastructure/material.module';
+import { NgModule } from '@angular/core';
 import { FlexModule } from '@angular/flex-layout';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
+import { AppRoutingModule } from 'src/app/infrastructure/app-routing.module';
+import { MaterialModule } from 'src/app/infrastructure/material.module';
+import { LearningModule } from '../learning/learning.module';
+import { HomeComponent } from './home/home.component';
 import { InstructorControlsComponent } from './navbar/instructor-controls/instructor-controls.component';
 import { LearnerControlsComponent } from './navbar/learner-controls/learner-controls.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { LearningModule } from '../learning/learning.module';
-import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from 'src/app/infrastructure/app-routing.module';
 
 @NgModule({
   declarations: [

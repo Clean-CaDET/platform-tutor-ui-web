@@ -8,7 +8,7 @@ import { LearningEvent } from './events-table/learning-event';
 @Injectable({
   providedIn: 'root',
 })
-export class DomainKnowledgeAnalyticsService {
+export class KnowledgeAnalyticsService {
   constructor(private http: HttpClient) {}
 
   getEvents(page: number, pageSize: number) {

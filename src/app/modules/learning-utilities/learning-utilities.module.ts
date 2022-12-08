@@ -6,14 +6,9 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { MarkdownEditorComponent } from './notes/markdown-editor/markdown-editor.component';
 import { NotesComponent } from './notes/notes.component';
-import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
 
 @NgModule({
-  declarations: [
-    NotesComponent,
-    MarkdownEditorComponent,
-    TutorImprovementComponent,
-  ],
+  declarations: [NotesComponent, MarkdownEditorComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -22,6 +17,6 @@ import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement
     MarkdownModule.forChild(),
     ReactiveFormsModule,
   ],
-  exports: [NotesComponent, TutorImprovementComponent],
+  exports: [NotesComponent],
 })
 export class LearningUtilitiesModule {}

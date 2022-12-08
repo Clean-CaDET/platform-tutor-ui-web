@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Unit } from '../../learning/unit/unit.model';
-import { DomainKnowledgeAnalyticsService } from '../domain-knowledge-analytics.service';
+import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 
 @Component({
   selector: 'cc-kc-statistics',
@@ -19,7 +19,7 @@ export class KcStatisticsComponent implements OnInit {
   groups: any[];
 
   constructor(
-    private domainKnowledgeAnalyticsService: DomainKnowledgeAnalyticsService
+    private domainKnowledgeAnalyticsService: KnowledgeAnalyticsService
   ) {}
 
   ngOnInit(): void {

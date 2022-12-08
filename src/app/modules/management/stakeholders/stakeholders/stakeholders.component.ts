@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { StakeholdersService } from '../../stakeholders.service';
+import { StakeholdersService } from '../stakeholders.service';
 
 @Component({
   selector: 'cc-stakeholders',
@@ -9,8 +9,15 @@ import { StakeholdersService } from '../../stakeholders.service';
 })
 export class StakeholdersComponent implements OnInit {
   displaysLearners: boolean;
-  dataSource;
-  displayedColumns: string[] = ['creationDate', 'name', 'surname', 'email'];
+  data;
+  columns: string[] = ['creationDate', 'name', 'surname', 'email'];
+  labels = {
+    'creationDate' : 'Datum kreiranja',
+    'name' : 'Ime',
+    'surname' : 'Prezime',
+    'email' : 'Email / Username',
+    'index' : 'Indeks'
+  }
   
   constructor(private service : StakeholdersService, private route: ActivatedRoute) { }
 
@@ -19,11 +26,11 @@ export class StakeholdersComponent implements OnInit {
       if(!params['type']) return;
       this.displaysLearners = params['type'] == 'learners';
       if(this.displaysLearners) {
-        this.displayedColumns.push('index');
+        this.columns.push('index');
       }
-      this.displayedColumns.push('controls');
-      this.service.GetAll(this.displaysLearners).subscribe(stakeholders => {
-        this.dataSource = stakeholders;
+      this.columns.push('CRUD');
+      this.service.getAll().subscribe(stakeholders => {
+        this.data = stakeholders;
       });
     });
   }
