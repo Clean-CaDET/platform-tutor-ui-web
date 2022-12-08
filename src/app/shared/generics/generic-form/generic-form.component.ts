@@ -22,20 +22,20 @@ export class GenericFormComponent implements OnInit {
     let controls = {}
 
     this.columns.forEach(c => {
-      controls[c] = this.createControl(this.fieldConfiguration[c].type);
+      controls[c] = this.createControl(this.fieldConfiguration[c]);
     });
     
     this.formGroup = this.builder.group(controls);
   }
 
-  private createControl(columnType: string): FormControl {
-    switch(columnType) {
+  private createControl(field): FormControl {
+    switch(field.type) {
       case 'date':
-        return new FormControl(new Date());
+        return new FormControl({value: new Date(), disabled: field.readOnly});
       case 'email':
-        return new FormControl('', Validators.email);
+        return new FormControl({value: '', disabled: field.readOnly}, Validators.email);
       default:
-        return new FormControl();
+        return new FormControl({value: '', disabled: field.readOnly});
     }
   }
 

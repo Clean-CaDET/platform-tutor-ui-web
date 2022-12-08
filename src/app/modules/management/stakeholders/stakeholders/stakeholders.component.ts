@@ -27,11 +27,11 @@ export class StakeholdersComponent implements OnInit {
     creationDate: {
       type: 'date',
       label: 'Datum kreiranja',
-      readonly: true
+      readOnly: true
     },
     CRUD: {
       type: 'controls',
-      label: 'Kontrole'
+      label: ''
     }
   };
   

@@ -20,6 +20,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -47,7 +48,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatDatepickerModule,
     FlexLayoutModule,
     MatIconModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
   exports: [
     MatButtonModule,
@@ -73,7 +75,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatDatepickerModule,
     FlexLayoutModule,
     MatIconModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTabsModule
   ],
 })
 export class MaterialModule {}

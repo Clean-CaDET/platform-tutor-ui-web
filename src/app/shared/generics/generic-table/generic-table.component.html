@@ -16,8 +16,11 @@
         <span *ngIf="fieldConfiguration[c].type == 'date'">
           {{element[c] | date : 'd/M/yy'}}
         </span>
-        <span *ngIf="fieldConfiguration[c].type == 'control'">
-          <button>Edit</button>
+        <span *ngIf="fieldConfiguration[c].type == 'controls'">
+          <span fxFlex></span>
+          <button mat-button class="table-button"><mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon></button>
+          <button mat-button class="table-button"><mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon></button>
+          <button mat-button class="table-button"><mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon></button>
         </span>
       </td>
     </ng-container>

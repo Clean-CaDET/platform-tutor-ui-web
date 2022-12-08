@@ -1,4 +1,4 @@
-<mat-card class="crud-form mat-elevation-z5 ">
+<mat-card class="crud-form mat-elevation-z5">
 <form [formGroup]="formGroup" fxLayout="column">
   <div fxFlex *ngFor="let c of columns">
     <mat-form-field appearance="fill" *ngIf="fieldConfiguration[c].type == 'email'" fxFlex>
@@ -22,6 +22,9 @@
       <mat-error *ngIf="formGroup.controls[c].invalid && formGroup.controls[c].touched">{{getErrorMessage(c)}}</mat-error>
     </mat-form-field>
   </div>
-  <button mat-raised-button color="primary" (click)="onSubmit()">Sačuvaj novu stavku</button>
+  <div fxFlex="column" fxLayoutGap="20px">
+    <button mat-raised-button color="primary" (click)="onSubmit()" fxFlex>Sačuvaj izmene</button>
+    <button mat-raised-button (click)="onSubmit()" fxFlex>Obriši izmene</button>
+  </div>
 </form>
 </mat-card>
