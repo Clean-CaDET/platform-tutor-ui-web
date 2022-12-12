@@ -1,12 +1,15 @@
 <div fxFlex fxLayout="column">
   <mat-card fxLayout="row" class="mat-elevation-z5 sticky">
-    <span fxFlex></span>
+    <mat-form-field fxFlex>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" #input>
+    </mat-form-field>
     <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
-    [length]="data?.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
-    class="margin-right" showFirstLastButtons="true"></mat-paginator>
+    [length]="pageProperties.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
+    showFirstLastButtons="true"></mat-paginator>
   </mat-card>
 
-  <table mat-table [dataSource]="data?.results" multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
     <ng-container [matColumnDef]="c" *ngFor="let c of columns">
       <th mat-header-cell *matHeaderCellDef>{{fieldConfiguration[c].label}}</th>
       <td mat-cell *matCellDef="let element">
@@ -16,11 +19,17 @@
         <span *ngIf="fieldConfiguration[c].type == 'date'">
           {{element[c] | date : 'd/M/yy'}}
         </span>
-        <span *ngIf="fieldConfiguration[c].type == 'controls'">
+        <span *ngIf="fieldConfiguration[c].type == 'CRUD'">
           <span fxFlex></span>
-          <button mat-button class="table-button"><mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon></button>
-          <button mat-button class="table-button"><mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon></button>
-          <button mat-button class="table-button"><mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon></button>
+          <button *ngIf="fieldConfiguration[c].update" mat-button class="table-button" (click)="onEdit(element.id)">
+            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
+          </button>
+          <button *ngIf="fieldConfiguration[c].archive" mat-button class="table-button" (click)="onArchive(element.id)">
+            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon>
+          </button>
+          <button *ngIf="fieldConfiguration[c].delete" mat-button class="table-button" (click)="onDelete(element.id)">
+            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
+          </button>
         </span>
       </td>
     </ng-container>

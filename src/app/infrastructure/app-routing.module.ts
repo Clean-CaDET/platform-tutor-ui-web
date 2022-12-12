@@ -8,7 +8,7 @@ import { KnowledgeComponentComponent } from '../modules/learning/knowledge-compo
 import { CourseComponent } from '../modules/learning/course/course.component';
 import { KcmProgressComponent } from '../modules/group-monitoring/kcm-progress/kcm-progress.component';
 
-import { StakeholdersComponent } from '../modules/management/stakeholders/stakeholders/stakeholders.component';
+import { LearnersComponent } from '../modules/management/stakeholders/learners/learners.component';
 
 import { EventsTableComponent } from '../modules/knowledge-analytics/events-table/events-table.component';
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
@@ -52,7 +52,7 @@ const routes: Routes = [
   },
   {
     path: 'management/stakeholders/:type',
-    component: StakeholdersComponent,
+    component: LearnersComponent,
     canActivate: [AuthGuard],
     data: { role: 'administrator' },
   },

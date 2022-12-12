@@ -10,7 +10,7 @@ import { CrudService } from '../crud.service';
 })
 export class GenericTableComponent implements OnInit {
   @Input() httpService : CrudService<any>;
-  data;
+  dataSource;
 
   @Input() fieldConfiguration;
   columns;
@@ -18,11 +18,12 @@ export class GenericTableComponent implements OnInit {
   @Input() pageProperties = {
     page: 0,
     pageSize: 36,
-    pageSizeOptions: [18, 36, 72]
+    totalCount: 0,
+    pageSizeOptions: [18, 36, 300]
   };
   
   constructor() {
-    this.data = new MatTableDataSource([]);
+    this.dataSource = new MatTableDataSource([]);
   }
 
   ngOnInit(): void {
@@ -30,11 +31,9 @@ export class GenericTableComponent implements OnInit {
     this.getPagedEntities();
   }
 
-  private getPagedEntities() {
-    this.httpService.getAll(this.pageProperties)
-      .subscribe(response => {
-        this.data = response;
-      });
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   pageChanged(pageEvent: PageEvent) {
@@ -42,5 +41,13 @@ export class GenericTableComponent implements OnInit {
     this.pageProperties.page = pageEvent.pageIndex;
     this.pageProperties.pageSize = pageEvent.pageSize;
     this.getPagedEntities();
+  }
+
+  private getPagedEntities() {
+    this.httpService.getAll(this.pageProperties)
+      .subscribe(response => {
+        this.dataSource = new MatTableDataSource(response.results);
+        this.pageProperties.totalCount = response.totalCount;
+      });
   }
 }

@@ -41,5 +41,5 @@ export abstract class CrudService<T> {
 
 interface PagedResults<T> {
   results: T[];
-  count: number
+  totalCount: number
 }
