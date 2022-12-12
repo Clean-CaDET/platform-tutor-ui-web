@@ -7,6 +7,7 @@ import { StakeholdersService as LearnersService } from './learners.service';
   styleUrls: ['./learners.component.scss']
 })
 export class LearnersComponent implements OnInit {
+  // Should add an interface/class for each field and separate CRUD operations into a different structure?
   fields = [
     {
       code: 'index',

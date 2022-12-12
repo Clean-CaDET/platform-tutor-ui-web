@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'cc-generic-form',
@@ -15,6 +15,7 @@ export class GenericFormComponent implements OnInit {
   entityCopy;
 
   constructor(private builder: FormBuilder,
+    private dialogRef: MatDialogRef<GenericFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {
       this.entity = data.entity;
       this.entityCopy = JSON.parse(JSON.stringify(this.entity));
@@ -26,11 +27,17 @@ export class GenericFormComponent implements OnInit {
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log(this.formGroup);
+    this.entity = this.formGroup.value;
+    this.dialogRef.close(this.entity);
   }
 
   onReset() {
     this.entity = JSON.parse(JSON.stringify(this.entityCopy));
+    if(this.entity.id) {
+      this.formGroup.patchValue(this.entity);
+    } else {
+      this.formGroup.reset();
+    }
   }
 
   getErrorMessage(controlName: string): string {
@@ -47,6 +54,7 @@ export class GenericFormComponent implements OnInit {
     let controls = {}
 
     this.fieldConfiguration.forEach(f => {
+      if(f.type == 'CRUD') return;
       controls[f.code] = this.createControl(f);
     });
     
@@ -58,11 +66,11 @@ export class GenericFormComponent implements OnInit {
     let validators = this.createValidators(field);
     switch(field.type) {
       case 'date':
-        return new FormControl({value: entityValue || new Date(), disabled: field.readOnly}, validators);
+        return new FormControl(entityValue || new Date(), validators);
       case 'email':
-        return new FormControl({value: entityValue || '', disabled: field.readOnly}, validators);
+        return new FormControl(entityValue || '', validators);
       default:
-        return new FormControl({value: entityValue || '', disabled: field.readOnly}, validators);
+        return new FormControl(entityValue || '', validators);
     }
   }
   
