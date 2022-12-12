@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -8,20 +8,22 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./generic-form.component.scss']
 })
 export class GenericFormComponent implements OnInit {
-  @Input() fieldConfiguration;
-  columns: string[];
+  fieldConfiguration;
   formGroup: FormGroup;
   
+  entity;
   entityCopy;
 
   constructor(private builder: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) public entity) { }
+    @Inject(MAT_DIALOG_DATA) public data) {
+      this.entity = data.entity;
+      this.entityCopy = JSON.parse(JSON.stringify(this.entity));
 
-  ngOnInit(): void {
-    this.columns = Object.keys(this.fieldConfiguration);
-    this.createForm();
-    this.entityCopy = JSON.parse(JSON.stringify(this.entity));
-  }
+      this.fieldConfiguration = data.fieldConfiguration;
+      this.createForm();
+    }
+
+  ngOnInit(): void {}
 
   onSubmit() {
     console.log(this.formGroup);
@@ -44,22 +46,23 @@ export class GenericFormComponent implements OnInit {
   private createForm() {
     let controls = {}
 
-    this.columns.forEach(c => {
-      controls[c] = this.createControl(this.fieldConfiguration[c]);
+    this.fieldConfiguration.forEach(f => {
+      controls[f.code] = this.createControl(f);
     });
     
     this.formGroup = this.builder.group(controls);
   }
 
   private createControl(field): FormControl {
+    let entityValue = this.entity[field.code];
     let validators = this.createValidators(field);
     switch(field.type) {
       case 'date':
-        return new FormControl({value: new Date(), disabled: field.readOnly}, validators);
+        return new FormControl({value: entityValue || new Date(), disabled: field.readOnly}, validators);
       case 'email':
-        return new FormControl({value: '', disabled: field.readOnly}, validators);
+        return new FormControl({value: entityValue || '', disabled: field.readOnly}, validators);
       default:
-        return new FormControl({value: '', disabled: field.readOnly}, validators);
+        return new FormControl({value: entityValue || '', disabled: field.readOnly}, validators);
     }
   }
   

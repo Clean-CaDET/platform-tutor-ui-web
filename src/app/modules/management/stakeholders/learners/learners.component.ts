@@ -7,39 +7,46 @@ import { StakeholdersService as LearnersService } from './learners.service';
   styleUrls: ['./learners.component.scss']
 })
 export class LearnersComponent implements OnInit {
-  fields = {
-    index: {
+  fields = [
+    {
+      code: 'index',
       type: 'string',
       label: 'Indeks / Username',
       required: true
     },
-    name: {
+    {
+      code: 'name',
       type: 'string',
       label: 'Ime',
       required: true
     },
-    surname: {
+    {
+      code: 'surname',
       type: 'string',
       label: 'Prezime',
       required: true
     },
-    email: {
+    {
+      code: 'email',
       type: 'email',
       label: 'Email'
     },
-    creationDate: {
+    {
+      code: 'creationDate',
       type: 'date',
       label: 'Datum kreiranja',
       readOnly: true
     },
-    CRUD: {
+    {
+      code: 'CRUD',
       type: 'CRUD',
       label: '',
+      create: true,
       update: true,
       archive: true,
       delete: true
     }
-  };
+  ];
   
   constructor(public service : LearnersService) { }
 
