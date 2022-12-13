@@ -1,7 +1,8 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
   <cc-generic-table fxFlex="75"
     [fieldConfiguration]="fields"
-    [httpService]="service">
+    [httpService]="service"
+    (select)="onSelect($event)">
   </cc-generic-table>
   <div fxFlex="25" fxLayout="column">
     <mat-tab-group>

@@ -12,6 +12,8 @@ import { LearnersComponent } from '../modules/management/stakeholders/learners/l
 
 import { EventsTableComponent } from '../modules/knowledge-analytics/events-table/events-table.component';
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
+import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
+import { CoursesComponent } from '../modules/management/courses/courses.component';
 
 
 const routes: Routes = [
@@ -51,12 +53,23 @@ const routes: Routes = [
     data: { role: 'instructor' },
   },
   {
-    path: 'management/stakeholders/:type',
+    path: 'management/stakeholders/learners',
     component: LearnersComponent,
     canActivate: [AuthGuard],
     data: { role: 'administrator' },
   },
-
+  {
+    path: 'management/stakeholders/instructors',
+    component: InstructorsComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'administrator' },
+  },
+  {
+    path: 'management/courses',
+    component: CoursesComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'administrator' },
+  },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', component: HomeComponent },
 ];

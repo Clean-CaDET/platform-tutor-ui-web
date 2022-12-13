@@ -5,13 +5,13 @@ import { CrudService } from 'src/app/shared/generics/crud.service';
 @Injectable({
   providedIn: 'root'
 })
-export class LearnersService extends CrudService<Learner> {
+export class InstructorsService extends CrudService<Instructor> {
   constructor(private httpClient: HttpClient) {
-    super(httpClient, 'https://localhost:44333/api/management/learners/');
+    super(httpClient, 'https://localhost:44333/api/management/instructors/');
   }
 }
 
-interface Learner {
+interface Instructor {
   id: number,
   index: string,
   name: string,

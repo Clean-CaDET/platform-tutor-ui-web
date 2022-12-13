@@ -74,6 +74,8 @@ export class GenericFormComponent {
         return new FormControl(entityValue || new Date(), validators);
       case 'email':
         return new FormControl(entityValue || '', validators);
+      case 'boolean':
+        return new FormControl(entityValue || false, validators);
       default:
         return new FormControl(entityValue || '', validators);
     }

@@ -1,0 +1,18 @@
+<div fxFlex fxLayout="row" fxLayoutGap="30px">
+    <cc-generic-table fxFlex="75"
+        [fieldConfiguration]="fields"
+        [httpService]="service"
+        (select)="onSelect($event)">
+    </cc-generic-table>
+    <div fxFlex="25" fxLayout="column">
+        <mat-tab-group>
+        <mat-tab label="Vlastiti kursevi">
+            TODO: Vlastiti kursevi
+            (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
+        </mat-tab>
+        <mat-tab label="Grupe">
+            TODO: Grupe
+        </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

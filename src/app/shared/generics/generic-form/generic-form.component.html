@@ -12,6 +12,11 @@
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
+    <section appearance="fill" *ngIf="field.type == 'boolean'" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <mat-checkbox formControlName="{{field.code}}" [readonly]="field.readOnly"></mat-checkbox>
+    </section>
+
     <mat-form-field appearance="fill" *ngIf="field.type == 'string'" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly">

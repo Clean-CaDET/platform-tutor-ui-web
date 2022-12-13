@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { LearnersService as LearnersService } from './learners.service';
+import { InstructorsService } from './instructors.service';
 
 @Component({
-  selector: 'cc-stakeholders-learners',
-  templateUrl: './learners.component.html',
-  styleUrls: ['./learners.component.scss']
+  selector: 'cc-instructors',
+  templateUrl: './instructors.component.html',
+  styleUrls: ['./instructors.component.scss']
 })
-export class LearnersComponent {
+export class InstructorsComponent {
   // Should add an interface/class for each field and separate CRUD operations into a different structure?
   fields = [
     {
@@ -53,10 +53,11 @@ export class LearnersComponent {
       delete: true
     }
   ];
-  
-  constructor(public service : LearnersService) { }
+
+  constructor(public service : InstructorsService) { }
 
   onSelect($event) {
     console.log($event);
   }
+
 }
