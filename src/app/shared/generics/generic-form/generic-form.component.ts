@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './generic-form.component.html',
   styleUrls: ['./generic-form.component.scss']
 })
-export class GenericFormComponent implements OnInit {
+export class GenericFormComponent {
   fieldConfiguration;
   formGroup: FormGroup;
   
@@ -24,10 +24,9 @@ export class GenericFormComponent implements OnInit {
       this.createForm();
     }
 
-  ngOnInit(): void {}
-
   onSubmit() {
     this.entity = this.formGroup.value;
+    this.entity.id = this.entityCopy.id;
     this.dialogRef.close(this.entity);
   }
 
@@ -38,6 +37,10 @@ export class GenericFormComponent implements OnInit {
     } else {
       this.formGroup.reset();
     }
+  }
+
+  onClose() {
+    this.dialogRef.close(false);
   }
 
   getErrorMessage(controlName: string): string {

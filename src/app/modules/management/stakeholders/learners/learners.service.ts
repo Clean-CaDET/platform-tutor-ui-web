@@ -7,7 +7,7 @@ import { CrudService } from 'src/app/shared/generics/crud.service';
 })
 export class StakeholdersService extends CrudService<Learner> {
   constructor(private httpClient: HttpClient) {
-    super(httpClient, 'https://localhost:44333/api/management/learners');
+    super(httpClient, 'https://localhost:44333/api/management/learners/');
   }
 }
 

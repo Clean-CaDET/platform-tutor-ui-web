@@ -31,7 +31,7 @@ export abstract class CrudService<T> {
   }
 
   update(updatedItem: T): Observable<any> {
-      return this.http.put(this.url, updatedItem);
+      return this.http.put(this.url + updatedItem['id'], updatedItem);
   }
 
   delete(id: string): Observable<any> {

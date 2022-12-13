@@ -16,6 +16,11 @@ export class LearnersComponent implements OnInit {
       required: true
     },
     {
+      code: 'password',
+      type: 'password',
+      label: 'Lozinka'
+    },
+    {
       code: 'name',
       type: 'string',
       label: 'Ime',

@@ -29,7 +29,11 @@ export class GenericTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.columns = this.fieldConfiguration.map(f => f.code);
+    this.columns = []
+    this.fieldConfiguration.forEach(element => {
+      if(element.type == 'password') return;
+      this.columns.push(element.code)
+    });
     this.getPagedEntities();
   }
 
@@ -62,8 +66,11 @@ export class GenericTableComponent implements OnInit {
     const dialogRef = this.openDialog({});
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
+      if(!result) return;
+      this.httpService.create(result).subscribe(response => {
+        this.dataSource.data.push(response);
+        this.dataSource._updateChangeSubscription();
+      });
     });
   }
   
@@ -71,8 +78,10 @@ export class GenericTableComponent implements OnInit {
     const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] == id));
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
+      if(!result) return;
+      this.httpService.update(result).subscribe(() => {
+        this.dataSource.data = this.dataSource.data.map(e => e.id !== id ? e : result);
+      });
     });
   }
 

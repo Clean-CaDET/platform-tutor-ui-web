@@ -6,6 +6,12 @@
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
+    <mat-form-field appearance="fill" *ngIf="field.type == 'password' && !entity?.id" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <input type="password" matInput formControlName="{{field.code}}" [readonly]="field.readOnly">
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </mat-form-field>
+
     <mat-form-field appearance="fill" *ngIf="field.type == 'string'" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly">
@@ -22,7 +28,8 @@
     </mat-form-field>
   </div>
   <div fxFlex="column" fxLayoutGap="20px">
-    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()" fxFlex>Sačuvaj izmene</button>
-    <button mat-raised-button (click)="onReset()" fxFlex>Obriši izmene</button>
+    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()" fxFlex>Sačuvaj</button>
+    <button mat-raised-button (click)="onReset()" fxFlex>Osveži</button>
+    <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
   </div>
 </form>
