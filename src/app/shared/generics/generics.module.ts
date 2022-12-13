@@ -4,11 +4,12 @@ import { GenericTableComponent } from './generic-table/generic-table.component';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { GenericFormComponent } from './generic-form/generic-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DeleteFormComponent } from './delete-form/delete-form.component';
 
 
 
 @NgModule({
-  declarations: [GenericTableComponent, GenericFormComponent],
+  declarations: [GenericTableComponent, GenericFormComponent, DeleteFormComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

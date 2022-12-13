@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { CrudService } from '../crud.service';
+import { DeleteFormComponent } from '../delete-form/delete-form.component';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
 
 @Component({
@@ -23,6 +24,9 @@ export class GenericTableComponent implements OnInit {
     totalCount: 0,
     pageSizeOptions: [18, 36, 300]
   };
+
+  selectedItem;
+  @Output() select = new EventEmitter();
   
   constructor(private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource([]);
@@ -80,7 +84,7 @@ export class GenericTableComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
       this.httpService.update(result).subscribe(() => {
-        this.dataSource.data = this.dataSource.data.map(e => e.id !== id ? e : result);
+        this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : result));
       });
     });
   }
@@ -96,6 +100,17 @@ export class GenericTableComponent implements OnInit {
   }
 
   onDelete(id: number): void {
-    console.log(id);
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if(result) this.httpService.delete(id).subscribe(() => {
+        this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== id));
+      })
+    })
+  }
+
+  selectElement(element: any) {
+    this.selectedItem = element;
+    this.select.emit(this.selectedItem);
   }
 }

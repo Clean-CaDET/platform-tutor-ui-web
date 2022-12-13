@@ -25,8 +25,10 @@ export class GenericFormComponent {
     }
 
   onSubmit() {
-    this.entity = this.formGroup.value;
-    this.entity.id = this.entityCopy.id;
+    let keys = Object.keys(this.formGroup.value);
+    keys.forEach(k => {
+      this.entity[k] = this.formGroup.value[k];
+    })
     this.dialogRef.close(this.entity);
   }
 

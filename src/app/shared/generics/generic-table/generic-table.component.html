@@ -23,13 +23,13 @@
         </span>
         <span *ngIf="field.type == 'CRUD'">
           <span fxFlex></span>
-          <button *ngIf="field.update" mat-button class="table-button" (click)="onEdit(element.id)">
+          <button *ngIf="field.update" mat-button class="table-button" (click)="onEdit(element.id); $event.stopPropagation()">
             <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
           </button>
-          <button *ngIf="field.archive" mat-button class="table-button" (click)="onArchive(element.id)">
+          <button *ngIf="field.archive" mat-button class="table-button" (click)="onArchive(element.id); $event.stopPropagation()">
             <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon>
           </button>
-          <button *ngIf="field.delete" mat-button class="table-button" (click)="onDelete(element.id)">
+          <button *ngIf="field.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
             <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
           </button>
         </span>
@@ -37,7 +37,7 @@
     </ng-container>
       
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let element; columns: columns;" class="element-row"></tr>
+    <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)" [class.highlight]="selectedItem?.id==element.id"></tr>
   </table>
 
   <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
