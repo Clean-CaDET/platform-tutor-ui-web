@@ -12,4 +12,9 @@
             <markdown>{{course.description}}</markdown>
         </p>
     </mat-card-content>
+    <mat-card-actions *ngIf="user.role === 'instructor'">
+      <button mat-flat-button color="primary" [routerLink]="'/analytics/kc-statistics'">Pregled veština</button>
+      <button mat-flat-button color="primary" [routerLink]="'/analytics/events'">Pregled događaja</button>
+      <button mat-flat-button color="primary" [routerLink]="'/management/courses'">Authoring</button>
+    </mat-card-actions>
 </mat-card>
