@@ -38,12 +38,6 @@ export class LearnersComponent {
       label: 'Email'
     },
     {
-      code: 'creationDate',
-      type: 'date',
-      label: 'Datum kreiranja',
-      readOnly: true
-    },
-    {
       code: 'CRUD',
       type: 'CRUD',
       label: '',

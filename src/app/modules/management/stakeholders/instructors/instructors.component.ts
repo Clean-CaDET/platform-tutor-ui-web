@@ -10,9 +10,9 @@ export class InstructorsComponent {
   // Should add an interface/class for each field and separate CRUD operations into a different structure?
   fields = [
     {
-      code: 'index',
-      type: 'string',
-      label: 'Indeks / Username',
+      code: 'email',
+      type: 'email',
+      label: 'Email / Username',
       required: true
     },
     {
@@ -31,17 +31,6 @@ export class InstructorsComponent {
       type: 'string',
       label: 'Prezime',
       required: true
-    },
-    {
-      code: 'email',
-      type: 'email',
-      label: 'Email'
-    },
-    {
-      code: 'creationDate',
-      type: 'date',
-      label: 'Datum kreiranja',
-      readOnly: true
     },
     {
       code: 'CRUD',
