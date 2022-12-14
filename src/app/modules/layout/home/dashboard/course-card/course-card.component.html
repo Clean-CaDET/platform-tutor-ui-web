@@ -1,0 +1,15 @@
+<mat-card class="card" style="margin: 10px;"
+    fxFlex="45"
+    fxFlex.sm="100"
+    fxFlex.xs="100"
+    [routerLink]="'/courses/' + course.id">
+    <mat-card-header>
+        <mat-icon mat-card-avatar>book</mat-icon>
+        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>
+            <markdown>{{course.description}}</markdown>
+        </p>
+    </mat-card-content>
+</mat-card>

@@ -16,41 +16,6 @@
     lekcija koje su ti dostupne. Postaraj se da pregledaš i savladaš svaku lekciju.
   </p>
   <hr>
-  <h2>Katalog kurseva</h2>
-
-  <div fxLayout="row wrap" *ngIf="user?.role === 'instructor'">
-    <mat-card class="card" style="margin: 10px;" *ngFor="let course of courses"
-              fxFlex="45"
-              fxFlex.sm="100"
-              fxFlex.xs="100"
-              [routerLink]="'/courses/' + course.id">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>book</mat-icon>
-        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          <markdown>{{course.description}}</markdown>
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div fxLayout="row wrap" *ngIf="user?.role === 'learner'">
-    <mat-card class="card" style="margin: 10px;" *ngFor="let course of courses"
-              fxFlex="45"
-              fxFlex.sm="100"
-              fxFlex.xs="100"
-              [routerLink]="'/courses/' + course.id">
-      <mat-card-header>
-        <mat-icon mat-card-avatar>book</mat-icon>
-        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>
-          <markdown>{{course.description}}</markdown>
-        </p>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <cc-dashboard></cc-dashboard>
 </div>
 <br><br>
