@@ -22,8 +22,11 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.user$.subscribe((user) => {
-      if (user == null) return;
       this.user = user;
+      if (user === null) {
+        this.courses = [];
+        return;
+      }
       if (this.user.role == 'learner') {
         this.layoutService.getCourses().subscribe((courses) => {
           this.courses = courses;
