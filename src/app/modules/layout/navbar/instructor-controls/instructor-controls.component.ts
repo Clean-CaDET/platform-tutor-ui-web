@@ -11,7 +11,6 @@ import { LayoutService } from '../../layout.service';
   styleUrls: ['./instructor-controls.component.scss'],
 })
 export class InstructorControlsComponent implements OnInit {
-  groups: LearnerGroup[];
   selectedGroup: any;
   selectedCourse: Course;
   courses: Course[];
@@ -25,15 +24,8 @@ export class InstructorControlsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupCourseUpdate();
-    this.setupGroupUpdate();
     this.layoutInstructorService.getCourses().subscribe((courses) => {
       this.courses = courses;
-    });
-    this.layoutService.getGroups().subscribe((groups) => {
-      this.groups = groups;
-      this.selectedGroup = this.groups.find(
-        (g) => g.id == this.getParams(this.route).groupId
-      ); // extract this common behavior somewhere
     });
   }
 
@@ -60,29 +52,6 @@ export class InstructorControlsComponent implements OnInit {
     return this.selectedCourse?.id != params.courseId;
   }
 
-  private setupGroupUpdate(): void {
-    this.router.events
-      .pipe(
-        filter((e) => e instanceof NavigationEnd),
-        map((e) => this.getParams(this.route))
-      )
-      .subscribe((params) => {
-        if (!params.groupId) {
-          this.selectedGroup = null;
-          return;
-        }
-        if (this.groupIsChanged(params)) {
-          this.selectedGroup = this.groups?.find(
-            (g) => g.id == +params.groupId
-          );
-        }
-      });
-  }
-
-  private groupIsChanged(params: Params) {
-    return this.selectedGroup?.id != params.groupId;
-  }
-
   private getParams(route: ActivatedRoute): Params {
     let params = route.snapshot.params;
     route.children?.forEach((c) => {
@@ -93,9 +62,4 @@ export class InstructorControlsComponent implements OnInit {
     });
     return params;
   }
-}
-
-interface LearnerGroup {
-  id: number;
-  name: string;
 }
