@@ -9,37 +9,11 @@ export class CoursesComponent {
   baseUrl = 'https://localhost:44333/api/management/courses/';
 
   fields = [
-    {
-      code: 'code',
-      type: 'string',
-      label: 'Kod',
-      required: true
-    },
-    {
-      code: 'name',
-      type: 'string',
-      label: 'Naziv',
-      required: true
-    },
-    {
-      code: 'description',
-      type: 'string',
-      label: 'Opis'
-    },
-    {
-      code: 'isArchived',
-      type: 'boolean',
-      label: 'Arhiviran'
-    },
-    {
-      code: 'CRUD',
-      type: 'CRUD',
-      label: '',
-      create: true,
-      update: true,
-      archive: true,
-      delete: true
-    }
+    { code: 'code', type: 'string', label: 'Kod', required: true },
+    { code: 'name', type: 'string', label: 'Naziv', required: true },
+    { code: 'description', type: 'string', label: 'Opis' },
+    { code: 'isArchived', type: 'boolean', label: 'Arhiviran' },
+    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true }
   ];
 
   constructor() { }
