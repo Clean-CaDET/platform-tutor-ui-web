@@ -12,6 +12,11 @@
                 [items]="ownedCourses"
                 (delete)="removeOwnedCourse($event)">
             </cc-plain-generic-table>
+            <span>
+            <button mat-mini-fab color="primary" (click)="onAddOwnedCourse()">
+                <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">add</mat-icon>
+            </button>
+            </span>
         </mat-tab>
         <mat-tab label="Grupe">
             TODO: Grupe

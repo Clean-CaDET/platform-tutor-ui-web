@@ -21,6 +21,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -49,7 +50,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     MatIconModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -76,7 +78,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FlexLayoutModule,
     MatIconModule,
     MatNativeDateModule,
-    MatTabsModule
+    MatTabsModule,
+    MatAutocompleteModule
   ],
 })
 export class MaterialModule {}
