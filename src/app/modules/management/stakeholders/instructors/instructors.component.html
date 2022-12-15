@@ -1,14 +1,17 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
     <cc-generic-table fxFlex="60"
-        [fieldConfiguration]="fields"
+        [fieldConfiguration]="instructorFields"
         [baseUrl]="baseUrl"
         (select)="onSelect($event)">
     </cc-generic-table>
     <div fxFlex="40" fxLayout="column">
-        <mat-tab-group>
+        <mat-tab-group *ngIf="selectedInstructor">
         <mat-tab label="Vlastiti kursevi">
-            TODO: Vlastiti kursevi
-            (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
+            <cc-plain-generic-table
+                [fieldConfiguration]="courseFields"
+                [items]="ownedCourses"
+                (delete)="removeOwnedCourse($event)">
+            </cc-plain-generic-table>
         </mat-tab>
         <mat-tab label="Grupe">
             TODO: Grupe

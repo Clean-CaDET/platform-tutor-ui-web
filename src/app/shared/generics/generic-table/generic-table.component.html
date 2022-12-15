@@ -2,7 +2,7 @@
   <mat-card fxLayout="row" class="mat-elevation-z5 sticky">
     <mat-form-field fxFlex>
       <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input>
+      <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
     </mat-form-field>
     <span>
       <button *ngIf="createEnabled()" mat-mini-fab color="primary" (click)="onCreate()">
