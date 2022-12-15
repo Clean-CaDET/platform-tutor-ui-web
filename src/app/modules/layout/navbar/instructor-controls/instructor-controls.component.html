@@ -1,4 +1,5 @@
-<button color="primary" id="course" mat-flat-button [matMenuTriggerFor]="course">
+<button mat-flat-button color="primary" class="controls" 
+  [matMenuTriggerFor]="course">
   {{ selectedCourse ? selectedCourse.name : 'Odaberi kurs'}}
 </button>
 <mat-menu #course="matMenu">
@@ -6,9 +7,20 @@
     {{course.name}}
   </button>
 </mat-menu>
-<button color="primary" id="kc-statistics" mat-flat-button [routerLink]="['analytics', 'kc-statistics']">
-  Pregled veština
-</button>
-<button color="primary" id="events" mat-flat-button [routerLink]="['analytics', 'events']">
-  Pregled svih događaja
-</button>
+<ng-container *ngIf="selectedCourse">
+  <button mat-flat-button color="primary" class="controls"
+    [routerLink]="'/management/courses'">
+    <mat-icon>edit</mat-icon>
+    Autorstvo
+  </button>
+  <button mat-flat-button color="primary" class="controls"
+    [routerLink]="'/analytics/kc-statistics'">
+    <mat-icon>bar_chart</mat-icon>
+    Analitike
+  </button>
+  <button mat-flat-button color="primary" class="controls"
+    [routerLink]="['/course', selectedCourse.id, 'learner-progress']">
+    <mat-icon>groups</mat-icon>
+    Grupe
+  </button>
+</ng-container>

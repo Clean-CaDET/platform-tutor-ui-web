@@ -19,7 +19,7 @@
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/analytics/kc-statistics'">
             <mat-icon>bar_chart</mat-icon>
         </button>
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/course/-100/learner-progress/-100'">
+        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/course', course.id, 'learner-progress']">
             <mat-icon>groups</mat-icon>
         </button>
     </mat-card-actions>
