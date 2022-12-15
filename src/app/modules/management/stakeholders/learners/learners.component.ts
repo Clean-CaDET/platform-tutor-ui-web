@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { LearnersService as LearnersService } from './learners.service';
 
 @Component({
   selector: 'cc-stakeholders-learners',
@@ -7,6 +6,7 @@ import { LearnersService as LearnersService } from './learners.service';
   styleUrls: ['./learners.component.scss']
 })
 export class LearnersComponent {
+  baseUrl = "https://localhost:44333/api/management/learners/";
   // Should add an interface/class for each field and separate CRUD operations into a different structure?
   fields = [
     {
@@ -48,9 +48,18 @@ export class LearnersComponent {
     }
   ];
   
-  constructor(public service : LearnersService) { }
+  constructor() { }
 
   onSelect($event) {
     console.log($event);
   }
+}
+
+interface Learner {
+  id: number,
+  index: string,
+  name: string,
+  surname: string,
+  email: string,
+  password: string
 }

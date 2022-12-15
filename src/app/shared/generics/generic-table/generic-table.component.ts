@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { CrudService } from '../crud.service';
+import { CrudService } from './crud.service';
 import { DeleteFormComponent } from '../delete-form/delete-form.component';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
 
@@ -12,7 +12,7 @@ import { GenericFormComponent } from '../generic-form/generic-form.component';
   styleUrls: ['./generic-table.component.scss']
 })
 export class GenericTableComponent implements OnInit {
-  @Input() httpService : CrudService<any>;
+  @Input() baseUrl : string;
   dataSource;
 
   @Input() fieldConfiguration;
@@ -28,7 +28,7 @@ export class GenericTableComponent implements OnInit {
   selectedItem;
   @Output() select = new EventEmitter();
   
-  constructor(private dialog: MatDialog) {
+  constructor(private dialog: MatDialog, private httpService: CrudService<any>) {
     this.dataSource = new MatTableDataSource([]);
   }
 
@@ -49,7 +49,7 @@ export class GenericTableComponent implements OnInit {
   }
 
   private getPagedEntities() {
-    this.httpService.getAll(this.pageProperties)
+    this.httpService.getAll(this.baseUrl, this.pageProperties)
       .subscribe(response => {
         this.dataSource = new MatTableDataSource(response.results);
         this.pageProperties.totalCount = response.totalCount;
@@ -71,7 +71,7 @@ export class GenericTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.create(result).subscribe(response => {
+      this.httpService.create(this.baseUrl, result).subscribe(response => {
         this.dataSource.data.push(response);
         this.dataSource._updateChangeSubscription();
       });
@@ -83,7 +83,7 @@ export class GenericTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.update(result).subscribe(() => {
+      this.httpService.update(this.baseUrl, result).subscribe(() => {
         this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : result));
       });
     });
@@ -96,14 +96,16 @@ export class GenericTableComponent implements OnInit {
   }
 
   onArchive(id: number): void {
-    console.log(id);
+    this.httpService.archive(this.baseUrl, id).subscribe(() => {
+      this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== id));
+    })
   }
 
   onDelete(id: number): void {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(result) this.httpService.delete(id).subscribe(() => {
+      if(result) this.httpService.delete(this.baseUrl, id).subscribe(() => {
         this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== id));
       })
     })

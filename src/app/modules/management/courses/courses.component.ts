@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CoursesService } from './courses.service';
 
 @Component({
   selector: 'cc-courses',
@@ -7,6 +6,8 @@ import { CoursesService } from './courses.service';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent {
+  baseUrl = 'https://localhost:44333/api/management/courses/';
+
   fields = [
     {
       code: 'code',
@@ -41,9 +42,17 @@ export class CoursesComponent {
     }
   ];
 
-  constructor(public service : CoursesService) { }
+  constructor() { }
 
   onSelect($event) {
     console.log($event);
   }
+}
+
+interface Course {
+  id: number,
+  code: string,
+  name: string,
+  description: string,
+  isArchived: boolean
 }

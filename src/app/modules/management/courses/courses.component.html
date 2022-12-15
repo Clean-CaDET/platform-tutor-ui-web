@@ -1,7 +1,7 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
     <cc-generic-table fxFlex="60"
         [fieldConfiguration]="fields"
-        [httpService]="service"
+        [baseUrl]="baseUrl"
         (select)="onSelect($event)">
     </cc-generic-table>
     <div fxFlex="40" fxLayout="column">
