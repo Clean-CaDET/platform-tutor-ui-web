@@ -29,12 +29,14 @@ export class KcmProgressComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.unitId = +params.unitId;
       this.courseId = +params.courseId;
       this.getLearnerGroups();
       this.groupMonitoringService
         .getUnitsByCourse(this.courseId)
-        .subscribe((units) => (this.units = units));
+        .subscribe((units) => {
+          this.units = units;
+          this.unitId = this.units[0].id;
+        });
     });
   }
 
