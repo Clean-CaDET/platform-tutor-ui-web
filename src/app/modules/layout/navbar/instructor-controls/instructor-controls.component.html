@@ -3,9 +3,7 @@
   {{ selectedCourse ? selectedCourse.name : 'Odaberi kurs'}}
 </button>
 <mat-menu #course="matMenu">
-  <button 
-    [routerLink]="['/course', course.id, 'learner-progress']" 
-    *ngFor="let course of courses" mat-menu-item>
+  <button [routerLink]="['/course', course.id, 'learner-progress']" *ngFor="let course of courses" mat-menu-item>
     {{course.name}}
   </button>
 </mat-menu>
