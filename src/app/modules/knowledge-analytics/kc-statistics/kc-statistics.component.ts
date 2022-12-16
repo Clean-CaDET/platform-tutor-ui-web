@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ngxCsv } from 'ngx-csv';
 import { Unit } from '../../learning/unit/unit.model';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 
@@ -17,6 +18,24 @@ export class KcStatisticsComponent implements OnInit {
   units: Unit[];
   groupId = '0';
   groups: any[];
+
+  exportOptions = {
+    fieldSeparator: ',',
+    quoteStrings: '"',
+    decimalseparator: '.',
+    showLabels: true,
+    showTitle: true,
+    title: 'Events',
+    useBom: true,
+    noDownload: false,
+    headers: [
+      'Timestamp',
+      'Type',
+      'Knowledge Component Id',
+      'Learner Id',
+      'Event-specific data',
+    ],
+  };
 
   constructor(
     private domainKnowledgeAnalyticsService: KnowledgeAnalyticsService
@@ -113,5 +132,19 @@ export class KcStatisticsComponent implements OnInit {
     let result = new Array();
     minutes.forEach((m) => result.push({ name: 'a', value: m }));
     return result;
+  }
+
+  exportAllToCSV(): void {
+    this.domainKnowledgeAnalyticsService.getAllEvents().subscribe((data) => {
+      let allEvents = data.events.sort(
+        (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
+      );
+      for (const event of allEvents) {
+        if (event.specificData) {
+          event.specificData = JSON.stringify(event.specificData);
+        }
+      }
+      new ngxCsv(allEvents, 'Events', this.exportOptions);
+    });
   }
 }
