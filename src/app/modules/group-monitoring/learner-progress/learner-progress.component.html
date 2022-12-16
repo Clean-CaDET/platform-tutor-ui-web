@@ -1,0 +1,21 @@
+<mat-card class="mat-elevation-z2 margin">
+    <mat-accordion>
+    <mat-expansion-panel hideToggle>
+        <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+        <mat-panel-title>
+            <mat-card-title>{{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}<br>{{learnerProgress.learner.index}}</mat-card-title>
+        </mat-panel-title>
+        <mat-panel-description>
+            <div>
+            <div class="progress">{{kcNum}} / {{satisfiedNum}} / {{suspiciousNum}}</div>
+            <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
+            </div>
+        </mat-panel-description>
+        </mat-expansion-panel-header>
+        <cc-assessments-table 
+            [knowledgeComponentMasteries]="learnerProgress.knowledgeComponentProgress"
+            [kcUnitId]="unitId">
+        </cc-assessments-table>
+    </mat-expansion-panel>
+    </mat-accordion>
+</mat-card>

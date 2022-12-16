@@ -62,34 +62,4 @@ export class KcmProgressComponent implements OnInit {
     this.pageSize = paginator.pageSize;
     this.getLearnerProgress();
   }
-
-  countKc(progress) {
-    if (this.unitId == 0) {
-      return progress.length;
-    }
-    return progress.filter((p) => p.kcUnitId === this.unitId).length;
-  }
-
-  countSatisfiedKc(progress) {
-    if (this.unitId == 0) {
-      return progress.filter((p) => p.statistics.isSatisfied).length;
-    }
-    return progress.filter(
-      (p) => p.kcUnitId === this.unitId && p.statistics.isSatisfied
-    ).length;
-  }
-
-  checkSuspiciousKcs(progress) {
-    let suspiciousKcs = 0;
-    const progressFiltered = progress.filter((p) => p.kcUnitId === this.unitId);
-    progressFiltered.forEach((pf) => {
-      if (
-        pf.expectedDurationInMinutes > pf.durationOfFinishedSessionsInMinutes &&
-        pf.statistics.isSatisfied === true
-      ) {
-        suspiciousKcs++;
-      }
-    });
-    return suspiciousKcs;
-  }
 }
