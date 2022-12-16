@@ -2,7 +2,8 @@
     fxFlex="45"
     fxFlex.sm="100"
     fxFlex.xs="100"
-    [routerLink]="'/courses/' + course.id">
+    (click)="onCourseClick()"
+    [ngClass]="{'pointer': user.role === 'learner'}">
     <mat-card-header>
         <mat-icon mat-card-avatar>book</mat-icon>
         <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
