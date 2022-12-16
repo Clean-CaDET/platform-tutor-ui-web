@@ -31,11 +31,11 @@ export class AuthGuard implements CanActivate {
     | UrlTree {
     const user: User = this.authService.user$.getValue();
 
-    if (user == null) {
+    if (user === null) {
       this.router.navigate(['login']);
       return false;
     }
-    if (user.role != route.data.role) {
+    if (user.role !== route.data.role) {
       this.router.navigate(['home']);
       return false;
     }

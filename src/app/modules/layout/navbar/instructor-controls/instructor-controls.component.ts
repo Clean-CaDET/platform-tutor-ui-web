@@ -42,14 +42,14 @@ export class InstructorControlsComponent implements OnInit {
         }
         if (this.courseIsChanged(params)) {
           this.selectedCourse = this.courses?.find(
-            (c) => c.id == +params.courseId
+            (c) => c.id === +params.courseId
           );
         }
       });
   }
 
   private courseIsChanged(params: Params) {
-    return this.selectedCourse?.id != params.courseId;
+    return this.selectedCourse?.id !== params.courseId;
   }
 
   private getParams(route: ActivatedRoute): Params {

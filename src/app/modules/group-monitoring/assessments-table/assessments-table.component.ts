@@ -6,38 +6,40 @@ import { Component, Input, OnChanges } from '@angular/core';
   templateUrl: './assessments-table.component.html',
   styleUrls: ['./assessments-table.component.scss'],
   animations: [
-    trigger(
-      'detailExpand',
-      [
-        transition(
-          ':enter',
-          [
-            style({ height: 0, opacity: 0 }),
-            animate('0.2s ease-out', style({ height: '*', opacity: 1 }))
-          ]
-        ),
-        transition(
-          ':leave',
-          [
-            style({ height: '*', opacity: 1 }),
-            animate('0.2s ease-in', style({ height: 0, opacity: 0 }))
-          ]
-        )
-      ]
-    )
-  ]
+    trigger('detailExpand', [
+      transition(':enter', [
+        style({ height: 0, opacity: 0 }),
+        animate('0.2s ease-out', style({ height: '*', opacity: 1 })),
+      ]),
+      transition(':leave', [
+        style({ height: '*', opacity: 1 }),
+        animate('0.2s ease-in', style({ height: 0, opacity: 0 })),
+      ]),
+    ]),
+  ],
 })
 export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentMasteries: any[];
   @Input() kcUnitId: number;
   dataSource;
-  displayedColumns: string[] = ['name', 'mastery', 'totalCount', 'passedCount', 'attemptedCount', 'time'];
+  displayedColumns: string[] = [
+    'name',
+    'mastery',
+    'totalCount',
+    'passedCount',
+    'attemptedCount',
+    'time',
+  ];
   expandedElement = new Object();
 
-  constructor() { }
+  constructor() {}
 
   ngOnChanges(): void {
-    if(+this.kcUnitId == 0) this.dataSource = this.knowledgeComponentMasteries;
-    else this.dataSource = this.knowledgeComponentMasteries.filter(kcm => kcm.kcUnitId == this.kcUnitId);
+    if (+this.kcUnitId === 0)
+      this.dataSource = this.knowledgeComponentMasteries;
+    else
+      this.dataSource = this.knowledgeComponentMasteries.filter(
+        (kcm) => kcm.kcUnitId === this.kcUnitId
+      );
   }
 }

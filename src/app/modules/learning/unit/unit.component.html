@@ -3,7 +3,7 @@
   <h3 class="mat-h3"><markdown>{{unit.description}}</markdown></h3>
   <mat-divider></mat-divider>
   <cc-knowledge-map [unitId]="unit.id" [knowledgeComponents]="unit.knowledgeComponents" [expanded]="true"></cc-knowledge-map>
-  <div *ngIf="unit.knowledgeComponents?.length == 0">
+  <div *ngIf="unit.knowledgeComponents?.length === 0">
     <p>
       <b>Lekcija je u najavi i trenutno je nema u ponudi.</b>
     </p>

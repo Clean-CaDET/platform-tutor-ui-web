@@ -110,17 +110,17 @@ export class KcStatisticsComponent implements OnInit {
 
   private createTimeBoxData(kc: any) {
     delete this.timeChartData[kc.kcCode];
-    if (kc.minutesToCompletion.length == 0 && kc.minutesToPass.length == 0)
+    if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0)
       return;
 
     this.timeChartData[kc.kcCode] = new Array();
-    if (kc.minutesToCompletion.length != 0) {
+    if (kc.minutesToCompletion.length !== 0) {
       this.timeChartData[kc.kcCode].push({
         name: 'Vreme pregleda (u minutima)',
         series: this.createTimeSeries(kc.minutesToCompletion),
       });
     }
-    if (kc.minutesToPass.length != 0) {
+    if (kc.minutesToPass.length !== 0) {
       this.timeChartData[kc.kcCode].push({
         name: 'Vreme rešavanja (u minutima)',
         series: this.createTimeSeries(kc.minutesToPass),

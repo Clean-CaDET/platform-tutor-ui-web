@@ -27,11 +27,11 @@ export class DashboardComponent implements OnInit {
         this.courses = [];
         return;
       }
-      if (this.user.role == 'learner') {
+      if (this.user.role === 'learner') {
         this.layoutService.getCourses().subscribe((courses) => {
           this.courses = courses;
         });
-      } else if (this.user.role == 'instructor') {
+      } else if (this.user.role === 'instructor') {
         this.layoutInstructorService.getCourses().subscribe((courses) => {
           this.courses = courses;
         });

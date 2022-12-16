@@ -31,7 +31,7 @@ export class JwtInterceptor implements HttpInterceptor {
         if (
           error instanceof HttpErrorResponse &&
           error.status === 401 &&
-          this.authService.user$.value != null
+          this.authService.user$.value !== null
         ) {
           return this.handle401Error(accessTokenRequest, next);
         }
