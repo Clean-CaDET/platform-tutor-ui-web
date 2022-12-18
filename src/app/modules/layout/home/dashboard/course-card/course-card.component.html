@@ -1,7 +1,4 @@
-<mat-card class="card" style="margin: 10px;"
-    fxFlex="45"
-    fxFlex.sm="100"
-    fxFlex.xs="100"
+<mat-card
     (click)="onCourseClick()"
     [ngClass]="{'pointer': user.role === 'learner'}">
     <mat-card-header>
@@ -13,7 +10,8 @@
             <markdown>{{course.description}}</markdown>
         </p>
     </mat-card-content>
-    <mat-card-actions *ngIf="user.role === 'instructor'" class="right">
+    <mat-card-actions *ngIf="user.role === 'instructor'"
+        fxLayoutAlign="end" fxLayoutGap="16px">
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/management/courses'">
             <mat-icon>edit</mat-icon>
         </button>
