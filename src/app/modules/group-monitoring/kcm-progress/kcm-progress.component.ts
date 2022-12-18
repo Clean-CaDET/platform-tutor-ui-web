@@ -31,12 +31,7 @@ export class KcmProgressComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
       this.getLearnerGroups();
-      this.groupMonitoringService
-        .getUnitsByCourse(this.courseId)
-        .subscribe((units) => {
-          this.units = units;
-          this.unitId = this.units[0].id;
-        });
+      this.getCourse();
     });
   }
 
@@ -46,6 +41,15 @@ export class KcmProgressComponent implements OnInit {
       this.groupId = this.groups[0].id;
       this.getLearnerProgress();
     });
+  }
+
+  private getCourse() {
+    this.groupMonitoringService
+      .getCourse(this.courseId)
+      .subscribe((course) => {
+        this.units = course.knowledgeUnits;
+        this.unitId = this.units[0].id;
+      });
   }
 
   public getLearnerProgress() {

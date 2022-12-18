@@ -69,7 +69,7 @@ export class KnowledgeAnalyticsService {
         );
     } else {
       return this.http
-        .get<any>(environment.apiHost + 'knowledge-analysis/' + unitId + '/groups/' + groupId)
+        .get<any>(environment.apiHost + `knowledge-analysis/${unitId}/groups/${groupId}`)
         .pipe(
           map((data) => {
             return data;
