@@ -1,9 +1,7 @@
 import {
   Component,
   Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
+  OnChanges
 } from '@angular/core';
 
 @Component({
@@ -12,20 +10,20 @@ import {
   styleUrls: ['./learner-progress.component.scss'],
 })
 export class LearnerProgressComponent implements OnChanges {
-  @Input() unitId: number = 0;
+  @Input() unitId = 0;
   @Input() learnerProgress: any = [];
 
-  kcNum: number = 0;
-  satisfiedNum: number = 0;
-  suspiciousNum: number = 0;
+  kcNum = 0;
+  satisfiedNum = 0;
+  suspiciousNum = 0;
 
   constructor() {}
 
-  ngOnChanges() {
+  ngOnChanges(): void {
     this.countProgress();
   }
 
-  countProgress() {
+  countProgress(): void {
     this.kcNum = this.countKc();
     this.satisfiedNum = this.countSatisfiedKc();
     this.suspiciousNum = this.countSuspiciousKcs();

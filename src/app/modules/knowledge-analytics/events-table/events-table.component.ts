@@ -76,7 +76,7 @@ export class EventsTableComponent implements OnInit {
 
   exportAllToCSV(): void {
     this.domainKnowledgeAnalyticsService.getAllEvents().subscribe((data) => {
-      this.allEvents = data.events.sort(
+      this.allEvents = data.sort(
         (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
       );
       for (const event of this.allEvents) {

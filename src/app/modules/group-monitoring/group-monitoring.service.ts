@@ -54,7 +54,6 @@ export class GroupMonitoringService {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('page', page);
     queryParams = queryParams.append('pageSize', pageSize);
-
     return { params: queryParams };
   }
 }

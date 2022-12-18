@@ -3,6 +3,7 @@ import { ngxCsv } from 'ngx-csv';
 import { Unit } from '../../learning/unit/unit.model';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import {ActivatedRoute, Params} from '@angular/router';
+import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
 
 @Component({
   selector: 'cc-kc-statistics',
@@ -10,7 +11,7 @@ import {ActivatedRoute, Params} from '@angular/router';
   styleUrls: ['./kc-statistics.component.scss'],
 })
 export class KcStatisticsComponent implements OnInit {
-  knowledgeComponentStatistics: any[];
+  knowledgeComponentStatistics: KnowledgeComponentStatistics[];
   totalCountChartData = {};
   percentageChartData = {};
   timeChartData = {};
@@ -134,15 +135,15 @@ export class KcStatisticsComponent implements OnInit {
     }
   }
 
-  private createTimeSeries(minutes: number[]) {
-    let result = [];
+  private createTimeSeries(minutes: number[]): number[]{
+    const result = [];
     minutes.forEach((m) => result.push({ name: 'a', value: m }));
     return result;
   }
 
   exportAllToCSV(): void {
     this.domainKnowledgeAnalyticsService.getAllEvents().subscribe((data) => {
-      const allEvents = data.events.sort(
+      const allEvents = data.sort(
         (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
       );
       for (const event of allEvents) {

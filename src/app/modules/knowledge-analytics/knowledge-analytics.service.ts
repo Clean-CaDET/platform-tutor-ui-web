@@ -5,6 +5,8 @@ import { environment } from 'src/environments/environment';
 import { Unit } from '../learning/unit/unit.model';
 import { LearningEvent } from './events-table/learning-event';
 import {Course} from '../learning/course/course.model';
+import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics';
+import {Group} from './model/group';
 
 @Injectable({
   providedIn: 'root',
@@ -14,35 +16,25 @@ export class KnowledgeAnalyticsService {
 
   getEvents(page: number, pageSize: number) {
     return this.http
-      .get<any>(
-        environment.apiHost + 'events',
-        this.createParams(page, pageSize)
-      )
-      .pipe(
-        map((data) => {
+      .get<any>(environment.apiHost + 'events', this.createParams(page, pageSize))
+      .pipe(map((data) => {
           const events = new Array<LearningEvent>();
-          data.results.forEach((event) =>
-            events.push(new LearningEvent(event))
-          );
-          return {
-            events,
-            count: data.totalCount,
+          data.results.forEach((event) => events.push(new LearningEvent(event)));
+          return {events, count: data.totalCount,
           };
-        })
+      })
       );
   }
 
-  getAllEvents() {
+  getAllEvents(): Observable<LearningEvent[]> {
     return this.http
-      .get<any>(environment.apiHost + 'events/all/')
+      .get<LearningEvent[]>(environment.apiHost + 'events/all/')
       .pipe(
         map((data) => {
           const events = new Array<LearningEvent>();
           data.forEach((event) => events.push(new LearningEvent(event)));
-          return {
-            events,
-          };
-        })
+          return events; }
+        )
       );
   }
 
@@ -58,30 +50,17 @@ export class KnowledgeAnalyticsService {
       );
   }
 
-  getKnowledgeComponentStatistics(groupId: string, unitId: string) {
+  getKnowledgeComponentStatistics(groupId: string, unitId: string): Observable<KnowledgeComponentStatistics[]> {
     if (groupId === '0') {
       return this.http
-        .get<any>(environment.apiHost + 'knowledge-analysis/' + unitId)
-        .pipe(
-          map((data) => {
-            return data;
-          })
-        );
+        .get<KnowledgeComponentStatistics[]>(environment.apiHost + 'knowledge-analysis/' + unitId);
     } else {
-      return this.http
-        .get<any>(environment.apiHost + `knowledge-analysis/${unitId}/groups/${groupId}`)
-        .pipe(
-          map((data) => {
-            return data;
-          })
-        );
+      return this.http.get<KnowledgeComponentStatistics[]>(environment.apiHost + `knowledge-analysis/${unitId}/groups/${groupId}`);
     }
   }
 
-  getGroups(courseId: number) {
-    return this.http.get<any[]>(
-      environment.apiHost + `monitoring/${courseId}/groups`
-    );
+  getGroups(courseId: number): Observable<Group[]> {
+    return this.http.get<Group[]>(environment.apiHost + `monitoring/${courseId}/groups`);
   }
 
   private createParams(page: number, pageSize: number) {
