@@ -4,6 +4,7 @@ import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Unit } from '../learning/unit/unit.model';
 import { LearningEvent } from './events-table/learning-event';
+import {Course} from '../learning/course/course.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,17 +15,17 @@ export class KnowledgeAnalyticsService {
   getEvents(page: number, pageSize: number) {
     return this.http
       .get<any>(
-        environment.apiHost + 'analytics/events',
+        environment.apiHost + 'events',
         this.createParams(page, pageSize)
       )
       .pipe(
         map((data) => {
-          let events = new Array<LearningEvent>();
+          const events = new Array<LearningEvent>();
           data.results.forEach((event) =>
             events.push(new LearningEvent(event))
           );
           return {
-            events: events,
+            events,
             count: data.totalCount,
           };
         })
@@ -33,7 +34,7 @@ export class KnowledgeAnalyticsService {
 
   getAllEvents() {
     return this.http
-      .get<any>(environment.apiHost + 'analytics/all-events')
+      .get<any>(environment.apiHost + 'events/all/')
       .pipe(
         map((data) => {
           const events = new Array<LearningEvent>();
@@ -45,34 +46,42 @@ export class KnowledgeAnalyticsService {
       );
   }
 
-  getUnits(): Observable<Unit[]> {
-    return this.http.get<Unit[]>(environment.apiHost + 'domain/units').pipe(
-      map((data) => {
-        let retVal = new Array();
-        data.forEach((d) => retVal.push(new Unit(d)));
-        return retVal;
-      })
-    );
-  }
-
-  getKnowledgeComponentStatistics(groupId: string, unitId: string) {
-    let params = new HttpParams();
-    params = params.append('groupId', groupId);
-    params = params.append('unitId', unitId);
-
+  getUnits(courseId: number): Observable<Unit[]> {
     return this.http
-      .get<any>(environment.apiHost + 'analytics/kc-statistics', {
-        params: params,
-      })
+      .get<Course>(environment.apiHost + 'owned-courses/' + courseId)
       .pipe(
         map((data) => {
-          return data;
+          const retVal = [];
+          data.knowledgeUnits.forEach((d) => retVal.push(new Unit(d)));
+          return retVal;
         })
       );
   }
 
-  getGroups() {
-    return this.http.get<any[]>(environment.apiHost + 'learners/groups');
+  getKnowledgeComponentStatistics(groupId: string, unitId: string) {
+    if (groupId === '0') {
+      return this.http
+        .get<any>(environment.apiHost + 'knowledge-analysis/' + unitId)
+        .pipe(
+          map((data) => {
+            return data;
+          })
+        );
+    } else {
+      return this.http
+        .get<any>(environment.apiHost + 'knowledge-analysis/' + unitId + '/groups/' + groupId)
+        .pipe(
+          map((data) => {
+            return data;
+          })
+        );
+    }
+  }
+
+  getGroups(courseId: number) {
+    return this.http.get<any[]>(
+      environment.apiHost + `monitoring/${courseId}/groups`
+    );
   }
 
   private createParams(page: number, pageSize: number) {

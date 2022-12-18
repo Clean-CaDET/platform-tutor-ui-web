@@ -3,12 +3,11 @@
         <span fxFlex>
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
-                <mat-select [(value)]="unitId" (selectionChange)="updateStatistics()">
-                    <mat-option value="0">Izaberi lekciju</mat-option>
+              <mat-select [(value)]="unitId" (selectionChange)="updateStatistics()">
                     <mat-option *ngFor="let unit of units" [value]="unit.id">
                         {{unit.name}}
                     </mat-option>
-                </mat-select>
+              </mat-select>
             </mat-form-field>
             &nbsp;
             <mat-form-field appearance="fill">

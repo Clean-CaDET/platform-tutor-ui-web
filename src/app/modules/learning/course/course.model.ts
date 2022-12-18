@@ -4,14 +4,14 @@ export class Course {
   id: number;
   name: string;
   description: string;
-  units: Unit[];
+  knowledgeUnits: Unit[];
 
   constructor(obj?: any) {
     if (obj) {
       this.id = obj.id;
       this.name = obj.name;
       this.description = obj.description;
-      this.units = obj.knowledgeUnits.map((ku) => new Unit(ku));
+      this.knowledgeUnits = obj.knowledgeUnits.map((ku) => new Unit(ku));
     }
   }
 }
