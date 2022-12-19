@@ -9,17 +9,26 @@
 </mat-menu>
 <ng-container *ngIf="selectedCourse">
   <button mat-flat-button color="primary" class="controls"
-    [routerLink]="'/management/courses'">
+    [routerLink]="'/management/courses'"
+    (click)="selectControl('authoring')"
+    [ngClass]="{'selected': selectedControl === 'authoring'}">
     <mat-icon>edit</mat-icon>
     Autorstvo
   </button>
   <button mat-flat-button color="primary" class="controls"
-    [routerLink]="'/analytics/kc-statistics'">
+    [routerLink]="['/analytics', 'kc-statistics']"
+    (click)="selectControl('analytics')"
+    [ngClass]="{'selected': selectedControl === 'analytics'}">
+    <!-- Refactor to match endpoint on new backend:
+      [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']"
+    -->
     <mat-icon>bar_chart</mat-icon>
     Analitike
   </button>
   <button mat-flat-button color="primary" class="controls"
-    [routerLink]="['/course', selectedCourse.id, 'learner-progress']">
+    [routerLink]="['/course', selectedCourse.id, 'learner-progress']"
+    (click)="selectControl('groups')"
+    [ngClass]="{'selected': selectedControl === 'groups'}">
     <mat-icon>groups</mat-icon>
     Grupe
   </button>
