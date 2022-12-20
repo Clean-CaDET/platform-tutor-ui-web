@@ -6,10 +6,7 @@
         [baseUrl]="baseUrl"
         (select)="onSelect($event)">
     </cc-generic-table>
-    <div fxFlex="40">
-        <mat-card *ngIf="selectedInstructor">
-            <h2>Vlastiti kursevi</h2>
-            <cc-owned-courses [instructor]="selectedInstructor" [allCourses]="allCourses"></cc-owned-courses>
-        </mat-card>
+    <div fxFlex="40" *ngIf="selectedInstructor">
+        <cc-owned-courses [instructor]="selectedInstructor" [allCourses]="allCourses"></cc-owned-courses>
     </div>
 </div>

@@ -17,10 +17,7 @@
             </cc-generic-table>
         </div>
         <div>
-            <mat-card>
-                <h2>Vlasnici ({{selectedCourse.code}})</h2>
-                TODO
-            </mat-card>
+            <cc-owners [course]="selectedCourse" [allInstructors]="allInstructors"></cc-owners>
         </div>
     </div>
 </div>

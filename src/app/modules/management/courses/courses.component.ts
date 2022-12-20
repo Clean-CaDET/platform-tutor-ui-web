@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 
 @Component({
   selector: 'cc-courses',
   templateUrl: './courses.component.html',
   styleUrls: ['./courses.component.scss']
 })
-export class CoursesComponent {
+export class CoursesComponent implements OnInit {
   baseUrl = 'https://localhost:44333/api/management/courses/';
   fields = [
     { code: 'code', type: 'string', label: 'Kod', required: true },
@@ -22,7 +23,16 @@ export class CoursesComponent {
   ];
   selectedGroup;
 
-  constructor() { }
+  allInstructors;
+
+  constructor(private instructorService: CrudService<any>) { }
+
+  ngOnInit(): void {
+    this.instructorService.getAll('https://localhost:44333/api/management/instructors/', null)
+      .subscribe(instructors => {
+        this.allInstructors = instructors.results
+      });
+  }
 
   onSelect(course) {
     this.selectedCourse = course;

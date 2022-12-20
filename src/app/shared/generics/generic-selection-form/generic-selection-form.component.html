@@ -1,6 +1,6 @@
-<div fxLayout="column">
-<form>
-  <mat-form-field appearance="fill">
+<div fxLayout="column" style="width: 500px;">
+<form fxFlex>
+  <mat-form-field appearance="fill" fxFlex>
     <mat-label>{{label}}</mat-label>
     <input type="text" placeholder="Odaberi ili pretraži" matInput [formControl]="selectionControl" [matAutocomplete]="auto">
     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">

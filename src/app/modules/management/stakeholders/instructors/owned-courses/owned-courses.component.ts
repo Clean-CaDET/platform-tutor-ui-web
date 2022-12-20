@@ -31,13 +31,6 @@ export class OwnedCoursesComponent implements OnChanges {
     })
   }
 
-  removeOwnedCourse(courseId: number) {
-    if(!this.instructor) return;
-    this.instructorService.removeOwnedCourse(this.instructor.id, courseId).subscribe(() => {
-      this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== courseId));
-    });
-  }
-
   onAddOwnedCourse(): void {
     const dialogRef = this.dialog.open(GenericSelectionFormComponent, {
       data: {items: this.allNotOwnedCourses(), presentationFunction: (course) => course.code + ", " + course.name},
