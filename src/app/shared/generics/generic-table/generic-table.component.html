@@ -1,4 +1,6 @@
-<div fxFlex fxLayout="column">
+<mat-card fxFlex fxLayout="column" style="margin-bottom: 10px;">
+  <h2>{{title}}</h2>
+  
   <div fxLayout="row">
     <span fxFlex>
     <mat-form-field fxFlex *ngIf="filterEnabled()">
@@ -52,4 +54,4 @@
   <mat-paginator *ngIf="pageProperties" (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
     [length]="pageProperties.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
     showFirstLastButtons="true"></mat-paginator>
-</div>
+</mat-card>

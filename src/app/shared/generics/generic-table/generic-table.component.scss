@@ -1,3 +1,7 @@
+h2 {
+    text-align: center;
+}
+
 tr.mat-row {
     cursor: pointer;
 }
@@ -8,20 +12,6 @@ tr.mat-row {
 
 .fade {
     opacity: 0.5;
-}
-
-.margin {
-    margin: 10px;
-}
-
-.margin-right {
-    margin-right: 50px;
-}
-
-.sticky {
-    position: sticky;
-    top:0;
-    z-index: 5;
 }
 
 .table-button {

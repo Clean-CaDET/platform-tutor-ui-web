@@ -1,12 +1,15 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
-  <cc-generic-table fxFlex="60"
+  <cc-generic-table
+    fxFlex="50"
+    [title]="'Učenici'"
     [fieldConfiguration]="fields"
     [baseUrl]="baseUrl"
     (select)="onSelect($event)">
   </cc-generic-table>
-  <div fxFlex="40" fxLayout="column">
-    <mat-tab-group>
-      <mat-tab label="Grupe">Pripadnost grupama</mat-tab>
-    </mat-tab-group>
+  <div fxFlex="40">
+    <mat-card *ngIf="selectedLearner">
+        <h2>Prijavljeni kursevi</h2>
+        <!--cc-owned-courses [instructor]="selectedInstructor" [allCourses]="allCourses"></cc-owned-courses-->
+    </mat-card>
   </div>
 </div>

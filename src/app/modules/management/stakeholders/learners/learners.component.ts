@@ -14,13 +14,14 @@ export class LearnersComponent {
     { code: 'name', type: 'string', label: 'Ime', required: true },
     { code: 'surname', type: 'string', label: 'Prezime', required: true },
     { code: 'email', type: 'email', label: 'Email' },
-    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
   ];
+  selectedLearner: any;
   
   constructor() { }
 
-  onSelect($event) {
-    console.log($event);
+  onSelect(learner) {
+    this.selectedLearner = learner;
   }
 }
 

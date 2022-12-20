@@ -1,27 +1,26 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
-    <mat-card fxFlex="40">
-        <h2>Kursevi</h2>
-        <cc-generic-table
-            [fieldConfiguration]="fields"
-            [baseUrl]="baseUrl"
-            (select)="onSelect($event)">
-        </cc-generic-table>
-    </mat-card>
-    <div fxFlex="25" *ngIf="selectedCourse">
-        <mat-card>
-            <h2>Grupe ({{selectedCourse.code}})</h2>
+    <cc-generic-table
+        fxFlex="40"
+        [title]="'Kursevi'"
+        [fieldConfiguration]="fields"
+        [baseUrl]="baseUrl"
+        (select)="onSelect($event)">
+    </cc-generic-table>
+    <div fxLayout="column" fxFlex="25" *ngIf="selectedCourse" fxLayoutGap="30px">
+        <div>
             <cc-generic-table
+                [title]="'Grupe (' + selectedCourse.code + ')'"
                 [fieldConfiguration]="groupFields"
                 [baseUrl]="baseGroupUrl"
                 [pageProperties]="false"
                 (select)="onSelectGroup($event)">
             </cc-generic-table>
-        </mat-card>
-    </div>
-    <div fxFlex="25" *ngIf="selectedCourse">
-        <mat-card>
-            <h2>Vlasnici ({{selectedCourse.code}})</h2>
-            TODO
-        </mat-card>
+        </div>
+        <div>
+            <mat-card>
+                <h2>Vlasnici ({{selectedCourse.code}})</h2>
+                TODO
+            </mat-card>
+        </div>
     </div>
 </div>

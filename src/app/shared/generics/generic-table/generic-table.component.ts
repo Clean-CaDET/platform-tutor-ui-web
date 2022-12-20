@@ -12,6 +12,7 @@ import { GenericFormComponent } from '../generic-form/generic-form.component';
   styleUrls: ['./generic-table.component.scss']
 })
 export class GenericTableComponent implements OnChanges {
+  @Input() title : string;
   @Input() baseUrl : string;
   dataSource;
 
