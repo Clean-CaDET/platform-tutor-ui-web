@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,7 +11,7 @@ import { GenericFormComponent } from '../generic-form/generic-form.component';
   templateUrl: './generic-table.component.html',
   styleUrls: ['./generic-table.component.scss']
 })
-export class GenericTableComponent implements OnInit {
+export class GenericTableComponent implements OnChanges {
   @Input() baseUrl : string;
   dataSource;
 
@@ -32,7 +32,7 @@ export class GenericTableComponent implements OnInit {
     this.dataSource = new MatTableDataSource([]);
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.columns = []
     this.fieldConfiguration.forEach(element => {
       if(element.type == 'password') return;
@@ -52,7 +52,7 @@ export class GenericTableComponent implements OnInit {
     this.httpService.getAll(this.baseUrl, this.pageProperties)
       .subscribe(response => {
         this.dataSource = new MatTableDataSource(response.results);
-        this.pageProperties.totalCount = response.totalCount;
+        if(this.pageProperties) this.pageProperties.totalCount = response.totalCount;
       });
   }
 
@@ -64,6 +64,11 @@ export class GenericTableComponent implements OnInit {
   createEnabled(): boolean {
     let crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
     return crud?.create;
+  }
+
+  filterEnabled(): boolean {
+    let crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
+    return crud?.filter;
   }
 
   onCreate(): void {

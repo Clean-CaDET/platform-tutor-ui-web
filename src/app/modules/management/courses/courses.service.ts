@@ -5,7 +5,11 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class CoursesService {
-  baseUrl: 'https://localhost:44333/api/management/courses/';
+  baseUrl = 'https://localhost:44333/api/management/courses/';
 
   constructor(private http: HttpClient) {}
+
+  getGroups(courseId: number) {
+    return this.http.get(this.baseUrl + courseId + "/groups");
+  }
 }

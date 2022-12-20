@@ -1,17 +1,19 @@
 <div fxFlex fxLayout="column">
-  <mat-card fxLayout="row" class="mat-elevation-z5 sticky">
-    <mat-form-field fxFlex>
+  <div fxLayout="row">
+    <span fxFlex>
+    <mat-form-field fxFlex *ngIf="filterEnabled()">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
     </mat-form-field>
+    </span>
     <span>
       <button *ngIf="createEnabled()" mat-mini-fab color="primary" (click)="onCreate()">
         <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">add</mat-icon>
       </button>
     </span>
-  </mat-card>
+  </div>
 
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows>
+  <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource.data.length > 0">
     <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
       <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
       <td mat-cell *matCellDef="let element">
@@ -47,7 +49,7 @@
     <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)" [class.highlight]="selectedItem?.id==element.id" [class.fade]="element.isArchived"></tr>
   </table>
 
-  <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
+  <mat-paginator *ngIf="pageProperties" (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
     [length]="pageProperties.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
     showFirstLastButtons="true"></mat-paginator>
 </div>

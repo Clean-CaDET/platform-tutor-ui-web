@@ -1,19 +1,27 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
-    <cc-generic-table fxFlex="40"
-        [fieldConfiguration]="fields"
-        [baseUrl]="baseUrl"
-        (select)="onSelect($event)">
-    </cc-generic-table>
-    <div fxFlex="25" fxLayout="column">
+    <mat-card fxFlex="40">
+        <h2>Kursevi</h2>
+        <cc-generic-table
+            [fieldConfiguration]="fields"
+            [baseUrl]="baseUrl"
+            (select)="onSelect($event)">
+        </cc-generic-table>
+    </mat-card>
+    <div fxFlex="25" *ngIf="selectedCourse">
         <mat-card>
-            TODO: Vlasnici instruktori
-            (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
+            <h2>Grupe ({{selectedCourse.code}})</h2>
+            <cc-generic-table
+                [fieldConfiguration]="groupFields"
+                [baseUrl]="baseGroupUrl"
+                [pageProperties]="false"
+                (select)="onSelectGroup($event)">
+            </cc-generic-table>
         </mat-card>
     </div>
-    <div fxFlex="25" fxLayout="column">
+    <div fxFlex="25" *ngIf="selectedCourse">
         <mat-card>
-            TODO: Vlasnici instruktori
-            (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
+            <h2>Vlasnici ({{selectedCourse.code}})</h2>
+            TODO
         </mat-card>
     </div>
 </div>

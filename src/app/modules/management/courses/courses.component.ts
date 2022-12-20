@@ -7,18 +7,30 @@ import { Component } from '@angular/core';
 })
 export class CoursesComponent {
   baseUrl = 'https://localhost:44333/api/management/courses/';
-
   fields = [
     { code: 'code', type: 'string', label: 'Kod', required: true },
     { code: 'name', type: 'string', label: 'Naziv', required: true },
     { code: 'isArchived', type: 'archive', label: 'Arhiviran' },
-    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
   ];
+  selectedCourse;
+
+  baseGroupUrl;
+  groupFields = [
+    { code: 'name', type: 'string', label: 'Naziv', required: true },
+    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, delete: true }
+  ];
+  selectedGroup;
 
   constructor() { }
 
-  onSelect($event) {
-    console.log($event);
+  onSelect(course) {
+    this.selectedCourse = course;
+    this.baseGroupUrl = this.baseUrl + course.id + "/groups/";
+  }
+
+  onSelectGroup(group) {
+    console.log(group);
   }
 }
 
