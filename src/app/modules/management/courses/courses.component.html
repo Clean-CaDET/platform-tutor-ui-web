@@ -1,18 +1,19 @@
 <div fxFlex fxLayout="row" fxLayoutGap="30px">
-    <cc-generic-table fxFlex="60"
+    <cc-generic-table fxFlex="40"
         [fieldConfiguration]="fields"
         [baseUrl]="baseUrl"
         (select)="onSelect($event)">
     </cc-generic-table>
-    <div fxFlex="40" fxLayout="column">
-        <mat-tab-group>
-        <mat-tab label="Vlasnici">
+    <div fxFlex="25" fxLayout="column">
+        <mat-card>
             TODO: Vlasnici instruktori
             (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
-        </mat-tab>
-        <mat-tab label="Grupe">
-            TODO: Grupe
-        </mat-tab>
-        </mat-tab-group>
+        </mat-card>
+    </div>
+    <div fxFlex="25" fxLayout="column">
+        <mat-card>
+            TODO: Vlasnici instruktori
+            (razmisli o generic tabeli za prikaz (instructors/:id/courses) i o kontrolama za raskidanje i dodavanja veza)
+        </mat-card>
     </div>
 </div>

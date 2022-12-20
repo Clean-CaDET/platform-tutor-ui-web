@@ -5,8 +5,7 @@
         (select)="onSelect($event)">
     </cc-generic-table>
     <div fxFlex="40" fxLayout="column">
-        <mat-tab-group *ngIf="selectedInstructor">
-        <mat-tab label="Vlastiti kursevi">
+        <mat-card *ngIf="selectedInstructor" label="Vlastiti kursevi">
             <cc-plain-generic-table
                 [fieldConfiguration]="courseFields"
                 [items]="ownedCourses"
@@ -17,10 +16,6 @@
                 <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">add</mat-icon>
             </button>
             </span>
-        </mat-tab>
-        <mat-tab label="Grupe">
-            TODO: Grupe
-        </mat-tab>
-        </mat-tab-group>
+        </mat-card>
     </div>
 </div>
