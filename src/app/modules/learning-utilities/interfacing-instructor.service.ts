@@ -55,7 +55,7 @@ export class InterfacingInstructor {
       'ON_SUBMIT_CLICKED_COUNTER',
       onSubmitClickedCounter.toString()
     );
-    return onSubmitClickedCounter == 0;
+    return onSubmitClickedCounter === 0;
   }
 
   // Consider moving this to a standalone service.
@@ -68,7 +68,7 @@ export class InterfacingInstructor {
           return false;
         }
 
-        if (rnd == 9) {
+        if (rnd === 9) {
           message =
             'Hmm, ' +
             (correctness * 100).toFixed(0) +
@@ -100,12 +100,12 @@ export class InterfacingInstructor {
           return false;
         }
 
-        if (rnd == 8) {
+        if (rnd === 8) {
           message =
             'Opa, ' +
             (correctness * 100).toFixed(0) +
             '% 😄. Ovo je super rezultat, samo napred!';
-        } else if (rnd == 9) {
+        } else if (rnd === 9) {
           message =
             (correctness * 100).toFixed(0) + '%, strava 😎. Idemo dalje!';
         } else {
@@ -139,9 +139,9 @@ export class InterfacingInstructor {
   private passCongratulations(): void {
     const rnd = this.getRandomNumber(3);
     let message: string;
-    if (rnd == 1) {
+    if (rnd === 1) {
       message = 'Još jedna veština savladana 🥳. Svaka čast!';
-    } else if (rnd == 2) {
+    } else if (rnd === 2) {
       message = 'Postao si vičan u još jednoj veštini 🤗!';
     } else {
       message = 'Svakim satom sve više napredujemo 🤓.';

@@ -39,8 +39,8 @@ export class MultipleChoiceQuestionComponent
   }
 
   checkItemCorrectness(item: string) {
-    if (item != this.checked) return '';
-    return this.evaluation.correctnessLevel == 1
+    if (item !== this.checked) return '';
+    return this.evaluation.correctnessLevel === 1
       ? 'color-correct'
       : 'color-wrong';
   }

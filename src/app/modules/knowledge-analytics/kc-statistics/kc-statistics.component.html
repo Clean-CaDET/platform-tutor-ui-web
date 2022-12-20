@@ -1,14 +1,13 @@
 <div class="right-margin">
-    <mat-card fxLayout="row" class="mat-elevation-z5 margin sticky">
+    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z5 margin sticky">
         <span fxFlex>
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
-                <mat-select [(value)]="unitId" (selectionChange)="updateStatistics()">
-                    <mat-option value="0">Izaberi lekciju</mat-option>
+              <mat-select [(value)]="unitId" (selectionChange)="updateStatistics()">
                     <mat-option *ngFor="let unit of units" [value]="unit.id">
                         {{unit.name}}
                     </mat-option>
-                </mat-select>
+              </mat-select>
             </mat-form-field>
             &nbsp;
             <mat-form-field appearance="fill">
@@ -21,7 +20,9 @@
                 </mat-select>
             </mat-form-field>
         </span>
-        <span fxFlex></span>
+        <span fxFlex="nogrow">
+            <button id="exportAllToCSV" color="accent" mat-raised-button (click)="exportAllToCSV()">Export Events to CSV</button>
+        </span>
     </mat-card>
     <div fxLayout="row wrap">
         <div *ngFor="let kc of knowledgeComponentStatistics" fxFlex="100">

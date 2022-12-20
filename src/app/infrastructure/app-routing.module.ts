@@ -41,13 +41,13 @@ const routes: Routes = [
     data: { role: 'instructor' },
   },
   {
-    path: 'analytics/kc-statistics',
+    path: 'analytics/:courseId/kc-statistics',
     component: KcStatisticsComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
   },
   {
-    path: 'course/:courseId/learner-progress/:unitId',
+    path: 'course/:courseId/learner-progress',
     component: KcmProgressComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },

@@ -8,10 +8,6 @@ import { environment } from 'src/environments/environment';
 export class LayoutService {
   constructor(private http: HttpClient) {}
 
-  getGroups() {
-    return this.http.get<any[]>(environment.apiHost + 'learners/groups');
-  }
-
   getCourses() {
     return this.http.get<any[]>(environment.apiHost + 'learners/courses');
   }
