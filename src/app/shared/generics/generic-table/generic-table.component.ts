@@ -34,6 +34,7 @@ export class GenericTableComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
+    this.selectedItem = null;
     this.columns = []
     this.fieldConfiguration.forEach(element => {
       if(element.type == 'password') return;

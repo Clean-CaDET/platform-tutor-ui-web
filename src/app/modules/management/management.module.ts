@@ -7,6 +7,7 @@ import { InstructorsComponent } from './stakeholders/instructors/instructors.com
 import { CoursesComponent } from './courses/courses.component';
 import { OwnedCoursesComponent } from './stakeholders/instructors/owned-courses/owned-courses.component';
 import { OwnersComponent } from './courses/owners/owners.component';
+import { EnrolledLearnersComponent } from './courses/enrolled-learners/enrolled-learners.component';
 
 
 
@@ -16,7 +17,8 @@ import { OwnersComponent } from './courses/owners/owners.component';
     InstructorsComponent,
     CoursesComponent,
     OwnedCoursesComponent,
-    OwnersComponent
+    OwnersComponent,
+    EnrolledLearnersComponent
   ],
   imports: [
     CommonModule,

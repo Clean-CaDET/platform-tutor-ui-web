@@ -36,18 +36,11 @@ export class CoursesComponent implements OnInit {
 
   onSelect(course) {
     this.selectedCourse = course;
+    this.selectedGroup = null;
     this.baseGroupUrl = this.baseUrl + course.id + "/groups/";
   }
 
   onSelectGroup(group) {
-    console.log(group);
+    this.selectedGroup = group;
   }
-}
-
-interface Course {
-  id: number,
-  code: string,
-  name: string,
-  description: string,
-  isArchived: boolean
 }

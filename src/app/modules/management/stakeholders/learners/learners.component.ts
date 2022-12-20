@@ -7,7 +7,6 @@ import { Component } from '@angular/core';
 })
 export class LearnersComponent {
   baseUrl = "https://localhost:44333/api/management/learners/";
-  // Should add an interface/class for each field and separate CRUD operations into a different structure?
   fields = [
     { code: 'index', type: 'string', label: 'Indeks / Username', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },
@@ -23,13 +22,4 @@ export class LearnersComponent {
   onSelect(learner) {
     this.selectedLearner = learner;
   }
-}
-
-interface Learner {
-  id: number,
-  index: string,
-  name: string,
-  surname: string,
-  email: string,
-  password: string
 }

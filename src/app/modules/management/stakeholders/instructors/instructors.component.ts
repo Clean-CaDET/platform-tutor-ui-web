@@ -8,7 +8,6 @@ import { CrudService } from 'src/app/shared/generics/generic-table/crud.service'
 })
 export class InstructorsComponent implements OnInit {
   baseUrl = 'https://localhost:44333/api/management/instructors/';
-  // Should add an interface/class for each field and separate CRUD operations into a different structure?
   instructorFields = [
     { code: 'email', type: 'email', label: 'Email / Username', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },
@@ -20,7 +19,6 @@ export class InstructorsComponent implements OnInit {
   selectedInstructor: any;
   allCourses: any[];
   
-  // TODO: Where do the courseService and related interfaces belong?
   constructor(private courseService: CrudService<any>) { }
 
   ngOnInit(): void {
@@ -32,14 +30,4 @@ export class InstructorsComponent implements OnInit {
     if(!selectedInstructor) return;
     this.selectedInstructor = selectedInstructor;
   }
-}
-
-// Should remove when this feature is done
-interface Instructor {
-  id: number,
-  index: string,
-  name: string,
-  surname: string,
-  email: string,
-  password: string
 }

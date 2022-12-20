@@ -20,4 +20,7 @@
             <cc-owners [course]="selectedCourse" [allInstructors]="allInstructors"></cc-owners>
         </div>
     </div>
+    <div fxFlex="25" *ngIf="selectedGroup">
+        <cc-enrolled-learners [group]="selectedGroup"></cc-enrolled-learners>
+    </div>
 </div>
