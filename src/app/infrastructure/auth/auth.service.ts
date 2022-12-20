@@ -65,8 +65,8 @@ export class AuthenticationService {
 
   refreshToken(): Observable<AuthenticationResponse> {
     const data = {
-      accessToken: this.tokenStorage.getAccessToken,
-      refreshToken: this.tokenStorage.getRefreshToken,
+      accessToken: this.tokenStorage.getAccessToken(),
+      refreshToken: this.tokenStorage.getRefreshToken(),
     };
 
     return this.http
