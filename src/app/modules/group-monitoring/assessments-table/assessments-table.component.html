@@ -6,22 +6,22 @@
 
   <ng-container matColumnDef="mastery">
     <th mat-header-cell *matHeaderCellDef width="11%"> Vičnost</th>
-    <td mat-cell *matCellDef="let element" width="10%"> {{(element.statistics.mastery * 100).toFixed(0)}}%</td>
+    <td mat-cell *matCellDef="let element" width="10%"> {{(element.mastery * 100).toFixed(0)}}%</td>
   </ng-container>
 
   <ng-container matColumnDef="totalCount">
     <th mat-header-cell *matHeaderCellDef width="11%"> Broj dostupnih zadataka</th>
-    <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.totalCount}} </td>
+    <td mat-cell *matCellDef="let element" width="10%"> {{element.totalCount}} </td>
   </ng-container>
 
   <ng-container matColumnDef="passedCount">
     <th mat-header-cell *matHeaderCellDef width="11%"> Broj urađenih zadataka</th>
-    <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.passedCount}} </td>
+    <td mat-cell *matCellDef="let element" width="10%"> {{element.passedCount}} </td>
   </ng-container>
 
   <ng-container matColumnDef="attemptedCount">
     <th mat-header-cell *matHeaderCellDef width="11%"> Broj pokušanih zadataka</th>
-    <td mat-cell *matCellDef="let element" width="10%"> {{element.statistics.attemptedCount}} </td>
+    <td mat-cell *matCellDef="let element" width="10%"> {{element.attemptedCount}} </td>
   </ng-container>
 
   <ng-container matColumnDef="time">

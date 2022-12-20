@@ -10,7 +10,6 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseComponent } from './course/course.component';
-import { InstructorCourseComponent } from '../group-monitoring/instructor-course/instructor-course.component';
 import { LearnerCourseComponent } from './course/learner-course/learner-course.component';
 import { KnowledgeComponentComponent } from './knowledge-component/knowledge-component.component';
 import { KnowledgeMapComponent } from './unit/knowledge-map/knowledge-map.component';
@@ -49,7 +48,6 @@ import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improv
     SubmissionResultComponent,
     MultipleChoiceQuestionComponent,
     CourseComponent,
-    InstructorCourseComponent,
     LearnerCourseComponent,
     TutorImprovementComponent,
   ],
@@ -73,7 +71,6 @@ import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improv
     SubmissionResultComponent,
     KnowledgeMapComponent,
     TutorImprovementComponent,
-    InstructorCourseComponent,
     LearnerCourseComponent,
   ],
 })

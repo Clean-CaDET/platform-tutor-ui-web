@@ -1,5 +1,7 @@
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
+import {KnowledgeComponentProgress} from '../model/knowledge-component-progress';
+import {Unit} from '../../learning/unit/unit.model';
 
 @Component({
   selector: 'cc-assessments-table',
@@ -19,7 +21,8 @@ import { Component, Input, OnChanges } from '@angular/core';
   ],
 })
 export class AssessmentsTableComponent implements OnChanges {
-  @Input() knowledgeComponentMasteries: any[];
+  @Input() knowledgeComponentProgresses: KnowledgeComponentProgress[];
+  @Input() unit: Unit;
   @Input() kcUnitId: number;
   dataSource;
   displayedColumns: string[] = [
@@ -30,16 +33,31 @@ export class AssessmentsTableComponent implements OnChanges {
     'attemptedCount',
     'time',
   ];
-  expandedElement = new Object();
+  expandedElement = {};
 
   constructor() {}
 
   ngOnChanges(): void {
-    if (+this.kcUnitId === 0)
-      this.dataSource = this.knowledgeComponentMasteries;
-    else
-      this.dataSource = this.knowledgeComponentMasteries.filter(
-        (kcm) => kcm.kcUnitId === this.kcUnitId
-      );
+    const dataSource = [];
+    this.unit.knowledgeComponents.forEach(kc => {
+      this.knowledgeComponentProgresses.forEach(p => {
+        if (kc.id === p.knowledgeComponentId) {
+          const assessmentTableElement = {
+            kcCode: kc.code,
+            kcName: kc.name,
+            kcId: kc.id,
+            mastery: p.statistics.mastery,
+            totalCount: p.statistics.totalCount,
+            passedCount: p.statistics.passedCount,
+            attemptedCount: p.statistics.attemptedCount,
+            durationOfFinishedSessionsInMinutes: p.durationOfFinishedSessionsInMinutes,
+            expectedDurationInMinutes: kc.expectedDurationInMinutes,
+            assessmentItemMasteries: p.assessmentItemMasteries
+          };
+          dataSource.push(assessmentTableElement);
+        }
+      });
+    });
+    this.dataSource = dataSource;
   }
 }

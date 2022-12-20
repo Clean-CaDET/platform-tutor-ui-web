@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LearningEvent } from './learning-event';
 import { ngxCsv } from 'ngx-csv';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
+import {LearningEvent} from '../model/learning-event';
 
 @Component({
   selector: 'cc-events-table',
@@ -47,7 +47,7 @@ export class EventsTableComponent implements OnInit {
     this.getEvents();
   }
 
-  private getEvents() {
+  private getEvents(): void {
     this.domainKnowledgeAnalyticsService
       .getEvents(this.page, this.pageSize)
       .subscribe((data) => {
@@ -58,7 +58,7 @@ export class EventsTableComponent implements OnInit {
       });
   }
 
-  changePage(paginator) {
+  changePage(paginator): void {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getEvents();
@@ -76,7 +76,7 @@ export class EventsTableComponent implements OnInit {
 
   exportAllToCSV(): void {
     this.domainKnowledgeAnalyticsService.getAllEvents().subscribe((data) => {
-      this.allEvents = data.events.sort(
+      this.allEvents = data.sort(
         (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
       );
       for (const event of this.allEvents) {

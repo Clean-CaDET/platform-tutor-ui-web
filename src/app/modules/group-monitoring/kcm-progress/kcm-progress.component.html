@@ -1,5 +1,5 @@
 <div class="right-margin">
-  <mat-card fxLayout="row" fxLayoutAlign="space-between" 
+  <mat-card fxLayout="row" fxLayoutAlign="space-between"
     class="mat-elevation-z5 margin sticky">
     <div fxLayoutGap="20px">
       <mat-form-field appearance="fill">
@@ -25,10 +25,11 @@
     </mat-paginator>
   </mat-card>
   <div fxLayout="row wrap">
-    <cc-learner-progress 
+    <cc-learner-progress
       fxFlex="50"
       *ngFor="let learnerProgress of progress"
-      [unitId]="unitId" 
+      [unitId]="unitId"
+      [course]="course"
       [learnerProgress]="learnerProgress">
     </cc-learner-progress>
   </div>

@@ -15,7 +15,7 @@
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/management/courses'">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/analytics/kc-statistics'">
+        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/analytics', course.id, 'kc-statistics']">
             <mat-icon>bar_chart</mat-icon>
         </button>
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/course', course.id, 'learner-progress']">

@@ -35,7 +35,7 @@ const routes: Routes = [
     data: { role: 'instructor' },
   },
   {
-    path: 'analytics/kc-statistics',
+    path: 'analytics/:courseId/kc-statistics',
     component: KcStatisticsComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },

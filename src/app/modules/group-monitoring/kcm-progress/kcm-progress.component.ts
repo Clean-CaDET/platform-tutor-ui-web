@@ -3,6 +3,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearnerGroup } from '../../learning/learner/learner-group.model';
 import { Unit } from '../../learning/unit/unit.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
+import {LearnerProgress} from '../model/learner-progress';
+import {Course} from '../../learning/course/course.model';
 
 @Component({
   selector: 'cc-kcm-progress',
@@ -10,7 +12,7 @@ import { GroupMonitoringService } from '../group-monitoring.service';
   styleUrls: ['./kcm-progress.component.scss'],
 })
 export class KcmProgressComponent implements OnInit {
-  progress: any[];
+  progress: LearnerProgress[];
   count: number;
   page = 1;
   pageSize = 16;
@@ -19,6 +21,7 @@ export class KcmProgressComponent implements OnInit {
   groups: LearnerGroup[];
 
   courseId = 0;
+  course: Course;
   unitId = 0;
   units: Unit[];
 
@@ -31,12 +34,7 @@ export class KcmProgressComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
       this.getLearnerGroups();
-      this.groupMonitoringService
-        .getUnitsByCourse(this.courseId)
-        .subscribe((units) => {
-          this.units = units;
-          this.unitId = this.units[0].id;
-        });
+      this.getCourse();
     });
   }
 
@@ -46,6 +44,16 @@ export class KcmProgressComponent implements OnInit {
       this.groupId = this.groups[0].id;
       this.getLearnerProgress();
     });
+  }
+
+  private getCourse() {
+    this.groupMonitoringService
+      .getCourse(this.courseId)
+      .subscribe((course) => {
+        this.course = course;
+        this.units = course.knowledgeUnits;
+        this.unitId = this.units[0].id;
+      });
   }
 
   public getLearnerProgress() {

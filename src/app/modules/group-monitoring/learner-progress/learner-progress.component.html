@@ -12,8 +12,9 @@
             </div>
         </mat-panel-description>
         </mat-expansion-panel-header>
-        <cc-assessments-table 
-            [knowledgeComponentMasteries]="learnerProgress.knowledgeComponentProgress"
+        <cc-assessments-table
+            [knowledgeComponentProgresses]="filteredLearnerProgress"
+            [unit]="unit"
             [kcUnitId]="unitId">
         </cc-assessments-table>
     </mat-expansion-panel>
