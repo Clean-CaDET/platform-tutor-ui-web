@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Unit } from '../learning/unit/unit.model';
-import { LearningEvent } from './events-table/learning-event';
 import {Course} from '../learning/course/course.model';
 import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics';
 import {Group} from './model/group';
+import {LearningEvent} from './model/learning-event';
 
 @Injectable({
   providedIn: 'root',

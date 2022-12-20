@@ -1,9 +1,10 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { Unit } from '../../learning/unit/unit.model';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import {ActivatedRoute, Params} from '@angular/router';
 import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
+import {Group} from '../model/group';
 
 @Component({
   selector: 'cc-kc-statistics',
@@ -19,7 +20,7 @@ export class KcStatisticsComponent implements OnInit {
   unitId = '0';
   units: Unit[];
   groupId = '0';
-  groups: any[];
+  groups: Group[];
 
   exportOptions = {
     fieldSeparator: ',',
@@ -74,7 +75,7 @@ export class KcStatisticsComponent implements OnInit {
       });
   }
 
-  private createTotalCountCharts(kc: any): void {
+  private createTotalCountCharts(kc: KnowledgeComponentStatistics): void {
     this.totalCountChartData[kc.kcCode] = [];
     this.totalCountChartData[kc.kcCode].push({
       name: 'Broj prijava',
@@ -94,7 +95,7 @@ export class KcStatisticsComponent implements OnInit {
     });
   }
 
-  private createPercentageCharts(kc: any): void {
+  private createPercentageCharts(kc: KnowledgeComponentStatistics): void {
     this.percentageChartData[kc.kcCode] = [];
     this.percentageChartData[kc.kcCode].push({
       name: '% prijavljenih',
@@ -114,7 +115,7 @@ export class KcStatisticsComponent implements OnInit {
     });
   }
 
-  private createTimeBoxData(kc: any): void {
+  private createTimeBoxData(kc: KnowledgeComponentStatistics): void {
     delete this.timeChartData[kc.kcCode];
     if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0) {
       return;
