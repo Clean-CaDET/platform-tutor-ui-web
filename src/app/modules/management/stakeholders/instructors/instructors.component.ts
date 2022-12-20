@@ -63,7 +63,7 @@ export class InstructorsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(course => {
       if(!course) return;
       this.instructorService.addOwnedCourse(this.selectedInstructor.id, course.id).subscribe((response) => {
-        this.ownedCourses.push(response);
+        this.ownedCourses = [...this.ownedCourses, response];
       });
     });
   }

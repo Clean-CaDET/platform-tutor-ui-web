@@ -5,7 +5,8 @@
         (select)="onSelect($event)">
     </cc-generic-table>
     <div fxFlex="40" fxLayout="column">
-        <mat-card *ngIf="selectedInstructor" label="Vlastiti kursevi">
+        <mat-card *ngIf="selectedInstructor">
+            <h2>Vlastiti kursevi</h2>
             <cc-plain-generic-table
                 [fieldConfiguration]="courseFields"
                 [items]="ownedCourses"
