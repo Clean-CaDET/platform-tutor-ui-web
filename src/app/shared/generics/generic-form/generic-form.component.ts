@@ -76,6 +76,8 @@ export class GenericFormComponent {
         return new FormControl(entityValue || '', validators);
       case 'boolean':
         return new FormControl(entityValue || false, validators);
+      case 'archive':
+        return new FormControl(entityValue || false, validators);
       default:
         return new FormControl(entityValue || '', validators);
     }

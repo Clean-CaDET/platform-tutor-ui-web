@@ -30,8 +30,8 @@ export abstract class CrudService<T> {
       return this.http.put(baseUrl + updatedItem['id'], updatedItem);
   }
 
-  archive(baseUrl, id: number) {
-    return this.http.put(baseUrl + id + "/archive", true);
+  archive(baseUrl, id: number, archive: boolean) {
+    return this.http.put(baseUrl + id + "/archive", archive);
   }
 
   delete(baseUrl, id: number): Observable<any> {

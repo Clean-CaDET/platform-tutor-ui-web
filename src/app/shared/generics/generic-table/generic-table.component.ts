@@ -83,8 +83,8 @@ export class GenericTableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.update(this.baseUrl, result).subscribe(() => {
-        this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : result));
+      this.httpService.update(this.baseUrl, result).subscribe((response) => {
+        this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : response));
       });
     });
   }
@@ -95,9 +95,10 @@ export class GenericTableComponent implements OnInit {
     });
   }
 
-  onArchive(id: number): void {
-    this.httpService.archive(this.baseUrl, id).subscribe(() => {
-      this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== id));
+  onArchive(id: number, archive: boolean): void {
+    this.httpService.archive(this.baseUrl, id, archive).subscribe(response => {
+      //this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== id));
+      this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : response));
     })
   }
 

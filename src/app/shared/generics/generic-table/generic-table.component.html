@@ -18,6 +18,10 @@
         <span *ngIf="field.type == 'string' || field.type == 'email'">
           {{element[field.code]}}
         </span>
+        <span *ngIf="field.type == 'boolean' || field.type == 'archive' ">
+          <mat-icon *ngIf="element[field.code]">check</mat-icon>
+          <mat-icon *ngIf="!element[field.code]">clear</mat-icon>
+        </span>
         <span *ngIf="field.type == 'date'">
           {{element[field.code] | date : 'd/M/yy'}}
         </span>
@@ -26,8 +30,11 @@
           <button *ngIf="field.update" mat-button class="table-button" (click)="onEdit(element.id); $event.stopPropagation()">
             <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
           </button>
-          <button *ngIf="field.archive" mat-button class="table-button" (click)="onArchive(element.id); $event.stopPropagation()">
+          <button *ngIf="field.archive && !element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, true); $event.stopPropagation()">
             <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon>
+          </button>
+          <button *ngIf="field.archive && element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, false); $event.stopPropagation()">
+            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">unarchive</mat-icon>
           </button>
           <button *ngIf="field.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
             <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
@@ -37,7 +44,7 @@
     </ng-container>
       
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)" [class.highlight]="selectedItem?.id==element.id"></tr>
+    <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)" [class.highlight]="selectedItem?.id==element.id" [class.fade]="element.isArchived"></tr>
   </table>
 
   <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"

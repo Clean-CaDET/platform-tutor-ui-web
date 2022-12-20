@@ -12,7 +12,7 @@
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
-    <section *ngIf="field.type == 'boolean'" fxFlex fxLayoutGap="20px" class="margin-bottom">
+    <section *ngIf="field.type == 'boolean' || field.type == 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
       <mat-checkbox formControlName="{{field.code}}" [readonly]="field.readOnly"></mat-checkbox>
       <mat-label>{{field.label}}</mat-label>
     </section>
