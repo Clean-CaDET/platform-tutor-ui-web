@@ -1,0 +1,40 @@
+<form [formGroup]="formGroup" fxLayout="column">
+  <div fxFlex *ngFor="let field of fieldConfiguration">
+    <mat-form-field appearance="fill" *ngIf="field.type == 'email'" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <input matInput placeholder="pera@gmail.com" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="field.type == 'password' && !entity?.id" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <input type="password" matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </mat-form-field>
+
+    <section *ngIf="field.type == 'boolean' || field.type == 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
+      <mat-checkbox formControlName="{{field.code}}" [readonly]="field.readOnly"></mat-checkbox>
+      <mat-label>{{field.label}}</mat-label>
+    </section>
+
+    <mat-form-field appearance="fill" *ngIf="field.type == 'string'" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" *ngIf="field.type == 'date'" fxFlex>
+      <mat-label>{{field.label}}</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+      <span fxFlex></span>
+      <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="field.readOnly"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <div fxFlex="column" fxLayoutGap="20px">
+    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()" fxFlex>Sačuvaj</button>
+    <button mat-raised-button (click)="onReset()" fxFlex>Osveži</button>
+    <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+  </div>
+</form>

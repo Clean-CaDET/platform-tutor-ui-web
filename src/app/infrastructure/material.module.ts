@@ -7,7 +7,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -19,6 +20,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -43,8 +46,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatPaginatorModule,
     MatRadioModule,
     MatSelectModule,
+    MatDatepickerModule,
     FlexLayoutModule,
     MatIconModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatAutocompleteModule
   ],
   exports: [
     MatButtonModule,
@@ -67,8 +74,12 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatPaginatorModule,
     MatRadioModule,
     MatSelectModule,
+    MatDatepickerModule,
     FlexLayoutModule,
     MatIconModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatAutocompleteModule
   ],
 })
 export class MaterialModule {}

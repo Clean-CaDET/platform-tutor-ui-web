@@ -1,0 +1,30 @@
+<mat-card style="margin-bottom: 10px;" fxFlex fxLayout="column">
+    <h2>Vlasnici ({{course.code}})</h2>
+    <div fxLayout="row">
+        <span fxFlex>
+        </span>
+        <button mat-mini-fab color="primary" (click)="onAddOwner()">
+            <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">add</mat-icon>
+        </button>
+    </div>
+    
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource?.data.length > 0">
+        <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
+        <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
+        <td mat-cell *matCellDef="let element">
+            <span *ngIf="field.type == 'string' || field.type == 'email'">
+            {{element[field.code]}}
+            </span>
+            <span *ngIf="field.type == 'CRUD'">
+            <span fxFlex></span>
+            <button *ngIf="field.delete" mat-button class="table-button" (click)="onDelete(element.id)">
+                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
+            </button>
+            </span>
+        </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let element; columns: columns;"></tr>
+    </table>
+</mat-card>

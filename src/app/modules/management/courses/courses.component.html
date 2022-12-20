@@ -1,0 +1,26 @@
+<div fxFlex fxLayout="row" fxLayoutGap="30px">
+    <cc-generic-table
+        fxFlex="40"
+        [title]="'Kursevi'"
+        [fieldConfiguration]="fields"
+        [baseUrl]="baseUrl"
+        (select)="onSelect($event)">
+    </cc-generic-table>
+    <div fxLayout="column" fxFlex="25" *ngIf="selectedCourse" fxLayoutGap="30px">
+        <div>
+            <cc-generic-table
+                [title]="'Grupe (' + selectedCourse.code + ')'"
+                [fieldConfiguration]="groupFields"
+                [baseUrl]="baseGroupUrl"
+                [pageProperties]="false"
+                (select)="onSelectGroup($event)">
+            </cc-generic-table>
+        </div>
+        <div>
+            <cc-owners [course]="selectedCourse" [allInstructors]="allInstructors"></cc-owners>
+        </div>
+    </div>
+    <div fxFlex="25" *ngIf="selectedGroup">
+        <cc-enrolled-learners [group]="selectedGroup"></cc-enrolled-learners>
+    </div>
+</div>

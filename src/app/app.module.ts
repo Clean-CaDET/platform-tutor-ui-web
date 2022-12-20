@@ -13,7 +13,9 @@ import { AuthenticationModule } from './infrastructure/auth/auth.module';
 import { JwtInterceptor } from './infrastructure/auth/jwt/jwt.interceptor';
 import { LearningModule } from './modules/learning/learning.module';
 import { GroupMonitoringModule } from './modules/group-monitoring/group-monitoring.module';
+import { ManagementModule } from './modules/management/management.module';
 import { KnowledgeAnalyticsModule } from './modules/knowledge-analytics/knowledge-analytics.module';
+import { GenericsModule } from './shared/generics/generics.module';
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -52,8 +54,11 @@ export function markdownConfiguration(): MarkedOptions {
     LayoutModule,
     LearningModule,
     FormsModule,
+    GenericsModule,
     GroupMonitoringModule,
     KnowledgeAnalyticsModule,
+    ManagementModule,
+    KnowledgeAnalyticsModule
   ],
   providers: [
     {

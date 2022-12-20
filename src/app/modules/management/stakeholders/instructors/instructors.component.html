@@ -1,0 +1,12 @@
+<div fxFlex fxLayout="row" fxLayoutGap="30px">
+    <cc-generic-table
+        fxFlex="50"
+        [title]="'Instruktori'"
+        [fieldConfiguration]="instructorFields"
+        [baseUrl]="baseUrl"
+        (select)="onSelect($event)">
+    </cc-generic-table>
+    <div fxFlex="40" *ngIf="selectedInstructor">
+        <cc-owned-courses [instructor]="selectedInstructor" [allCourses]="allCourses"></cc-owned-courses>
+    </div>
+</div>
