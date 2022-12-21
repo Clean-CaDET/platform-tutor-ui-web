@@ -25,7 +25,7 @@ export class GroupMonitoringService {
   ) {
     const baseParams = this.createParams(page, pageSize);
     return this.http
-      .get<any>(environment.apiHost + `monitoring/${courseId}/groups/${groupId}`, baseParams).pipe(
+      .get<any>(environment.apiHost + `monitoring/${courseId}/groups/progress/${groupId}`, baseParams).pipe(
         map((data) => {
           return {
             learnersProgress: data.results,
