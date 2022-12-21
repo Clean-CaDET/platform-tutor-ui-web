@@ -16,12 +16,9 @@
     Autorstvo
   </button>
   <button mat-flat-button color="primary" class="controls"
-    [routerLink]="['/analytics', 'kc-statistics']"
+    [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']"
     (click)="selectControl('analytics')"
     [ngClass]="{'selected': selectedControl === 'analytics'}">
-    <!-- Refactor to match endpoint on new backend:
-      [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']"
-    -->
     <mat-icon>bar_chart</mat-icon>
     Analitike
   </button>
