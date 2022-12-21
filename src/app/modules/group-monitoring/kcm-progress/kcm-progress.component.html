@@ -24,6 +24,11 @@
                    [pageSizeOptions]="['16', '32', '48']" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>
+      
+  <mat-progress-bar class="progress-bar" mode="indeterminate" 
+    *ngIf="progress.length === 0">
+  </mat-progress-bar>
+
   <div fxLayout="row wrap">
     <cc-learner-progress
       fxFlex="50"

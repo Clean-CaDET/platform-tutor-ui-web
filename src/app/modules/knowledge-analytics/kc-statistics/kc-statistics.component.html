@@ -24,6 +24,11 @@
             <button id="exportAllToCSV" color="accent" mat-raised-button (click)="exportAllToCSV()">Export Events to CSV</button>
         </span>
     </mat-card>
+    
+    <mat-progress-bar class="progress-bar" mode="indeterminate" 
+        *ngIf="knowledgeComponentStatistics.length === 0 && unitId !== '0'">
+    </mat-progress-bar>
+
     <div fxLayout="row wrap">
         <div *ngFor="let kc of knowledgeComponentStatistics" fxFlex="100">
             <mat-card class="mat-elevation-z2 margin">

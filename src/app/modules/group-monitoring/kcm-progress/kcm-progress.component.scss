@@ -11,3 +11,8 @@
   top: 0;
   z-index: 5;
 }
+
+.progress-bar {
+  margin: 10px;
+  width: calc(100% - 20px);
+}

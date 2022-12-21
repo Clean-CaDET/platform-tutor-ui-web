@@ -12,7 +12,7 @@ import {Course} from '../../learning/course/course.model';
   styleUrls: ['./kcm-progress.component.scss'],
 })
 export class KcmProgressComponent implements OnInit {
-  progress: LearnerProgress[];
+  progress: LearnerProgress[] = [];
   count: number;
   page = 1;
   pageSize = 16;

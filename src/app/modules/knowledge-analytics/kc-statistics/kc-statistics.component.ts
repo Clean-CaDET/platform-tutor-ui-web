@@ -12,7 +12,7 @@ import {Group} from '../model/group';
   styleUrls: ['./kc-statistics.component.scss'],
 })
 export class KcStatisticsComponent implements OnInit {
-  knowledgeComponentStatistics: KnowledgeComponentStatistics[];
+  knowledgeComponentStatistics: KnowledgeComponentStatistics[] = [];
   totalCountChartData = {};
   percentageChartData = {};
   timeChartData = {};
