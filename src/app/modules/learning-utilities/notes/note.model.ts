@@ -1,14 +1,6 @@
-export class Note {
-  id: number;
+export interface Note {
   text: string;
   unitId: number;
-  mode = 'preview';
-
-  constructor(obj?: any) {
-    if (obj) {
-      this.id = obj.id;
-      this.text = obj.text;
-      this.unitId = obj.unitId;
-    }
-  }
+  id?: number;
+  mode?: string;
 }

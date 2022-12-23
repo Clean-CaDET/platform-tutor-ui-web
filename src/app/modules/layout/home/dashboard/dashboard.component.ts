@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/user.model';
-import { Course } from 'src/app/modules/learning/course/course.model';
+import { Course } from 'src/app/modules/learning/model/course.model';
 import { LayoutInstructorService } from '../../layout-instructor.service';
 import { LayoutService } from '../../layout.service';
 

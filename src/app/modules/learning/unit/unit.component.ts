@@ -3,7 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
 import { LearningService } from '../learning.service';
-import { Unit } from './unit.model';
+import { Unit } from '../model/unit.model';
 
 @Component({
   selector: 'cc-unit',

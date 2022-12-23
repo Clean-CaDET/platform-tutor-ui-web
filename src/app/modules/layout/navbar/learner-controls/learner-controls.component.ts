@@ -1,9 +1,9 @@
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { NavigationEnd, Params, ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { KnowledgeComponent } from 'src/app/modules/learning/knowledge-component/model/knowledge-component.model';
-import { Unit } from 'src/app/modules/learning/unit/unit.model';
-import { Course } from '../../../learning/course/course.model';
+import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
+import { Unit } from 'src/app/modules/learning/model/unit.model';
+import { Course } from '../../../learning/model/course.model';
 import { LayoutService } from '../../layout.service';
 
 @Component({

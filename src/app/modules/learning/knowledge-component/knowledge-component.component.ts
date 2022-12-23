@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { KnowledgeComponent } from './model/knowledge-component.model';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { LearningService } from '../learning.service';
+import { KnowledgeComponent } from '../model/knowledge-component.model';
 
 @Component({
   selector: 'cc-knowledge-component',

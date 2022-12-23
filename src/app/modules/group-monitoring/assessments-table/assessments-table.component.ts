@@ -1,7 +1,7 @@
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
 import {KnowledgeComponentProgress} from '../model/knowledge-component-progress';
-import {Unit} from '../../learning/unit/unit.model';
+import {Unit} from '../../learning/model/unit.model';
 
 @Component({
   selector: 'cc-assessments-table',

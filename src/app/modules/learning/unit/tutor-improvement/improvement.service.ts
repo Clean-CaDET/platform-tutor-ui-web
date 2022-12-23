@@ -21,7 +21,7 @@ export class ImprovementService {
     const tutorImprovement = { unitId, softwareComment, contentComment };
     this.http
       .post<TutorImprovementDTO>(
-        environment.apiHost + 'feedback/improvements',
+        environment.apiHost + 'learning/unit/' + unitId + '/feedback/improvements',
         tutorImprovement
       )
       .subscribe(() => {

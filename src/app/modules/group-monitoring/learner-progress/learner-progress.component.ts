@@ -3,11 +3,11 @@ import {
   Input,
   OnChanges
 } from '@angular/core';
-import {Course} from '../../learning/course/course.model';
+import {Course} from '../../learning/model/course.model';
 import {LearnerProgress} from '../model/learner-progress';
-import {Unit} from '../../learning/unit/unit.model';
+import {Unit} from '../../learning/model/unit.model';
 import {KnowledgeComponentProgress} from '../model/knowledge-component-progress';
-import {KnowledgeComponent} from '../../learning/knowledge-component/model/knowledge-component.model';
+import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 
 @Component({
   selector: 'cc-learner-progress',

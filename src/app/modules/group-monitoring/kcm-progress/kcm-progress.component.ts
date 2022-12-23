@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { LearnerGroup } from '../../learning/learner/learner-group.model';
-import { Unit } from '../../learning/unit/unit.model';
+import { Unit } from '../../learning/model/unit.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
 import {LearnerProgress} from '../model/learner-progress';
-import {Course} from '../../learning/course/course.model';
+import {Course} from '../../learning/model/course.model';
+import { LearnerGroup } from '../../learning/model/learner-group.model';
 
 @Component({
   selector: 'cc-kcm-progress',

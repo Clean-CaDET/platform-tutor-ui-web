@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Course } from '../learning/course/course.model';
-import { LearnerGroup } from '../learning/learner/learner-group.model';
+import { Course } from '../learning/model/course.model';
+import { LearnerGroup } from '../learning/model/learner-group.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,7 @@ export class GroupMonitoringService {
 
   getCourse(courseId: number): Observable<Course> {
     return this.http
-      .get<Course>(environment.apiHost + 'owned-courses/' + courseId)
-      .pipe(map((c) => new Course(c)));
+      .get<Course>(environment.apiHost + 'owned-courses/' + courseId);
   }
 
   getLearners(
@@ -39,13 +38,6 @@ export class GroupMonitoringService {
     return this.http
       .get<LearnerGroup[]>(
         environment.apiHost + `monitoring/${courseId}/groups`
-      )
-      .pipe(
-        map((g) => {
-          const groups = [];
-          g.forEach((group) => groups.push(new LearnerGroup(group)));
-          return groups;
-        })
       );
   }
 

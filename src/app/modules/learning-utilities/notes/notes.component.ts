@@ -19,6 +19,8 @@ export class NotesComponent implements OnInit {
     this.notes = [];
   }
 
+  // TODO: potential Bug -> set Note.mode to 'preview' default -> might be fixed
+
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
@@ -34,7 +36,8 @@ export class NotesComponent implements OnInit {
   }
 
   onSave(): void {
-    this.noteService.saveNote(new Note({text: this.text, unitId: this.unitId})).subscribe(
+    const note: Note = {text: this.text, unitId: this.unitId}  
+    this.noteService.saveNote(note).subscribe(
       note => {
         this.notes.push(note);
         this.onCancel();
@@ -51,7 +54,7 @@ export class NotesComponent implements OnInit {
   }
 
   onDelete(noteId: string): void {
-    this.noteService.deleteNote(+noteId).subscribe(
+    this.noteService.deleteNote(this.unitId, +noteId).subscribe(
       id => {
         this.notes.splice(this.notes.findIndex(note => note.id === id), 1);
       }

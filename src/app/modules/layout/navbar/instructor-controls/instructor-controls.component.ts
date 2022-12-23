@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { Course } from 'src/app/modules/learning/course/course.model';
+import { Course } from 'src/app/modules/learning/model/course.model';
 import { LayoutInstructorService } from '../../layout-instructor.service';
 
 @Component({

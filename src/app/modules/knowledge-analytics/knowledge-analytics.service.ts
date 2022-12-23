@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Unit } from '../learning/unit/unit.model';
-import {Course} from '../learning/course/course.model';
+import { Unit } from '../learning/model/unit.model';
+import {Course} from '../learning/model/course.model';
 import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics';
 import {Group} from './model/group';
 import {LearningEvent} from './model/learning-event';
@@ -42,11 +42,7 @@ export class KnowledgeAnalyticsService {
     return this.http
       .get<Course>(environment.apiHost + 'owned-courses/' + courseId)
       .pipe(
-        map((data) => {
-          const retVal = [];
-          data.knowledgeUnits.forEach((d) => retVal.push(new Unit(d)));
-          return retVal;
-        })
+        map((data) => data.knowledgeUnits)
       );
   }
 

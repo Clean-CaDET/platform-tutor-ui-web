@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { KnowledgeComponent } from '../../knowledge-component/model/knowledge-component.model';
+import { KnowledgeComponent } from '../../model/knowledge-component.model';
 
 @Component({
   selector: 'cc-knowledge-map',

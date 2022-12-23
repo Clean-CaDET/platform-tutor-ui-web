@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Course } from './course/course.model';
+import { Course } from './model/course.model';
 import { LearningObjectMapper } from './knowledge-component/learning-objects/learning-object-mapper';
 import { LearningObject } from './knowledge-component/learning-objects/learning-object.model';
-import { KnowledgeComponentStatistics } from './knowledge-component/model/knowledge-component-statistics.model';
-import { KnowledgeComponent } from './knowledge-component/model/knowledge-component.model';
-import { Unit } from './unit/unit.model';
+import { Unit } from './model/unit.model';
+import { KnowledgeComponent } from './model/knowledge-component.model';
+import { KnowledgeComponentStatistics } from './model/knowledge-component-statistics.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,40 +19,38 @@ export class LearningService {
   ) {}
 
   getCourse(courseId: number): Observable<Course> {
-    return this.http
-      .get<Course>(environment.apiHost + 'course/' + courseId)
-      .pipe(map((c) => new Course(c)));
+    return this.http.get<Course>(environment.apiHost + 'enrolled-courses/' + courseId);
   }
 
+  // ne koristi se nigde - imalo bi smisla da se koristi
   getCourses() {
-    return this.http.get<any[]>(environment.apiHost + 'learners/courses');
+    return this.http.get<Course[]>(environment.apiHost + 'enrolled-courses');
+    // return this.http.get<any[]>(environment.apiHost + 'learners/courses');
   }
+
+  // getUnitsByEnrollmentStatus(courseId: number): Observable<Unit[]> {
+  //   return this.http.get<Unit[]>(
+  //     environment.apiHost + 'enrolled-courses/' + courseId
+  //     // environment.apiHost + 'learners/units/' + courseId
+  //   );
+  // }
 
   getUnit(unitId: number): Observable<Unit> {
     return this.http
-      .get<Unit>(environment.apiHost + 'units/' + unitId)
-      .pipe(map((unit) => new Unit(unit)));
-  }
-
-  getUnitsByEnrollmentStatus(courseId: number): Observable<Unit[]> {
-    return this.http.get<Unit[]>(
-      environment.apiHost + 'learners/units/' + courseId
-    );
+      .get<Unit>(environment.apiHost + 'learning/units/' + unitId);
   }
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
-    return this.http
-      .get<KnowledgeComponent>(
-        environment.apiHost + 'units/knowledge-components/' + kcId
-      )
-      .pipe(map((kc) => new KnowledgeComponent(kc)));
+    return this.http.get<KnowledgeComponent>(
+        environment.apiHost + 'learning/knowledge-component/' + kcId
+      );
   }
 
   getSuitableAssessmentItem(kcId: number): Observable<LearningObject> {
     return this.http
       .get<LearningObject>(
         environment.apiHost +
-          'units/knowledge-component/' +
+          'learning/knowledge-component/' +
           kcId +
           '/assessment-item'
       )
@@ -63,7 +61,7 @@ export class LearningService {
     return this.http
       .get<LearningObject[]>(
         environment.apiHost +
-          'units/knowledge-components/' +
+          'learning/knowledge-component/' +
           kcId +
           '/instructional-items'
       )
@@ -75,13 +73,7 @@ export class LearningService {
   ): Observable<KnowledgeComponentStatistics> {
     return this.http
       .get<KnowledgeComponentStatistics>(
-        environment.apiHost + 'units/knowledge-components/statistics/' + kcId
-      )
-      .pipe(
-        map(
-          (knowledgeComponentStatistics) =>
-            new KnowledgeComponentStatistics(knowledgeComponentStatistics)
-        )
+        environment.apiHost + 'learning/statistics/kcm/' + kcId
       );
   }
 
@@ -95,9 +87,9 @@ export class LearningService {
   launchSession(kcId: number): Observable<unknown> {
     return this.http.post(
       environment.apiHost +
-        'units/knowledge-components/' +
+        'learning/session/' +
         kcId +
-        '/session/launch',
+        '/launch',
       null
     );
   }
@@ -105,9 +97,9 @@ export class LearningService {
   terminateSession(kcId: number): Observable<unknown> {
     return this.http.post(
       environment.apiHost +
-        'units/knowledge-components/' +
+        'learning/session/' +
         kcId +
-        '/session/terminate',
+        '/terminate',
       null
     );
   }
