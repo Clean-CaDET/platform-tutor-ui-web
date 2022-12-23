@@ -26,6 +26,10 @@ export abstract class CrudService<T> {
     return this.http.post<T>(baseUrl, newItem);
   }
 
+  bulkCreate(baseUrl, items: T[]): Observable<T> {
+    return this.http.post<T>(baseUrl + "bulk", items);
+  }
+
   update(baseUrl, updatedItem: T): Observable<any> {
       return this.http.put(baseUrl + updatedItem['id'], updatedItem);
   }

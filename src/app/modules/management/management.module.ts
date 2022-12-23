@@ -8,6 +8,8 @@ import { CoursesComponent } from './courses/courses.component';
 import { OwnedCoursesComponent } from './stakeholders/instructors/owned-courses/owned-courses.component';
 import { OwnersComponent } from './courses/owners/owners.component';
 import { EnrolledLearnersComponent } from './courses/enrolled-learners/enrolled-learners.component';
+import { BulkAddComponent } from './stakeholders/learners/bulk-add/bulk-add.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -18,12 +20,14 @@ import { EnrolledLearnersComponent } from './courses/enrolled-learners/enrolled-
     CoursesComponent,
     OwnedCoursesComponent,
     OwnersComponent,
-    EnrolledLearnersComponent
+    EnrolledLearnersComponent,
+    BulkAddComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    GenericsModule
+    GenericsModule,
+    ReactiveFormsModule
   ]
 })
 export class ManagementModule { }
