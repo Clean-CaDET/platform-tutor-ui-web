@@ -22,7 +22,7 @@ export class LearnersComponent {
   ];
   selectedLearner: any;
   
-  constructor(private dialog: MatDialog) { }
+  constructor() { }
 
   onSelect(learner) {
     this.selectedLearner = learner;

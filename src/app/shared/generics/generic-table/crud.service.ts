@@ -43,7 +43,7 @@ export abstract class CrudService<T> {
   }
 }
 
-interface PagedResults<T> {
+export interface PagedResults<T> {
   results: T[];
   totalCount: number
 }

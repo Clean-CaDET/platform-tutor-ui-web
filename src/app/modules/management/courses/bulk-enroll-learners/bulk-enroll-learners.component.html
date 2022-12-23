@@ -1,17 +1,17 @@
 <div fxLayout="column" *ngIf="!checkView">
-<h3>Unos više učenika <mat-icon [matTooltipPosition]="'above'" matTooltip="Jedna stavka po redu. Podaci se razdvajaju zarezom. Podaci su: korisničko ime, lozinka, ime, prezime, email." class="small-icon">help_outline</mat-icon></h3>
-<form fxLayout="column" fxFlex [formGroup]="formGroup">
-    <mat-form-field appearance="fill">
-        <textarea fxFlex matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
-    </mat-form-field>
-    <div fxFlex="column" fxLayoutGap="20px">
-      <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()" fxFlex>Proveri</button>
-      <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
-    </div>
-</form>
+    <h3>Uvezivanje više učenika <mat-icon [matTooltipPosition]="'above'" matTooltip="Jedno korisničko ime po redu." class="small-icon">help_outline</mat-icon></h3>
+    <form fxLayout="column" fxFlex [formGroup]="formGroup">
+        <mat-form-field appearance="fill">
+            <textarea fxFlex matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="Jedno korisničko ime po redu"></textarea>
+        </mat-form-field>
+        <div fxFlex="column" fxLayoutGap="20px">
+          <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()" fxFlex>Proveri</button>
+          <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+        </div>
+    </form>
 </div>
 <div *ngIf="checkView" fxLayout="column" fxLayoutGap="10px">
-  <h3>Provera unešenih učenika</h3>
+  <h3>Provera uvezanih učenika</h3>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
     <ng-container matColumnDef="num">
       <th mat-header-cell *matHeaderCellDef>#</th>
@@ -40,9 +40,9 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <div *ngIf="invalidEntries.length > 0">
-    <h3>Nevalidni unosi</h3>
-    <div *ngFor="let e of invalidEntries">{{e}}</div>
+  <div *ngIf="missingEntries.length > 0">
+    <h3>Učenici koji nisu pronađeni</h3>
+    <div *ngFor="let e of missingEntries">{{e}}</div>
   </div>
   <div fxFlex="row" fxLayoutGap="20px">
     <button mat-raised-button color="primary" (click)="onSubmit()" fxFlex>Sačuvaj</button>

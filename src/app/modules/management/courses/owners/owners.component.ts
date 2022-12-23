@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
-import { CourseOwnersService } from '../course-owners.service';
+import { CoursesService } from '../courses.service';
 
 @Component({
   selector: 'cc-owners',
@@ -24,7 +24,7 @@ export class OwnersComponent implements OnChanges {
   ];
   columns = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private ownersService: CourseOwnersService,
+  constructor(private ownersService: CoursesService,
     private dialog: MatDialog) { }
 
   ngOnChanges(): void {
