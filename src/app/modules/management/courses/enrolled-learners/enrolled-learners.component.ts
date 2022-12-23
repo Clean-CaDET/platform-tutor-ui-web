@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -9,6 +10,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
   styleUrls: ['./enrolled-learners.component.scss']
 })
 export class EnrolledLearnersComponent implements OnChanges {
+  baseUrl: string;
   @Input() group;
 
   dataSource;
@@ -21,11 +23,13 @@ export class EnrolledLearnersComponent implements OnChanges {
   ];
   columns = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private dialog: MatDialog, private groupService: CrudService<any>) { }
 
   ngOnChanges(): void {
-    this.dataSource = new MatTableDataSource();
-    //TODO: Load learners
+    this.baseUrl = "https://localhost:44333/api/management/courses/" + this.group.courseId + "/groups/";
+    this.groupService.get(this.baseUrl, this.group.courseId).subscribe(response => {
+      this.dataSource = new MatTableDataSource(response);
+    });
   }
 
   onAddBulk(): void {
@@ -38,7 +42,7 @@ export class EnrolledLearnersComponent implements OnChanges {
     });*/
   }
 
-  onDelete(instructorId: number): void {
+  onDelete(learnerId: number): void {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {

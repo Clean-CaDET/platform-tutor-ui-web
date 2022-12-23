@@ -55,6 +55,7 @@ export class GenericTableComponent implements OnChanges {
       .subscribe(response => {
         this.dataSource = new MatTableDataSource(response.results);
         if(this.pageProperties) this.pageProperties.totalCount = response.totalCount;
+        if(response.results.length == 1) this.selectElement(response.results[0]);
       });
   }
 
