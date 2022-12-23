@@ -1,0 +1,52 @@
+<div fxLayout="column" *ngIf="!checkView">
+<h3>Unos više učenika <mat-icon [matTooltipPosition]="'above'" matTooltip="Jedna stavka po redu. Podaci se razdvajaju zarezom. Podaci su: korisničko ime, lozinka, ime, prezime, email." class="small-icon">help_outline</mat-icon></h3>
+<form fxLayout="column" fxFlex [formGroup]="formGroup">
+    <mat-form-field appearance="fill">
+        <textarea fxFlex matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
+    </mat-form-field>
+    <div fxFlex="column" fxLayoutGap="20px">
+      <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()" fxFlex>Proveri</button>
+      <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+    </div>
+</form>
+</div>
+<div *ngIf="checkView" fxLayout="column" fxLayoutGap="10px">
+  <h3>Provera unešenih učenika</h3>
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
+    <ng-container matColumnDef="num">
+      <th mat-header-cell *matHeaderCellDef>#</th>
+      <td mat-cell *matCellDef="let element"> {{element.num}} </td>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Korisničko ime </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Ime </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="surname">
+      <th mat-header-cell *matHeaderCellDef> Prezime </th>
+      <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <div *ngIf="invalidEntries.length > 0">
+    <h3>Nevalidni unosi</h3>
+    <div *ngFor="let e of invalidEntries">{{e}}</div>
+  </div>
+  <div fxFlex="row" fxLayoutGap="20px">
+    <button mat-raised-button color="primary" (click)="onSubmit()" fxFlex>Sačuvaj</button>
+    <button mat-raised-button (click)="onBack()" fxFlex>Nazad</button>
+    <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+  </div>
+</div>

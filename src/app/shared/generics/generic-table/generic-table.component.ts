@@ -18,6 +18,7 @@ export class GenericTableComponent implements OnChanges {
 
   @Input() fieldConfiguration;
   columns: string[];
+  crud: any;
 
   @Input() pageProperties = {
     page: 0,
@@ -40,6 +41,7 @@ export class GenericTableComponent implements OnChanges {
       if(element.type == 'password') return;
       this.columns.push(element.code)
     });
+    this.crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
     this.getPagedEntities();
   }
 
@@ -55,6 +57,7 @@ export class GenericTableComponent implements OnChanges {
       .subscribe(response => {
         this.dataSource = new MatTableDataSource(response.results);
         if(this.pageProperties) this.pageProperties.totalCount = response.totalCount;
+        if(response.results.length == 1) this.selectElement(response.results[0]);
       });
   }
 
@@ -63,22 +66,27 @@ export class GenericTableComponent implements OnChanges {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  createEnabled(): boolean {
-    let crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
-    return crud?.create;
-  }
-
-  filterEnabled(): boolean {
-    let crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
-    return crud?.filter;
-  }
-
   onCreate(): void {
     const dialogRef = this.openDialog({});
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
       this.httpService.create(this.baseUrl, result).subscribe(response => {
+        this.dataSource.data.push(response);
+        this.dataSource._updateChangeSubscription();
+      });
+    });
+  }
+
+  onBulkCreate(): void {
+    const bulkCreateDialogComponent = this.crud?.bulkCreateDialogComponent;
+    if(!bulkCreateDialogComponent) return;
+
+    const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '600px', width: '900px'});
+    
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      this.httpService.bulkCreate(this.baseUrl, result).subscribe(response => {
         this.dataSource.data.push(response);
         this.dataSource._updateChangeSubscription();
       });
