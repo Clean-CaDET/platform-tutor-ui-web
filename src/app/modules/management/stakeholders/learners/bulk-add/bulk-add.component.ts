@@ -39,7 +39,7 @@ export class BulkAddComponent implements OnInit {
 
       this.learners.push({
         num: i+1,
-        username: elements[0].trim(),
+        index: elements[0].trim(),
         password: elements[1].trim(),
         name: elements[2].trim(),
         surname: elements[3].trim(),

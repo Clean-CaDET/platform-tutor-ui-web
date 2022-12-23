@@ -72,8 +72,7 @@ export class GenericTableComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
       this.httpService.create(this.baseUrl, result).subscribe(response => {
-        this.dataSource.data.push(response);
-        this.dataSource._updateChangeSubscription();
+        this.getPagedEntities();
       });
     });
   }
@@ -87,8 +86,7 @@ export class GenericTableComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
       this.httpService.bulkCreate(this.baseUrl, result).subscribe(response => {
-        this.dataSource.data.push(response);
-        this.dataSource._updateChangeSubscription();
+        this.getPagedEntities();
       });
     });
   }
