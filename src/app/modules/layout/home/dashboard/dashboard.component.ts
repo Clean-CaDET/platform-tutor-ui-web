@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 import { User } from 'src/app/infrastructure/auth/user.model';
 import { Course } from 'src/app/modules/learning/model/course.model';
-import { LayoutInstructorService } from '../../layout-instructor.service';
 import { LayoutService } from '../../layout.service';
 
 @Component({
@@ -16,8 +15,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private layoutService: LayoutService,
-    private layoutInstructorService: LayoutInstructorService
+    private layoutService: LayoutService
   ) {}
 
   ngOnInit(): void {
@@ -32,7 +30,7 @@ export class DashboardComponent implements OnInit {
           this.courses = courses;
         });
       } else if (this.user.role === 'instructor') {
-        this.layoutInstructorService.getCourses().subscribe((courses) => {
+        this.layoutService.getCoursesForInstructor().subscribe((courses) => {
           this.courses = courses;
         });
       }

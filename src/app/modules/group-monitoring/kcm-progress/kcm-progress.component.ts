@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Unit } from '../../learning/model/unit.model';
-import { GroupMonitoringService } from '../group-monitoring.service';
 import {LearnerProgress} from '../model/learner-progress';
 import {Course} from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
+import {GroupMonitoringService} from './group-monitoring.service';
 
 @Component({
   selector: 'cc-kcm-progress',
@@ -38,7 +38,7 @@ export class KcmProgressComponent implements OnInit {
     });
   }
 
-  private getLearnerGroups() {
+  private getLearnerGroups(): void {
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groups) => {
       this.groups = groups;
       this.groupId = this.groups[0].id;
@@ -46,7 +46,7 @@ export class KcmProgressComponent implements OnInit {
     });
   }
 
-  private getCourse() {
+  private getCourse(): void {
     this.groupMonitoringService
       .getCourse(this.courseId)
       .subscribe((course) => {
@@ -56,16 +56,16 @@ export class KcmProgressComponent implements OnInit {
       });
   }
 
-  public getLearnerProgress() {
+  public getLearnerProgress(): void {
     this.groupMonitoringService
       .getLearners(this.page, this.pageSize, +this.groupId, +this.courseId)
       .subscribe((data) => {
-        this.progress = data.learnersProgress;
-        this.count = data.count;
+        this.progress = data.results;
+        this.count = data.totalCount;
       });
   }
 
-  changePage(paginator) {
+  changePage(paginator): void {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getLearnerProgress();

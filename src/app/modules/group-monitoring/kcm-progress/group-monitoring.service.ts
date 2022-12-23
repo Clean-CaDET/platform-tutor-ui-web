@@ -1,9 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Course } from '../learning/model/course.model';
-import { LearnerGroup } from '../learning/model/learner-group.model';
+import {Course} from '../../learning/model/course.model';
+import {LearnerGroup} from '../../learning/model/learner-group.model';
+import {ListResponseWrapper} from '../../../shared/model/list-response-wrapper';
+import {LearnerProgress} from '../model/learner-progress';
 
 @Injectable({
   providedIn: 'root',
@@ -21,17 +23,10 @@ export class GroupMonitoringService {
     pageSize: number,
     groupId: number,
     courseId: number
-  ) {
+  ): Observable<ListResponseWrapper<LearnerProgress>> {
     const baseParams = this.createParams(page, pageSize);
-    return this.http
-      .get<any>(environment.apiHost + `monitoring/${courseId}/groups/progress/${groupId}`, baseParams).pipe(
-        map((data) => {
-          return {
-            learnersProgress: data.results,
-            count: data.totalCount,
-          };
-        })
-      );
+    return this.http.get<ListResponseWrapper<LearnerProgress>>
+    (environment.apiHost + `monitoring/${courseId}/groups/progress/${groupId}`, baseParams);
   }
 
   getGroups(courseId: number): Observable<LearnerGroup[]> {
