@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
-import {LearningEvent} from '../model/learning-event';
+import {LearningEvent} from '../../model/learning-event';
 
 @Component({
   selector: 'cc-events-table',
@@ -51,10 +51,10 @@ export class EventsTableComponent implements OnInit {
     this.domainKnowledgeAnalyticsService
       .getEvents(this.page, this.pageSize)
       .subscribe((data) => {
-        this.events = data.events.sort(
+        this.events = data.results.sort(
           (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
         );
-        this.count = data.count;
+        this.count = data.totalCount;
       });
   }
 

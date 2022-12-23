@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { Course } from 'src/app/modules/learning/model/course.model';
-import { LayoutInstructorService } from '../../layout-instructor.service';
+import {LayoutService} from '../../layout.service';
 
 @Component({
   selector: 'cc-instructor-controls',
@@ -10,26 +10,25 @@ import { LayoutInstructorService } from '../../layout-instructor.service';
   styleUrls: ['./instructor-controls.component.scss'],
 })
 export class InstructorControlsComponent implements OnInit {
-  selectedGroup: any;
   selectedCourse: Course;
   courses: Course[];
   selectedControl: string;
 
   constructor(
-    private layoutInstructorService: LayoutInstructorService,
+    private layoutService: LayoutService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.setupCourseUpdate();
-    this.layoutInstructorService.getCourses().subscribe((courses) => {
+    this.layoutService.getCoursesForInstructor().subscribe((courses) => {
       this.courses = courses;
     });
     this.selectedControl = 'groups';
   }
 
-  selectControl(control: string) {
+  selectControl(control: string): void {
     this.selectedControl = control;
   }
 
@@ -51,9 +50,9 @@ export class InstructorControlsComponent implements OnInit {
       });
   }
 
-  private findCourse(courseId: number) {
+  private findCourse(courseId: number): void{
     if (!this.courses) {
-      this.layoutInstructorService.getCourses().subscribe((courses) => {
+      this.layoutService.getCoursesForInstructor().subscribe((courses) => {
         this.courses = courses;
         this.selectedCourse = this.courses.find((c) => c.id === courseId);
       });
@@ -62,7 +61,7 @@ export class InstructorControlsComponent implements OnInit {
     }
   }
 
-  private courseIsChanged(params: Params) {
+  private courseIsChanged(params: Params): boolean {
     return this.selectedCourse?.id !== params.courseId;
   }
 

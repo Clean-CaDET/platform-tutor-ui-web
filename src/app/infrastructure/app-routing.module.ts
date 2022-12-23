@@ -7,13 +7,11 @@ import { UnitComponent } from '../modules/learning/unit/unit.component';
 import { KnowledgeComponentComponent } from '../modules/learning/knowledge-component/knowledge-component.component';
 import { CourseComponent } from '../modules/learning/course/course.component';
 import { KcmProgressComponent } from '../modules/group-monitoring/kcm-progress/kcm-progress.component';
-
 import { LearnersComponent } from '../modules/management/stakeholders/learners/learners.component';
-
-import { EventsTableComponent } from '../modules/knowledge-analytics/events-table/events-table.component';
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
 import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
 import { CoursesComponent } from '../modules/management/courses/courses.component';
+import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics/events-table/events-table.component';
 
 
 const routes: Routes = [

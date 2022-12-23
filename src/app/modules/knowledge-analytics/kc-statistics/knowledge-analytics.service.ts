@@ -2,11 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Unit } from '../learning/model/unit.model';
-import {Course} from '../learning/model/course.model';
-import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics';
-import {Group} from './model/group';
-import {LearningEvent} from './model/learning-event';
+import {Group} from '../model/group';
+import {LearningEvent} from '../model/learning-event';
+import {Unit} from '../../learning/model/unit.model';
+import {Course} from '../../learning/model/course.model';
+import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
+import {ListResponseWrapper} from '../../../shared/model/list-response-wrapper';
+
 
 @Injectable({
   providedIn: 'root',
@@ -14,16 +16,8 @@ import {LearningEvent} from './model/learning-event';
 export class KnowledgeAnalyticsService {
   constructor(private http: HttpClient) {}
 
-  getEvents(page: number, pageSize: number) {
-    return this.http
-      .get<any>(environment.apiHost + 'events', this.createParams(page, pageSize))
-      .pipe(map((data) => {
-          const events = new Array<LearningEvent>();
-          data.results.forEach((event) => events.push(new LearningEvent(event)));
-          return {events, count: data.totalCount,
-          };
-      })
-      );
+  getEvents(page: number, pageSize: number): Observable<ListResponseWrapper<LearningEvent>> {
+    return this.http.get<any>(environment.apiHost + 'events', this.createParams(page, pageSize));
   }
 
   getAllEvents(): Observable<LearningEvent[]> {

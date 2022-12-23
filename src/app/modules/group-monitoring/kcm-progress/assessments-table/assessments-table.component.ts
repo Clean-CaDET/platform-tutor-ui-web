@@ -1,7 +1,8 @@
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
-import {KnowledgeComponentProgress} from '../model/knowledge-component-progress';
-import {Unit} from '../../learning/model/unit.model';
+import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress';
+import {Unit} from '../../../learning/model/unit.model';
+import {KnowledgeComponent} from '../../../learning/model/knowledge-component.model';
 
 @Component({
   selector: 'cc-assessments-table',
@@ -42,22 +43,25 @@ export class AssessmentsTableComponent implements OnChanges {
     this.unit.knowledgeComponents.forEach(kc => {
       this.knowledgeComponentProgresses.forEach(p => {
         if (kc.id === p.knowledgeComponentId) {
-          const assessmentTableElement = {
-            kcCode: kc.code,
-            kcName: kc.name,
-            kcId: kc.id,
-            mastery: p.statistics.mastery,
-            totalCount: p.statistics.totalCount,
-            passedCount: p.statistics.passedCount,
-            attemptedCount: p.statistics.attemptedCount,
-            durationOfFinishedSessionsInMinutes: p.durationOfFinishedSessionsInMinutes,
-            expectedDurationInMinutes: kc.expectedDurationInMinutes,
-            assessmentItemMasteries: p.assessmentItemMasteries
-          };
-          dataSource.push(assessmentTableElement);
+          dataSource.push(this.createAssessmentTableElement(kc, p));
         }
       });
     });
     this.dataSource = dataSource;
+  }
+
+  private createAssessmentTableElement(kc: KnowledgeComponent, p: KnowledgeComponentProgress): any{
+    return {
+      kcCode: kc.code,
+      kcName: kc.name,
+      kcId: kc.id,
+      mastery: p.statistics.mastery,
+      totalCount: p.statistics.totalCount,
+      passedCount: p.statistics.passedCount,
+      attemptedCount: p.statistics.attemptedCount,
+      durationOfFinishedSessionsInMinutes: p.durationOfFinishedSessionsInMinutes,
+      expectedDurationInMinutes: kc.expectedDurationInMinutes,
+      assessmentItemMasteries: p.assessmentItemMasteries
+    };
   }
 }
