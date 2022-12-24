@@ -10,25 +10,25 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseComponent } from './course/course.component';
-import { LearnerCourseComponent } from './course/learner-course/learner-course.component';
+import { CourseUnitsComponent } from './course/course-units/course-units.component';
 import { KnowledgeComponentComponent } from './knowledge-component/knowledge-component.component';
 import { KnowledgeMapComponent } from './unit/knowledge-map/knowledge-map.component';
-import { ArrangeTaskComponent } from './knowledge-component/learning-objects/arrange-task/arrange-task.component';
-import { ChallengeComponent } from './knowledge-component/learning-objects/challenge/challenge.component';
-import { ImageDialogComponent } from './knowledge-component/learning-objects/image/image-dialog/image-dialog.component';
-import { ImageComponent } from './knowledge-component/learning-objects/image/image.component';
 import { LearningObjectContainerComponent } from './knowledge-component/learning-objects/learning-object-container/learning-object-container.component';
 import { LearningObjectDirective } from './knowledge-component/learning-objects/learning-object.directive';
-import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/multiple-choice-question/multiple-choice-question.component';
-import { MultipleResponseQuestionComponent } from './knowledge-component/learning-objects/multiple-response-question/multiple-response-question.component';
-import { ShortAnswerQuestionComponent } from './knowledge-component/learning-objects/short-answer-question/short-answer-question.component';
-import { TextComponent } from './knowledge-component/learning-objects/text/text.component';
-import { VideoComponent } from './knowledge-component/learning-objects/video/video.component';
+import { TextComponent } from './knowledge-component/learning-objects/instructional-items/text/text.component';
+import { VideoComponent } from './knowledge-component/learning-objects/instructional-items/video/video.component';
 import { SubmissionResultComponent } from './knowledge-component/submission-result/submission-result.component';
 import { UnitComponent } from './unit/unit.component';
 import { MatIconModule } from '@angular/material/icon';
 import { LearningUtilitiesModule } from '../learning-utilities/learning-utilities.module';
 import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improvement.component';
+import { ArrangeTaskComponent } from './knowledge-component/learning-objects/assesment-items/arrange-task/arrange-task.component';
+import { ChallengeComponent } from './knowledge-component/learning-objects/assesment-items/challenge/challenge.component';
+import { ImageComponent } from './knowledge-component/learning-objects/instructional-items/image/image.component';
+import { MultipleResponseQuestionComponent } from './knowledge-component/learning-objects/assesment-items/multiple-response-question/multiple-response-question.component';
+import { ImageDialogComponent } from './knowledge-component/learning-objects/instructional-items/image/image-dialog/image-dialog.component';
+import { ShortAnswerQuestionComponent } from './knowledge-component/learning-objects/assesment-items/short-answer-question/short-answer-question.component';
+import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/assesment-items/multiple-choice-question/multiple-choice-question.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,7 @@ import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improv
     SubmissionResultComponent,
     MultipleChoiceQuestionComponent,
     CourseComponent,
-    LearnerCourseComponent,
+    CourseUnitsComponent,
     TutorImprovementComponent,
   ],
   imports: [
@@ -71,7 +71,6 @@ import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improv
     SubmissionResultComponent,
     KnowledgeMapComponent,
     TutorImprovementComponent,
-    LearnerCourseComponent,
   ],
 })
 export class LearningModule {}

@@ -27,12 +27,8 @@ export class NotesService {
       }));
   }
 
-  updateNote(note: Note): Observable<Note> {
-    return this.http.put<Note>(environment.apiHost + 'learning/unit/' + note.unitId + '/notes', note)
-    .pipe(map(data => {
-      data.mode = 'preview';
-      return data;
-    }));
+  updateNote(note: Note): Observable<void> {
+    return this.http.put<void>(environment.apiHost + 'learning/unit/' + note.unitId + '/notes/' + note.id, note);
   }
 
   deleteNote(unitId: number, id: number): Observable<any> {

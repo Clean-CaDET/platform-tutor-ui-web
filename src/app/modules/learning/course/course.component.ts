@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Course } from '../model/course.model';
 import { AuthenticationService } from '../../../infrastructure/auth/auth.service';
 import { User } from '../../../infrastructure/auth/user.model';
-import { LearningService } from '../learning.service';
+import { CourseService } from './course.service';
 
 @Component({
   selector: 'cc-course-component',
@@ -16,7 +16,7 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private learningService: LearningService,
+    private courseService: CourseService,
     private authService: AuthenticationService
   ) {}
 
@@ -25,7 +25,7 @@ export class CourseComponent implements OnInit {
       this.authService.user$.subscribe((user) => {
         this.user = user;
       });
-      this.learningService
+      this.courseService
         .getCourse(+params.courseId)
         .subscribe((course) => (this.course = course));
     });

@@ -19,7 +19,8 @@
       <mat-divider></mat-divider>
       <cc-learning-object-container
         *ngFor="let learningObject of learningObjects"
-        [learningObject]="learningObject"></cc-learning-object-container>
+        [learningObject]="learningObject">
+      </cc-learning-object-container>
       <br>
       <div *ngIf="instructionalItemsShown">
         <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>

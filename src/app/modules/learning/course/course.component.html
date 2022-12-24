@@ -2,9 +2,9 @@
 <div *ngIf="course" fxFlex="90">
   <h2 id="courseName">{{ course.name }}</h2>
   <markdown>{{ course.description }}</markdown>
-  <cc-learner-course
+  <cc-course-units
     [course]="course"
     *ngIf="user?.role === 'learner'"
-  ></cc-learner-course>
+  ></cc-course-units>
 </div>
 <div fxFlex></div>
