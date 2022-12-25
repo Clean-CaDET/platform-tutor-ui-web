@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { LearningObject } from './learning-object.model';
 import { Text } from './instructional-items/text/text.model';
 import { Video } from './instructional-items/video/video.model';
-import { MultipleReponseQuestion } from './assesment-items/multiple-response-question/multiple-response-question.model';
-import { MultipleChoiceQuestion } from './assesment-items/multiple-choice-question/multiple-choice-question.model';
-import { ArrangeTask } from './assesment-items/arrange-task/arrange-task.model';
+import { MultipleReponseQuestion } from './assessment-items/multiple-response-question/multiple-response-question.model';
+import { MultipleChoiceQuestion } from './assessment-items/multiple-choice-question/multiple-choice-question.model';
+import { ArrangeTask } from './assessment-items/arrange-task/arrange-task.model';
 import { Image } from './instructional-items/image/image.model';
-import { ShortAnswerQuestion } from './assesment-items/short-answer-question/short-answer-question.model';
-import { Challenge } from './assesment-items/challenge/challenge.model';
+import { ShortAnswerQuestion } from './assessment-items/short-answer-question/short-answer-question.model';
+import { Challenge } from './assessment-items/challenge/challenge.model';
 
 @Injectable({
   providedIn: 'root',

@@ -96,7 +96,10 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
       .submit(this.learningObject.id, submission)
       .subscribe((containerEvaluation) => {
         this.answered = true;
-        this.instructor.submit(containerEvaluation.correctnessLevel);
+        this.instructor.submit(
+          this.learningObject.id,
+          containerEvaluation.correctnessLevel
+        );
         (
           containerEvaluation as ArrangeTaskEvaluation
         ).containerEvaluations.forEach((arrangeTaskContainerEvaluation) => {

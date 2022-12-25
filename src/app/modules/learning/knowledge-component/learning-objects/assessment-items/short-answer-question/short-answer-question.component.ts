@@ -30,7 +30,10 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
     this.submissionService
       .submit(this.learningObject.id, submission)
       .subscribe((evaluation) => {
-        this.instructor.submit(evaluation.correctnessLevel);
+        this.instructor.submit(
+          this.learningObject.id,
+          evaluation.correctnessLevel
+        );
         this.response = evaluation as SaqEvaluation;
       });
   }

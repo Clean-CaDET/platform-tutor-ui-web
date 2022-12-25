@@ -51,7 +51,10 @@ export class MultipleResponseQuestionComponent
     this.submissionService
       .submit(this.learningObject.id, submission)
       .subscribe((mrqEvaluation) => {
-        this.instructor.submit(mrqEvaluation.correctnessLevel);
+        this.instructor.submit(
+          this.learningObject.id,
+          mrqEvaluation.correctnessLevel
+        );
         this.evaluation = mrqEvaluation as MrqEvaluation;
       });
   }

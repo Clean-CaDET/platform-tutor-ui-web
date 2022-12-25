@@ -23,7 +23,7 @@ export class ChallengeComponent implements OnInit, LearningObjectComponent {
     this.challengeService
       .getMaxCorrectness(this.learningObject.id)
       .subscribe((correctness) => {
-        this.instructor.submit(correctness);
+        this.instructor.submit(this.learningObject.id, correctness);
       });
   }
 }

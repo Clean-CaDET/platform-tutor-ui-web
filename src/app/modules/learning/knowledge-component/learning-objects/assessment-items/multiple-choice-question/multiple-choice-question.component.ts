@@ -39,7 +39,10 @@ export class MultipleChoiceQuestionComponent
     this.submissionService
       .submit(this.learningObject.id, submission)
       .subscribe((mcqEvaluation) => {
-        this.instructor.submit(mcqEvaluation.correctnessLevel);
+        this.instructor.submit(
+          this.learningObject.id,
+          mcqEvaluation.correctnessLevel
+        );
         this.evaluation = mcqEvaluation as McqEvaluation;
       });
   }
