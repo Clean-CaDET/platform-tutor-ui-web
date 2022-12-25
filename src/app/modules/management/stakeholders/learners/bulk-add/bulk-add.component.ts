@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {CreateLearner} from '../../../model/create-learner';
+import {CreateLearner} from '../../../model/create-learner.model';
 
 @Component({
   selector: 'cc-bulk-add',

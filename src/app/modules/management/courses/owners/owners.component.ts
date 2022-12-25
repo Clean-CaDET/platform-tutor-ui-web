@@ -4,9 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 import { CoursesService } from '../courses.service';
-import {Course} from '../../model/course';
-import {StakeholderAccount} from '../../model/stakeholder-account';
-import { Field } from 'src/app/shared/generics/model/field';
+import {Course} from '../../model/course.model';
+import {StakeholderAccount} from '../../model/stakeholder-account.model';
+import { Field } from 'src/app/shared/generics/model/field.model';
 
 @Component({
   selector: 'cc-owners',

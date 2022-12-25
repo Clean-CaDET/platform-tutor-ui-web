@@ -1,5 +1,5 @@
-import {KcMasteryStatistics} from './kc-mastery-statistics';
-import {AssessmentItemMastery} from './assessment-item-mastery';
+import {KcMasteryStatistics} from './kc-mastery-statistics.model';
+import {AssessmentItemMastery} from './assessment-item-mastery.model';
 
 export interface KnowledgeComponentProgress {
   knowledgeComponentId: number;

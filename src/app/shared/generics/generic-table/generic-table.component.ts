@@ -5,8 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CrudService } from './crud.service';
 import { DeleteFormComponent } from '../delete-form/delete-form.component';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
-import { Field } from '../model/field';
-import { Entity } from '../model/entity';
+import { Field } from '../model/field.model';
+import { Entity } from '../model/entity.model';
 
 @Component({
   selector: 'cc-generic-table',

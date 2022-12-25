@@ -4,7 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BulkAddComponent } from '../../stakeholders/learners/bulk-add/bulk-add.component';
 import { CoursesService } from '../courses.service';
-import { StakeholderAccount } from '../../model/stakeholder-account';
+import { StakeholderAccount } from '../../model/stakeholder-account.model';
 
 @Component({
   selector: 'cc-bulk-enroll-learners',

@@ -1,8 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress';
+import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress.model';
 import {Unit} from '../../../learning/model/unit.model';
 import {Course} from '../../../learning/model/course.model';
-import {LearnerProgress} from '../../model/learner-progress';
+import {LearnerProgress} from '../../model/learner-progress.model';
 import {KnowledgeComponent} from '../../../learning/model/knowledge-component.model';
 
 @Component({

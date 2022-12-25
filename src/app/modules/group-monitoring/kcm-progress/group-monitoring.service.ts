@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {Course} from '../../learning/model/course.model';
 import {LearnerGroup} from '../../learning/model/learner-group.model';
-import {PagedResults} from '../../../shared/model/paged-results';
-import {LearnerProgress} from '../model/learner-progress';
+import {PagedResults} from '../../../shared/model/paged-results.model';
+import {LearnerProgress} from '../model/learner-progress.model';
 
 @Injectable({
   providedIn: 'root',

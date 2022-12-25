@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
-import {StakeholderAccount} from '../../model/stakeholder-account';
+import {StakeholderAccount} from '../../model/stakeholder-account.model';
 import {environment} from '../../../../../environments/environment';
-import { Field } from 'src/app/shared/generics/model/field';
+import { Field } from 'src/app/shared/generics/model/field.model';
 
 @Component({
   selector: 'cc-stakeholders-learners',

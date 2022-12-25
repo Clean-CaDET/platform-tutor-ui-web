@@ -4,9 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
-import { Group } from '../../model/group';
+import { Group } from '../../model/group.model';
 import { environment } from '../../../../../environments/environment';
-import { Field } from 'src/app/shared/generics/model/field';
+import { Field } from 'src/app/shared/generics/model/field.model';
 
 @Component({
   selector: 'cc-enrolled-learners',

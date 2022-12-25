@@ -1,4 +1,4 @@
-import {Learner} from './learner';
+import {Learner} from './learner.model';
 
 export interface Group {
   id: number;

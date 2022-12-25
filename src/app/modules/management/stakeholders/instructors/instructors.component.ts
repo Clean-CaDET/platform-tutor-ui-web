@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
-import { StakeholderAccount } from '../../model/stakeholder-account';
-import { Course } from '../../model/course';
+import { StakeholderAccount } from '../../model/stakeholder-account.model';
+import { Course } from '../../model/course.model';
 import { environment } from '../../../../../environments/environment';
-import { Field } from 'src/app/shared/generics/model/field';
+import { Field } from 'src/app/shared/generics/model/field.model';
 
 @Component({
   selector: 'cc-instructors',

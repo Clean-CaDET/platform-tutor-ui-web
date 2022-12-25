@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Field } from '../model/field';
+import { Field } from '../model/field.model';
 
 @Component({
   selector: 'cc-generic-form',

@@ -1,4 +1,4 @@
-import {Crud} from './crud';
+import {Crud} from './crud.model';
 
 export interface Field {
   code: string;

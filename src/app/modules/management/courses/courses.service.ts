@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs';
-import {StakeholderAccount} from '../model/stakeholder-account';
-import {PagedResults} from '../../../shared/model/paged-results';
+import {StakeholderAccount} from '../model/stakeholder-account.model';
+import {PagedResults} from '../../../shared/model/paged-results.model';
 import {environment} from '../../../../environments/environment';
 
 @Injectable({

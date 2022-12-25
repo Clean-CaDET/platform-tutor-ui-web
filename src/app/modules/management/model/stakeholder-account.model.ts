@@ -1,4 +1,4 @@
-import { Entity } from "src/app/shared/generics/model/entity";
+import { Entity } from "src/app/shared/generics/model/entity.model";
 
 export interface StakeholderAccount extends Entity {
   email: string;

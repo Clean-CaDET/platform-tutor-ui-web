@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { Unit } from '../../learning/model/unit.model';
 import {ActivatedRoute, Params} from '@angular/router';
-import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
-import {Group} from '../model/group';
+import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics.model';
+import {Group} from '../model/group.model';
 import {KnowledgeAnalyticsService} from './knowledge-analytics.service';
 
 @Component({

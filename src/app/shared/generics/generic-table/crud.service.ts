@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {PagedResults} from '../../model/paged-results';
-import { Entity } from '../model/entity';
+import {PagedResults} from '../../model/paged-results.model';
+import { Entity } from '../model/entity.model';
 
 @Injectable({
   providedIn: 'root'

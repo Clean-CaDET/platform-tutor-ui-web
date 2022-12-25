@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Unit } from '../../learning/model/unit.model';
-import { LearnerProgress } from '../model/learner-progress';
+import { LearnerProgress } from '../model/learner-progress.model';
 import { Course } from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
 import { GroupMonitoringService } from './group-monitoring.service';

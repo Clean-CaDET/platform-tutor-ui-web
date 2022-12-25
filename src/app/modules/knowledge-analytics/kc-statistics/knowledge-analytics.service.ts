@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import {Group} from '../model/group';
-import {LearningEvent} from '../model/learning-event';
+import {Group} from '../model/group.model';
+import {LearningEvent} from '../model/learning-event.model';
 import {Unit} from '../../learning/model/unit.model';
 import {Course} from '../../learning/model/course.model';
-import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
-import {PagedResults} from '../../../shared/model/paged-results';
+import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics.model';
+import {PagedResults} from '../../../shared/model/paged-results.model';
 
 
 @Injectable({
