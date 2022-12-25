@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {Course} from '../../learning/model/course.model';
 import {LearnerGroup} from '../../learning/model/learner-group.model';
-import {ListResponseWrapper} from '../../../shared/model/list-response-wrapper';
+import {PagedResults} from '../../../shared/model/paged-results';
 import {LearnerProgress} from '../model/learner-progress';
 
 @Injectable({
@@ -23,9 +23,9 @@ export class GroupMonitoringService {
     pageSize: number,
     groupId: number,
     courseId: number
-  ): Observable<ListResponseWrapper<LearnerProgress>> {
+  ): Observable<PagedResults<LearnerProgress>> {
     const baseParams = this.createParams(page, pageSize);
-    return this.http.get<ListResponseWrapper<LearnerProgress>>
+    return this.http.get<PagedResults<LearnerProgress>>
     (environment.apiHost + `monitoring/${courseId}/groups/progress/${groupId}`, baseParams);
   }
 

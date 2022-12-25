@@ -29,7 +29,7 @@ export class GenericTableComponent implements OnChanges {
 
   selectedItem;
   @Output() select = new EventEmitter();
-  
+
   constructor(private dialog: MatDialog, private httpService: CrudService<any>) {
     this.dataSource = new MatTableDataSource([]);
   }
@@ -82,7 +82,7 @@ export class GenericTableComponent implements OnChanges {
     if(!bulkCreateDialogComponent) return;
 
     const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '600px', width: '900px'});
-    
+
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
       this.httpService.bulkCreate(this.baseUrl, result).subscribe(response => {
@@ -90,7 +90,7 @@ export class GenericTableComponent implements OnChanges {
       });
     });
   }
-  
+
   onEdit(id: number): void {
     const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] == id));
 
@@ -125,7 +125,7 @@ export class GenericTableComponent implements OnChanges {
     })
   }
 
-  selectElement(element: any) {
+  selectElement(element: any): void {
     this.selectedItem = element;
     this.select.emit(this.selectedItem);
   }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import {StakeholderAccount} from '../../../model/stakeholder-account';
+import {CreateLearner} from '../../../model/create-learner';
 
 @Component({
   selector: 'cc-bulk-add',
@@ -11,10 +11,10 @@ import {StakeholderAccount} from '../../../model/stakeholder-account';
 })
 export class BulkAddComponent implements OnInit {
   formGroup: FormGroup;
-  learners: any[];
+  learners: CreateLearner[];
   checkView: boolean;
 
-  dataSource: MatTableDataSource<any>;
+  dataSource: MatTableDataSource<CreateLearner>;
   displayedColumns: Array<string> = ['num', 'username', 'name', 'surname', 'email'];
   invalidEntries: string[];
 
@@ -45,7 +45,7 @@ export class BulkAddComponent implements OnInit {
     this.checkView = true;
   }
 
-  private createLearner(i: number, elements: string[]): any {
+  private createLearner(i: number, elements: string[]): CreateLearner {
     return {
       num: i + 1,
       index: elements[0].trim(),

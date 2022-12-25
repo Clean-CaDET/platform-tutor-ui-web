@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PagedResults } from 'src/app/shared/generics/generic-table/crud.service';
 import {Observable} from 'rxjs';
 import {StakeholderAccount} from '../model/stakeholder-account';
+import {PagedResults} from '../../../shared/model/paged-results';
+import {environment} from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoursesService {
-  baseUrl = 'https://localhost:44333/api/management/courses/';
+  baseUrl = environment.apiHost + 'management/courses/';
 
   constructor(private http: HttpClient) {}
 
@@ -16,8 +17,8 @@ export class CoursesService {
     return this.http.get<StakeholderAccount[]>(this.baseUrl + courseId + "/owners/");
   }
 
-  addOwner(courseId: number, instructorId: number) {
-    return this.http.post(this.baseUrl + courseId + "/owners/", instructorId);
+  addOwner(courseId: number, instructorId: number): Observable<StakeholderAccount> {
+    return this.http.post<StakeholderAccount>(this.baseUrl + courseId + "/owners/", instructorId);
   }
 
   removeOwner(courseId: number, instructorId: number) {
@@ -25,11 +26,11 @@ export class CoursesService {
   }
 
   // Should be moved/merged to LearnersService?
-  getLearners(indexes: string[]) {
+  getLearners(indexes: string[]): Observable<PagedResults<StakeholderAccount>> {
     let params = new HttpParams()
     for(let i = 0; i < indexes.length; i++) {
       params = params.set('indexes['+i+']', indexes[i]);
     }
-    return this.http.get<PagedResults<any>>('https://localhost:44333/api/management/learners', {params: params});
+    return this.http.get<PagedResults<StakeholderAccount>>(environment.apiHost + 'management/learners', {params});
   }
 }

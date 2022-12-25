@@ -3,6 +3,7 @@ import { CrudService } from 'src/app/shared/generics/generic-table/crud.service'
 import {Course} from '../model/course';
 import {Group} from '../model/group';
 import {StakeholderAccount} from '../model/stakeholder-account';
+import {environment} from '../../../../environments/environment';
 
 @Component({
   selector: 'cc-courses',
@@ -10,7 +11,7 @@ import {StakeholderAccount} from '../model/stakeholder-account';
   styleUrls: ['./courses.component.scss']
 })
 export class CoursesComponent implements OnInit {
-  baseUrl = 'https://localhost:44333/api/management/courses/';
+  baseUrl = environment.apiHost + 'management/courses/';
   fields = [
     { code: 'code', type: 'string', label: 'Kod', required: true },
     { code: 'name', type: 'string', label: 'Naziv', required: true },
@@ -19,7 +20,7 @@ export class CoursesComponent implements OnInit {
   ];
   selectedCourse: Course;
 
-  baseGroupUrl;
+  baseGroupUrl: string;
   groupFields = [
     { code: 'name', type: 'string', label: 'Naziv', required: true },
     { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, delete: true }
@@ -30,7 +31,7 @@ export class CoursesComponent implements OnInit {
   constructor(private instructorService: CrudService<any>) { }
 
   ngOnInit(): void {
-    this.instructorService.getAll('https://localhost:44333/api/management/instructors/', null)
+    this.instructorService.getAll(environment.apiHost + 'management/instructors/', null)
       .subscribe(instructors => {
         this.allInstructors = instructors.results;
       });

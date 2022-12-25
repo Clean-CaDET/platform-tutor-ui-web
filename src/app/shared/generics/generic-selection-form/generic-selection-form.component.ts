@@ -22,7 +22,7 @@ export class GenericSelectionFormComponent implements OnInit {
       this.label = data.label;
     }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filteredOptions = this.selectionControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value || '')),
@@ -35,7 +35,7 @@ export class GenericSelectionFormComponent implements OnInit {
     return this.options.filter(option => this.presentationFunction(option).toLowerCase().includes(filterValue));
   }
 
-  onSubmit() {
+  onSubmit(): void {
     let item = this.findSelectedItem();
     this.dialogRef.close(item);
   }
@@ -48,7 +48,7 @@ export class GenericSelectionFormComponent implements OnInit {
     return this.options.find(o => this.presentationFunction(o) === this.selectionControl.value)
   }
 
-  onClose() {
+  onClose(): void {
     this.dialogRef.close(null);
   }
 }

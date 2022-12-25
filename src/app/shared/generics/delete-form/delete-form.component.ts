@@ -10,7 +10,7 @@ export class DeleteFormComponent {
 
   constructor(private dialogRef: MatDialogRef<DeleteFormComponent>) {}
 
-  onClose(accept: boolean) {
+  onClose(accept: boolean): void {
     this.dialogRef.close(accept);
   }
 }

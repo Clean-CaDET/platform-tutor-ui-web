@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
 import {StakeholderAccount} from '../../model/stakeholder-account';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'cc-stakeholders-learners',
@@ -9,7 +9,7 @@ import {StakeholderAccount} from '../../model/stakeholder-account';
   styleUrls: ['./learners.component.scss']
 })
 export class LearnersComponent {
-  baseUrl = "https://localhost:44333/api/management/learners/";
+  baseUrl = environment.apiHost + "management/learners/";
   fields = [
     { code: 'index', type: 'string', label: 'Korisničko ime / Indeks', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },

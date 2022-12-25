@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 import {StakeholderAccount} from '../../model/stakeholder-account';
 import {Course} from '../../model/course';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'cc-instructors',
@@ -9,7 +10,7 @@ import {Course} from '../../model/course';
   styleUrls: ['./instructors.component.scss']
 })
 export class InstructorsComponent implements OnInit {
-  baseUrl = 'https://localhost:44333/api/management/instructors/';
+  baseUrl = environment.apiHost + 'management/instructors/';
   instructorFields = [
     { code: 'email', type: 'email', label: 'Email / Username', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },
@@ -21,14 +22,14 @@ export class InstructorsComponent implements OnInit {
   selectedInstructor: StakeholderAccount;
   allCourses: Course[];
 
-  constructor(private courseService: CrudService<any>) { }
+  constructor(private courseService: CrudService<Course>) { }
 
   ngOnInit(): void {
-    this.courseService.getAll('https://localhost:44333/api/management/courses/', null)
+    this.courseService.getAll(environment.apiHost + 'management/courses/', null)
       .subscribe(courses => this.allCourses = courses.results);
   }
 
-  onSelect(selectedInstructor) {
+  onSelect(selectedInstructor): void {
     if(!selectedInstructor) return;
     this.selectedInstructor = selectedInstructor;
   }

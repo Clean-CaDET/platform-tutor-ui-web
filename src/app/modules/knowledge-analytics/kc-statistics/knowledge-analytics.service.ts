@@ -7,7 +7,7 @@ import {LearningEvent} from '../model/learning-event';
 import {Unit} from '../../learning/model/unit.model';
 import {Course} from '../../learning/model/course.model';
 import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics';
-import {ListResponseWrapper} from '../../../shared/model/list-response-wrapper';
+import {PagedResults} from '../../../shared/model/paged-results';
 
 
 @Injectable({
@@ -16,7 +16,7 @@ import {ListResponseWrapper} from '../../../shared/model/list-response-wrapper';
 export class KnowledgeAnalyticsService {
   constructor(private http: HttpClient) {}
 
-  getEvents(page: number, pageSize: number): Observable<ListResponseWrapper<LearningEvent>> {
+  getEvents(page: number, pageSize: number): Observable<PagedResults<LearningEvent>> {
     return this.http.get<any>(environment.apiHost + 'events', this.createParams(page, pageSize));
   }
 

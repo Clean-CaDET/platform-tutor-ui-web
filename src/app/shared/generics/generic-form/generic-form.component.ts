@@ -10,7 +10,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class GenericFormComponent {
   fieldConfiguration;
   formGroup: FormGroup;
-  
+
   entity;
   entityCopy;
 
@@ -24,7 +24,7 @@ export class GenericFormComponent {
       this.createForm();
     }
 
-  onSubmit() {
+  onSubmit(): void {
     let keys = Object.keys(this.formGroup.value);
     keys.forEach(k => {
       this.entity[k] = this.formGroup.value[k];
@@ -32,7 +32,7 @@ export class GenericFormComponent {
     this.dialogRef.close(this.entity);
   }
 
-  onReset() {
+  onReset(): void {
     this.entity = JSON.parse(JSON.stringify(this.entityCopy));
     if(this.entity.id) {
       this.formGroup.patchValue(this.entity);
@@ -41,7 +41,7 @@ export class GenericFormComponent {
     }
   }
 
-  onClose() {
+  onClose(): void {
     this.dialogRef.close(false);
   }
 
@@ -55,14 +55,14 @@ export class GenericFormComponent {
     return '';
   }
 
-  private createForm() {
+  private createForm(): void {
     let controls = {}
 
     this.fieldConfiguration.forEach(f => {
       if(f.type == 'CRUD') return;
       controls[f.code] = this.createControl(f);
     });
-    
+
     this.formGroup = this.builder.group(controls);
   }
 
@@ -82,7 +82,7 @@ export class GenericFormComponent {
         return new FormControl(entityValue || '', validators);
     }
   }
-  
+
   private createValidators(field: any) {
     let validators = [];
     if(field.type == 'email') validators.push(Validators.email);

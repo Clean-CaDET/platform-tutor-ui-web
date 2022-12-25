@@ -3,6 +3,7 @@ export interface StakeholderAccount {
   email: string;
   name: string;
   surname: string;
-  password: string;
   index: string;
+  isArchived: boolean;
+  userId: number;
 }

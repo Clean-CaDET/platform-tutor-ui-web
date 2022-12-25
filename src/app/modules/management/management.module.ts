@@ -12,8 +12,6 @@ import { BulkAddComponent } from './stakeholders/learners/bulk-add/bulk-add.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { BulkEnrollLearnersComponent } from './courses/bulk-enroll-learners/bulk-enroll-learners.component';
 
-
-
 @NgModule({
   declarations: [
     LearnersComponent,

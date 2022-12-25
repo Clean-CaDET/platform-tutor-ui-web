@@ -5,6 +5,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
 import {Group} from '../../model/group';
+import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -27,7 +28,7 @@ export class EnrolledLearnersComponent implements OnChanges {
   constructor(private dialog: MatDialog, private groupService: CrudService<Group[]>) { }
 
   ngOnChanges(): void {
-    this.baseUrl = "https://localhost:44333/api/management/courses/" + this.group.courseId + "/groups/";
+    this.baseUrl = environment.apiHost + "management/courses/" + this.group.courseId + "/groups/";
     this.groupService.get(this.baseUrl, +this.group.courseId).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
     });

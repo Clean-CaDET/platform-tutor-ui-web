@@ -4,6 +4,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BulkAddComponent } from '../../stakeholders/learners/bulk-add/bulk-add.component';
 import { CoursesService } from '../courses.service';
+import {StakeholderAccount} from '../../model/stakeholder-account';
 
 @Component({
   selector: 'cc-bulk-enroll-learners',
@@ -12,10 +13,10 @@ import { CoursesService } from '../courses.service';
 })
 export class BulkEnrollLearnersComponent implements OnInit {
   formGroup: FormGroup;
-  learners: any[];
+  learners: StakeholderAccount[];
   checkView: boolean;
 
-  dataSource;
+  dataSource: MatTableDataSource<StakeholderAccount>;
   displayedColumns = ['num', 'username', 'name', 'surname', 'email'];
   missingEntries: string[];
 
@@ -26,7 +27,7 @@ export class BulkEnrollLearnersComponent implements OnInit {
     this.formGroup = this.builder.group({'learners': new FormControl('', Validators.required)})
   }
 
-  onCheck() {
+  onCheck(): void {
     const allEntries: string[] = this.getNonEmptyRows();
 
     this.courseService.getLearners(allEntries).subscribe(response => {
@@ -45,15 +46,15 @@ export class BulkEnrollLearnersComponent implements OnInit {
     return this.formGroup.value['learners'].split('\n').filter(e => e);
   }
 
-  onBack() {
+  onBack(): void {
     this.checkView = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.dialogRef.close(this.learners);
   }
 
-  onClose() {
+  onClose(): void {
     this.dialogRef.close(false);
   }
 }
