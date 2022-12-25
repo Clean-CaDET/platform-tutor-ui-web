@@ -3,7 +3,7 @@
   <div>
     <ul>
       <mat-list-item *ngFor="let answer of learningObject.items; let i = index">
-        <mat-checkbox [disabled]="evaluation" [(ngModel)]="checked[i]" style="text-align: left">
+        <mat-checkbox [disabled]="evaluation ? true : false" [(ngModel)]="checked[i]" style="text-align: left">
           {{answer.text}}
         </mat-checkbox>
         <br>

@@ -32,5 +32,5 @@
 <button id="exportToCSV" color="primary" mat-raised-button (click)="exportToCSV()">Export to CSV</button>
 <button id="exportAllToCSV" color="accent" mat-raised-button (click)="exportAllToCSV()">Export all to CSV</button>
 <mat-paginator (page)="changePage($event)" [length]="count"
-    [pageSizeOptions]="['20', '50', '100']" [pageSize]="pageSize">
+    [pageSizeOptions]="[20, 50, 100]" [pageSize]="pageSize">
 </mat-paginator>

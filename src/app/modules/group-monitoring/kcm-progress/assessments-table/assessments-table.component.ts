@@ -1,8 +1,23 @@
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
-import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress';
-import {Unit} from '../../../learning/model/unit.model';
-import {KnowledgeComponent} from '../../../learning/model/knowledge-component.model';
+import { KnowledgeComponentProgress } from '../../model/knowledge-component-progress';
+import { Unit } from '../../../learning/model/unit.model';
+import { KnowledgeComponent } from '../../../learning/model/knowledge-component.model';
+import { MatTableDataSource } from '@angular/material/table';
+import { AssessmentItemMastery } from '../../model/assessment-item-mastery';
+
+interface AssessmentTableElement {
+  kcCode: string,
+  kcName: string,
+  kcId: number,
+  mastery: number,
+  totalCount: number,
+  passedCount: number,
+  attemptedCount: number,
+  durationOfFinishedSessionsInMinutes: number,
+  expectedDurationInMinutes: number,
+  assessmentItemMasteries: AssessmentItemMastery[],
+}
 
 @Component({
   selector: 'cc-assessments-table',
@@ -25,7 +40,7 @@ export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentProgresses: KnowledgeComponentProgress[];
   @Input() unit: Unit;
   @Input() kcUnitId: number;
-  dataSource;
+  dataSource: MatTableDataSource<AssessmentTableElement>;
   displayedColumns: string[] = [
     'name',
     'mastery',
@@ -34,23 +49,26 @@ export class AssessmentsTableComponent implements OnChanges {
     'attemptedCount',
     'time',
   ];
-  expandedElement = {};
+  expandedElement: AssessmentTableElement = {} as AssessmentTableElement;
 
   constructor() {}
 
   ngOnChanges(): void {
-    const dataSource = [];
-    this.unit.knowledgeComponents.forEach(kc => {
-      this.knowledgeComponentProgresses.forEach(p => {
+    const dataSource: AssessmentTableElement[] = [];
+    this.unit.knowledgeComponents.forEach((kc) => {
+      this.knowledgeComponentProgresses.forEach((p) => {
         if (kc.id === p.knowledgeComponentId) {
           dataSource.push(this.createAssessmentTableElement(kc, p));
         }
       });
     });
-    this.dataSource = dataSource;
+    this.dataSource = new MatTableDataSource(dataSource);
   }
 
-  private createAssessmentTableElement(kc: KnowledgeComponent, p: KnowledgeComponentProgress): any{
+  private createAssessmentTableElement(
+    kc: KnowledgeComponent,
+    p: KnowledgeComponentProgress
+  ): AssessmentTableElement {
     return {
       kcCode: kc.code,
       kcName: kc.name,
@@ -59,9 +77,10 @@ export class AssessmentsTableComponent implements OnChanges {
       totalCount: p.statistics.totalCount,
       passedCount: p.statistics.passedCount,
       attemptedCount: p.statistics.attemptedCount,
-      durationOfFinishedSessionsInMinutes: p.durationOfFinishedSessionsInMinutes,
+      durationOfFinishedSessionsInMinutes:
+        p.durationOfFinishedSessionsInMinutes,
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
-      assessmentItemMasteries: p.assessmentItemMasteries
+      assessmentItemMasteries: p.assessmentItemMasteries,
     };
   }
 }

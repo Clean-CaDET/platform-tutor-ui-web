@@ -4,9 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
-import {Group} from '../../model/group';
-import {environment} from '../../../../../environments/environment';
-import {Field} from '../../model/field';
+import { Group } from '../../model/group';
+import { environment } from '../../../../../environments/environment';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -26,12 +26,13 @@ export class EnrolledLearnersComponent implements OnChanges {
   ];
   columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private dialog: MatDialog, private groupService: CrudService<Group[]>) { }
+  constructor(private dialog: MatDialog, private groupService: CrudService<Group>) { }
 
   ngOnChanges(): void {
+    // wierd -> bilo je dobavi jednu grupu?
     this.baseUrl = environment.apiHost + "management/courses/" + this.group.courseId + "/groups/";
-    this.groupService.get(this.baseUrl, +this.group.courseId).subscribe(response => {
-      this.dataSource = new MatTableDataSource(response);
+    this.groupService.getAll(this.baseUrl, +this.group.courseId).subscribe(response => {
+      this.dataSource = new MatTableDataSource(response.results);
     });
   }
 

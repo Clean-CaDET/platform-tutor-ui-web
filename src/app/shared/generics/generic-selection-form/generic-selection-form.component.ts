@@ -16,7 +16,7 @@ export class GenericSelectionFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
 
   constructor(private dialogRef: MatDialogRef<GenericSelectionFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
       this.options = data.items;
       this.presentationFunction = data.presentationFunction
       this.label = data.label;

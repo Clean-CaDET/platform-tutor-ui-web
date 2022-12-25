@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
-import {Course} from '../model/course';
-import {Group} from '../model/group';
-import {StakeholderAccount} from '../model/stakeholder-account';
-import {environment} from '../../../../environments/environment';
-import {Field} from '../model/field';
+import { Course } from '../model/course';
+import { Group } from '../model/group';
+import { StakeholderAccount } from '../model/stakeholder-account';
+import { environment } from '../../../../environments/environment';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-courses',
@@ -38,13 +38,13 @@ export class CoursesComponent implements OnInit {
       });
   }
 
-  onSelect(course) {
+  onSelect(course: Course) {
     this.selectedCourse = course;
     this.selectedGroup = null;
     this.baseGroupUrl = this.baseUrl + course.id + "/groups/";
   }
 
-  onSelectGroup(group) {
+  onSelectGroup(group: Group) {
     this.selectedGroup = group;
   }
 }

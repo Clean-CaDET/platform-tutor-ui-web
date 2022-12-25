@@ -4,9 +4,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 import { InstructorsService } from '../instructors.service';
-import {StakeholderAccount} from '../../../model/stakeholder-account';
-import {Course} from '../../../model/course';
-import {Field} from '../../../model/field';
+import { StakeholderAccount } from '../../../model/stakeholder-account';
+import { Course } from '../../../model/course';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-owned-courses',
@@ -36,7 +36,7 @@ export class OwnedCoursesComponent implements OnChanges {
 
   onAddOwnedCourse(): void {
     const dialogRef = this.dialog.open(GenericSelectionFormComponent, {
-      data: {items: this.allNotOwnedCourses(), presentationFunction: (course) => course.code + ", " + course.name},
+      data: {items: this.allNotOwnedCourses(), presentationFunction: (course: Course) => course.code + ", " + course.name},
     });
 
     dialogRef.afterClosed().subscribe(course => {

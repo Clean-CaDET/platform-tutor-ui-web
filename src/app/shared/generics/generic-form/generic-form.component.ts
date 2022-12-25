@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Field } from '../model/field';
 
 @Component({
   selector: 'cc-generic-form',
@@ -16,7 +17,7 @@ export class GenericFormComponent {
 
   constructor(private builder: FormBuilder,
     private dialogRef: MatDialogRef<GenericFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
       this.entity = data.entity;
       this.entityCopy = JSON.parse(JSON.stringify(this.entity));
 
@@ -56,9 +57,9 @@ export class GenericFormComponent {
   }
 
   private createForm(): void {
-    let controls = {}
+    let controls: any = {}
 
-    this.fieldConfiguration.forEach(f => {
+    this.fieldConfiguration.forEach((f: Field) => {
       if(f.type == 'CRUD') return;
       controls[f.code] = this.createControl(f);
     });
@@ -66,7 +67,7 @@ export class GenericFormComponent {
     this.formGroup = this.builder.group(controls);
   }
 
-  private createControl(field): FormControl {
+  private createControl(field: Field): FormControl {
     let entityValue = this.entity[field.code];
     let validators = this.createValidators(field);
     switch(field.type) {

@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Unit } from '../../learning/model/unit.model';
-import {LearnerProgress} from '../model/learner-progress';
-import {Course} from '../../learning/model/course.model';
+import { LearnerProgress } from '../model/learner-progress';
+import { Course } from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
-import {GroupMonitoringService} from './group-monitoring.service';
+import { GroupMonitoringService } from './group-monitoring.service';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'cc-kcm-progress',
@@ -47,13 +48,11 @@ export class KcmProgressComponent implements OnInit {
   }
 
   private getCourse(): void {
-    this.groupMonitoringService
-      .getCourse(this.courseId)
-      .subscribe((course) => {
-        this.course = course;
-        this.units = course.knowledgeUnits;
-        this.unitId = this.units[0].id;
-      });
+    this.groupMonitoringService.getCourse(this.courseId).subscribe((course) => {
+      this.course = course;
+      this.units = course.knowledgeUnits;
+      this.unitId = this.units[0].id;
+    });
   }
 
   public getLearnerProgress(): void {
@@ -65,7 +64,7 @@ export class KcmProgressComponent implements OnInit {
       });
   }
 
-  changePage(paginator): void {
+  changePage(paginator: PageEvent): void {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getLearnerProgress();

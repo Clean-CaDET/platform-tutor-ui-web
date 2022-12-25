@@ -1,4 +1,3 @@
-
 export interface Crud {
   create?: boolean;
   update?: boolean;

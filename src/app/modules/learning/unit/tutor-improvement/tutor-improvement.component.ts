@@ -29,7 +29,7 @@ export class TutorImprovementComponent implements OnInit {
   constructor(
     private improvementService: ImprovementService,
     private dialogRef: MatDialogRef<TutorImprovementComponent>,
-    @Inject(MAT_DIALOG_DATA) private data
+    @Inject(MAT_DIALOG_DATA) private data: { unitId: number }
   ) {}
 
   ngOnInit(): void {}

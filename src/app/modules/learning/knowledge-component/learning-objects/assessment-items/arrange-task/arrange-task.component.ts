@@ -10,6 +10,7 @@ import { ArrangeTaskContainerSubmission } from 'src/app/modules/learning/model/l
 import { ArrangeTaskEvaluation } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-evaluation.model';
 import { ArrangeTaskSubmission } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-submission.model';
 import { Container } from 'src/app/modules/learning/model/learning-objects/arrange-task/container.model';
+import { Element } from 'src/app/modules/learning/model/learning-objects/arrange-task/element.model';
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { shuffleArray } from 'src/app/shared/helpers/arrays';
 import { SubmissionService } from '../../../submission.service';
@@ -49,7 +50,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     const elementIds = this.state
       .find((container) => container.id === containerId)
       .elements.map((element) => element.id);
-    const missingElements = [];
+    const missingElements: Element[] = [];
     this.feedbackMap.get(containerId)?.correctElements.forEach((element) => {
       if (!elementIds.includes(element.id)) {
         missingElements.push(element);
@@ -112,10 +113,11 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   createArrangeTaskContainerSubmissionList(): ArrangeTaskContainerSubmission[] {
-    const arrangeTaskContainerSubmissionList = [];
+    let arrangeTaskContainerSubmissionList: ArrangeTaskContainerSubmission[] =
+      [];
 
     this.state.forEach((container, key) => {
-      const arrangeTaskContainerSubmission: ArrangeTaskContainerSubmission = {
+      let arrangeTaskContainerSubmission: ArrangeTaskContainerSubmission = {
         arrangeTaskContainerId: container.id,
         elementIds: [],
       };

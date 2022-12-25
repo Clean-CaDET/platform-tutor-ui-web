@@ -13,9 +13,10 @@ import {KnowledgeAnalyticsService} from './knowledge-analytics.service';
 })
 export class KcStatisticsComponent implements OnInit {
   knowledgeComponentStatistics: KnowledgeComponentStatistics[] = [];
-  totalCountChartData = {};
-  percentageChartData = {};
-  timeChartData = {};
+  // TODO: should this be typed?
+  totalCountChartData: any = {};
+  percentageChartData: any = {};
+  timeChartData: any = {};
 
   unitId = '0';
   units: Unit[];
@@ -136,8 +137,9 @@ export class KcStatisticsComponent implements OnInit {
     }
   }
 
-  private createTimeSeries(minutes: number[]): number[]{
-    const result = [];
+  private createTimeSeries(minutes: number[]): number[] {
+    // TODO: Does not match return value? (returns number[], but result contains objects)
+    const result: any = [];
     minutes.forEach((m) => result.push({ name: 'a', value: m }));
     return result;
   }

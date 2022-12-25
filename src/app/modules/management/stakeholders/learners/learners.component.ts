@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
 import {StakeholderAccount} from '../../model/stakeholder-account';
 import {environment} from '../../../../../environments/environment';
-import {Field} from '../../model/field';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-stakeholders-learners',
@@ -25,7 +25,7 @@ export class LearnersComponent {
 
   constructor() { }
 
-  onSelect(learner): void {
+  onSelect(learner: StakeholderAccount): void {
     this.selectedLearner = learner;
   }
 }

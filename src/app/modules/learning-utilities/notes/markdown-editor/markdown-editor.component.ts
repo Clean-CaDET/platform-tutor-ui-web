@@ -4,7 +4,7 @@ import {
   forwardRef,
   ElementRef,
   AfterViewInit,
-  ChangeDetectorRef
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -16,18 +16,19 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => MarkdownEditorComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
-export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewInit {
-
+export class MarkdownEditorComponent
+  implements ControlValueAccessor, AfterViewInit
+{
   text = '';
   livePreview = true;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
 
-  constructor(private changeDetector: ChangeDetectorRef) { }
+  constructor(private changeDetector: ChangeDetectorRef) {}
 
   ngAfterViewInit(): void {
     this.textArea.nativeElement.focus();
@@ -112,14 +113,20 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
     }
     if (this.selection) {
       if (this.selection.selectionStart !== this.selection.selectionEnd) {
-        tagText = this.value.slice(this.selection.selectionStart, this.selection.selectionEnd);
+        tagText = this.value.slice(
+          this.selection.selectionStart,
+          this.selection.selectionEnd
+        );
       }
     }
     const text = tagBegin + tagText + tagEnd;
 
-    let selectionStart;
+    let selectionStart: number;
     if (this.selection) {
-      this.value = this.value.slice(0, this.selection.selectionStart) + text + this.text.slice(this.selection.selectionEnd);
+      this.value =
+        this.value.slice(0, this.selection.selectionStart) +
+        text +
+        this.text.slice(this.selection.selectionEnd);
       selectionStart = this.selection.selectionStart + tagBegin.length;
     } else {
       selectionStart = this.value.length + tagBegin.length;
@@ -129,16 +136,18 @@ export class MarkdownEditorComponent implements ControlValueAccessor, AfterViewI
     // TODO: Usage of setTimeout() should be avoided. Find a better solution.
     setTimeout(() => {
       this.textArea.nativeElement.focus();
-      this.textArea.nativeElement.setSelectionRange(selectionStart, selectionStart + tagText.length);
+      this.textArea.nativeElement.setSelectionRange(
+        selectionStart,
+        selectionStart + tagText.length
+      );
     });
   }
 
-  onSelect(event): void {
+  onSelect(event: Event): void {
     this.selection = event.target;
   }
 
-  onClick(event): void {
+  onClick(event: Event): void {
     this.selection = event.target;
   }
-
 }

@@ -6,7 +6,7 @@ import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-s
 import { CoursesService } from '../courses.service';
 import {Course} from '../../model/course';
 import {StakeholderAccount} from '../../model/stakeholder-account';
-import {Field} from '../../model/field';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-owners',
@@ -37,7 +37,7 @@ export class OwnersComponent implements OnChanges {
 
   onAddOwner(): void {
     const dialogRef = this.dialog.open(GenericSelectionFormComponent, {
-      data: {items: this.findNotOwners(), presentationFunction: (instructor) => instructor.email + ", " + instructor.name + ", " + instructor.surname},
+      data: {items: this.findNotOwners(), presentationFunction: (instructor: StakeholderAccount) => instructor.email + ", " + instructor.name + ", " + instructor.surname},
     });
 
     dialogRef.afterClosed().subscribe(instructor => {

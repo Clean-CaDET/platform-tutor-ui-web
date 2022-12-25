@@ -2,7 +2,7 @@
     <markdown lineNumbers>{{learningObject.text}}</markdown>
     <mat-radio-group [(ngModel)]="checked" fxLayout="column" fxLayoutGap="10px">
         <mat-radio-button *ngFor="let item of learningObject.possibleAnswers"
-            [value]="item" style="text-align: left" fxFlex [disabled]="evaluation"
+            [value]="item" style="text-align: left" fxFlex [disabled]="evaluation ? true : false"
             [class]="evaluation ? checkItemCorrectness(item) : ''">
             {{item}}
         </mat-radio-button>

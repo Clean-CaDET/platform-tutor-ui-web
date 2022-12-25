@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
-import {StakeholderAccount} from '../../model/stakeholder-account';
-import {Course} from '../../model/course';
-import {environment} from '../../../../../environments/environment';
-import {Field} from '../../model/field';
+import { StakeholderAccount } from '../../model/stakeholder-account';
+import { Course } from '../../model/course';
+import { environment } from '../../../../../environments/environment';
+import { Field } from 'src/app/shared/generics/model/field';
 
 @Component({
   selector: 'cc-instructors',
@@ -30,7 +30,7 @@ export class InstructorsComponent implements OnInit {
       .subscribe(courses => this.allCourses = courses.results);
   }
 
-  onSelect(selectedInstructor): void {
+  onSelect(selectedInstructor: StakeholderAccount): void {
     if(!selectedInstructor) return;
     this.selectedInstructor = selectedInstructor;
   }

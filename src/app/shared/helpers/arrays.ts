@@ -1,10 +1,10 @@
-function getRandom(min, max): number {
+function getRandom(min: number, max: number): number {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min);
 }
 
-export function shuffleArray<Type>(arr: Array<Type>): Array<Type>  {
+export function shuffleArray<Type>(arr: Array<Type>): Array<Type> {
   if (arr.length <= 1) {
     return arr;
   }

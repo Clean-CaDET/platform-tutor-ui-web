@@ -5,7 +5,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { CrudService } from './crud.service';
 import { DeleteFormComponent } from '../delete-form/delete-form.component';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
-import {Field} from '../../../modules/management/model/field';
+import { Field } from '../model/field';
+import { Entity } from '../model/entity';
 
 @Component({
   selector: 'cc-generic-table',
@@ -21,17 +22,19 @@ export class GenericTableComponent implements OnChanges {
   columns: string[];
   crud: any;
 
-  @Input() pageProperties = {
-    page: 0,
-    pageSize: 36,
-    totalCount: 0,
-    pageSizeOptions: [18, 36, 300]
-  };
+  // bez inicijalne vrednosti jer u nekom slucaju nece biti prosledjivano
+  @Input() pageProperties: any;
+  // @Input() pageProperties = {
+  //   page: 0,
+  //   pageSize: 36,
+  //   totalCount: 0,
+  //   pageSizeOptions: [18, 36, 300]
+  // };
 
-  selectedItem;
+  selectedItem: any;
   @Output() select = new EventEmitter();
 
-  constructor(private dialog: MatDialog, private httpService: CrudService<any>) {
+  constructor(private dialog: MatDialog, private httpService: CrudService<Entity>) {
     this.dataSource = new MatTableDataSource([]);
   }
 

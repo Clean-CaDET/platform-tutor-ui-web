@@ -49,12 +49,15 @@
                         </ngx-charts-bar-vertical></div>
                     </div>
                     <div fxFlex="50" fxLayout="column" *ngIf="timeChartData[kc.kcCode]">
-                        <div fxFlex="90"><ngx-charts-box-chart
-                            [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
-                            [results]="timeChartData[kc.kcCode]"
-                            [xAxis]="false"
-                            [yAxis]="false">
-                        </ngx-charts-box-chart></div>
+                        <div fxFlex="90">
+                            <!-- TODO: scheme can be string | Color, check if chart works -->
+                            <ngx-charts-box-chart
+                                [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
+                                [results]="timeChartData[kc.kcCode]"
+                                [xAxis]="false"
+                                [yAxis]="false">
+                            </ngx-charts-box-chart>
+                        </div>
                     </div>
                 </div>
             </mat-card>

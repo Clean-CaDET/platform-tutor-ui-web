@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import {LearningEvent} from '../../model/learning-event';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'cc-events-table',
@@ -58,7 +59,7 @@ export class EventsTableComponent implements OnInit {
       });
   }
 
-  changePage(paginator): void {
+  changePage(paginator: PageEvent): void {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getEvents();

@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <section *ngIf="field.type == 'boolean' || field.type == 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
-      <mat-checkbox formControlName="{{field.code}}" [readonly]="field.readOnly"></mat-checkbox>
+      <mat-checkbox formControlName="{{field.code}}"></mat-checkbox>
       <mat-label>{{field.label}}</mat-label>
     </section>
 
