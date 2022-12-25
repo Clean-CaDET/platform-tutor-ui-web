@@ -23,9 +23,9 @@ export class LearnersComponent {
   ];
   selectedLearner: StakeholderAccount;
 
-  constructor(private dialog: MatDialog) { }
+  constructor() { }
 
-  onSelect(learner) {
+  onSelect(learner): void {
     this.selectedLearner = learner;
   }
 }

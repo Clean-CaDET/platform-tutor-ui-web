@@ -43,3 +43,8 @@ export abstract class CrudService<T> {
       return this.http.delete(baseUrl + id);
   }
 }
+
+export interface PagedResults<T> {
+  results: T[];
+  totalCount: number;
+}

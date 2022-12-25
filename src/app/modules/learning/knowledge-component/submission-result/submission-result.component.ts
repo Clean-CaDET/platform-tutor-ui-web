@@ -4,7 +4,7 @@ import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
-import { LearningService } from '../../learning.service';
+import { KnowledgeComponentService } from '../knowledge-component.service';
 
 @Component({
   selector: 'cc-submission-result',
@@ -28,7 +28,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
 
   constructor(
     private instructor: InterfacingInstructor,
-    private learningService: LearningService,
+    private knowledgeComponentService: KnowledgeComponentService,
     private route: ActivatedRoute
   ) {}
 
@@ -57,7 +57,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   }
 
   getKnowledgeComponentStatistics(): void {
-    this.learningService
+    this.knowledgeComponentService
       .getKnowledgeComponentStatistics(this.kcId)
       .subscribe((result) => {
         this.mastery = result.mastery;

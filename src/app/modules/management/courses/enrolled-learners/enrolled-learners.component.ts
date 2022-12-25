@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
 import {Group} from '../../model/group';
 
 @Component({
@@ -33,13 +34,12 @@ export class EnrolledLearnersComponent implements OnChanges {
   }
 
   onAddBulk(): void {
-    //TODO: Open dialog, on confirm add learners to list (dialog will save them)
-    /*const dialogRef = this.dialog.open(GenericSelectionFormComponent);
+    const dialogRef = this.dialog.open(BulkEnrollLearnersComponent, {height: '600px', width: '900px'});
 
     dialogRef.afterClosed().subscribe(learners => {
       if(!learners) return;
       this.dataSource = new MatTableDataSource(this.dataSource.data.concat(learners));
-    });*/
+    });
   }
 
   onDelete(learnerId: number): void {

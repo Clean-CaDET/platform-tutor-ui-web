@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { LearningObject } from './learning-object.model';
-import { Text } from './text/text.model';
-import { Image } from './image/image.model';
-import { Video } from './video/video.model';
-import { MultipleReponseQuestion } from './multiple-response-question/model/multiple-response-question.model';
-import { ArrangeTask } from './arrange-task/model/arrange-task.model';
-import { ShortAnswerQuestion } from './short-answer-question/short-answer-question.model';
-import { Challenge } from './challenge/challenge.model';
-import { MultipleChoiceQuestion } from './multiple-choice-question/model/multiple-choice-question.model';
+import { Text } from './instructional-items/text/text.model';
+import { Video } from './instructional-items/video/video.model';
+import { MultipleReponseQuestion } from './assessment-items/multiple-response-question/multiple-response-question.model';
+import { MultipleChoiceQuestion } from './assessment-items/multiple-choice-question/multiple-choice-question.model';
+import { ArrangeTask } from './assessment-items/arrange-task/arrange-task.model';
+import { Image } from './instructional-items/image/image.model';
+import { ShortAnswerQuestion } from './assessment-items/short-answer-question/short-answer-question.model';
+import { Challenge } from './assessment-items/challenge/challenge.model';
 
 @Injectable({
   providedIn: 'root',

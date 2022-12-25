@@ -39,7 +39,7 @@ export class AuthenticationService {
   logout(): void {
     this.tokenStorage.clear();
     this.user$.next(null);
-    this.router.navigate(['home']);
+    this.router.navigate(['/home']);
   }
 
   checkIfUserExists(): void {

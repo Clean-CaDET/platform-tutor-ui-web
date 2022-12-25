@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
-import { LearningService } from '../learning.service';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
+import { KnowledgeComponentService } from './knowledge-component.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -18,16 +18,16 @@ export class KnowledgeComponentComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private learningService: LearningService
+    private knowledgeComponentService: KnowledgeComponentService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       if (this.knowledgeComponent)
-        this.learningService
+        this.knowledgeComponentService
           .terminateSession(this.knowledgeComponent.id)
           .subscribe();
-      this.learningService.launchSession(+params.kcId).subscribe(() => {
+      this.knowledgeComponentService.launchSession(+params.kcId).subscribe(() => {
         this.getKnowledgeComponent(+params.kcId);
         this.unitId = +params.unitId;
       });
@@ -35,7 +35,7 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.learningService
+    this.knowledgeComponentService
       .terminateSession(this.knowledgeComponent.id)
       .subscribe();
   }
@@ -49,14 +49,14 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   private getKnowledgeComponent(kcId: number): void {
-    this.learningService.getKnowledgeComponent(kcId).subscribe((kc) => {
+    this.knowledgeComponentService.getKnowledgeComponent(kcId).subscribe((kc) => {
       this.knowledgeComponent = kc;
       this.onInstructionalItemsClicked();
     });
   }
 
   onInstructionalItemsClicked(): void {
-    this.learningService
+    this.knowledgeComponentService
       .getInstructionalItems(this.knowledgeComponent.id)
       .subscribe((instructionalItems) => {
         this.instructionalItemsShown = true;
@@ -66,7 +66,7 @@ export class KnowledgeComponentComponent implements OnInit {
   }
 
   onAssessmentItemClicked(): void {
-    this.learningService
+    this.knowledgeComponentService
       .getSuitableAssessmentItem(this.knowledgeComponent.id)
       .subscribe((assessmentItem) => {
         this.instructionalItemsShown = false;

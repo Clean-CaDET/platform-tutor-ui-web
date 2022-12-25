@@ -38,18 +38,22 @@ export class BulkAddComponent implements OnInit {
         continue;
       }
 
-      this.learners.push({
-        num: i+1,
-        index: elements[0].trim(),
-        password: elements[1].trim(),
-        name: elements[2].trim(),
-        surname: elements[3].trim(),
-        email: elements[4].trim()
-      });
+      this.learners.push(this.createLearner(i, elements));
     }
 
     this.dataSource = new MatTableDataSource(this.learners);
     this.checkView = true;
+  }
+
+  private createLearner(i: number, elements: string[]): any {
+    return {
+      num: i + 1,
+      index: elements[0].trim(),
+      password: elements[1].trim(),
+      name: elements[2].trim(),
+      surname: elements[3].trim(),
+      email: elements[4].trim()
+    };
   }
 
   onBack(): void {

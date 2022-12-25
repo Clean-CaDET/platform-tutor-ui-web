@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
-import { CourseOwnersService } from '../course-owners.service';
+import { CoursesService } from '../courses.service';
 import {Course} from '../../model/course';
 import {StakeholderAccount} from '../../model/stakeholder-account';
 
@@ -25,7 +25,7 @@ export class OwnersComponent implements OnChanges {
   ];
   columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private ownersService: CourseOwnersService,
+  constructor(private ownersService: CoursesService,
     private dialog: MatDialog) { }
 
   ngOnChanges(): void {

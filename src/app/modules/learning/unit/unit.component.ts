@@ -2,8 +2,8 @@ import { Component, Injectable, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
-import { LearningService } from '../learning.service';
 import { Unit } from '../model/unit.model';
+import { UnitService } from './unit.service';
 
 @Component({
   selector: 'cc-unit',
@@ -15,14 +15,14 @@ export class UnitComponent implements OnInit {
   unit: Unit;
 
   constructor(
-    private learningService: LearningService,
+    private unitService: UnitService,
     private route: ActivatedRoute,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.learningService
+      this.unitService
         .getUnit(+params.unitId)
         .subscribe((unit) => (this.unit = unit));
     });

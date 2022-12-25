@@ -10,6 +10,7 @@ import { OwnersComponent } from './courses/owners/owners.component';
 import { EnrolledLearnersComponent } from './courses/enrolled-learners/enrolled-learners.component';
 import { BulkAddComponent } from './stakeholders/learners/bulk-add/bulk-add.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BulkEnrollLearnersComponent } from './courses/bulk-enroll-learners/bulk-enroll-learners.component';
 
 
 
@@ -21,7 +22,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     OwnedCoursesComponent,
     OwnersComponent,
     EnrolledLearnersComponent,
-    BulkAddComponent
+    BulkAddComponent,
+    BulkEnrollLearnersComponent
   ],
   imports: [
     CommonModule,
