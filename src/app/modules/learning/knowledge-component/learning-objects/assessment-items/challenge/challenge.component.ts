@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
+import { KnowledgeComponentService } from '../../../knowledge-component.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { Challenge } from './challenge.model';
-import { ChallengeService } from './challenge.service';
 
 @Component({
   selector: 'cc-challenge',
@@ -13,15 +13,15 @@ export class ChallengeComponent implements OnInit, LearningObjectComponent {
   learningObject: Challenge;
 
   constructor(
-    private challengeService: ChallengeService,
+    private knowledgeComponentService: KnowledgeComponentService,
     private instructor: InterfacingInstructor
   ) {}
 
   ngOnInit(): void {}
 
   reloadSubmission(): void {
-    this.challengeService
-      .getMaxCorrectness(this.learningObject.id)
+    this.knowledgeComponentService
+      .getAssesmentItemStatistics(this.learningObject.id)
       .subscribe((correctness) => {
         this.instructor.submit(this.learningObject.id, correctness);
       });

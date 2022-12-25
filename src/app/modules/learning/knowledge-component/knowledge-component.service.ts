@@ -11,8 +11,8 @@ import { LearningObject } from './learning-objects/learning-object.model';
   providedIn: 'root',
 })
 export class KnowledgeComponentService {
-  private baseUri: string = 'learning/knowledge-component/'
-  
+  private baseUri: string = 'learning/knowledge-component/';
+
   constructor(
     private http: HttpClient,
     private learningObjectMapper: LearningObjectMapper
@@ -20,8 +20,8 @@ export class KnowledgeComponentService {
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
     return this.http.get<KnowledgeComponent>(
-        environment.apiHost + this.baseUri + kcId
-      );
+      environment.apiHost + this.baseUri + kcId
+    );
   }
 
   getSuitableAssessmentItem(kcId: number): Observable<LearningObject> {
@@ -43,10 +43,15 @@ export class KnowledgeComponentService {
   getKnowledgeComponentStatistics(
     kcId: number
   ): Observable<KnowledgeComponentStatistics> {
-    return this.http
-      .get<KnowledgeComponentStatistics>(
-        environment.apiHost + 'learning/statistics/kcm/' + kcId
-      );
+    return this.http.get<KnowledgeComponentStatistics>(
+      environment.apiHost + 'learning/statistics/kcm/' + kcId
+    );
+  }
+
+  getAssesmentItemStatistics(aiId: number): Observable<number> {
+    return this.http.get<number>(
+      environment.apiHost + 'learning/statistics/aim/' + aiId
+    );
   }
 
   mapLearningObjects(instructionalItems: LearningObject[]): LearningObject[] {
@@ -58,20 +63,14 @@ export class KnowledgeComponentService {
 
   launchSession(kcId: number): Observable<unknown> {
     return this.http.post(
-      environment.apiHost +
-        'learning/session/' +
-        kcId +
-        '/launch',
+      environment.apiHost + 'learning/session/' + kcId + '/launch',
       null
     );
   }
 
   terminateSession(kcId: number): Observable<unknown> {
     return this.http.post(
-      environment.apiHost +
-        'learning/session/' +
-        kcId +
-        '/terminate',
+      environment.apiHost + 'learning/session/' + kcId + '/terminate',
       null
     );
   }
