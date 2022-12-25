@@ -4,6 +4,7 @@ import {Course} from '../model/course';
 import {Group} from '../model/group';
 import {StakeholderAccount} from '../model/stakeholder-account';
 import {environment} from '../../../../environments/environment';
+import {Field} from '../model/field';
 
 @Component({
   selector: 'cc-courses',
@@ -12,18 +13,18 @@ import {environment} from '../../../../environments/environment';
 })
 export class CoursesComponent implements OnInit {
   baseUrl = environment.apiHost + 'management/courses/';
-  fields = [
+  fields: Field[] = [
     { code: 'code', type: 'string', label: 'Kod', required: true },
     { code: 'name', type: 'string', label: 'Naziv', required: true },
     { code: 'isArchived', type: 'archive', label: 'Arhiviran' },
-    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {create: true, update: true, archive: true, delete: true, filter: true} }
   ];
   selectedCourse: Course;
 
   baseGroupUrl: string;
-  groupFields = [
+  groupFields: Field[] = [
     { code: 'name', type: 'string', label: 'Naziv', required: true },
-    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {create: true, update: true, delete: true} }
   ];
   selectedGroup: Group;
   allInstructors: StakeholderAccount[];

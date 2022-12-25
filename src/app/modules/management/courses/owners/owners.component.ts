@@ -6,6 +6,7 @@ import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-s
 import { CoursesService } from '../courses.service';
 import {Course} from '../../model/course';
 import {StakeholderAccount} from '../../model/stakeholder-account';
+import {Field} from '../../model/field';
 
 @Component({
   selector: 'cc-owners',
@@ -17,11 +18,11 @@ export class OwnersComponent implements OnChanges {
   @Input() allInstructors: StakeholderAccount[];
   dataSource: MatTableDataSource<StakeholderAccount>;
 
-  fieldConfiguration = [
+  fieldConfiguration: Field[] = [
     { code: 'email', type: 'email', label: 'Email' },
     { code: 'name', type: 'string', label: 'Ime' },
     { code: 'surname', type: 'string', label: 'Prezime' },
-    { code: 'CRUD', type: 'CRUD', label: '', delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {delete: true} }
   ];
   columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 

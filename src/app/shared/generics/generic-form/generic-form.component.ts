@@ -25,7 +25,7 @@ export class GenericFormComponent {
     }
 
   onSubmit(): void {
-    let keys = Object.keys(this.formGroup.value);
+    const keys = Object.keys(this.formGroup.value);
     keys.forEach(k => {
       this.entity[k] = this.formGroup.value[k];
     })

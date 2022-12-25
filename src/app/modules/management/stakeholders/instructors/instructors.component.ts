@@ -3,6 +3,7 @@ import { CrudService } from 'src/app/shared/generics/generic-table/crud.service'
 import {StakeholderAccount} from '../../model/stakeholder-account';
 import {Course} from '../../model/course';
 import {environment} from '../../../../../environments/environment';
+import {Field} from '../../model/field';
 
 @Component({
   selector: 'cc-instructors',
@@ -11,12 +12,12 @@ import {environment} from '../../../../../environments/environment';
 })
 export class InstructorsComponent implements OnInit {
   baseUrl = environment.apiHost + 'management/instructors/';
-  instructorFields = [
+  instructorFields: Field[] = [
     { code: 'email', type: 'email', label: 'Email / Username', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },
     { code: 'name', type: 'string', label: 'Ime', required: true },
     { code: 'surname', type: 'string', label: 'Prezime', required: true },
-    { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {create: true, update: true, archive: true, delete: true, filter: true} }
   ];
 
   selectedInstructor: StakeholderAccount;

@@ -6,6 +6,7 @@ import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-s
 import { InstructorsService } from '../instructors.service';
 import {StakeholderAccount} from '../../../model/stakeholder-account';
 import {Course} from '../../../model/course';
+import {Field} from '../../../model/field';
 
 @Component({
   selector: 'cc-owned-courses',
@@ -17,10 +18,10 @@ export class OwnedCoursesComponent implements OnChanges {
   @Input() allCourses: Course[];
   dataSource: MatTableDataSource<Course>;
 
-  fieldConfiguration = [
+  fieldConfiguration: Field[] = [
     { code: 'code', type: 'string', label: 'Šifra' },
     { code: 'name', type: 'string', label: 'Naziv' },
-    { code: 'CRUD', type: 'CRUD', label: '', delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {delete: true} }
   ];
   columns: Array<string> = ['code', 'name', 'CRUD'];
 

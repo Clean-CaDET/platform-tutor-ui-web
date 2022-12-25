@@ -6,6 +6,7 @@ import { CrudService } from 'src/app/shared/generics/generic-table/crud.service'
 import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
 import {Group} from '../../model/group';
 import {environment} from '../../../../../environments/environment';
+import {Field} from '../../model/field';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -17,11 +18,11 @@ export class EnrolledLearnersComponent implements OnChanges {
   @Input() group: Group;
   dataSource: MatTableDataSource<Group>;
 
-  fieldConfiguration = [
+  fieldConfiguration: Field[] = [
     { code: 'email', type: 'email', label: 'Email' },
     { code: 'name', type: 'string', label: 'Ime' },
     { code: 'surname', type: 'string', label: 'Prezime' },
-    { code: 'CRUD', type: 'CRUD', label: '', delete: true }
+    { code: 'CRUD', type: 'CRUD', label: '', crud: {delete: true} }
   ];
   columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
