@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import {Course} from '../model/course';
+import {Group} from '../model/group';
+import {StakeholderAccount} from '../model/stakeholder-account';
 
 @Component({
   selector: 'cc-courses',
@@ -14,23 +17,22 @@ export class CoursesComponent implements OnInit {
     { code: 'isArchived', type: 'archive', label: 'Arhiviran' },
     { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
   ];
-  selectedCourse;
+  selectedCourse: Course;
 
   baseGroupUrl;
   groupFields = [
     { code: 'name', type: 'string', label: 'Naziv', required: true },
     { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, delete: true }
   ];
-  selectedGroup;
-
-  allInstructors;
+  selectedGroup: Group;
+  allInstructors: StakeholderAccount[];
 
   constructor(private instructorService: CrudService<any>) { }
 
   ngOnInit(): void {
     this.instructorService.getAll('https://localhost:44333/api/management/instructors/', null)
       .subscribe(instructors => {
-        this.allInstructors = instructors.results
+        this.allInstructors = instructors.results;
       });
   }
 

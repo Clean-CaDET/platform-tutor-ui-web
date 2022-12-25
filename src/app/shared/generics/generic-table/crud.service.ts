@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import {ListResponseWrapper} from '../../model/list-response-wrapper';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +9,14 @@ import { Observable } from 'rxjs';
 export abstract class CrudService<T> {
   constructor(private http: HttpClient) {}
 
-  getAll(baseUrl: string, pageProperties) : Observable<PagedResults<T>> {
+  getAll(baseUrl: string, pageProperties) : Observable<ListResponseWrapper<T>> {
     let params = new HttpParams();
     if(pageProperties) {
       params = params
       .set('page', pageProperties.page+1)
       .set('pageSize', pageProperties.pageSize)
     }
-    return this.http.get<PagedResults<T>>(baseUrl, { params: params});
+    return this.http.get<ListResponseWrapper<T>>(baseUrl, { params: params});
   }
 
   get(baseUrl, id: number): Observable<T> {
@@ -41,9 +42,4 @@ export abstract class CrudService<T> {
   delete(baseUrl, id: number): Observable<any> {
       return this.http.delete(baseUrl + id);
   }
-}
-
-interface PagedResults<T> {
-  results: T[];
-  totalCount: number
 }

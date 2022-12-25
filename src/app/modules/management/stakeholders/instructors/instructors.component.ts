@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import {StakeholderAccount} from '../../model/stakeholder-account';
+import {Course} from '../../model/course';
 
 @Component({
   selector: 'cc-instructors',
@@ -16,9 +18,9 @@ export class InstructorsComponent implements OnInit {
     { code: 'CRUD', type: 'CRUD', label: '', create: true, update: true, archive: true, delete: true, filter: true }
   ];
 
-  selectedInstructor: any;
-  allCourses: any[];
-  
+  selectedInstructor: StakeholderAccount;
+  allCourses: Course[];
+
   constructor(private courseService: CrudService<any>) { }
 
   ngOnInit(): void {

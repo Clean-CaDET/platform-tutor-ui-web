@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import {Group} from '../../model/group';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -11,9 +12,8 @@ import { CrudService } from 'src/app/shared/generics/generic-table/crud.service'
 })
 export class EnrolledLearnersComponent implements OnChanges {
   baseUrl: string;
-  @Input() group;
-
-  dataSource;
+  @Input() group: Group;
+  dataSource: MatTableDataSource<Group>;
 
   fieldConfiguration = [
     { code: 'email', type: 'email', label: 'Email' },
@@ -21,13 +21,13 @@ export class EnrolledLearnersComponent implements OnChanges {
     { code: 'surname', type: 'string', label: 'Prezime' },
     { code: 'CRUD', type: 'CRUD', label: '', delete: true }
   ];
-  columns = ['email', 'name', 'surname', 'CRUD'];
+  columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private dialog: MatDialog, private groupService: CrudService<any>) { }
+  constructor(private dialog: MatDialog, private groupService: CrudService<Group[]>) { }
 
   ngOnChanges(): void {
     this.baseUrl = "https://localhost:44333/api/management/courses/" + this.group.courseId + "/groups/";
-    this.groupService.get(this.baseUrl, this.group.courseId).subscribe(response => {
+    this.groupService.get(this.baseUrl, +this.group.courseId).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
     });
   }
@@ -43,7 +43,7 @@ export class EnrolledLearnersComponent implements OnChanges {
   }
 
   onDelete(learnerId: number): void {
-    let diagRef = this.dialog.open(DeleteFormComponent);
+    const diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
       if(result) {

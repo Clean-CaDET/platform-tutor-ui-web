@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import {StakeholderAccount} from '../../../model/stakeholder-account';
 
 @Component({
   selector: 'cc-bulk-add',
@@ -13,8 +14,8 @@ export class BulkAddComponent implements OnInit {
   learners: any[];
   checkView: boolean;
 
-  dataSource;
-  displayedColumns = ['num', 'username', 'name', 'surname', 'email'];
+  dataSource: MatTableDataSource<any>;
+  displayedColumns: Array<string> = ['num', 'username', 'name', 'surname', 'email'];
   invalidEntries: string[];
 
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>) { }
@@ -23,7 +24,7 @@ export class BulkAddComponent implements OnInit {
     this.formGroup = this.builder.group({'learners': new FormControl('', Validators.required)})
   }
 
-  onCheck() {
+  onCheck(): void {
     const learnerEntries: string[] = this.formGroup.value['learners'].split('\n');
     this.invalidEntries = [];
     this.learners = [];
@@ -51,15 +52,15 @@ export class BulkAddComponent implements OnInit {
     this.checkView = true;
   }
 
-  onBack() {
+  onBack(): void {
     this.checkView = false;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.dialogRef.close(this.learners);
   }
 
-  onClose() {
+  onClose(): void {
     this.dialogRef.close(false);
   }
 }

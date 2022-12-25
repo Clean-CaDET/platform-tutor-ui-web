@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 import { InstructorsService } from '../instructors.service';
+import {StakeholderAccount} from '../../../model/stakeholder-account';
+import {Course} from '../../../model/course';
 
 @Component({
   selector: 'cc-owned-courses',
@@ -11,22 +13,22 @@ import { InstructorsService } from '../instructors.service';
   styleUrls: ['./owned-courses.component.scss']
 })
 export class OwnedCoursesComponent implements OnChanges {
-  @Input() instructor;
-  @Input() allCourses;
-  dataSource;
+  @Input() instructor: StakeholderAccount;
+  @Input() allCourses: Course[];
+  dataSource: MatTableDataSource<Course>;
 
   fieldConfiguration = [
     { code: 'code', type: 'string', label: 'Šifra' },
     { code: 'name', type: 'string', label: 'Naziv' },
     { code: 'CRUD', type: 'CRUD', label: '', delete: true }
   ];
-  columns = ['code', 'name', 'CRUD'];
+  columns: Array<string> = ['code', 'name', 'CRUD'];
 
   constructor(private instructorService: InstructorsService,
     private dialog: MatDialog) { }
 
   ngOnChanges(): void {
-    this.instructorService.getOwnedCourses(this.instructor.id).subscribe(response => {
+    this.instructorService.getOwnedCourses(+this.instructor.id).subscribe(response => {
       this.dataSource = new MatTableDataSource(response);
     })
   }
@@ -38,7 +40,7 @@ export class OwnedCoursesComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(course => {
       if(!course) return;
-      this.instructorService.addOwnedCourse(this.instructor.id, course.id).subscribe((response) => {
+      this.instructorService.addOwnedCourse(+this.instructor.id, course.id).subscribe((response) => {
         this.dataSource.data.push(response);
         this.dataSource._updateChangeSubscription();
       });
@@ -50,7 +52,7 @@ export class OwnedCoursesComponent implements OnChanges {
 
     diagRef.afterClosed().subscribe(result => {
       if(result) {
-        this.instructorService.removeOwnedCourse(this.instructor.id, courseId).subscribe(() =>
+        this.instructorService.removeOwnedCourse(+this.instructor.id, courseId).subscribe(() =>
           this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== courseId)));
       }
     });

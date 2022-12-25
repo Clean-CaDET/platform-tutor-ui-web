@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { BulkAddComponent } from './bulk-add/bulk-add.component';
+import {StakeholderAccount} from '../../model/stakeholder-account';
 
 @Component({
   selector: 'cc-stakeholders-learners',
@@ -20,8 +21,8 @@ export class LearnersComponent {
       bulkCreate: true, bulkCreateDialogComponent: BulkAddComponent
     }
   ];
-  selectedLearner: any;
-  
+  selectedLearner: StakeholderAccount;
+
   constructor(private dialog: MatDialog) { }
 
   onSelect(learner) {

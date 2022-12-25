@@ -4,6 +4,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 import { CourseOwnersService } from '../course-owners.service';
+import {Course} from '../../model/course';
+import {StakeholderAccount} from '../../model/stakeholder-account';
 
 @Component({
   selector: 'cc-owners',
@@ -11,10 +13,9 @@ import { CourseOwnersService } from '../course-owners.service';
   styleUrls: ['./owners.component.scss']
 })
 export class OwnersComponent implements OnChanges {
-  @Input() course;
-  @Input() allInstructors;
-
-  dataSource;
+  @Input() course: Course;
+  @Input() allInstructors: StakeholderAccount[];
+  dataSource: MatTableDataSource<StakeholderAccount>;
 
   fieldConfiguration = [
     { code: 'email', type: 'email', label: 'Email' },
@@ -22,7 +23,7 @@ export class OwnersComponent implements OnChanges {
     { code: 'surname', type: 'string', label: 'Prezime' },
     { code: 'CRUD', type: 'CRUD', label: '', delete: true }
   ];
-  columns = ['email', 'name', 'surname', 'CRUD'];
+  columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
   constructor(private ownersService: CourseOwnersService,
     private dialog: MatDialog) { }
@@ -48,18 +49,18 @@ export class OwnersComponent implements OnChanges {
   }
 
   onDelete(instructorId: number): void {
-    let diagRef = this.dialog.open(DeleteFormComponent);
+    const diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
       if(result) {
         this.ownersService.removeOwner(this.course.id, instructorId).subscribe(() =>
-          this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== instructorId)));
+          this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => +e.id !== instructorId)));
       }
     });
   }
 
-  findNotOwners(): any {
-    return this.allInstructors.filter(i => !this.dataSource.data.find(o => o.id == i.id));
+  findNotOwners(): StakeholderAccount[] {
+    return this.allInstructors.filter(i => !this.dataSource.data.find(o => o.id === i.id));
   }
 
 }

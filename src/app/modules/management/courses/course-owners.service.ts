@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import {Observable} from 'rxjs';
+import {StakeholderAccount} from '../model/stakeholder-account';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +11,8 @@ export class CourseOwnersService {
 
   constructor(private http: HttpClient) {}
 
-  getOwners(courseId: number) {
-    return this.http.get<any[]>(this.baseUrl + courseId + "/owners/");
+  getOwners(courseId: number): Observable<StakeholderAccount[]> {
+    return this.http.get<StakeholderAccount[]>(this.baseUrl + courseId + "/owners/");
   }
 
   addOwner(courseId: number, instructorId: number) {
