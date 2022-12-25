@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { filter, Subject } from 'rxjs';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { InstructorMessage } from './model/instructor-message.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class InterfacingInstructor {
   openEmotionsFormEvent: Subject<void> = new Subject<void>();
   private tutorActionActivated = false;
   kcId: number;
+  aiId: number;
 
   constructor(
     private tutorToaster: MatSnackBar,
@@ -33,7 +35,8 @@ export class InterfacingInstructor {
       });
   }
 
-  submit(correctnessLevel: number): void {
+  submit(aiId: number, correctnessLevel: number): void {
+    this.aiId = aiId;
     this.tutorActionActivated = false;
     //this.tutorActionActivated = this.tryFeedbackPopup();
     if (!this.tutorActionActivated) {
@@ -162,11 +165,22 @@ export class InterfacingInstructor {
     if (!generateEvent) {
       return;
     }
+    this.saveMessage(message);
+  }
+
+  private saveMessage(message: string) {
+    const instructorMessage: InstructorMessage = {
+      kcId: this.kcId,
+      message: message,
+    };
     this.http
-      .post(environment.apiHost + 'submissions/tutor-message', {
-        message,
-        kcId: this.kcId,
-      })
+      .post<void>(
+        environment.apiHost +
+          'learning/assessment-item/' +
+          this.aiId +
+          '/submissions/tutor-message',
+        instructorMessage
+      )
       .subscribe();
   }
 }
