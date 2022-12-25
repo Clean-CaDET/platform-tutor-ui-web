@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ShortAnswerQuestion } from './short-answer-question.model';
-import { ShortAnswerQuestionService } from './short-answer-question.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
 import { SaqEvaluation } from 'src/app/modules/learning/model/learning-objects/short-answer-question/saq-evaluation.model';
+import { SaqSubmission } from 'src/app/modules/learning/model/learning-objects/short-answer-question/saq-submission.model';
+import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
+import { SubmissionService } from '../../../submission.service';
 
 @Component({
   selector: 'cc-short-answer-question',
@@ -16,16 +18,20 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   answer: string;
 
   constructor(
-    private saqService: ShortAnswerQuestionService,
+    private submissionService: SubmissionService,
     private instructor: InterfacingInstructor
   ) {}
 
   onSubmit(): void {
-    this.saqService
-      .answerQuestion(this.learningObject.id, this.answer)
+    const submission: SaqSubmission = {
+      typeDiscriminator: submissionTypes.shortAnswerQuestion,
+      answer: this.answer,
+    };
+    this.submissionService
+      .submit(this.learningObject.id, submission)
       .subscribe((evaluation) => {
         this.instructor.submit(evaluation.correctnessLevel);
-        this.response = evaluation;
+        this.response = evaluation as SaqEvaluation;
       });
   }
 }

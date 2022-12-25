@@ -1,13 +1,20 @@
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from "@angular/cdk/drag-drop";
-import { Component, OnInit } from "@angular/core";
-import { InterfacingInstructor } from "src/app/modules/learning-utilities/interfacing-instructor.service";
-import { ArrangeTaskContainerEvaluation } from "src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-evaluation.model";
-import { ArrangeTaskContainerSubmission } from "src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-submission.model";
-import { Container } from "src/app/modules/learning/model/learning-objects/arrange-task/container.model";
-import { shuffleArray } from "src/app/shared/helpers/arrays";
-import { LearningObjectComponent } from "../../learning-object-component";
-import { ArrangeTask } from "./arrange-task.model";
-import { ArrangeTaskService } from "./arrange-task.service";
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
+import { Component, OnInit } from '@angular/core';
+import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
+import { ArrangeTaskContainerEvaluation } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-evaluation.model';
+import { ArrangeTaskContainerSubmission } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-submission.model';
+import { ArrangeTaskEvaluation } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-evaluation.model';
+import { ArrangeTaskSubmission } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-submission.model';
+import { Container } from 'src/app/modules/learning/model/learning-objects/arrange-task/container.model';
+import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
+import { shuffleArray } from 'src/app/shared/helpers/arrays';
+import { SubmissionService } from '../../../submission.service';
+import { LearningObjectComponent } from '../../learning-object-component';
+import { ArrangeTask } from './arrange-task.model';
 
 @Component({
   selector: 'cc-arrange-task',
@@ -21,7 +28,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   answered = false;
 
   constructor(
-    private arrangeTaskService: ArrangeTaskService,
+    private submissionService: SubmissionService,
     private instructor: InterfacingInstructor
   ) {
     this.feedbackMap = new Map();
@@ -81,22 +88,23 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
   }
 
   onSubmit(): void {
-    this.arrangeTaskService
-      .submitTask(
-        this.learningObject.id,
-        this.createArrangeTaskContainerSubmissionList()
-      )
+    const submission: ArrangeTaskSubmission = {
+      typeDiscriminator: submissionTypes.arrangeTask,
+      containers: this.createArrangeTaskContainerSubmissionList(),
+    };
+    this.submissionService
+      .submit(this.learningObject.id, submission)
       .subscribe((containerEvaluation) => {
         this.answered = true;
         this.instructor.submit(containerEvaluation.correctnessLevel);
-        containerEvaluation.containerEvaluations.forEach(
-          (arrangeTaskContainerEvaluation) => {
-            this.feedbackMap.set(
-              arrangeTaskContainerEvaluation.id,
-              arrangeTaskContainerEvaluation
-            );
-          }
-        );
+        (
+          containerEvaluation as ArrangeTaskEvaluation
+        ).containerEvaluations.forEach((arrangeTaskContainerEvaluation) => {
+          this.feedbackMap.set(
+            arrangeTaskContainerEvaluation.id,
+            arrangeTaskContainerEvaluation
+          );
+        });
       });
   }
 
@@ -105,7 +113,8 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
     this.state.forEach((container, key) => {
       const arrangeTaskContainerSubmission: ArrangeTaskContainerSubmission = {
-        arrangeTaskContainerId: container.id
+        arrangeTaskContainerId: container.id,
+        elementIds: [],
       };
       container.elements.forEach((element, keyEl) => {
         arrangeTaskContainerSubmission.elementIds.push(element.id);

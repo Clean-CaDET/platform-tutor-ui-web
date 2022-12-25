@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
 import { McqEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-evaluation.model';
+import { McqSubmission } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-submission.model';
+import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { shuffleArray } from 'src/app/shared/helpers/arrays';
+import { SubmissionService } from '../../../submission.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { MultipleChoiceQuestion } from './multiple-choice-question.model';
-import { MultipleChoiceQuestionService } from './multiple-choice-question.service';
 
 @Component({
   selector: 'cc-multiple-choice-question',
@@ -19,7 +21,7 @@ export class MultipleChoiceQuestionComponent
   evaluation: McqEvaluation;
 
   constructor(
-    private mcqService: MultipleChoiceQuestionService,
+    private submissionService: SubmissionService,
     private instructor: InterfacingInstructor
   ) {}
 
@@ -30,11 +32,15 @@ export class MultipleChoiceQuestionComponent
   }
 
   onSubmit(): void {
-    this.mcqService
-      .submit(this.learningObject.id, this.checked)
+    const submission: McqSubmission = {
+      typeDiscriminator: submissionTypes.mutlipleChoiceQuestion,
+      answer: this.checked,
+    };
+    this.submissionService
+      .submit(this.learningObject.id, submission)
       .subscribe((mcqEvaluation) => {
         this.instructor.submit(mcqEvaluation.correctnessLevel);
-        this.evaluation = mcqEvaluation;
+        this.evaluation = mcqEvaluation as McqEvaluation;
       });
   }
 

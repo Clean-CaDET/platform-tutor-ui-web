@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MultipleReponseQuestion } from './multiple-response-question.model';
-import { QuestionService as MultipleResponseQuestionService } from './multiple-response-question.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
 import { shuffleArray } from 'src/app/shared/helpers/arrays';
 import { MrqEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-evaluation.model';
 import { MrqItem } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-item.model';
 import { MrqItemEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-item-evaluation.model';
+import { SubmissionService } from '../../../submission.service';
+import { MrqSubmission } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-submission.model';
+import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 
 @Component({
   selector: 'cc-multiple-response-question',
@@ -21,7 +23,7 @@ export class MultipleResponseQuestionComponent
   evaluation: MrqEvaluation;
 
   constructor(
-    private mrqService: MultipleResponseQuestionService,
+    private submissionService: SubmissionService,
     private instructor: InterfacingInstructor
   ) {
     this.checked = [];
@@ -42,11 +44,15 @@ export class MultipleResponseQuestionComponent
   }
 
   onSubmit(): void {
-    this.mrqService
-      .answerQuestion(this.learningObject.id, this.checkedAnswers)
+    const submission: MrqSubmission = {
+      typeDiscriminator: submissionTypes.mutlipleResponseQuestion,
+      answers: this.checkedAnswers,
+    };
+    this.submissionService
+      .submit(this.learningObject.id, submission)
       .subscribe((mrqEvaluation) => {
         this.instructor.submit(mrqEvaluation.correctnessLevel);
-        this.evaluation = mrqEvaluation;
+        this.evaluation = mrqEvaluation as MrqEvaluation;
       });
   }
 

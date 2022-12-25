@@ -1,4 +1,5 @@
-export interface SaqEvaluation {
+import { Evaluation } from '../evaluation.model';
+
+export interface SaqEvaluation extends Evaluation {
   acceptableAnswers: string[];
-  correctnessLevel: number;
 }
