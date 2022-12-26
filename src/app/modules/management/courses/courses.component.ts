@@ -29,7 +29,7 @@ export class CoursesComponent implements OnInit {
   selectedGroup: Group;
   allInstructors: StakeholderAccount[];
 
-  constructor(private instructorService: CrudService<any>) { }
+  constructor(private instructorService: CrudService<StakeholderAccount>) { }
 
   ngOnInit(): void {
     this.instructorService.getAll(environment.apiHost + 'management/instructors/', null)

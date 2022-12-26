@@ -3,7 +3,7 @@
   as knowledge-map;
 @use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
   as submission-result;
-@use "./src/app/modules/group-monitoring/kcm-progress/assessments-table/assessments-table.component-theme"
+@use "./src/app/modules/group-monitoring/kcm-progress/learner-progress/assessments-table/_assessments-table.component-theme.scss"
   as assessments-table;
 
 @include mat.core();

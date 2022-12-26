@@ -33,7 +33,7 @@ export abstract class CrudService<T extends Entity> {
   }
 
   update(baseUrl: string, updatedItem: T): Observable<any> {
-      return this.http.put(baseUrl + updatedItem['id'], updatedItem);
+      return this.http.put(baseUrl + updatedItem.id, updatedItem);
   }
 
   archive(baseUrl: string, id: number, archive: boolean) {
