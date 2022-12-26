@@ -3,16 +3,16 @@
 
   <div fxLayout="row">
     <span fxFlex>
-    <mat-form-field fxFlex *ngIf="crud?.filter">
+    <mat-form-field fxFlex *ngIf="crud?.crud.filter">
       <mat-label>Filter</mat-label>
       <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
     </mat-form-field>
     </span>
     <span fxLayoutGap="5px">
-      <button *ngIf="crud?.create" mat-mini-fab color="primary" (click)="onCreate()">
+      <button *ngIf="crud?.crud.create" mat-mini-fab color="primary" (click)="onCreate()">
         <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0">add</mat-icon>
       </button>
-      <button *ngIf="crud?.bulkCreate" mat-mini-fab color="primary" (click)="onBulkCreate()">
+      <button *ngIf="crud?.crud.bulkCreate" mat-mini-fab color="primary" (click)="onBulkCreate()">
         <mat-icon matTooltip="Dodaj više" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">library_add</mat-icon>
       </button>
     </span>

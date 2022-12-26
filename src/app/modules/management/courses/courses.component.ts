@@ -16,7 +16,6 @@ export class CoursesComponent implements OnInit {
   fields: Field[] = [
     { code: 'code', type: 'string', label: 'Kod', required: true },
     { code: 'name', type: 'string', label: 'Naziv', required: true },
-    { code: 'isArchived', type: 'archive', label: 'Arhiviran' },
     { code: 'CRUD', type: 'CRUD', label: '', crud: {create: true, update: true, archive: true, delete: true, filter: true} }
   ];
   selectedCourse: Course;

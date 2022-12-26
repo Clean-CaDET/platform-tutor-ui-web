@@ -7,6 +7,7 @@ import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll
 import { Group } from '../../model/group.model';
 import { environment } from '../../../../../environments/environment';
 import { Field } from 'src/app/shared/generics/model/field.model';
+import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
 
 @Component({
   selector: 'cc-enrolled-learners',
@@ -16,7 +17,7 @@ import { Field } from 'src/app/shared/generics/model/field.model';
 export class EnrolledLearnersComponent implements OnChanges {
   baseUrl: string;
   @Input() group: Group;
-  dataSource: MatTableDataSource<Group>;
+  dataSource: MatTableDataSource<Learner>;
 
   fieldConfiguration: Field[] = [
     { code: 'email', type: 'email', label: 'Email' },
@@ -26,12 +27,11 @@ export class EnrolledLearnersComponent implements OnChanges {
   ];
   columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
 
-  constructor(private dialog: MatDialog, private groupService: CrudService<Group>) { }
+  constructor(private dialog: MatDialog, private membershipService: CrudService<Learner>) { }
 
   ngOnChanges(): void {
-    // wierd -> bilo je dobavi jednu grupu?
-    this.baseUrl = environment.apiHost + "management/courses/" + this.group.courseId + "/groups/";
-    this.groupService.getAll(this.baseUrl, +this.group.courseId).subscribe(response => {
+    this.baseUrl = environment.apiHost + "management/groups/" + this.group.id + "/members/";
+    this.membershipService.getAll(this.baseUrl, null).subscribe(response => {
       this.dataSource = new MatTableDataSource(response.results);
     });
   }
@@ -41,7 +41,9 @@ export class EnrolledLearnersComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(learners => {
       if(!learners) return;
-      this.dataSource = new MatTableDataSource(this.dataSource.data.concat(learners));
+      this.membershipService.bulkCreate(this.baseUrl, learners).subscribe(() => {
+        this.dataSource = new MatTableDataSource(this.dataSource.data.concat(learners));
+      });
     });
   }
 
@@ -50,8 +52,8 @@ export class EnrolledLearnersComponent implements OnChanges {
 
     diagRef.afterClosed().subscribe(result => {
       if(result) {
-        //this.ownersService.removeOwner(this.course.id, instructorId).subscribe(() =>
-        //  this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== instructorId)));
+        this.membershipService.delete(this.baseUrl, learnerId).subscribe(() =>
+          this.dataSource = new MatTableDataSource(this.dataSource.data.filter(e => e.id !== learnerId)));
       }
     });
   }
