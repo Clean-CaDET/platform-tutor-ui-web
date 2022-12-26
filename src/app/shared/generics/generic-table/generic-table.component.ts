@@ -22,14 +22,12 @@ export class GenericTableComponent implements OnChanges {
   columns: string[];
   crud: any;
 
-  // bez inicijalne vrednosti jer u nekom slucaju nece biti prosledjivano
-  @Input() pageProperties: any;
-  // @Input() pageProperties = {
-  //   page: 0,
-  //   pageSize: 36,
-  //   totalCount: 0,
-  //   pageSizeOptions: [18, 36, 300]
-  // };
+  @Input() pageProperties = {
+     page: 0,
+     pageSize: 36,
+     totalCount: 0,
+     pageSizeOptions: [18, 36, 300]
+  };
 
   selectedItem: any;
   @Output() select = new EventEmitter();

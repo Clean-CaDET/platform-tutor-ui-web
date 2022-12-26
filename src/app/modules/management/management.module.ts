@@ -21,7 +21,7 @@ import { BulkEnrollLearnersComponent } from './courses/bulk-enroll-learners/bulk
     OwnersComponent,
     EnrolledLearnersComponent,
     BulkAddComponent,
-    BulkEnrollLearnersComponent
+    BulkEnrollLearnersComponent,
   ],
   imports: [
     CommonModule,

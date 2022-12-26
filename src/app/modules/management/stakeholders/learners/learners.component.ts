@@ -23,9 +23,16 @@ export class LearnersComponent {
   ];
   selectedLearner: StakeholderAccount;
 
+  courseFields: Field[] = [
+    { code: 'code', type: 'string', label: 'Kod', required: true },
+    { code: 'name', type: 'string', label: 'Naziv' }
+  ];
+  enrolledCoursesUrl: string;
+
   constructor() { }
 
   onSelect(learner: StakeholderAccount): void {
     this.selectedLearner = learner;
+    this.enrolledCoursesUrl = this.baseUrl + learner.id + "/courses";
   }
 }
