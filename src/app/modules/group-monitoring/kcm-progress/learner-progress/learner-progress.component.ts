@@ -29,24 +29,19 @@ export class LearnerProgressComponent implements OnChanges {
   }
 
   calculateProgress(): void {
-    const filteredKnowledgeComponentProgress: KnowledgeComponentProgress[] = this.filterKc();
-    this.filteredLearnerProgress = filteredKnowledgeComponentProgress;
-    this.kcNum = filteredKnowledgeComponentProgress.length;
-    this.satisfiedNum = this.calculateSatisfiedKc(filteredKnowledgeComponentProgress);
-    this.suspiciousNum = this.calculateSuspiciousKc(filteredKnowledgeComponentProgress);
+    const knowledgeUnit: Unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
+    this.kcs = this.findAllKcsFromUnit(knowledgeUnit.knowledgeComponents, []);
+    this.filteredLearnerProgress = this.filterKc();
+    this.kcNum = this.filteredLearnerProgress.length;
+    this.satisfiedNum = this.calculateSatisfiedKc();
+    this.suspiciousNum = this.calculateSuspiciousKc();
 
   }
 
   filterKc(): KnowledgeComponentProgress[] {
-    const knowledgeUnit: Unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
-    this.unit = knowledgeUnit;
-
-    const result: KnowledgeComponent[] = this.findAllKcsFromUnit(knowledgeUnit.knowledgeComponents, []);
-    this.kcs = result;
-
     const filteredKnowledgeComponentProgress: KnowledgeComponentProgress[] = [];
     this.learnerProgress.knowledgeComponentProgress.forEach(kcp => {
-      result.forEach(kc => {
+      this.kcs.forEach(kc => {
         if (kcp.knowledgeComponentId === kc.id) {
           filteredKnowledgeComponentProgress.push(kcp);
         }
@@ -63,20 +58,25 @@ export class LearnerProgressComponent implements OnChanges {
     return allKcs;
   }
 
-  calculateSatisfiedKc(knowledgeComponentProgress: KnowledgeComponentProgress[]): number {
-    return knowledgeComponentProgress.filter((p) => {
-      p.statistics.isSatisfied;
-    }).length;
+  calculateSatisfiedKc(): number {
+    let satisfied = 0;
+    this.filteredLearnerProgress.forEach(p => {
+      if (p.statistics.isSatisfied) {
+        satisfied++;
+      }
+    });
+    return satisfied;
   }
 
-  calculateSuspiciousKc(knowledgeComponentProgress: KnowledgeComponentProgress[]): number {
+  calculateSuspiciousKc(): number {
     let suspiciousNum = 0;
-    const knowledgeUnit: Unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
-    knowledgeComponentProgress.forEach(p => {
-      const kc: KnowledgeComponent = knowledgeUnit.knowledgeComponents.find(k => k.id === p.knowledgeComponentId);
-      if (p.statistics.isSatisfied === true && p.durationOfFinishedSessionsInMinutes > kc.expectedDurationInMinutes) {
-        suspiciousNum++;
-      }
+    this.filteredLearnerProgress.forEach(p => {
+      this.kcs.forEach(kc => {
+        if (p.knowledgeComponentId === kc.id && p.statistics.isSatisfied === true
+          && p.durationOfFinishedSessionsInMinutes < kc.expectedDurationInMinutes) {
+          suspiciousNum++;
+        }
+      });
     });
     return suspiciousNum;
   }
