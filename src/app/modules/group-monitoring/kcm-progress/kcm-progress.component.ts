@@ -5,7 +5,7 @@ import { LearnerProgress } from '../model/learner-progress.model';
 import { Course } from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'cc-kcm-progress',

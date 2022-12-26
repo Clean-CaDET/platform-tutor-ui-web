@@ -38,7 +38,7 @@ interface AssessmentTableElement {
 })
 export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentProgresses: KnowledgeComponentProgress[];
-  @Input() unit: Unit;
+  @Input() kcs: KnowledgeComponent[];
   @Input() kcUnitId: number;
   dataSource: MatTableDataSource<AssessmentTableElement>;
   displayedColumns: string[] = [
@@ -55,7 +55,7 @@ export class AssessmentsTableComponent implements OnChanges {
 
   ngOnChanges(): void {
     const dataSource: AssessmentTableElement[] = [];
-    this.unit.knowledgeComponents.forEach((kc) => {
+    this.kcs.forEach((kc) => {
       this.knowledgeComponentProgresses.forEach((p) => {
         if (kc.id === p.knowledgeComponentId) {
           dataSource.push(this.createAssessmentTableElement(kc, p));
@@ -78,7 +78,7 @@ export class AssessmentsTableComponent implements OnChanges {
       passedCount: p.statistics.passedCount,
       attemptedCount: p.statistics.attemptedCount,
       durationOfFinishedSessionsInMinutes:
-        p.durationOfFinishedSessionsInMinutes,
+      p.durationOfFinishedSessionsInMinutes,
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
     };
