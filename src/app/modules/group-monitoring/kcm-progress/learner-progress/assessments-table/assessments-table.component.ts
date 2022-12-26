@@ -1,7 +1,6 @@
 import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
 import { KnowledgeComponentProgress } from '../../../model/knowledge-component-progress.model';
-import { Unit } from '../../../../learning/model/unit.model';
 import { KnowledgeComponent } from '../../../../learning/model/knowledge-component.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
@@ -38,7 +37,7 @@ interface AssessmentTableElement {
 })
 export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentProgresses: KnowledgeComponentProgress[];
-  @Input() unit: Unit;
+  @Input() kcs: KnowledgeComponent[];
   @Input() kcUnitId: number;
   dataSource: MatTableDataSource<AssessmentTableElement>;
   displayedColumns: string[] = [
@@ -55,7 +54,7 @@ export class AssessmentsTableComponent implements OnChanges {
 
   ngOnChanges(): void {
     const dataSource: AssessmentTableElement[] = [];
-    this.unit.knowledgeComponents.forEach((kc) => {
+    this.kcs.forEach((kc) => {
       this.knowledgeComponentProgresses.forEach((p) => {
         if (kc.id === p.knowledgeComponentId) {
           dataSource.push(this.createAssessmentTableElement(kc, p));
@@ -78,7 +77,7 @@ export class AssessmentsTableComponent implements OnChanges {
       passedCount: p.statistics.passedCount,
       attemptedCount: p.statistics.attemptedCount,
       durationOfFinishedSessionsInMinutes:
-        p.durationOfFinishedSessionsInMinutes,
+      p.durationOfFinishedSessionsInMinutes,
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
     };
