@@ -12,7 +12,7 @@
     </mat-card-content>
     <mat-card-actions *ngIf="user.role === 'instructor'"
         fxLayoutAlign="end" fxLayoutGap="16px">
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="'/management/courses'">
+        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/authoring/course', course.id]">
             <mat-icon>edit</mat-icon>
         </button>
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/analytics', course.id, 'kc-statistics']">

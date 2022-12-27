@@ -1,32 +1,32 @@
 <button mat-flat-button color="primary" class="controls" 
   [matMenuTriggerFor]="course">
-  {{ selectedCourse ? selectedCourse.name : 'Odaberi kurs'}}
+  {{ selectedCourse ? selectedCourse.code : 'Odaberi kurs'}}
 </button>
 <mat-menu #course="matMenu">
   <button [routerLink]="['/course', course.id, 'learner-progress']" *ngFor="let course of courses" mat-menu-item>
-    {{course.name}}
+    {{course.code}}
   </button>
 </mat-menu>
 <ng-container *ngIf="selectedCourse">
   <button mat-flat-button color="primary" class="controls"
-    [routerLink]="'/management/courses'"
+  [routerLink]="['/authoring/course', selectedCourse.id]"
     (click)="selectControl('authoring')"
     [ngClass]="{'selected': selectedControl === 'authoring'}">
-    <mat-icon>edit</mat-icon>
+    <mat-icon>edit</mat-icon><br>
     Autorstvo
   </button>
   <button mat-flat-button color="primary" class="controls"
     [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']"
     (click)="selectControl('analytics')"
     [ngClass]="{'selected': selectedControl === 'analytics'}">
-    <mat-icon>bar_chart</mat-icon>
+    <mat-icon>bar_chart</mat-icon><br>
     Analitike
   </button>
   <button mat-flat-button color="primary" class="controls"
     [routerLink]="['/course', selectedCourse.id, 'learner-progress']"
     (click)="selectControl('groups')"
     [ngClass]="{'selected': selectedControl === 'groups'}">
-    <mat-icon>groups</mat-icon>
+    <mat-icon>groups</mat-icon><br>
     Grupe
   </button>
 </ng-container>

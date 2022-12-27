@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 export class LayoutService {
   constructor(private http: HttpClient) {}
 
-  getCourses(): Observable<Course[]> {
+  getLearnerCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(environment.apiHost + 'enrolled-courses');
   }
 
-  getCoursesForInstructor(): Observable<Course[]> {
+  getInstructorCourses(): Observable<Course[]> {
     return this.http.get<Course[]>(environment.apiHost + 'owned-courses');
   }
 }

@@ -12,6 +12,7 @@ import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statist
 import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
 import { CoursesComponent } from '../modules/management/courses/courses.component';
 import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics/events-table/events-table.component';
+import { CourseStructureComponent } from '../modules/authoring/course-structure/course-structure.component';
 
 
 const routes: Routes = [
@@ -47,6 +48,12 @@ const routes: Routes = [
   {
     path: 'course/:courseId/learner-progress',
     component: KcmProgressComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'instructor' },
+  },
+  {
+    path: 'authoring/course/:courseId',
+    component: CourseStructureComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
   },

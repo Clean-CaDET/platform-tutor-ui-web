@@ -22,7 +22,7 @@ export class InstructorControlsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupCourseUpdate();
-    this.layoutService.getCoursesForInstructor().subscribe((courses) => {
+    this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
     });
     this.selectedControl = 'groups';
@@ -52,7 +52,7 @@ export class InstructorControlsComponent implements OnInit {
 
   private findCourse(courseId: number): void{
     if (!this.courses) {
-      this.layoutService.getCoursesForInstructor().subscribe((courses) => {
+      this.layoutService.getInstructorCourses().subscribe((courses) => {
         this.courses = courses;
         this.selectedCourse = this.courses.find((c) => c.id === courseId);
       });
