@@ -10,7 +10,6 @@ import { UnitService } from './unit.service';
   templateUrl: './unit.component.html',
   styleUrls: ['./unit.component.css'],
 })
-@Injectable({ providedIn: 'root' })
 export class UnitComponent implements OnInit {
   unit: Unit;
 

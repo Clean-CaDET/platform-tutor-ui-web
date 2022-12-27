@@ -6,11 +6,9 @@ import { Course } from '../../model/course.model';
   templateUrl: './course-units.component.html',
   styleUrls: ['./course-units.component.scss'],
 })
-export class CourseUnitsComponent implements OnInit {
+export class CourseUnitsComponent {
   @Input() course: Course;
 
   constructor() {}
 
-  ngOnInit(): void {
-  }
 }

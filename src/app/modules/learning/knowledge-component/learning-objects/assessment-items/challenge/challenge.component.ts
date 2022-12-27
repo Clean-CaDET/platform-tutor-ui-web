@@ -9,15 +9,13 @@ import { Challenge } from './challenge.model';
   templateUrl: './challenge.component.html',
   styleUrls: ['./challenge.component.css'],
 })
-export class ChallengeComponent implements OnInit, LearningObjectComponent {
+export class ChallengeComponent implements LearningObjectComponent {
   learningObject: Challenge;
 
   constructor(
     private knowledgeComponentService: KnowledgeComponentService,
     private instructor: InterfacingInstructor
   ) {}
-
-  ngOnInit(): void {}
 
   reloadSubmission(): void {
     this.knowledgeComponentService

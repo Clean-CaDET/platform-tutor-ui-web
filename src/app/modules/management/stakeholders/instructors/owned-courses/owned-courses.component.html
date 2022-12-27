@@ -12,10 +12,10 @@
         <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
         <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
         <td mat-cell *matCellDef="let element">
-            <span *ngIf="field.type == 'string'">
+            <span *ngIf="field.type === 'string'">
             {{element[field.code]}}
             </span>
-            <span *ngIf="field.type == 'CRUD'">
+            <span *ngIf="field.type === 'CRUD'">
             <span fxFlex></span>
             <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
                 <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>

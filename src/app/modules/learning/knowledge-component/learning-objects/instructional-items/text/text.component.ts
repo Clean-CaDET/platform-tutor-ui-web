@@ -7,13 +7,10 @@ import { Text } from './text.model';
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.css']
 })
-export class TextComponent implements OnInit, LearningObjectComponent {
+export class TextComponent implements LearningObjectComponent {
 
   learningObject: Text;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

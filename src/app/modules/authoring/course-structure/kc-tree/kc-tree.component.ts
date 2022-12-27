@@ -5,11 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './kc-tree.component.html',
   styleUrls: ['./kc-tree.component.scss']
 })
-export class KcTreeComponent implements OnInit {
+export class KcTreeComponent {
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

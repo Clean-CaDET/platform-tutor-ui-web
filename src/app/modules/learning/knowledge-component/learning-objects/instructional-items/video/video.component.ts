@@ -7,13 +7,10 @@ import { Video } from './video.model';
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css']
 })
-export class VideoComponent implements OnInit, LearningObjectComponent {
+export class VideoComponent implements LearningObjectComponent {
 
   learningObject: Video;
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

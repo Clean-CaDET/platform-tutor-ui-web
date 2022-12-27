@@ -14,7 +14,7 @@ import { ImprovementService } from './improvement.service';
   templateUrl: './tutor-improvement.component.html',
   styleUrls: ['./tutor-improvement.component.scss'],
 })
-export class TutorImprovementComponent implements OnInit {
+export class TutorImprovementComponent {
   improvementForm = new FormGroup({
     tutorImprovement: new FormControl('', [
       Validators.required,
@@ -31,8 +31,6 @@ export class TutorImprovementComponent implements OnInit {
     private dialogRef: MatDialogRef<TutorImprovementComponent>,
     @Inject(MAT_DIALOG_DATA) private data: { unitId: number }
   ) {}
-
-  ngOnInit(): void {}
 
   onSubmit(): void {
     this.improvementService.submitImprovement(

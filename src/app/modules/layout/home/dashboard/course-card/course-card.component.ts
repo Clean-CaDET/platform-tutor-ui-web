@@ -8,13 +8,11 @@ import { Course } from '../../../../learning/model/course.model';
   templateUrl: './course-card.component.html',
   styleUrls: ['./course-card.component.scss'],
 })
-export class CourseCardComponent implements OnInit {
+export class CourseCardComponent {
   @Input() course: Course;
   @Input() user: User;
 
   constructor(private router: Router) {}
-
-  ngOnInit(): void {}
 
   onCourseClick(): void {
     if (this.user.role === 'learner')

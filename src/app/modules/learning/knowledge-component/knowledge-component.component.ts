@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
@@ -9,7 +9,7 @@ import { KnowledgeComponentService } from './knowledge-component.service';
   templateUrl: './knowledge-component.component.html',
   styleUrls: ['./knowledge-component.component.css'],
 })
-export class KnowledgeComponentComponent implements OnInit {
+export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
   sidenavOpened = false;

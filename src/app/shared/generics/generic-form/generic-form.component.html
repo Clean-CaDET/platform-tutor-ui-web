@@ -1,29 +1,29 @@
 <form [formGroup]="formGroup" fxLayout="column">
   <div fxFlex *ngFor="let field of fieldConfiguration">
-    <mat-form-field appearance="fill" *ngIf="field.type == 'email'" fxFlex>
+    <mat-form-field appearance="fill" *ngIf="field.type === 'email'" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input matInput placeholder="pera@gmail.com" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="field.type == 'password' && !entity?.id" fxFlex>
+    <mat-form-field appearance="fill" *ngIf="field.type === 'password' && !entity?.id" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input type="password" matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
-    <section *ngIf="field.type == 'boolean' || field.type == 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
+    <section *ngIf="field.type === 'boolean' || field.type === 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
       <mat-checkbox formControlName="{{field.code}}"></mat-checkbox>
       <mat-label>{{field.label}}</mat-label>
     </section>
 
-    <mat-form-field appearance="fill" *ngIf="field.type == 'string'" fxFlex>
+    <mat-form-field appearance="fill" *ngIf="field.type === 'string'" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="field.type == 'date'" fxFlex>
+    <mat-form-field appearance="fill" *ngIf="field.type === 'date'" fxFlex>
       <mat-label>{{field.label}}</mat-label>
       <input matInput [matDatepicker]="picker" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
       <span fxFlex></span>

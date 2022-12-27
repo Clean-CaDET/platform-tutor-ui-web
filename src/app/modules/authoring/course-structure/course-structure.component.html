@@ -14,7 +14,7 @@
                 </mat-card>
             </div>
             <cdk-virtual-scroll-viewport itemSize="30" class="viewport draggable-list" cdkDropList (cdkDropListDropped)="drop($event)">
-                <mat-card [class.highlight]="selectedUnit?.id==unit.id" class="draggable-box" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits" cdkDrag>
+                <mat-card [class.highlight]="selectedUnit?.id===unit.id" class="draggable-box" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits" cdkDrag>
                     <span><b>{{unit.code}}</b> - {{unit.name}}</span>
                     <span fxFlex></span>
                     <span fxLayoutGap="10px">

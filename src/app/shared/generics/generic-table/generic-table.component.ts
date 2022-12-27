@@ -30,7 +30,7 @@ export class GenericTableComponent implements OnChanges {
   };
 
   selectedItem: any;
-  @Output() select = new EventEmitter();
+  @Output() selectEmitter = new EventEmitter();
 
   constructor(private dialog: MatDialog, private httpService: CrudService<Entity>) {
     this.dataSource = new MatTableDataSource([]);
@@ -40,10 +40,10 @@ export class GenericTableComponent implements OnChanges {
     this.selectedItem = null;
     this.columns = []
     this.fieldConfiguration.forEach(element => {
-      if(element.type == 'password') return;
+      if(element.type === 'password') return;
       this.columns.push(element.code)
     });
-    this.crud = this.fieldConfiguration.find(f => f.type == 'CRUD');
+    this.crud = this.fieldConfiguration.find(f => f.type === 'CRUD');
     this.getPagedEntities();
   }
 
@@ -59,7 +59,7 @@ export class GenericTableComponent implements OnChanges {
       .subscribe(response => {
         this.dataSource = new MatTableDataSource(response.results);
         if(this.pageProperties) this.pageProperties.totalCount = response.totalCount;
-        if(response.results.length == 1) this.selectElement(response.results[0]);
+        if(response.results.length === 1) this.selectElement(response.results[0]);
       });
   }
 
@@ -94,7 +94,7 @@ export class GenericTableComponent implements OnChanges {
   }
 
   onEdit(id: number): void {
-    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] == id));
+    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id));
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
@@ -129,6 +129,6 @@ export class GenericTableComponent implements OnChanges {
 
   selectElement(element: any): void {
     this.selectedItem = element;
-    this.select.emit(this.selectedItem);
+    this.selectEmitter.emit(this.selectedItem);
   }
 }
