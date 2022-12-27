@@ -1,19 +1,35 @@
-<form fxLayout="column">
+<mat-card>
+<form fxLayout="column" [formGroup]="courseForm">
     <section>
-        <mat-form-field appearance="fill">
+        <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Kod</mat-label>
-            <input matInput>
-            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
+            <input formControlName="code" matInput [readonly]="!editMode">
         </mat-form-field>
-        <mat-form-field appearance="fill">
+        <span fxFlex="5"></span>
+        <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Naziv</mat-label>
-            <input matInput>
-            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
+            <input formControlName="name" matInput [readonly]="!editMode">
         </mat-form-field>
     </section>
-    <mat-form-field appearance="fill">
-        <mat-label>Opis</mat-label>
-        <textarea matInput></textarea>
-        <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
-    </mat-form-field>
+    <section>
+        <mat-form-field fxFlex="90" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput [readonly]="!editMode"></textarea>
+        </mat-form-field>
+        <span fxFlex></span>
+        <section fxLayout="column">
+            <span style="padding-right: 15px;" fxLayoutGap="10px">
+                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent">
+                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">edit</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="courseForm.invalid">
+                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">check</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
+                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">clear</mat-icon>
+                </button>
+            </span>
+        </section>
+    </section>
 </form>
+</mat-card>

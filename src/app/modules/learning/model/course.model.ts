@@ -1,9 +1,9 @@
 import { Unit } from './unit.model';
 
 export interface Course {
-  id: number;
+  id?: number;
   code: string;
   name: string;
   description: string;
-  knowledgeUnits: Unit[];
+  knowledgeUnits?: Unit[];
 }
