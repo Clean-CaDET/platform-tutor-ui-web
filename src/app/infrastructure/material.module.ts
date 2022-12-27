@@ -24,6 +24,8 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 @NgModule({
   imports: [
@@ -54,6 +56,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatTabsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
+    DragDropModule,
+    ScrollingModule
   ],
   exports: [
     MatButtonModule,
@@ -82,7 +86,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatNativeDateModule,
     MatTabsModule,
     MatAutocompleteModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    DragDropModule,
+    ScrollingModule
   ],
 })
 export class MaterialModule {}

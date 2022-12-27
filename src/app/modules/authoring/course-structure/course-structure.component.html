@@ -1,13 +1,35 @@
-<div>
+<div fxLayout="column" style="height: 100%;">
     <div>
         <cc-course-details [course]="course"></cc-course-details>
     </div>
-    <div>
-        <div>
-            <cc-unit-table></cc-unit-table>
+    <div fxFlex>
+        <div fxFlex="30">
+            <div fxLayout="row">
+                <mat-card style="margin: 15px;" fxFlex>
+                    <h3>Lekcije</h3>
+                    <span fxFlex></span>
+                    <button mat-mini-fab color="primary" (click)="createUnit()">
+                        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">add</mat-icon>
+                    </button>
+                </mat-card>
+            </div>
+            <cdk-virtual-scroll-viewport itemSize="30" class="viewport draggable-list" cdkDropList (cdkDropListDropped)="drop($event)">
+                <mat-card [class.highlight]="selectedUnit?.id==unit.id" class="draggable-box" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits" cdkDrag>
+                    <span><b>{{unit.code}}</b> - {{unit.name}}</span>
+                    <span fxFlex></span>
+                    <span fxLayoutGap="10px">
+                    <button mat-mini-fab (click)="selectedUnit = unit" color="primary">
+                        <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">text_snippet</mat-icon>
+                    </button>
+                    <button mat-mini-fab (click)="selectedUnit = unit" color="primary">
+                        <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">account_tree</mat-icon>
+                    </button>
+                    </span>
+                </mat-card>
+            </cdk-virtual-scroll-viewport>
         </div>
-        <div>
-            <cc-kc-tree></cc-kc-tree>
+        <div fxFlex="70" *ngIf="selectedUnit">
+            <cc-unit-table [unit]="selectedUnit"></cc-unit-table>
         </div>
     </div>
 </div>

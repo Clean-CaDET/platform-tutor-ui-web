@@ -1,14 +1,14 @@
 @import "./cc-primary-theme.scss"; /* You can add global styles to this file, and also import other style files */
 
-html,
-body {
+html, body {
   min-height: 100vh;
-  height: auto;
+  height: 100%;
 }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
 pre {
   white-space: pre-wrap;
 }
