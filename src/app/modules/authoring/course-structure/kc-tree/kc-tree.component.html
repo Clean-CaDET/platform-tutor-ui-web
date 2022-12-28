@@ -1,31 +1,30 @@
 <ng-template #tmplNode let-node="node">
-    <mat-card class="node-item" [attr.data-id]="node.id" [attr.id]="'node-'+node.id">
-      
-      <div class="node-title" (click)="node.isExpanded=!node.isExpanded">
-        <span *ngIf="node.children.length">
-          <button mat-icon-button color="primary">
-            <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
-            matTooltip="Prikaži podkomponente">expand_more</mat-icon>
-            <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
-            matTooltip="Sakrij podkomponente">expand_less</mat-icon>
-          </button>
-        </span>
-        <span *ngIf="!node.children.length">
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </span>
-        {{node.id}}
-      </div>
+  <div class="node-item">
+    <div class="node-title" fxLayout="row">
+      <span *ngIf="node.children.length">
+        <button mat-icon-button (click)="node.isExpanded=!node.isExpanded">
+          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
+          matTooltip="Prikaži podkomponente">add_circle</mat-icon>
+          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
+          matTooltip="Sakrij podkomponente">remove_circle</mat-icon>
+        </button>
+      </span>
+      <span *ngIf="!node.children.length" style="cursor: default;">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span>
+      <mat-card fxFlex>{{node.id}}</mat-card>
+    </div>
   
-      <div *ngIf="node.isExpanded && node.children.length" class="node-children" [id]="node.id">
-        <div *ngFor="let child of node.children">
-          <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
-        </div>
+    <div *ngIf="node.isExpanded && node.children.length" class="node-children">
+      <div *ngFor="let child of node.children">
+        <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
       </div>
-    </mat-card>
-  </ng-template>
-  
-  <div [id]="'main'">
-    <div *ngFor="let node of nodes">
-      <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
     </div>
   </div>
+</ng-template>
+  
+<div>
+  <div *ngFor="let node of nodes">
+    <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
+  </div>
+</div>
