@@ -1,20 +1,14 @@
-<div fxLayout="column" class="editor-container">
-  <div fxLayout="row" fxLayoutAlign="space-between none">
+<div fxFlex fxLayout="column" class="editor-container">
+  <div fxLayout="row" fxLayoutAlign="space-between none" *ngIf="editMode">
     <div fxLayout="row" fxLayoutGap="5px">
       <mat-icon (click)="insertElement('bold')">format_bold</mat-icon>
       <mat-icon (click)="insertElement('italic')">format_italic</mat-icon>
       <mat-divider vertical="true"></mat-divider>
       <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
       <mat-menu #menu class="mat-menu" fxLayout="column">
-        <div (click)="insertElement('h1')" mat-menu-item>
-          h1
-        </div>
-        <div (click)="insertElement('h2')" mat-menu-item>
-          h2
-        </div>
-        <div (click)="insertElement('h3')" mat-menu-item>
-          h3
-        </div>
+        <div (click)="insertElement('h1')" mat-menu-item>h1</div>
+        <div (click)="insertElement('h2')" mat-menu-item>h2</div>
+        <div (click)="insertElement('h3')" mat-menu-item>h3</div>
       </mat-menu>
       <mat-divider vertical="true"></mat-divider>
       <mat-icon (click)="insertElement('bulleted')">format_list_bulleted</mat-icon>
@@ -26,12 +20,14 @@
       {{ livePreview ? 'visibility_off' : 'visibility' }}
     </mat-icon>
   </div>
-  <div>
-    <mat-form-field>
-      <mat-label>Note</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="value" (select)="onSelect($event)" (click)="onClick($event)" mat-autosize="true"></textarea>
+  <div *ngIf="editMode">
+    <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
+      <mat-label>{{label}}</mat-label>
+      <textarea #textAreaElement matInput [(ngModel)]="value" [readonly]="!editMode"
+        (select)="onSelect($event)" (click)="onClick($event)" [tabindex]="indextab"
+        style="height: 290px;"></textarea>
     </mat-form-field>
   </div>
-  <p *ngIf="livePreview" [data]="value" markdown></p>
+  <p *ngIf="livePreview || !editMode" [data]="value" markdown></p>
 </div>
 

@@ -3,11 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 
 @Component({
-  selector: 'cc-unit-table',
-  templateUrl: './unit-table.component.html',
-  styleUrls: ['./unit-table.component.scss']
+  selector: 'cc-unit-details',
+  templateUrl: './unit-details.component.html',
+  styleUrls: ['./unit-details.component.scss']
 })
-export class UnitTableComponent implements OnChanges {
+export class UnitDetailsComponent implements OnChanges {
   @Input() unit: Unit;
   editMode: boolean;
   unitForm: FormGroup;
@@ -36,12 +36,13 @@ export class UnitTableComponent implements OnChanges {
     let newUnit: Unit = {
       code: this.unitForm.value['code'],
       name: this.unitForm.value['name'],
-      description: this.unitForm.value['description'],
+      description: this.unit.description,
     };
 
     this.editMode = false;
 
     console.log(newUnit); //TODO
+    console.log(this.unit); //TODO
   }
 
 }

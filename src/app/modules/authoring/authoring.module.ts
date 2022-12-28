@@ -4,20 +4,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseStructureComponent } from './course-structure/course-structure.component';
 import { CourseDetailsComponent } from './course-structure/course-details/course-details.component';
-import { UnitTableComponent } from './course-structure/unit-table/unit-table.component';
+import { UnitDetailsComponent } from './course-structure/unit-details/unit-details.component';
 import { KcTreeComponent } from './course-structure/kc-tree/kc-tree.component';
+import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 
 @NgModule({
   declarations: [
     CourseStructureComponent,
     CourseDetailsComponent,
-    UnitTableComponent,
+    UnitDetailsComponent,
     KcTreeComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    TutorMarkdownModule
   ]
 })
 export class AuthoringModule { }

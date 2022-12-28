@@ -4,11 +4,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
-import { MarkdownEditorComponent } from './notes/markdown-editor/markdown-editor.component';
 import { NotesComponent } from './notes/notes.component';
+import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 
 @NgModule({
-  declarations: [NotesComponent, MarkdownEditorComponent],
+  declarations: [NotesComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -16,6 +16,7 @@ import { NotesComponent } from './notes/notes.component';
     FlexLayoutModule,
     MarkdownModule.forChild(),
     ReactiveFormsModule,
+    TutorMarkdownModule
   ],
   exports: [NotesComponent],
 })

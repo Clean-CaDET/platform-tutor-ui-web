@@ -1,24 +1,18 @@
 <mat-card>
 <form fxLayout="column" [formGroup]="courseForm">
-    <section>
+    <section fxLayoutGap="15px">
         <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Kod</mat-label>
             <input formControlName="code" matInput [readonly]="!editMode">
         </mat-form-field>
-        <span fxFlex="5"></span>
         <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Naziv</mat-label>
             <input formControlName="name" matInput [readonly]="!editMode">
         </mat-form-field>
-    </section>
-    <section>
-        <mat-form-field fxFlex="90" [appearance]="editMode ? 'fill' : 'outline'">
-            <mat-label>Opis</mat-label>
-            <textarea formControlName="description" matInput [readonly]="!editMode"></textarea>
-        </mat-form-field>
         <span fxFlex></span>
         <section fxLayout="column">
-            <span style="padding-right: 15px;" fxLayoutGap="10px">
+            <span fxFlex="8"></span>
+            <span fxLayoutGap="10px">
                 <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">edit</mat-icon>
                 </button>
@@ -29,7 +23,14 @@
                     <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">clear</mat-icon>
                 </button>
             </span>
+            <span fxFlex="40"></span>
         </section>
+    </section>
+    <section>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput [readonly]="!editMode"></textarea>
+        </mat-form-field>
     </section>
 </form>
 </mat-card>

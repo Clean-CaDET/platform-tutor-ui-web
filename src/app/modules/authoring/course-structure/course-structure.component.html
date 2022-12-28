@@ -28,8 +28,8 @@
                 </mat-card>
             </cdk-virtual-scroll-viewport>
         </div>
-        <div fxFlex="70" *ngIf="selectedUnit">
-            <cc-unit-table [unit]="selectedUnit"></cc-unit-table>
+        <div fxFlex="70" *ngIf="selectedUnit" >
+            <cc-unit-details [unit]="selectedUnit"></cc-unit-details>
         </div>
     </div>
 </div>

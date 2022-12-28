@@ -1,11 +1,4 @@
-import {
-  Component,
-  ViewChild,
-  forwardRef,
-  ElementRef,
-  AfterViewInit,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ViewChild, forwardRef, ElementRef, ChangeDetectorRef, Input, OnChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -20,19 +13,23 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class MarkdownEditorComponent
-  implements ControlValueAccessor, AfterViewInit
-{
-  text = '';
+export class MarkdownEditorComponent implements ControlValueAccessor, OnChanges {
+  @Input() label = "";
+  @Input() text = "";
+  @Input() editMode = false;
+  @Input() indextab = 50;
+
   livePreview = true;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
-  ngAfterViewInit(): void {
-    this.textArea.nativeElement.focus();
-    this.changeDetector.detectChanges();
+  ngOnChanges(): void {
+    if(this.textArea?.nativeElement) {
+      this.textArea.nativeElement.focus();
+      this.changeDetector.detectChanges();
+    }
   }
 
   get value(): string {
