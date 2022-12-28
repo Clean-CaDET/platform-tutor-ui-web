@@ -18,18 +18,21 @@
                     <span><b>{{unit.code}}</b> - {{unit.name}}</span>
                     <span fxFlex></span>
                     <span fxLayoutGap="10px">
-                    <button mat-mini-fab (click)="selectedUnit = unit" color="accent">
+                    <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = true; showKnowledgeComponents = false;" color="accent">
                         <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">text_snippet</mat-icon>
                     </button>
-                    <button mat-mini-fab (click)="selectedUnit = unit" color="primary">
+                    <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = false; showKnowledgeComponents = true;" color="primary">
                         <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0">account_tree</mat-icon>
                     </button>
                     </span>
                 </mat-card>
             </cdk-virtual-scroll-viewport>
         </div>
-        <div fxFlex="70" *ngIf="selectedUnit">
+        <div fxFlex="70" *ngIf="selectedUnit && showUnitDetails">
             <cc-unit-details [unit]="selectedUnit"></cc-unit-details>
+        </div>
+        <div fxFlex="70" *ngIf="selectedUnit && showKnowledgeComponents">
+            <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
         </div>
     </div>
 </div>

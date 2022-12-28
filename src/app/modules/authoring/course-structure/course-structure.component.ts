@@ -13,6 +13,8 @@ import { CourseStructureService } from './course-structure.service';
 export class CourseStructureComponent implements OnInit {
   course: Course
   selectedUnit: Unit;
+  showUnitDetails: boolean;
+  showKnowledgeComponents: boolean;
 
   constructor(private courseService: CourseStructureService, private route: ActivatedRoute) { }
 
@@ -29,6 +31,8 @@ export class CourseStructureComponent implements OnInit {
 
   createUnit() {
     this.selectedUnit = { code: '', name: '', description: ''};
+    this.showUnitDetails = true;
+    this.showKnowledgeComponents = false;
   }
 
 }
