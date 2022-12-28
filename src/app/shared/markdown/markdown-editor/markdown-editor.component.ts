@@ -1,19 +1,11 @@
-import { Component, ViewChild, forwardRef, ElementRef, ChangeDetectorRef, Input, OnChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'cc-markdown-editor',
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MarkdownEditorComponent),
-      multi: true,
-    },
-  ],
+  styleUrls: ['./markdown-editor.component.css']
 })
-export class MarkdownEditorComponent implements ControlValueAccessor, OnChanges {
+export class MarkdownEditorComponent implements AfterViewInit {
   @Input() label = "";
   @Input() text = "";
   @Input() editMode = false;
@@ -25,49 +17,11 @@ export class MarkdownEditorComponent implements ControlValueAccessor, OnChanges 
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
-  ngOnChanges(): void {
+  ngAfterViewInit(): void {
     if(this.textArea?.nativeElement) {
       this.textArea.nativeElement.focus();
       this.changeDetector.detectChanges();
     }
-  }
-
-  get value(): string {
-    return this.text;
-  }
-
-  set value(value: string) {
-    this.text = value;
-    this.updateChanges();
-  }
-
-  updateChanges(): void {
-    this.onChange(this.value);
-    this.onTouched();
-  }
-
-  onChange: any = () => {};
-
-  onTouched: any = () => {};
-
-  writeValue(obj: any): void {
-    if (obj) {
-      this.value = obj;
-    } else {
-      this.value = '';
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    this.textArea.nativeElement.disabled = isDisabled;
   }
 
   insertElement(type: string): void {
@@ -110,7 +64,7 @@ export class MarkdownEditorComponent implements ControlValueAccessor, OnChanges 
     }
     if (this.selection) {
       if (this.selection.selectionStart !== this.selection.selectionEnd) {
-        tagText = this.value.slice(
+        tagText = this.text.slice(
           this.selection.selectionStart,
           this.selection.selectionEnd
         );
@@ -120,14 +74,14 @@ export class MarkdownEditorComponent implements ControlValueAccessor, OnChanges 
 
     let selectionStart: number;
     if (this.selection) {
-      this.value =
-        this.value.slice(0, this.selection.selectionStart) +
+      this.text =
+        this.text.slice(0, this.selection.selectionStart) +
         text +
         this.text.slice(this.selection.selectionEnd);
       selectionStart = this.selection.selectionStart + tagBegin.length;
     } else {
-      selectionStart = this.value.length + tagBegin.length;
-      this.value += text;
+      selectionStart = this.text.length + tagBegin.length;
+      this.text += text;
     }
 
     // TODO: Usage of setTimeout() should be avoided. Find a better solution.
