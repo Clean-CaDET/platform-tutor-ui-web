@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { YouTubePlayerModule } from '@angular/youtube-player';
@@ -19,7 +18,6 @@ import { TextComponent } from './knowledge-component/learning-objects/instructio
 import { VideoComponent } from './knowledge-component/learning-objects/instructional-items/video/video.component';
 import { SubmissionResultComponent } from './knowledge-component/submission-result/submission-result.component';
 import { UnitComponent } from './unit/unit.component';
-import { MatIconModule } from '@angular/material/icon';
 import { LearningUtilitiesModule } from '../learning-utilities/learning-utilities.module';
 import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improvement.component';
 import { ArrangeTaskComponent } from './knowledge-component/learning-objects/assessment-items/arrange-task/arrange-task.component';
@@ -62,8 +60,6 @@ import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-
     MaterialModule,
     DragDropModule,
     ReactiveFormsModule,
-    MatDialogModule,
-    MatIconModule,
     LearningUtilitiesModule,
   ],
   exports: [

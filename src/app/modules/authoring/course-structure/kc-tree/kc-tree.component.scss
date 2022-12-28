@@ -1,43 +1,9 @@
-.draggable-box {
-    cursor: move;
-}
-
-.cdk-drag-preview {
-    box-sizing: border-box;
-    cursor: grab;
-    border-radius: 4px;
-    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-                0 8px 10px 1px rgba(0, 0, 0, 0.14),
-                0 3px 14px 2px rgba(0, 0, 0, 0.12);
-}
-
-.cdk-drag-placeholder {
-    opacity: 0;
-}
-
-.drop-inside {
-    border: 1px solid #BBB;
-}
-
-.drop-before {
-    border-top: 1px solid #BBB;
-}
-
-.drop-after {
-    border-bottom: 1px solid #BBB;
-}
-
-.node-title {
-  padding:15px;
-  margin: 5px;
-  cursor: grab;
+.node-item {
+  margin: 15px 0 0 15px;
 }
 
 .node-children {
     position: relative;
     transition: height 0.2s;
-    margin-left: 40px;
+    margin-left: 20px;
 }
-.item-notes { 
-  margin-left:20px;
- }
