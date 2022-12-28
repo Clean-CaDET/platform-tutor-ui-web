@@ -24,7 +24,8 @@ export class KcTreeComponent implements OnChanges {
     knowledgeComponents.forEach(element => {
         let node: TreeNode = {
             id: element.code + ': ' + element.name,
-            children: this.createTree(element.knowledgeComponents)
+            children: this.createTree(element.knowledgeComponents),
+            isExpanded: true
         }
         nodes.push(node);
     });
@@ -37,34 +38,3 @@ interface TreeNode {
   children: TreeNode[];
   isExpanded?:boolean;
 }
-
-var demoData: TreeNode[] = [
-  {
-    id: 'item 1',
-    children:[]
-  },
-  {
-    id: 'item 2',
-    children:[
-      {
-        id: 'item 2.1',
-        children:[]
-      },
-        {
-        id: 'item 2.2',
-        children:[ {
-            id: 'item 2.2.1',
-            children: []
-        }]
-      },
-        {
-        id: 'item 2.3',
-        children:[]
-      }
-    ]
-  },
-  {
-    id: 'item 3',
-    children:[]
-  }
-]

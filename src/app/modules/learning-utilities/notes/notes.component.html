@@ -1,6 +1,7 @@
 <div id="notes" fxLayout="column">
   <div *ngIf="edit" class="mat-card" fxLayout="column">
-    <cc-markdown-editor [(ngModel)]="text"></cc-markdown-editor>
+    <cc-markdown-editor [editMode]="true" [label]="'Beleška'"
+      (textChanged)="text = $event"></cc-markdown-editor>
     <div fxLayout="row" fxLayoutGap="10px">
       <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Save</button>
       <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
@@ -15,7 +16,10 @@
     Prostor za pitanja, ideje, nejasnoće i ostale beleške.
   </div>
   <mat-card class="note-width" *ngFor="let note of notes">
-    <cc-markdown-editor *ngIf="note.mode === 'edit'" [(ngModel)]="note.text"></cc-markdown-editor>
+    <cc-markdown-editor *ngIf="note.mode === 'edit'"
+      [editMode]="true" [text]="note.text" [label]="'Beleška'"
+      (textChanged)="note.text = $event">
+    </cc-markdown-editor>
     <p *ngIf="note.mode === 'preview'" markdown>{{note.text}}</p>
     <div fxLayout="row" fxLayoutAlign="space-between end">
       <div>
