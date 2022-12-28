@@ -9,6 +9,8 @@ import { Unit } from 'src/app/modules/learning/model/unit.model';
 })
 export class UnitDetailsComponent implements OnChanges {
   @Input() unit: Unit;
+  unitDescription: string;
+  
   editMode: boolean;
   unitForm: FormGroup;
 
@@ -16,7 +18,13 @@ export class UnitDetailsComponent implements OnChanges {
 
   ngOnChanges(): void {
     if(!this.unitForm) this.createForms();
-    if(this.unit) this.unitForm.patchValue(this.unit);
+
+    if(this.unit) {
+      this.unitForm.reset();
+      this.unitForm.patchValue(this.unit);
+      this.unitDescription = this.unit.description;
+      if(!this.unit.id) this.editMode = true;
+    }
   }
 
   private createForms(): void {
@@ -29,20 +37,26 @@ export class UnitDetailsComponent implements OnChanges {
 
   discardChanges() {
     this.unitForm.patchValue(this.unit);
-    this.editMode = false;
+    this.unitDescription = this.unit.description;
+    if(this.unit.id) this.editMode = false;
   }
 
   saveChanges() {
     let newUnit: Unit = {
       code: this.unitForm.value['code'],
       name: this.unitForm.value['name'],
-      description: this.unit.description,
+      description: this.unitDescription,
     };
+    if(this.unit.id) newUnit.id = this.unit.id;
 
     this.editMode = false;
 
     console.log(newUnit); //TODO
     console.log(this.unit); //TODO
+  }
+
+  updateDescription(text: string): void {
+    this.unitDescription = text;
   }
 
 }

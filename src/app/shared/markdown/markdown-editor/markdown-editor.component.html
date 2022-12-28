@@ -23,8 +23,8 @@
   <div *ngIf="editMode">
     <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
       <mat-label>{{label}}</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" [readonly]="!editMode"
-        (select)="onSelect($event)" (click)="onClick($event)" [tabindex]="indextab"
+      <textarea #textAreaElement matInput [(ngModel)]="text" [readonly]="!editMode" [tabindex]="indextab"
+        (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"
         style="height: 290px;"></textarea>
     </mat-form-field>
   </div>

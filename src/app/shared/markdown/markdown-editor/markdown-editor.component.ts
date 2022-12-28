@@ -1,15 +1,16 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'cc-markdown-editor',
   templateUrl: './markdown-editor.component.html',
   styleUrls: ['./markdown-editor.component.css']
 })
-export class MarkdownEditorComponent implements AfterViewInit {
+export class MarkdownEditorComponent implements OnChanges {
   @Input() label = "";
   @Input() text = "";
   @Input() editMode = false;
   @Input() indextab = 50;
+  @Output() textChanged = new EventEmitter<string>();
 
   livePreview = true;
   selection: any;
@@ -17,8 +18,8 @@ export class MarkdownEditorComponent implements AfterViewInit {
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
-  ngAfterViewInit(): void {
-    if(this.textArea?.nativeElement) {
+  ngOnChanges(): void {
+    if(this.textArea) {
       this.textArea.nativeElement.focus();
       this.changeDetector.detectChanges();
     }
@@ -100,5 +101,9 @@ export class MarkdownEditorComponent implements AfterViewInit {
 
   onClick(event: Event): void {
     this.selection = event.target;
+  }
+
+  onBlur(): void {
+    this.textChanged.emit(this.text);
   }
 }

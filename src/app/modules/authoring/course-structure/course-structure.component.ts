@@ -24,11 +24,11 @@ export class CourseStructureComponent implements OnInit {
 
   drop(event: CdkDragDrop<string[]>) {
     moveItemInArray(this.course.knowledgeUnits, event.previousIndex, event.currentIndex);
-    this.course.knowledgeUnits = [... this.course.knowledgeUnits]
+    this.course.knowledgeUnits = [... this.course.knowledgeUnits] // TODO: Save ordering
   }
 
   createUnit() {
-    
+    this.selectedUnit = { code: '', name: '', description: ''};
   }
 
 }

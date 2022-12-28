@@ -27,7 +27,9 @@
             </section>
         </section>
         <section>
-            <cc-markdown-editor fxFlex [label]="'Opis'" [text]="unit.description" [editMode]="editMode" [indextab]="43"></cc-markdown-editor>
+            <cc-markdown-editor fxFlex
+                [label]="'Opis'" [text]="unitDescription" [editMode]="editMode" [indextab]="43"
+                (textChanged)="updateDescription($event)"></cc-markdown-editor>
         </section>
     </form>
 </mat-card>
