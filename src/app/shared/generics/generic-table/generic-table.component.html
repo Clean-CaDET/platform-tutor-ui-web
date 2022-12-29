@@ -10,10 +10,10 @@
     </span>
     <span fxLayoutGap="5px">
       <button *ngIf="crud?.crud.create" mat-mini-fab color="primary" (click)="onCreate()">
-        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0">add</mat-icon>
+        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
       </button>
       <button *ngIf="crud?.crud.bulkCreate" mat-mini-fab color="primary" (click)="onBulkCreate()">
-        <mat-icon matTooltip="Dodaj više" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">library_add</mat-icon>
+        <mat-icon matTooltip="Dodaj više" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">library_add</mat-icon>
       </button>
     </span>
   </div>
@@ -35,16 +35,16 @@
         <span *ngIf="field.type === 'CRUD'">
           <span fxFlex></span>
           <button *ngIf="field.crud.update" mat-button class="table-button" (click)="onEdit(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" color="accent">edit</mat-icon>
+            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'left'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500" color="accent">edit</mat-icon>
           </button>
           <button *ngIf="field.crud.archive && !element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, true); $event.stopPropagation()">
-            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">archive</mat-icon>
+            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500" color="accent">archive</mat-icon>
           </button>
           <button *ngIf="field.crud.archive && element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, false); $event.stopPropagation()">
-            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="accent">unarchive</mat-icon>
+            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500" color="accent">unarchive</mat-icon>
           </button>
           <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
+            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500" color="warn">delete</mat-icon>
           </button>
         </span>
       </td>

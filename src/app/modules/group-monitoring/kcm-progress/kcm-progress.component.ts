@@ -16,7 +16,7 @@ export class KcmProgressComponent implements OnInit {
   progress: LearnerProgress[] = [];
   count: number;
   page = 1;
-  pageSize = 16;
+  pageSize = 20;
 
   groupId = 0;
   groups: LearnerGroup[];
@@ -25,6 +25,8 @@ export class KcmProgressComponent implements OnInit {
   course: Course;
   unitId = 0;
   units: Unit[];
+
+  progressBarActive = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,11 +58,13 @@ export class KcmProgressComponent implements OnInit {
   }
 
   public getLearnerProgress(): void {
+    this.progressBarActive = true;
     this.groupMonitoringService
       .getLearners(this.page, this.pageSize, +this.groupId, +this.courseId)
       .subscribe((data) => {
         this.progress = data.results;
         this.count = data.totalCount;
+        this.progressBarActive = false;
       });
   }
 

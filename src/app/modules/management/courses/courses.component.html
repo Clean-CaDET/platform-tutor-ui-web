@@ -4,7 +4,7 @@
         [title]="'Kursevi'"
         [fieldConfiguration]="fields"
         [baseUrl]="baseUrl"
-        (select)="onSelect($event)">
+        (selectItem)="onSelect($event)">
     </cc-generic-table>
     <div fxLayout="column" fxFlex="25" *ngIf="selectedCourse" fxLayoutGap="30px">
         <div>
@@ -13,7 +13,7 @@
                 [fieldConfiguration]="groupFields"
                 [baseUrl]="baseGroupUrl"
                 [pageProperties]="false"
-                (select)="onSelectGroup($event)">
+                (selectItem)="onSelectGroup($event)">
             </cc-generic-table>
         </div>
         <div>

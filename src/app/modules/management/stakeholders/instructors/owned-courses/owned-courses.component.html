@@ -4,7 +4,7 @@
         <span fxFlex>
         </span>
         <button mat-mini-fab color="primary" (click)="onAddOwnedCourse()">
-            <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0">add</mat-icon>
+            <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
         </button>
     </div>
 
@@ -18,7 +18,7 @@
             <span *ngIf="field.type === 'CRUD'">
             <span fxFlex></span>
             <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
-                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" color="warn">delete</mat-icon>
+                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500" color="warn">delete</mat-icon>
             </button>
             </span>
         </td>

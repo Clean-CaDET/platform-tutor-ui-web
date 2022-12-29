@@ -3,9 +3,9 @@
     <div class="node-title" fxLayout="row">
       <span *ngIf="node.children.length">
         <button mat-icon-button (click)="node.isExpanded=!node.isExpanded">
-          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
+          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500"
           matTooltip="Prikaži podkomponente">add_circle</mat-icon>
-          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0"
+          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500"
           matTooltip="Sakrij podkomponente">remove_circle</mat-icon>
         </button>
       </span>
@@ -16,6 +16,7 @@
     </div>
   
     <div *ngIf="node.isExpanded && node.children.length" class="node-children">
+      <!--TODO: Dodati inline formu za dodavanje KCa. Kad nema KCa postaviti samo plus da inline doda root-->
       <div *ngFor="let child of node.children">
         <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
       </div>

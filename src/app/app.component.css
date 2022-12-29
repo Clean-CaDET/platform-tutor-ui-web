@@ -25,7 +25,7 @@ mat-slide-toggle {
 
 .fixed {
   position: fixed;
-  bottom: 260px;
+  bottom: 120px;
   left: 40px;
   float: right;
 }

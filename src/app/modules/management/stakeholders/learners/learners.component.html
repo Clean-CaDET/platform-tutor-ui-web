@@ -4,7 +4,7 @@
     [title]="'Učenici'"
     [fieldConfiguration]="fields"
     [baseUrl]="baseUrl"
-    (select)="onSelect($event)">
+    (selectItem)="onSelect($event)">
   </cc-generic-table>
   <div fxFlex="30" *ngIf="selectedLearner">
     <cc-generic-table

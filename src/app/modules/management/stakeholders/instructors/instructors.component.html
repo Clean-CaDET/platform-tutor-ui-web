@@ -4,7 +4,7 @@
         [title]="'Instruktori'"
         [fieldConfiguration]="instructorFields"
         [baseUrl]="baseUrl"
-        (select)="onSelect($event)">
+        (selectItem)="onSelect($event)">
     </cc-generic-table>
     <div fxFlex="40" *ngIf="selectedInstructor">
         <cc-owned-courses [instructor]="selectedInstructor" [allCourses]="allCourses"></cc-owned-courses>

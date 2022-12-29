@@ -30,7 +30,7 @@ export class GenericTableComponent implements OnChanges {
   };
 
   selectedItem: any;
-  @Output() selectEmitter = new EventEmitter();
+  @Output() selectItem = new EventEmitter();
 
   constructor(private dialog: MatDialog, private httpService: CrudService<Entity>) {
     this.dataSource = new MatTableDataSource([]);
@@ -129,6 +129,6 @@ export class GenericTableComponent implements OnChanges {
 
   selectElement(element: any): void {
     this.selectedItem = element;
-    this.selectEmitter.emit(this.selectedItem);
+    this.selectItem.emit(this.selectedItem);
   }
 }
