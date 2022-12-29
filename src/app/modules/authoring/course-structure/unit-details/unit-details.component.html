@@ -5,21 +5,25 @@
                 <mat-label>Kod</mat-label>
                 <input formControlName="code" matInput [readonly]="!editMode" tabindex="41">
             </mat-form-field>
-            <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-form-field fxFlex="50" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode" tabindex="42">
+            </mat-form-field>
+            <mat-form-field fxFlex="15" [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Redni broj</mat-label>
+                <input formControlName="order" type="number" matInput [readonly]="!editMode" tabindex="43">
             </mat-form-field>
             <span fxFlex></span>
             <section fxLayout="column">
                 <span fxFlex="8"></span>
                 <span fxLayoutGap="10px">
-                    <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent" tabindex="44">
+                    <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent" tabindex="50">
                         <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
                     </button>
-                    <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="45">
+                    <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="51">
                         <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">check</mat-icon>
                     </button>
-                    <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn" tabindex="46">
+                    <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn" tabindex="52">
                         <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">clear</mat-icon>
                     </button>
                 </span>
@@ -28,7 +32,7 @@
         </section>
         <section>
             <cc-markdown-editor fxFlex
-                [label]="'Opis'" [text]="unitDescription" [editMode]="editMode" [indextab]="43"
+                [label]="'Opis'" [text]="unitDescription" [editMode]="editMode" [indextab]="44"
                 (textChanged)="updateDescription($event)"></cc-markdown-editor>
         </section>
     </form>

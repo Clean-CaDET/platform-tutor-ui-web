@@ -24,7 +24,7 @@ export class CourseStructureComponent implements OnInit {
   }
 
   createUnit() {
-    this.selectedUnit = { code: '', name: '', description: ''};
+    this.selectedUnit = { code: '', name: '', description: '', order:100};
     this.showUnitDetails = true;
     this.showKnowledgeComponents = false;
   }

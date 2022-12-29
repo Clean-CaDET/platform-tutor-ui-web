@@ -12,11 +12,17 @@
       <span *ngIf="!node.children.length" style="cursor: default;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
-      <mat-card fxFlex>{{node.id}}</mat-card>
+      <mat-card fxFlex fxLayout="row">
+        <span fxFlex>({{node.order}}) <b>{{node.code}}</b> : {{node.name}}</span>
+        <span>
+          <button mat-mini-fab (click)="editKc(node.id)" color="accent">
+            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+        </button>
+        </span>
+      </mat-card>
     </div>
   
     <div *ngIf="node.isExpanded && node.children.length" class="node-children">
-      <!--TODO: Dodati inline formu za dodavanje KCa. Kad nema KCa postaviti samo plus da inline doda root-->
       <div *ngFor="let child of node.children">
         <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
       </div>

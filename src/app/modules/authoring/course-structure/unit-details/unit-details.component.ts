@@ -31,6 +31,7 @@ export class UnitDetailsComponent implements OnChanges {
     this.unitForm = this.builder.group({
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
+      order: new FormControl(100, Validators.required),
       description: new FormControl('')
     });
   }
@@ -45,6 +46,7 @@ export class UnitDetailsComponent implements OnChanges {
     let newUnit: Unit = {
       code: this.unitForm.value['code'],
       name: this.unitForm.value['name'],
+      order: this.unitForm.value['order'],
       description: this.unitDescription,
     };
     if(this.unit.id) newUnit.id = this.unit.id;

@@ -5,6 +5,8 @@ export interface KnowledgeComponent {
   name: string;
   code: string;
   description: string;
+  order: number;
+  parentId: number;
   expectedDurationInMinutes: number;
   knowledgeComponents: KnowledgeComponent[];
   mastery: KCMastery;

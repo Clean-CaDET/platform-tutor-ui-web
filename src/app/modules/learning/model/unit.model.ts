@@ -5,5 +5,6 @@ export interface Unit {
   code: string;
   name: string;
   description: string;
+  order: number;
   knowledgeComponents?: KnowledgeComponent[];
 }
