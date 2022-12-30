@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { FormMode, KcFormComponent } from '../kc-form/kc-form.component';
 
 @Component({
@@ -18,9 +19,13 @@ export class KcTreeComponent implements OnChanges {
 
   ngOnChanges() {
     if(this.unit?.knowledgeComponents.length) {
-      let rootKc = this.unit.knowledgeComponents.find(kc => !kc.parentId);
-      this.nodes.push(this.createNode(rootKc));
+      this.createTree();
     }
+  }
+
+  private createTree() {
+    let rootKc = this.unit.knowledgeComponents.find(kc => !kc.parentId);
+    this.nodes = [this.createNode(rootKc)];
   }
 
   createNode(kc: KnowledgeComponent): TreeNode {
@@ -39,6 +44,33 @@ export class KcTreeComponent implements OnChanges {
     return this.unit.knowledgeComponents.filter(kc => kc.parentId === parentId);
   }
 
+  addKc(parentId: number) {
+    const dialogRef = this.dialog.open(KcFormComponent, {
+      data: {
+        knowledgeComponent: parentId ? { parentId: parentId } : null,
+        parentComponentOptions: this.unit.knowledgeComponents,
+        formMode: parentId ? FormMode.AddChild : FormMode.AddFirst
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+
+      // TODO: Send to backend. If success regenerate the KC tree in the code below.
+      let kc: KnowledgeComponent = {
+        id: 0, //Currently causes issue because root KC parent is 0
+        description: '',
+        code: result.code,
+        name: result.name,
+        order: result.order,
+        expectedDurationInMinutes: result.expectedDurationInMinutes,
+        parentId: result.parentId
+      }
+      this.unit.knowledgeComponents.push(kc);
+      this.createTree();
+    });
+  }
+
   editKc(id: number): void {
     let kc = this.unit.knowledgeComponents.find(kc => kc.id === id);
     
@@ -52,8 +84,24 @@ export class KcTreeComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
+
       // TODO: Send to backend. If success regenerate the KC tree in the code below.
+      let kc = this.unit.knowledgeComponents.find(kc => kc.id === result.id);
+      kc.code = result.code;
+      kc.name = result.name;
+      kc.order = result.order;
+      kc.expectedDurationInMinutes = result.expectedDurationInMinutes;
+      kc.parentId = result.parentId;
+      this.createTree();
     });
+  }
+
+  deleteKc(id: number) {
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if(result) console.log(id); //TODO
+    })
   }
   
   private getNonChildComponents(kc: KnowledgeComponent): KnowledgeComponent[] {

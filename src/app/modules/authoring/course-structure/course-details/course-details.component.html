@@ -13,7 +13,7 @@
         <section fxLayout="column">
             <span fxFlex="8"></span>
             <span fxLayoutGap="10px">
-                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent">
+                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="primary">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
                 </button>
                 <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="courseForm.invalid">

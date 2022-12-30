@@ -69,7 +69,7 @@ export class KcFormComponent {
   }
 
   noItemSelected() {
-    return this.parentOptions.length > 0 && !this.findSelectedParent();
+    return (this.mode == FormMode.AddChild || this.mode == FormMode.EditChild) && !this.findSelectedParent();
   }
 
   onSubmit(): void {
@@ -78,7 +78,7 @@ export class KcFormComponent {
       code: this.formGroup.controls['code'].value,
       name: this.formGroup.controls['name'].value,
       description: this.knowledgeComponent?.description,
-      expectedDurationInMinutes: this.formGroup.controls['expectedDurationInMinutes'].value,
+      expectedDurationInMinutes: 0,//this.formGroup.controls['expectedDurationInMinutes'].value,
       order: this.formGroup.controls['order'].value,
       parentId: this.findSelectedParent()?.id,
     }
@@ -88,7 +88,7 @@ export class KcFormComponent {
 
   onReset(): void {
     this.formGroup.reset();
-    if(this.knowledgeComponent.id) {
+    if(this.knowledgeComponent?.id) {
       this.formGroup.patchValue(this.knowledgeComponent);
       this.formGroup.patchValue({parentComponent: this.findParent(this.knowledgeComponent.parentId)});
     }

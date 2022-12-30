@@ -16,7 +16,7 @@ export class KnowledgeMapComponent implements OnChanges {
 
   ngOnChanges() {
     let rootKc = this.knowledgeComponents.find(kc => !kc.parentId);
-    this.nodes.push(this.createNode(rootKc));
+    this.nodes = [this.createNode(rootKc)];
   }
 
   createNode(kc: KnowledgeComponent): TreeNode {

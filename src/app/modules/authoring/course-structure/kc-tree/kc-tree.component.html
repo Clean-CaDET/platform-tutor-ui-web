@@ -4,9 +4,9 @@
       <span *ngIf="node.children.length">
         <button mat-icon-button (click)="node.isExpanded=!node.isExpanded">
           <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500"
-          matTooltip="Prikaži podkomponente">add_circle</mat-icon>
+          matTooltip="Prikaži podveštine">add_circle</mat-icon>
           <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500"
-          matTooltip="Sakrij podkomponente">remove_circle</mat-icon>
+          matTooltip="Sakrij podveštine">remove_circle</mat-icon>
         </button>
       </span>
       <span *ngIf="!node.children.length" style="cursor: default;">
@@ -14,10 +14,16 @@
       </span>
       <mat-card fxFlex fxLayout="row">
         <span fxFlex>({{node.order}}) <b>{{node.code}}</b> : {{node.name}}</span>
-        <span>
-          <button mat-mini-fab (click)="editKc(node.id)" color="accent">
+        <span fxLayoutGap="10px">
+          <button mat-mini-fab (click)="addKc(node.id)" color="primary">
+            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
+          </button>
+          <button mat-mini-fab (click)="editKc(node.id)" color="primary">
             <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
-        </button>
+          </button>
+          <button mat-mini-fab (click)="deleteKc(node.id)" color="warn">
+            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
+          </button>
         </span>
       </mat-card>
     </div>
@@ -33,5 +39,10 @@
 <div>
   <div *ngFor="let node of nodes">
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
+  </div>
+  <div *ngIf="nodes?.length === 0">
+    <button mat-mini-fab (click)="addKc()" color="primary">
+      <mat-icon matTooltip="Dodaj korensku veštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
+    </button>
   </div>
 </div>

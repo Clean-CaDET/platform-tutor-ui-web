@@ -16,8 +16,8 @@
             <span fxFlex></span>
             <section fxLayout="column">
                 <span fxFlex="8"></span>
-                <span fxLayoutGap="10px">
-                    <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="accent" tabindex="50">
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="primary" tabindex="50">
                         <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
                     </button>
                     <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="51">
