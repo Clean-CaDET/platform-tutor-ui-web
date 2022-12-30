@@ -17,6 +17,7 @@ export class KcTreeComponent implements OnChanges {
   constructor(private dialog: MatDialog) {}
 
   ngOnChanges() {
+    this.nodes = []
     if(this.unit?.knowledgeComponents.length) {
       let rootKc = this.unit.knowledgeComponents.find(kc => !kc.parentId);
       this.nodes.push(this.createNode(rootKc));
