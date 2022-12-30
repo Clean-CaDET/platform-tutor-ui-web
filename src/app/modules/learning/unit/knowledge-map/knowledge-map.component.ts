@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
+import { KCMastery } from '../../model/knowledge-component-mastery.model';
 import { KnowledgeComponent } from '../../model/knowledge-component.model';
 
 @Component({
@@ -6,33 +7,63 @@ import { KnowledgeComponent } from '../../model/knowledge-component.model';
   templateUrl: './knowledge-map.component.html',
   styleUrls: ['./knowledge-map.component.scss'],
 })
-export class KnowledgeMapComponent {
+export class KnowledgeMapComponent implements OnChanges {
   @Input() knowledgeComponents: KnowledgeComponent[];
-  @Input() level = 0;
-  @Input() expanded = false;
-  @Input() unitId: number;
-
+  @Input() masteries: KCMastery[];
+  nodes: TreeNode[] = [];
+ 
   constructor() {}
 
-  isLocked(kc: KnowledgeComponent): boolean {
-    return this.areChildrenIncomplete(kc.knowledgeComponents);
+  ngOnChanges() {
+    let rootKc = this.knowledgeComponents.find(kc => !kc.parentId);
+    this.nodes.push(this.createNode(rootKc));
   }
 
-  isCompleted(kc: KnowledgeComponent): boolean {
+  createNode(kc: KnowledgeComponent): TreeNode {
+    let kcm = this.masteries.find(m => m.knowledgeComponentId == kc.id);
+    
+    let node: TreeNode = {
+      id: kc.id,
+      name: kc.name,
+      children: this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)),
+      mastery: kcm.mastery,
+      isSatisfied: kcm.isSatisfied
+    }
+
+    return node;
+  }
+
+  findKnowledgeSubcomponents(parentId: number): KnowledgeComponent[] {
+    return this.knowledgeComponents.filter(kc => kc.parentId === parentId);
+  }
+
+  isLocked(node: TreeNode): boolean {
+    return this.areChildrenIncomplete(node.children);
+  }
+
+  isCompleted(node: TreeNode): boolean {
     return (
-      !this.areChildrenIncomplete(kc.knowledgeComponents) &&
-      kc.mastery.isSatisfied
+      !this.areChildrenIncomplete(node.children) &&
+      node.isSatisfied
     );
   }
 
-  isInProgress(kc: KnowledgeComponent): boolean {
+  isInProgress(node: TreeNode): boolean {
     return (
-      !this.areChildrenIncomplete(kc.knowledgeComponents) &&
-      !kc.mastery.isSatisfied
+      !this.areChildrenIncomplete(node.children) &&
+      !node.isSatisfied
     );
   }
 
-  private areChildrenIncomplete(childrenKCs: KnowledgeComponent[]): boolean {
-    return childrenKCs.some((kc) => !kc.mastery.isSatisfied);
+  private areChildrenIncomplete(children: TreeNode[]): boolean {
+    return children.some((node) => !node.isSatisfied);
   }
+}
+
+interface TreeNode {
+  id: number;
+  name: string;
+  mastery: number;
+  isSatisfied: boolean;
+  children: TreeNode[];
 }

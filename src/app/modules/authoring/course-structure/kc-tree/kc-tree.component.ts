@@ -12,47 +12,35 @@ import { FormMode, KcFormComponent } from '../kc-form/kc-form.component';
 export class KcTreeComponent implements OnChanges {
   @Input() unit: Unit;
 
-  nodes: TreeNode[];
-  allKnowledgeComponents: KnowledgeComponent[];
+  nodes: TreeNode[] = [];
 
   constructor(private dialog: MatDialog) {}
 
   ngOnChanges() {
-    if(this.unit) {
-      this.nodes = this.createTree(this.unit.knowledgeComponents);
-      this.allKnowledgeComponents = this.flattenKCs(this.unit.knowledgeComponents);
+    if(this.unit?.knowledgeComponents.length) {
+      let rootKc = this.unit.knowledgeComponents.find(kc => !kc.parentId);
+      this.nodes.push(this.createNode(rootKc));
     }
   }
 
-  createTree(knowledgeComponents: KnowledgeComponent[]): TreeNode[] {
-    let nodes = new Array();
-    knowledgeComponents.forEach(element => {
-        let node: TreeNode = {
-            id: element.id,
-            code: element.code,
-            name: element.name,
-            order: element.order,
-            children: this.createTree(element.knowledgeComponents),
-            isExpanded: true
-        }
-        nodes.push(node);
-    });
-    return nodes;
+  createNode(kc: KnowledgeComponent): TreeNode {
+    let node: TreeNode = {
+      id: kc.id,
+      code: kc.code,
+      name: kc.name,
+      order: kc.order,
+      children: this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)),
+      isExpanded: true
+    }
+    return node;
   }
 
-  flattenKCs(knowledgeComponents: KnowledgeComponent[]): KnowledgeComponent[] {
-    let retVal = new Array();
-    if(knowledgeComponents) {
-      retVal = knowledgeComponents;
-      knowledgeComponents.forEach(element => {
-        retVal = retVal.concat(this.flattenKCs(element.knowledgeComponents));
-      });
-    }
-    return retVal;
+  findKnowledgeSubcomponents(parentId: number): KnowledgeComponent[] {
+    return this.unit.knowledgeComponents.filter(kc => kc.parentId === parentId);
   }
 
   editKc(id: number): void {
-    let kc = this.allKnowledgeComponents.find(kc => kc.id === id);
+    let kc = this.unit.knowledgeComponents.find(kc => kc.id === id);
     
     const dialogRef = this.dialog.open(KcFormComponent, {
       data: {
@@ -64,13 +52,25 @@ export class KcTreeComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
+      // TODO: Send to backend. If success regenerate the KC tree in the code below.
     });
   }
   
   private getNonChildComponents(kc: KnowledgeComponent): KnowledgeComponent[] {
-    let childComponents = this.flattenKCs(kc.knowledgeComponents);
+    let childComponents = this.getChildComponents(kc.id);
     childComponents.push(kc);
-    return this.allKnowledgeComponents.filter(component => !childComponents.includes(component));
+    return this.unit.knowledgeComponents.filter(component => !childComponents.includes(component));
+  }
+  
+  private getChildComponents(kcId: number): KnowledgeComponent[] {
+    let subcomponents = this.findKnowledgeSubcomponents(kcId);
+    let childComponents = [... subcomponents];
+    
+    subcomponents.forEach(subcomponent => {
+      childComponents = childComponents.concat(this.getChildComponents(subcomponent.id));
+    });
+
+    return childComponents;
   }
 }
 

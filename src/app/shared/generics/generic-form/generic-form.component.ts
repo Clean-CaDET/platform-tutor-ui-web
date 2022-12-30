@@ -29,7 +29,7 @@ export class GenericFormComponent {
     const keys = Object.keys(this.formGroup.value);
     keys.forEach(k => {
       this.entity[k] = this.formGroup.value[k];
-    })
+    }) // TODO: Create new object to return
     this.dialogRef.close(this.entity);
   }
 

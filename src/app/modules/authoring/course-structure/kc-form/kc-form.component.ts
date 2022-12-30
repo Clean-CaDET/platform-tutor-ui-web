@@ -46,23 +46,6 @@ export class KcFormComponent {
     return this.presentParent(this.parentOptions.find(p => p.id === id));
   }
 
-  onSubmit(): void {
-    // TODO
-    let parentComponent = this.findSelectedComponent();
-    this.dialogRef.close(this.knowledgeComponent);
-  }
-
-  onReset(): void {
-    this.formGroup.reset();
-    if(this.knowledgeComponent.id) {
-      this.formGroup.patchValue(this.knowledgeComponent);
-    }
-  }
-
-  onClose(): void {
-    this.dialogRef.close(false);
-  }
-
   private createForm(): void {
     this.formGroup = this.builder.group({
       code: new FormControl('', Validators.required),
@@ -86,10 +69,36 @@ export class KcFormComponent {
   }
 
   noItemSelected() {
-    return this.parentOptions.length > 0 && !this.findSelectedComponent();
+    return this.parentOptions.length > 0 && !this.findSelectedParent();
   }
 
-  private findSelectedComponent() {
+  onSubmit(): void {
+    let newKc: KnowledgeComponent = {
+      id: this.knowledgeComponent?.id,
+      code: this.formGroup.controls['code'].value,
+      name: this.formGroup.controls['name'].value,
+      description: this.knowledgeComponent?.description,
+      expectedDurationInMinutes: this.formGroup.controls['expectedDurationInMinutes'].value,
+      order: this.formGroup.controls['order'].value,
+      parentId: this.findSelectedParent()?.id,
+    }
+
+    this.dialogRef.close(newKc);
+  }
+
+  onReset(): void {
+    this.formGroup.reset();
+    if(this.knowledgeComponent.id) {
+      this.formGroup.patchValue(this.knowledgeComponent);
+      this.formGroup.patchValue({parentComponent: this.findParent(this.knowledgeComponent.parentId)});
+    }
+  }
+
+  onClose(): void {
+    this.dialogRef.close(false);
+  }
+
+  private findSelectedParent() {
     return this.parentOptions.find(o => this.presentParent(o) === this.formGroup.controls['parentComponent'].value)
   }
 }

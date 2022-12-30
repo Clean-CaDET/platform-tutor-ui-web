@@ -30,12 +30,11 @@ export class LearnerProgressComponent implements OnChanges {
 
   calculateProgress(): void {
     const knowledgeUnit: Unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
-    this.kcs = this.findAllKcsFromUnit(knowledgeUnit.knowledgeComponents, []);
+    this.kcs = knowledgeUnit.knowledgeComponents;
     this.filteredLearnerProgress = this.filterKc();
     this.kcNum = this.filteredLearnerProgress.length;
     this.satisfiedNum = this.calculateSatisfiedKc();
     this.suspiciousNum = this.calculateSuspiciousKc();
-
   }
 
   filterKc(): KnowledgeComponentProgress[] {
@@ -48,14 +47,6 @@ export class LearnerProgressComponent implements OnChanges {
       });
     });
     return filteredKnowledgeComponentProgress;
-  }
-
-  private findAllKcsFromUnit(kcs: KnowledgeComponent[], allKcs: KnowledgeComponent[]): KnowledgeComponent[] {
-    kcs.forEach(kc => {
-      allKcs.push(kc);
-      this.findAllKcsFromUnit(kc.knowledgeComponents, allKcs);
-    });
-    return allKcs;
   }
 
   calculateSatisfiedKc(): number {

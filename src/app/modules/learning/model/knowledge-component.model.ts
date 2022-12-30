@@ -1,5 +1,3 @@
-import {KCMastery} from './knowledge-component-mastery.model';
-
 export interface KnowledgeComponent {
   id: number;
   name: string;
@@ -8,6 +6,4 @@ export interface KnowledgeComponent {
   order: number;
   parentId: number;
   expectedDurationInMinutes: number;
-  knowledgeComponents: KnowledgeComponent[];
-  mastery: KCMastery;
 }

@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
 import { Unit } from '../model/unit.model';
 import { UnitService } from './unit.service';
+import { KCMastery } from '../model/knowledge-component-mastery.model';
 
 @Component({
   selector: 'cc-unit',
@@ -12,6 +13,7 @@ import { UnitService } from './unit.service';
 })
 export class UnitComponent implements OnInit {
   unit: Unit;
+  masteries: KCMastery[];
 
   constructor(
     private unitService: UnitService,
@@ -21,9 +23,8 @@ export class UnitComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
-      this.unitService
-        .getUnit(+params.unitId)
-        .subscribe((unit) => (this.unit = unit));
+      this.unitService.getUnit(+params.unitId).subscribe(unit => this.unit = unit);
+      this.unitService.getMasteries(+params.unitId).subscribe(masteries => this.masteries = masteries);
     });
   }
 
