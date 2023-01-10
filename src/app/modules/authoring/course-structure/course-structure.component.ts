@@ -46,6 +46,7 @@ export class CourseStructureComponent implements OnInit {
       this.courseService.saveUnit(this.course.id, unit).subscribe(newUnit => {
         this.course.knowledgeUnits.push(newUnit);
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order)];
+        this.selectedUnit = newUnit;
       });
     } else {
       this.courseService.updateUnit(this.course.id, unit).subscribe(updatedUnit => {
@@ -63,11 +64,11 @@ export class CourseStructureComponent implements OnInit {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(result) {
-        this.courseService.deleteUnit(this.course.id, unitId).subscribe(response => {
-          this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];
-        });
-      }
+      if(!result) return;
+      
+      this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
+        this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];
+      });
     });
   }
 }

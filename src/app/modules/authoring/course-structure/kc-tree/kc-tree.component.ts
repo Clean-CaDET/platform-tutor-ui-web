@@ -4,6 +4,7 @@ import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-com
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { FormMode, KcFormComponent } from '../kc-form/kc-form.component';
+import { KnowledgeComponentService } from './knowledge-component.service';
 
 @Component({
   selector: 'cc-kc-tree',
@@ -15,7 +16,7 @@ export class KcTreeComponent implements OnChanges {
 
   nodes: TreeNode[] = [];
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private kcService: KnowledgeComponentService) {}
 
   ngOnChanges() {
     this.nodes = []
@@ -57,18 +58,18 @@ export class KcTreeComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
 
-      // TODO: Send to backend. If success regenerate the KC tree in the code below.
       let kc: KnowledgeComponent = {
-        id: 0, //Currently causes issue because root KC parent is 0
         description: '',
         code: result.code,
         name: result.name,
         order: result.order,
         expectedDurationInMinutes: result.expectedDurationInMinutes,
-        parentId: result.parentId
+        parentId: result.parentId        
       }
-      this.unit.knowledgeComponents.push(kc);
-      this.createTree();
+      this.kcService.saveKc(this.unit.id, kc).subscribe(newKc => {
+        this.unit.knowledgeComponents.push(newKc);
+        this.createTree();
+      });
     });
   }
 
@@ -86,14 +87,15 @@ export class KcTreeComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
 
-      // TODO: Send to backend. If success regenerate the KC tree in the code below.
-      let kc = this.unit.knowledgeComponents.find(kc => kc.id === result.id);
-      kc.code = result.code;
-      kc.name = result.name;
-      kc.order = result.order;
-      kc.expectedDurationInMinutes = result.expectedDurationInMinutes;
-      kc.parentId = result.parentId;
-      this.createTree();
+      this.kcService.updateKc(this.unit.id, result).subscribe(updatedKc => {
+        let kc = this.unit.knowledgeComponents.find(kc => kc.id === result.id);
+        kc.code = updatedKc.code;
+        kc.name = updatedKc.name;
+        kc.order = updatedKc.order;
+        kc.expectedDurationInMinutes = updatedKc.expectedDurationInMinutes;
+        kc.parentId = updatedKc.parentId;
+        this.createTree();
+      });
     });
   }
 
@@ -101,7 +103,12 @@ export class KcTreeComponent implements OnChanges {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(result) console.log(id); //TODO
+      if(!result) return;
+
+      this.kcService.deleteKc(this.unit.id, id).subscribe(() => {
+        this.unit.knowledgeComponents = [...this.unit.knowledgeComponents.filter(kc => kc.id !== id)];
+        this.createTree();
+      });
     })
   }
   

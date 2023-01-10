@@ -42,7 +42,7 @@ export class KcFormComponent {
   }
 
   findParent(id: number): string {
-    if(this.parentOptions.length === 0) return '';
+    if(this.parentOptions.length === 0) return null;
     return this.presentParent(this.parentOptions.find(p => p.id === id));
   }
 
@@ -51,7 +51,7 @@ export class KcFormComponent {
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       order: new FormControl(100, Validators.required),
-      parentComponent: new FormControl('', this.requireIfChildComponent()) //TODO
+      parentComponent: new FormControl('', this.requireIfChildComponent()) //TODO expectedDuration
     });
   }
 
@@ -78,7 +78,7 @@ export class KcFormComponent {
       code: this.formGroup.controls['code'].value,
       name: this.formGroup.controls['name'].value,
       description: this.knowledgeComponent?.description,
-      expectedDurationInMinutes: 0,//this.formGroup.controls['expectedDurationInMinutes'].value,
+      expectedDurationInMinutes: 0,//this.formGroup.controls['expectedDurationInMinutes'].value, TODO
       order: this.formGroup.controls['order'].value,
       parentId: this.findSelectedParent()?.id,
     }
