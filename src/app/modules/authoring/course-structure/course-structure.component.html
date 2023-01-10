@@ -1,6 +1,6 @@
 <div fxLayout="column" style="height: 100%;">
     <div>
-        <cc-course-details [course]="course"></cc-course-details>
+        <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
     </div>
     <div fxFlex>
         <div fxFlex="30">

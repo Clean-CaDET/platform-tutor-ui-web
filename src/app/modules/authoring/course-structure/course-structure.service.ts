@@ -14,4 +14,8 @@ export class CourseStructureService {
   getCourse(courseId: number): Observable<Course> {
     return this.http.get<Course>(environment.apiHost + 'owned-courses/' + courseId);
   }
+
+  updateCourse(course: Course): Observable<Course> {
+    return this.http.put<Course>(environment.apiHost + 'owned-courses/' + course.id, course);
+  }
 }

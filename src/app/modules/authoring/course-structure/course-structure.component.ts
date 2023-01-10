@@ -29,4 +29,10 @@ export class CourseStructureComponent implements OnInit {
     this.showKnowledgeComponents = false;
   }
 
+  updateCourse(newCourse: Course): void {
+    this.courseService.updateCourse(newCourse).subscribe(updatedCourse => {
+      updatedCourse.knowledgeUnits = this.course.knowledgeUnits;
+      this.course = updatedCourse;
+    });
+  }
 }

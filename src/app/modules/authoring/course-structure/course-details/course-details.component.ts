@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Course } from 'src/app/modules/learning/model/course.model';
 
@@ -9,6 +9,7 @@ import { Course } from 'src/app/modules/learning/model/course.model';
 })
 export class CourseDetailsComponent implements OnChanges {
   @Input() course: Course;
+  @Output() courseUpdated = new EventEmitter<Course>();
   editMode: boolean;
 
   courseForm: FormGroup
@@ -37,6 +38,7 @@ export class CourseDetailsComponent implements OnChanges {
 
   saveChanges() {
     let newCourse: Course = {
+      id: this.course.id,
       code: this.courseForm.value['code'],
       name: this.courseForm.value['name'],
       description: this.courseForm.value['description'],
@@ -44,6 +46,6 @@ export class CourseDetailsComponent implements OnChanges {
 
     this.editMode = false;
 
-    console.log(newCourse); //TODO
+    this.courseUpdated.emit(newCourse);
   }
 }
