@@ -40,9 +40,10 @@
   <div *ngFor="let node of nodes">
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
   </div>
-  <div *ngIf="nodes?.length === 0">
+  <div *ngIf="nodes?.length === 0" style="margin: 15px 0 15px 0;">
     <button mat-mini-fab (click)="addKc()" color="primary">
-      <mat-icon matTooltip="Dodaj korensku veštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
+      <mat-icon>add</mat-icon>
     </button>
+    <span>&nbsp;Dodaj korensku veštinu koja proverava da li je učenik savladao suštinu lekcije.</span>
   </div>
 </div>

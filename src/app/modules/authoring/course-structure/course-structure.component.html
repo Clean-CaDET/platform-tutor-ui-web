@@ -24,12 +24,15 @@
                         <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = false; showKnowledgeComponents = true;" color="primary">
                             <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">account_tree</mat-icon>
                         </button>
+                        <button mat-mini-fab (click)="deleteUnit(unit.id)" color="warn">
+                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
+                        </button>
                     </span>
                 </mat-card>
             </cdk-virtual-scroll-viewport>
         </div>
         <div fxFlex="70" *ngIf="selectedUnit && showUnitDetails">
-            <cc-unit-details [unit]="selectedUnit"></cc-unit-details>
+            <cc-unit-details [unit]="selectedUnit" (unitSaved)="saveOrUpdateUnit($event)"></cc-unit-details>
         </div>
         <div fxFlex="70" *ngIf="selectedUnit && showKnowledgeComponents">
             <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>

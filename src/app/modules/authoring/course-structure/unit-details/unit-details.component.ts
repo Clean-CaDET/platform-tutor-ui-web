@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 
@@ -9,6 +9,7 @@ import { Unit } from 'src/app/modules/learning/model/unit.model';
 })
 export class UnitDetailsComponent implements OnChanges {
   @Input() unit: Unit;
+  @Output() unitSaved = new EventEmitter<Unit>();
   unitDescription: string;
   
   editMode: boolean;
@@ -44,6 +45,7 @@ export class UnitDetailsComponent implements OnChanges {
 
   saveChanges() {
     let newUnit: Unit = {
+      id: this.unit.id,
       code: this.unitForm.value['code'],
       name: this.unitForm.value['name'],
       order: this.unitForm.value['order'],
@@ -53,12 +55,10 @@ export class UnitDetailsComponent implements OnChanges {
 
     this.editMode = false;
 
-    console.log(newUnit); //TODO
-    console.log(this.unit); //TODO
+    this.unitSaved.emit(newUnit);
   }
 
   updateDescription(text: string): void {
     this.unitDescription = text;
   }
-
 }
