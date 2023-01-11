@@ -27,19 +27,27 @@ export class KcTreeComponent implements OnChanges {
 
   private createTree() {
     let rootKc = this.unit.knowledgeComponents.find(kc => !kc.parentId);
+    if(!rootKc) {
+      this.nodes = [];
+      return;
+    }
     this.nodes = [this.createNode(rootKc)];
   }
 
-  createNode(kc: KnowledgeComponent): TreeNode {
+  private createNode(kc: KnowledgeComponent): TreeNode {
     let node: TreeNode = {
       id: kc.id,
       code: kc.code,
       name: kc.name,
       order: kc.order,
-      children: this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)),
+      children: this.createSortedChildren(kc),
       isExpanded: true
     }
     return node;
+  }
+
+  private createSortedChildren(kc: KnowledgeComponent): TreeNode[] {
+    return this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)).sort((kc1, kc2) => kc1.order - kc2.order);
   }
 
   findKnowledgeSubcomponents(parentId: number): KnowledgeComponent[] {

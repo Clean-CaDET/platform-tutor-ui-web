@@ -15,7 +15,7 @@
             </div>
             <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
                 <mat-card [class.highlight]="selectedUnit?.id===unit.id" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits">
-                    <span><b>{{unit.code}}</b> - {{unit.name}}</span>
+                    <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                     <span fxFlex></span>
                     <span fxLayoutGap="10px" fxLayout="row">
                         <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = true; showKnowledgeComponents = false;" color="primary">

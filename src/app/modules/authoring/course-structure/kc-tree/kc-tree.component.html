@@ -13,18 +13,23 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
       <mat-card fxFlex fxLayout="row">
-        <span fxFlex>({{node.order}}) <b>{{node.code}}</b> : {{node.name}}</span>
-        <span fxLayoutGap="10px">
-          <button mat-mini-fab (click)="addKc(node.id)" color="primary">
-            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
-          </button>
-          <button mat-mini-fab (click)="editKc(node.id)" color="primary">
-            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
-          </button>
-          <button mat-mini-fab (click)="deleteKc(node.id)" color="warn">
-            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
-          </button>
-        </span>
+        <div fxFlex fxLayout="column">
+          <span fxFlex><b>{{node.code}}</b>: {{node.name}}</span>
+          <small>Order: {{node.order}}</small>
+        </div>
+        <div>
+          <span fxLayoutGap="10px">
+            <button mat-mini-fab (click)="addKc(node.id)" color="primary">
+              <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="editKc(node.id)" color="primary">
+              <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+            </button>
+            <button mat-mini-fab (click)="deleteKc(node.id)" color="warn">
+              <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
+            </button>
+          </span>
+        </div>
       </mat-card>
     </div>
   
