@@ -5,5 +5,6 @@ export interface KnowledgeComponent {
   description: string;
   order: number;
   parentId: number;
+  knowledgeUnitId: number;
   expectedDurationInMinutes: number;
 }

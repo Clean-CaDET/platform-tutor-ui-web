@@ -8,6 +8,7 @@ import { UnitDetailsComponent } from './course-structure/unit-details/unit-detai
 import { KcTreeComponent } from './course-structure/kc-tree/kc-tree.component';
 import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 import { KcFormComponent } from './course-structure/kc-form/kc-form.component';
+import { InstructionalItemsComponent } from './instructional-items/instructional-items.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { KcFormComponent } from './course-structure/kc-form/kc-form.component';
     CourseDetailsComponent,
     UnitDetailsComponent,
     KcTreeComponent,
-    KcFormComponent
+    KcFormComponent,
+    InstructionalItemsComponent
   ],
   imports: [
     CommonModule,

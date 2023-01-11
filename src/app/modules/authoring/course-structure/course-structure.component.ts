@@ -68,6 +68,7 @@ export class CourseStructureComponent implements OnInit {
       
       this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];
+        this.selectedUnit = null;
       });
     });
   }

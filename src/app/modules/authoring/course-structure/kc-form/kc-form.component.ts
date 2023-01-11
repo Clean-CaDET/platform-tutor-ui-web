@@ -74,13 +74,14 @@ export class KcFormComponent {
 
   onSubmit(): void {
     let newKc: KnowledgeComponent = {
-      id: this.knowledgeComponent?.id,
+      id: this.knowledgeComponent.id,
       code: this.formGroup.controls['code'].value,
       name: this.formGroup.controls['name'].value,
-      description: this.knowledgeComponent?.description,
+      description: this.knowledgeComponent.description,
       expectedDurationInMinutes: 0,//this.formGroup.controls['expectedDurationInMinutes'].value, TODO
       order: this.formGroup.controls['order'].value,
       parentId: this.findSelectedParent()?.id,
+      knowledgeUnitId: this.knowledgeComponent.knowledgeUnitId
     }
 
     this.dialogRef.close(newKc);

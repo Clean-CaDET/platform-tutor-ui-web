@@ -57,7 +57,10 @@ export class KcTreeComponent implements OnChanges {
   addKc(parentId: number) {
     const dialogRef = this.dialog.open(KcFormComponent, {
       data: {
-        knowledgeComponent: parentId ? { parentId: parentId } : null,
+        knowledgeComponent: {
+          parentId: parentId,
+          knowledgeUnitId: this.unit.id
+        },
         parentComponentOptions: this.unit.knowledgeComponents,
         formMode: parentId ? FormMode.AddChild : FormMode.AddFirst
       },
@@ -72,9 +75,10 @@ export class KcTreeComponent implements OnChanges {
         name: result.name,
         order: result.order,
         expectedDurationInMinutes: result.expectedDurationInMinutes,
-        parentId: result.parentId        
+        parentId: result.parentId,
+        knowledgeUnitId: this.unit.id
       }
-      this.kcService.saveKc(this.unit.id, kc).subscribe(newKc => {
+      this.kcService.create(kc).subscribe(newKc => {
         this.unit.knowledgeComponents.push(newKc);
         this.createTree();
       });
@@ -95,7 +99,7 @@ export class KcTreeComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
 
-      this.kcService.updateKc(this.unit.id, result).subscribe(updatedKc => {
+      this.kcService.update(result).subscribe(updatedKc => {
         let kc = this.unit.knowledgeComponents.find(kc => kc.id === result.id);
         kc.code = updatedKc.code;
         kc.name = updatedKc.name;
@@ -113,7 +117,7 @@ export class KcTreeComponent implements OnChanges {
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
 
-      this.kcService.deleteKc(this.unit.id, id).subscribe(() => {
+      this.kcService.delete(id).subscribe(() => {
         this.unit.knowledgeComponents = [...this.unit.knowledgeComponents.filter(kc => kc.id !== id)];
         this.createTree();
       });

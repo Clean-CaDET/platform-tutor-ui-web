@@ -8,22 +8,23 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class KnowledgeComponentService {
+  private baseUrl = environment.apiHost + 'authoring/knowledge-components/';
 
   constructor(private http: HttpClient) { }
 
-  saveKc(unitId: number, kc: KnowledgeComponent): Observable<KnowledgeComponent> {
-    return this.http.post<KnowledgeComponent>(this.baseUrl(unitId), kc);
+  get(kcId: number): Observable<KnowledgeComponent> {
+    return this.http.get<KnowledgeComponent>(this.baseUrl + kcId);
   }
 
-  updateKc(unitId: number, kc: KnowledgeComponent): Observable<KnowledgeComponent> {
-    return this.http.put<KnowledgeComponent>(this.baseUrl(unitId) + kc.id, kc);
+  create(kc: KnowledgeComponent): Observable<KnowledgeComponent> {
+    return this.http.post<KnowledgeComponent>(this.baseUrl, kc);
   }
 
-  deleteKc(unitId: number, kcId: number): Observable<KnowledgeComponent> {
-    return this.http.delete<KnowledgeComponent>(this.baseUrl(unitId) + kcId);
+  update(kc: KnowledgeComponent): Observable<KnowledgeComponent> {
+    return this.http.put<KnowledgeComponent>(this.baseUrl + kc.id, kc);
   }
 
-  private baseUrl(unitId: number): string {
-    return environment.apiHost + 'authoring/units/' + unitId + '/knowledge-components/';
+  delete(kcId: number): Observable<KnowledgeComponent> {
+    return this.http.delete<KnowledgeComponent>(this.baseUrl + kcId);
   }
 }

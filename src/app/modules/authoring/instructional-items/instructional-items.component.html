@@ -1,0 +1,29 @@
+<mat-card>
+    <div fxFlex fxLayout="column">
+        <span fxFlex><b>{{kc.code}}</b>: {{kc.name}}</span>
+        <small>Redosled: {{kc.order}}</small>
+        TODO: Editable basic info through modal dialog
+        TODO: Parent cannot be edited and needs to be done through the tree (link na stablo - dodati u router selected unit)
+    </div>
+</mat-card>
+<div fxLayout="row">
+    <div fxFlex>
+        <h3>Gradivo</h3>
+        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+            <mat-card *cdkVirtualFor="let instructionalItem of instructionalItems">
+                <cc-markdown-editor fxFlex [label]="'Markdown'"
+                    [text]="unitDescription" (textChanged)="updateDescription($event)">
+                </cc-markdown-editor>
+            </mat-card>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <div fxFlex #learnerView>
+        <h3>Pogled učenika</h3>
+        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+            <cc-learning-object-container
+                *cdkVirtualFor="let instructionalItem of instructionalItems"
+                [learningObject]="instructionalItem">
+            </cc-learning-object-container>
+        </cdk-virtual-scroll-viewport>
+    </div>
+</div>
