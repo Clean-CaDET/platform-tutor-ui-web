@@ -1,0 +1,38 @@
+<div fxLayout="column">
+    <mat-card fxFlex *ngIf="kc" fxLayout="column" fxLayoutGap="20px">
+        <span fxLayout="row">
+            <span fxLayout="column">
+                <span fxFlex><b>{{kc.code}}</b>: {{kc.name}}</span>
+                <small>Redosled: {{kc.order}} | Minimalno minuta rada: {{kc.expectedDurationInMinutes}}</small>
+            </span>
+            <span fxFlex></span>
+            <span fxLayoutGap="30px" fxLayout="row">
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId}">
+                        <mat-icon matTooltip="Pregledaj hijerarhiju veština" [matTooltipPosition]="'below'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">account_tree</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'knowledge-component', kc.id, 'assessments']">
+                        <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">quiz</mat-icon>
+                    </button>
+                </span>
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button mat-mini-fab color="primary" (click)="editKc()">
+                        <mat-icon matTooltip="Ažuriraj osnovne podatke" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+                    </button>
+                </span>
+            </span>
+        </span>
+        <span fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+            <b>Gradivo</b>
+            <button style="width: 80px" mat-raised-button color="primary" (click)="addMarkdown()">
+                + Text
+            </button>
+            <button style="width: 80px" mat-raised-button color="primary" (click)="addVideo()">
+                + Video
+            </button>
+        </span>
+    </mat-card>
+    <div fxLayout="row" style="margin: 15px;">
+        <router-outlet></router-outlet>
+    </div>
+</div>

@@ -13,7 +13,8 @@ import { InstructorsComponent } from '../modules/management/stakeholders/instruc
 import { CoursesComponent } from '../modules/management/courses/courses.component';
 import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics/events-table/events-table.component';
 import { CourseStructureComponent } from '../modules/authoring/course-structure/course-structure.component';
-import { InstructionalItemsComponent } from '../modules/authoring/instructional-items/instructional-items.component';
+import { InstructionalItemsComponent } from '../modules/authoring/knowledge-component/instructional-items/instructional-items.component';
+import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowledge-component/knowledge-component-authoring.component';
 
 
 const routes: Routes = [
@@ -59,10 +60,16 @@ const routes: Routes = [
     data: { role: 'instructor' },
   },
   {
-    path: 'authoring/course/:courseId/knowledge-component/:kcId/instruction',
-    component: InstructionalItemsComponent,
+    path: 'authoring/course/:courseId/knowledge-component/:kcId',
+    component: KnowledgeComponentAuthoringComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
+    children: [
+      {
+        path: 'instruction',
+        component: InstructionalItemsComponent
+      }
+    ]
   },
   {
     path: 'management/stakeholders/learners',

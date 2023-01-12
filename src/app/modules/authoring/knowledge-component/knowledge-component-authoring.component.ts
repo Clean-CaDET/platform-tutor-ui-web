@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-import { LearningObject } from '../../learning/knowledge-component/learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
-import { KnowledgeComponentService } from '../course-structure/kc-tree/knowledge-component.service';
+import { KnowledgeComponentService } from './knowledge-component-authoring.service';
 
 @Component({
-  selector: 'cc-instructional-items',
-  templateUrl: './instructional-items.component.html',
-  styleUrls: ['./instructional-items.component.scss']
+  selector: 'cc-knowledge-component-authoring',
+  templateUrl: './knowledge-component-authoring.component.html',
+  styleUrls: ['./knowledge-component-authoring.component.scss']
 })
-export class InstructionalItemsComponent implements OnInit {
+export class KnowledgeComponentAuthoringComponent implements OnInit {
   courseId: number;
   kc: KnowledgeComponent;
-  instructionalItems: LearningObject[];
 
   constructor(private kcService: KnowledgeComponentService, private route: ActivatedRoute) { }
 
@@ -21,7 +19,7 @@ export class InstructionalItemsComponent implements OnInit {
       this.courseId = +params.courseId;
       this.kcService.get(+params.kcId).subscribe(kc => {
         this.kc = kc;
-      });  
+      });
     });
   }
 

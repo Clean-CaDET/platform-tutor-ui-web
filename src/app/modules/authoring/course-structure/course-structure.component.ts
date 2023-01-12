@@ -41,9 +41,14 @@ export class CourseStructureComponent implements OnInit {
   }
 
   createUnit() {
-    this.selectedUnit = { code: '', name: '', description: '', order:100};
+    this.selectedUnit = { code: '', name: '', description: '', order:this.getMaxOrder()+10};
     this.showUnitDetails = true;
     this.showKnowledgeComponents = false;
+  }
+
+  getMaxOrder(): number {
+    if(this.course.knowledgeUnits?.length == 0) return 0;
+    return Math.max(...this.course.knowledgeUnits.map(u => u.order));
   }
 
   saveOrUpdateUnit(unit: Unit) {

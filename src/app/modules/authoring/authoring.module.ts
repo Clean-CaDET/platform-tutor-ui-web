@@ -5,11 +5,12 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseStructureComponent } from './course-structure/course-structure.component';
 import { CourseDetailsComponent } from './course-structure/course-details/course-details.component';
 import { UnitDetailsComponent } from './course-structure/unit-details/unit-details.component';
-import { KcTreeComponent } from './course-structure/kc-tree/kc-tree.component';
+import { KcTreeComponent } from './knowledge-component/kc-tree/kc-tree.component';
 import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
-import { KcFormComponent } from './course-structure/kc-form/kc-form.component';
-import { InstructionalItemsComponent } from './instructional-items/instructional-items.component';
+import { InstructionalItemsComponent } from './knowledge-component/instructional-items/instructional-items.component';
 import { RouterModule } from '@angular/router';
+import { KnowledgeComponentAuthoringComponent } from './knowledge-component/knowledge-component-authoring.component';
+import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { RouterModule } from '@angular/router';
     UnitDetailsComponent,
     KcTreeComponent,
     KcFormComponent,
-    InstructionalItemsComponent
+    InstructionalItemsComponent,
+    KnowledgeComponentAuthoringComponent
   ],
   imports: [
     CommonModule,

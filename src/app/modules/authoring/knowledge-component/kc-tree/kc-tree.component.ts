@@ -4,7 +4,7 @@ import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-com
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { FormMode, KcFormComponent } from '../kc-form/kc-form.component';
-import { KnowledgeComponentService } from './knowledge-component.service';
+import { KnowledgeComponentService } from '../knowledge-component-authoring.service';
 
 @Component({
   selector: 'cc-kc-tree',
@@ -60,7 +60,8 @@ export class KcTreeComponent implements OnChanges {
       data: {
         knowledgeComponent: {
           parentId: parentId,
-          knowledgeUnitId: this.unit.id
+          knowledgeUnitId: this.unit.id,
+          order: parentId ? this.getMaxChildOrder(parentId)+10 : 1
         },
         parentComponentOptions: this.unit.knowledgeComponents,
         formMode: parentId ? FormMode.AddChild : FormMode.AddFirst
@@ -84,6 +85,12 @@ export class KcTreeComponent implements OnChanges {
         this.createTree();
       });
     });
+  }
+
+  getMaxChildOrder(parentId: number): number {
+    let components = this.findKnowledgeSubcomponents(parentId);
+    if(components.length == 0) return 0;
+    return Math.max(...components.map(kc => kc.order));
   }
 
   editKc(id: number): void {
