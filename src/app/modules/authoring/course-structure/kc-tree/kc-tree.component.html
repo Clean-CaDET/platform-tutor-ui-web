@@ -15,9 +15,17 @@
       <mat-card fxFlex fxLayout="row">
         <div fxFlex fxLayout="column">
           <span fxFlex><b>{{node.code}}</b>: {{node.name}}</span>
-          <small>Redni broj: {{node.order}}</small>
+          <small>Redni broj: {{node.order}} | Minimalno minuta rada: {{node.expectedDurationInMinutes}}</small>
         </div>
-        <div>
+        <div fxLayoutGap="30px">
+          <span fxLayoutGap="10px">
+            <button mat-mini-fab color="primary" [routerLink]="['knowledge-component', node.id, 'instruction']">
+              <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">library_books</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" [routerLink]="['knowledge-component', node.id, 'assessments']">
+              <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">quiz</mat-icon>
+            </button>
+          </span>
           <span fxLayoutGap="10px">
             <button mat-mini-fab (click)="addKc(node.id)" color="primary">
               <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
@@ -25,7 +33,7 @@
             <button mat-mini-fab (click)="editKc(node.id)" color="primary">
               <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
             </button>
-            <button mat-mini-fab (click)="deleteKc(node.id)" color="warn">
+            <button mat-mini-fab (click)="deleteKc(node.id)" color="primary">
               <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
             </button>
           </span>

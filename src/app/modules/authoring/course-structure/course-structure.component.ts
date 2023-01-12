@@ -24,6 +24,11 @@ export class CourseStructureComponent implements OnInit {
       this.courseService.getCourse(+params.courseId).subscribe(course => {
         course.knowledgeUnits = course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order);
         this.course = course;
+        let unitId = this.route.snapshot.queryParams['unit'];
+        if(unitId) {
+          this.selectedUnit = this.course.knowledgeUnits.find(u => u.id == unitId);
+          this.showKnowledgeComponents = true;
+        }
       });  
     });
   }

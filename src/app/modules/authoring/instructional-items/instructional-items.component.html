@@ -1,29 +1,34 @@
-<mat-card>
-    <div fxFlex fxLayout="column">
+<div fxLayout="column">
+<mat-card fxFlex fxLayout="row" *ngIf="kc">
+    <span fxLayout="column">
         <span fxFlex><b>{{kc.code}}</b>: {{kc.name}}</span>
-        <small>Redosled: {{kc.order}}</small>
-        TODO: Editable basic info through modal dialog
-        TODO: Parent cannot be edited and needs to be done through the tree (link na stablo - dodati u router selected unit)
-    </div>
+        <small>Redosled: {{kc.order}} | Minimalno minuta rada: {{kc.expectedDurationInMinutes}}</small>
+    </span>
+    <span fxFlex></span>
+    <span fxLayoutGap="30px" fxLayout="row">
+        <span fxLayoutGap="10px" fxLayout="row">
+            <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId}">
+                <mat-icon matTooltip="Pregledaj hijerarhiju veština" [matTooltipPosition]="'below'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">account_tree</mat-icon>
+            </button>
+            <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'knowledge-component', kc.id, 'assessments']">
+                <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">quiz</mat-icon>
+            </button>
+        </span>
+        <span fxLayoutGap="10px" fxLayout="row">
+            <button mat-mini-fab color="primary" (click)="editKc()">
+                <mat-icon matTooltip="Ažuriraj osnovne podatke" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+            </button>
+        </span>
+    </span>
 </mat-card>
-<div fxLayout="row">
+<div fxLayout="row" style="margin: 15px;">
     <div fxFlex>
         <h3>Gradivo</h3>
-        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
-            <mat-card *cdkVirtualFor="let instructionalItem of instructionalItems">
-                <cc-markdown-editor fxFlex [label]="'Markdown'"
-                    [text]="unitDescription" (textChanged)="updateDescription($event)">
-                </cc-markdown-editor>
-            </mat-card>
-        </cdk-virtual-scroll-viewport>
+        <mat-card *ngFor="let instructionalItem of instructionalItems">
+            <cc-markdown-editor fxFlex [label]="'Markdown'"
+                [text]="unitDescription" (textChanged)="updateDescription($event)">
+            </cc-markdown-editor>
+        </mat-card>
     </div>
-    <div fxFlex #learnerView>
-        <h3>Pogled učenika</h3>
-        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
-            <cc-learning-object-container
-                *cdkVirtualFor="let instructionalItem of instructionalItems"
-                [learningObject]="instructionalItem">
-            </cc-learning-object-container>
-        </cdk-virtual-scroll-viewport>
-    </div>
+</div>
 </div>

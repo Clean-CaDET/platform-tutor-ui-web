@@ -22,9 +22,3 @@ button {
 .mat-drawer-inner-container::-webkit-scrollbar {
   display: none;
 }
-
-.selected {
-  // hard coded -> should use cc-primary-theme (consult Nikola)
-  background-color: #006d62 !important;
-  // background-color: #354457 !important; black theme
-}

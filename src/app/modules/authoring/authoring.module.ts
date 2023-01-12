@@ -9,6 +9,7 @@ import { KcTreeComponent } from './course-structure/kc-tree/kc-tree.component';
 import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 import { KcFormComponent } from './course-structure/kc-form/kc-form.component';
 import { InstructionalItemsComponent } from './instructional-items/instructional-items.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { InstructionalItemsComponent } from './instructional-items/instructional
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
+    RouterModule,
     TutorMarkdownModule
   ]
 })

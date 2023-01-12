@@ -25,11 +25,6 @@ export class InstructorControlsComponent implements OnInit {
     this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
     });
-    this.selectedControl = 'groups';
-  }
-
-  selectControl(control: string): void {
-    this.selectedControl = control;
   }
 
   private setupCourseUpdate(): void {
@@ -80,7 +75,7 @@ export class InstructorControlsComponent implements OnInit {
     if (e.url.includes('learner-progress')) {
       this.selectedControl = 'groups';
     }
-    if (e.url.includes('management')) {
+    if (e.url.includes('authoring')) {
       this.selectedControl = 'authoring';
     }
     if (e.url.includes('analytics')) {

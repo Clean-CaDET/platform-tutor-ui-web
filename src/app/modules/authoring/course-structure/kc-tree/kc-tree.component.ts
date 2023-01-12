@@ -40,6 +40,7 @@ export class KcTreeComponent implements OnChanges {
       code: kc.code,
       name: kc.name,
       order: kc.order,
+      expectedDurationInMinutes: kc.expectedDurationInMinutes,
       children: this.createSortedChildren(kc),
       isExpanded: true
     }
@@ -147,6 +148,7 @@ interface TreeNode {
   code: string;
   name: string;
   order: number;
+  expectedDurationInMinutes: number;
   children: TreeNode[];
   isExpanded?:boolean;
 }

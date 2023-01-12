@@ -8,24 +8,18 @@
   </button>
 </mat-menu>
 <ng-container *ngIf="selectedCourse">
-  <button mat-flat-button color="primary" class="controls"
-  [routerLink]="['/authoring/course', selectedCourse.id]"
-    (click)="selectControl('authoring')"
-    [ngClass]="{'selected': selectedControl === 'authoring'}">
+  <button mat-flat-button [color]="selectedControl === 'authoring' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/authoring/course', selectedCourse.id]">
     <mat-icon>edit</mat-icon><br>
     Autorstvo
   </button>
-  <button mat-flat-button color="primary" class="controls"
-    [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']"
-    (click)="selectControl('analytics')"
-    [ngClass]="{'selected': selectedControl === 'analytics'}">
+  <button mat-flat-button [color]="selectedControl === 'analytics' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']">
     <mat-icon>bar_chart</mat-icon><br>
     Analitike
   </button>
-  <button mat-flat-button color="primary" class="controls"
-    [routerLink]="['/course', selectedCourse.id, 'learner-progress']"
-    (click)="selectControl('groups')"
-    [ngClass]="{'selected': selectedControl === 'groups'}">
+  <button mat-flat-button [color]="selectedControl === 'groups' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/course', selectedCourse.id, 'learner-progress']">
     <mat-icon>groups</mat-icon><br>
     Grupe
   </button>
