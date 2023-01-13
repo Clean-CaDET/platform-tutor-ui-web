@@ -1,4 +1,5 @@
 import { HttpClient } from '@angular/common/http';
+import { isNgTemplate } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { LearningObjectMapper } from 'src/app/modules/learning/knowledge-component/learning-objects/learning-object-mapper';
@@ -27,15 +28,17 @@ export class InstructionalItemsService {
     return instructionalItems;
   }
 
-  /*create(kc: KnowledgeComponent): Observable<KnowledgeComponent> {
-    return this.http.post<KnowledgeComponent>(this.baseUrl, kc);
+  create(kcId: number, item: LearningObject): Observable<LearningObject> {
+    return this.http.post<LearningObject[]>(this.baseUrl(kcId), item)
+      .pipe(map(instruction => this.learningObjectMapper.convert(instruction[0])));
   }
 
-  update(kc: KnowledgeComponent): Observable<KnowledgeComponent> {
-    return this.http.put<KnowledgeComponent>(this.baseUrl + kc.id, kc);
+  update(kcId: number, item: LearningObject): Observable<LearningObject> {
+    return this.http.put<LearningObject[]>(this.baseUrl(kcId)+item.id, item)
+      .pipe(map(instruction => this.learningObjectMapper.convert(instruction[0])));
   }
 
-  delete(kcId: number): Observable<KnowledgeComponent> {
-    return this.http.delete<KnowledgeComponent>(this.baseUrl + kcId);
-  }*/
+  delete(kcId: number, itemId: number): Observable<LearningObject> {
+    return this.http.delete<LearningObject>(this.baseUrl(kcId)+itemId);
+  }
 }

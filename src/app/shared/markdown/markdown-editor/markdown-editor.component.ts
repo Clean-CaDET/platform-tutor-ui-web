@@ -9,7 +9,9 @@ export class MarkdownEditorComponent implements OnChanges {
   @Input() label = "";
   @Input() text = "";
   @Input() editMode = false;
+  @Input() submitCtrls = false;
   @Input() indextab = 50;
+  @Output() submit = new EventEmitter<string>();
   @Output() textChanged = new EventEmitter<string>();
 
   livePreview = true;
@@ -105,5 +107,10 @@ export class MarkdownEditorComponent implements OnChanges {
 
   onBlur(): void {
     this.textChanged.emit(this.text);
+  }
+
+  onSubmit(isDiscard: boolean): void {
+    if(isDiscard) this.submit.emit();
+    else this.submit.emit(this.text);
   }
 }

@@ -1,20 +1,51 @@
-<div fxLayout="column">
-    <div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px">
-        <mat-card *ngFor="let instructionalItem of instructionalItems" fxFlex>
+<div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px" fxFlex>
+    <mat-card *ngFor="let instructionalItem of instructionalItems; let i = index" fxFlex>
+        <div *ngIf="!editMap[instructionalItem.id]">
+            <div fxLayout="row">
+                <span fxFlex></span>
+                <!--button mat-icon-button *ngIf="i !== 0">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="i !== (instructionalItems.length-1)">
+                    <mat-icon>arrow_downward</mat-icon>
+                </button-->
+                <button mat-icon-button (click)="editMap[instructionalItem.id] = true">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteItem(instructionalItem.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
             <div>
                 <cc-learning-object-container [learningObject]="instructionalItem"></cc-learning-object-container>
             </div>
-            <!--
-                *ngIf="!edit[instructionalItem.id]"
-                div *ngIf="!edit[instructionalItem.id] && instructionalItem.typeDiscriminator === 'text'">
-                <cc-markdown-editor fxFlex [label]="'Markdown'"
-                    [text]="unitDescription" (textChanged)="updateDescription($event)">
+        </div>
+        <div *ngIf="editMap[instructionalItem.id]">
+            <div *ngIf="instructionalItem.typeDiscriminator === 'text'">
+                <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
+                    [text]="instructionalItem.content" (submit)="updateMarkdownItem($event, instructionalItem)">
                 </cc-markdown-editor>
             </div>
-            <div *ngIf="!edit[instructionalItem.id] && instructionalItem.typeDiscriminator === 'video'">
+            <div *ngIf="instructionalItem.typeDiscriminator === 'video'">
                 TODO: Caption
                 TODO: URL
-            </div-->
-        </mat-card>
-    </div>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+            <b>Gradivo</b>
+            <button style="width: 80px" mat-raised-button color="primary" (click)="editMap[0] = 'markdown'">
+                + Text
+            </button>
+            <button style="width: 80px" mat-raised-button color="primary" (click)="editMap[0] = 'video'">
+                + Video
+            </button>
+        </span>
+        <div *ngIf="editMap[0] === 'markdown'">
+            <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
+                [text]="''" (submit)="createMarkdown($event)">
+            </cc-markdown-editor>
+        </div>
+    </mat-card>
 </div>

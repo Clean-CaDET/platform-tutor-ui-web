@@ -22,17 +22,8 @@
                 </span>
             </span>
         </span>
-        <span fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
-            <b>Gradivo</b>
-            <button style="width: 80px" mat-raised-button color="primary" (click)="addMarkdown()">
-                + Text
-            </button>
-            <button style="width: 80px" mat-raised-button color="primary" (click)="addVideo()">
-                + Video
-            </button>
-        </span>
     </mat-card>
-    <div fxLayout="row" style="margin: 15px;">
+    <div style="margin: 15px;" fxFlex>
         <router-outlet></router-outlet>
     </div>
 </div>
