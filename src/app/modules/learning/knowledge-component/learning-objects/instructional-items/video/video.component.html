@@ -1,2 +1,4 @@
-<div id="caption"><i>{{learningObject.caption}}</i></div>
-<youtube-player fxLayout="row" fxLayoutAlign="center" videoId="{{learningObject.getVideoId()}}"></youtube-player>
+<div id="caption"><h3>{{learningObject.caption}}</h3></div>
+<youtube-player fxLayoutAlign="center"
+    videoId="{{learningObject.getVideoId()}}" [width]="800" [height]="450">
+</youtube-player>

@@ -1,10 +1,12 @@
 <div fxLayout="column">
-    <div fxLayout="row" style="margin: 15px;">
-        <mat-card *ngFor="let instructionalItem of instructionalItems">
-            <div *ngIf="!edit[instructionalItem.id]">
+    <div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px">
+        <mat-card *ngFor="let instructionalItem of instructionalItems" fxFlex>
+            <div>
                 <cc-learning-object-container [learningObject]="instructionalItem"></cc-learning-object-container>
             </div>
-            <div *ngIf="!edit[instructionalItem.id] && instructionalItem.typeDiscriminator === 'text'">
+            <!--
+                *ngIf="!edit[instructionalItem.id]"
+                div *ngIf="!edit[instructionalItem.id] && instructionalItem.typeDiscriminator === 'text'">
                 <cc-markdown-editor fxFlex [label]="'Markdown'"
                     [text]="unitDescription" (textChanged)="updateDescription($event)">
                 </cc-markdown-editor>
@@ -12,7 +14,7 @@
             <div *ngIf="!edit[instructionalItem.id] && instructionalItem.typeDiscriminator === 'video'">
                 TODO: Caption
                 TODO: URL
-            </div>
+            </div-->
         </mat-card>
     </div>
 </div>

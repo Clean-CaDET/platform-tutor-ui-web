@@ -11,6 +11,7 @@ import { InstructionalItemsComponent } from './knowledge-component/instructional
 import { RouterModule } from '@angular/router';
 import { KnowledgeComponentAuthoringComponent } from './knowledge-component/knowledge-component-authoring.component';
 import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component';
+import { LearningModule } from '../learning/learning.module';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,
-    TutorMarkdownModule
+    TutorMarkdownModule,
+    LearningModule
   ]
 })
 export class AuthoringModule { }
