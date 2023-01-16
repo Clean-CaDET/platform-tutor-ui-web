@@ -12,6 +12,8 @@ import { RouterModule } from '@angular/router';
 import { KnowledgeComponentAuthoringComponent } from './knowledge-component/knowledge-component-authoring.component';
 import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component';
 import { LearningModule } from '../learning/learning.module';
+import { YouTubePlayerModule } from '@angular/youtube-player';
+import { VideoAuthoringComponent } from './knowledge-component/instructional-items/video-authoring/video-authoring.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,8 @@ import { LearningModule } from '../learning/learning.module';
     KcTreeComponent,
     KcFormComponent,
     InstructionalItemsComponent,
-    KnowledgeComponentAuthoringComponent
+    KnowledgeComponentAuthoringComponent,
+    VideoAuthoringComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +32,8 @@ import { LearningModule } from '../learning/learning.module';
     MaterialModule,
     RouterModule,
     TutorMarkdownModule,
-    LearningModule
+    LearningModule,
+    YouTubePlayerModule
   ]
 })
 export class AuthoringModule { }

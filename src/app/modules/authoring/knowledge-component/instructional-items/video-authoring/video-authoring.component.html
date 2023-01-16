@@ -1,0 +1,19 @@
+<div fxLayout="row">
+    <span fxFlex></span>
+    <button mat-icon-button color="primary" (click)="updateVideoItem(false)">
+      <mat-icon>check</mat-icon>
+    </button>
+    <button mat-icon-button color="warn" (click)="updateVideoItem(true)">
+      <mat-icon>clear</mat-icon>
+    </button>
+</div>
+<form [formGroup]="videoForm" fxLayout="row" fxLayoutGap="15px">
+    <mat-form-field fxFlex="60" appearance="fill">
+        <mat-label>Naslov</mat-label>
+        <input formControlName="caption" matInput>
+    </mat-form-field>
+    <mat-form-field fxFlex="40" appearance="fill">
+        <mat-label>URL</mat-label>
+        <input formControlName="url" matInput>
+    </mat-form-field>
+</form>

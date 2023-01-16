@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Text } from 'src/app/modules/learning/knowledge-component/learning-objects/instructional-items/text/text.model';
+import { Video } from 'src/app/modules/learning/knowledge-component/learning-objects/instructional-items/video/video.model';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { LearningObject } from '../../../learning/knowledge-component/learning-objects/learning-object.model';
 import { InstructionalItemsService } from './instructional-items.service';
@@ -63,18 +64,47 @@ export class InstructionalItemsComponent implements OnInit {
     return Math.max(...this.instructionalItems.map(i => i.order));
   }
 
-  updateMarkdownItem(updatedText: string, item: Text) {
+  updateMarkdownItem(updatedText: string, item: Text): void {
     if(!updatedText || item.content === updatedText) {
       this.editMap[item.id] = false;
       return;
     }
     item.content = updatedText;
     this.instructionService.update(item.knowledgeComponentId, item).subscribe(response => {
+      // Should be cleaned to update content only after successful responses.
       this.editMap[item.id] = false;
     });
   }
 
-  createVideo() {
+  createEmptyVideo(): Video {
+    return new Video({
+      knowledgeComponentId: this.kcId,
+      typeDiscriminator: 'video',
+      order: this.getMaxOrder()+1
+    })
+  }
 
+  createVideoItem(newItem: Video): void {
+    if(!newItem) {
+      this.editMap[0] = false;
+      return;
+    };
+    this.instructionService.create(this.kcId, newItem).subscribe(item => {
+      this.editMap[0] = false;
+      this.instructionalItems.push(item);
+    });
+  }
+
+  updateVideoItem(updatedItem: Video, itemId: number): void {
+    if(!updatedItem) {
+      this.editMap[itemId] = false;
+      return;
+    };
+    this.instructionService.update(this.kcId, updatedItem).subscribe(response => {
+      let item = this.instructionalItems.find(i => i.id === itemId) as Video;
+      item.caption = (response as Video).caption;
+      item.url = (response as Video).url;
+      this.editMap[itemId] = false;
+    });
   }
 }

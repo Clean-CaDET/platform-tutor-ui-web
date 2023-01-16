@@ -27,8 +27,7 @@
                 </cc-markdown-editor>
             </div>
             <div *ngIf="instructionalItem.typeDiscriminator === 'video'">
-                TODO: Caption
-                TODO: URL
+                <cc-video-authoring [video]="instructionalItem" (videoCreated)="updateVideoItem($event, instructionalItem.id)"></cc-video-authoring>
             </div>
         </div>
     </mat-card>
@@ -46,6 +45,9 @@
             <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
                 [text]="''" (submit)="createMarkdown($event)">
             </cc-markdown-editor>
+        </div>
+        <div *ngIf="editMap[0] === 'video'">
+            <cc-video-authoring [video]="createEmptyVideo()" (videoCreated)="createVideoItem($event)"></cc-video-authoring>
         </div>
     </mat-card>
 </div>
