@@ -3,12 +3,14 @@
         <div *ngIf="!editMap[instructionalItem.id]">
             <div fxLayout="row">
                 <span fxFlex></span>
-                <!--button mat-icon-button *ngIf="i !== 0">
+                <button mat-icon-button *ngIf="i !== 0"
+                    (click)="swapOrder(instructionalItem, instructionalItems[i-1])">
                     <mat-icon>arrow_upward</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="i !== (instructionalItems.length-1)">
+                <button mat-icon-button *ngIf="i !== (instructionalItems.length-1)"
+                    (click)="swapOrder(instructionalItem, instructionalItems[i+1])">
                     <mat-icon>arrow_downward</mat-icon>
-                </button-->
+                </button>
                 <button mat-icon-button (click)="editMap[instructionalItem.id] = true">
                     <mat-icon>edit</mat-icon>
                 </button>

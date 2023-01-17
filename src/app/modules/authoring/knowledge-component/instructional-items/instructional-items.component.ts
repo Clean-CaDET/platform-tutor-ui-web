@@ -42,6 +42,16 @@ export class InstructionalItemsComponent implements OnInit {
     });
   }
 
+  swapOrder(firstItem: LearningObject, secondItem: LearningObject) {
+    let secondOrder = secondItem.order;
+    secondItem.order = firstItem.order;
+    firstItem.order = secondOrder;
+
+    this.instructionService.updateOrdering(this.kcId, this.instructionalItems).subscribe(items => {
+      this.instructionalItems = items;
+    });
+  }
+
   createMarkdown(newText: string) {
     if(!newText) {
       this.editMap[0] = false;

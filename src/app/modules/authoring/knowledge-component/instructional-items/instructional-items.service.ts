@@ -38,6 +38,11 @@ export class InstructionalItemsService {
       .pipe(map(instruction => this.learningObjectMapper.convert(instruction[0])));
   }
 
+  updateOrdering(kcId: number, items: LearningObject[]) {
+    return this.http.put<LearningObject[]>(this.baseUrl(kcId)+'ordering', items)
+      .pipe(map(instruction => this.mapLearningObjects(instruction)));
+  }
+
   delete(kcId: number, itemId: number): Observable<LearningObject> {
     return this.http.delete<LearningObject>(this.baseUrl(kcId)+itemId);
   }
