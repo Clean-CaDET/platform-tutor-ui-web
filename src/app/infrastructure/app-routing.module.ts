@@ -15,6 +15,7 @@ import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics
 import { CourseStructureComponent } from '../modules/authoring/course-structure/course-structure.component';
 import { InstructionalItemsComponent } from '../modules/authoring/knowledge-component/instructional-items/instructional-items.component';
 import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowledge-component/knowledge-component-authoring.component';
+import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/assessment-items.component';
 
 
 const routes: Routes = [
@@ -68,6 +69,10 @@ const routes: Routes = [
       {
         path: 'instruction',
         component: InstructionalItemsComponent
+      },
+      {
+        path: 'assessments',
+        component: AssessmentItemsComponent
       }
     ]
   },

@@ -30,6 +30,41 @@ export class InstructionalItemsComponent implements OnInit {
     });
   }
 
+  swapOrder(firstItem: LearningObject, secondItem: LearningObject) {
+    let secondOrder = secondItem.order;
+    secondItem.order = firstItem.order;
+    firstItem.order = secondOrder;
+
+    this.instructionService.updateOrdering(this.kcId, this.instructionalItems).subscribe(items => {
+      this.instructionalItems = items;
+    });
+  }
+
+  updateMarkdownItem(updatedText: string, item: Text): void {
+    if(!updatedText || item.content === updatedText) {
+      this.editMap[item.id] = false;
+      return;
+    }
+    item.content = updatedText;
+    this.instructionService.update(item.knowledgeComponentId, item).subscribe(response => {
+      // Should be cleaned to update content only after successful responses.
+      this.editMap[item.id] = false;
+    });
+  }
+
+  updateVideoItem(updatedItem: Video, itemId: number): void {
+    if(!updatedItem) {
+      this.editMap[itemId] = false;
+      return;
+    };
+    this.instructionService.update(this.kcId, updatedItem).subscribe(response => {
+      let item = this.instructionalItems.find(i => i.id === itemId) as Video;
+      item.caption = (response as Video).caption;
+      item.url = (response as Video).url;
+      this.editMap[itemId] = false;
+    });
+  }
+
   deleteItem(itemId: number): void {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
@@ -39,16 +74,6 @@ export class InstructionalItemsComponent implements OnInit {
       this.instructionService.delete(this.kcId, itemId).subscribe(() => {
         this.instructionalItems = [...this.instructionalItems.filter(i => i.id !== itemId)];
       });
-    });
-  }
-
-  swapOrder(firstItem: LearningObject, secondItem: LearningObject) {
-    let secondOrder = secondItem.order;
-    secondItem.order = firstItem.order;
-    firstItem.order = secondOrder;
-
-    this.instructionService.updateOrdering(this.kcId, this.instructionalItems).subscribe(items => {
-      this.instructionalItems = items;
     });
   }
 
@@ -74,24 +99,12 @@ export class InstructionalItemsComponent implements OnInit {
     return Math.max(...this.instructionalItems.map(i => i.order));
   }
 
-  updateMarkdownItem(updatedText: string, item: Text): void {
-    if(!updatedText || item.content === updatedText) {
-      this.editMap[item.id] = false;
-      return;
-    }
-    item.content = updatedText;
-    this.instructionService.update(item.knowledgeComponentId, item).subscribe(response => {
-      // Should be cleaned to update content only after successful responses.
-      this.editMap[item.id] = false;
-    });
-  }
-
   createEmptyVideo(): Video {
     return new Video({
       knowledgeComponentId: this.kcId,
       typeDiscriminator: 'video',
       order: this.getMaxOrder()+1
-    })
+    });
   }
 
   createVideoItem(newItem: Video): void {
@@ -102,19 +115,6 @@ export class InstructionalItemsComponent implements OnInit {
     this.instructionService.create(this.kcId, newItem).subscribe(item => {
       this.editMap[0] = false;
       this.instructionalItems.push(item);
-    });
-  }
-
-  updateVideoItem(updatedItem: Video, itemId: number): void {
-    if(!updatedItem) {
-      this.editMap[itemId] = false;
-      return;
-    };
-    this.instructionService.update(this.kcId, updatedItem).subscribe(response => {
-      let item = this.instructionalItems.find(i => i.id === itemId) as Video;
-      item.caption = (response as Video).caption;
-      item.url = (response as Video).url;
-      this.editMap[itemId] = false;
     });
   }
 }

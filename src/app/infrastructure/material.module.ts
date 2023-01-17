@@ -25,6 +25,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTabsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
+    MatDividerModule,
     ScrollingModule
   ],
   exports: [
@@ -85,6 +87,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MatTabsModule,
     MatAutocompleteModule,
     MatProgressBarModule,
+    MatDividerModule,
     ScrollingModule
   ],
 })

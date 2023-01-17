@@ -13,7 +13,7 @@ export class KnowledgeComponentAuthoringComponent implements OnInit {
   kc: KnowledgeComponent;
 
   constructor(private kcService: KnowledgeComponentService, private route: ActivatedRoute) { }
-
+  // Should be reworked to integrate this small component into instructional items.
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;

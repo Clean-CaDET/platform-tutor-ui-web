@@ -14,6 +14,8 @@ import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component
 import { LearningModule } from '../learning/learning.module';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { VideoAuthoringComponent } from './knowledge-component/instructional-items/video-authoring/video-authoring.component';
+import { AssessmentItemsComponent } from './assessment-items/assessment-items.component';
+import { MarkdownModule } from 'ngx-markdown';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { VideoAuthoringComponent } from './knowledge-component/instructional-ite
     KcFormComponent,
     InstructionalItemsComponent,
     KnowledgeComponentAuthoringComponent,
-    VideoAuthoringComponent
+    VideoAuthoringComponent,
+    AssessmentItemsComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +36,8 @@ import { VideoAuthoringComponent } from './knowledge-component/instructional-ite
     RouterModule,
     TutorMarkdownModule,
     LearningModule,
-    YouTubePlayerModule
+    YouTubePlayerModule,
+    MarkdownModule
   ]
 })
 export class AuthoringModule { }
