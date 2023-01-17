@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
 
@@ -45,4 +46,15 @@ export class AssessmentItemsComponent implements OnInit {
     });
   }
 
+  deleteItem(itemId: number): void {
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      
+      this.assessmentService.delete(this.kcId, itemId).subscribe(() => {
+        this.assessmentItems = [...this.assessmentItems.filter(i => i.id !== itemId)];
+      });
+    });
+  }
 }

@@ -27,6 +27,10 @@ export class AssessmentItemsService {
       .pipe(map(instruction => this.mapAssessmentItems(instruction)));
   }
 
+  delete(kcId: number, itemId: number): Observable<AssessmentItem> {
+    return this.http.delete<AssessmentItem>(this.baseUrl(kcId)+itemId);
+  }
+
   mapAssessmentItems(items: AssessmentItem[]): AssessmentItem[] {
     return items.map(i => this.convert(i));
   }
