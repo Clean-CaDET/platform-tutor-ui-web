@@ -51,7 +51,8 @@ export class KcFormComponent {
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       order: new FormControl(100, Validators.required),
-      parentComponent: new FormControl('', this.requireIfChildComponent()) //TODO expectedDuration
+      expectedDurationInMinutes: new FormControl(10, Validators.required),
+      parentComponent: new FormControl('', this.requireIfChildComponent())
     });
   }
 
@@ -78,7 +79,7 @@ export class KcFormComponent {
       code: this.formGroup.controls['code'].value,
       name: this.formGroup.controls['name'].value,
       description: this.knowledgeComponent.description,
-      expectedDurationInMinutes: 0,//this.formGroup.controls['expectedDurationInMinutes'].value, TODO
+      expectedDurationInMinutes: this.formGroup.controls['expectedDurationInMinutes'].value,
       order: this.formGroup.controls['order'].value,
       parentId: this.findSelectedParent()?.id,
       knowledgeUnitId: this.knowledgeComponent.knowledgeUnitId

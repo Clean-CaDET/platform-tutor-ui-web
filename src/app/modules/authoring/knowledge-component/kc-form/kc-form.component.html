@@ -12,6 +12,10 @@
             <mat-label>Redni broj</mat-label>
             <input formControlName="order" type="number" matInput>
         </mat-form-field>
+        <mat-form-field fxFlex="20" appearance="fill">
+            <mat-label>Minimalno vreme rada (u minutima)</mat-label>
+            <input formControlName="expectedDurationInMinutes" type="number" matInput>
+        </mat-form-field>
     </section>
     <section *ngIf="mode === FormMode.AddChild || mode === FormMode.EditChild">
         <mat-form-field appearance="fill" fxFlex>
