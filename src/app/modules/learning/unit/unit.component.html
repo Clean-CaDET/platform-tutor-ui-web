@@ -2,7 +2,11 @@
   <h1 class="mat-h1">{{unit.name}}</h1>
   <h3 class="mat-h3"><markdown>{{unit.description}}</markdown></h3>
   <mat-divider></mat-divider>
-  <cc-knowledge-map *ngIf="masteries" [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
+  <div fxLayout="row" fxLayoutAlign="start start" class="kc-num">
+    <cc-knowledge-map fxFlex="90" *ngIf="masteries" [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
+    <mat-card class="kc-done" *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih veština / Broj veština">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
+    <mat-card class="done-all" *ngIf="calcSatisfiedKcs() == calcKcs()" ><mat-icon color="accent" matTooltip="Uspešno su savladane sve veštine.">done_all</mat-icon></mat-card>
+  </div>
   <div *ngIf="unit.knowledgeComponents?.length === 0">
     <p>
       <b>Lekcija je u najavi i trenutno je nema u ponudi.</b>
@@ -10,4 +14,6 @@
   </div>
   <mat-divider></mat-divider>
   <button id="rate" mat-raised-button color="primary" (click)="openImprovementDialog()" i18n>Oceni Tutora</button>
+  <br>
+  <br>
 </div>

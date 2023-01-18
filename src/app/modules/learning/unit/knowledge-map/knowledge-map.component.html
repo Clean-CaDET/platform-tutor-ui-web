@@ -15,12 +15,12 @@
     </div>
     <div *ngIf="node.children.length" class="node-children">
       <div *ngFor="let child of node.children">
-        <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>  
+        <ng-container *ngTemplateOutlet="tmplNode,context:{node:child}"></ng-container>
       </div>
     </div>
   </div>
 </ng-template>
-  
+
 <div>
   <div *ngFor="let node of nodes">
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>

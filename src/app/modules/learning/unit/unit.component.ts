@@ -1,4 +1,4 @@
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement.component';
@@ -33,5 +33,13 @@ export class UnitComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.data = { unitId: this.unit.id };
     this.dialog.open(TutorImprovementComponent, dialogConfig);
+  }
+
+  calcKcs(): number {
+    return this.masteries.length;
+  }
+
+  calcSatisfiedKcs(): number {
+    return this.masteries.filter(m => m.isSatisfied == true).length
   }
 }

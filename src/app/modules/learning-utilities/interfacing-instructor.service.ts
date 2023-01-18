@@ -45,6 +45,11 @@ export class InterfacingInstructor {
     this.observedAeEvaluations.next(correctnessLevel);
   }
 
+  presentKcCompletedMessage(): void {
+    this.presentMessage("Uspešno savladana veština 😎! Klikni na Pregled lekcije" +
+      " za naredne veštine.", '👌', 7);
+  }
+
   private tryFeedbackPopup(): boolean {
     let onSubmitClickedCounter = +localStorage.getItem(
       'ON_SUBMIT_CLICKED_COUNTER'

@@ -66,6 +66,10 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
         this.attemptedCount = result.attemptedCount;
         this.emotionDialogEvent.emit(result.isSatisfied);
         this.isSatisfied = result.isSatisfied;
+
+        if(this.isSatisfied) {
+          this.instructor.presentKcCompletedMessage()
+        }
       });
   }
 
