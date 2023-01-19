@@ -14,7 +14,7 @@ export class MarkdownEditorComponent implements OnChanges {
   @Output() submit = new EventEmitter<string>();
   @Output() textChanged = new EventEmitter<string>();
 
-  livePreview = true;
+  @Input() livePreview = true;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
 

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseStructureComponent } from './course-structure/course-structure.component';
 import { CourseDetailsComponent } from './course-structure/course-details/course-details.component';
@@ -16,6 +16,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
 import { VideoAuthoringComponent } from './knowledge-component/instructional-items/video-authoring/video-authoring.component';
 import { AssessmentItemsComponent } from './assessment-items/assessment-items.component';
 import { MarkdownModule } from 'ngx-markdown';
+import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component';
 
 @NgModule({
   declarations: [
@@ -27,10 +28,12 @@ import { MarkdownModule } from 'ngx-markdown';
     InstructionalItemsComponent,
     KnowledgeComponentAuthoringComponent,
     VideoAuthoringComponent,
-    AssessmentItemsComponent
+    AssessmentItemsComponent,
+    MrqFormComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     RouterModule,

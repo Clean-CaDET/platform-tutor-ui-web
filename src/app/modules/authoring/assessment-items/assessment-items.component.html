@@ -1,55 +1,61 @@
 <div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px" fxFlex>
     <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex>
-        <div fxLayout="row">
-            <small fxFlex fxLayoutAlign=" center">
-                <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
-                <span>&nbsp;| <b>Težina: </b>TODO</span>
-            </small>
-            <button mat-icon-button *ngIf="i !== 0"
-                (click)="swapOrder(item, assessmentItems[i-1])">
-                <mat-icon>arrow_upward</mat-icon>
-            </button>
-            <button mat-icon-button *ngIf="i !== (assessmentItems.length-1)"
-                (click)="swapOrder(item, assessmentItems[i+1])">
-                <mat-icon>arrow_downward</mat-icon>
-            </button>
-            <button mat-icon-button (click)="editMap[item.id] = true">
-                <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button (click)="deleteItem(item.id)">
-                <mat-icon>delete</mat-icon>
-            </button>
-        </div>
-        <hr>
-        <div>
-            <markdown>{{item.text}}</markdown>
+        <div *ngIf="!editMap[item.id]">
+            <div fxLayout="row">
+                <small fxFlex fxLayoutAlign=" center">
+                    <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
+                </small>
+                <button mat-icon-button *ngIf="i !== 0"
+                    (click)="swapOrder(item, assessmentItems[i-1])">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="i !== (assessmentItems.length-1)"
+                    (click)="swapOrder(item, assessmentItems[i+1])">
+                    <mat-icon>arrow_downward</mat-icon>
+                </button>
+                <button mat-icon-button (click)="editMap[item.id] = true">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteItem(item.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+            <hr>
             <div>
-                <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
-                    <b>Ponuđeni odgovori:</b>
-                    <p *ngFor="let option of item.possibleAnswers" fxLayout="row" fxLayoutGap="15px">
-                        <span>
-                            <mat-icon *ngIf="option === item.correctAnswer">check</mat-icon>
-                            <mat-icon *ngIf="option !== item.correctAnswer"></mat-icon>
-                        </span>
-                        <span fxLayoutAlign=" center">{{option}}</span>
-                    </p>
-                    <div>
-                        <b>Povratna informacija</b>: {{item.feedback}}
+                <markdown>{{item.text}}</markdown>
+                <div>
+                    <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+                        <b>Ponuđeni odgovori:</b>
+                        <p *ngFor="let option of item.possibleAnswers" fxLayout="row" fxLayoutGap="15px">
+                            <span>
+                                <mat-icon *ngIf="option === item.correctAnswer">check</mat-icon>
+                                <mat-icon *ngIf="option !== item.correctAnswer"></mat-icon>
+                            </span>
+                            <span fxLayoutAlign=" center">{{option}}</span>
+                        </p>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
+                    <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                        <b>Ponuđeni odgovori:</b>
+                        <p *ngFor="let option of item.items" fxLayout="column">
+                            <span fxLayout="row" fxLayoutGap="15px">
+                                <span>
+                                    <mat-icon *ngIf="option.isCorrect">check</mat-icon>
+                                    <mat-icon *ngIf="!option.isCorrect">clear</mat-icon>
+                                </span>
+                                <span fxLayoutAlign=" center">{{option.text}}</span>
+                            </span>
+                            <small style="margin-left:39px">{{option.feedback}}</small>
+                        </p>
                     </div>
                 </div>
-                <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
-                    <b>Ponuđeni odgovori:</b>
-                    <p *ngFor="let option of item.items" fxLayout="column">
-                        <span fxLayout="row" fxLayoutGap="15px">
-                            <span>
-                                <mat-icon *ngIf="option.isCorrect">check</mat-icon>
-                                <mat-icon *ngIf="!option.isCorrect">clear</mat-icon>
-                            </span>
-                            <span fxLayoutAlign=" center">{{option.text}}</span>
-                        </span>
-                        <small style="margin-left:39px">{{option.feedback}}</small>
-                    </p>
-                </div>
+            </div>
+        </div>
+        <div *ngIf="editMap[item.id]">
+            <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                <cc-mrq-form [item]="item" (saveChanges)="onUpdate($event, item.id)"></cc-mrq-form>
             </div>
         </div>
     </mat-card>

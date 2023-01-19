@@ -32,8 +32,8 @@
     <button mat-icon-button (click)="livePreview = !livePreview">
       <mat-icon>{{ livePreview ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
-    <mat-divider vertical="true"></mat-divider>
     <div *ngIf="submitCtrls">
+      <mat-divider vertical="true"></mat-divider>
       <button mat-icon-button color="primary" (click)="onSubmit(false)">
         <mat-icon>check</mat-icon>
       </button>

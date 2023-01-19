@@ -22,6 +22,8 @@ export class AssessmentItemsComponent implements OnInit {
       this.kcId = +params.kcId;
       this.assessmentService.getAll(this.kcId).subscribe(items => {
         this.assessmentItems = items.sort((a, b) => a.order - b.order);
+        this.editMap = {};
+        this.assessmentItems.forEach(i => this.editMap[i.id] = false);
       });
     });
   }
@@ -56,5 +58,13 @@ export class AssessmentItemsComponent implements OnInit {
         this.assessmentItems = [...this.assessmentItems.filter(i => i.id !== itemId)];
       });
     });
+  }
+
+  onUpdate(item: AssessmentItem, id?: number): void {
+    if(!item) {
+      if(id) this.editMap[id] = false;
+      else this.editMap[0] = false;
+      return;
+    }
   }
 }
