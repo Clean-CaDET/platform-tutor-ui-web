@@ -3,24 +3,21 @@
         [text]="workingItem.text" (textChanged)="updateText($event)">
     </cc-markdown-editor>
     <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
-        <b>Mogući odgovori:</b>
+        <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Tekst tačnog odgovora</mat-label>
+            <input matInput formControlName="correctAnswer">
+        </mat-form-field>
+        <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Povratna informacija</mat-label>
+            <input matInput formControlName="feedback">
+        </mat-form-field>
+        <b>Pogrešni odgovori:</b>
         <div formArrayName="options" fxLayout="column">
             <div *ngFor="let optionForm of options.controls; let i = index">
                 <div [formGroup]="optionForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
-                    <mat-form-field appearance="fill" fxFlex="40">
+                    <mat-form-field appearance="fill" fxFlex>
                         <mat-label>Tekst</mat-label>
                         <input matInput formControlName="text">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill" fxFlex="60">
-                        <mat-label>Povratna informacija</mat-label>
-                        <input matInput formControlName="feedback">
-                    </mat-form-field>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Tačna izjava?</mat-label>
-                        <mat-select formControlName="isCorrect">
-                            <mat-option [value]="false">Ne</mat-option>
-                            <mat-option [value]="true">Da</mat-option>
-                          </mat-select>
                     </mat-form-field>
                     <button mat-icon-button (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
                 </div>

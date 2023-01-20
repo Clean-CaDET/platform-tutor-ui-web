@@ -17,6 +17,7 @@ import { VideoAuthoringComponent } from './knowledge-component/instructional-ite
 import { AssessmentItemsComponent } from './assessment-items/assessment-items.component';
 import { MarkdownModule } from 'ngx-markdown';
 import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component';
+import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component
     KnowledgeComponentAuthoringComponent,
     VideoAuthoringComponent,
     AssessmentItemsComponent,
-    MrqFormComponent
+    MrqFormComponent,
+    McqFormComponent
   ],
   imports: [
     CommonModule,

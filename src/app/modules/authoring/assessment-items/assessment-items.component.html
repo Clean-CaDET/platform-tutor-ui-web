@@ -54,9 +54,29 @@
             </div>
         </div>
         <div *ngIf="editMap[item.id]">
-            <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
-                <cc-mrq-form [item]="item" (saveChanges)="onUpdate($event, item.id)"></cc-mrq-form>
+            <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
             </div>
+            <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+            <b>Zadaci</b>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'multiChoiceQuestion'">
+                + Višestruki izbor, jedan odgovor
+            </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'multiResponseQuestion'">
+                + Višestruki izbor, više odgovora
+            </button>
+        </span>
+        <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
+            <cc-mcq-form [item]="createEmptyItem('multiChoiceQuestion')" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+        </div>
+        <div *ngIf="editMap[0] === 'multiResponseQuestion'">
+            <cc-mrq-form [item]="createEmptyItem('multiResponseQuestion')" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
         </div>
     </mat-card>
 </div>

@@ -4,6 +4,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
+import { MultipleReponseQuestion } from './model/mrq.model';
 
 @Component({
   selector: 'cc-assessment-items',
@@ -60,11 +61,43 @@ export class AssessmentItemsComponent implements OnInit {
     });
   }
 
-  onUpdate(item: AssessmentItem, id?: number): void {
+  onCloseForm(item: AssessmentItem, id?: number): void {
     if(!item) {
       if(id) this.editMap[id] = false;
       else this.editMap[0] = false;
       return;
     }
+
+    if(id) this.updateItem(item);
+    else this.createItem(item);
+  }
+  
+  private updateItem(item: AssessmentItem) {
+    this.assessmentService.update(this.kcId, item).subscribe(response => {
+      let oldItem = this.assessmentItems.find(i => i.id === item.id);
+      Object.assign(oldItem, response);
+      
+      this.editMap[item.id] = false;
+    });
+  }
+
+  private createItem(item: AssessmentItem) {
+    this.assessmentService.create(this.kcId, item).subscribe(response => {
+      this.assessmentItems.push(response);
+      this.editMap[0] = false;
+    });
+  }
+
+  createEmptyItem(type: string): AssessmentItem {
+    return new AssessmentItem({
+      typeDiscriminator: type,
+      knowledgeComponentId: this.kcId,
+      order: this.getMaxOrder()+1
+    });
+  }
+
+  private getMaxOrder() {
+    if(this.assessmentItems.length === 0) return 0;
+    return Math.max(...this.assessmentItems.map(i => i.order));
   }
 }

@@ -22,6 +22,16 @@ export class AssessmentItemsService {
       .pipe(map(items => this.mapAssessmentItems(items)));
   }
 
+  create(kcId: number, item: AssessmentItem): Observable<AssessmentItem> {
+    return this.http.post<AssessmentItem>(this.baseUrl(kcId), item)
+      .pipe(map(item => this.convert(item)));
+  }
+
+  update(kcId: number, item: AssessmentItem): Observable<AssessmentItem> {
+    return this.http.put<AssessmentItem>(this.baseUrl(kcId)+item.id, item)
+      .pipe(map(item => this.convert(item)));
+  }
+
   updateOrdering(kcId: number, items: AssessmentItem[]) {
     return this.http.put<AssessmentItem[]>(this.baseUrl(kcId)+'ordering', items)
       .pipe(map(instruction => this.mapAssessmentItems(instruction)));

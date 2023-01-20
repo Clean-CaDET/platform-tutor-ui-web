@@ -47,6 +47,10 @@ export class MrqFormComponent implements OnInit {
   }
 
   save(): void {
+    this.workingItem.items = this.form.value['options'];
+    this.workingItem.items.forEach(i => {
+      if(!i.id) delete i['id'];
+    });
     this.saveChanges.emit(this.workingItem);
   }
 
