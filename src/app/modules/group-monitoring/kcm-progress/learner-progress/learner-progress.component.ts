@@ -64,7 +64,7 @@ export class LearnerProgressComponent implements OnChanges {
     this.filteredLearnerProgress.forEach(p => {
       this.kcs.forEach(kc => {
         if (p.knowledgeComponentId === kc.id && p.statistics.isSatisfied === true
-          && p.durationOfFinishedSessionsInMinutes < kc.expectedDurationInMinutes) {
+          && p.durationOfAllSessionsInMinutes < kc.expectedDurationInMinutes) {
           suspiciousNum++;
         }
       });

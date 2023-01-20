@@ -13,7 +13,7 @@ interface AssessmentTableElement {
   totalCount: number,
   passedCount: number,
   attemptedCount: number,
-  durationOfFinishedSessionsInMinutes: number,
+  durationOfAllSessionsInMinutes: number,
   expectedDurationInMinutes: number,
   assessmentItemMasteries: AssessmentItemMastery[],
 }
@@ -76,8 +76,7 @@ export class AssessmentsTableComponent implements OnChanges {
       totalCount: p.statistics.totalCount,
       passedCount: p.statistics.passedCount,
       attemptedCount: p.statistics.attemptedCount,
-      durationOfFinishedSessionsInMinutes:
-      p.durationOfFinishedSessionsInMinutes,
+      durationOfAllSessionsInMinutes: p.durationOfAllSessionsInMinutes,
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
     };
