@@ -4,8 +4,8 @@
   <mat-divider></mat-divider>
   <div fxLayout="row" fxLayoutAlign="start start" class="kc-num">
     <cc-knowledge-map fxFlex="90" *ngIf="masteries" [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
-    <mat-card class="kc-done" *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih veština / Broj veština">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
-    <mat-icon *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve veštine." svgIcon="medal" aria-hidden="false" aria-label="Example thumbs up SVG icon"></mat-icon>
+<!--    <mat-card class="kc-done" *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih veština / Broj veština">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>-->
+    <mat-icon   matTooltip="Uspešno su savladane sve veštine." svgIcon="medal" aria-hidden="false" aria-label="Example thumbs up SVG icon"></mat-icon>
   </div>
   <div *ngIf="unit.knowledgeComponents?.length === 0">
     <p>

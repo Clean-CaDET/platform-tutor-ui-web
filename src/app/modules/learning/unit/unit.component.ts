@@ -24,7 +24,7 @@ export class UnitComponent implements OnInit {
   ) {
     iconRegistry.addSvgIcon(
       "medal",
-       sanitizer.bypassSecurityTrustResourceUrl("../../../../assets/icons/medal-svgrepo-com.svg")
+       sanitizer.bypassSecurityTrustResourceUrl("../../../../assets/icons/medal.svg")
     );
   }
 
