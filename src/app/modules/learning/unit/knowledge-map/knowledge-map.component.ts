@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { KCMastery } from '../../model/knowledge-component-mastery.model';
 import { KnowledgeComponent } from '../../model/knowledge-component.model';
-
 @Component({
   selector: 'cc-knowledge-map',
   templateUrl: './knowledge-map.component.html',
@@ -11,8 +10,6 @@ export class KnowledgeMapComponent implements OnChanges {
   @Input() knowledgeComponents: KnowledgeComponent[];
   @Input() masteries: KCMastery[];
   nodes: TreeNode[] = [];
- 
-  constructor() {}
 
   ngOnChanges() {
     let rootKc = this.knowledgeComponents.find(kc => !kc.parentId);
@@ -21,7 +18,7 @@ export class KnowledgeMapComponent implements OnChanges {
 
   createNode(kc: KnowledgeComponent): TreeNode {
     let kcm = this.masteries.find(m => m.knowledgeComponentId == kc.id);
-    
+
     let node: TreeNode = {
       id: kc.id,
       name: kc.name,

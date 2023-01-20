@@ -5,6 +5,8 @@ import { TutorImprovementComponent } from './tutor-improvement/tutor-improvement
 import { Unit } from '../model/unit.model';
 import { UnitService } from './unit.service';
 import { KCMastery } from '../model/knowledge-component-mastery.model';
+import {MatIconRegistry} from "@angular/material/icon";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'cc-unit',
@@ -18,8 +20,13 @@ export class UnitComponent implements OnInit {
   constructor(
     private unitService: UnitService,
     private route: ActivatedRoute,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
+  ) {
+    iconRegistry.addSvgIcon(
+      "medal",
+       sanitizer.bypassSecurityTrustResourceUrl("../../../../assets/icons/medal-svgrepo-com.svg")
+    );
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
