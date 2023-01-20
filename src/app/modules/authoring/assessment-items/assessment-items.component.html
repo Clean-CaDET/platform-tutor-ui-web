@@ -50,6 +50,16 @@
                             <small style="margin-left:39px">{{option.feedback}}</small>
                         </p>
                     </div>
+                    <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+                        <b>Dozvoljeni odgovori:</b>
+                        <p *ngFor="let option of item.acceptableAnswers" fxLayout="row">
+                            <mat-icon>arrow_right</mat-icon>
+                            <span fxLayoutAlign=" center">{{option}}</span>
+                        </p>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,6 +69,9 @@
             </div>
             <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
                 <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+            </div>
+            <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
             </div>
         </div>
     </mat-card>
@@ -71,12 +84,18 @@
             <button mat-raised-button color="primary" (click)="editMap[0] = 'multiResponseQuestion'">
                 + Višestruki izbor, više odgovora
             </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'shortAnswerQuestion'">
+                + Pitanje sa kratkim odgovorom
+            </button>
         </span>
         <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
             <cc-mcq-form [item]="createEmptyItem('multiChoiceQuestion')" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
         </div>
         <div *ngIf="editMap[0] === 'multiResponseQuestion'">
             <cc-mrq-form [item]="createEmptyItem('multiResponseQuestion')" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
+        </div>
+        <div *ngIf="editMap[0] === 'shortAnswerQuestion'">
+            <cc-saq-form [item]="createEmptyItem('shortAnswerQuestion')" (saveChanges)="onCloseForm($event)"></cc-saq-form>
         </div>
     </mat-card>
 </div>

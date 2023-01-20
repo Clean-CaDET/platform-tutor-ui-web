@@ -21,6 +21,7 @@ export class MrqFormComponent implements OnInit {
     
     this.form = this.builder.group({ options: this.builder.array([]) });
     this.workingItem.items?.forEach(item => this.addOption(item));
+    if(this.options.length == 0) this.addOption(null);
   }
 
   get options(): FormArray {

@@ -3,16 +3,12 @@
         [text]="workingItem.text" (textChanged)="updateText($event)">
     </cc-markdown-editor>
     <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
-        <mat-form-field appearance="fill" fxFlex>
-            <mat-label>Tekst tačnog odgovora</mat-label>
-            <input matInput formControlName="correctAnswer">
-        </mat-form-field>
-        <b>Pogrešni odgovori:</b>
+        <b>Dozvoljeni odgovori:</b>
         <div formArrayName="options" fxLayout="column">
             <div *ngFor="let optionForm of options.controls; let i = index">
                 <div [formGroup]="optionForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
                     <mat-form-field appearance="fill" fxFlex>
-                        <mat-label>Tekst</mat-label>
+                        <mat-label>Tražene reči/fraze (ako je nabrajanje razdvojiti zarezom)</mat-label>
                         <input matInput formControlName="text">
                     </mat-form-field>
                     <button mat-icon-button (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
@@ -22,7 +18,7 @@
         <button mat-mini-fab color="primary" (click)="addOption(null)">
             <mat-icon>add</mat-icon>
         </button>
-        <div fxLayoutGap="15px">
+        <div fxLayout="row" fxLayoutGap="15px">
             <mat-form-field appearance="fill" fxFlex>
                 <mat-label>Povratna informacija</mat-label>
                 <input matInput formControlName="feedback">

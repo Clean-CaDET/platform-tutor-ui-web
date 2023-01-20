@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
-import { MultipleChoiceQuestion } from '../model/mcq.model';
+import { ShortAnswerQuestion } from '../model/saq.model';
 
 @Component({
-  selector: 'cc-mcq-form',
-  templateUrl: './mcq-form.component.html',
-  styleUrls: ['./mcq-form.component.scss']
+  selector: 'cc-saq-form',
+  templateUrl: './saq-form.component.html',
+  styleUrls: ['./saq-form.component.scss']
 })
-export class McqFormComponent implements OnInit {
-  @Input() item: MultipleChoiceQuestion;
-  workingItem: MultipleChoiceQuestion;
-  @Output() saveChanges = new EventEmitter<MultipleChoiceQuestion>();
+export class SaqFormComponent implements OnInit {
+  @Input() item: ShortAnswerQuestion;
+  workingItem: ShortAnswerQuestion;
+  @Output() saveChanges = new EventEmitter<ShortAnswerQuestion>();
 
   form: FormGroup
 
@@ -20,12 +20,10 @@ export class McqFormComponent implements OnInit {
     this.workingItem = JSON.parse(JSON.stringify(this.item));
     
     this.form = this.builder.group({
-      correctAnswer: [this.item.correctAnswer ? this.item.correctAnswer : '', Validators.required],
       feedback: [this.item.feedback ? this.item.feedback : '', Validators.required],
       options: this.builder.array([])
     });
-    this.workingItem.possibleAnswers?.filter(i => i !== this.item.correctAnswer)
-      .forEach(item => this.addOption(item));
+    this.workingItem.acceptableAnswers?.forEach(item => this.addOption(item));
     if(this.options.length == 0) this.addOption(null);
   }
 
@@ -50,10 +48,8 @@ export class McqFormComponent implements OnInit {
   }
 
   save(): void {
-    this.workingItem.correctAnswer = this.form.value['correctAnswer'];
     this.workingItem.feedback = this.form.value['feedback'];
-    this.workingItem.possibleAnswers = this.form.value['options'].map((o: any) => o['text']);
-    this.workingItem.possibleAnswers.unshift(this.form.value['correctAnswer']);
+    this.workingItem.acceptableAnswers = this.form.value['options'].map((o: any) => o['text']);
     this.saveChanges.emit(this.workingItem);
   }
 

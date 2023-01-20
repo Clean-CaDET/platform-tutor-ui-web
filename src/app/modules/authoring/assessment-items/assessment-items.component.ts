@@ -4,7 +4,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
-import { MultipleReponseQuestion } from './model/mrq.model';
 
 @Component({
   selector: 'cc-assessment-items',
