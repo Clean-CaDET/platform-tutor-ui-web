@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z5" multiTemplateDataRows>
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z2" multiTemplateDataRows>
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef width="60%"> Veština</th>
     <td mat-cell *matCellDef="let element" width="60%"><b>{{element.kcCode}} : {{element.kcName}}</b></td>
@@ -39,22 +39,15 @@
           <div *ngFor="let am of element.assessmentItemMasteries" fxFlex="25">
             <div fxLayout="column" fxFill class="border">
               <div>
-                <b>Zadatak: {{am.assessmentItemId}} </b>
+                <b>Zadatak: {{am.assessmentItemId}}</b>
               </div>
               <p>
                 Broj datih odgovora: {{am.submissionCount}}<br>
                 <span [hidden]="am.submissionCount === 0">
-                            Najviša tačnost: {{(am.mastery * 100).toFixed(0)}}%<br>
-                            Vreme poslednjeg odgovora: {{am.lastSubmissionTime | date:'short'}}
-                        </span>
+                  Najviša tačnost: {{(am.mastery * 100).toFixed(0)}}%<br>
+                  Vreme poslednjeg odgovora: {{am.lastSubmissionTime | date:'short'}}
+                </span>
               </p>
-              <div fxFlex></div>
-              <div>
-                <button fxFlex="80%" mat-raised-button color="primary"
-                        (click)="loadAssessmentEvent(am.assessmentItemId)">Učitaj zadatak
-                </button>
-              </div>
-              <br>
             </div>
           </div>
         </div>

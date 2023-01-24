@@ -8,11 +8,11 @@ import { GroupMonitoringService } from './group-monitoring.service';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
-  selector: 'cc-kcm-progress',
-  templateUrl: './kcm-progress.component.html',
-  styleUrls: ['./kcm-progress.component.scss'],
+  selector: 'cc-group-monitoring',
+  templateUrl: './group-monitoring.component.html',
+  styleUrls: ['./group-monitoring.component.scss'],
 })
-export class KcmProgressComponent implements OnInit {
+export class GroupMonitoringComponent implements OnInit {
   progress: LearnerProgress[] = [];
   count: number;
   page = 1;

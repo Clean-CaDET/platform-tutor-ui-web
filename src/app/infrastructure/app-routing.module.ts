@@ -6,7 +6,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { UnitComponent } from '../modules/learning/unit/unit.component';
 import { KnowledgeComponentComponent } from '../modules/learning/knowledge-component/knowledge-component.component';
 import { CourseComponent } from '../modules/learning/course/course.component';
-import { KcmProgressComponent } from '../modules/group-monitoring/kcm-progress/kcm-progress.component';
+import { GroupMonitoringComponent } from '../modules/monitoring/group-monitoring/group-monitoring.component';
 import { LearnersComponent } from '../modules/management/stakeholders/learners/learners.component';
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
 import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
@@ -49,8 +49,8 @@ const routes: Routes = [
     data: { role: 'instructor' },
   },
   {
-    path: 'course/:courseId/learner-progress',
-    component: KcmProgressComponent,
+    path: 'monitoring/:courseId/progress',
+    component: GroupMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
   },

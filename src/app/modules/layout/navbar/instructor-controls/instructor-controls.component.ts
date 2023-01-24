@@ -72,7 +72,7 @@ export class InstructorControlsComponent implements OnInit {
   }
 
   private getActiveUrl(e: any) {
-    if (e.url.includes('learner-progress')) {
+    if (e.url.includes('monitoring')) {
       this.selectedControl = 'groups';
     }
     if (e.url.includes('authoring')) {

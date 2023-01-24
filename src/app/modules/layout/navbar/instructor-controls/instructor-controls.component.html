@@ -3,7 +3,7 @@
   {{ selectedCourse ? selectedCourse.code : 'Odaberi kurs'}}
 </button>
 <mat-menu #course="matMenu">
-  <button [routerLink]="['/course', course.id, 'learner-progress']" *ngFor="let course of courses" mat-menu-item>
+  <button [routerLink]="['/monitoring', course.id, 'progress']" *ngFor="let course of courses" mat-menu-item>
     {{course.code}}
   </button>
 </mat-menu>
@@ -19,7 +19,7 @@
     Analitike
   </button>
   <button mat-flat-button [color]="selectedControl === 'groups' ? 'accent' : 'primary'" class="controls"
-    [routerLink]="['/course', selectedCourse.id, 'learner-progress']">
+    [routerLink]="['/monitoring', selectedCourse.id, 'progress']">
     <mat-icon>groups</mat-icon><br>
     Grupe
   </button>

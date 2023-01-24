@@ -1,14 +1,15 @@
-<mat-card class="mat-elevation-z2 margin">
+<div class="margin">
     <mat-accordion>
     <mat-expansion-panel hideToggle>
-        <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'">
+        <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" style="padding: 10px">
         <mat-panel-title>
-            <mat-card-title>{{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}<br>{{learnerProgress.learner.index}}</mat-card-title>
+            <b>{{learnerProgress.learner.index}} {{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}</b>
         </mat-panel-title>
         <mat-panel-description>
+            <div fxFlex></div>
             <div>
-            <div class="progress">{{kcNum}} / {{satisfiedNum}} / {{suspiciousNum}}</div>
-            <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
+                <div class="progress">{{kcNum}} / {{satisfiedNum}} / {{suspiciousNum}}</div>
+                <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
             </div>
         </mat-panel-description>
         </mat-expansion-panel-header>
@@ -19,4 +20,4 @@
         </cc-assessments-table>
     </mat-expansion-panel>
     </mat-accordion>
-</mat-card>
+</div>
