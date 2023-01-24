@@ -1,7 +1,10 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress.model';
-import {LearnerProgress} from '../../model/learner-progress.model';
-import {KnowledgeComponent} from '../../../learning/model/knowledge-component.model';
+import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
+import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
+import { LearnerProgress } from '../../model/learner-progress.model';
+import { GroupMonitoringService } from '../group-monitoring.service';
+import { Course } from 'src/app/modules/learning/model/course.model';
 
 @Component({
   selector: 'cc-learner-progress',
@@ -9,58 +12,53 @@ import {KnowledgeComponent} from '../../../learning/model/knowledge-component.mo
   styleUrls: ['./learner-progress.component.scss'],
 })
 export class LearnerProgressComponent implements OnChanges {
-  @Input() learnerProgress: LearnerProgress;
-  @Input() kcs: KnowledgeComponent[] = [];
+  @Input() learners: Learner[];
+  @Input() course: Course;
+  @Input() unitId: number;
+  knowledgeComponents: KnowledgeComponent[];
+  progresses: LearnerProgress[] = [];
 
   kcNum = 0;
   satisfiedNum = 0;
   suspiciousNum = 0;
-  filteredLearnerProgress: KnowledgeComponentProgress[];
 
-  constructor() {}
+  progressBarActive = false;
+
+  constructor(private monitoringService: GroupMonitoringService) {}
 
   ngOnChanges(): void {
-    this.calculateProgress();
+    if(this.unitId) {
+      this.knowledgeComponents = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId).knowledgeComponents;
+      this.calculateProgress();
+    }
   }
 
   calculateProgress(): void {
-    this.filteredLearnerProgress = this.filterKc();
-    this.kcNum = this.filteredLearnerProgress.length;
-    this.satisfiedNum = this.calculateSatisfiedKc();
-    this.suspiciousNum = this.calculateSuspiciousKc();
-  }
-
-  filterKc(): KnowledgeComponentProgress[] {
-    const filteredKnowledgeComponentProgress: KnowledgeComponentProgress[] = [];
-    this.learnerProgress.knowledgeComponentProgress.forEach(kcp => {
-      this.kcs.forEach(kc => {
-        if (kcp.knowledgeComponentId === kc.id) {
-          filteredKnowledgeComponentProgress.push(kcp);
-        }
+    this.progressBarActive = true;
+    this.monitoringService.getProgress(this.course.id, this.unitId, this.learners.map(l => l.id))
+      .subscribe(allProgress => {
+        this.progresses = [];
+        this.learners.forEach(learner => {
+          let learnerKcProgress = allProgress.filter(p => p.learnerId === learner.id);
+          this.progresses.push({
+            learner,
+            knowledgeComponentProgress: learnerKcProgress,
+            kcCount: learnerKcProgress.length,
+            satisfiedCount: learnerKcProgress.filter(p => p.statistics.isSatisfied).length,
+            suspiciousCount: this.countSuspiciousKcs(learnerKcProgress)
+          });
+        });
+        this.progressBarActive = false;
       });
-    });
-    return filteredKnowledgeComponentProgress;
   }
 
-  calculateSatisfiedKc(): number {
-    let satisfied = 0;
-    this.filteredLearnerProgress.forEach(p => {
-      if (p.statistics.isSatisfied) {
-        satisfied++;
-      }
-    });
-    return satisfied;
-  }
-
-  calculateSuspiciousKc(): number {
+  private countSuspiciousKcs(knowledgeComponentProgress: KnowledgeComponentProgress[]): number {
     let suspiciousNum = 0;
-    this.filteredLearnerProgress.forEach(p => {
-      this.kcs.forEach(kc => {
-        if (p.knowledgeComponentId === kc.id && p.statistics.isSatisfied === true
-          && p.durationOfAllSessionsInMinutes < kc.expectedDurationInMinutes) {
-          suspiciousNum++;
-        }
-      });
+    knowledgeComponentProgress.forEach(p => {
+      let kc = this.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
+      if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes < kc.expectedDurationInMinutes) {
+        suspiciousNum++;
+      }
     });
     return suspiciousNum;
   }

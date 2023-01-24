@@ -4,7 +4,7 @@
     <div fxLayoutGap="20px">
       <mat-form-field appearance="fill">
           <mat-label>Lekcije</mat-label>
-          <mat-select [(value)]="unitId">
+          <mat-select [(value)]="selectedUnitId">
               <mat-option *ngFor="let unit of units" [value]="unit.id">
                 {{unit.name}}
               </mat-option>
@@ -12,7 +12,7 @@
       </mat-form-field>
       <mat-form-field appearance="fill">
           <mat-label>Grupa</mat-label>
-          <mat-select [(value)]="groupId" (selectionChange)="getLearnerProgress()">
+          <mat-select [(value)]="selectedGroupId" (selectionChange)="getLearners()">
               <mat-option value="0">Sve</mat-option>
               <mat-option *ngFor="let group of groups" [value]="group.id">
                 {{group.name}}
@@ -25,13 +25,5 @@
     </mat-paginator>
   </mat-card>
       
-  <mat-progress-bar class="progress-bar" mode="indeterminate" 
-    *ngIf="progressBarActive">
-  </mat-progress-bar>
-
-  <div fxLayout="row wrap">
-    <cc-learner-progress fxFlex="50" *ngFor="let learnerProgress of progress"
-      [kcs]="getKcs()" [learnerProgress]="learnerProgress">
-    </cc-learner-progress>
-  </div>
+  <cc-learner-progress [unitId]="selectedUnitId" [learners]="learners" [course]="course"></cc-learner-progress>
 </div>
