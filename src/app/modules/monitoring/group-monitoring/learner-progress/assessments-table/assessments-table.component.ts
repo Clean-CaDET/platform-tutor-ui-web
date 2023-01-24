@@ -38,7 +38,6 @@ interface AssessmentTableElement {
 export class AssessmentsTableComponent implements OnChanges {
   @Input() knowledgeComponentProgresses: KnowledgeComponentProgress[];
   @Input() kcs: KnowledgeComponent[];
-  @Input() kcUnitId: number;
   dataSource: MatTableDataSource<AssessmentTableElement>;
   displayedColumns: string[] = [
     'name',

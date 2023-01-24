@@ -13,10 +13,7 @@
             </div>
         </mat-panel-description>
         </mat-expansion-panel-header>
-        <cc-assessments-table
-            [knowledgeComponentProgresses]="filteredLearnerProgress"
-            [kcs]="kcs"
-            [kcUnitId]="unitId">
+        <cc-assessments-table [knowledgeComponentProgresses]="filteredLearnerProgress" [kcs]="kcs">
         </cc-assessments-table>
     </mat-expansion-panel>
     </mat-accordion>

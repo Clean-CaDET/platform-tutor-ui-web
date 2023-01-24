@@ -30,12 +30,8 @@
   </mat-progress-bar>
 
   <div fxLayout="row wrap">
-    <cc-learner-progress
-      fxFlex="50"
-      *ngFor="let learnerProgress of progress"
-      [unitId]="unitId"
-      [course]="course"
-      [learnerProgress]="learnerProgress">
+    <cc-learner-progress fxFlex="50" *ngFor="let learnerProgress of progress"
+      [kcs]="getKcs()" [learnerProgress]="learnerProgress">
     </cc-learner-progress>
   </div>
 </div>

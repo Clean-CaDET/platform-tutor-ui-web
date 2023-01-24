@@ -1,7 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress.model';
-import {Unit} from '../../../learning/model/unit.model';
-import {Course} from '../../../learning/model/course.model';
 import {LearnerProgress} from '../../model/learner-progress.model';
 import {KnowledgeComponent} from '../../../learning/model/knowledge-component.model';
 
@@ -11,16 +9,13 @@ import {KnowledgeComponent} from '../../../learning/model/knowledge-component.mo
   styleUrls: ['./learner-progress.component.scss'],
 })
 export class LearnerProgressComponent implements OnChanges {
-  @Input() unitId = 0;
   @Input() learnerProgress: LearnerProgress;
-  @Input() course: Course;
+  @Input() kcs: KnowledgeComponent[] = [];
 
-  kcs: KnowledgeComponent[] = [];
   kcNum = 0;
   satisfiedNum = 0;
   suspiciousNum = 0;
   filteredLearnerProgress: KnowledgeComponentProgress[];
-  unit: Unit;
 
   constructor() {}
 
@@ -29,8 +24,6 @@ export class LearnerProgressComponent implements OnChanges {
   }
 
   calculateProgress(): void {
-    const knowledgeUnit: Unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
-    this.kcs = knowledgeUnit.knowledgeComponents;
     this.filteredLearnerProgress = this.filterKc();
     this.kcNum = this.filteredLearnerProgress.length;
     this.satisfiedNum = this.calculateSatisfiedKc();

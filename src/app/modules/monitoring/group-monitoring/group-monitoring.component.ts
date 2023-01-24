@@ -6,6 +6,7 @@ import { Course } from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
 import { PageEvent } from '@angular/material/paginator';
+import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -72,5 +73,10 @@ export class GroupMonitoringComponent implements OnInit {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getLearnerProgress();
+  }
+
+  getKcs(): KnowledgeComponent[] {
+    let unit = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId);
+    return unit.knowledgeComponents;
   }
 }
