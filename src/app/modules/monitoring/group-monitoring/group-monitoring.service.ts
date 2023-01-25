@@ -14,21 +14,18 @@ import { KnowledgeComponentProgress } from '../model/knowledge-component-progres
 export class GroupMonitoringService {
   constructor(private http: HttpClient) {}
 
-  private baseUrl(courseId: number) {
-    return environment.apiHost + `monitoring/${courseId}/`;
-  }
-
   getCourse(courseId: number): Observable<Course> {
     return this.http.get<Course>(environment.apiHost + 'owned-courses/' + courseId);
   }
 
   getGroups(courseId: number): Observable<LearnerGroup[]> {
-    return this.http.get<LearnerGroup[]>(this.baseUrl(courseId));
+    return this.http.get<LearnerGroup[]>(environment.apiHost + `monitoring/${courseId}/groups`);
   }
 
   getLearners(page: number, pageSize: number, groupId: number, courseId: number): Observable<PagedResults<Learner>> {
     const baseParams = this.createParams(page, pageSize);
-    return this.http.get<PagedResults<Learner>>(this.baseUrl(courseId)+`groups/${groupId}`, baseParams);
+    return this.http.get<PagedResults<Learner>>
+      (environment.apiHost + `monitoring/${courseId}/groups/${groupId}`, baseParams);
   }
 
   private createParams(page: number, pageSize: number) {
@@ -38,7 +35,8 @@ export class GroupMonitoringService {
     return { params: queryParams };
   }
 
-  getProgress(courseId: number, unitId: number, learnerIds: number[]): Observable<KnowledgeComponentProgress[]> {
-    return this.http.post<KnowledgeComponentProgress[]>(this.baseUrl(courseId)+`progress/${unitId}`, learnerIds);
+  getProgress(unitId: number, learnerIds: number[]): Observable<KnowledgeComponentProgress[]> {
+    return this.http.post<KnowledgeComponentProgress[]>
+      (environment.apiHost + `monitoring/progress/${unitId}`, learnerIds);
   }
 }

@@ -16,7 +16,7 @@ export class GroupMonitoringComponent implements OnInit {
   courseId = 0;
   course: Course;
 
-  selectedUnitId = 0;
+  selectedUnit = 0;
   units: Unit[];
 
   selectedGroupId = 0;
@@ -66,9 +66,5 @@ export class GroupMonitoringComponent implements OnInit {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getLearners();
-  }
-
-  getUnit(id: number): Unit {
-    return this.course.knowledgeUnits.find(u => u.id === id);
   }
 }

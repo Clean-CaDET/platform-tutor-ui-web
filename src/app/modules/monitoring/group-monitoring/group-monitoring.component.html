@@ -4,8 +4,8 @@
     <div fxLayoutGap="15px" fxLayout="row">
       <mat-form-field appearance="fill">
           <mat-label>Lekcija</mat-label>
-          <mat-select [(value)]="selectedUnitId">
-              <mat-option *ngFor="let unit of units" [value]="unit.id">
+          <mat-select [(value)]="selectedUnit">
+              <mat-option *ngFor="let unit of units" [value]="unit">
                 {{unit.name}}
               </mat-option>
           </mat-select>
@@ -33,8 +33,8 @@
     </mat-paginator>
   </mat-card>
       
-  <cc-learner-progress *ngIf="showProgress" [unitId]="selectedUnitId"
-    [learners]="learners" [course]="course"></cc-learner-progress>
-  <cc-enrollment *ngIf="!showProgress" [unit]="getUnit(selectedUnitId)"
+  <cc-learner-progress *ngIf="showProgress" [unit]="selectedUnit"
+    [learners]="learners"></cc-learner-progress>
+  <cc-enrollment *ngIf="!showProgress" [unit]="selectedUnit"
     [learners]="learners"></cc-enrollment>
 </div>

@@ -1,10 +1,9 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress.model';
 import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
-import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
 import { LearnerProgress } from '../../model/learner-progress.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
-import { Course } from 'src/app/modules/learning/model/course.model';
+import { Unit } from 'src/app/modules/learning/model/unit.model';
 
 @Component({
   selector: 'cc-learner-progress',
@@ -13,9 +12,7 @@ import { Course } from 'src/app/modules/learning/model/course.model';
 })
 export class LearnerProgressComponent implements OnChanges {
   @Input() learners: Learner[];
-  @Input() course: Course;
-  @Input() unitId: number;
-  knowledgeComponents: KnowledgeComponent[];
+  @Input() unit: Unit;
   progresses: LearnerProgress[] = [];
 
   kcNum = 0;
@@ -27,15 +24,14 @@ export class LearnerProgressComponent implements OnChanges {
   constructor(private monitoringService: GroupMonitoringService) {}
 
   ngOnChanges(): void {
-    if(this.unitId) {
-      this.knowledgeComponents = this.course.knowledgeUnits.find((ku) => ku.id === this.unitId).knowledgeComponents;
+    if(this.unit) {
       this.calculateProgress();
     }
   }
 
   calculateProgress(): void {
     this.progressBarActive = true;
-    this.monitoringService.getProgress(this.course.id, this.unitId, this.learners.map(l => l.id))
+    this.monitoringService.getProgress(this.unit.id, this.learners.map(l => l.id))
       .subscribe(allProgress => {
         this.progresses = [];
         this.learners.forEach(learner => {
@@ -55,7 +51,7 @@ export class LearnerProgressComponent implements OnChanges {
   private countSuspiciousKcs(knowledgeComponentProgress: KnowledgeComponentProgress[]): number {
     let suspiciousNum = 0;
     knowledgeComponentProgress.forEach(p => {
-      let kc = this.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
+      let kc = this.unit.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
       if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes < kc.expectedDurationInMinutes) {
         suspiciousNum++;
       }
