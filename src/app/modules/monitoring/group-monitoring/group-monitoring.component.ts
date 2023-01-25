@@ -5,7 +5,6 @@ import { Course } from '../../learning/model/course.model';
 import { LearnerGroup } from '../../learning/model/learner-group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
 import { PageEvent } from '@angular/material/paginator';
-import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { Learner } from '../../knowledge-analytics/model/learner.model';
 
 @Component({
@@ -27,6 +26,8 @@ export class GroupMonitoringComponent implements OnInit {
   count: number;
   page = 1;
   pageSize = 20;
+
+  showProgress = true;
 
   constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService) {}
 
@@ -65,5 +66,9 @@ export class GroupMonitoringComponent implements OnInit {
     this.page = paginator.pageIndex + 1;
     this.pageSize = paginator.pageSize;
     this.getLearners();
+  }
+
+  getUnit(id: number): Unit {
+    return this.course.knowledgeUnits.find(u => u.id === id);
   }
 }

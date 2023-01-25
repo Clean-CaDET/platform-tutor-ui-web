@@ -1,1 +1,31 @@
-<p>enrollment works!</p>
+<mat-progress-bar style="margin: 10px" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
+<div fxLayout="row" style="margin: 15px 26px 10px 26px" fxLayoutAlign=" center" *ngIf="unit && isAnyUnenrolled">
+    <b>{{unit.code}}</b>: {{unit.name}}
+    <span fxFlex></span>
+    <button mat-mini-fab (click)="enrollAll()" color="primary">
+        <mat-icon matTooltip="Omogući pristup prikazanim učenicima" [matTooltipPosition]="'below'"
+            [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">library_add</mat-icon>
+    </button>
+</div>
+<div fxLayout="row wrap">
+    <div fxFlex="50" *ngFor="let learnerEnrollment of enrollments">
+        <mat-card style="margin: 10px" fxLayoutGap="10px" fxLayout="row">
+            <b>{{learnerEnrollment.learner.index}} {{learnerEnrollment.learner.name}} {{learnerEnrollment.learner.surname}}</b>
+            <span fxFlex></span>
+            <div *ngIf="learnerEnrollment.enrollment" fxLayoutAlign=" center" fxLayoutGap="15px">
+                <small>
+                    Status: {{learnerEnrollment.enrollment.status}}<br>
+                    Započeto: {{learnerEnrollment.enrollment.start | date: 'short'}}
+                </small>
+                <button mat-mini-fab (click)="unenroll(learnerEnrollment.learner.id)" color="warn">
+                    <mat-icon matTooltip="Ukloni pristup lekciji" [matTooltipPosition]="'above'"
+                        [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">stop</mat-icon>
+                </button>
+            </div>
+            <button *ngIf="!learnerEnrollment.enrollment" mat-mini-fab (click)="enroll(learnerEnrollment.learner.id)" color="primary">
+                <mat-icon matTooltip="Omogući pristup lekciji" [matTooltipPosition]="'above'"
+                    [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">play_arrow</mat-icon>
+            </button>
+        </mat-card>
+    </div>
+</div>

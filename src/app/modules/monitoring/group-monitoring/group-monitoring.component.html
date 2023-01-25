@@ -1,9 +1,9 @@
 <div>
   <mat-card fxLayout="row" fxLayoutAlign="space-between"
     class="mat-elevation-z5 sticky">
-    <div fxLayoutGap="20px">
+    <div fxLayoutGap="15px" fxLayout="row">
       <mat-form-field appearance="fill">
-          <mat-label>Lekcije</mat-label>
+          <mat-label>Lekcija</mat-label>
           <mat-select [(value)]="selectedUnitId">
               <mat-option *ngFor="let unit of units" [value]="unit.id">
                 {{unit.name}}
@@ -19,11 +19,22 @@
               </mat-option>
           </mat-select>
       </mat-form-field>
+      <div fxLayout="row" fxLayoutGap="10px">
+        <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'accent' : 'primary'" (click)="showProgress = true">
+            Napredak
+        </button>
+        <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'primary' : 'accent'" (click)="showProgress = false">
+            Pristup
+        </button>
+      </div>
     </div>
     <mat-paginator (page)="changePage($event)" [length]="count"
                    [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>
       
-  <cc-learner-progress [unitId]="selectedUnitId" [learners]="learners" [course]="course"></cc-learner-progress>
+  <cc-learner-progress *ngIf="showProgress" [unitId]="selectedUnitId"
+    [learners]="learners" [course]="course"></cc-learner-progress>
+  <cc-enrollment *ngIf="!showProgress" [unit]="getUnit(selectedUnitId)"
+    [learners]="learners"></cc-enrollment>
 </div>

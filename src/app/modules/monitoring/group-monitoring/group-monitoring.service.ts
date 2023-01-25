@@ -38,7 +38,7 @@ export class GroupMonitoringService {
     return { params: queryParams };
   }
 
-  getProgress(courseId: number, unitId: number, learnerIds: number[]) {
+  getProgress(courseId: number, unitId: number, learnerIds: number[]): Observable<KnowledgeComponentProgress[]> {
     let params = new HttpParams()
     for(let i = 0; i < learnerIds.length; i++) {
       params = params.set('learnerIds['+i+']', learnerIds[i]);
