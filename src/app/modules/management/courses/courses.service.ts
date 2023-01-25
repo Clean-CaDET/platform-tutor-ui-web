@@ -25,12 +25,9 @@ export class CoursesService {
     return this.http.delete(this.baseUrl + courseId + "/owners/" + instructorId);
   }
 
-  // Should be moved/merged to LearnersService?
   getLearners(indexes: string[]): Observable<PagedResults<StakeholderAccount>> {
-    let params = new HttpParams()
-    for(let i = 0; i < indexes.length; i++) {
-      params = params.set('indexes['+i+']', indexes[i]);
-    }
-    return this.http.get<PagedResults<StakeholderAccount>>(environment.apiHost + 'management/learners', {params});
+    // Should be moved/merged to LearnersService?
+    // Post because of potential URL length limit violation with query params
+    return this.http.post<PagedResults<StakeholderAccount>>(environment.apiHost + 'management/learners/selected', indexes);
   }
 }

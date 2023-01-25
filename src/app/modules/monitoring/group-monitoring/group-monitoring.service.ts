@@ -39,10 +39,6 @@ export class GroupMonitoringService {
   }
 
   getProgress(courseId: number, unitId: number, learnerIds: number[]): Observable<KnowledgeComponentProgress[]> {
-    let params = new HttpParams()
-    for(let i = 0; i < learnerIds.length; i++) {
-      params = params.set('learnerIds['+i+']', learnerIds[i]);
-    }
-    return this.http.get<KnowledgeComponentProgress[]>(this.baseUrl(courseId)+`progress/${unitId}`, {params});
+    return this.http.post<KnowledgeComponentProgress[]>(this.baseUrl(courseId)+`progress/${unitId}`, learnerIds);
   }
 }
