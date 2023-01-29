@@ -37,7 +37,7 @@ export abstract class CrudService<T extends Entity> {
   }
 
   archive(baseUrl: string, id: number, archive: boolean) {
-    return this.http.put(baseUrl + id + "/archive", archive);
+    return this.http.patch(baseUrl + id + "/archive", archive);
   }
 
   delete(baseUrl: string, id: number): Observable<any> {
