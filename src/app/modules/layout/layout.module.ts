@@ -13,6 +13,7 @@ import { InstructorControlsComponent } from './navbar/instructor-controls/instru
 import { LearnerControlsComponent } from './navbar/learner-controls/learner-controls.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { DashboardComponent } from './home/dashboard/dashboard.component';
+import { AdminControlsComponent } from './navbar/admin-controls/admin-controls.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { DashboardComponent } from './home/dashboard/dashboard.component';
     InstructorControlsComponent,
     CourseCardComponent,
     DashboardComponent,
+    AdminControlsComponent,
   ],
   imports: [
     CommonModule,
