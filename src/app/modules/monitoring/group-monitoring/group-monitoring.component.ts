@@ -16,7 +16,7 @@ export class GroupMonitoringComponent implements OnInit {
   courseId = 0;
   course: Course;
 
-  selectedUnit = 0;
+  selectedUnit: Unit;
   units: Unit[];
 
   selectedGroupId = 0;
@@ -34,6 +34,7 @@ export class GroupMonitoringComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
+      this.selectedUnit = null;
       this.getLearnerGroups();
       this.getCourse();
     });

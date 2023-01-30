@@ -21,6 +21,7 @@ export class EnrollmentComponent implements OnChanges {
   constructor(private enrollmentService: EnrollmentService) {}
 
   ngOnChanges(): void {
+    this.enrollments = [];
     if(this.unit?.id) {
       this.getEnrollments();
     }
@@ -30,7 +31,6 @@ export class EnrollmentComponent implements OnChanges {
     this.progressBarActive = true;
     this.enrollmentService.getEnrollments(this.unit.id, this.learners.map(l => l.id))
       .subscribe(unitEnrollments => {
-        this.enrollments = [];
         this.learners.forEach(learner => {
           let enrollment = unitEnrollments.find(e => e.learnerId === learner.id);
           this.enrollments.push({

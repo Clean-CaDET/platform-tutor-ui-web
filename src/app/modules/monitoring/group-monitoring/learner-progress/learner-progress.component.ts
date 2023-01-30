@@ -24,6 +24,7 @@ export class LearnerProgressComponent implements OnChanges {
   constructor(private monitoringService: GroupMonitoringService) {}
 
   ngOnChanges(): void {
+    this.progresses = [];
     if(this.unit) {
       this.calculateProgress();
     }
@@ -33,7 +34,6 @@ export class LearnerProgressComponent implements OnChanges {
     this.progressBarActive = true;
     this.monitoringService.getProgress(this.unit.id, this.learners.map(l => l.id))
       .subscribe(allProgress => {
-        this.progresses = [];
         this.learners.forEach(learner => {
           let learnerKcProgress = allProgress.filter(p => p.learnerId === learner.id);
           this.progresses.push({
