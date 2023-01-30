@@ -18,13 +18,13 @@
                 <span fxFlex="8"></span>
                 <span fxLayoutGap="10px" fxLayout="row">
                     <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="primary" tabindex="50">
-                        <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+                        <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                     </button>
                     <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="51">
-                        <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">check</mat-icon>
+                        <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                     </button>
                     <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn" tabindex="52">
-                        <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">clear</mat-icon>
+                        <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                     </button>
                 </span>
                 <span fxFlex="40"></span>

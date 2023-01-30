@@ -13,7 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatTooltipDefaultOptions, MatTooltipModule, MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
@@ -26,6 +26,13 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
+
+export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
+  showDelay: 300,
+  hideDelay: 0,
+  touchendHideDelay: 1500,
+  disableTooltipInteractivity:true 
+};
 
 @NgModule({
   imports: [
@@ -90,5 +97,8 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDividerModule,
     ScrollingModule
   ],
+  providers: [
+    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }
+  ]
 })
 export class MaterialModule {}

@@ -1,3 +1,4 @@
+<h3>{{label}}</h3>
 <form [formGroup]="formGroup" fxLayout="column">
   <div fxFlex *ngFor="let field of fieldConfiguration">
     <mat-form-field appearance="fill" *ngIf="field.type === 'email'" fxFlex>

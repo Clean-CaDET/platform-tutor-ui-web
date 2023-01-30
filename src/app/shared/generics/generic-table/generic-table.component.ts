@@ -20,7 +20,7 @@ export class GenericTableComponent implements OnChanges {
 
   @Input() fieldConfiguration: Field[];
   columns: string[];
-  crud: any;
+  crud: Field;
 
   @Input() pageProperties = {
      page: 0,
@@ -69,44 +69,56 @@ export class GenericTableComponent implements OnChanges {
   }
 
   onCreate(): void {
-    const dialogRef = this.openDialog({});
+    const dialogRef = this.openDialog({}, "Dodavanje");
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.create(this.baseUrl, result).subscribe(response => {
+      this.httpService.create(this.baseUrl, result).subscribe(() => {
         this.getPagedEntities();
       });
     });
   }
 
   onBulkCreate(): void {
-    const bulkCreateDialogComponent = this.crud?.bulkCreateDialogComponent;
+    const bulkCreateDialogComponent = this.crud?.crud.bulkCreateDialogComponent;
     if(!bulkCreateDialogComponent) return;
 
     const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '600px', width: '900px'});
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.bulkCreate(this.baseUrl, result).subscribe(response => {
+      this.httpService.bulkCreate(this.baseUrl, result).subscribe(() => {
+        this.getPagedEntities();
+      });
+    });
+  }
+
+  onClone(id: number): void {
+    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "Kloniranje");
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      delete result.id;
+      this.httpService.clone(this.baseUrl, id, result).subscribe(() => {
         this.getPagedEntities();
       });
     });
   }
 
   onEdit(id: number): void {
-    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id));
+    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "Izmena");
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.update(this.baseUrl, result).subscribe((response) => {
+      this.httpService.update(this.baseUrl, result).subscribe(response => {
         this.dataSource = new MatTableDataSource(this.dataSource.data.map(e => e.id !== id ? e : response));
       });
     });
   }
 
-  private openDialog(entity: any) {
+  private openDialog(entity: any, label: string) {
     return this.dialog.open(GenericFormComponent, {
-      data: {entity: entity, fieldConfiguration: this.fieldConfiguration},
+      data: {entity, fieldConfiguration: this.fieldConfiguration, label},
     });
   }
 

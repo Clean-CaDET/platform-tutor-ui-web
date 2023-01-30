@@ -1,12 +1,12 @@
 <div fxFlex fxLayout="row" fxLayoutGap="20px">
     <cc-generic-table
-        fxFlex="32"
+        fxFlex="40"
         [title]="'Kursevi'"
         [fieldConfiguration]="fields"
         [baseUrl]="baseUrl"
         (selectItem)="onSelect($event)">
     </cc-generic-table>
-    <div fxLayout="column" fxFlex="32" *ngIf="selectedCourse" fxLayoutGap="20px">
+    <div fxLayout="column" fxFlex="28" *ngIf="selectedCourse" fxLayoutGap="20px">
         <div>
             <cc-generic-table
                 [title]="'Grupe (' + selectedCourse.code + ')'"
@@ -20,7 +20,7 @@
             <cc-owners [course]="selectedCourse" [allInstructors]="allInstructors"></cc-owners>
         </div>
     </div>
-    <div fxFlex="32" *ngIf="selectedGroup">
+    <div fxFlex="28" *ngIf="selectedGroup">
         <cc-enrolled-learners [group]="selectedGroup"></cc-enrolled-learners>
     </div>
 </div>

@@ -43,10 +43,10 @@ export class UnitComponent implements OnInit {
   }
 
   calcKcs(): number {
-    return this.masteries.length;
+    return this.masteries?.length;
   }
 
   calcSatisfiedKcs(): number {
-    return this.masteries.filter(m => m.isSatisfied == true).length
+    return this.masteries?.filter(m => m.isSatisfied == true).length
   }
 }

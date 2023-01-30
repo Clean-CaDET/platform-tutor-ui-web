@@ -9,7 +9,7 @@
                     <h3>Lekcije</h3>
                     <span fxFlex></span>
                     <button mat-mini-fab [color]="selectedUnit?.code==='' ? 'accent' : 'primary'" (click)="createUnit()">
-                        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">add</mat-icon>
+                        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                     </button>
                 </mat-card>
             </div>
@@ -20,14 +20,14 @@
                     <span fxLayoutGap="10px" fxLayout="row">
                         <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = false; showKnowledgeComponents = true;"
                             [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : 'primary'">
-                            <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">account_tree</mat-icon>
+                            <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'">account_tree</mat-icon>
                         </button>
                         <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = true; showKnowledgeComponents = false;"
                             [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : 'primary'">
-                            <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">text_snippet</mat-icon>
+                            <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'">text_snippet</mat-icon>
                         </button>
                         <button mat-mini-fab (click)="deleteUnit(unit.id)" color="primary">
-                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">delete</mat-icon>
+                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                         </button>
                     </span>
                 </mat-card>

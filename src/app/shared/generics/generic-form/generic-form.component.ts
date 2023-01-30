@@ -15,6 +15,8 @@ export class GenericFormComponent {
   entity;
   entityCopy;
 
+  label: string;
+
   constructor(private builder: FormBuilder,
     private dialogRef: MatDialogRef<GenericFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -22,6 +24,7 @@ export class GenericFormComponent {
       this.entityCopy = JSON.parse(JSON.stringify(this.entity));
 
       this.fieldConfiguration = data.fieldConfiguration;
+      this.label = data.label;
       this.createForm();
     }
 

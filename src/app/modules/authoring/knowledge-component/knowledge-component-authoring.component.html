@@ -9,15 +9,15 @@
             <span fxLayoutGap="30px" fxLayout="row">
                 <span fxLayoutGap="10px" fxLayout="row">
                     <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId}">
-                        <mat-icon matTooltip="Pregledaj hijerarhiju veština" [matTooltipPosition]="'below'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">account_tree</mat-icon>
+                        <mat-icon matTooltip="Pregledaj hijerarhiju veština" [matTooltipPosition]="'below'">account_tree</mat-icon>
                     </button>
                     <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'knowledge-component', kc.id, 'assessments']">
-                        <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">quiz</mat-icon>
+                        <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">quiz</mat-icon>
                     </button>
                 </span>
                 <span fxLayoutGap="10px" fxLayout="row">
                     <button mat-mini-fab color="primary" (click)="editKc()">
-                        <mat-icon matTooltip="Ažuriraj osnovne podatke" [matTooltipPosition]="'above'" [matTooltipHideDelay]="0" [matTooltipShowDelay]="500">edit</mat-icon>
+                        <mat-icon matTooltip="Ažuriraj osnovne podatke" [matTooltipPosition]="'above'">edit</mat-icon>
                     </button>
                 </span>
             </span>
