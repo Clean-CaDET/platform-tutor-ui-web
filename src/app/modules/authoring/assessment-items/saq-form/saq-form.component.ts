@@ -21,6 +21,7 @@ export class SaqFormComponent implements OnInit {
     
     this.form = this.builder.group({
       feedback: [this.item.feedback ? this.item.feedback : '', Validators.required],
+      tolerance: [this.item.tolerance ? this.item.tolerance : 0, [Validators.required, Validators.min(0)]],
       options: this.builder.array([])
     });
     this.workingItem.acceptableAnswers?.forEach(item => this.addOption(item));
@@ -31,7 +32,7 @@ export class SaqFormComponent implements OnInit {
     return this.form.controls["options"] as FormArray;
   };
 
-  updateText(text: string):void {
+  updateText(text: string): void {
     this.workingItem.text = text;
   }
 
@@ -49,6 +50,7 @@ export class SaqFormComponent implements OnInit {
 
   save(): void {
     this.workingItem.feedback = this.form.value['feedback'];
+    this.workingItem.tolerance = this.form.value['tolerance'];
     this.workingItem.acceptableAnswers = this.form.value['options'].map((o: any) => o['text']);
     this.saveChanges.emit(this.workingItem);
   }

@@ -19,10 +19,17 @@
             <mat-icon>add</mat-icon>
         </button>
         <div fxLayout="row" fxLayoutGap="15px">
-            <mat-form-field appearance="fill" fxFlex>
+            <mat-form-field appearance="fill" fxFlex="70">
                 <mat-label>Povratna informacija</mat-label>
                 <input matInput formControlName="feedback">
             </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Tolerancija slovne greške (broj pogrešenih karaktera)</mat-label>
+                <input type="number" min="0" matInput formControlName="tolerance">
+            </mat-form-field>
+        </div>
+        <div fxLayoutGap="15px">
+            <span fxFlex></span>
             <span fxLayoutGap="10px">
                 <button mat-mini-fab color="primary" (click)="save()">
                   <mat-icon>check</mat-icon>
