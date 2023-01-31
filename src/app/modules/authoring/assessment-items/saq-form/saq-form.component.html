@@ -31,7 +31,7 @@
         <div fxLayoutGap="15px">
             <span fxFlex></span>
             <span fxLayoutGap="10px">
-                <button mat-mini-fab color="primary" (click)="save()">
+                <button mat-mini-fab color="primary" [disabled]="form.invalid || workingItem.text=='' || options.length == 0" (click)="save()">
                   <mat-icon>check</mat-icon>
                 </button>
                 <button mat-mini-fab color="warn" (click)="cancel()">
