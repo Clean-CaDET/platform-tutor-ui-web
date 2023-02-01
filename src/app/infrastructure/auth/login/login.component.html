@@ -1,4 +1,4 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()" fxLayout="column">
+<form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off" fxLayout="column">
   <mat-error *ngIf="hasError" i18n>Korisničko ime ili lozinka nisu ispravni.</mat-error>
   <mat-form-field>
     <mat-label i18n>Korisničko ime</mat-label>

@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutGap="15px">
+    <cc-markdown-editor fxFlex [label]="'Tekst zadatka'" [editMode]="true" [livePreview]="false"
+        [text]="workingItem.text" (textChanged)="updateText($event)">
+    </cc-markdown-editor>
+    <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
+        <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Tekst tačnog odgovora</mat-label>
+            <input matInput formControlName="correctAnswer">
+        </mat-form-field>
+        <b>Pogrešni odgovori:</b>
+        <div formArrayName="options" fxLayout="column">
+            <div *ngFor="let optionForm of options.controls; let i = index">
+                <div [formGroup]="optionForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Tekst</mat-label>
+                        <input matInput formControlName="text">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <button mat-mini-fab color="primary" (click)="addOption(null)">
+            <mat-icon>add</mat-icon>
+        </button>
+        <div>
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Povratna informacija</mat-label>
+                <input matInput formControlName="feedback">
+            </mat-form-field>
+        </div>
+        <div fxLayoutGap="15px">
+            <span fxFlex></span>
+            <span fxLayoutGap="10px">
+                <button mat-mini-fab color="primary" [disabled]="form.invalid || workingItem.text==''" (click)="save()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="cancel()">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>

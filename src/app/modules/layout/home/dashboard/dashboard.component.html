@@ -1,0 +1,13 @@
+<h2 *ngIf="user !== null">Katalog kurseva</h2>
+<div fxLayout="row wrap">
+    <cc-course-card 
+        style="margin: 10px;"
+        fxFlex="45"
+        fxFlex.sm="100"
+        fxFlex.xs="100"
+        *ngFor="let course of courses"
+        [course]="course"
+        [user]="user"
+        >
+    </cc-course-card>
+</div>

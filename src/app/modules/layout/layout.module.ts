@@ -1,21 +1,40 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FlexModule } from '@angular/flex-layout';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+import { MarkdownModule } from 'ngx-markdown';
+import { AppRoutingModule } from 'src/app/infrastructure/app-routing.module';
+import { MaterialModule } from 'src/app/infrastructure/material.module';
+import { LearningModule } from '../learning/learning.module';
+import { CourseCardComponent } from './home/dashboard/course-card/course-card.component';
 import { HomeComponent } from './home/home.component';
-import {RouterModule} from '@angular/router';
-import {MaterialModule} from '../../infrastructure/material.module';
-import {FlexModule} from '@angular/flex-layout';
-import {MarkdownModule} from 'ngx-markdown';
+import { InstructorControlsComponent } from './navbar/instructor-controls/instructor-controls.component';
+import { LearnerControlsComponent } from './navbar/learner-controls/learner-controls.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { DashboardComponent } from './home/dashboard/dashboard.component';
+import { AdminControlsComponent } from './navbar/admin-controls/admin-controls.component';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
+    NavbarComponent,
+    LearnerControlsComponent,
+    InstructorControlsComponent,
+    CourseCardComponent,
+    DashboardComponent,
+    AdminControlsComponent,
   ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        MaterialModule,
-        FlexModule,
-        MarkdownModule
-    ]
+  imports: [
+    CommonModule,
+    BrowserModule,
+    RouterModule,
+    MaterialModule,
+    FlexModule,
+    MarkdownModule,
+    LearningModule,
+    AppRoutingModule,
+  ],
+  exports: [NavbarComponent],
 })
-export class LayoutModule { }
+export class LayoutModule {}

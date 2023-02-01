@@ -1,0 +1,36 @@
+<form [formGroup]="formGroup" fxLayout="column">
+    <section fxLayoutGap="15px">
+        <mat-form-field fxFlex="30" appearance="fill">
+            <mat-label>Kod</mat-label>
+            <input formControlName="code" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="50" appearance="fill">
+            <mat-label>Naziv</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="20" appearance="fill">
+            <mat-label>Redni broj</mat-label>
+            <input formControlName="order" type="number" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex="20" appearance="fill">
+            <mat-label>Minimalno vreme rada (u minutima)</mat-label>
+            <input formControlName="expectedDurationInMinutes" type="number" matInput>
+        </mat-form-field>
+    </section>
+    <section *ngIf="mode === FormMode.AddChild || mode === FormMode.EditChild">
+        <mat-form-field appearance="fill" fxFlex>
+            <mat-label>Roditeljska komponenta</mat-label>
+            <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="parentComponent" [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="presentParent(option)">
+                {{presentParent(option)}}
+            </mat-option>
+            </mat-autocomplete>
+        </mat-form-field>
+    </section>
+    <div fxFlex="column" fxLayoutGap="20px">
+        <button mat-raised-button color="primary" [disabled]="formGroup.invalid || noItemSelected()" (click)="onSubmit()" fxFlex>Sačuvaj</button>
+        <button mat-raised-button (click)="onReset()" fxFlex>Osveži</button>
+        <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+    </div>
+</form>

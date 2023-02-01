@@ -1,0 +1,36 @@
+<mat-card>
+<form fxLayout="column" [formGroup]="courseForm">
+    <section fxLayoutGap="15px">
+        <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Kod</mat-label>
+            <input formControlName="code" matInput [readonly]="!editMode">
+        </mat-form-field>
+        <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Naziv</mat-label>
+            <input formControlName="name" matInput [readonly]="!editMode">
+        </mat-form-field>
+        <span fxFlex></span>
+        <section fxLayout="column">
+            <span fxFlex="8"></span>
+            <span fxLayoutGap="10px">
+                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="primary">
+                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="courseForm.invalid">
+                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
+                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                </button>
+            </span>
+            <span fxFlex="40"></span>
+        </section>
+    </section>
+    <section>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput [readonly]="!editMode"></textarea>
+        </mat-form-field>
+    </section>
+</form>
+</mat-card>

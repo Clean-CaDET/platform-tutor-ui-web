@@ -1,41 +1,44 @@
-@use '@angular/material' as mat;
-@use './src/app/modules/domain/knowledge-map/knowledge-map.component-theme' as knowledge-map;
-@use './src/app/modules/domain/submission-result/submission-result.component-theme' as submission-result;
-@use './src/app/modules/learner-analytics/assessments-table/assessments-table.component-theme' as assessments-table;
+@use "@angular/material" as mat;
+@use "./src/app/modules/learning/unit/knowledge-map/knowledge-map.component-theme"
+  as knowledge-map;
+@use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
+  as submission-result;
+@use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
+  as assessments-table;
 
 @include mat.core();
 
 $cc-palette: (
-  50 : #262626,
-  100 : #b3bcc7,
-  200 : #818fa1,
-  300 : #4f627b,
-  400 : #29405f,
-  500 : #031e43,
-  600 : #031a3d,
-  700 : #021634,
-  800 : #02122c,
-  900 : #010a1e,
-  A100 : #5b78ff,
-  A200 : #284eff,
-  A400 : #002bf4,
-  A700 : #0027da,
+  50: #262626,
+  100: #b3bcc7,
+  200: #818fa1,
+  300: #4f627b,
+  400: #29405f,
+  500: #031e43,
+  600: #031a3d,
+  700: #021634,
+  800: #02122c,
+  900: #010a1e,
+  A100: #5b78ff,
+  A200: #284eff,
+  A400: #002bf4,
+  A700: #0027da,
   contrast: (
-    50 : #000000,
-    100 : #000000,
-    200 : #000000,
-    300 : #ffffff,
-    400 : #ffffff,
-    500 : #ffffff,
-    600 : #ffffff,
-    700 : #ffffff,
-    800 : #ffffff,
-    900 : #ffffff,
-    A100 : #ffffff,
-    A200 : #ffffff,
-    A400 : #ffffff,
-    A700 : #ffffff,
-  )
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #ffffff,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #ffffff,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  ),
 );
 
 a {
@@ -46,13 +49,15 @@ $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
 $cc-accent-dark: mat.define-palette(mat.$yellow-palette, 700, 400, 900);
 $cc-warn-dark: mat.define-palette(mat.$red-palette);
 
-$cc-dark-theme: mat.define-dark-theme((
-  color: (
-    primary: $cc-primary-dark,
-    accent: $cc-accent-dark,
-    warn: $cc-warn-dark,
+$cc-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $cc-primary-dark,
+      accent: $cc-accent-dark,
+      warn: $cc-warn-dark,
+    ),
   )
-));
+);
 
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
@@ -65,13 +70,15 @@ $cc-primary-light: mat.define-palette(mat.$teal-palette);
 $cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
 $cc-warn-light: mat.define-palette(mat.$red-palette);
 
-$cc-theme: mat.define-light-theme((
-  color: (
-    primary: $cc-primary-light,
-    accent: $cc-accent-light,
-    warn: $cc-warn-light,
+$cc-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $cc-primary-light,
+      accent: $cc-accent-light,
+      warn: $cc-warn-light,
+    ),
   )
-));
+);
 
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
@@ -79,6 +86,3 @@ $cc-theme: mat.define-light-theme((
   @include submission-result.color($cc-theme);
   @include assessments-table.color($cc-theme);
 }
-
-
-

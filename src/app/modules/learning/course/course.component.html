@@ -1,0 +1,10 @@
+<div fxFlex></div>
+<div *ngIf="course" fxFlex="90">
+  <h2 id="courseName">{{ course.name }}</h2>
+  <markdown>{{ course.description }}</markdown>
+  <cc-course-units
+    [course]="course"
+    *ngIf="user?.role === 'learner'"
+  ></cc-course-units>
+</div>
+<div fxFlex></div>

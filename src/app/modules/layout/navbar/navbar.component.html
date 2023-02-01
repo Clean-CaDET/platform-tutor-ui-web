@@ -6,8 +6,9 @@
 
   <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role === 'learner'"></cc-learner-controls>
   <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
+  <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
 
   <button color="primary" *ngIf="!user" id="login" mat-flat-button [routerLink]="['login']" i18n>Prijavi se</button>
-  <p *ngIf="user" color="primary" id="username">{{user.username}}</p>
+  <small *ngIf="user" color="primary" id="username">{{user.username}}</small>
   <button color="primary" *ngIf="user" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']" i18n>Odjavi se</button>
 </div>

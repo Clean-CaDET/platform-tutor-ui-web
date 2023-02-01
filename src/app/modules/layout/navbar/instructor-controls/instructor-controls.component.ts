@@ -1,86 +1,86 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd, Params } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { LearnerService } from 'src/app/modules/learner/learner.service';
-import {Course} from '../../../domain/course/course.model';
-import {InstructorService} from '../../../instructor/instructor.service';
+import { Course } from 'src/app/modules/learning/model/course.model';
+import {LayoutService} from '../../layout.service';
 
 @Component({
   selector: 'cc-instructor-controls',
   templateUrl: './instructor-controls.component.html',
-  styleUrls: ['./instructor-controls.component.scss']
+  styleUrls: ['./instructor-controls.component.scss'],
 })
 export class InstructorControlsComponent implements OnInit {
-  groups: LearnerGroup[];
-  selectedGroup: any;
   selectedCourse: Course;
   courses: Course[];
+  selectedControl: string;
 
-  constructor(private learnerService: LearnerService,
-    private instructorService: InstructorService,
-    private router: Router, private route: ActivatedRoute) { }
+  constructor(
+    private layoutService: LayoutService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.setupCourseUpdate();
-    this.setupGroupUpdate();
-    this.instructorService.getCourses().subscribe( courses => {
+    this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
-    });
-    this.learnerService.getGroups().subscribe(groups => {
-      this.groups = groups;
-      this.selectedGroup = this.groups.find(g => g.id == this.getParams(this.route).groupId); // extract this common behavior somewhere
     });
   }
 
   private setupCourseUpdate(): void {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
-      map(e => this.getParams(this.route))
-    ).subscribe(params => {
-      if(!params.courseId) {
-        this.selectedCourse = null;
-        return;
-      }
-      if (this.courseIsChanged(params)) {
-        this.selectedCourse = this.courses?.find(c => c.id == +params.courseId);
-      }
-    });
+    this.router.events
+      .pipe(
+        filter((e) => e instanceof NavigationEnd),
+        map((e) => this.getActiveUrl(e)),
+        map((e) => this.getParams(this.route))
+      )
+      .subscribe((params) => {
+        if (!params.courseId) {
+          this.selectedCourse = null;
+          return;
+        }
+        if (this.courseIsChanged(params)) {
+          this.findCourse(+params.courseId);
+        }
+      });
   }
 
-  private courseIsChanged(params: Params) {
-    return this.selectedCourse?.id != params.courseId;
+  private findCourse(courseId: number): void{
+    if (!this.courses) {
+      this.layoutService.getInstructorCourses().subscribe((courses) => {
+        this.courses = courses;
+        this.selectedCourse = this.courses.find((c) => c.id === courseId);
+      });
+    } else {
+      this.selectedCourse = this.courses.find((c) => c.id === courseId);
+    }
   }
 
-  private setupGroupUpdate(): void {
-    this.router.events.pipe(filter(e => e instanceof NavigationEnd),
-      map(e => this.getParams(this.route))
-    ).subscribe(params => {
-      if(!params.groupId) {
-        this.selectedGroup = null;
-        return;
-      }
-      if (this.groupIsChanged(params)) {
-        this.selectedGroup = this.groups?.find(g => g.id == +params.groupId);
-      }
-    });
-  }
-
-  private groupIsChanged(params: Params) {
-    return this.selectedGroup?.id != params.groupId;
+  private courseIsChanged(params: Params): boolean {
+    return this.selectedCourse?.id !== params.courseId;
   }
 
   private getParams(route: ActivatedRoute): Params {
     let params = route.snapshot.params;
-    route.children?.forEach(c => {
+    route.children?.forEach((c) => {
       params = {
         ...this.getParams(c),
-        ...params
+        ...params,
       };
     });
     return params;
   }
-}
 
-interface LearnerGroup {
-  id: number;
-  name: string;
+  private getActiveUrl(e: any) {
+    if (e.url.includes('monitoring')) {
+      this.selectedControl = 'groups';
+    }
+    if (e.url.includes('authoring')) {
+      this.selectedControl = 'authoring';
+    }
+    if (e.url.includes('analytics')) {
+      this.selectedControl = 'analytics';
+    }
+    return e;
+  }
 }

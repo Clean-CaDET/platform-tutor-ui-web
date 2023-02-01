@@ -1,0 +1,125 @@
+<div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px" fxFlex>
+    <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex>
+        <div *ngIf="!editMap[item.id]">
+            <div fxLayout="row">
+                <small fxFlex fxLayoutAlign=" center">
+                    <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
+                </small>
+                <button mat-icon-button *ngIf="i !== 0"
+                    (click)="swapOrder(item, assessmentItems[i-1])">
+                    <mat-icon>arrow_upward</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="i !== (assessmentItems.length-1)"
+                    (click)="swapOrder(item, assessmentItems[i+1])">
+                    <mat-icon>arrow_downward</mat-icon>
+                </button>
+                <button mat-icon-button (click)="editMap[item.id] = true">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="deleteItem(item.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+            <hr>
+            <div>
+                <markdown>{{item.text}}</markdown>
+                <div>
+                    <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+                        <b>Ponuđeni odgovori:</b>
+                        <p *ngFor="let option of item.possibleAnswers" fxLayout="row" fxLayoutGap="15px">
+                            <span>
+                                <mat-icon *ngIf="option === item.correctAnswer">check</mat-icon>
+                                <mat-icon *ngIf="option !== item.correctAnswer"></mat-icon>
+                            </span>
+                            <span fxLayoutAlign=" center">{{option}}</span>
+                        </p>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
+                    <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                        <b>Ponuđeni odgovori:</b>
+                        <p *ngFor="let option of item.items" fxLayout="column">
+                            <span fxLayout="row" fxLayoutGap="15px">
+                                <span>
+                                    <mat-icon *ngIf="option.isCorrect">check</mat-icon>
+                                    <mat-icon *ngIf="!option.isCorrect">clear</mat-icon>
+                                </span>
+                                <span fxLayoutAlign=" center">{{option.text}}</span>
+                            </span>
+                            <small style="margin-left:39px">{{option.feedback}}</small>
+                        </p>
+                    </div>
+                    <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+                        <b>Dozvoljeni odgovori:</b>
+                        <p *ngFor="let option of item.acceptableAnswers" fxLayout="row">
+                            <mat-icon>arrow_right</mat-icon>
+                            <span fxLayoutAlign=" center">{{option}}</span>
+                        </p>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="editMap[item.id]">
+            <div fxLayout="row">
+                <small class="center-type">
+                    <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
+                </small>
+            </div>
+            <hr>
+            <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
+            </div>
+            <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+            </div>
+            <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card>
+        <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+            <b>Zadaci</b>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'multiChoiceQuestion'">
+                + Višestruki izbor, jedan odgovor
+            </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'multiResponseQuestion'">
+                + Višestruki izbor, više odgovora
+            </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'shortAnswerQuestion'">
+                + Pitanje sa kratkim odgovorom
+            </button>
+        </span>
+        <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
+            <div fxLayout="row">
+                <small class="center-type">
+                    <span><b>Tip: </b>{{getTypeLabel('multiChoiceQuestion')}}</span>
+                </small>
+            </div>
+            <hr>
+            <cc-mcq-form [item]="createEmptyItem('multiChoiceQuestion')" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+        </div>
+        <div *ngIf="editMap[0] === 'multiResponseQuestion'">
+            <div fxLayout="row">
+                <small class="center-type">
+                    <span><b>Tip: </b>{{getTypeLabel('multiResponseQuestion')}}</span>
+                </small>
+            </div>
+            <hr>
+            <cc-mrq-form [item]="createEmptyItem('multiResponseQuestion')" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
+        </div>
+        <div *ngIf="editMap[0] === 'shortAnswerQuestion'">
+            <div fxLayout="row">
+                <small class="center-type">
+                    <span><b>Tip: </b>{{getTypeLabel('shortAnswerQuestion')}}</span>
+                </small>
+            </div>
+            <hr>
+            <cc-saq-form [item]="createEmptyItem('shortAnswerQuestion')" (saveChanges)="onCloseForm($event)"></cc-saq-form>
+        </div>
+    </mat-card>
+</div>
