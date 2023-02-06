@@ -26,9 +26,7 @@ export class KnowledgeComponentService {
 
   getSuitableAssessmentItem(kcId: number): Observable<LearningObject> {
     return this.http
-      .get<LearningObject>(
-        environment.apiHost + this.baseUri + kcId + '/assessment-item'
-      )
+      .get<LearningObject>(environment.apiHost + this.baseUri + kcId + '/assessment-item')
       .pipe(map((ae) => this.learningObjectMapper.convert(ae)));
   }
 

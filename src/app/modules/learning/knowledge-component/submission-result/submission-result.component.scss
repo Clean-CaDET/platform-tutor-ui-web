@@ -16,3 +16,11 @@
 .accent-icon {
   font-size: 22px;
 }
+
+.sticky {
+  position: fixed;
+  bottom: 20px;
+  width: calc(90% - 139px);
+  max-width: inherit;
+  z-index: 5;
+}

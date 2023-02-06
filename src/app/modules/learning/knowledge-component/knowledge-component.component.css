@@ -24,11 +24,9 @@ h2 {
   top: 0px;
   right: 20px;
   float: right;
+  z-index: 6;
 }
 
 .mat-icon-button {
   margin: 10px;
 }
-
-
-
