@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { InterfacingInstructor } from '../../../learning-utilities/interfacing-instructor.service';
+import { AssessmentFeedbackConnector } from '../assessment-feedback-connector.service';
 import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
+import { Feedback } from '../../model/learning-objects/feedback.model';
 
 @Component({
   selector: 'cc-submission-result',
@@ -14,8 +14,7 @@ import { KnowledgeComponentService } from '../knowledge-component.service';
 export class SubmissionResultComponent implements OnInit, OnDestroy {
   @Input() kcId: number;
   @Output() nextPageEvent = new EventEmitter<string>();
-  @Output() emotionDialogEvent = new EventEmitter<boolean>();
-  correctness = -1;
+  feedback: Feedback;
   mastery: number;
   totalCount: number;
   passedCount: number;
@@ -23,67 +22,46 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   unitId: number;
   courseId: number;
   isSatisfied: boolean;
-  private observedAeEvaluations: Subscription;
-  private openEmotionsFormSubscription: Subscription;
+  private observedAssessment: Subscription;
 
-  constructor(
-    private instructor: InterfacingInstructor,
-    private knowledgeComponentService: KnowledgeComponentService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
       this.courseId = +params.courseId;
     });
-    this.observedAeEvaluations =
-      this.instructor.observedAeEvaluations.subscribe((value) => {
-        {
-          this.correctness = value;
-          this.getKnowledgeComponentStatistics();
-        }
-      });
-    this.openEmotionsFormSubscription =
-      this.instructor.openEmotionsFormEvent.subscribe((_) => {
-        this.openEmotionsDialog();
-      });
+    this.observedAssessment = this.assessmentConnector.observedAssessment.subscribe(feedback => {
+      this.feedback = feedback;
+      this.getKnowledgeComponentStatistics();
+    });
     this.getKnowledgeComponentStatistics();
   }
 
   ngOnDestroy(): void {
-    this.observedAeEvaluations?.unsubscribe();
-    this.openEmotionsFormSubscription?.unsubscribe();
+    this.observedAssessment?.unsubscribe();
   }
 
   getKnowledgeComponentStatistics(): void {
-    this.knowledgeComponentService
-      .getKnowledgeComponentStatistics(this.kcId)
-      .subscribe((result) => {
-        this.mastery = result.mastery;
-        this.totalCount = result.totalCount;
-        this.passedCount = result.passedCount;
-        this.attemptedCount = result.attemptedCount;
-        this.emotionDialogEvent.emit(result.isSatisfied);
-        this.isSatisfied = result.isSatisfied;
+    this.kcService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
+      this.mastery = result.mastery;
+      this.totalCount = result.totalCount;
+      this.passedCount = result.passedCount;
+      this.attemptedCount = result.attemptedCount;
+      this.isSatisfied = result.isSatisfied;
 
-        if(this.isSatisfied) {
-          this.instructor.presentKcCompletedMessage()
-        }
-      });
+      if(this.feedback) {
+        this.prepareFeedback();
+      }
+    });
   }
-
-  //TODO: This belongs to the interfacing instructor, but that service is growing into a god class.
-  //We should consider how to decompose the interfacing instructor
-  openEmotionsDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.data = { kcId: this.kcId, unitId: this.unitId };
+  
+  prepareFeedback() {
+    console.log('Method not implemented.');
   }
 
   nextPage(page: string): void {
-    this.correctness = -1;
+    this.feedback = null;
     this.nextPageEvent.emit(page);
   }
 }

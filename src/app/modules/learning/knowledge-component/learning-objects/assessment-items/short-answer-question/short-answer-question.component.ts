@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { ShortAnswerQuestion } from './short-answer-question.model';
 import { LearningObjectComponent } from '../../learning-object-component';
-import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
+import { AssessmentFeedbackConnector } from 'src/app/modules/learning/knowledge-component/assessment-feedback-connector.service';
 import { SaqEvaluation } from 'src/app/modules/learning/model/learning-objects/short-answer-question/saq-evaluation.model';
 import { SaqSubmission } from 'src/app/modules/learning/model/learning-objects/short-answer-question/saq-submission.model';
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { SubmissionService } from '../../../submission.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cc-short-answer-question',
@@ -14,27 +15,34 @@ import { SubmissionService } from '../../../submission.service';
 })
 export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   learningObject: ShortAnswerQuestion;
-  response: SaqEvaluation;
+  evaluation: SaqEvaluation;
   answer: string;
+  submissionReattemptCount = 0;
+  private observedFeedback: Subscription;
 
-  constructor(
-    private submissionService: SubmissionService,
-    private instructor: InterfacingInstructor
-  ) {}
+  constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {}
+
+  ngOnInit(): void {
+    this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
+      this.evaluation = feedback.evaluation as SaqEvaluation;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.observedFeedback?.unsubscribe();
+  }
 
   onSubmit(): void {
     const submission: SaqSubmission = {
       typeDiscriminator: submissionTypes.shortAnswerQuestion,
       answer: this.answer,
+      reattemptCount: this.submissionReattemptCount
     };
     this.submissionService
       .submit(this.learningObject.id, submission)
-      .subscribe((evaluation) => {
-        this.instructor.submit(
-          this.learningObject.id,
-          evaluation.correctnessLevel
-        );
-        this.response = evaluation as SaqEvaluation;
+      .subscribe(feedback => {
+        this.submissionReattemptCount++;
+        this.feedbackConnector.sendToFeedback(feedback);
       });
   }
 }

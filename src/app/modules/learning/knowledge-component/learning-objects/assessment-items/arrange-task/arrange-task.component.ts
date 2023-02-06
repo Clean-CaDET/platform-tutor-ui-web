@@ -4,7 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { InterfacingInstructor } from 'src/app/modules/learning-utilities/interfacing-instructor.service';
+import { AssessmentFeedbackConnector } from 'src/app/modules/learning/knowledge-component/assessment-feedback-connector.service';
 import { ArrangeTaskContainerEvaluation } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-evaluation.model';
 import { ArrangeTaskContainerSubmission } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-container-submission.model';
 import { ArrangeTaskEvaluation } from 'src/app/modules/learning/model/learning-objects/arrange-task/arrange-task-evaluation.model';
@@ -30,7 +30,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   constructor(
     private submissionService: SubmissionService,
-    private instructor: InterfacingInstructor
+    private instructor: AssessmentFeedbackConnector
   ) {
     this.feedbackMap = new Map();
   }
@@ -92,23 +92,20 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
     const submission: ArrangeTaskSubmission = {
       typeDiscriminator: submissionTypes.arrangeTask,
       containers: this.createArrangeTaskContainerSubmissionList(),
+      reattemptCount: 0
     };
     this.submissionService
       .submit(this.learningObject.id, submission)
-      .subscribe((containerEvaluation) => {
+      .subscribe(feedback => {
         this.answered = true;
-        this.instructor.submit(
-          this.learningObject.id,
-          containerEvaluation.correctnessLevel
-        );
-        (
-          containerEvaluation as ArrangeTaskEvaluation
-        ).containerEvaluations.forEach((arrangeTaskContainerEvaluation) => {
-          this.feedbackMap.set(
-            arrangeTaskContainerEvaluation.id,
-            arrangeTaskContainerEvaluation
-          );
-        });
+        this.instructor.sendToFeedback(feedback); //TODO: Needs fixing
+        (feedback.evaluation as ArrangeTaskEvaluation).containerEvaluations
+          .forEach((arrangeTaskContainerEvaluation) => {
+            this.feedbackMap.set(
+              arrangeTaskContainerEvaluation.id,
+              arrangeTaskContainerEvaluation
+            );
+          });
       });
   }
 

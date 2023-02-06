@@ -1,5 +1,5 @@
 #knowledge-component {
-  width: 80%;
+  width: 90%;
   line-height: 150%;
   text-align: justify;
   margin: auto;
@@ -21,7 +21,7 @@ h2 {
 
 .fixed {
   position: fixed;
-  top: 65px;
+  top: 0px;
   right: 20px;
   float: right;
 }

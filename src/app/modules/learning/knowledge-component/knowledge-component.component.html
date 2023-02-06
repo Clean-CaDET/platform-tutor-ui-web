@@ -1,5 +1,5 @@
 <mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav fixedInViewport="true" fixedTopGap="65" mode="side" position="end" [opened]="sidenavOpened">
+  <mat-sidenav fixedInViewport="true" mode="side" position="end" [opened]="sidenavOpened">
     <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
       <mat-icon>keyboard_arrow_right</mat-icon>
     </button>
@@ -23,7 +23,7 @@
       </cc-learning-object-container>
       <br>
       <div *ngIf="instructionalItemsShown">
-        <button  id="rate" mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
+        <button id="rate" mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
       </div>
       <div *ngIf="!instructionalItemsShown">
         <cc-submission-result (nextPageEvent)="nextPage($event)" [kcId]="knowledgeComponent.id">

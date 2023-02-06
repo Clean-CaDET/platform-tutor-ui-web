@@ -5,7 +5,7 @@
     <div fxLayout="row" fxLayoutAlign="center">
       <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
       <div fxLayout="column" fxFlex>
-        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{correctness === -1 ? '?' : (correctness * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{!feedback ? '?' : (feedback.evaluation.correctnessLevel * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
           <ng-container i18n> tačnost </ng-container>
           <mat-icon i18n-matTooltip matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
@@ -26,7 +26,7 @@
     </div>
     <hr>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-      <button [disabled]="correctness === -1" color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')" i18n>Sledeći zadatak</button>
+      <button [disabled]="!feedback" color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')" i18n>Sledeći zadatak</button>
       <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')" i18n>Pregled gradiva</button>
       <button [color]=" isSatisfied ? 'accent' : 'primary'" id="unit-button" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Pregled lekcije</button>
     </div>
