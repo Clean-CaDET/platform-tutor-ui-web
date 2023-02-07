@@ -5,6 +5,8 @@
   as submission-result;
 @use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
   as assessments-table;
+@use "./src/app/modules/monitoring/group-monitoring/learner-progress/learner-progress.component.scss"
+  as learner-progress;
 
 @include mat.core();
 
@@ -64,11 +66,12 @@ $cc-dark-theme: mat.define-dark-theme(
   @include knowledge-map.color($cc-dark-theme);
   @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
+  @include learner-progress.color($cc-dark-theme);
 }
 
 $cc-primary-light: mat.define-palette(mat.$teal-palette);
 $cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
-$cc-warn-light: mat.define-palette(mat.$red-palette);
+$cc-warn-light: mat.define-palette(mat.$red-palette, 200);
 
 $cc-theme: mat.define-light-theme(
   (
@@ -85,4 +88,5 @@ $cc-theme: mat.define-light-theme(
   @include knowledge-map.color($cc-theme);
   @include submission-result.color($cc-theme);
   @include assessments-table.color($cc-theme);
+  @include learner-progress.color($cc-theme);
 }

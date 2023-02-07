@@ -14,12 +14,8 @@ export class LearnerProgressComponent implements OnChanges {
   @Input() learners: Learner[];
   @Input() unit: Unit;
   progresses: LearnerProgress[] = [];
-
-  kcNum = 0;
-  satisfiedNum = 0;
-  suspiciousNum = 0;
-
   progressBarActive = false;
+  suspiciousKcNum: number = 0;
 
   constructor(private monitoringService: GroupMonitoringService) {}
 
@@ -51,11 +47,39 @@ export class LearnerProgressComponent implements OnChanges {
   private countSuspiciousKcs(knowledgeComponentProgress: KnowledgeComponentProgress[]): number {
     let suspiciousNum = 0;
     knowledgeComponentProgress.forEach(p => {
+      let allSubmissions = 0;
+      p.assessmentItemMasteries.forEach(ai => {
+        allSubmissions += ai.submissionCount;
+      })
+      const averageSubmissionCount = allSubmissions / p.assessmentItemMasteries.length
       let kc = this.unit.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
-      if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes < kc.expectedDurationInMinutes) {
+
+      if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes) {
+        return
+      }
+      else if (p.statistics.isSatisfied && averageSubmissionCount < 2) {
+        return
+      } else if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 1.5) {
+        return
+      } else if (p.statistics.isSatisfied) {
         suspiciousNum++;
       }
     });
     return suspiciousNum;
+  }
+
+  public shouldAlert(learnerProgress: LearnerProgress): boolean {
+    if (learnerProgress.kcCount - learnerProgress.satisfiedCount == 1 || learnerProgress.suspiciousCount == 1) {
+      return true
+    } else return learnerProgress.kcCount - learnerProgress.satisfiedCount >= 2 || learnerProgress.suspiciousCount >= 2 ||
+      learnerProgress.kcCount - learnerProgress.satisfiedCount >= 1 && learnerProgress.suspiciousCount >= 1;
+  }
+
+  public getAlertColor(learnerProgress: LearnerProgress): string {
+    if (learnerProgress.kcCount - learnerProgress.satisfiedCount == 1 || learnerProgress.suspiciousCount == 1) {
+      return 'accent'
+    } else {
+      return 'warn'
+    }
   }
 }
