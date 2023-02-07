@@ -1,34 +1,31 @@
-<mat-card class="sticky">
+<mat-card class="sticky mat-elevation-z5">
+  <div fxFlex>
+    <div *ngIf="feedbackMessage" class="feedback-container">
+      <pre typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
+      [deleteSpeed]="1000000" [showCursor]="false"></pre>
+    </div>
+  </div>
   <div>
     <small i18n>Statistika</small>
     <hr>
-    <div fxLayout="row" fxLayoutAlign="center">
-      <div fxLayout="row" fxLayoutAlign="start center" fxFlex="25%">
-      <div fxLayout="column" fxFlex>
-        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{!feedback ? '?' : (feedback.evaluation.correctnessLevel * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+    <div fxLayout="row" fxLayoutAlign="center" *ngIf="statistics">
+      <div [ngClass]="{'kc-satisfied': statistics.isSatisfied}" fxLayout="column" fxFlex>
+        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{(statistics.mastery * 100).toFixed(0)}} <mat-icon>percent</mat-icon></div>
         <div class="small-text" fxLayout="row" fxLayoutAlign="center">
-          <ng-container i18n> tačnost </ng-container>
-          <mat-icon i18n-matTooltip matTooltip="Tačnost prikazuje uspeh na trenutnom zadatku. Tačnost će se prikazati nakon slanja zadatka." class="small-icon">help_outline</mat-icon>
+          <ng-container i18n> vičnost </ng-container><mat-icon i18n-matTooltip matTooltip="Vičnost prikazuje progres nad trenutnom veštinom. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
         </div>
-      </div>
-      <div  [ngClass]="{'kc-satisfied': isSatisfied}" fxLayout="column" fxFlex>
-        <div class="accent-text" fxLayout="row" fxLayoutAlign="center">{{(mastery * 100).toFixed(0)}} <mat-icon>percent</mat-icon></div>
-        <div class="small-text" fxLayout="row" fxLayoutAlign="center">
-          <ng-container i18n> vičnost </ng-container><mat-icon i18n-matTooltip matTooltip="Vičnost prikazuje uspeh u trenutnom modulu. Vičnost se povećava uspešno urađenim zadacima." class="small-icon">help_outline</mat-icon>
-        </div>
-      </div>
       </div>
       <div fxFlex></div>
       <div fxLayout="column">
-        <div class="accent-text">{{attemptedCount}} / {{passedCount}} / {{totalCount}}</div>
+        <div class="accent-text">{{statistics.attemptedCount}} / {{statistics.passedCount}} / {{statistics.totalCount}}</div>
         <div class="small-text" i18n>pokušano / urađeno / ukupno</div>
       </div>
     </div>
     <hr>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-      <button [disabled]="!feedback" color="primary" id="ae-button" mat-raised-button (click)="nextPage('AE')" i18n>Sledeći zadatak</button>
-      <button color="primary" id="ie-button" mat-raised-button (click)="nextPage('IE')" i18n>Pregled gradiva</button>
-      <button [color]=" isSatisfied ? 'accent' : 'primary'" id="unit-button" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Pregled lekcije</button>
+      <button [disabled]="!feedbackProcessed" color="primary" id="ae-button" mat-raised-button (click)="onChangePage('AE')" i18n>Sledeći zadatak</button>
+      <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
+      <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
     </div>
   </div>
 </mat-card>

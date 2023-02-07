@@ -20,7 +20,23 @@
 .sticky {
   position: fixed;
   bottom: 20px;
-  width: calc(90% - 139px);
+  width: calc(90% - 119px);
   max-width: inherit;
   z-index: 5;
+}
+
+.feedback-container {
+  height: 154px;
+  margin-right: 20px;
+  padding-right: 5px;
+  font-size: 16px;
+  text-align: left;
+
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y proximity;
+}
+
+.feedback-container > pre:last-child {
+  scroll-snap-align: end;
 }

@@ -4,7 +4,9 @@ import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
-import { Feedback } from '../../model/learning-objects/feedback.model';
+import { Feedback, feedbackTypes } from '../../model/learning-objects/feedback.model';
+import { KnowledgeComponentStatistics } from '../../model/knowledge-component-statistics.model';
+import { createResponse } from './feedback-message-creator';
 
 @Component({
   selector: 'cc-submission-result',
@@ -13,16 +15,15 @@ import { Feedback } from '../../model/learning-objects/feedback.model';
 })
 export class SubmissionResultComponent implements OnInit, OnDestroy {
   @Input() kcId: number;
-  @Output() nextPageEvent = new EventEmitter<string>();
-  feedback: Feedback;
-  mastery: number;
-  totalCount: number;
-  passedCount: number;
-  attemptedCount: number;
-  unitId: number;
   courseId: number;
-  isSatisfied: boolean;
+  unitId: number;
+
+  @Output() changePage = new EventEmitter<string>();
   private observedAssessment: Subscription;
+
+  statistics: KnowledgeComponentStatistics;
+  feedbackMessage: string;
+  feedbackProcessed: boolean;
 
   constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
@@ -32,36 +33,38 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
       this.courseId = +params.courseId;
     });
     this.observedAssessment = this.assessmentConnector.observedAssessment.subscribe(feedback => {
-      this.feedback = feedback;
-      this.getKnowledgeComponentStatistics();
+      this.getKnowledgeComponentStatistics(feedback);
     });
-    this.getKnowledgeComponentStatistics();
+    this.getKnowledgeComponentStatistics(null);
   }
 
   ngOnDestroy(): void {
     this.observedAssessment?.unsubscribe();
   }
 
-  getKnowledgeComponentStatistics(): void {
+  getKnowledgeComponentStatistics(feedback: Feedback): void {
+    this.feedbackProcessed = false;
+    this.feedbackMessage = "";
     this.kcService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
-      this.mastery = result.mastery;
-      this.totalCount = result.totalCount;
-      this.passedCount = result.passedCount;
-      this.attemptedCount = result.attemptedCount;
-      this.isSatisfied = result.isSatisfied;
-
-      if(this.feedback) {
-        this.prepareFeedback();
+      if(feedback) {
+        let isFirstSatisfaction = this.statistics.isSatisfied !== result.isSatisfied
+        this.processFeedback(feedback, isFirstSatisfaction);
       }
+      this.statistics = result;
     });
   }
-  
-  prepareFeedback() {
-    console.log('Method not implemented.');
+
+  private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean) {
+    this.feedbackMessage = createResponse(feedback, isFirstSatisfaction);
+    this.feedbackProcessed = true;
+    setTimeout(() => {
+      if(feedback.type === feedbackTypes.solution) this.assessmentConnector.sendToAssessment(feedback);
+    }, 1000);
   }
 
-  nextPage(page: string): void {
-    this.feedback = null;
-    this.nextPageEvent.emit(page);
+  onChangePage(page: string): void {
+    this.feedbackProcessed = false;
+    this.feedbackMessage = "";
+    this.changePage.emit(page);
   }
 }

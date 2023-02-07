@@ -26,9 +26,8 @@
         <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
       </div>
       <div *ngIf="!instructionalItemsShown">
-        <div style="margin-bottom: 100px;"></div>
-        <cc-submission-result (nextPageEvent)="nextPage($event)" [kcId]="knowledgeComponent.id">
-        </cc-submission-result>
+        <div style="margin-bottom: 120px;"></div>
+        <cc-submission-result (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
       </div>
       <br>
       <br><br>

@@ -13,63 +13,39 @@ import { LearningObject } from './learning-objects/learning-object.model';
 export class KnowledgeComponentService {
   private baseUri: string = 'learning/knowledge-component/';
 
-  constructor(
-    private http: HttpClient,
-    private learningObjectMapper: LearningObjectMapper
-  ) {}
+  constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper) {}
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
-    return this.http.get<KnowledgeComponent>(
-      environment.apiHost + this.baseUri + kcId
-    );
+    return this.http.get<KnowledgeComponent>(environment.apiHost + this.baseUri + kcId);
   }
 
   getSuitableAssessmentItem(kcId: number): Observable<LearningObject> {
-    return this.http
-      .get<LearningObject>(environment.apiHost + this.baseUri + kcId + '/assessment-item')
+    return this.http.get<LearningObject>(environment.apiHost + this.baseUri + kcId + '/assessment-item')
       .pipe(map((ae) => this.learningObjectMapper.convert(ae)));
   }
 
   getInstructionalItems(kcId: number): Observable<LearningObject[]> {
-    return this.http
-      .get<LearningObject[]>(
-        environment.apiHost + this.baseUri + kcId + '/instructional-items'
-      )
+    return this.http.get<LearningObject[]>(environment.apiHost + this.baseUri + kcId + '/instructional-items')
       .pipe(map((los) => this.mapLearningObjects(los)));
   }
 
-  getKnowledgeComponentStatistics(
-    kcId: number
-  ): Observable<KnowledgeComponentStatistics> {
-    return this.http.get<KnowledgeComponentStatistics>(
-      environment.apiHost + 'learning/statistics/kcm/' + kcId
-    );
+  getKnowledgeComponentStatistics(kcId: number): Observable<KnowledgeComponentStatistics> {
+    return this.http.get<KnowledgeComponentStatistics>(environment.apiHost + 'learning/statistics/kcm/' + kcId);
   }
 
   getAssesmentItemStatistics(aiId: number): Observable<number> {
-    return this.http.get<number>(
-      environment.apiHost + 'learning/statistics/aim/' + aiId
-    );
+    return this.http.get<number>(environment.apiHost + 'learning/statistics/aim/' + aiId);
   }
 
   mapLearningObjects(instructionalItems: LearningObject[]): LearningObject[] {
-    instructionalItems = instructionalItems.map((ie) =>
-      this.learningObjectMapper.convert(ie)
-    );
-    return instructionalItems;
+    return instructionalItems.map((ie) => this.learningObjectMapper.convert(ie));
   }
 
   launchSession(kcId: number): Observable<unknown> {
-    return this.http.post(
-      environment.apiHost + 'learning/session/' + kcId + '/launch',
-      null
-    );
+    return this.http.post(environment.apiHost + 'learning/session/' + kcId + '/launch', null);
   }
 
   terminateSession(kcId: number): Observable<unknown> {
-    return this.http.post(
-      environment.apiHost + 'learning/session/' + kcId + '/terminate',
-      null
-    );
+    return this.http.post(environment.apiHost + 'learning/session/' + kcId + '/terminate', null);
   }
 }

@@ -7,8 +7,8 @@ export interface Feedback {
 }
 
 export const feedbackTypes = {
-    pump: 'pump',
-    hint: 'hint',
-    correctness: 'correctness',
-    solution: 'solution',
+    pump: 'Pump',
+    hint: 'Hint',
+    correctness: 'Correctness',
+    solution: 'Solution',
 };
