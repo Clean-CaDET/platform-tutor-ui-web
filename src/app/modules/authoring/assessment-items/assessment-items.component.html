@@ -51,7 +51,7 @@
                         </p>
                     </div>
                     <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
-                        <b>Dozvoljeni odgovori:</b>
+                        <b>Prihvatljivi odgovori:</b>
                         <p *ngFor="let option of item.acceptableAnswers" fxLayout="row">
                             <mat-icon>arrow_right</mat-icon>
                             <span fxLayoutAlign=" center">{{option}}</span>
@@ -59,7 +59,19 @@
                         <div>
                             <b>Povratna informacija</b>: {{item.feedback}}
                         </div>
+                        <p>
+                            <b>Tolerancija</b>: {{item.tolerance}}
+                        </p>
                     </div>
+                </div>
+                <div>
+                    <p>
+                        <b *ngIf="item.hints.length === 0">Nema definisanih smernica!</b>
+                        <b *ngIf="item.hints.length !== 0">Definisane smernice (hints):</b>
+                    </p>
+                    <ul>
+                        <li *ngFor="let hint of item.hints">{{hint}}</li>
+                    </ul>
                 </div>
             </div>
         </div>

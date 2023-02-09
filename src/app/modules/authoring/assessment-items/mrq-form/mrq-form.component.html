@@ -1,8 +1,8 @@
-<div fxLayout="column" fxLayoutGap="15px">
+<div fxLayout="column" fxLayoutGap="10px">
     <cc-markdown-editor fxFlex [label]="'Tekst zadatka'" [editMode]="true" [livePreview]="false"
         [text]="workingItem.text" (textChanged)="updateText($event)">
     </cc-markdown-editor>
-    <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
+    <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="10px">
         <b>Mogući odgovori:</b>
         <div formArrayName="options" fxLayout="column">
             <div *ngFor="let optionForm of options.controls; let i = index">
@@ -25,9 +25,24 @@
                     <button mat-icon-button (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
                 </div>
             </div>
+            <button mat-mini-fab color="primary" (click)="addOption(null)">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <b>Dodatne smernice (hints):</b>
+        <div formArrayName="hints" fxLayout="column">
+            <div *ngFor="let hintForm of hints.controls; let i = index">
+                <div [formGroup]="hintForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Tekst smernice</mat-label>
+                        <textarea matInput formControlName="text"></textarea>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeHint(i)"><mat-icon>delete_forever</mat-icon></button>
+                </div>
+            </div>
         </div>
         <div>
-            <button mat-mini-fab color="primary" (click)="addOption(null)">
+            <button mat-mini-fab color="primary" (click)="addHint(null)">
                 <mat-icon>add</mat-icon>
             </button>
             <span fxFlex></span>

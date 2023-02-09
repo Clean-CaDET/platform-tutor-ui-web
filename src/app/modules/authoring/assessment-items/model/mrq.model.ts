@@ -13,7 +13,6 @@ export class MultipleReponseQuestion extends AssessmentItem {
 }
 
 export interface MrqItem {
-    id: number;
     text: string;
     isCorrect: boolean;
     feedback: string;

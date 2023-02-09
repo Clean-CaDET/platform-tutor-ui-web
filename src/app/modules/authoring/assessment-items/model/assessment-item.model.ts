@@ -4,6 +4,7 @@ export class AssessmentItem {
     typeDiscriminator: string;
     text: string;
     order: number;
+    hints: string[];
   
     constructor(obj?: any) {
       if (obj) {
@@ -12,6 +13,7 @@ export class AssessmentItem {
         this.typeDiscriminator = obj.typeDiscriminator;
         this.text = obj.text;
         this.order = obj.order;
+        this.hints = obj.hints;
       }
     }
 }
