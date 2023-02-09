@@ -23,7 +23,7 @@
     </div>
     <hr>
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-      <button [disabled]="!feedbackProcessed" color="primary" id="ae-button" mat-raised-button (click)="onChangePage('AE')" i18n>Sledeći zadatak</button>
+      <button [disabled]="!feedbackProcessed" color="primary" mat-raised-button (click)="onChangePage('AE')" i18n>Sledeći zadatak</button>
       <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
       <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
     </div>
