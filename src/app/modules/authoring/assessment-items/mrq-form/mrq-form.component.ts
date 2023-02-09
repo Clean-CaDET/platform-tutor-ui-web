@@ -19,13 +19,23 @@ export class MrqFormComponent implements OnInit {
   ngOnInit(): void {
     this.workingItem = JSON.parse(JSON.stringify(this.item));
     
-    this.form = this.builder.group({ options: this.builder.array([]) });
+    this.form = this.builder.group({
+      options: this.builder.array([]),
+      hints: this.builder.array([])
+    });
+
     this.workingItem.items?.forEach(item => this.addOption(item));
     if(this.options.length == 0) this.addOption(null);
+
+    this.workingItem.hints?.forEach(hint => this.addHint(hint));
   }
 
   get options(): FormArray {
     return this.form.controls["options"] as FormArray;
+  };
+
+  get hints(): FormArray {
+    return this.form.controls["hints"] as FormArray;
   };
 
   updateText(text: string):void {
@@ -34,7 +44,6 @@ export class MrqFormComponent implements OnInit {
 
   addOption(item: MrqItem): void {
     const optionForm = this.builder.group({
-        id: item ? item.id : null,
         isCorrect: item ? item.isCorrect : false,
         text: [item ? item.text : '', Validators.required],
         feedback: item ? item.feedback : ''
@@ -47,11 +56,21 @@ export class MrqFormComponent implements OnInit {
     this.options.removeAt(index);
   }
 
+  addHint(item: string): void {
+    const hintForm = this.builder.group({
+        text: [item ? item : '', Validators.required],
+    });
+  
+    this.hints.push(hintForm);
+  }
+
+  removeHint(index: number): void {
+    this.hints.removeAt(index);
+  }
+
   save(): void {
     this.workingItem.items = this.form.value['options'];
-    this.workingItem.items.forEach(i => {
-      if(!i.id) delete i['id'];
-    });
+    this.workingItem.hints = this.form.value['hints'].map((o: any) => o['text']);
     this.saveChanges.emit(this.workingItem);
   }
 
