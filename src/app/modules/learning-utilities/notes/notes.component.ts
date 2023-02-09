@@ -58,4 +58,16 @@ export class NotesComponent implements OnInit {
       );
     });
   }
+
+  onExport(): void {
+    this.noteService
+      .exportNotes(this.unitId)
+      .subscribe((data) => {
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = "BeleskeIzOblasti" + this.unitId + ".md";
+        link.click();
+      });
+  }
 }

@@ -7,9 +7,12 @@
       <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
     </div>
   </div>
-  <div *ngIf="!edit" fxLayout="row" fxLayoutAlign="center none" class="note-width">
+  <div *ngIf="!edit" fxLayout="row" fxLayoutAlign="end" fxLayoutGap="15px" class="note-width">
     <button mat-icon-button mat-raised-button color="primary" (click)="edit = true">
-      <mat-icon>add</mat-icon>
+      <mat-icon matTooltip="Dodaj belešku.">add</mat-icon>
+    </button>
+    <button mat-icon-button mat-raised-button color="accent" (click)="onExport()">
+      <mat-icon matTooltip="Preuzmi sve beleške.">file_download</mat-icon>
     </button>
   </div>
   <div class="note-width" *ngIf="notes.length === 0 && !edit" fxFlexAlign="center" i18n>
