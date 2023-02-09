@@ -37,9 +37,11 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    this.tokenStorage.clear();
-    this.user$.next(null);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/home']).then(_ => {
+      this.tokenStorage.clear();
+      this.user$.next(null);
+      }
+    );
   }
 
   checkIfUserExists(): void {
