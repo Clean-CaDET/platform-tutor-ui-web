@@ -21,8 +21,18 @@ h1 {
   margin-top: 20px;
 }
 
-mat-icon {
-  margin-top:25px;
-  margin-right: 5px;
-  transform: scale(3);
+.fixed {
+  position: fixed;
+  top: 0px;
+  right: 20px;
+  float: right;
+  z-index: 6;
+}
+
+.mat-icon-button {
+  margin: 10px;
+}
+
+h2 {
+  display: inline;
 }
