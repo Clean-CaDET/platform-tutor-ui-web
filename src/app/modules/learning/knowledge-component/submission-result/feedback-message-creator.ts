@@ -1,5 +1,7 @@
 import { Feedback, feedbackTypes } from "../../model/learning-objects/feedback.model";
 
+export const welcomeMessage = "Zamisli se nad tekstom zadatka i formiraj svoj odgovor.";
+
 export function createResponse(feedback: Feedback, isFirstSatisfaction: boolean): string {
     if(isFirstSatisfaction) return createSatisfied();
     if(feedback.type === feedbackTypes.pump) return createPump();
@@ -41,34 +43,34 @@ function getRandomNumber(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
 
-const incorrectAnswer = "Navedeni odgovor nije skroz tačan.\n";
-const alternative = "\nAlternativa je da pređeš na sledeći zadatak pa ćeš se kasnije vratiti na ovaj.";
+const incorrectAnswer = "Dati odgovor nije skroz tačan.\n";
+const alternative = "\nAlternativno, pređi na sledeći zadatak pa ćeš kasnije rešiti ovaj.";
 // There is a deep structure to this conversation that AutoTutor has already explored. We are creating a basic version for now.
 const feedbackStore = {
     satisfied: {
-        party: "Još jedna veština savladana, svaka čast 🥳!\n\nIznad ću prokomentarisati rešenje zadatka pa savetujem da se zamisliš nad tekstom pre nego što se vratiš na lekciju i odabereš sledeću veštinu da razvijaš."
+        party: "Veština savladana, bravo 🥳!\n\nIznad ću diskutovati rešenje zadatka pa savetujem da analiziraš moje teze. Onda se vrati na lekciju i odaberi sledeću veštinu."
     },
     pump: {
-        answer: incorrectAnswer + "Ako se negde dvoumiš, vredi da se zamisliš nad tom dilemom i formiraš nov odgovor." + alternative,
-        read: incorrectAnswer + "Da li ima smisla da još jednom pročitaš tekst zadatka i onda formiraš nov odgovor?" + alternative,
-        instruction: incorrectAnswer + "Da li ima smisla da još jednom pažljivo prođeš gradivo?" + alternative
+        answer: incorrectAnswer + "Ako se negde dvoumiš, zamisli se nad tom dilemom i formiraj nov odgovor." + alternative,
+        read: incorrectAnswer + "Da li da ponovo pročitaš tekst zadatka i onda formiraš nov odgovor?" + alternative,
+        instruction: incorrectAnswer + "Da li ima smisla da ponovo prođeš gradivo?" + alternative
         // A more advanced version would decide when to recommend instruction based on error patterns. We can highlight the appropriate buttons based on feedback response.
     },
     hint: {
         basic: function(hint: string) {
-            return incorrectAnswer + "Zamisli se nad sledećom smernicom pa vidi da formiraš nov odgovor\n" + hint + alternative;
+            return incorrectAnswer + "Zamisli se nad sledećom smernicom pa formiraj nov odgovor\n" + hint + alternative;
         }
     },
     correctness: {
         basic: function(correctness: number) {
-            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. Šta misliš, šta je problem sa ovim zadatkom? Gde se nalazi raskorak u tvom razumevanju?\nHajde da pređemo na sledeći zadatak, pa ćemo se kasnije vratiti na ovaj da ga dovršimo.";
+            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nHajde da pređemo na sledeći zadatak, pa ćemo se kasnije vratiti na ovaj.";
         }
     },
     solution: {
-        basicCorrect: "Tvoj odgovor na zadatak je tačan, sjajno 😎.\nIznad ću prokomentarisati rešenje pa savetujem da se zamisliš nad tekstom pre nego što pređemo na sledeći zadatak.",
-        catCorrect: "Tvoj odgovor na zadatak je tačan, super 😸.\nIznad ću prokomentarisati rešenje pa savetujem da se zamisliš nad tekstom pre nego što pređemo na sledeći zadatak.",
+        basicCorrect: "Tvoj odgovor na zadatak je tačan, sjajno 😎.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
+        catCorrect: "Tvoj odgovor na zadatak je tačan, super 😸.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
         basicIncorrect: function(correctness: number) {
-            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. Šta misliš, šta je problem sa ovim zadatkom? Gde se nalazi raskorak u tvom razumevanju?\nIznad ću prokomentarisati tačno rešenje pa savetujem da se zamisliš nad tekstom pre nego što pređemo na sledeći zadatak.";
+            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nIznad ću diskutovati tačno rešenje pa savetujem da temeljno analiziraš moje teze pre nego što pređemo na sledeći zadatak.";
         }
     }
 };

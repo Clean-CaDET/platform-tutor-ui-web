@@ -7,6 +7,7 @@ import { SaqSubmission } from 'src/app/modules/learning/model/learning-objects/s
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { SubmissionService } from '../../../submission.service';
 import { Subscription } from 'rxjs';
+import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/feedback.model';
 
 @Component({
   selector: 'cc-short-answer-question',
@@ -15,16 +16,21 @@ import { Subscription } from 'rxjs';
 })
 export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   learningObject: ShortAnswerQuestion;
+  private observedFeedback: Subscription;
+
+  submissionReattemptCount = 0;
+  submissionIsProcessing: boolean;
   evaluation: SaqEvaluation;
   answer: string;
-  submissionReattemptCount = 0;
-  private observedFeedback: Subscription;
 
   constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {}
 
   ngOnInit(): void {
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
-      this.evaluation = feedback.evaluation as SaqEvaluation;
+      this.submissionIsProcessing = false;
+      if(feedback.type === feedbackTypes.solution || feedback.type === feedbackTypes.correctness) {
+        this.evaluation = feedback.evaluation as SaqEvaluation;
+      }
     });
   }
 
@@ -38,11 +44,10 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
       answer: this.answer,
       reattemptCount: this.submissionReattemptCount
     };
-    this.submissionService
-      .submit(this.learningObject.id, submission)
-      .subscribe(feedback => {
-        this.submissionReattemptCount++;
-        this.feedbackConnector.sendToFeedback(feedback);
-      });
+    this.submissionIsProcessing = true;
+    this.submissionService.submit(this.learningObject.id, submission).subscribe(feedback => {
+      this.submissionReattemptCount++;
+      this.feedbackConnector.sendToFeedback(feedback);
+    });
   }
 }

@@ -4,9 +4,9 @@ import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
-import { Feedback, feedbackTypes } from '../../model/learning-objects/feedback.model';
+import { Feedback } from '../../model/learning-objects/feedback.model';
 import { KnowledgeComponentStatistics } from '../../model/knowledge-component-statistics.model';
-import { createResponse } from './feedback-message-creator';
+import { createResponse, welcomeMessage } from './feedback-message-creator';
 
 @Component({
   selector: 'cc-submission-result',
@@ -24,6 +24,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   statistics: KnowledgeComponentStatistics;
   feedbackMessage: string;
   feedbackProcessed: boolean;
+  messageTimeout: any;
 
   constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
@@ -49,6 +50,8 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
       if(feedback) {
         let isFirstSatisfaction = this.statistics.isSatisfied !== result.isSatisfied
         this.processFeedback(feedback, isFirstSatisfaction);
+      } else {
+        this.feedbackMessage = welcomeMessage;
       }
       this.statistics = result;
     });
@@ -57,14 +60,16 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean) {
     this.feedbackMessage = createResponse(feedback, isFirstSatisfaction);
     this.feedbackProcessed = true;
-    setTimeout(() => {
-      if(feedback.type === feedbackTypes.solution) this.assessmentConnector.sendToAssessment(feedback);
-    }, 1000);
+    // If typing animation onComplete callback is fixed this should be changed
+    this.messageTimeout = setTimeout(() => this.assessmentConnector.sendToAssessment(feedback), 1200);
   }
 
   onChangePage(page: string): void {
+    clearTimeout(this.messageTimeout);
+
     this.feedbackProcessed = false;
     this.feedbackMessage = "";
+
     this.changePage.emit(page);
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { AssessmentFeedbackConnector } from 'src/app/modules/learning/knowledge-component/assessment-feedback-connector.service';
+import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/feedback.model';
 import { McqEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-evaluation.model';
 import { McqSubmission } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-submission.model';
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
@@ -16,18 +17,22 @@ import { MultipleChoiceQuestion } from './multiple-choice-question.model';
 })
 export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, LearningObjectComponent {
   learningObject: MultipleChoiceQuestion;
-  
-  checked: string;
-  submissionReattemptCount = 0;
-  evaluation: McqEvaluation;
   private observedFeedback: Subscription;
+  
+  submissionReattemptCount = 0;
+  submissionIsProcessing: boolean;
+  checked: string;
+  evaluation: McqEvaluation;
 
   constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {}
 
   ngOnInit(): void {
     this.learningObject.possibleAnswers = shuffleArray(this.learningObject.possibleAnswers);
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
-      this.evaluation = feedback.evaluation as McqEvaluation;
+      this.submissionIsProcessing = false;
+      if(feedback.type === feedbackTypes.solution || feedback.type === feedbackTypes.correctness) {
+        this.evaluation = feedback.evaluation as McqEvaluation;
+      }
     });
   }
 
@@ -41,6 +46,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, Learn
       answer: this.checked,
       reattemptCount: this.submissionReattemptCount
     };
+    this.submissionIsProcessing = true;
     this.submissionService.submit(this.learningObject.id, submission).subscribe((feedback) => {
       this.submissionReattemptCount++;
       this.feedbackConnector.sendToFeedback(feedback);

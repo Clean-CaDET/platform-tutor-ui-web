@@ -1,7 +1,8 @@
 <div fxFlex></div>
 <div *ngIf="course" fxFlex="90">
-  <h2 id="courseName">{{ course.name }}</h2>
+  <h1 class="mat-h1">{{ course.name }}</h1>
   <markdown>{{ course.description }}</markdown>
+  <mat-divider style="margin-bottom: 20px;"></mat-divider>
   <cc-course-units
     [course]="course"
     *ngIf="user?.role === 'learner'"

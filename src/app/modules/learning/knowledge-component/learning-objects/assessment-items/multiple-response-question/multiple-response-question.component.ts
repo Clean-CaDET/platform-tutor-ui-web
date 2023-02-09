@@ -10,6 +10,7 @@ import { SubmissionService } from '../../../submission.service';
 import { MrqSubmission } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-submission.model';
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { Subscription } from 'rxjs';
+import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/feedback.model';
 
 @Component({
   selector: 'cc-multiple-response-question',
@@ -18,10 +19,12 @@ import { Subscription } from 'rxjs';
 })
 export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, LearningObjectComponent {
   learningObject: MultipleReponseQuestion;
+  private observedFeedback: Subscription;
+
+  submissionReattemptCount = 0;
+  submissionIsProcessing: boolean;
   checked: boolean[];
   evaluation: MrqEvaluation;
-  submissionReattemptCount = 0;
-  private observedFeedback: Subscription;
 
   constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {
     this.checked = [];
@@ -30,7 +33,10 @@ export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, Lea
   ngOnInit(): void {
     this.learningObject.items = shuffleArray(this.learningObject.items);
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
-      this.evaluation = feedback.evaluation as MrqEvaluation;
+      this.submissionIsProcessing = false;
+      if(feedback.type === feedbackTypes.solution || feedback.type === feedbackTypes.correctness) {
+        this.evaluation = feedback.evaluation as MrqEvaluation;
+      }
     });
   }
 
@@ -54,13 +60,14 @@ export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, Lea
       answers: this.checkedAnswers,
       reattemptCount: this.submissionReattemptCount
     };
+    this.submissionIsProcessing = true;
     this.submissionService.submit(this.learningObject.id, submission).subscribe((feedback) => {
       this.submissionReattemptCount++;
       this.feedbackConnector.sendToFeedback(feedback);
     });
   }
 
-  getAnswerResult(answerId: number): MrqItemEvaluation {
-    return this.evaluation.itemEvaluations.find((item) => item.id === answerId);
+  getAnswerResult(answer: string): MrqItemEvaluation {
+    return this.evaluation.itemEvaluations.find((item) => item.text === answer);
   }
 }
