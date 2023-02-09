@@ -13,7 +13,10 @@
     </p>
   </div>
   <mat-divider style="margin-top: 20px;"></mat-divider>
-  <button id="rate" mat-raised-button color="primary" (click)="openImprovementDialog()" i18n>Oceni Tutora</button>
+  <div style="margin-top: 20px;" fxLayoutGap="10px">
+    <button mat-raised-button color="primary" (click)="openImprovementDialog()" i18n>Oceni Tutora</button>
+    <button mat-raised-button [routerLink]="['/courses', courseId]" i18n>Pregled kursa</button>
+  </div>
   <br>
   <br>
 </div>

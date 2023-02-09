@@ -15,11 +15,9 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   sidenavOpened = false;
   instructionalItemsShown = true;
   unitId: number;
+  courseId: number;
 
-  constructor(
-    private route: ActivatedRoute,
-    private knowledgeComponentService: KnowledgeComponentService
-  ) {}
+  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -30,6 +28,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
       this.knowledgeComponentService.launchSession(+params.kcId).subscribe(() => {
         this.getKnowledgeComponent(+params.kcId);
         this.unitId = +params.unitId;
+        this.courseId = +params.courseId;
       });
     });
   }

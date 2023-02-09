@@ -67,8 +67,8 @@ const feedbackStore = {
         }
     },
     solution: {
-        basicCorrect: "Tvoj odgovor na zadatak je tačan, sjajno 😎.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
-        catCorrect: "Tvoj odgovor na zadatak je tačan, super 😸.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
+        basicCorrect: "Tvoj odgovor je tačan, sjajno 😎.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
+        catCorrect: "Tvoj odgovor je tačan, super 😸.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
         basicIncorrect: function(correctness: number) {
             return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nIznad ću diskutovati tačno rešenje pa savetujem da temeljno analiziraš moje teze pre nego što pređemo na sledeći zadatak.";
         }

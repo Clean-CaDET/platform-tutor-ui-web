@@ -14,6 +14,7 @@ import {DomSanitizer} from "@angular/platform-browser";
   styleUrls: ['./unit.component.css'],
 })
 export class UnitComponent implements OnInit {
+  courseId: number;
   unit: Unit;
   masteries: KCMastery[];
 
@@ -30,6 +31,7 @@ export class UnitComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
+      this.courseId = +params.courseId;
       this.unitService.getUnit(+params.unitId).subscribe(unit => this.unit = unit);
       this.unitService.getMasteries(+params.unitId).subscribe(masteries => this.masteries = masteries);
     });
