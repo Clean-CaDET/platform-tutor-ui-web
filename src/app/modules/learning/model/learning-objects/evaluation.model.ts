@@ -1,6 +1,7 @@
 export interface Evaluation {
   typeDiscriminator: string;
   correctnessLevel: number;
+  correct: boolean;
 }
 
 export const evaluationTypes = {

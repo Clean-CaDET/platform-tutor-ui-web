@@ -8,14 +8,14 @@
         </mat-checkbox>
         <br>
         <div
-          [class]="getAnswerResult(answer.id).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
+          [class]="getAnswerResult(answer.text).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
           class="mat-card-subtitle"
           *ngIf="evaluation"
         >
-          {{getAnswerResult(answer.id).feedback}}
+          {{getAnswerResult(answer.text).feedback}}
         </div>
       </mat-list-item>
     </ul>
-    <button *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
+    <button [disabled]="submissionIsProcessing" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
   </div>
 </div>

@@ -1,5 +1,6 @@
 export interface Submission {
   typeDiscriminator: string;
+  reattemptCount: number;
 }
 
 export const submissionTypes = {

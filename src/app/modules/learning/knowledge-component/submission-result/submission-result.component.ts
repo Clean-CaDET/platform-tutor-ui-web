@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { InterfacingInstructor } from '../../../learning-utilities/interfacing-instructor.service';
+import { AssessmentFeedbackConnector } from '../assessment-feedback-connector.service';
 import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
+import { Feedback } from '../../model/learning-objects/feedback.model';
+import { KnowledgeComponentStatistics } from '../../model/knowledge-component-statistics.model';
+import { createResponse, welcomeMessage } from './feedback-message-creator';
 
 @Component({
   selector: 'cc-submission-result',
@@ -13,77 +15,61 @@ import { KnowledgeComponentService } from '../knowledge-component.service';
 })
 export class SubmissionResultComponent implements OnInit, OnDestroy {
   @Input() kcId: number;
-  @Output() nextPageEvent = new EventEmitter<string>();
-  @Output() emotionDialogEvent = new EventEmitter<boolean>();
-  correctness = -1;
-  mastery: number;
-  totalCount: number;
-  passedCount: number;
-  attemptedCount: number;
-  unitId: number;
   courseId: number;
-  isSatisfied: boolean;
-  private observedAeEvaluations: Subscription;
-  private openEmotionsFormSubscription: Subscription;
+  unitId: number;
 
-  constructor(
-    private instructor: InterfacingInstructor,
-    private knowledgeComponentService: KnowledgeComponentService,
-    private route: ActivatedRoute
-  ) {}
+  @Output() changePage = new EventEmitter<string>();
+  private observedAssessment: Subscription;
+
+  statistics: KnowledgeComponentStatistics;
+  feedbackMessage: string;
+  feedbackProcessed: boolean;
+  messageTimeout: any;
+
+  constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
       this.courseId = +params.courseId;
     });
-    this.observedAeEvaluations =
-      this.instructor.observedAeEvaluations.subscribe((value) => {
-        {
-          this.correctness = value;
-          this.getKnowledgeComponentStatistics();
-        }
-      });
-    this.openEmotionsFormSubscription =
-      this.instructor.openEmotionsFormEvent.subscribe((_) => {
-        this.openEmotionsDialog();
-      });
-    this.getKnowledgeComponentStatistics();
+    this.observedAssessment = this.assessmentConnector.observedAssessment.subscribe(feedback => {
+      this.getKnowledgeComponentStatistics(feedback);
+    });
+    this.getKnowledgeComponentStatistics(null);
   }
 
   ngOnDestroy(): void {
-    this.observedAeEvaluations?.unsubscribe();
-    this.openEmotionsFormSubscription?.unsubscribe();
+    this.observedAssessment?.unsubscribe();
   }
 
-  getKnowledgeComponentStatistics(): void {
-    this.knowledgeComponentService
-      .getKnowledgeComponentStatistics(this.kcId)
-      .subscribe((result) => {
-        this.mastery = result.mastery;
-        this.totalCount = result.totalCount;
-        this.passedCount = result.passedCount;
-        this.attemptedCount = result.attemptedCount;
-        this.emotionDialogEvent.emit(result.isSatisfied);
-        this.isSatisfied = result.isSatisfied;
-
-        if(this.isSatisfied) {
-          this.instructor.presentKcCompletedMessage()
-        }
-      });
+  getKnowledgeComponentStatistics(feedback: Feedback): void {
+    this.feedbackProcessed = false;
+    this.feedbackMessage = "";
+    this.kcService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
+      if(feedback) {
+        let isFirstSatisfaction = this.statistics.isSatisfied !== result.isSatisfied
+        this.processFeedback(feedback, isFirstSatisfaction);
+      } else {
+        this.feedbackMessage = welcomeMessage;
+      }
+      this.statistics = result;
+    });
   }
 
-  //TODO: This belongs to the interfacing instructor, but that service is growing into a god class.
-  //We should consider how to decompose the interfacing instructor
-  openEmotionsDialog(): void {
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.data = { kcId: this.kcId, unitId: this.unitId };
+  private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean) {
+    this.feedbackMessage = createResponse(feedback, isFirstSatisfaction);
+    this.feedbackProcessed = true;
+    // If typing animation onComplete callback is fixed this should be changed
+    this.messageTimeout = setTimeout(() => this.assessmentConnector.sendToAssessment(feedback), 1200);
   }
 
-  nextPage(page: string): void {
-    this.correctness = -1;
-    this.nextPageEvent.emit(page);
+  onChangePage(page: string): void {
+    clearTimeout(this.messageTimeout);
+
+    this.feedbackProcessed = false;
+    this.feedbackMessage = "";
+
+    this.changePage.emit(page);
   }
 }

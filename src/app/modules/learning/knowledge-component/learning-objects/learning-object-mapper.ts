@@ -7,7 +7,6 @@ import { MultipleChoiceQuestion } from './assessment-items/multiple-choice-quest
 import { ArrangeTask } from './assessment-items/arrange-task/arrange-task.model';
 import { Image } from './instructional-items/image/image.model';
 import { ShortAnswerQuestion } from './assessment-items/short-answer-question/short-answer-question.model';
-import { Challenge } from './assessment-items/challenge/challenge.model';
 
 @Injectable({
   providedIn: 'root',
@@ -31,8 +30,6 @@ export class LearningObjectMapper {
         return new ArrangeTask(learningObject);
       case 'shortAnswerQuestion':
         return new ShortAnswerQuestion(learningObject);
-      case 'challenge':
-        return new Challenge(learningObject);
     }
     return null;
   }
