@@ -54,32 +54,23 @@ export class LearnerProgressComponent implements OnChanges {
       const averageSubmissionCount = allSubmissions / p.assessmentItemMasteries.length
       let kc = this.unit.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
 
-      if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes) {
-        return
-      }
-      else if (p.statistics.isSatisfied && averageSubmissionCount < 2) {
-        return
-      } else if (p.statistics.isSatisfied && p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 1.5) {
-        return
-      } else if (p.statistics.isSatisfied) {
-        suspiciousNum++;
-      }
+      if (!p.statistics.isSatisfied) return;
+      if (p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes) return;
+      if (p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 2.5) return;
+      if (averageSubmissionCount < 1.75) return;
+      suspiciousNum++;
     });
     return suspiciousNum;
   }
 
   public shouldAlert(learnerProgress: LearnerProgress): boolean {
-    if (learnerProgress.kcCount - learnerProgress.satisfiedCount == 1 || learnerProgress.suspiciousCount == 1) {
-      return true
-    } else return learnerProgress.kcCount - learnerProgress.satisfiedCount >= 2 || learnerProgress.suspiciousCount >= 2 ||
-      learnerProgress.kcCount - learnerProgress.satisfiedCount >= 1 && learnerProgress.suspiciousCount >= 1;
+    const unsatisfiedCount = learnerProgress.kcCount - learnerProgress.satisfiedCount;
+    if (unsatisfiedCount === 1 || learnerProgress.suspiciousCount === 1) return true
+    return unsatisfiedCount >= 2 || learnerProgress.suspiciousCount >= 2 || (unsatisfiedCount >= 1 && learnerProgress.suspiciousCount >= 1);
   }
 
   public getAlertColor(learnerProgress: LearnerProgress): string {
-    if (learnerProgress.kcCount - learnerProgress.satisfiedCount == 1 || learnerProgress.suspiciousCount == 1) {
-      return 'accent'
-    } else {
-      return 'warn'
-    }
+    if (learnerProgress.kcCount - learnerProgress.satisfiedCount === 1 || learnerProgress.suspiciousCount == 1) return 'accent';
+    return 'warn';
   }
 }
