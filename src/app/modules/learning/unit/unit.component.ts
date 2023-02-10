@@ -17,6 +17,7 @@ export class UnitComponent implements OnInit {
   courseId: number;
   unit: Unit;
   masteries: KCMastery[];
+  sidenavOpened = false;
 
   constructor(
     private unitService: UnitService,

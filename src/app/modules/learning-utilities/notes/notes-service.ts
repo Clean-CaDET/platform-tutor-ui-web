@@ -51,6 +51,13 @@ export class NotesService {
       .pipe(map((notes) => this.mapNotes(notes)));
   }
 
+  exportNotes(unitId: number): Observable<any> {
+    return this.http
+      .get(
+        environment.apiHost + 'learning/unit/' + unitId + '/notes/export', 
+        {responseType: 'blob' as 'json'});
+  }
+
   mapNotes(notes: Note[]): Note[] {
     return (notes = notes.map((note) => {
       note.mode = 'preview';
