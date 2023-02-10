@@ -1,0 +1,26 @@
+#knowledge-component {
+  width: 90%;
+  line-height: 150%;
+  text-align: justify;
+  margin: auto;
+}
+
+h1 {
+  font-weight: normal;
+}
+
+h2 {
+  display: inline;
+}
+
+.fixed {
+  position: fixed;
+  top: 0px;
+  right: 20px;
+  float: right;
+  z-index: 6;
+}
+
+.mat-icon-button {
+  margin: 10px;
+}

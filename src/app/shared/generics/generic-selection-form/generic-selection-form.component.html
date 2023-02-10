@@ -1,0 +1,17 @@
+<div fxLayout="column" style="width: 500px;">
+<form fxFlex>
+  <mat-form-field appearance="fill" fxFlex>
+    <mat-label>{{label}}</mat-label>
+    <input type="text" placeholder="Odaberi ili pretraži" matInput [formControl]="selectionControl" [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+    <mat-option *ngFor="let option of filteredOptions | async" [value]="presentationFunction(option)">
+        {{presentationFunction(option)}}
+    </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>
+<div fxLayoutGap="20px">
+    <button mat-raised-button color="primary" [disabled]="noItemSelected()" (click)="onSubmit()" fxFlex>Sačuvaj</button>
+    <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+</div>
+</div>

@@ -1,0 +1,58 @@
+<div fxLayout="column" fxLayoutGap="15px">
+    <cc-markdown-editor fxFlex [label]="'Tekst zadatka'" [editMode]="true" [livePreview]="false"
+        [text]="workingItem.text" (textChanged)="updateText($event)">
+    </cc-markdown-editor>
+    <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
+        <b>Dozvoljeni odgovori:</b>
+        <div formArrayName="options" fxLayout="column">
+            <div *ngFor="let optionForm of options.controls; let i = index">
+                <div [formGroup]="optionForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Tražene reči/fraze (ako je nabrajanje razdvojiti zarezom)</mat-label>
+                        <input matInput formControlName="text">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
+                </div>
+            </div>
+            <button mat-mini-fab color="primary" (click)="addOption(null)">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div fxLayout="row" fxLayoutGap="15px">
+            <mat-form-field appearance="fill" fxFlex="70">
+                <mat-label>Povratna informacija</mat-label>
+                <textarea matInput formControlName="feedback"></textarea>
+            </mat-form-field>
+            <mat-form-field appearance="fill" fxFlex>
+                <mat-label>Tolerancija slovne greške (broj pogrešenih karaktera)</mat-label>
+                <input type="number" min="0" matInput formControlName="tolerance">
+            </mat-form-field>
+        </div>
+        <b>Dodatne smernice (hints):</b>
+        <div formArrayName="hints" fxLayout="column">
+            <div *ngFor="let hintForm of hints.controls; let i = index">
+                <div [formGroup]="hintForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Tekst smernice</mat-label>
+                        <textarea matInput formControlName="text"></textarea>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeHint(i)"><mat-icon>delete_forever</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <div fxLayoutGap="15px">
+            <button mat-mini-fab color="primary" (click)="addHint(null)">
+                <mat-icon>add</mat-icon>
+            </button>
+            <span fxFlex></span>
+            <span fxLayoutGap="10px">
+                <button mat-mini-fab color="primary" [disabled]="form.invalid || workingItem.text=='' || options.length == 0" (click)="save()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="cancel()">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>

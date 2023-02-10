@@ -1,0 +1,55 @@
+<div fxFlex fxLayout="column" class="editor-container">
+  <div fxLayout="row" *ngIf="editMode">
+    <div fxLayout="row">
+      <button mat-icon-button (click)="insertElement('bold')">
+        <mat-icon>format_bold</mat-icon>
+      </button>
+      <button mat-icon-button (click)="insertElement('italic')">
+        <mat-icon>format_italic</mat-icon>
+      </button>
+      <mat-divider vertical="true"></mat-divider>
+      <button mat-icon-button>
+        <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
+      </button>
+      <mat-menu #menu class="mat-menu" fxLayout="column">
+        <div (click)="insertElement('h1')" mat-menu-item>h1</div>
+        <div (click)="insertElement('h2')" mat-menu-item>h2</div>
+        <div (click)="insertElement('h3')" mat-menu-item>h3</div>
+      </mat-menu>
+      <mat-divider vertical="true"></mat-divider>
+      <button mat-icon-button (click)="insertElement('bulleted')">
+        <mat-icon>format_list_bulleted</mat-icon>
+      </button>
+      <button mat-icon-button (click)="insertElement('numbered')">
+        <mat-icon>format_list_numbered</mat-icon>
+      </button>
+      <mat-divider vertical="true"></mat-divider>
+      <button mat-icon-button (click)="insertElement('code')">
+        <mat-icon>code</mat-icon>
+      </button>
+    </div>
+    <span fxFlex></span>
+    <button mat-icon-button (click)="livePreview = !livePreview">
+      <mat-icon>{{ livePreview ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+    <div *ngIf="submitCtrls">
+      <mat-divider vertical="true"></mat-divider>
+      <button mat-icon-button color="primary" (click)="onSubmit(false)">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button mat-icon-button color="warn" (click)="onSubmit(true)">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="editMode">
+    <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
+      <mat-label>{{label}}</mat-label>
+      <textarea #textAreaElement matInput [(ngModel)]="text" [readonly]="!editMode" [tabindex]="indextab"
+        (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"
+        style="height: 290px;"></textarea>
+    </mat-form-field>
+  </div>
+  <p *ngIf="livePreview || !editMode" [data]="text" markdown></p>
+</div>
+

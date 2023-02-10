@@ -1,24 +1,24 @@
 :host {
-    display: block;
-  }
+  display: block;
+}
 
-  button {
-    padding-bottom: 5px;
-    padding-top: 5px;
-    line-height: 160%;
-  }
+button {
+  padding-bottom: 5px;
+  padding-top: 5px;
+  line-height: 160%;
+}
 
-  #events, #progress, #kc-statistics, #course {
-    margin-top: 20px;
-    font-size: 12px;
-    width: 85%;
-    margin-left: 7.5%;
-    white-space: normal;
-    text-align: center;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.controls {
+  margin-top: 20px;
+  font-size: 12px;
+  width: 85%;
+  margin-left: 7.5%;
+  white-space: normal;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .mat-drawer-inner-container::-webkit-scrollbar {
-    display: none;
-  }
+.mat-drawer-inner-container::-webkit-scrollbar {
+  display: none;
+}

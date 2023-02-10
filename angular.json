@@ -6,11 +6,11 @@
     "platform-smart-tutor-web": {
       "projectType": "application",
       "schematics": {
-	    "@schematics/angular:component": {
+        "@schematics/angular:component": {
           "skipTests": true,
           "style": "scss"
         }
-	  },
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "cc",
@@ -72,11 +72,13 @@
               ]
             },
             "en": {
-              "localize": ["en"],
+              "localize": [
+                "en"
+              ],
               "outputPath": "dist/",
               "i18nMissingTranslation": "error"
             },
-			"development": {
+            "development": {
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -86,7 +88,7 @@
             }
           }
         },
-		"serve": {
+        "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "platform-smart-tutor-web:build"
@@ -139,6 +141,15 @@
               "devServerTarget": "platform-smart-tutor-web:serve:production"
             }
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       },
       "i18n": {
@@ -153,6 +164,10 @@
   },
   "defaultProject": "platform-smart-tutor-web",
   "cli": {
-    "analytics": "df29504f-f108-4064-806b-e496ae0db600"
+    "analytics": "df29504f-f108-4064-806b-e496ae0db600",
+    "schematicCollections": [
+      "@angular-eslint/schematics",
+      "@angular-eslint/schematics"
+    ]
   }
 }

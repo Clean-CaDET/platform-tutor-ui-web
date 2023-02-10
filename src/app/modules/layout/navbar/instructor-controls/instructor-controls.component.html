@@ -1,14 +1,26 @@
-<button color="primary" id="course" mat-flat-button [matMenuTriggerFor]="course">
-  {{ selectedCourse ? selectedCourse.name : 'Odaberi kurs'}}
+<button mat-flat-button color="primary" class="controls" 
+  [matMenuTriggerFor]="course">
+  {{ selectedCourse ? selectedCourse.code : 'Odaberi kurs'}}
 </button>
 <mat-menu #course="matMenu">
-  <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item>
-    {{course.name}}
+  <button [routerLink]="['/monitoring', course.id, 'progress']" *ngFor="let course of courses" mat-menu-item>
+    {{course.code}}
   </button>
 </mat-menu>
-<button color="primary" id="kc-statistics" mat-flat-button [routerLink]="['analytics', 'kc-statistics']">
-  Pregled veština
-</button>
-<button color="primary" id="events" mat-flat-button [routerLink]="['analytics', 'events']">
-  Pregled svih događaja
-</button>
+<ng-container *ngIf="selectedCourse">
+  <button mat-flat-button [color]="selectedControl === 'authoring' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/authoring/course', selectedCourse.id]">
+    <mat-icon>edit</mat-icon><br>
+    Autorstvo
+  </button>
+  <button mat-flat-button [color]="selectedControl === 'analytics' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/analytics', selectedCourse.id, 'kc-statistics']">
+    <mat-icon>bar_chart</mat-icon><br>
+    Analitike
+  </button>
+  <button mat-flat-button [color]="selectedControl === 'groups' ? 'accent' : 'primary'" class="controls"
+    [routerLink]="['/monitoring', selectedCourse.id, 'progress']">
+    <mat-icon>groups</mat-icon><br>
+    Grupe
+  </button>
+</ng-container>

@@ -1,0 +1,43 @@
+<div fxLayout="column" style="height: 100%;">
+    <div>
+        <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
+    </div>
+    <div fxFlex>
+        <div fxFlex="30">
+            <div fxLayout="row">
+                <mat-card style="margin: 15px;" fxFlex [class.highlight]="selectedUnit?.code===''">
+                    <h3>Lekcije</h3>
+                    <span fxFlex></span>
+                    <button mat-mini-fab [color]="selectedUnit?.code==='' ? 'accent' : 'primary'" (click)="createUnit()">
+                        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
+                    </button>
+                </mat-card>
+            </div>
+            <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+                <mat-card [class.highlight]="selectedUnit?.id===unit.id" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits">
+                    <span><b>{{unit.code}}</b>: {{unit.name}}</span>
+                    <span fxFlex></span>
+                    <span fxLayoutGap="10px" fxLayout="row">
+                        <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = false; showKnowledgeComponents = true;"
+                            [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : 'primary'">
+                            <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'">account_tree</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="selectedUnit = unit; showUnitDetails = true; showKnowledgeComponents = false;"
+                            [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : 'primary'">
+                            <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'">text_snippet</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="deleteUnit(unit.id)" color="primary">
+                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                        </button>
+                    </span>
+                </mat-card>
+            </cdk-virtual-scroll-viewport>
+        </div>
+        <div fxFlex="70" *ngIf="selectedUnit && showUnitDetails">
+            <cc-unit-details [unit]="selectedUnit" (unitSaved)="saveOrUpdateUnit($event)"></cc-unit-details>
+        </div>
+        <div fxFlex="70" *ngIf="selectedUnit && showKnowledgeComponents">
+            <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<mat-progress-bar style="margin: 10px" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
+<div fxLayout="row wrap">
+    <div fxFlex="50" *ngFor="let learnerProgress of progresses">
+    <div style="margin: 10px">
+        <mat-accordion>
+        <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" style="padding: 10px">
+              <div style="width:100%" fxLayout="row" fxLayoutAlign="space-between">
+                <mat-panel-title>
+                  <b>{{learnerProgress.learner.index}} {{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}</b>
+                </mat-panel-title>
+                <mat-panel-description>
+                  <div>
+                      <div class="progress">{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</div>
+                      <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
+                  </div>
+                </mat-panel-description>
+                <mat-icon *ngIf="shouldAlert(learnerProgress)" [ngClass] = getAlertColor(learnerProgress)>report_problem</mat-icon>
+                <mat-icon *ngIf="!shouldAlert(learnerProgress)" class="primary">check_circle</mat-icon>
+              </div>
+            </mat-expansion-panel-header>
+            <cc-assessments-table [knowledgeComponentProgresses]="learnerProgress.knowledgeComponentProgress" [kcs]="unit.knowledgeComponents">
+            </cc-assessments-table>
+        </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    </div>
+</div>

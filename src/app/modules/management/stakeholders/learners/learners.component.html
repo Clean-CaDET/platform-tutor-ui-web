@@ -1,0 +1,17 @@
+<div fxFlex fxLayout="row" fxLayoutGap="20px">
+  <cc-generic-table
+    fxFlex="65"
+    [title]="'Učenici'"
+    [fieldConfiguration]="fields"
+    [baseUrl]="baseUrl"
+    (selectItem)="onSelect($event)">
+  </cc-generic-table>
+  <div fxFlex="30" *ngIf="selectedLearner">
+    <cc-generic-table
+      [title]="'Prijavljeni kursevi'"
+      [fieldConfiguration]="courseFields"
+      [baseUrl]="enrolledCoursesUrl"
+      [pageProperties]="null">
+    </cc-generic-table>
+  </div>
+</div>
