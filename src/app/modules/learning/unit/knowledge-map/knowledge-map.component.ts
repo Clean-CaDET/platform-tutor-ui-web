@@ -22,12 +22,18 @@ export class KnowledgeMapComponent implements OnChanges {
     let node: TreeNode = {
       id: kc.id,
       name: kc.name,
-      children: this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)),
+      order: kc.order,
+      code: kc.code,
+      children: this.createSortedChildren(kc),
       mastery: kcm.mastery,
       isSatisfied: kcm.isSatisfied
     }
 
     return node;
+  }
+
+  private createSortedChildren(kc: KnowledgeComponent): TreeNode[] {
+    return this.findKnowledgeSubcomponents(kc.id).map(kc => this.createNode(kc)).sort((kc1, kc2) => kc1.order - kc2.order);
   }
 
   findKnowledgeSubcomponents(parentId: number): KnowledgeComponent[] {
@@ -61,6 +67,8 @@ interface TreeNode {
   id: number;
   name: string;
   mastery: number;
+  order: number;
+  code: string;
   isSatisfied: boolean;
   children: TreeNode[];
 }
