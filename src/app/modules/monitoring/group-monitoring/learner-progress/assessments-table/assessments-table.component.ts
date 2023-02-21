@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
 
 interface AssessmentTableElement {
+  kcOrder: number,
   kcCode: string,
   kcName: string,
   kcId: number,
@@ -60,6 +61,7 @@ export class AssessmentsTableComponent implements OnChanges {
         }
       });
     });
+    dataSource.sort(te => te.kcOrder)
     this.dataSource = new MatTableDataSource(dataSource);
   }
 
@@ -68,6 +70,7 @@ export class AssessmentsTableComponent implements OnChanges {
     p: KnowledgeComponentProgress
   ): AssessmentTableElement {
     return {
+      kcOrder: kc.order,
       kcCode: kc.code,
       kcName: kc.name,
       kcId: kc.id,
