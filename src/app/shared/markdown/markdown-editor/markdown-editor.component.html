@@ -50,6 +50,6 @@
         style="height: 290px;"></textarea>
     </mat-form-field>
   </div>
-  <p *ngIf="livePreview || !editMode" [data]="text" markdown></p>
+  <markdown *ngIf="livePreview || !editMode" [data]="text" lineNumbers></markdown>
 </div>
 

@@ -61,7 +61,7 @@ export class AssessmentsTableComponent implements OnChanges {
         }
       });
     });
-    dataSource.sort(te => te.kcOrder)
+    dataSource.sort( (te1, te2) => te1.kcOrder - te2.kcOrder)
     this.dataSource = new MatTableDataSource(dataSource);
   }
 
