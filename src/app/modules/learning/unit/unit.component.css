@@ -36,3 +36,9 @@ h1 {
 h2 {
   display: inline;
 }
+
+.medal-icon {
+  margin-top:25px;
+  margin-right: 5px;
+  transform: scale(3);
+}
