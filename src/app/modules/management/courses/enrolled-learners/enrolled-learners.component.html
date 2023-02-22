@@ -1,5 +1,5 @@
 <mat-card style="margin-bottom: 10px;" fxFlex fxLayout="column">
-    <h2>Učenici ({{group.name}})</h2>
+    <h2>Polaznici ({{group.name}})</h2>
     <div fxLayout="row">
         <span fxFlex>
         </span>
@@ -13,7 +13,7 @@
         <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
         <td mat-cell *matCellDef="let element">
             <span *ngIf="field.type === 'string' || field.type === 'email'">
-            {{element[field.code]}}
+                {{trim(element[field.code])}}
             </span>
             <span *ngIf="field.type === 'CRUD'">
             <span fxFlex></span>

@@ -57,4 +57,10 @@ export class EnrolledLearnersComponent implements OnChanges {
       }
     });
   }
+
+  trim(text: string): string {
+    if(!text) return null;
+    if(text.length < 18) return text;
+    return text.substring(0, 16)+"...";
+  }
 }

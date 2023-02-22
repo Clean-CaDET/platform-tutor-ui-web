@@ -9,6 +9,6 @@
   <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
 
   <button color="primary" *ngIf="!user" id="login" mat-flat-button [routerLink]="['login']" i18n>Prijavi se</button>
-  <small *ngIf="user" color="primary" id="username">{{user.username}}</small>
+  <small *ngIf="user" color="primary" id="username">{{trim(user.username)}}</small>
   <button color="primary" *ngIf="user" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']" i18n>Odjavi se</button>
 </div>
