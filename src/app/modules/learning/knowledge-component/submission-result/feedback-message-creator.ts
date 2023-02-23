@@ -3,7 +3,7 @@ import { Feedback, feedbackTypes } from "../../model/learning-objects/feedback.m
 export const welcomeMessage = "Zamisli se nad tekstom zadatka i formiraj svoj odgovor.";
 
 export function createResponse(feedback: Feedback, isFirstSatisfaction: boolean): string {
-    if(isFirstSatisfaction) return createSatisfied();
+    if(isFirstSatisfaction) return createSatisfied() + createResponse(feedback, false);
     if(feedback.type === feedbackTypes.pump) return createPump();
     if(feedback.type === feedbackTypes.hint) return createHint(feedback);
     if(feedback.type === feedbackTypes.correctness) return createCorrectness(feedback);
@@ -43,12 +43,12 @@ function getRandomNumber(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
 
-const incorrectAnswer = "Dati odgovor nije skroz tačan.\n";
+const incorrectAnswer = "Dati odgovor nije skroz tačan. ";
 const alternative = "\nAlternativno, pređi na sledeći zadatak pa ćeš kasnije rešiti ovaj.";
 // There is a deep structure to this conversation that AutoTutor has already explored. We are creating a basic version for now.
 const feedbackStore = {
     satisfied: {
-        party: "Veština savladana, bravo 🥳!\n\nIznad ću diskutovati rešenje zadatka pa savetujem da analiziraš moje teze. Onda se vrati na lekciju i odaberi sledeću veštinu."
+        party: 'Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (taster "Gradivo") ili da pogledaš moj komentar na zadatak.\n\n'
     },
     pump: {
         answer: incorrectAnswer + "Ako se negde dvoumiš, zamisli se nad tom dilemom i formiraj nov odgovor." + alternative,
@@ -58,7 +58,7 @@ const feedbackStore = {
     },
     hint: {
         basic: function(hint: string) {
-            return incorrectAnswer + "Zamisli se nad sledećom smernicom pa formiraj nov odgovor\n" + hint + alternative;
+            return incorrectAnswer + "Zamisli se nad sledećom smernicom 💡:\n" + hint + alternative;
         }
     },
     correctness: {

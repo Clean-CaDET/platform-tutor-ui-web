@@ -17,19 +17,17 @@
     <div id="knowledge-component" *ngIf="knowledgeComponent">
       <br>
       <h1 class="mat-h1">Cilj: {{knowledgeComponent.name}}</h1>
-      <mat-card>
       <cc-learning-object-container
         *ngFor="let learningObject of learningObjects"
         [learningObject]="learningObject">
       </cc-learning-object-container>
-      </mat-card>
       <br>
       <div *ngIf="instructionalItemsShown" fxLayoutGap="10px">
         <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
         <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Pregled lekcije</button>
       </div>
       <div *ngIf="!instructionalItemsShown">
-        <div style="margin-bottom: 120px;"></div>
+        <div style="margin-bottom: 140px;"></div>
         <cc-submission-result (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
       </div>
       <br>

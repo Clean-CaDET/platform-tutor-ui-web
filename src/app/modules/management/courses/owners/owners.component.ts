@@ -64,4 +64,9 @@ export class OwnersComponent implements OnChanges {
     return this.allInstructors.filter(i => !this.dataSource.data.find(o => o.id === i.id));
   }
 
+  trim(text: string): string {
+    if(!text) return null;
+    if(text.length < 18) return text;
+    return text.substring(0, 16)+"...";
+  }
 }
