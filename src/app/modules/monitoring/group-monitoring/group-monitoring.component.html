@@ -28,7 +28,7 @@
         </button>
       </div>
     </div>
-    <mat-paginator (page)="changePage($event)" [length]="count"
+    <mat-paginator (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
                    [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>
