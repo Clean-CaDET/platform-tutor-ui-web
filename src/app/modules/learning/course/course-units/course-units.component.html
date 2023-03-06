@@ -1,14 +1,11 @@
 <div fxLayout="row wrap">
-  <mat-card
-    style="margin: 10px"
-    class="card"
-    *ngFor="let unit of course.knowledgeUnits"
-    fxFlex="30"
-    fxFlex.md="45"
+  <div *ngFor="let unit of course.knowledgeUnits"
+    fxFlex="33"
+    fxFlex.md="50"
     fxFlex.sm="100"
-    fxFlex.xs="100"
-    [routerLink]="'/course/' + course.id + '/unit/' + unit.id"
-  >
+    fxFlex.xs="100">
+  <mat-card style="margin: 10px" class="card" fxFlex
+    [routerLink]="'/course/' + course.id + '/unit/' + unit.id">
     <mat-card-header>
       <mat-icon mat-card-avatar>book</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
@@ -19,4 +16,5 @@
       </p>
     </mat-card-content>
   </mat-card>
+  </div>
 </div>
