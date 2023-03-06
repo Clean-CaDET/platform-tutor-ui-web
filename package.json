@@ -28,7 +28,6 @@
     "@angular/youtube-player": "^14.1.0",
     "@auth0/angular-jwt": "^5.1.0",
     "@swimlane/ngx-charts": "^20.1.2",
-    "angular-typing-animator": "0.0.9",
     "ngx-csv": "^0.3.2",
     "ngx-markdown": "^14.0.1",
     "rxjs": "^7.5.6",
