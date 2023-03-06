@@ -51,7 +51,7 @@ export class GroupMonitoringComponent implements OnInit {
   private getCourse(): void {
     this.groupMonitoringService.getCourse(this.courseId).subscribe((course) => {
       this.course = course;
-      this.units = course.knowledgeUnits;
+      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order);
     });
   }
 

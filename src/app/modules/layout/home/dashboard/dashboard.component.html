@@ -1,8 +1,7 @@
-<h2 *ngIf="user.role === 'learner' || user.role === 'instructor'">Katalog kurseva</h2>
+<h2 *ngIf="user?.role === 'learner' || user?.role === 'instructor'">Katalog kurseva</h2>
 <div fxLayout="row wrap">
     <cc-course-card 
-        style="margin: 10px;"
-        fxFlex="45"
+        fxFlex="50"
         fxFlex.sm="100"
         fxFlex.xs="100"
         *ngFor="let course of courses"
