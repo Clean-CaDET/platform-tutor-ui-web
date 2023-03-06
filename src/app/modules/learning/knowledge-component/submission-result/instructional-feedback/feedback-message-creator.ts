@@ -1,4 +1,4 @@
-import { Feedback, feedbackTypes } from "../../model/learning-objects/feedback.model";
+import { Feedback, feedbackTypes } from "../../../model/learning-objects/feedback.model";
 
 export const welcomeMessage = "Zamisli se nad tekstom zadatka i formiraj svoj odgovor.";
 
