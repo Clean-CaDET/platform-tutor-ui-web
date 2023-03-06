@@ -65,12 +65,13 @@ export class LearnerProgressComponent implements OnChanges {
 
   public shouldAlert(learnerProgress: LearnerProgress): boolean {
     const unsatisfiedCount = learnerProgress.kcCount - learnerProgress.satisfiedCount;
-    if (unsatisfiedCount === 1 || learnerProgress.suspiciousCount === 1) return true
-    return unsatisfiedCount >= 2 || learnerProgress.suspiciousCount >= 2 || (unsatisfiedCount >= 1 && learnerProgress.suspiciousCount >= 1);
+    return unsatisfiedCount > 0 || learnerProgress.suspiciousCount > 0;
   }
 
   public getAlertColor(learnerProgress: LearnerProgress): string {
-    if (learnerProgress.kcCount - learnerProgress.satisfiedCount === 1 || learnerProgress.suspiciousCount == 1) return 'accent';
-    return 'warn';
+    let unsatisfiedCount = learnerProgress.kcCount - learnerProgress.satisfiedCount
+    if(unsatisfiedCount > 1 || learnerProgress.suspiciousCount > 1 ||
+      (learnerProgress.suspiciousCount === 1 && unsatisfiedCount === 1)) return 'warn';
+    return 'accent';
   }
 }
