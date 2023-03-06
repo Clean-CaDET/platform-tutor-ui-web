@@ -1,4 +1,4 @@
-<mat-card
+<mat-card style="margin: 10px" fxLayout="column" fxFlex
     (click)="onCourseClick()"
     [ngClass]="{'pointer': user.role === 'learner'}">
     <mat-card-header>
@@ -10,6 +10,7 @@
             <markdown>{{course.description}}</markdown>
         </p>
     </mat-card-content>
+    <span fxFlex></span>
     <mat-card-actions *ngIf="user.role === 'instructor'"
         fxLayoutAlign="end" fxLayoutGap="16px">
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/authoring/course', course.id]">

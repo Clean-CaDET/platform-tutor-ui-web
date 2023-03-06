@@ -16,12 +16,12 @@
                     Status: {{learnerEnrollment.enrollment.status}}<br>
                     Započeto: {{learnerEnrollment.enrollment.start | date: 'short'}}
                 </small>
-                <button mat-mini-fab (click)="unenroll(learnerEnrollment.learner.id)" color="warn">
-                    <mat-icon matTooltip="Ukloni pristup lekciji" [matTooltipPosition]="'above'"
-                       >stop</mat-icon>
-                </button>
             </div>
-            <button *ngIf="!learnerEnrollment.enrollment" mat-mini-fab (click)="enroll(learnerEnrollment.learner.id)" color="primary">
+            <button *ngIf="learnerEnrollment.enrollment && learnerEnrollment.enrollment.status == 'Active'" mat-mini-fab (click)="unenroll(learnerEnrollment.learner.id)" color="warn">
+                <mat-icon matTooltip="Ukloni pristup lekciji" [matTooltipPosition]="'above'"
+                   >stop</mat-icon>
+            </button>
+            <button *ngIf="!learnerEnrollment.enrollment || learnerEnrollment.enrollment.status =='Hidden'" mat-mini-fab (click)="enroll(learnerEnrollment.learner.id)" color="primary">
                 <mat-icon matTooltip="Omogući pristup lekciji" [matTooltipPosition]="'above'"
                    >play_arrow</mat-icon>
             </button>

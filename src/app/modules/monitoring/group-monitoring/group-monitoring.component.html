@@ -3,14 +3,6 @@
     class="mat-elevation-z5 sticky">
     <div fxLayoutGap="15px" fxLayout="row">
       <mat-form-field appearance="fill">
-          <mat-label>Lekcija</mat-label>
-          <mat-select [(value)]="selectedUnit">
-              <mat-option *ngFor="let unit of units" [value]="unit">
-                {{unit.name}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
           <mat-label>Grupa</mat-label>
           <mat-select [(value)]="selectedGroupId" (selectionChange)="getLearners()">
               <mat-option value="0">Sve</mat-option>
@@ -18,6 +10,14 @@
                 {{group.name}}
               </mat-option>
           </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Lekcija</mat-label>
+        <mat-select [(value)]="selectedUnit">
+            <mat-option *ngFor="let unit of units" [value]="unit">
+              {{unit.name}}
+            </mat-option>
+        </mat-select>
       </mat-form-field>
       <div fxLayout="row" fxLayoutGap="10px">
         <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'accent' : 'primary'" (click)="showProgress = true">
@@ -28,7 +28,7 @@
         </button>
       </div>
     </div>
-    <mat-paginator (page)="changePage($event)" [length]="count"
+    <mat-paginator (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
                    [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>

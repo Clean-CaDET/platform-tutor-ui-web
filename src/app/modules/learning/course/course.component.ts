@@ -27,7 +27,10 @@ export class CourseComponent implements OnInit {
       });
       this.courseService
         .getCourse(+params.courseId)
-        .subscribe((course) => (this.course = course));
+        .subscribe(course => {
+          this.course = course;
+          this.course.knowledgeUnits = this.course.knowledgeUnits.sort((a, b) => a.order - b.order);
+        });
     });
   }
 }

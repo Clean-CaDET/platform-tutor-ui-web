@@ -24,7 +24,7 @@ export class GroupMonitoringComponent implements OnInit {
 
   learners: Learner[] = [];
   count: number;
-  page = 1;
+  pageIndex = 0;
   pageSize = 20;
 
   showProgress = true;
@@ -51,12 +51,12 @@ export class GroupMonitoringComponent implements OnInit {
   private getCourse(): void {
     this.groupMonitoringService.getCourse(this.courseId).subscribe((course) => {
       this.course = course;
-      this.units = course.knowledgeUnits;
+      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order);
     });
   }
 
   public getLearners(): void {
-    this.groupMonitoringService.getLearners(this.page, this.pageSize, +this.selectedGroupId, +this.courseId)
+    this.groupMonitoringService.getLearners(this.pageIndex+1, this.pageSize, +this.selectedGroupId, +this.courseId)
       .subscribe((data) => {
         this.learners = data.results;
         this.count = data.totalCount;
@@ -64,7 +64,11 @@ export class GroupMonitoringComponent implements OnInit {
   }
 
   changePage(paginator: PageEvent): void {
-    this.page = paginator.pageIndex + 1;
+    if(this.pageSize !== paginator.pageSize) {
+      this.pageIndex = 0;
+    } else {
+      this.pageIndex = paginator.pageIndex;
+    }
     this.pageSize = paginator.pageSize;
     this.getLearners();
   }

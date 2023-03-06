@@ -1,6 +1,7 @@
 <mat-card style="margin-bottom: 10px;" fxFlex fxLayout="column">
     <h2>Polaznici ({{group.name}})</h2>
     <div fxLayout="row">
+        <span>Broj polaznika: {{dataSource?.data.length}}</span>
         <span fxFlex>
         </span>
         <button mat-mini-fab color="primary" (click)="onAddBulk()">

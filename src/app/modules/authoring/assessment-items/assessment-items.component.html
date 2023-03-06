@@ -1,8 +1,15 @@
-<div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px" fxFlex>
+<div fxLayout="column" fxLayoutGap="25px">
+    <small>
+        <span fxFlex></span>
+        <span>
+            Broj zadataka: {{ assessmentItems?.length }}
+        </span>
+    </small>
     <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex>
         <div *ngIf="!editMap[item.id]">
             <div fxLayout="row">
                 <small fxFlex fxLayoutAlign=" center">
+                    <b>{{i + 1}}.&nbsp;&nbsp;</b>
                     <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
                 </small>
                 <button mat-icon-button *ngIf="i !== 0"
