@@ -26,7 +26,7 @@
         <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'primary' : 'accent'" (click)="showProgress = false">
             Pristup
         </button>
-        <button [disabled]="selectedUnit===null" style="width: 92px; height:60px" color="primary" mat-raised-button (click)="downloadProgress()">
+        <button [disabled]="selectedUnit===null || !showProgress" style="width: 92px; height:60px" color="primary" mat-raised-button (click)="downloadProgress()">
           Preuzmi
         </button>
       </div>
