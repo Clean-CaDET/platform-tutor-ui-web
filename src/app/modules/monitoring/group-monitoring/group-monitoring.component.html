@@ -26,13 +26,16 @@
         <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'primary' : 'accent'" (click)="showProgress = false">
             Pristup
         </button>
+        <button [disabled]="selectedUnit===null" style="width: 92px; height:60px" color="primary" mat-raised-button (click)="downloadProgress()">
+          Preuzmi
+        </button>
       </div>
     </div>
     <mat-paginator (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
                    [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>
-      
+
   <cc-learner-progress *ngIf="showProgress" [unit]="selectedUnit"
     [learners]="learners"></cc-learner-progress>
   <cc-enrollment *ngIf="!showProgress" [unit]="selectedUnit"

@@ -4,6 +4,8 @@ import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model
 import { LearnerProgress } from '../../model/learner-progress.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
+import * as FileSaver from "file-saver";
+
 
 @Component({
   selector: 'cc-learner-progress',
@@ -15,7 +17,6 @@ export class LearnerProgressComponent implements OnChanges {
   @Input() unit: Unit;
   progresses: LearnerProgress[] = [];
   progressBarActive = false;
-  suspiciousKcNum: number = 0;
 
   constructor(private monitoringService: GroupMonitoringService) {}
 
@@ -73,5 +74,34 @@ export class LearnerProgressComponent implements OnChanges {
     if(unsatisfiedCount > 1 || learnerProgress.suspiciousCount > 1 ||
       (learnerProgress.suspiciousCount === 1 && unsatisfiedCount === 1)) return 'warn';
     return 'accent';
+  }
+
+  public downloadProgress (groupName: string): void {
+
+    let progresses: {
+      username: string;
+      name: string;
+      count: number;
+      suspicious: number;
+      satisfied: number; }[] = []
+
+    this.progresses.forEach(learner => {
+      const progress = {
+        username: learner.learner.index,
+        name: learner.learner.name,
+        count: learner.kcCount,
+        suspicious: learner.suspiciousCount,
+        satisfied: learner.satisfiedCount
+      }
+      progresses.push(progress)
+    })
+
+    let unitProgresses = {
+      name: this.unit.name,
+      progress: progresses
+    }
+
+    const blob = new Blob([JSON.stringify(unitProgresses)], {type: "text/plain;charset=utf-8"});
+    FileSaver.saveAs(blob, groupName + "-" + this.unit.name + ".txt");
   }
 }
