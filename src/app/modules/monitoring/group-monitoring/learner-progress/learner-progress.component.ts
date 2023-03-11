@@ -97,7 +97,8 @@ export class LearnerProgressComponent implements OnChanges {
     })
 
     let unitProgresses = {
-      name: this.unit.name,
+      unitName: this.unit.name,
+      groupName: groupName,
       progress: progresses
     }
 
