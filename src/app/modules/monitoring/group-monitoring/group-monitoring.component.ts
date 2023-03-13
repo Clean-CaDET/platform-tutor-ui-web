@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
-import { Unit } from '../../learning/model/unit.model';
-import { Course } from '../../learning/model/course.model';
-import { LearnerGroup } from '../../learning/model/learner-group.model';
-import { GroupMonitoringService } from './group-monitoring.service';
-import { PageEvent } from '@angular/material/paginator';
-import { Learner } from '../../knowledge-analytics/model/learner.model';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
+import {Unit} from '../../learning/model/unit.model';
+import {Course} from '../../learning/model/course.model';
+import {LearnerGroup} from '../../learning/model/learner-group.model';
+import {GroupMonitoringService} from './group-monitoring.service';
+import {PageEvent} from '@angular/material/paginator';
+import {Learner} from '../../knowledge-analytics/model/learner.model';
+import {LearnerProgressComponent} from "./learner-progress/learner-progress.component";
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -13,6 +14,9 @@ import { Learner } from '../../knowledge-analytics/model/learner.model';
   styleUrls: ['./group-monitoring.component.scss'],
 })
 export class GroupMonitoringComponent implements OnInit {
+
+  @ViewChild(LearnerProgressComponent) learnerProgress: LearnerProgressComponent
+
   courseId = 0;
   course: Course;
 
@@ -71,5 +75,10 @@ export class GroupMonitoringComponent implements OnInit {
     }
     this.pageSize = paginator.pageSize;
     this.getLearners();
+  }
+
+  downloadProgress(): void {
+    let groupName = this.groups.find((g: LearnerGroup) => g.id === this.selectedGroupId)?.name || "SVE" ;
+    this.learnerProgress.downloadProgress(groupName);
   }
 }
