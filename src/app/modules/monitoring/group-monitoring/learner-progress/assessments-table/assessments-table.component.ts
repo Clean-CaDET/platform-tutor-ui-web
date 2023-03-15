@@ -4,6 +4,9 @@ import { KnowledgeComponentProgress } from '../../../model/knowledge-component-p
 import { KnowledgeComponent } from '../../../../learning/model/knowledge-component.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
+import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
+import { ngxCsv } from 'ngx-csv';
+import { GroupMonitoringService } from '../../group-monitoring.service';
 
 interface AssessmentTableElement {
   kcOrder: number,
@@ -50,7 +53,7 @@ export class AssessmentsTableComponent implements OnChanges {
   ];
   expandedElement: AssessmentTableElement = {} as AssessmentTableElement;
 
-  constructor() {}
+  constructor(private monitoringService: GroupMonitoringService) {}
 
   ngOnChanges(): void {
     const dataSource: AssessmentTableElement[] = [];
@@ -65,10 +68,7 @@ export class AssessmentsTableComponent implements OnChanges {
     this.dataSource = new MatTableDataSource(dataSource);
   }
 
-  private createAssessmentTableElement(
-    kc: KnowledgeComponent,
-    p: KnowledgeComponentProgress
-  ): AssessmentTableElement {
+  private createAssessmentTableElement(kc: KnowledgeComponent, p: KnowledgeComponentProgress): AssessmentTableElement {
     return {
       kcOrder: kc.order,
       kcCode: kc.code,
@@ -82,5 +82,35 @@ export class AssessmentsTableComponent implements OnChanges {
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
     };
+  }
+
+  getEvents(learnerId: number, kcId: number): void {
+    this.monitoringService.getEvents(learnerId, kcId).subscribe(data => this.exportToCSV(data));
+  }
+
+  exportToCSV(events: LearningEvent[]): void {
+    const data = JSON.parse(JSON.stringify(events));
+    for (const event of data) {
+      if (event.specificData) {
+        event.specificData = JSON.stringify(event.specificData);
+      }
+    }
+    new ngxCsv(data, 'Events', {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      title: 'Events',
+      useBom: true,
+      noDownload: false,
+      headers: [
+        'Type',
+        'Timestamp',
+        'Knowledge Component Id',
+        'Learner Id',
+        'Event-specific data',
+      ],
+    });
   }
 }
