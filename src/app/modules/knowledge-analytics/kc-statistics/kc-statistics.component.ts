@@ -33,8 +33,8 @@ export class KcStatisticsComponent implements OnInit {
     useBom: true,
     noDownload: false,
     headers: [
-      'Timestamp',
       'Type',
+      'Timestamp',
       'Knowledge Component Id',
       'Learner Id',
       'Event-specific data',
