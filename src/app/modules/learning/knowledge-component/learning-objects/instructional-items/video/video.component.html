@@ -1,4 +1,4 @@
 <div id="caption"><h3>{{learningObject.caption}}</h3></div>
-<youtube-player fxLayoutAlign="center"
+<youtube-player fxLayoutAlign="center" (stateChange)="onStateChangeEvent($event)"
     videoId="{{learningObject.getVideoId()}}" [width]="800" [height]="450">
 </youtube-player>

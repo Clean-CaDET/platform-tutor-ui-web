@@ -1,13 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
+import {LearnerActivityService} from "../../../shared/activity/learner-activity.service";
 
 @Component({
   selector: 'cc-knowledge-component',
   templateUrl: './knowledge-component.component.html',
   styleUrls: ['./knowledge-component.component.css'],
+  providers: [LearnerActivityService]
 })
 export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
@@ -17,7 +19,8 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   unitId: number;
   courseId: number;
 
-  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService) {}
+  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService,
+              private activityService: LearnerActivityService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -30,6 +33,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.unitId = +params.unitId;
         this.courseId = +params.courseId;
       });
+      this.activityService.checkUserActivity(+params.kcId);
     });
   }
 
@@ -77,5 +81,14 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
 
   private scrollToTop() {
     document.querySelector('#router-outlet').scrollTop = 0;
+  }
+
+  @HostListener('window:beforeunload', ['$event'])
+  beforeunloadHandler(event: any) {
+    event.preventDefault();
+    this.knowledgeComponentService.abandonSession(this.knowledgeComponent.id).subscribe({
+      next: () => { return true },
+      error: () => { return false }
+    })
   }
 }
