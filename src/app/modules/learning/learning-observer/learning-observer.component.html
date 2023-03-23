@@ -1,0 +1,12 @@
+<div class="chat">
+    <div *ngFor="let message of messages" class="message">
+        <div class="image">
+            <img src="../../../../assets/images/black.png" alt="">
+        </div>
+        <div class="text">
+            {{message}}
+        </div>
+    </div>
+    <textarea name="" id="" cols="70" rows="8" placeholder="Upisi ogovor..." minlength="10" required [(ngModel)]="newMessage" (keyup.enter)="addItem()" [disabled]="isDisabled"></textarea>
+    <button (click)="addItem()"><img src="../../../../assets/images/telegramIcon.png" alt=""></button>
+</div>

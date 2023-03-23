@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
+import { ModalService } from '../modal.service';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -17,7 +18,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   unitId: number;
   courseId: number;
 
-  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService) {}
+  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService, private modalService: ModalService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

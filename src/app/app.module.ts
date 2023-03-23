@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -44,6 +45,7 @@ export function markdownConfiguration(): MarkedOptions {
     MaterialModule,
     HttpClientModule,
     FlexLayoutModule,
+    MatDialogModule,
     AuthenticationModule,
     MarkdownModule.forRoot({
       markedOptions: {
