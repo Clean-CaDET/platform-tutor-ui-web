@@ -10,6 +10,7 @@ import { PageEvent } from '@angular/material/paginator';
   styleUrls: ['./events-table.component.scss'],
 })
 export class EventsTableComponent implements OnInit {
+  // TODO: Remove or rework component, it is currently unused.
   events: LearningEvent[];
   allEvents: LearningEvent[];
   count: number;

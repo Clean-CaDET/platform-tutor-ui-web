@@ -48,7 +48,7 @@ const alternative = "\nAlternativno, pređi na sledeći zadatak pa ćeš kasnije
 // There is a deep structure to this conversation that AutoTutor has already explored. We are creating a basic version for now.
 const feedbackStore = {
     satisfied: {
-        party: 'Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (taster "Gradivo") ili da pogledaš moj komentar na zadatak.\n\n'
+        party: 'Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (klik na taster "Lekcija") ili da pogledaš moj komentar na zadatak.\n\n'
     },
     pump: {
         answer: incorrectAnswer + "Ako se negde dvoumiš, zamisli se nad tom dilemom i formiraj nov odgovor." + alternative,
