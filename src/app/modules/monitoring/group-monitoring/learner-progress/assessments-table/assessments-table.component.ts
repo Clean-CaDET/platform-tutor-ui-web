@@ -89,19 +89,18 @@ export class AssessmentsTableComponent implements OnChanges {
   }
 
   exportToCSV(events: LearningEvent[]): void {
-    const data = JSON.parse(JSON.stringify(events));
-    for (const event of data) {
+    for (const event of events) {
       if (event.specificData) {
         event.specificData = JSON.stringify(event.specificData);
       }
     }
-    new ngxCsv(data, 'Events', {
+
+    events = events.sort((a, b) => a.timeStamp.getTime() - b.timeStamp.getTime());
+    new ngxCsv(events, 'Events', {
       fieldSeparator: ',',
       quoteStrings: '"',
       decimalseparator: '.',
       showLabels: true,
-      showTitle: true,
-      title: 'Events',
       useBom: true,
       noDownload: false,
       headers: [

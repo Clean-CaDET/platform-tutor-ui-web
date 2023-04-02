@@ -27,8 +27,8 @@ export class KnowledgeAnalyticsService {
         map((data) => {
           const events = new Array<LearningEvent>();
           data.forEach((event) => events.push(new LearningEvent(event)));
-          return events; }
-        )
+          return events;
+        })
       );
   }
 

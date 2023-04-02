@@ -8,12 +8,13 @@ import { Course } from '../model/course.model';
   providedIn: 'root',
 })
 export class CourseService {
-  constructor(
-    private http: HttpClient,
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getCourse(courseId: number): Observable<Course> {
     return this.http.get<Course>(environment.apiHost + 'enrolled-courses/' + courseId);
   }
 
+  getMasteredUnitIds(courseId: number) {
+    return this.http.get<number[]>(environment.apiHost + 'learning/units/' + courseId + '/mastered');
+  }
 }

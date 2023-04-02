@@ -28,8 +28,6 @@ export class KcStatisticsComponent implements OnInit {
     quoteStrings: '"',
     decimalseparator: '.',
     showLabels: true,
-    showTitle: true,
-    title: 'Events',
     useBom: true,
     noDownload: false,
     headers: [

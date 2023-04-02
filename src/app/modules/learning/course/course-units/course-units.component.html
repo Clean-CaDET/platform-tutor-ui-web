@@ -9,6 +9,8 @@
     <mat-card-header>
       <mat-icon mat-card-avatar>book</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
+      <span fxFlex></span>
+      <mat-icon *ngIf="isMastered(unit.id)" class="medal-icon" matTooltip="Uspešno su savladane veštine date lekcije." svgIcon="medal"></mat-icon>
     </mat-card-header>
     <mat-card-content>
       <p>
