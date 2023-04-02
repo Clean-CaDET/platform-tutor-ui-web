@@ -21,7 +21,7 @@ export class CourseUnitsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.courseService.getMasteredUnitIds(this.course.knowledgeUnits.map(u => u.id))
+    this.courseService.getMasteredUnitIds(this.course.id)
       .subscribe(masteredUnitIds => this.masteredUnitIds = masteredUnitIds);
   }
 
