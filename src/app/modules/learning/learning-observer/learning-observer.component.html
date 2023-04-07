@@ -1,12 +1,37 @@
 <div class="chat">
-    <div *ngFor="let message of messages" class="message">
-        <div class="image">
-            <img src="../../../../assets/images/black.png" alt="">
-        </div>
-        <div class="text">
-            {{message}}
-        </div>
+  <button
+    color="primary"
+    mat-raised-button
+    mat-icon-button
+    class="close"
+    [disabled]="!isDisabled"
+    (click)="closeModal()"
+  >
+    <mat-icon matTooltip="Close" [matTooltipPosition]="'above'">close</mat-icon>
+  </button>
+  <div *ngFor="let message of messages" class="message">
+    <div class="image">
+      <img src="../../../../assets/images/black.png" alt="" />
     </div>
-    <textarea name="" id="" cols="70" rows="8" placeholder="Upisi ogovor..." minlength="10" required [(ngModel)]="newMessage" (keyup.enter)="addItem()" [disabled]="isDisabled"></textarea>
-    <button (click)="addItem()"><img src="../../../../assets/images/telegramIcon.png" alt=""></button>
+    <div class="text">
+      {{ message }}
+    </div>
+  </div>
+  <textarea
+    name=""
+    id=""
+    cols="70"
+    rows="8"
+    placeholder="Upiši ogovor..."
+    minlength="10"
+    required
+    [(ngModel)]="newMessage"
+    (keyup.enter)="addItem()"
+    [disabled]="isDisabled"
+  ></textarea>
+  <button (click)="addItem()" color="primary" mat-raised-button mat-icon-button>
+    <mat-icon matTooltip="Pošalji" [matTooltipPosition]="'above'"
+      >telegram</mat-icon
+    >
+  </button>
 </div>
