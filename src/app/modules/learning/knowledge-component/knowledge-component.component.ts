@@ -3,7 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
-import {LearnerActivityService} from "../../../shared/activity/learner-activity.service";
+import {LearnerActivityService} from "./learner-activity.service";
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -86,9 +86,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
     event.preventDefault();
-    this.knowledgeComponentService.abandonSession(this.knowledgeComponent.id).subscribe({
-      next: () => { return true },
-      error: () => { return false }
-    })
+    this.knowledgeComponentService.abandonSession(this.knowledgeComponent.id).subscribe();
   }
 }
