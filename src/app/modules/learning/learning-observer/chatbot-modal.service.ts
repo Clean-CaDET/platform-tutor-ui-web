@@ -6,18 +6,14 @@ import { LearningObserverComponent } from './learning-observer.component';
   providedIn: 'root',
 })
 export class ChatbotModalService {
-  private readonly modalOpenInterval = 0.2 * 60 * 1000; //minutes * seconds * milliseconds
+  private readonly modalOpenInterval = 15 * 60 * 1000; //minutes * seconds * milliseconds
   private lastOpened: number;
 
   constructor(private dialog: MatDialog) {}
 
   openModal() {
-    const dialogRef = this.dialog.open(LearningObserverComponent, {
+    this.dialog.open(LearningObserverComponent, {
       disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -27,7 +23,7 @@ export class ChatbotModalService {
       this.lastOpened = Number(lastOpenedString);
     } else {
       this.openModal();
-      this.updateLastOpened;
+      this.updateLastOpened();
     }
     const timeSinceLastOpened = Date.now() - this.lastOpened;
     if (timeSinceLastOpened >= this.modalOpenInterval) {

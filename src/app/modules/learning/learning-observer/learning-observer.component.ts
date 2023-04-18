@@ -39,15 +39,7 @@ export class LearningObserverComponent implements OnInit {
   }
 
   submit(){
-    console.log(this.messages)
-    this.http.post(environment.apiHost + 'learning/chat', this.messages).subscribe(
-      response => {
-        console.log(response);
-      },
-      error => {
-        console.error(error);
-      }
-    );
+    this.http.post(environment.apiHost + 'learning/chat', this.messages).subscribe();
   }
 
   generateNewMessage(){
