@@ -6,10 +6,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
-import {EventsTableComponent} from './kc-statistics/events-table/events-table.component';
 
 @NgModule({
-  declarations: [EventsTableComponent, KcStatisticsComponent],
+  declarations: [
+    KcStatisticsComponent
+  ],
   imports: [
     CommonModule,
     MaterialModule,

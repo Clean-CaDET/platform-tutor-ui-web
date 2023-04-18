@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import {Course} from '../../learning/model/course.model';
-import {LearnerGroup} from '../../learning/model/learner-group.model';
+import {LearnerGroup} from '../model/learner-group.model';
 import {PagedResults} from '../../../shared/model/paged-results.model';
-import { Learner } from '../../knowledge-analytics/model/learner.model';
+import { Learner } from '../model/learner.model';
 import { KnowledgeComponentProgress } from '../model/knowledge-component-progress.model';
 import { LearningEvent } from '../../knowledge-analytics/model/learning-event.model';
 

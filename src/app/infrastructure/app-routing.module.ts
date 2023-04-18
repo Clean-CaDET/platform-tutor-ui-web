@@ -11,7 +11,6 @@ import { LearnersComponent } from '../modules/management/stakeholders/learners/l
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
 import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
 import { CoursesComponent } from '../modules/management/courses/courses.component';
-import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics/events-table/events-table.component';
 import { CourseStructureComponent } from '../modules/authoring/course-structure/course-structure.component';
 import { InstructionalItemsComponent } from '../modules/authoring/knowledge-component/instructional-items/instructional-items.component';
 import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowledge-component/knowledge-component-authoring.component';
@@ -34,13 +33,6 @@ const routes: Routes = [
     component: KnowledgeComponentComponent,
     canActivate: [AuthGuard],
     data: { role: 'learner' },
-  },
-
-  {
-    path: 'analytics/events',
-    component: EventsTableComponent,
-    canActivate: [AuthGuard],
-    data: { role: 'instructor' },
   },
   {
     path: 'analytics/:courseId/kc-statistics',
