@@ -3,13 +3,13 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
-import {LearnerActivityService} from "./learner-activity.service";
+import {SessionPauseService} from "./session-pause.service";
 
 @Component({
   selector: 'cc-knowledge-component',
   templateUrl: './knowledge-component.component.html',
   styleUrls: ['./knowledge-component.component.css'],
-  providers: [LearnerActivityService]
+  providers: [SessionPauseService]
 })
 export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
@@ -20,7 +20,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   courseId: number;
 
   constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService,
-              private activityService: LearnerActivityService) {}
+              private sessionPauseTracker: SessionPauseService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -33,7 +33,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.unitId = +params.unitId;
         this.courseId = +params.courseId;
       });
-      this.activityService.checkUserActivity(+params.kcId);
+      this.sessionPauseTracker.start(+params.kcId);
     });
   }
 

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { Video } from './video.model';
-import {VideoService} from "./video.service";
+import {VideoPlaybackService} from "./video-playback.service";
 
 @Component({
   selector: 'cc-video',
@@ -12,19 +12,19 @@ export class VideoComponent implements LearningObjectComponent, OnInit {
 
   learningObject: Video;
 
-  constructor(private service: VideoService) { }
+  constructor(private videoPlaybackService: VideoPlaybackService) { }
 
   ngOnInit(): void {
-    this.service.updateVideoStatus();
+    this.videoPlaybackService.start();
   }
 
   onStateChangeEvent(event:any) {
     if (event.data === 0) {
-      this.service.updateVideoStatus("ENDED")
+      this.videoPlaybackService.updatePlaybackStatus("ENDED")
     } else if (event.data === 1) {
-      this.service.updateVideoStatus("PLAYING")
+      this.videoPlaybackService.updatePlaybackStatus("PLAYING")
     } else if (event.data === 2) {
-      this.service.updateVideoStatus("PAUSED")
+      this.videoPlaybackService.updatePlaybackStatus("PAUSED")
     }
   }
 }
