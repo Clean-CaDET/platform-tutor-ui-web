@@ -1,134 +1,89 @@
-import {Component, OnInit} from '@angular/core';
-import { ngxCsv } from 'ngx-csv';
-import { Unit } from '../../learning/model/unit.model';
-import {ActivatedRoute, Params} from '@angular/router';
+import {Component, Input, OnChanges} from '@angular/core';
 import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics.model';
-import {Group} from '../model/group.model';
-import {KnowledgeAnalyticsService} from './knowledge-analytics.service';
+import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 
 @Component({
   selector: 'cc-kc-statistics',
   templateUrl: './kc-statistics.component.html',
   styleUrls: ['./kc-statistics.component.scss'],
 })
-export class KcStatisticsComponent implements OnInit {
-  knowledgeComponentStatistics: KnowledgeComponentStatistics[] = [];
-  // TODO: should this be typed?
+export class KcStatisticsComponent implements OnChanges {
+  @Input() kcId: number;
+  @Input() groupId: string;
+
+  knowledgeComponentStatistics: KnowledgeComponentStatistics;
+  
   totalCountChartData: any = {};
   percentageChartData: any = {};
   timeChartData: any = {};
 
-  unitId = '0';
-  units: Unit[];
-  groupId = '0';
-  groups: Group[];
+  constructor(private analyticsService: KnowledgeAnalyticsService) {}
 
-  exportOptions = {
-    fieldSeparator: ',',
-    quoteStrings: '"',
-    decimalseparator: '.',
-    showLabels: true,
-    useBom: true,
-    noDownload: false,
-    headers: [
-      'Type',
-      'Timestamp',
-      'Knowledge Component Id',
-      'Learner Id',
-      'Event-specific data',
-    ],
-  };
-
-  constructor(
-    private domainKnowledgeAnalyticsService: KnowledgeAnalyticsService,
-    private route: ActivatedRoute
-  ) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.domainKnowledgeAnalyticsService
-        .getUnits(+params.courseId)
-        .subscribe((units) => {
-          this.units = units; });
-      this.domainKnowledgeAnalyticsService
-        .getGroups(+params.courseId)
-        .subscribe((groups) => (this.groups = groups));
-    });
-  }
-
-  updateStatistics(): void {
-    if (!+this.unitId) { return; }
-    this.getKcStatistics();
-  }
-
-  private getKcStatistics(): void {
-    this.domainKnowledgeAnalyticsService
-      .getKnowledgeComponentStatistics(this.groupId, this.unitId)
-      .subscribe((data) => {
+  ngOnChanges(): void {
+    this.analyticsService.getKnowledgeComponentStatistics(this.groupId, this.kcId.toString())
+      .subscribe(data => {
         this.knowledgeComponentStatistics = data;
-        this.knowledgeComponentStatistics.forEach((kc) => {
-          this.createTotalCountCharts(kc);
-          this.createPercentageCharts(kc);
-          this.createTimeBoxData(kc);
-        });
+        this.createTotalCountCharts(data);
+        this.createPercentageCharts(data);
+        this.createTimeBoxData(data);
       });
   }
-
+  
   private createTotalCountCharts(kc: KnowledgeComponentStatistics): void {
-    this.totalCountChartData[kc.kcCode] = [];
-    this.totalCountChartData[kc.kcCode].push({
+    this.totalCountChartData = [];
+    this.totalCountChartData.push({
       name: 'Broj prijava',
       value: kc.totalRegistered,
     });
-    this.totalCountChartData[kc.kcCode].push({
+    this.totalCountChartData.push({
       name: 'Broj započelih',
       value: kc.totalStarted,
     });
-    this.totalCountChartData[kc.kcCode].push({
+    this.totalCountChartData.push({
       name: 'Broj pregledanih',
       value: kc.totalCompleted,
     });
-    this.totalCountChartData[kc.kcCode].push({
+    this.totalCountChartData.push({
       name: 'Broj rešenih',
       value: kc.totalPassed,
     });
   }
 
   private createPercentageCharts(kc: KnowledgeComponentStatistics): void {
-    this.percentageChartData[kc.kcCode] = [];
-    this.percentageChartData[kc.kcCode].push({
+    this.percentageChartData = [];
+    this.percentageChartData.push({
       name: '% prijavljenih',
       value: (kc.totalRegistered * 100) / kc.totalRegistered,
     });
-    this.percentageChartData[kc.kcCode].push({
+    this.percentageChartData.push({
       name: '% započelih',
       value: (kc.totalStarted * 100) / kc.totalRegistered,
     });
-    this.percentageChartData[kc.kcCode].push({
+    this.percentageChartData.push({
       name: '% pregledanih',
       value: (kc.totalCompleted * 100) / kc.totalRegistered,
     });
-    this.percentageChartData[kc.kcCode].push({
+    this.percentageChartData.push({
       name: '% rešenih',
       value: (kc.totalPassed * 100) / kc.totalRegistered,
     });
   }
 
   private createTimeBoxData(kc: KnowledgeComponentStatistics): void {
-    delete this.timeChartData[kc.kcCode];
+    delete this.timeChartData;
     if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0) {
       return;
     }
 
-    this.timeChartData[kc.kcCode] = [];
+    this.timeChartData = [];
     if (kc.minutesToCompletion.length !== 0) {
-      this.timeChartData[kc.kcCode].push({
+      this.timeChartData.push({
         name: 'Vreme pregleda (u minutima)',
         series: this.createTimeSeries(kc.minutesToCompletion),
       });
     }
     if (kc.minutesToPass.length !== 0) {
-      this.timeChartData[kc.kcCode].push({
+      this.timeChartData.push({
         name: 'Vreme rešavanja (u minutima)',
         series: this.createTimeSeries(kc.minutesToPass),
       });
@@ -140,19 +95,5 @@ export class KcStatisticsComponent implements OnInit {
     const result: any = [];
     minutes.forEach((m) => result.push({ name: 'a', value: m }));
     return result;
-  }
-
-  exportAllToCSV(): void {
-    this.domainKnowledgeAnalyticsService.getAllEvents().subscribe((data) => {
-      const allEvents = data.sort(
-        (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
-      );
-      for (const event of allEvents) {
-        if (event.specificData) {
-          event.specificData = JSON.stringify(event.specificData);
-        }
-      }
-      new ngxCsv(allEvents, 'Events', this.exportOptions);
-    });
   }
 }
