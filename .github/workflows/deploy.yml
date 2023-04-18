@@ -3,7 +3,7 @@ name: Deploy
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           target: gatewayWithFront
-          build-args: SMART_TUTOR_API_URL=http://clean-cadet.tech/smart-tutor/api/
+          build-args: SMART_TUTOR_API_URL=https://clean-cadet.com/smart-tutor/api/
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-web:${{steps.get-tag.outputs.tag}}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-web:buildcache

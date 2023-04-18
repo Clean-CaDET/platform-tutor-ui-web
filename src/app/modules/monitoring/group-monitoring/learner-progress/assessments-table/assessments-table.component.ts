@@ -4,8 +4,12 @@ import { KnowledgeComponentProgress } from '../../../model/knowledge-component-p
 import { KnowledgeComponent } from '../../../../learning/model/knowledge-component.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
+import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
+import { ngxCsv } from 'ngx-csv';
+import { GroupMonitoringService } from '../../group-monitoring.service';
 
 interface AssessmentTableElement {
+  kcOrder: number,
   kcCode: string,
   kcName: string,
   kcId: number,
@@ -49,7 +53,7 @@ export class AssessmentsTableComponent implements OnChanges {
   ];
   expandedElement: AssessmentTableElement = {} as AssessmentTableElement;
 
-  constructor() {}
+  constructor(private monitoringService: GroupMonitoringService) {}
 
   ngOnChanges(): void {
     const dataSource: AssessmentTableElement[] = [];
@@ -60,14 +64,13 @@ export class AssessmentsTableComponent implements OnChanges {
         }
       });
     });
+    dataSource.sort( (te1, te2) => te1.kcOrder - te2.kcOrder)
     this.dataSource = new MatTableDataSource(dataSource);
   }
 
-  private createAssessmentTableElement(
-    kc: KnowledgeComponent,
-    p: KnowledgeComponentProgress
-  ): AssessmentTableElement {
+  private createAssessmentTableElement(kc: KnowledgeComponent, p: KnowledgeComponentProgress): AssessmentTableElement {
     return {
+      kcOrder: kc.order,
       kcCode: kc.code,
       kcName: kc.name,
       kcId: kc.id,
@@ -79,5 +82,34 @@ export class AssessmentsTableComponent implements OnChanges {
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
     };
+  }
+
+  getEvents(learnerId: number, kcId: number): void {
+    this.monitoringService.getEvents(learnerId, kcId).subscribe(data => this.exportToCSV(data));
+  }
+
+  exportToCSV(events: LearningEvent[]): void {
+    for (const event of events) {
+      if (event.specificData) {
+        event.specificData = JSON.stringify(event.specificData);
+      }
+    }
+
+    events = events.sort((a, b) => a.timeStamp.getTime() - b.timeStamp.getTime());
+    new ngxCsv(events, 'Events', {
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      useBom: true,
+      noDownload: false,
+      headers: [
+        'Type',
+        'Timestamp',
+        'Knowledge Component Id',
+        'Learner Id',
+        'Event-specific data',
+      ],
+    });
   }
 }

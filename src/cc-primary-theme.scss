@@ -71,7 +71,7 @@ $cc-dark-theme: mat.define-dark-theme(
 
 $cc-primary-light: mat.define-palette(mat.$teal-palette);
 $cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
-$cc-warn-light: mat.define-palette(mat.$red-palette, 200);
+$cc-warn-light: mat.define-palette(mat.$red-palette, A200);
 
 $cc-theme: mat.define-light-theme(
   (

@@ -40,6 +40,7 @@
               "node_modules/prismjs/components/prism-typescript.js",
               "node_modules/prismjs/components/prism-csharp.min.js",
               "node_modules/prismjs/components/prism-java.min.js",
+              "node_modules/prismjs/components/prism-go.js",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
             ]
           },

@@ -1,4 +1,4 @@
-<div fxLayout="column" style="margin: 15px;" fxLayoutGap="30px" fxFlex>
+<div fxLayout="column" fxLayoutGap="25px">
     <mat-card *ngFor="let instructionalItem of instructionalItems; let i = index" fxFlex>
         <div *ngIf="!editMap[instructionalItem.id]">
             <div fxLayout="row">
@@ -20,7 +20,7 @@
             </div>
             <hr>
             <div>
-                <cc-learning-object-container [isAuthoring]="true" [learningObject]="instructionalItem"></cc-learning-object-container>
+                <cc-learning-object-container [learningObject]="instructionalItem"></cc-learning-object-container>
             </div>
         </div>
         <div *ngIf="editMap[instructionalItem.id]">

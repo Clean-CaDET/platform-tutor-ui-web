@@ -6,7 +6,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
 import { Feedback } from '../../model/learning-objects/feedback.model';
 import { KnowledgeComponentStatistics } from '../../model/knowledge-component-statistics.model';
-import { createResponse, welcomeMessage } from './feedback-message-creator';
+import { createResponse, welcomeMessage } from './instructional-feedback/feedback-message-creator';
 
 @Component({
   selector: 'cc-submission-result',

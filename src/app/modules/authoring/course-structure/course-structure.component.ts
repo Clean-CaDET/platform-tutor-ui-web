@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
@@ -17,7 +17,7 @@ export class CourseStructureComponent implements OnInit {
   showUnitDetails: boolean;
   showKnowledgeComponents: boolean;
 
-  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -49,6 +49,17 @@ export class CourseStructureComponent implements OnInit {
   getMaxOrder(): number {
     if(this.course.knowledgeUnits?.length == 0) return 0;
     return Math.max(...this.course.knowledgeUnits.map(u => u.order));
+  }
+
+  selectUnit(unit: Unit, showKcs: boolean) {
+    this.selectedUnit = unit;
+    this.showUnitDetails = !showKcs;
+    this.showKnowledgeComponents = showKcs;
+
+    this.router.navigate([], {
+      queryParams: { unit: unit.id },
+      queryParamsHandling: 'merge'
+    })
   }
 
   saveOrUpdateUnit(unit: Unit) {

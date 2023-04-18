@@ -22,4 +22,9 @@ export class NavbarComponent implements OnInit {
   onLogout(): void {
     this.authService.logout();
   }
+
+  trim(username: string): string {
+    if(username.includes("@")) return username.split("@")[0];
+    return username;
+  }
 }
