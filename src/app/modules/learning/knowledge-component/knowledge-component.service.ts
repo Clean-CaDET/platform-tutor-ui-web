@@ -48,4 +48,8 @@ export class KnowledgeComponentService {
   terminateSession(kcId: number): Observable<unknown> {
     return this.http.post(environment.apiHost + 'learning/session/' + kcId + '/terminate', null);
   }
+
+  abandonSession(kcId: number): Observable<unknown> {
+    return this.http.post(environment.apiHost + 'learning/session/' + kcId + '/abandon', null);
+  }
 }

@@ -56,8 +56,8 @@ export class LearnerProgressComponent implements OnChanges {
       let kc = this.unit.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
 
       if (!p.statistics.isSatisfied) return;
-      if (p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes) return;
-      if (p.durationOfAllSessionsInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 2.5) return;
+      if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes) return;
+      if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 2.5) return;
       if (averageSubmissionCount < 1.75) return;
       suspiciousNum++;
     });
