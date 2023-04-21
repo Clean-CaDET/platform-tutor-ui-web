@@ -6,7 +6,7 @@ import { LearningObserverComponent } from './learning-observer.component';
   providedIn: 'root',
 })
 export class ChatbotModalService {
-  private readonly modalOpenInterval = 15 * 60 * 1000; //minutes * seconds * milliseconds
+  private readonly modalOpenInterval = 20 * 60 * 1000; //minutes * seconds * milliseconds
   private lastOpened: number;
 
   constructor(private dialog: MatDialog) {}
