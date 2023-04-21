@@ -11,7 +11,6 @@ import { InstructionalItemsComponent } from './knowledge-component/instructional
 import { RouterModule } from '@angular/router';
 import { KnowledgeComponentAuthoringComponent } from './knowledge-component/knowledge-component-authoring.component';
 import { KcFormComponent } from './knowledge-component/kc-form/kc-form.component';
-import { LearningModule } from '../learning/learning.module';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { VideoAuthoringComponent } from './knowledge-component/instructional-items/video-authoring/video-authoring.component';
 import { AssessmentItemsComponent } from './assessment-items/assessment-items.component';
@@ -19,6 +18,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component';
 import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component';
 import { SaqFormComponent } from './assessment-items/saq-form/saq-form.component';
+import {LearningModule} from "../learning/learning.module";
 
 @NgModule({
   declarations: [

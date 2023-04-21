@@ -6,5 +6,5 @@ export interface KnowledgeComponentProgress {
   knowledgeComponentId: number;
   statistics: KcMasteryStatistics;
   assessmentItemMasteries: AssessmentItemMastery[];
-  durationOfAllSessionsInMinutes: number;
+  activeSessionInMinutes: number;
 }
