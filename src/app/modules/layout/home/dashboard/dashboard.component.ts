@@ -26,8 +26,8 @@ export class DashboardComponent implements OnInit {
         return;
       }
       if (this.user.role === 'learner') {
-        this.layoutService.getLearnerCourses().subscribe((courses) => {
-          this.courses = courses;
+        this.layoutService.getLearnerCourses().subscribe((coursesPage) => {
+          this.courses = coursesPage.results;
         });
       } else if (this.user.role === 'instructor') {
         this.layoutService.getInstructorCourses().subscribe((courses) => {
