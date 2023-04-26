@@ -6,11 +6,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { UnitAnalyticsComponent } from './unit-analytics/unit-analytics.component';
+import { AiStatisticsComponent } from './ai-statistics/ai-statistics.component';
 
 @NgModule({
   declarations: [
     KcStatisticsComponent,
-    UnitAnalyticsComponent
+    UnitAnalyticsComponent,
+    AiStatisticsComponent
   ],
   imports: [
     CommonModule,

@@ -32,25 +32,27 @@ export class KcStatisticsComponent implements OnChanges {
   private createTotalCountCharts(kc: KnowledgeComponentStatistics): void {
     this.totalCountChartData = [];
     this.totalCountChartData.push({
-      name: 'Broj prijava',
+      name: '# prijavljenih',
       value: kc.totalRegistered,
     });
     this.totalCountChartData.push({
-      name: 'Broj započelih',
+      name: '# započelih',
       value: kc.totalStarted,
     });
     this.totalCountChartData.push({
-      name: 'Broj pregledanih',
+      name: '# pregledanih',
       value: kc.totalCompleted,
     });
     this.totalCountChartData.push({
-      name: 'Broj rešenih',
+      name: '# rešenih',
       value: kc.totalPassed,
     });
   }
 
   private createPercentageCharts(kc: KnowledgeComponentStatistics): void {
     this.percentageChartData = [];
+    if(kc.totalRegistered === 0) return;
+
     this.percentageChartData.push({
       name: '% prijavljenih',
       value: (kc.totalRegistered * 100) / kc.totalRegistered,
@@ -70,12 +72,9 @@ export class KcStatisticsComponent implements OnChanges {
   }
 
   private createTimeBoxData(kc: KnowledgeComponentStatistics): void {
-    delete this.timeChartData;
-    if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0) {
-      return;
-    }
-
     this.timeChartData = [];
+    if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0) return;
+
     if (kc.minutesToCompletion.length !== 0) {
       this.timeChartData.push({
         name: 'Vreme pregleda (u minutima)',

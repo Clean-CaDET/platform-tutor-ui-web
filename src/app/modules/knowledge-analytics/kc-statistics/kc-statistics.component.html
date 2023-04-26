@@ -4,21 +4,24 @@
             [results]="totalCountChartData"
             [xAxis]="true"
             [yAxis]="true"
+            [roundEdges]="false"
             [showDataLabel]="true">
         </ngx-charts-bar-vertical></div>
-        <div fxFlex="50"><ngx-charts-bar-vertical
+        <div fxFlex="50" *ngIf="percentageChartData?.length > 0"><ngx-charts-bar-vertical
             [results]="percentageChartData"
             [xAxis]="true"
             [yAxis]="true"
+            [roundEdges]="false"
             [showDataLabel]="true">
         </ngx-charts-bar-vertical></div>
     </div>
-    <div *ngIf="timeChartData" fxFlex="45">
+    <div *ngIf="timeChartData?.length > 0" fxFlex="45">
         <div fxFlex>
             <!-- TODO: scheme can be string | Color, check if chart works -->
             <ngx-charts-box-chart
                 [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
                 [results]="timeChartData"
+                [roundEdges]="false"
                 [xAxis]="false"
                 [yAxis]="false">
             </ngx-charts-box-chart>
