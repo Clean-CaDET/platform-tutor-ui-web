@@ -26,6 +26,7 @@ import { MultipleResponseQuestionComponent } from './knowledge-component/learnin
 import { ImageDialogComponent } from './knowledge-component/learning-objects/instructional-items/image/image-dialog/image-dialog.component';
 import { ShortAnswerQuestionComponent } from './knowledge-component/learning-objects/assessment-items/short-answer-question/short-answer-question.component';
 import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/assessment-items/multiple-choice-question/multiple-choice-question.component';
+import { LearningObserverComponent } from './learning-observer/learning-observer.component';
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
 
 @NgModule({
@@ -47,6 +48,7 @@ import { TypingAnimatorDirective } from './knowledge-component/submission-result
     CourseComponent,
     CourseUnitsComponent,
     TutorImprovementComponent,
+    LearningObserverComponent,
     TypingAnimatorDirective
   ],
   imports: [
