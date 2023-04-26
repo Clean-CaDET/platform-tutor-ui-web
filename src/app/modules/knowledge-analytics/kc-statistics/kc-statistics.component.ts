@@ -73,7 +73,6 @@ export class KcStatisticsComponent implements OnChanges {
 
   private createTimeBoxData(kc: KnowledgeComponentStatistics): void {
     this.timeChartData = [];
-    if (kc.minutesToCompletion.length === 0 && kc.minutesToPass.length === 0) return;
 
     if (kc.minutesToCompletion.length !== 0) {
       this.timeChartData.push({

@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
+import { AssessmentItemStatistics } from '../model/assessment-item-statistics';
 
 @Component({
   selector: 'cc-ai-statistics',
@@ -9,15 +10,67 @@ import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 export class AiStatisticsComponent implements OnChanges {
   @Input() kcId: number;
   @Input() groupId: string;
+  assessmentStatistics: AssessmentItemStatistics[];
 
+  attemptsToPassGrouping: any;
+  timeChartData: any;
 
   constructor(private analyticsService: KnowledgeAnalyticsService) {}
 
   ngOnChanges(): void {
-    /*this.analyticsService.getKnowledgeComponentStatistics(this.groupId, this.kcId.toString())
+    this.analyticsService.getAssessmentItemStatistics(this.groupId, this.kcId.toString())
       .subscribe(data => {
-        
-      });*/
+        this.assessmentStatistics = data;
+
+        this.timeChartData = {};
+        this.attemptsToPassGrouping = {};
+        this.assessmentStatistics.forEach(ai => {
+          this.createTimeBoxData(ai);
+          this.createAttemptChart(ai);
+        });
+      });
   }
 
+  private createAttemptChart(ai: AssessmentItemStatistics): void {
+    this.attemptsToPassGrouping[ai.aiId] = [];
+    if(ai.totalPassed === 0) return;
+
+    this.attemptsToPassGrouping[ai.aiId].push({
+      name: '1',
+      value: ai.attemptsToPass.filter(a => a === 1).length,
+    });
+    this.attemptsToPassGrouping[ai.aiId].push({
+      name: '2',
+      value: ai.attemptsToPass.filter(a => a === 2).length,
+    });
+    this.attemptsToPassGrouping[ai.aiId].push({
+      name: '3',
+      value: ai.attemptsToPass.filter(a => a === 3).length,
+    });
+    this.attemptsToPassGrouping[ai.aiId].push({
+      name: '4 - 6',
+      value: ai.attemptsToPass.filter(a => a >= 4 && a <= 6).length,
+    });
+    this.attemptsToPassGrouping[ai.aiId].push({
+      name: '7+',
+      value: ai.attemptsToPass.filter(a => a > 6).length,
+    });
+  }
+
+  private createTimeBoxData(ai: AssessmentItemStatistics): void {
+    this.timeChartData[ai.aiId] = [];
+    if (ai.minutesToCompletion.length === 0) return;
+    
+    this.timeChartData[ai.aiId].push({
+      name: 'Vreme pregleda (u minutima)',
+      series: this.createTimeSeries(ai.minutesToCompletion),
+    });
+  }
+
+  private createTimeSeries(minutes: number[]): number[] {
+    // TODO: Does not match return value? (returns number[], but result contains objects)
+    const result: any = [];
+    minutes.forEach((m) => result.push({ name: 'a', value: m }));
+    return result;
+  }
 }

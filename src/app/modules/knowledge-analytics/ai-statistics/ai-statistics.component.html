@@ -1,1 +1,30 @@
-<p>ai-statistics works!</p>
+<div fxLayout="column" fxLayoutGap="15px">
+    <mat-card *ngFor="let a of assessmentStatistics">
+        <small>
+            Assessment id: {{a.aiId}} | 
+            # completed: {{a.totalCompleted}} | 
+            # passed: {{a.totalPassed}}
+        </small>
+        <div fxLayout="row" style="padding: 30px;">
+        <div fxFlex="50">
+            <ngx-charts-box-chart
+                [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
+                [results]="timeChartData[a.aiId]"
+                [roundEdges]="false"
+                [xAxis]="false"
+                [yAxis]="false">
+            </ngx-charts-box-chart>
+        </div>
+        <div fxFlex="50"><ngx-charts-bar-vertical
+            [results]="attemptsToPassGrouping[a.aiId]"
+            [xAxis]="true"
+            [yAxis]="true"
+            [roundEdges]="false"
+            [showDataLabel]="true">
+        </ngx-charts-bar-vertical></div>
+        </div>
+    </mat-card>
+    <div *ngIf="assessmentStatistics?.length === 0">
+        Ne postoje statistike nad zadacima u okviru ove veštine.
+    </div>
+</div>
