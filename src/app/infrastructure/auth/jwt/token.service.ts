@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER } from '../../../shared/constants';
-import { User } from '../user.model';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { AuthenticationResponse } from './authentication-response.model';
 
 @Injectable({
   providedIn: 'root',
