@@ -1,30 +1,40 @@
-<div fxLayout="column" fxLayoutGap="15px">
-    <mat-card *ngFor="let a of assessmentStatistics">
-        <small>
-            Assessment id: {{a.aiId}} | 
-            # completed: {{a.totalCompleted}} | 
-            # passed: {{a.totalPassed}}
+<mat-card fxLayout="column" fxLayoutGap="15px">
+    <h2>Analiza zadataka</h2>
+    <div *ngFor="let a of assessmentStatistics">
+        <small fxLayout="row">
+            Id: {{a.aiId}} | 
+            Broj pokušanih: {{a.totalCompleted}} | 
+            Broj rešenih: {{a.totalPassed}}
+            <span fxFlex></span>
+            <button mat-raised-button>Prikaz zadatka</button>
         </small>
-        <div fxLayout="row" style="padding: 30px;">
-        <div fxFlex="50">
-            <ngx-charts-box-chart
-                [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
-                [results]="timeChartData[a.aiId]"
-                [roundEdges]="false"
-                [xAxis]="false"
-                [yAxis]="false">
-            </ngx-charts-box-chart>
+        <div fxLayout="row">
+            <div fxFlex="50">
+                <div style="padding: 25px;">
+                <div fxFlex><ngx-charts-box-chart
+                    [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
+                    [results]="timeChartData[a.aiId]"
+                    [roundEdges]="false"
+                    [xAxis]="false"
+                    [yAxis]="false">
+                </ngx-charts-box-chart></div>
+                </div>
+            </div>
+            <div fxFlex="50" fxLayout="column">
+                <div fxFlex><ngx-charts-bar-vertical
+                    [results]="attemptsToPassGrouping[a.aiId]"
+                    [xAxis]="true"
+                    [yAxis]="true"
+                    [roundEdges]="false"
+                    [showDataLabel]="true">
+                </ngx-charts-bar-vertical></div>
+                <small style="text-align: center;">Broj submisija do rešenja</small>
+            </div>
         </div>
-        <div fxFlex="50"><ngx-charts-bar-vertical
-            [results]="attemptsToPassGrouping[a.aiId]"
-            [xAxis]="true"
-            [yAxis]="true"
-            [roundEdges]="false"
-            [showDataLabel]="true">
-        </ngx-charts-bar-vertical></div>
-        </div>
-    </mat-card>
+        <br>
+        <mat-divider></mat-divider>
+    </div>
     <div *ngIf="assessmentStatistics?.length === 0">
         Ne postoje statistike nad zadacima u okviru ove veštine.
     </div>
-</div>
+</mat-card>

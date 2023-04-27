@@ -36,7 +36,7 @@ export class UnitAnalyticsComponent implements OnInit {
         });
       this.analyticsService
         .getGroups(+params.courseId)
-        .subscribe((groups) => (this.groups = groups));
+        .subscribe((groups) => (this.groups = groups.results));
     });
   }
 

@@ -62,7 +62,7 @@ export class AiStatisticsComponent implements OnChanges {
     if (ai.minutesToCompletion.length === 0) return;
     
     this.timeChartData[ai.aiId].push({
-      name: 'Vreme pregleda (u minutima)',
+      name: 'Vreme pregleda do prvog pokušaja (u minutima)',
       series: this.createTimeSeries(ai.minutesToCompletion),
     });
   }

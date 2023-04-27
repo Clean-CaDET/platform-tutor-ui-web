@@ -8,6 +8,7 @@ import {Unit} from '../learning/model/unit.model';
 import {Course} from '../learning/model/course.model';
 import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics.model';
 import { AssessmentItemStatistics } from './model/assessment-item-statistics';
+import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,8 @@ export class KnowledgeAnalyticsService {
       .pipe(map((data) => data.knowledgeUnits));
   }
   
-  getGroups(courseId: number): Observable<Group[]> {
-    return this.http.get<Group[]>(environment.apiHost + `monitoring/${courseId}/groups`);
+  getGroups(courseId: number): Observable<PagedResults<Group>> {
+    return this.http.get<PagedResults<Group>>(environment.apiHost + `monitoring/${courseId}/groups`);
   }
 
   getKnowledgeComponentStatistics(groupId: string, kcId: string): Observable<KnowledgeComponentStatistics> {

@@ -1,5 +1,12 @@
 <mat-card *ngIf="knowledgeComponentStatistics" fxFlex fxLayout="column" fxLayoutGap="15px">
-    <div fxLayout="row" fxFlex="45">
+    <h2>Analiza veštine i gradiva</h2>
+    <p>
+        Prijavljen = ima pristup veštini.
+        Započet = krenuo razvoj veštine.
+        Pregledan = video svo gradivo i zadatke.
+        Rešen = svaladao veštinu.
+    </p>
+    <div fxLayout="row" fxFlex="40">
         <div fxFlex="50"><ngx-charts-bar-vertical
             [results]="totalCountChartData"
             [xAxis]="true"
@@ -15,7 +22,7 @@
             [showDataLabel]="true">
         </ngx-charts-bar-vertical></div>
     </div>
-    <div *ngIf="timeChartData?.length > 0" fxFlex="45">
+    <div *ngIf="timeChartData?.length > 0" fxFlex="40" fxLayout="row">
         <div fxFlex>
             <!-- TODO: scheme can be string | Color, check if chart works -->
             <ngx-charts-box-chart
