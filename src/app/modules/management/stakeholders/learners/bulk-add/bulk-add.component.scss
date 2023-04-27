@@ -1,3 +1,7 @@
 tr {
     height: 30px;
 }
+
+.required::after {
+    content: " *";
+}

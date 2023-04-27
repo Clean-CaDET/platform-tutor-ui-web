@@ -11,6 +11,7 @@ import {CreateLearner} from '../../../model/create-learner.model';
 })
 export class BulkAddComponent implements OnInit {
   formGroup: FormGroup;
+  learnerTypes: string[] = ['FTN', 'FTNInf'];
   learners: CreateLearner[];
   checkView: boolean;
 
@@ -21,7 +22,10 @@ export class BulkAddComponent implements OnInit {
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>) { }
 
   ngOnInit(): void {
-    this.formGroup = this.builder.group({'learners': new FormControl('', Validators.required)})
+    this.formGroup = this.builder.group({
+      'learnersType': new FormControl('', Validators.required),
+      'learners': new FormControl('', Validators.required)
+    })
   }
 
   onCheck(): void {
@@ -66,5 +70,11 @@ export class BulkAddComponent implements OnInit {
 
   onClose(): void {
     this.dialogRef.close(false);
+  }
+
+  getErrorMessage(controlName: string): string {
+    if(this.formGroup.controls[controlName].hasError('required')) {
+      return 'Unos je obavezan.';
+    }
   }
 }
