@@ -6,4 +6,5 @@ export interface Field {
   label: string;
   required?: boolean;
   crud?: Crud;
+  values?: string[]; 
 }
