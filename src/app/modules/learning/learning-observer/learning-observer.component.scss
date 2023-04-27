@@ -1,12 +1,5 @@
-.chat {
-  box-shadow: 5px 5px 20px lightgray;
-  margin: 0;
-}
-
 div {
-  background-color: #e0dfdf;
   border-radius: 10px;
-  border: 1px solid #707070;
   padding: 10px;
   position: relative;
 }
@@ -23,7 +16,6 @@ div {
 }
 
 .message div {
-  background-color: white;
   border: 1px solid #707070;
   margin: 0 5px;
 }
@@ -60,10 +52,4 @@ button {
   position: absolute;
   bottom: 20px;
   right: 15%;
-}
-
-.close {
-  z-index: 1;
-  top: 10px;
-  right: 5%;
 }

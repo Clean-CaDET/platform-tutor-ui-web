@@ -19,8 +19,8 @@ export class GroupMonitoringService {
     return this.http.get<Course>(environment.apiHost + 'owned-courses/' + courseId);
   }
 
-  getGroups(courseId: number): Observable<LearnerGroup[]> {
-    return this.http.get<LearnerGroup[]>(environment.apiHost + `monitoring/${courseId}/groups`);
+  getGroups(courseId: number): Observable<PagedResults<LearnerGroup>> {
+    return this.http.get<PagedResults<LearnerGroup>>(environment.apiHost + `monitoring/${courseId}/groups`);
   }
 
   getLearners(page: number, pageSize: number, groupId: number, courseId: number): Observable<PagedResults<Learner>> {
