@@ -89,6 +89,8 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
     event.preventDefault();
+    localStorage.removeItem("IsPaused" + this.knowledgeComponent.id);
+    localStorage.removeItem("LastActive"+ this.knowledgeComponent.id);
     this.knowledgeComponentService.abandonSession(this.knowledgeComponent.id).subscribe();
   }
 }
