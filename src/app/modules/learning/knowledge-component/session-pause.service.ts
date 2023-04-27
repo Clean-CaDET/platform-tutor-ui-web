@@ -4,7 +4,6 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {VideoPlaybackService} from "./learning-objects/instructional-items/video/video-playback.service";
 
-
 @Injectable()
 export class SessionPauseService implements OnDestroy {
   private activityCheckIntervalSubscription: Subscription;
@@ -15,6 +14,9 @@ export class SessionPauseService implements OnDestroy {
   private lastActive: Date;
 
   constructor(private http: HttpClient, private videoService: VideoPlaybackService) {
+    if (localStorage.getItem("IsPaused" + this.kcId) === "true") {
+      localStorage.setItem("IsPaused" + this.kcId, String(false));
+    }
     const events: string[] = ['keydown', 'click', 'wheel', 'mousemove'];
     events.forEach(event =>
       this.eventsSubscriptions.push(fromEvent(document, event).subscribe(_ => this.recordLastActiveDate()))
@@ -41,13 +43,12 @@ export class SessionPauseService implements OnDestroy {
   }
 
   private checkLearnerActivity(kcId: number) {
-
     if (!localStorage.getItem("IsPaused" + this.kcId)) {
-      localStorage.setItem("IsPaused" + this.kcId, String(false))
+      localStorage.setItem("IsPaused" + this.kcId, String(false));
     }
     if (!localStorage.getItem("LastActive" + this.kcId)) {
-      this.lastActive = new Date()
-      localStorage.setItem("LastActive" + this.kcId, this.lastActive.toString())
+      this.lastActive = new Date();
+      localStorage.setItem("LastActive" + this.kcId, this.lastActive.toString());
     }
 
     let inactiveInMinutes = Math.floor(new Date().getTime() - new Date(localStorage.getItem("LastActive" + this.kcId)).getTime()) / 60000
