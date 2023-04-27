@@ -1,12 +1,13 @@
 <mat-card fxLayout="column" fxLayoutGap="15px">
     <h2>Analiza zadataka</h2>
     <div *ngFor="let a of assessmentStatistics">
-        <small fxLayout="row">
+        <small fxLayout="row" fxLayoutGap="10px">
             Id: {{a.aiId}} | 
             Broj pokušanih: {{a.totalCompleted}} | 
             Broj rešenih: {{a.totalPassed}}
             <span fxFlex></span>
             <button mat-raised-button>Prikaz zadatka</button>
+            <button mat-raised-button [routerLink]="['/authoring/course', courseId, 'knowledge-component', kcId, 'assessments']" [queryParams]="{ aiId: a.aiId }">Autorstvo zadatka</button>
         </small>
         <div fxLayout="row">
             <div fxFlex="50">

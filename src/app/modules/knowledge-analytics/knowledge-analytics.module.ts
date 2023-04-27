@@ -7,6 +7,7 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { UnitAnalyticsComponent } from './unit-analytics/unit-analytics.component';
 import { AiStatisticsComponent } from './ai-statistics/ai-statistics.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AiStatisticsComponent } from './ai-statistics/ai-statistics.component';
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
-    NgxChartsModule
+    NgxChartsModule,
+    RouterModule
   ]
 })
 export class KnowledgeAnalyticsModule {}

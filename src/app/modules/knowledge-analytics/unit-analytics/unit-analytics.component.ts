@@ -12,6 +12,7 @@ import { KnowledgeComponent } from '../../learning/model/knowledge-component.mod
   styleUrls: ['./unit-analytics.component.scss']
 })
 export class UnitAnalyticsComponent implements OnInit {
+  courseId: number;
   selectedUnit: Unit;
   units: Unit[];
   selectedGroupId = '0';
@@ -25,8 +26,9 @@ export class UnitAnalyticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      this.courseId = +params.courseId;
       this.analyticsService
-        .getUnits(+params.courseId)
+        .getUnits(this.courseId)
         .subscribe(units => {
           this.units = units;
           let unitId = this.route.snapshot.queryParams['unitId'];
@@ -35,7 +37,7 @@ export class UnitAnalyticsComponent implements OnInit {
           }
         });
       this.analyticsService
-        .getGroups(+params.courseId)
+        .getGroups(this.courseId)
         .subscribe((groups) => (this.groups = groups.results));
     });
   }

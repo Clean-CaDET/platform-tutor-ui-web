@@ -8,6 +8,7 @@ import { AssessmentItemStatistics } from '../model/assessment-item-statistics';
   styleUrls: ['./ai-statistics.component.scss']
 })
 export class AiStatisticsComponent implements OnChanges {
+  @Input() courseId: number;
   @Input() kcId: number;
   @Input() groupId: string;
   assessmentStatistics: AssessmentItemStatistics[];

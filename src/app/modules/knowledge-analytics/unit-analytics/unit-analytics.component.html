@@ -48,7 +48,7 @@
             <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId"></cc-kc-statistics>
         </div>
         <div fxFlex="70" *ngIf="selectedKc && showAssessmentAnalytics">
-            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId"></cc-ai-statistics>
+            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId" [courseId]="courseId"></cc-ai-statistics>
         </div>
     </div>
 </div>
