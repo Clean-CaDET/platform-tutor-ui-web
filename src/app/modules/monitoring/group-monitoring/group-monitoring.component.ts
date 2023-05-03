@@ -4,7 +4,7 @@ import {Unit} from '../../learning/model/unit.model';
 import {Course} from '../../learning/model/course.model';
 import {LearnerGroup} from '../../learning/model/learner-group.model';
 import {GroupMonitoringService} from './group-monitoring.service';
-import {PageEvent} from '@angular/material/paginator';
+import {LegacyPageEvent as PageEvent} from '@angular/material/legacy-paginator';
 import {Learner} from '../../knowledge-analytics/model/learner.model';
 import {LearnerProgressComponent} from "./learner-progress/learner-progress.component";
 

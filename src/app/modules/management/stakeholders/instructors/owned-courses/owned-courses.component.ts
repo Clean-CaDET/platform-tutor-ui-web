@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 import { InstructorsService } from '../instructors.service';

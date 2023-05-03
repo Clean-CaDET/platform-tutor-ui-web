@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { AssessmentItemsService } from './assessment-items.service';

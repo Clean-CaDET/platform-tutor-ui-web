@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';

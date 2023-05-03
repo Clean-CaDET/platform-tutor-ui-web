@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ngxCsv } from 'ngx-csv';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import {LearningEvent} from '../../model/learning-event.model';
-import { PageEvent } from '@angular/material/paginator';
+import { LegacyPageEvent as PageEvent } from '@angular/material/legacy-paginator';
 
 @Component({
   selector: 'cc-events-table',

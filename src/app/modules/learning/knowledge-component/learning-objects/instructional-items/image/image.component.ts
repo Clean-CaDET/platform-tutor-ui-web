@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Image } from './image.model';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { LearningObjectComponent } from '../../learning-object-component';
 

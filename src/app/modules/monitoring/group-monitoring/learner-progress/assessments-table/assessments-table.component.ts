@@ -2,7 +2,7 @@ import { trigger, style, transition, animate } from '@angular/animations';
 import { Component, Input, OnChanges } from '@angular/core';
 import { KnowledgeComponentProgress } from '../../../model/knowledge-component-progress.model';
 import { KnowledgeComponent } from '../../../../learning/model/knowledge-component.model';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
 import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
 import { ngxCsv } from 'ngx-csv';

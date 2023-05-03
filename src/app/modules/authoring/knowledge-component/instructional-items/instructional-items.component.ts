@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Text } from 'src/app/modules/learning/knowledge-component/learning-objects/instructional-items/text/text.model';
 import { Video } from 'src/app/modules/learning/knowledge-component/learning-objects/instructional-items/video/video.model';

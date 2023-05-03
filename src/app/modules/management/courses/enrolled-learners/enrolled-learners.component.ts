@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
 import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll-learners.component';
