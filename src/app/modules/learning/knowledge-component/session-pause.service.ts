@@ -4,17 +4,19 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {VideoPlaybackService} from "./learning-objects/instructional-items/video/video-playback.service";
 
-
 @Injectable()
 export class SessionPauseService implements OnDestroy {
   private activityCheckIntervalSubscription: Subscription;
   private eventsSubscriptions: Subscription[] = [];
   private videoSubscription: Subscription;
   private videoPlaybackStatus: string = null;
-  private lastActive: Date = new Date();
-  private sessionPaused = false;
+  private kcId: number;
+  private lastActive: Date;
 
   constructor(private http: HttpClient, private videoService: VideoPlaybackService) {
+    if (localStorage.getItem("IsPaused" + this.kcId) === "true") {
+      localStorage.setItem("IsPaused" + this.kcId, String(false));
+    }
     const events: string[] = ['keydown', 'click', 'wheel', 'mousemove'];
     events.forEach(event =>
       this.eventsSubscriptions.push(fromEvent(document, event).subscribe(_ => this.recordLastActiveDate()))
@@ -28,9 +30,12 @@ export class SessionPauseService implements OnDestroy {
     this.activityCheckIntervalSubscription.unsubscribe();
     this.eventsSubscriptions.forEach(sub => sub.unsubscribe());
     this.videoSubscription.unsubscribe();
+    localStorage.removeItem("IsPaused" + this.kcId);
+    localStorage.removeItem("LastActive" + this.kcId);
   }
 
   public start(kcId: number) {
+    this.kcId = kcId;
     this.activityCheckIntervalSubscription = interval(1000)
       .subscribe(() => {
         this.checkLearnerActivity(kcId);
@@ -38,21 +43,29 @@ export class SessionPauseService implements OnDestroy {
   }
 
   private checkLearnerActivity(kcId: number) {
-    let inactiveInMinutes = Math.floor(new Date().getTime() - this.lastActive.getTime()) / 60000
-    if (!this.sessionPaused && this.videoPlaybackStatus !== "PLAYING" && inactiveInMinutes > 3) {
+    if (!localStorage.getItem("IsPaused" + this.kcId)) {
+      localStorage.setItem("IsPaused" + this.kcId, String(false));
+    }
+    if (!localStorage.getItem("LastActive" + this.kcId)) {
+      this.lastActive = new Date();
+      localStorage.setItem("LastActive" + this.kcId, this.lastActive.toString());
+    }
+
+    let inactiveInMinutes = Math.floor(new Date().getTime() - new Date(localStorage.getItem("LastActive" + this.kcId)).getTime()) / 60000
+    if ((localStorage.getItem("IsPaused" + this.kcId) === "false") && this.videoPlaybackStatus !== "PLAYING" && inactiveInMinutes > 3) {
       this.pauseSession(kcId).subscribe({
         next: () => {
-          this.sessionPaused = true;
+          localStorage.setItem("IsPaused" + this.kcId, String(true))
         }
       })
-    } else if (this.sessionPaused && inactiveInMinutes < 0.1) {
+    } else if (localStorage.getItem("IsPaused" + this.kcId) === "true" && inactiveInMinutes < 0.5) {
       this.continueSession(kcId).subscribe({
         next: () => {
-          this.sessionPaused = false;
+          localStorage.setItem("IsPaused" + this.kcId, String(false))
         }
       })
     }
-    if (this.videoPlaybackStatus === "PLAYING" && !this.sessionPaused) {
+    if (this.videoPlaybackStatus === "PLAYING" && localStorage.getItem("IsPaused" + this.kcId) === "false") {
       this.recordLastActiveDate();
     }
   }
@@ -67,5 +80,6 @@ export class SessionPauseService implements OnDestroy {
 
   private recordLastActiveDate() {
     this.lastActive = new Date();
+    localStorage.setItem("LastActive" + this.kcId, this.lastActive.toString())
   }
 }
