@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
+import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import { environment } from 'src/environments/environment';
+import { BulkAccounts } from '../../../model/bulk-accounts.model';
 import {CreateLearner} from '../../../model/create-learner.model';
 
 @Component({
@@ -14,12 +17,17 @@ export class BulkAddComponent implements OnInit {
   learnerTypes: string[] = ['FTN', 'FTNInf'];
   learners: CreateLearner[];
   checkView: boolean;
+  responseView: boolean;
 
   dataSource: MatTableDataSource<CreateLearner>;
   displayedColumns: Array<string> = ['num', 'username', 'name', 'surname', 'email'];
   invalidEntries: string[];
+  
+  baseUrl = environment.apiHost + "management/learners/";
+  existingLearners: MatTableDataSource<CreateLearner>;
+  newLearners: MatTableDataSource<CreateLearner>;
 
-  constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>) { }
+  constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>, private learnerService: CrudService<CreateLearner>) { }
 
   ngOnInit(): void {
     this.formGroup = this.builder.group({
@@ -51,6 +59,7 @@ export class BulkAddComponent implements OnInit {
 
   private createLearner(i: number, elements: string[]): CreateLearner {
     return {
+      id: i + 1,
       num: i + 1,
       index: elements[0].trim(),
       password: elements[1].trim(),
@@ -63,10 +72,17 @@ export class BulkAddComponent implements OnInit {
 
   onBack(): void {
     this.checkView = false;
+    this.responseView = false;
   }
 
   onSubmit(): void {
-    this.dialogRef.close(this.learners);
+    this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe((data) => {
+      this.responseView = true;
+      const accounts = data as BulkAccounts;
+      console.log(data);
+      this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
+      this.newLearners = new MatTableDataSource(accounts.newAccounts);
+    });
   }
 
   onClose(): void {

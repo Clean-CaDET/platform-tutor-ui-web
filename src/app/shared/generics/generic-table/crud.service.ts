@@ -28,8 +28,8 @@ export abstract class CrudService<T extends Entity> {
     return this.http.post<T>(baseUrl, newItem);
   }
 
-  bulkCreate(baseUrl: string, items: T[]): Observable<T> {
-    return this.http.post<T>(baseUrl + "bulk", items);
+  bulkCreate(baseUrl: string, items: T[]) {
+    return this.http.post(baseUrl + "bulk", items);
   }
 
   clone(baseUrl: string, id: number, newItem: T): Observable<T> {
