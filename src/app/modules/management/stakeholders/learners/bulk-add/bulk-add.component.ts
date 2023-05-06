@@ -79,7 +79,6 @@ export class BulkAddComponent implements OnInit {
     this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe((data) => {
       this.responseView = true;
       const accounts = data as BulkAccounts;
-      console.log(data);
       this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
       this.newLearners = new MatTableDataSource(accounts.newAccounts);
     });
