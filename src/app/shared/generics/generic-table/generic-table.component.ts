@@ -77,8 +77,8 @@ export class GenericTableComponent implements OnChanges {
       this.httpService.create(this.baseUrl, result).subscribe({
         next: () =>  this.getPagedEntities(),
         error: (error) => {
-          const errorDetails = error.error.detail;
-          this.errorsBar.open(errorDetails, "OK", {horizontalPosition: 'right', verticalPosition: 'top'});
+          if (error.error.status === 400)
+            this.errorsBar.open('Nevalidni podaci.', "OK", {horizontalPosition: 'right', verticalPosition: 'top'});
         }
       });
     });
