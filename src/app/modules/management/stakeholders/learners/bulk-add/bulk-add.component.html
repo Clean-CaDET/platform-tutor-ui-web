@@ -57,6 +57,9 @@
     <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
   </div>
 </div>
+<div *ngIf="responseErrorView">
+  <h4>Ponovljeno korisničko ime u unosu!</h4>
+</div>
 <div *ngIf="responseView" fxLayout="column" fxLayoutGap="10px">
   <h3>Pregled novododatih učenika</h3>
   <table mat-table [dataSource]="newLearners" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">

@@ -17,13 +17,14 @@ export class BulkAddComponent implements OnInit {
   learnerTypes: string[] = ['FTN', 'FTN Inf'];
   learners: CreateLearner[];
   checkView: boolean;
-  responseView: boolean;
-
+  
   dataSource: MatTableDataSource<CreateLearner>;
   displayedColumns: Array<string> = ['num', 'username', 'name', 'surname', 'email'];
   invalidEntries: string[];
   
   baseUrl = environment.apiHost + "management/learners/";
+  responseView: boolean;
+  responseErrorView: boolean;
   existingLearners: MatTableDataSource<CreateLearner>;
   newLearners: MatTableDataSource<CreateLearner>;
   newLearnersAdded: boolean = false;
@@ -74,15 +75,22 @@ export class BulkAddComponent implements OnInit {
   onBack(): void {
     this.checkView = false;
     this.responseView = false;
+    this.responseErrorView = false;
   }
 
   onSubmit(): void {
-    this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe((data) => {
-      this.responseView = true;
-      const accounts = data as BulkAccounts;
-      if (accounts.newAccounts.length !== 0) this.newLearnersAdded = true;
-      this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
-      this.newLearners = new MatTableDataSource(accounts.newAccounts);
+    this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe({
+      next: (data) => {
+        this.responseView = true;
+        this.responseErrorView = false;
+        const accounts = data as BulkAccounts;
+        if (accounts.newAccounts.length !== 0) this.newLearnersAdded = true;
+        this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
+        this.newLearners = new MatTableDataSource(accounts.newAccounts);
+      },
+      error: (error) => {
+        if (error.error.detail.includes('Duplicate username')) this.responseErrorView = true;
+      }
     });
   }
 
