@@ -9,7 +9,7 @@
   </mat-radio-group>
   <mat-error *ngIf="formGroup.controls['learnersType'].invalid && formGroup.controls['learnersType'].touched">{{getErrorMessage("learnersType")}}</mat-error>
   <mat-form-field appearance="fill">
-        <textarea fxFlex matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
+        <textarea fxFlex matInput style="height: 330px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
     </mat-form-field>
     <div fxFlex="column" fxLayoutGap="20px">
       <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()" fxFlex>Proveri</button>

@@ -12,7 +12,7 @@ import { Field } from 'src/app/shared/generics/model/field.model';
 export class LearnersComponent {
   baseUrl = environment.apiHost + "management/learners/";
   fields: Field[] = [
-    { code: 'learnerType', type: 'radio', label: 'Tip polaznika', required: true, values: ["FTN", "FTNInf"] },
+    { code: 'userType', type: 'radio', label: 'Tip polaznika', required: true, values: ["FTN", "FTN Inf"] },
     { code: 'index', type: 'string', label: 'Korisničko ime / Indeks', required: true },
     { code: 'password', type: 'password', label: 'Lozinka' },
     { code: 'name', type: 'string', label: 'Ime', required: true },

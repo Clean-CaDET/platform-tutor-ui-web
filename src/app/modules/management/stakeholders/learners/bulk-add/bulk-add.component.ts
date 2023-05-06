@@ -56,7 +56,8 @@ export class BulkAddComponent implements OnInit {
       password: elements[1].trim(),
       name: elements[2].trim(),
       surname: elements[3].trim(),
-      email: elements[4].trim()
+      email: elements[4].trim(),
+      userType: this.formGroup.controls['learnersType'].value
     };
   }
 
