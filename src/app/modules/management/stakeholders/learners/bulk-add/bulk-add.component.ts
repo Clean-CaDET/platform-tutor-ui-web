@@ -14,7 +14,7 @@ import {CreateLearner} from '../../../model/create-learner.model';
 })
 export class BulkAddComponent implements OnInit {
   formGroup: FormGroup;
-  learnerTypes: string[] = ['FTN', 'FTNInf'];
+  learnerTypes: string[] = ['FTN', 'FTN Inf'];
   learners: CreateLearner[];
   checkView: boolean;
   responseView: boolean;
