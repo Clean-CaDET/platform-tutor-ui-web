@@ -90,8 +90,10 @@ export class GenericTableComponent implements OnChanges {
 
     const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '600px', width: '900px'});
 
-    dialogRef.afterClosed().subscribe(() => 
-      this.getPagedEntities());
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      this.getPagedEntities();
+    });
   }
 
   onClone(id: number): void {

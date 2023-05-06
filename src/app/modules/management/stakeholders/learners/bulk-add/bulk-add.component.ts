@@ -26,6 +26,7 @@ export class BulkAddComponent implements OnInit {
   baseUrl = environment.apiHost + "management/learners/";
   existingLearners: MatTableDataSource<CreateLearner>;
   newLearners: MatTableDataSource<CreateLearner>;
+  newLearnersAdded: boolean = false;
 
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>, private learnerService: CrudService<CreateLearner>) { }
 
@@ -79,13 +80,14 @@ export class BulkAddComponent implements OnInit {
     this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe((data) => {
       this.responseView = true;
       const accounts = data as BulkAccounts;
+      if (accounts.newAccounts.length !== 0) this.newLearnersAdded = true;
       this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
       this.newLearners = new MatTableDataSource(accounts.newAccounts);
     });
   }
 
   onClose(): void {
-    this.dialogRef.close(false);
+    this.dialogRef.close(this.newLearnersAdded);
   }
 
   getErrorMessage(controlName: string): string {
