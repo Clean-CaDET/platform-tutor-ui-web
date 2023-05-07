@@ -14,6 +14,9 @@
                       <div class="progress">{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</div>
                       <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
                   </div>
+                  <div>
+                    <button mat-icon-button id="calendar" [routerLink]="['/calendar', learnerProgress.learner.id]"><mat-icon>calendar_today</mat-icon></button>
+                  </div>
                 </mat-panel-description>
                 <mat-icon *ngIf="shouldAlert(learnerProgress)" [ngClass] = getAlertColor(learnerProgress)>report_problem</mat-icon>
                 <mat-icon *ngIf="!shouldAlert(learnerProgress)" class="primary">check_circle</mat-icon>

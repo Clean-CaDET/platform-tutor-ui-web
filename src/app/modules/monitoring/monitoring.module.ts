@@ -9,6 +9,11 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import {AssessmentsTableComponent} from './group-monitoring/learner-progress/assessments-table/assessments-table.component';
 import {LearnerProgressComponent} from './group-monitoring/learner-progress/learner-progress.component';
 import { EnrollmentComponent } from './group-monitoring/enrollment/enrollment.component';
+import {RouterModule} from "@angular/router";
+import {CalendarModule, CalendarWeekModule} from "angular-calendar";
+import {MatDialogModule} from "@angular/material/dialog";
+import { SessionEventsComponent } from './group-monitoring/learner-progress/calendar/session-events/session-events.component';
+import {CalendarComponent} from "./group-monitoring/learner-progress/calendar/calendar.component";
 
 @NgModule({
   declarations: [
@@ -16,6 +21,9 @@ import { EnrollmentComponent } from './group-monitoring/enrollment/enrollment.co
     AssessmentsTableComponent,
     LearnerProgressComponent,
     EnrollmentComponent,
+    CalendarComponent,
+    SessionEventsComponent,
+    SessionEventsComponent
   ],
   imports: [
     CommonModule,
@@ -24,6 +32,10 @@ import { EnrollmentComponent } from './group-monitoring/enrollment/enrollment.co
     FormsModule,
     NgxChartsModule,
     MatExpansionModule,
+    RouterModule,
+    CalendarModule,
+    CalendarWeekModule,
+    MatDialogModule,
   ],
 })
 export class MonitoringModule {}

@@ -1,0 +1,18 @@
+<mat-card>
+  <div class="primary" *ngFor="let event of events">
+    <mat-card class="mat-elevation-z15">
+      <mat-card-header>
+        <b>Knowledge Component Id: {{event[0].knowledgeComponentId}}</b>
+      </mat-card-header>
+    </mat-card>
+    <div *ngFor="let data of event">
+      <mat-card class="mat-elevation-z10">
+        <div fxLayout="column">
+          <div fxFlex="20">{{data.timeStamp | date: "medium": 'sr'}} {{data.type}}</div>
+          <div fxFlex>{{data.specificData | json}}</div>
+        </div>
+      </mat-card>
+    </div>
+  </div>
+</mat-card>
+

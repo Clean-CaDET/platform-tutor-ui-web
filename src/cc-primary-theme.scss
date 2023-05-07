@@ -18,6 +18,13 @@
 //    `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
 @include mat.all-legacy-component-typographies();
 @include mat.legacy-core();
+@import 'node_modules/angular-calendar/scss/angular-calendar.scss';
+
+$bg-dark-primary: #1f262d;
+$bg-dark-secondary: #394046;
+$bg-active: #2c343a;
+$text-color: #d5d6d7;
+$border-color: rgba(0, 0, 0, 0.6);
 
 $cc-palette: (
   50: #262626,
@@ -61,13 +68,13 @@ $cc-accent-dark: mat.define-palette(mat.$yellow-palette, 700, 400, 900);
 $cc-warn-dark: mat.define-palette(mat.$red-palette);
 
 $cc-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $cc-primary-dark,
-      accent: $cc-accent-dark,
-      warn: $cc-warn-dark,
-    ),
-  )
+    (
+      color: (
+        primary: $cc-primary-dark,
+        accent: $cc-accent-dark,
+        warn: $cc-warn-dark,
+      ),
+    )
 );
 
 .dark-theme-mode {
@@ -76,6 +83,18 @@ $cc-dark-theme: mat.define-dark-theme(
   @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
   @include learner-progress.color($cc-dark-theme);
+  @include cal-theme(
+      (
+        bg-primary: $bg-dark-primary,
+        bg-secondary: $bg-dark-secondary,
+        weekend-color: indianred,
+        bg-active: $bg-active,
+        border-color: $border-color,
+        gray: $bg-dark-secondary,
+        today-bg: $bg-dark-secondary,
+        event-color-primary: $bg-dark-secondary,
+      )
+  );
 }
 
 $cc-primary-light: mat.define-palette(mat.$teal-palette);
@@ -83,13 +102,13 @@ $cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
 $cc-warn-light: mat.define-palette(mat.$red-palette, A200);
 
 $cc-theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $cc-primary-light,
-      accent: $cc-accent-light,
-      warn: $cc-warn-light,
-    ),
-  )
+    (
+      color: (
+        primary: $cc-primary-light,
+        accent: $cc-accent-light,
+        warn: $cc-warn-light,
+      ),
+    )
 );
 
 .light-theme-mode {
@@ -99,3 +118,5 @@ $cc-theme: mat.define-light-theme(
   @include assessments-table.color($cc-theme);
   @include learner-progress.color($cc-theme);
 }
+
+

@@ -17,6 +17,8 @@ import { ManagementModule } from './modules/management/management.module';
 import { KnowledgeAnalyticsModule } from './modules/knowledge-analytics/knowledge-analytics.module';
 import { GenericsModule } from './shared/generics/generics.module';
 import { AuthoringModule } from './modules/authoring/authoring.module';
+import {CalendarModule, DateAdapter} from "angular-calendar";
+import {adapterFactory} from "angular-calendar/date-adapters/date-fns";
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -59,7 +61,8 @@ export function markdownConfiguration(): MarkedOptions {
     MonitoringModule,
     KnowledgeAnalyticsModule,
     ManagementModule,
-    AuthoringModule
+    AuthoringModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
     {

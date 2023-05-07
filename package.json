@@ -29,6 +29,8 @@
     "@auth0/angular-jwt": "~5.1.0",
     "@swimlane/ngx-charts": "~20.1.2",
     "@types/file-saver": "^2.0.5",
+    "angular-calendar": "^0.31.0",
+    "date-fns": "^2.29.3",
     "file-saver": "^2.0.5",
     "ngx-csv": "~0.3.2",
     "ngx-markdown": "15.1.2",

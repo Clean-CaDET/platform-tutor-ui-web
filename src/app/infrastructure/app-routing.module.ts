@@ -11,11 +11,16 @@ import { LearnersComponent } from '../modules/management/stakeholders/learners/l
 import { KcStatisticsComponent } from '../modules/knowledge-analytics/kc-statistics/kc-statistics.component';
 import { InstructorsComponent } from '../modules/management/stakeholders/instructors/instructors.component';
 import { CoursesComponent } from '../modules/management/courses/courses.component';
-import {EventsTableComponent} from '../modules/knowledge-analytics/kc-statistics/events-table/events-table.component';
 import { CourseStructureComponent } from '../modules/authoring/course-structure/course-structure.component';
 import { InstructionalItemsComponent } from '../modules/authoring/knowledge-component/instructional-items/instructional-items.component';
 import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowledge-component/knowledge-component-authoring.component';
 import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/assessment-items.component';
+import {
+  SessionEventsComponent
+} from "../modules/monitoring/group-monitoring/learner-progress/calendar/session-events/session-events.component";
+import {CalendarComponent} from "../modules/monitoring/group-monitoring/learner-progress/calendar/calendar.component";
+
+
 
 
 const routes: Routes = [
@@ -38,7 +43,7 @@ const routes: Routes = [
 
   {
     path: 'analytics/events',
-    component: EventsTableComponent,
+    component: SessionEventsComponent,
     canActivate: [AuthGuard],
     data: { role: 'instructor' },
   },
@@ -76,6 +81,11 @@ const routes: Routes = [
       }
     ]
   },
+  { path: 'calendar/:learnerId', component: CalendarComponent,
+    canActivate: [AuthGuard],
+    data: { role: 'instructor' }
+  },
+
   {
     path: 'management/stakeholders/learners',
     component: LearnersComponent,
