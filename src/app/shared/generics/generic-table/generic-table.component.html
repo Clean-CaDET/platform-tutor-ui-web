@@ -32,6 +32,9 @@
         <span *ngIf="field.type === 'date'">
           {{element[field.code] | date : 'd/M/yy'}}
         </span>
+        <span *ngIf="field.type === 'radio'">
+          {{element[field.code]}}
+        </span>
         <span *ngIf="field.type === 'CRUD'">
           <span fxFlex></span>
           <button *ngIf="field.crud.clone" mat-button class="table-button" (click)="onClone(element.id); $event.stopPropagation()">
