@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import { AssessmentItemStatistics } from '../model/assessment-item-statistics';
+import { EventService } from 'src/app/shared/events/event.service';
 
 @Component({
   selector: 'cc-ai-statistics',
@@ -16,7 +17,7 @@ export class AiStatisticsComponent implements OnChanges {
   attemptsToPassGrouping: any;
   timeChartData: any;
 
-  constructor(private analyticsService: KnowledgeAnalyticsService) {}
+  constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService) {}
 
   ngOnChanges(): void {
     this.analyticsService.getAssessmentItemStatistics(this.groupId, this.kcId.toString())
@@ -73,5 +74,9 @@ export class AiStatisticsComponent implements OnChanges {
     const result: any = [];
     minutes.forEach((m) => result.push({ name: 'a', value: m }));
     return result;
+  }
+
+  exportEvents(aiId: number) {
+    this.eventService.getByAi(aiId).subscribe();
   }
 }

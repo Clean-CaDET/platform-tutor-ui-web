@@ -3,8 +3,8 @@ import { Unit } from '../../learning/model/unit.model';
 import { Group } from '../model/group.model';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
-import { ngxCsv } from 'ngx-csv';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
+import { EventService } from 'src/app/shared/events/event.service';
 
 @Component({
   selector: 'cc-unit-analytics',
@@ -22,7 +22,8 @@ export class UnitAnalyticsComponent implements OnInit {
   showKcAnalytics: boolean;
   showAssessmentAnalytics: boolean;
 
-  constructor(private analyticsService: KnowledgeAnalyticsService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService,
+    private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -30,7 +31,7 @@ export class UnitAnalyticsComponent implements OnInit {
       this.analyticsService
         .getUnits(this.courseId)
         .subscribe(units => {
-          this.units = units;
+          this.units = this.sortUnits(units);
           let unitId = this.route.snapshot.queryParams['unitId'];
           if(unitId) {
             this.selectedUnit = this.units.find(u => u.id == unitId);
@@ -40,6 +41,13 @@ export class UnitAnalyticsComponent implements OnInit {
         .getGroups(this.courseId)
         .subscribe((groups) => (this.groups = groups.results));
     });
+  }
+
+  sortUnits(units: Unit[]): Unit[] {
+    units = units.sort((u1, u2) => u1.order - u2.order);
+    units.forEach(u => 
+      u.knowledgeComponents = u.knowledgeComponents.sort((k1, k2) => k1.order - k2.order));
+    return units;
   }
 
   updateUnit(): void {
@@ -62,32 +70,6 @@ export class UnitAnalyticsComponent implements OnInit {
   }
 
   exportAllToCSV(): void {
-    const exportOptions = {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalseparator: '.',
-      showLabels: true,
-      useBom: true,
-      noDownload: false,
-      headers: [
-        'Type',
-        'Timestamp',
-        'Knowledge Component Id',
-        'Learner Id',
-        'Event-specific data',
-      ],
-    };
-
-    this.analyticsService.getAllEvents().subscribe((data) => {
-      const allEvents = data.sort(
-        (a, b) => a.timeStamp.getTime() - b.timeStamp.getTime()
-      );
-      for (const event of allEvents) {
-        if (event.specificData) {
-          event.specificData = JSON.stringify(event.specificData);
-        }
-      }
-      new ngxCsv(allEvents, 'Events', exportOptions);
-    });
+    this.eventService.getAll().subscribe();
   }
 }
