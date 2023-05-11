@@ -3,7 +3,10 @@
     [ngClass]="{'pointer': user.role === 'learner'}">
     <mat-card-header>
         <mat-icon mat-card-avatar>book</mat-icon>
-        <mat-card-title style="text-align: left;">{{course.name}}</mat-card-title>
+        <mat-card-title style="text-align: left;">
+            <span *ngIf="user.role === 'instructor'"><b>{{course.code}}</b>: </span>
+            {{course.name}}
+        </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <p>
@@ -16,7 +19,7 @@
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/authoring/course', course.id]">
             <mat-icon>edit</mat-icon>
         </button>
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/analytics', course.id, 'kc-statistics']">
+        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/analytics', course.id, 'statistics']">
             <mat-icon>bar_chart</mat-icon>
         </button>
         <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/monitoring', course.id, 'progress']">

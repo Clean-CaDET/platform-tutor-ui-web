@@ -1,6 +1,5 @@
 export interface KnowledgeComponentStatistics {
-  kcCode: string;
-  kcName: string;
+  kcId: number;
   totalRegistered: number;
   totalStarted: number;
   totalCompleted: number;

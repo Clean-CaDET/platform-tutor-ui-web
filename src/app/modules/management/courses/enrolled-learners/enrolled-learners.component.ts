@@ -7,7 +7,7 @@ import { BulkEnrollLearnersComponent } from '../bulk-enroll-learners/bulk-enroll
 import { Group } from '../../model/group.model';
 import { environment } from '../../../../../environments/environment';
 import { Field } from 'src/app/shared/generics/model/field.model';
-import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
+import { Learner } from 'src/app/modules/monitoring/model/learner.model';
 
 @Component({
   selector: 'cc-enrolled-learners',

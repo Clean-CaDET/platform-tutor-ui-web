@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
+import { Learner } from 'src/app/modules/monitoring/model/learner.model';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { LearnerEnrollment } from '../../model/learner-enrollment.model';
 import { EnrollmentService } from './enrollment.service';
