@@ -26,6 +26,8 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   feedbackProcessed: boolean;
   messageTimeout: any;
 
+  @Output() rateKc = new EventEmitter<void>();
+
   constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -58,10 +60,13 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   }
 
   private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean) {
-    this.feedbackMessage = createResponse(feedback, isFirstSatisfaction);
+    this.feedbackMessage = createResponse(feedback);
     this.feedbackProcessed = true;
     // If typing animation onComplete callback is fixed this should be changed
     this.messageTimeout = setTimeout(() => this.assessmentConnector.sendToAssessment(feedback), 1200);
+    if(isFirstSatisfaction) {
+      this.rateKc.next();
+    }
   }
 
   onChangePage(page: string): void {

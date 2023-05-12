@@ -28,7 +28,7 @@
       </div>
       <div *ngIf="!instructionalItemsShown">
         <div style="margin-bottom: 140px;"></div>
-        <cc-submission-result (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
+        <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
       </div>
       <br>
       <br>

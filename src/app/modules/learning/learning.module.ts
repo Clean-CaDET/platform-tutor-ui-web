@@ -28,6 +28,9 @@ import { ShortAnswerQuestionComponent } from './knowledge-component/learning-obj
 import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/assessment-items/multiple-choice-question/multiple-choice-question.component';
 import { LearningObserverComponent } from './learning-observer/learning-observer.component';
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
+import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
+import {StarRatingModule} from "angular-star-rating";
+import {MatChipsModule} from "@angular/material/chips";
 
 @NgModule({
   declarations: [
@@ -49,21 +52,24 @@ import { TypingAnimatorDirective } from './knowledge-component/submission-result
     CourseUnitsComponent,
     TutorImprovementComponent,
     LearningObserverComponent,
-    TypingAnimatorDirective
+    TypingAnimatorDirective,
+    KcRateComponent
   ],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    MarkdownModule.forChild(),
-    YouTubePlayerModule,
-    FlexLayoutModule,
-    RouterModule,
-    FormsModule,
-    MaterialModule,
-    DragDropModule,
-    ReactiveFormsModule,
-    LearningUtilitiesModule
-  ],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        MarkdownModule.forChild(),
+        YouTubePlayerModule,
+        FlexLayoutModule,
+        RouterModule,
+        FormsModule,
+        MaterialModule,
+        DragDropModule,
+        ReactiveFormsModule,
+        LearningUtilitiesModule,
+        StarRatingModule,
+        MatChipsModule,
+    ],
   exports: [
     LearningObjectContainerComponent,
     SubmissionResultComponent,
