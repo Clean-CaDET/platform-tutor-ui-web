@@ -5,6 +5,6 @@ export interface CreateLearner {
   name: string;
   surname: string;
   email: string;
-  userType: string;
+  learnerType: string;
   id: number;
 }
