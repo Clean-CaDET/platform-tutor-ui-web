@@ -33,7 +33,7 @@
           {{element[field.code] | date : 'd/M/yy'}}
         </span>
         <span *ngIf="field.type === 'radio'">
-          {{element[field.code]}}
+          {{element[field.code] | fieldOptions: field.options}}
         </span>
         <span *ngIf="field.type === 'CRUD'">
           <span fxFlex></span>
