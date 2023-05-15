@@ -24,7 +24,7 @@ export class BulkAddComponent implements OnInit {
   
   baseUrl = environment.apiHost + "management/learners/";
   existingDatasource: MatTableDataSource<CreateLearner> = null;
-  newLearners: CreateLearner[] = [];
+  newLearners: CreateLearner[];
 
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>, private learnerService: LearnersService) { }
 
@@ -47,6 +47,7 @@ export class BulkAddComponent implements OnInit {
 
       const existingUsernames = data.results.map(a => a.index);
       let existingLearners: CreateLearner[] = [];
+      this.newLearners = [];
       this.learners.forEach(learner => {
         if (existingUsernames.includes(learner.index))
           existingLearners.push(learner);
