@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {MatChip} from "@angular/material/chips";
 import {KnowledgeComponentRate} from "../../model/knowledge-component-rate.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
@@ -20,6 +20,8 @@ export class KcRateComponent {
 
   tags = ["Količina zadataka", "Težina zadataka", "Jasnoća zadataka", "Jasnoća gradiva"]
   selectedTags: string[] = [];
+
+  feedbackMessage = "Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (klik na \"Lekcija\") ili da pogledaš moj komentar na zadatak (klik na \"Zatvori\")."
 
   constructor(@Inject(MAT_DIALOG_DATA) data: { courseId: number, unitId:number, kcId:number },
               private dialogRef: MatDialogRef<KcRateComponent>, private rateService : KcRateService) {
@@ -43,13 +45,17 @@ export class KcRateComponent {
   }
 
   closeDialog() {
-    const kcRate: KnowledgeComponentRate = {
-      knowledgeComponentId: this.kcId,
-      rating: this.rating,
-      tags: this.selectedTags
-    };
-    this.rateService.rate(kcRate).subscribe(_ => {
+    if(this.isRated) {
+      const kcRate: KnowledgeComponentRate = {
+        knowledgeComponentId: this.kcId,
+        rating: this.rating,
+        tags: this.selectedTags
+      };
+      this.rateService.rate(kcRate).subscribe(_ => {
+        this.dialogRef.close();
+      })
+    } else {
       this.dialogRef.close();
-    })
+    }
   }
 }

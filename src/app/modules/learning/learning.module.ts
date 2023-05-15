@@ -67,8 +67,7 @@ import {MatChipsModule} from "@angular/material/chips";
         DragDropModule,
         ReactiveFormsModule,
         LearningUtilitiesModule,
-        StarRatingModule,
-        MatChipsModule,
+        StarRatingModule.forRoot()
     ],
   exports: [
     LearningObjectContainerComponent,

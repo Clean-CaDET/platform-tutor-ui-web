@@ -60,8 +60,7 @@ export function markdownConfiguration(): MarkedOptions {
     MonitoringModule,
     KnowledgeAnalyticsModule,
     ManagementModule,
-    AuthoringModule,
-    StarRatingModule.forRoot()
+    AuthoringModule
   ],
   providers: [
     {

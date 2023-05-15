@@ -1,19 +1,23 @@
-<p>Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (klik na taster "Lekcija") ili da pogledaš moj komentar na zadatak (klik na taster "Zatvori").
+<div fxLayout="column">
+  <pre typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
+       [deleteSpeed]="1000000" [showCursor]="false"></pre>
+  <div fxLayout="column">
+    <p>Kako bi ocenio ovaj deo lekcije?</p>
+    <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
+  </div>
+  <div id="tag" *ngIf="isRated" fxLayout="column">
+    <p *ngIf="rating === 5">Šta misliš da smo posebno dobro uradili? </p>
+    <p *ngIf="rating < 5">Na šta treba da obratimo pažnju?</p>
+    <mat-chip-list id="options" selectable multiple>
+      <mat-chip *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
+        {{option}}
+      </mat-chip>
+    </mat-chip-list>
+  </div>
+</div>
 <hr>
-<div fxLayout="row">
-  <p>Kako bi ocenio ovaj deo lekcije?</p>
-  <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
-</div>
-<div id="tag" *ngIf="isRated">
-  <p *ngIf="rating === 5">Šta misliš da smo posebno dobro uradili? </p>
-  <p *ngIf="rating < 5">Na šta treba da obratimo pažnju?</p>
-  <mat-chip-list id="options" selectable multiple>
-    <mat-chip *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
-      {{option}}
-    </mat-chip>
-  </mat-chip-list>
-</div>
-<div>
+<div fxLayout="row" fxLayoutAlign="space-between center">
   <button mat-raised-button color="accent" [routerLink]="['/course', courseId, 'unit', unitId]" (click)="closeDialog()">Lekcija</button>
-  <button id="comment-button" mat-raised-button color="primary" (click)="closeDialog()">Zatvori</button>
+  <button id="comment-button" mat-button color="primary" (click)="closeDialog()">Zatvori</button>
 </div>
+
