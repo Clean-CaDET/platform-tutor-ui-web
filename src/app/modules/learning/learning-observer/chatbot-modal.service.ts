@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 import { LearningObserverComponent } from './learning-observer.component';
 
 @Injectable({
@@ -9,7 +10,7 @@ export class ChatbotModalService {
   private readonly modalOpenInterval = 20 * 60 * 1000; //minutes * seconds * milliseconds
   private lastOpened: number;
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private authService: AuthenticationService) {}
 
   openModal() {
     this.dialog.open(LearningObserverComponent, {
@@ -18,6 +19,8 @@ export class ChatbotModalService {
   }
 
   notify() {
+    const role = this.authService.user$.getValue().role;
+    if (role === 'learnercommercial') return;
     const lastOpenedString = localStorage.getItem('lastOpened');
     if (lastOpenedString) {
       this.lastOpened = Number(lastOpenedString);
