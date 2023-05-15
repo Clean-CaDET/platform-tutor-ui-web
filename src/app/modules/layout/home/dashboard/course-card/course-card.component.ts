@@ -15,7 +15,7 @@ export class CourseCardComponent {
   constructor(private router: Router) {}
 
   onCourseClick(): void {
-    if (this.user.role === 'learner')
+    if (this.user.role.includes('learner'))
       this.router.navigate(['/courses/' + this.course.id]);
   }
 }
