@@ -82,7 +82,6 @@ export class BulkAddComponent implements OnInit {
 
   private createLearner(i: number, elements: string[]): CreateLearner {
     return {
-      id: i + 1,
       num: i + 1,
       index: elements[0].trim(),
       password: elements[1].trim(),
