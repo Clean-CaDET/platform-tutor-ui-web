@@ -24,10 +24,4 @@ export class CoursesService {
   removeOwner(courseId: number, instructorId: number) {
     return this.http.delete(this.baseUrl + courseId + "/owners/" + instructorId);
   }
-
-  getLearners(indexes: string[]): Observable<PagedResults<StakeholderAccount>> {
-    // Should be moved/merged to LearnersService?
-    // Post because of potential URL length limit violation with query params
-    return this.http.post<PagedResults<StakeholderAccount>>(environment.apiHost + 'management/learners/selected', indexes);
-  }
 }

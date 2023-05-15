@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { CrudService } from 'src/app/shared/generics/generic-table/crud.service';
+import { FieldOption } from 'src/app/shared/generics/model/field-option';
 import { environment } from 'src/environments/environment';
-import { BulkAccounts } from '../../../model/bulk-accounts.model';
+import { LearnersService } from '../../../courses/learners.service';
 import {CreateLearner} from '../../../model/create-learner.model';
 
 @Component({
@@ -14,7 +14,7 @@ import {CreateLearner} from '../../../model/create-learner.model';
 })
 export class BulkAddComponent implements OnInit {
   formGroup: FormGroup;
-  learnerTypes: string[] = ['FTN', 'FTN Inf'];
+  learnerTypes: FieldOption[] = [{label: 'FTN', value: 'regular'}, {label: 'FTN Inf', value: 'commercial'}];
   learners: CreateLearner[];
   checkView: boolean;
   
@@ -23,13 +23,10 @@ export class BulkAddComponent implements OnInit {
   invalidEntries: string[];
   
   baseUrl = environment.apiHost + "management/learners/";
-  responseView: boolean;
-  responseErrorView: boolean;
-  existingLearners: MatTableDataSource<CreateLearner>;
-  newLearners: MatTableDataSource<CreateLearner>;
-  newLearnersAdded: boolean = false;
+  existingDatasource: MatTableDataSource<CreateLearner> = null;
+  newLearners: CreateLearner[] = [];
 
-  constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>, private learnerService: CrudService<CreateLearner>) { }
+  constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>, private learnerService: LearnersService) { }
 
   ngOnInit(): void {
     this.formGroup = this.builder.group({
@@ -39,6 +36,30 @@ export class BulkAddComponent implements OnInit {
   }
 
   onCheck(): void {
+    this.createLearnerList()
+    this.checkView = true;
+    
+    this.learnerService.getLearners(this.learners.map(l => l.index)).subscribe((data) => {
+      if (data.totalCount === 0) {
+        this.dataSource = new MatTableDataSource(this.learners);
+        return;
+      }
+
+      const existingUsernames = data.results.map(a => a.index);
+      let existingLearners: CreateLearner[] = [];
+      this.learners.forEach(learner => {
+        if (existingUsernames.includes(learner.index))
+          existingLearners.push(learner);
+        else
+          this.newLearners.push(learner);
+      })
+      this.existingDatasource = new MatTableDataSource(existingLearners);
+      this.dataSource = new MatTableDataSource(this.newLearners);
+    });
+
+  }
+
+  private createLearnerList() {
     const learnerEntries: string[] = this.formGroup.value['learners'].split('\n');
     this.invalidEntries = [];
     this.learners = [];
@@ -52,11 +73,10 @@ export class BulkAddComponent implements OnInit {
         continue;
       }
 
+      if (this.learners.findIndex(l => l.index === elements[0].trim()) !== -1)
+        continue;
       this.learners.push(this.createLearner(i, elements));
     }
-
-    this.dataSource = new MatTableDataSource(this.learners);
-    this.checkView = true;
   }
 
   private createLearner(i: number, elements: string[]): CreateLearner {
@@ -68,34 +88,20 @@ export class BulkAddComponent implements OnInit {
       name: elements[2].trim(),
       surname: elements[3].trim(),
       email: elements[4].trim(),
-      userType: this.formGroup.controls['learnersType'].value
+      learnerType: this.formGroup.controls['learnersType'].value
     };
   }
 
   onBack(): void {
     this.checkView = false;
-    this.responseView = false;
-    this.responseErrorView = false;
   }
 
   onSubmit(): void {
-    this.learnerService.bulkCreate(this.baseUrl, this.learners).subscribe({
-      next: (data) => {
-        this.responseView = true;
-        this.responseErrorView = false;
-        const accounts = data as BulkAccounts;
-        if (accounts.newAccounts.length !== 0) this.newLearnersAdded = true;
-        this.existingLearners = new MatTableDataSource(accounts.existingAccounts);
-        this.newLearners = new MatTableDataSource(accounts.newAccounts);
-      },
-      error: (error) => {
-        if (error.error.detail.includes('Duplicate username')) this.responseErrorView = true;
-      }
-    });
+    this.dialogRef.close(this.newLearners);
   }
 
   onClose(): void {
-    this.dialogRef.close(this.newLearnersAdded);
+    this.dialogRef.close(false);
   }
 
   getErrorMessage(controlName: string): string {

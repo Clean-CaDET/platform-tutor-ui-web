@@ -3,8 +3,8 @@
 <form fxLayout="column" fxFlex [formGroup]="formGroup">
   <mat-label class="required">Tip polaznika</mat-label>
   <mat-radio-group formControlName="learnersType" fxLayout="row" fxLayoutGap="5%">
-    <mat-radio-button *ngFor="let type of learnerTypes" [value]="type">
-      {{type}}
+    <mat-radio-button *ngFor="let type of learnerTypes" [value]="type.value">
+      {{type.label}}
     </mat-radio-button>
   </mat-radio-group>
   <mat-error *ngIf="formGroup.controls['learnersType'].invalid && formGroup.controls['learnersType'].touched">{{getErrorMessage("learnersType")}}</mat-error>
@@ -18,7 +18,7 @@
 </form>
 </div>
 <div *ngIf="checkView" fxLayout="column" fxLayoutGap="10px">
-  <h3>Provera unešenih učenika</h3>
+  <h3>Nalozi koji će biti kreirani</h3>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
     <ng-container matColumnDef="num">
       <th mat-header-cell *matHeaderCellDef>#</th>
@@ -48,75 +48,43 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <div *ngIf="invalidEntries.length > 0">
-    <h3>Nevalidni unosi</h3>
+    <h3>Unete stavke koje nemaju validan format</h3>
     <div *ngFor="let e of invalidEntries">{{e}}</div>
+  </div>
+  <div *ngIf="existingDatasource" fxLayout="column" fxLayoutGap="10px">
+    <h3>Nalozi koji već postoje i neće biti ponovo kreirani</h3>
+    <table mat-table [dataSource]="existingDatasource" class="mat-elevation-z2" fxFlex>
+      <ng-container matColumnDef="num">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element"> {{element.num}} </td>
+      </ng-container>
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef> Korisničko ime </th>
+        <td mat-cell *matCellDef="let element"> {{element.index}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Ime </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="surname">
+        <th mat-header-cell *matHeaderCellDef> Prezime </th>
+        <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
+      </ng-container>
+    
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+      </ng-container>
+    
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
   </div>
   <div fxFlex="row" fxLayoutGap="20px">
     <button mat-raised-button color="primary" (click)="onSubmit()" fxFlex>Sačuvaj</button>
     <button mat-raised-button (click)="onBack()" fxFlex>Nazad</button>
     <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
   </div>
-</div>
-<div *ngIf="responseErrorView">
-  <h4>Ponovljeno korisničko ime u unosu!</h4>
-</div>
-<div *ngIf="responseView" fxLayout="column" fxLayoutGap="10px">
-  <h3>Pregled novododatih učenika</h3>
-  <table mat-table [dataSource]="newLearners" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
-    <ng-container matColumnDef="num">
-      <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let element"> {{element.num}} </td>
-    </ng-container>
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef> Korisničko ime </th>
-      <td mat-cell *matCellDef="let element"> {{element.index}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Ime </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="surname">
-      <th mat-header-cell *matHeaderCellDef> Prezime </th>
-      <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-  <h3>Pregled postojećih učenika</h3>
-  <table mat-table [dataSource]="existingLearners" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
-    <ng-container matColumnDef="num">
-      <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let element"> {{element.num}} </td>
-    </ng-container>
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef> Korisničko ime </th>
-      <td mat-cell *matCellDef="let element"> {{element.index}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Ime </th>
-      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="surname">
-      <th mat-header-cell *matHeaderCellDef> Prezime </th>
-      <td mat-cell *matCellDef="let element"> {{element.surname}} </td>
-    </ng-container>
-  
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef> Email </th>
-      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-    </ng-container>
-  
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
 </div>

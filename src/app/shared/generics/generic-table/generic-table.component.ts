@@ -92,7 +92,9 @@ export class GenericTableComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.getPagedEntities();
+      this.httpService.bulkCreate(this.baseUrl, result).subscribe(() => {
+        this.getPagedEntities();
+      });
     });
   }
 
