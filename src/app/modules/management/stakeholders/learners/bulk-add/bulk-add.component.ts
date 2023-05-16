@@ -41,7 +41,8 @@ export class BulkAddComponent implements OnInit {
     
     this.learnerService.getLearners(this.learners.map(l => l.index)).subscribe((data) => {
       if (data.totalCount === 0) {
-        this.dataSource = new MatTableDataSource(this.learners);
+        this.newLearners = this.learners;
+        this.dataSource = new MatTableDataSource(this.newLearners);
         return;
       }
 
@@ -97,7 +98,7 @@ export class BulkAddComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.dialogRef.close(this.newLearners);
+    this.dialogRef.close(this.newLearners.length ? this.newLearners : null);
   }
 
   onClose(): void {
