@@ -2,17 +2,12 @@ import { Feedback, feedbackTypes } from "../../../model/learning-objects/feedbac
 
 export const welcomeMessage = "Zamisli se nad tekstom zadatka i formiraj svoj odgovor.";
 
-export function createResponse(feedback: Feedback, isFirstSatisfaction: boolean): string {
-    if(isFirstSatisfaction) return createSatisfied() + createResponse(feedback, false);
+export function createResponse(feedback: Feedback): string {
     if(feedback.type === feedbackTypes.pump) return createPump();
     if(feedback.type === feedbackTypes.hint) return createHint(feedback);
     if(feedback.type === feedbackTypes.correctness) return createCorrectness(feedback);
     if(feedback.type === feedbackTypes.solution) return createSolution(feedback);
     return "Došlo je do greške.";
-}
-
-function createSatisfied(): string {
-    return feedbackStore.satisfied.party;
 }
 
 function createPump(): string {

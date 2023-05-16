@@ -1,0 +1,54 @@
+<div fxLayout="column" style="height: 100%;">
+    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z5 sticky">
+        <span fxFlex>
+            <mat-form-field appearance="fill">
+                <mat-label>Lekcije</mat-label>
+                <mat-select [(value)]="selectedUnit" (selectionChange)="updateUnit()">
+                    <mat-option *ngFor="let unit of units" [value]="unit">
+                        {{unit.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-form-field appearance="fill">
+                <mat-label>Grupe</mat-label>
+                <mat-select [(value)]="selectedGroupId">
+                    <mat-option value="0">Sve grupe</mat-option>
+                    <mat-option *ngFor="let group of groups" [value]="group.id">
+                        {{group.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </span>
+        <span fxFlex="nogrow">
+            <button id="exportAllToCSV" color="primary" mat-raised-button (click)="exportAllToCSV()">Izvoz događaja u CSV</button>
+        </span>
+    </mat-card>
+
+    <div fxFlex style="margin: 15px;" fxLayoutGap="10px">
+        <div fxFlex="30">
+            <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+                <mat-card [class.highlight]="selectedKc?.id===kc.id" style="margin-bottom: 15px;" *cdkVirtualFor="let kc of selectedUnit?.knowledgeComponents">
+                    <span><b>{{kc.code}}</b>: {{kc.name}}</span>
+                    <span fxFlex></span>
+                    <span fxLayoutGap="10px" fxLayout="row">
+                        <button mat-mini-fab (click)="selectKc(kc, true)"
+                            [color]="selectedKc?.id===kc.id && showKcAnalytics ? 'accent' : 'primary'">
+                            <mat-icon matTooltip="Analiza veštine i gradiva" [matTooltipPosition]="'above'">text_snippet</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="selectKc(kc, false)"
+                            [color]="selectedKc?.id===kc.id && showAssessmentAnalytics ? 'accent' : 'primary'">
+                            <mat-icon matTooltip="Analiza zadataka" [matTooltipPosition]="'above'">quiz</mat-icon>
+                        </button>
+                    </span>
+                </mat-card>
+            </cdk-virtual-scroll-viewport>
+        </div>
+        <div fxFlex="70" *ngIf="selectedKc && showKcAnalytics">
+            <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId"></cc-kc-statistics>
+        </div>
+        <div fxFlex="70" *ngIf="selectedKc && showAssessmentAnalytics">
+            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId" [courseId]="courseId"></cc-ai-statistics>
+        </div>
+    </div>
+</div>

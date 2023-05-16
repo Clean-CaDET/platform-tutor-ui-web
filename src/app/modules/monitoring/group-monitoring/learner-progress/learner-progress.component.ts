@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import {KnowledgeComponentProgress} from '../../model/knowledge-component-progress.model';
-import { Learner } from 'src/app/modules/knowledge-analytics/model/learner.model';
+import { Learner } from 'src/app/modules/monitoring/model/learner.model';
 import { LearnerProgress } from '../../model/learner-progress.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
 import { Unit } from 'src/app/modules/learning/model/unit.model';

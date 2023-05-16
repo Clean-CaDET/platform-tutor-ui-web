@@ -5,7 +5,7 @@
             Broj zadataka: {{ assessmentItems?.length }}
         </span>
     </small>
-    <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex>
+    <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
         <div *ngIf="!editMap[item.id]">
             <div fxLayout="row">
                 <small fxFlex fxLayoutAlign=" center">

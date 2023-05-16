@@ -29,6 +29,7 @@
     "@auth0/angular-jwt": "~5.1.0",
     "@swimlane/ngx-charts": "~20.1.2",
     "@types/file-saver": "^2.0.5",
+    "angular-star-rating": "^6.0.0",
     "file-saver": "^2.0.5",
     "ngx-csv": "~0.3.2",
     "ngx-markdown": "~14.0.1",

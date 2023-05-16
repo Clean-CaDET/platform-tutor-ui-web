@@ -24,8 +24,15 @@ export class AssessmentItemsComponent implements OnInit {
         this.assessmentItems = items.sort((a, b) => a.order - b.order);
         this.editMap = {};
         this.assessmentItems.forEach(i => this.editMap[i.id] = false);
+        setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 200);
       });
     });
+  }
+
+  scroll(elem: string) {
+    if(!elem) return;
+    const element = document.querySelector('#a'+elem)!;
+    element.scrollIntoView({behavior: 'smooth', block:'center'});
   }
 
   getTypeLabel(type: string): string {
