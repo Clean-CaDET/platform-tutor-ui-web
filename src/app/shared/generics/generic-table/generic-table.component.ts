@@ -7,6 +7,7 @@ import { DeleteFormComponent } from '../delete-form/delete-form.component';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
 import { Field } from '../model/field.model';
 import { Entity } from '../model/entity.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cc-generic-table',
@@ -32,7 +33,7 @@ export class GenericTableComponent implements OnChanges {
   selectedItem: any;
   @Output() selectItem = new EventEmitter();
 
-  constructor(private dialog: MatDialog, private httpService: CrudService<Entity>) {
+  constructor(private dialog: MatDialog, private httpService: CrudService<Entity>, private errorsBar: MatSnackBar) {
     this.dataSource = new MatTableDataSource([]);
   }
 
@@ -73,8 +74,12 @@ export class GenericTableComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      this.httpService.create(this.baseUrl, result).subscribe(() => {
-        this.getPagedEntities();
+      this.httpService.create(this.baseUrl, result).subscribe({
+        next: () =>  this.getPagedEntities(),
+        error: (error) => {
+          if (error.error.status === 400)
+            this.errorsBar.open('Nevalidni podaci.', "OK", {horizontalPosition: 'right', verticalPosition: 'top'});
+        }
       });
     });
   }

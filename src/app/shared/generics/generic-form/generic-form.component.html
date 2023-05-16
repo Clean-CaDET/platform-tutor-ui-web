@@ -32,6 +32,18 @@
       <mat-datepicker #picker></mat-datepicker>
       <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
     </mat-form-field>
+
+    <div *ngIf="field.type === 'radio'" class="margin-bottom">
+      <mat-label [ngClass]="field.required ? 'required' : ''">{{field.label}}</mat-label>
+      <mat-radio-group formControlName="{{field.code}}" fxLayout="row" fxLayoutGap="5%">
+        <mat-radio-button *ngFor="let option of field.options" [value]="option.value" 
+        [checked]="entity[field.code] === option.value" [disabled]="entity[field.code] ? entity[field.code] !== option.value : false">
+          {{option.label}}
+        </mat-radio-button>
+      </mat-radio-group>
+      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+    </div>
+    
   </div>
   <div fxFlex="column" fxLayoutGap="20px">
     <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()" fxFlex>Sačuvaj</button>

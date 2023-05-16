@@ -1,6 +1,6 @@
 <mat-card style="margin: 10px" fxLayout="column" fxFlex
     (click)="onCourseClick()"
-    [ngClass]="{'pointer': user.role === 'learner'}">
+    [ngClass]="{'pointer': user.role.includes('learner')}">
     <mat-card-header>
         <mat-icon mat-card-avatar>book</mat-icon>
         <mat-card-title style="text-align: left;">

@@ -3,8 +3,8 @@ import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { BulkAddComponent } from '../../stakeholders/learners/bulk-add/bulk-add.component';
-import { CoursesService } from '../courses.service';
 import { StakeholderAccount } from '../../model/stakeholder-account.model';
+import { LearnersService } from '../learners.service';
 
 @Component({
   selector: 'cc-bulk-enroll-learners',
@@ -21,7 +21,7 @@ export class BulkEnrollLearnersComponent implements OnInit {
   missingEntries: string[];
 
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<BulkAddComponent>,
-    private courseService: CoursesService) { }
+    private learnerService: LearnersService) { }
 
   ngOnInit(): void {
     this.formGroup = this.builder.group({'learners': new FormControl('', Validators.required)})
@@ -30,7 +30,7 @@ export class BulkEnrollLearnersComponent implements OnInit {
   onCheck(): void {
     const allEntries: string[] = this.getNonEmptyRows();
 
-    this.courseService.getLearners(allEntries).subscribe(response => {
+    this.learnerService.getLearners(allEntries).subscribe(response => {
       this.learners = response.results;
       this.missingEntries = this.determineMissingEntries(allEntries);
       this.dataSource = new MatTableDataSource(this.learners);

@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
         this.courses = [];
         return;
       }
-      if (this.user.role === 'learner') {
+      if (this.user.role.includes('learner')) {
         this.layoutService.getLearnerCourses().subscribe((coursesPage) => {
           this.courses = coursesPage.results;
         });
