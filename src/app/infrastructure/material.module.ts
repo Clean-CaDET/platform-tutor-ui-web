@@ -26,12 +26,13 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
+import {MatChipsModule} from "@angular/material/chips";
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 300,
   hideDelay: 0,
   touchendHideDelay: 1500,
-  disableTooltipInteractivity:true 
+  disableTooltipInteractivity:true
 };
 
 @NgModule({
@@ -95,7 +96,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatAutocompleteModule,
     MatProgressBarModule,
     MatDividerModule,
-    ScrollingModule
+    ScrollingModule,
+    MatChipsModule
   ],
   providers: [
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }
