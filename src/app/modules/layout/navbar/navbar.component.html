@@ -4,7 +4,7 @@
     <img class="hover" *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
   </span>
 
-  <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role === 'learner'"></cc-learner-controls>
+  <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role.includes('learner')"></cc-learner-controls>
   <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
   <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
 

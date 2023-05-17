@@ -2,10 +2,10 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 import {Unit} from '../../learning/model/unit.model';
 import {Course} from '../../learning/model/course.model';
-import {LearnerGroup} from '../../learning/model/learner-group.model';
+import {LearnerGroup} from '../model/learner-group.model';
 import {GroupMonitoringService} from './group-monitoring.service';
 import {PageEvent} from '@angular/material/paginator';
-import {Learner} from '../../knowledge-analytics/model/learner.model';
+import {Learner} from '../model/learner.model';
 import {LearnerProgressComponent} from "./learner-progress/learner-progress.component";
 
 @Component({

@@ -5,7 +5,7 @@
   <mat-divider style="margin-bottom: 20px;"></mat-divider>
   <cc-course-units
     [course]="course"
-    *ngIf="user?.role === 'learner'"
+    *ngIf="user?.role.includes('learner')"
   ></cc-course-units>
 </div>
 <div fxFlex></div>

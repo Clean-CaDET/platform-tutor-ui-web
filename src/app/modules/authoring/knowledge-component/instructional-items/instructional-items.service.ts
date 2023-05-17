@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { isNgTemplate } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { LearningObjectMapper } from 'src/app/modules/learning/knowledge-component/learning-objects/learning-object-mapper';

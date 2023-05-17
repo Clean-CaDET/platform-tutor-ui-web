@@ -5,4 +5,5 @@ export interface CreateLearner {
   name: string;
   surname: string;
   email: string;
+  learnerType: string;
 }

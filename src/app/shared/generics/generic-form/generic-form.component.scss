@@ -1,3 +1,7 @@
 .margin-bottom {
     margin-bottom: 20px;
 }
+
+.required::after {
+    content: " *";
+}

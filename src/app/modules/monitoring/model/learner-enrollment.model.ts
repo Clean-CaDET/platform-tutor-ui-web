@@ -1,4 +1,4 @@
-import {Learner} from '../../knowledge-analytics/model/learner.model';
+import {Learner} from './learner.model';
 
 export interface LearnerEnrollment {
   learner: Learner;

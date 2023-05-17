@@ -7,4 +7,5 @@ export interface StakeholderAccount extends Entity {
   index: string;
   isArchived: boolean;
   userId: number;
+  userType: string;
 }

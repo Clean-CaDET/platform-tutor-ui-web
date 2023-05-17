@@ -4,9 +4,7 @@ import { KnowledgeComponentProgress } from '../../../model/knowledge-component-p
 import { KnowledgeComponent } from '../../../../learning/model/knowledge-component.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AssessmentItemMastery } from '../../../model/assessment-item-mastery.model';
-import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
-import { ngxCsv } from 'ngx-csv';
-import { GroupMonitoringService } from '../../group-monitoring.service';
+import { EventService } from 'src/app/shared/events/event.service';
 
 interface AssessmentTableElement {
   kcOrder: number,
@@ -53,7 +51,7 @@ export class AssessmentsTableComponent implements OnChanges {
   ];
   expandedElement: AssessmentTableElement = {} as AssessmentTableElement;
 
-  constructor(private monitoringService: GroupMonitoringService) {}
+  constructor(private eventService: EventService) {}
 
   ngOnChanges(): void {
     const dataSource: AssessmentTableElement[] = [];
@@ -85,31 +83,6 @@ export class AssessmentsTableComponent implements OnChanges {
   }
 
   getEvents(learnerId: number, kcId: number): void {
-    this.monitoringService.getEvents(learnerId, kcId).subscribe(data => this.exportToCSV(data));
-  }
-
-  exportToCSV(events: LearningEvent[]): void {
-    for (const event of events) {
-      if (event.specificData) {
-        event.specificData = JSON.stringify(event.specificData);
-      }
-    }
-
-    events = events.sort((a, b) => a.timeStamp.getTime() - b.timeStamp.getTime());
-    new ngxCsv(events, 'Events', {
-      fieldSeparator: ',',
-      quoteStrings: '"',
-      decimalseparator: '.',
-      showLabels: true,
-      useBom: true,
-      noDownload: false,
-      headers: [
-        'Type',
-        'Timestamp',
-        'Knowledge Component Id',
-        'Learner Id',
-        'Event-specific data',
-      ],
-    });
+    this.eventService.getByLearnerAndKc(learnerId, kcId).subscribe();
   }
 }
