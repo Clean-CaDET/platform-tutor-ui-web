@@ -18,12 +18,12 @@ export class EnrollmentService {
     return this.http.post<Enrollment[]>(this.baseUrl(unitId) + 'all', learnerIds);
   }
 
-  bulkEnroll(unitId: number, learnerIds: number[]): Observable<Enrollment[]> {
-    return this.http.post<Enrollment[]>(this.baseUrl(unitId) + 'bulk', learnerIds);
+  bulkEnroll(unitId: number, learnerIds: number[], start: Date): Observable<Enrollment[]> {
+    return this.http.post<Enrollment[]>(this.baseUrl(unitId) + 'bulk', {learnerIds, start});
   }
 
-  enroll(unitId: number, learnerId: number): Observable<Enrollment> {
-    return this.http.post<Enrollment>(this.baseUrl(unitId), learnerId);
+  enroll(unitId: number, learnerId: number, start: Date): Observable<Enrollment> {
+    return this.http.post<Enrollment>(this.baseUrl(unitId), {learnerIds: [learnerId], start});
   }
 
   unenroll(unitId: number, learnerId: number) {

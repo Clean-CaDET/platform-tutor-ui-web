@@ -3,6 +3,9 @@ import { Learner } from 'src/app/modules/monitoring/model/learner.model';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { LearnerEnrollment } from '../../model/learner-enrollment.model';
 import { EnrollmentService } from './enrollment.service';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericFormComponent } from 'src/app/shared/generics/generic-form/generic-form.component';
+import { Field } from 'src/app/shared/generics/model/field.model';
 
 @Component({
   selector: 'cc-enrollment',
@@ -19,7 +22,7 @@ export class EnrollmentComponent implements OnChanges {
   isAnyUnenrolled: boolean;
   isAnyEnrolled: boolean;
 
-  constructor(private enrollmentService: EnrollmentService) {}
+  constructor(private enrollmentService: EnrollmentService, private dialog: MatDialog) {}
 
   ngOnChanges(): void {
     this.enrollments = [];
@@ -53,9 +56,9 @@ export class EnrollmentComponent implements OnChanges {
     return !e.enrollment || e.enrollment.status === "Hidden";
   }
 
-  enrollAll(): void {
+  enrollAll(startDate: Date): void {
     this.progressBarActive = true;
-    this.enrollmentService.bulkEnroll(this.unit.id, this.enrollments.filter(this.isUnenrolled).map(e => e.learner.id))
+    this.enrollmentService.bulkEnroll(this.unit.id, this.enrollments.filter(this.isUnenrolled).map(e => e.learner.id), startDate)
       .subscribe(newEnrollments => {
         newEnrollments.forEach(newEnrollment => {
           let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
@@ -66,8 +69,8 @@ export class EnrollmentComponent implements OnChanges {
       });
   }
 
-  enroll(learnerId: number): void {
-    this.enrollmentService.enroll(this.unit.id, learnerId)
+  enroll(learnerId: number, startDate: Date): void {
+    this.enrollmentService.enroll(this.unit.id, learnerId, startDate)
       .subscribe(newEnrollment => {
         let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
         enrollment.enrollment = newEnrollment;
@@ -95,5 +98,30 @@ export class EnrollmentComponent implements OnChanges {
         this.updateEnrollmentFlags();
         this.progressBarActive = false;
       });
+  }
+
+  startEnrollment(learnerId: number): void {
+    let dateField: Field = { code: 'startDate', type: 'date', label: 'Početak pristupa', required: true };
+
+    const dialogRef = this.dialog.open(GenericFormComponent, {
+      data: {entity: { startDate: this.findStartDate() }, fieldConfiguration: new Array(dateField)},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+
+      if(learnerId) this.enroll(learnerId, result.startDate);
+      else this.enrollAll(result.startDate);
+    });
+  }
+
+  findStartDate(): Date {
+    for(let i = 0; i < this.enrollments.length; i++) {
+      let enrollment = this.enrollments[i].enrollment;
+
+      if(enrollment && enrollment.status === "Active") return enrollment.start;
+    }
+
+    return null;
   }
 }

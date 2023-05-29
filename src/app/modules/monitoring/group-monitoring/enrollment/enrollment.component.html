@@ -2,7 +2,7 @@
 <div fxLayout="row" style="margin: 15px 15px 5px 15px" fxLayoutAlign=" center" fxLayoutGap="10px" *ngIf="unit">
     <span><b>{{unit.code}}</b>: {{unit.name}}</span>
     <span fxFlex></span>
-    <button mat-mini-fab *ngIf="isAnyUnenrolled" (click)="enrollAll()" color="primary">
+    <button mat-mini-fab *ngIf="isAnyUnenrolled" (click)="startEnrollment()" color="primary">
         <mat-icon matTooltip="Omogući pristup prikazanim učenicima" [matTooltipPosition]="'below'">library_add</mat-icon>
     </button>
     <button mat-mini-fab *ngIf="isAnyEnrolled" (click)="unenrollAll()" color="warn">
@@ -24,7 +24,7 @@
                 <mat-icon matTooltip="Ukloni pristup lekciji" [matTooltipPosition]="'above'"
                    >stop</mat-icon>
             </button>
-            <button *ngIf="!learnerEnrollment.enrollment || learnerEnrollment.enrollment.status =='Hidden'" mat-mini-fab (click)="enroll(learnerEnrollment.learner.id)" color="primary">
+            <button *ngIf="!learnerEnrollment.enrollment || learnerEnrollment.enrollment.status =='Hidden'" mat-mini-fab (click)="startEnrollment(learnerEnrollment.learner.id)" color="primary">
                 <mat-icon matTooltip="Omogući pristup lekciji" [matTooltipPosition]="'above'"
                    >play_arrow</mat-icon>
             </button>
