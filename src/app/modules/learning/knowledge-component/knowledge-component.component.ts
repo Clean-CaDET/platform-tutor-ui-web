@@ -70,7 +70,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects = instructionalItems;
         this.scrollToTop();
       });
-      this.modalService.notify();
+      // this.modalService.notify();
   }
 
   onAssessmentItemClicked(): void {
@@ -82,7 +82,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects[0] = assessmentItem;
         this.scrollToTop();
       });
-      this.modalService.notify();
+      // this.modalService.notify();
   }
 
   rateKc(): void {
