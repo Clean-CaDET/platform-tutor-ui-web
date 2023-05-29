@@ -1,9 +1,12 @@
 <mat-progress-bar style="margin: 10px" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
-<div fxLayout="row" style="margin: 15px 26px 10px 26px" fxLayoutAlign=" center" *ngIf="unit && isAnyUnenrolled">
-    <b>{{unit.code}}</b>: {{unit.name}}
+<div fxLayout="row" style="margin: 15px 15px 5px 15px" fxLayoutAlign=" center" fxLayoutGap="10px" *ngIf="unit">
+    <span><b>{{unit.code}}</b>: {{unit.name}}</span>
     <span fxFlex></span>
-    <button mat-mini-fab (click)="enrollAll()" color="primary">
+    <button mat-mini-fab *ngIf="isAnyUnenrolled" (click)="enrollAll()" color="primary">
         <mat-icon matTooltip="Omogući pristup prikazanim učenicima" [matTooltipPosition]="'below'">library_add</mat-icon>
+    </button>
+    <button mat-mini-fab *ngIf="isAnyEnrolled" (click)="unenrollAll()" color="warn">
+        <mat-icon matTooltip="Ukloni pristup prikazanim učenicima" [matTooltipPosition]="'below'">block</mat-icon>
     </button>
 </div>
 <div fxLayout="row wrap">
@@ -14,7 +17,7 @@
             <div *ngIf="learnerEnrollment.enrollment" fxLayoutAlign=" center" fxLayoutGap="15px">
                 <small>
                     Status: {{learnerEnrollment.enrollment.status}}<br>
-                    Započeto: {{learnerEnrollment.enrollment.start | date: 'short'}}
+                    <span *ngIf="learnerEnrollment.enrollment.status === 'Active'">Aktivno od: {{learnerEnrollment.enrollment.start | date: 'short'}}</span>
                 </small>
             </div>
             <button *ngIf="learnerEnrollment.enrollment && learnerEnrollment.enrollment.status == 'Active'" mat-mini-fab (click)="unenroll(learnerEnrollment.learner.id)" color="warn">

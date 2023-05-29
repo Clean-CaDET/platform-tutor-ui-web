@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -28,5 +28,9 @@ export class EnrollmentService {
 
   unenroll(unitId: number, learnerId: number) {
     return this.http.delete(this.baseUrl(unitId) + learnerId);
+  }
+
+  bulkUnenroll(unitId: number, learnerIds: number[]) {
+    return this.http.post<Enrollment[]>(this.baseUrl(unitId) + 'bulk-unenroll', learnerIds);
   }
 }

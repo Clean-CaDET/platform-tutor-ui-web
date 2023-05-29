@@ -17,6 +17,7 @@ export class EnrollmentComponent implements OnChanges {
 
   progressBarActive = false;
   isAnyUnenrolled: boolean;
+  isAnyEnrolled: boolean;
 
   constructor(private enrollmentService: EnrollmentService) {}
 
@@ -39,12 +40,13 @@ export class EnrollmentComponent implements OnChanges {
           });
         });
         this.progressBarActive = false;
-        this.updateAnyUnenrolled();
+        this.updateEnrollmentFlags();
       });
   }
 
-  private updateAnyUnenrolled() {
+  private updateEnrollmentFlags() {
     this.isAnyUnenrolled = this.enrollments.some(this.isUnenrolled);
+    this.isAnyEnrolled = this.enrollments.some(e => !this.isUnenrolled(e));
   }
 
   private isUnenrolled(e: LearnerEnrollment): boolean {
@@ -59,7 +61,7 @@ export class EnrollmentComponent implements OnChanges {
           let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
           enrollment.enrollment = newEnrollment;
         });
-        this.updateAnyUnenrolled();
+        this.updateEnrollmentFlags();
         this.progressBarActive = false;
       });
   }
@@ -69,7 +71,7 @@ export class EnrollmentComponent implements OnChanges {
       .subscribe(newEnrollment => {
         let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
         enrollment.enrollment = newEnrollment;
-        this.updateAnyUnenrolled();
+        this.updateEnrollmentFlags();
       });
   }
 
@@ -78,7 +80,20 @@ export class EnrollmentComponent implements OnChanges {
       .subscribe(() => {
       let enrollment = this.enrollments.find(e => e.learner.id === learnerId);
       enrollment.enrollment = null;
-      this.updateAnyUnenrolled();
+      this.updateEnrollmentFlags();
     });
+  }
+
+  unenrollAll(): void {
+    this.progressBarActive = true;
+    this.enrollmentService.bulkUnenroll(this.unit.id, this.enrollments.filter(e => !this.isUnenrolled(e)).map(e => e.learner.id))
+      .subscribe(newEnrollments => {
+        newEnrollments.forEach(newEnrollment => {
+          let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
+          enrollment.enrollment = newEnrollment;
+        });
+        this.updateEnrollmentFlags();
+        this.progressBarActive = false;
+      });
   }
 }
