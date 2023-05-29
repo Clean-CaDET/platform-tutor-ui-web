@@ -39,19 +39,27 @@ export class EnrollmentComponent implements OnChanges {
           });
         });
         this.progressBarActive = false;
-        this.isAnyUnenrolled = this.enrollments.some(e => !e.enrollment);
+        this.updateAnyUnenrolled();
       });
+  }
+
+  private updateAnyUnenrolled() {
+    this.isAnyUnenrolled = this.enrollments.some(this.isUnenrolled);
+  }
+
+  private isUnenrolled(e: LearnerEnrollment): boolean {
+    return !e.enrollment || e.enrollment.status === "Hidden";
   }
 
   enrollAll(): void {
     this.progressBarActive = true;
-    this.enrollmentService.bulkEnroll(this.unit.id, this.enrollments.filter(e => !e.enrollment).map(e => e.learner.id))
+    this.enrollmentService.bulkEnroll(this.unit.id, this.enrollments.filter(this.isUnenrolled).map(e => e.learner.id))
       .subscribe(newEnrollments => {
         newEnrollments.forEach(newEnrollment => {
           let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
           enrollment.enrollment = newEnrollment;
         });
-        this.isAnyUnenrolled = this.enrollments.some(e => !e.enrollment);
+        this.updateAnyUnenrolled();
         this.progressBarActive = false;
       });
   }
@@ -61,7 +69,7 @@ export class EnrollmentComponent implements OnChanges {
       .subscribe(newEnrollment => {
         let enrollment = this.enrollments.find(e => e.learner.id === newEnrollment.learnerId);
         enrollment.enrollment = newEnrollment;
-        this.isAnyUnenrolled = this.enrollments.some(e => !e.enrollment);
+        this.updateAnyUnenrolled();
       });
   }
 
@@ -70,7 +78,7 @@ export class EnrollmentComponent implements OnChanges {
       .subscribe(() => {
       let enrollment = this.enrollments.find(e => e.learner.id === learnerId);
       enrollment.enrollment = null;
-      this.isAnyUnenrolled = this.enrollments.some(e => !e.enrollment);
+      this.updateAnyUnenrolled();
     });
   }
 }
