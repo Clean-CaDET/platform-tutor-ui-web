@@ -18,7 +18,7 @@ import { MultipleChoiceQuestion } from './multiple-choice-question.model';
 export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, LearningObjectComponent {
   learningObject: MultipleChoiceQuestion;
   private observedFeedback: Subscription;
-  
+
   submissionReattemptCount = 0;
   submissionIsProcessing: boolean;
   checked: string;
@@ -42,7 +42,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, Learn
 
   onSubmit(): void {
     const submission: McqSubmission = {
-      typeDiscriminator: submissionTypes.mutlipleChoiceQuestion,
+      $type: submissionTypes.mutlipleChoiceQuestion,
       answer: this.checked,
       reattemptCount: this.submissionReattemptCount
     };

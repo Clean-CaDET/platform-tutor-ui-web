@@ -5,6 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { EventService } from 'src/app/shared/events/event.service';
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'cc-unit-analytics',
@@ -31,11 +32,22 @@ export class UnitAnalyticsComponent implements OnInit {
       this.analyticsService
         .getUnits(this.courseId)
         .subscribe(units => {
-          this.units = this.sortUnits(units);
-          let unitId = this.route.snapshot.queryParams['unitId'];
-          if(unitId) {
-            this.selectedUnit = this.units.find(u => u.id == unitId);
-          }
+          forkJoin(this.analyticsService.getKnowledgeComponents(units)).subscribe(
+            (results : any) => {
+              units.forEach(unit => {
+                for(let kcs of results) {
+                  if(kcs[0].knowledgeUnitId == unit.id) {
+                    unit.knowledgeComponents = kcs;
+                  }
+                }
+              })
+              this.units = this.sortUnits(units);
+              let unitId = this.route.snapshot.queryParams['unitId'];
+              if(unitId) {
+                this.selectedUnit = this.units.find(u => u.id == unitId);
+              }
+            }
+          )
         });
       this.analyticsService
         .getGroups(this.courseId)
@@ -45,7 +57,7 @@ export class UnitAnalyticsComponent implements OnInit {
 
   sortUnits(units: Unit[]): Unit[] {
     units = units.sort((u1, u2) => u1.order - u2.order);
-    units.forEach(u => 
+    units.forEach(u =>
       u.knowledgeComponents = u.knowledgeComponents.sort((k1, k2) => k1.order - k2.order));
     return units;
   }

@@ -29,12 +29,12 @@ export class InstructionalItemsService {
 
   create(kcId: number, item: LearningObject): Observable<LearningObject> {
     return this.http.post<LearningObject[]>(this.baseUrl(kcId), item)
-      .pipe(map(instruction => this.learningObjectMapper.convert(instruction[0])));
+      .pipe(map(instruction => this.learningObjectMapper.convert(instruction)));
   }
 
   update(kcId: number, item: LearningObject): Observable<LearningObject> {
     return this.http.put<LearningObject[]>(this.baseUrl(kcId)+item.id, item)
-      .pipe(map(instruction => this.learningObjectMapper.convert(instruction[0])));
+      .pipe(map(instruction => this.learningObjectMapper.convert(instruction)));
   }
 
   updateOrdering(kcId: number, items: LearningObject[]) {

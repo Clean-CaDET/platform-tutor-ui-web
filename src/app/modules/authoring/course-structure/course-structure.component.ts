@@ -5,6 +5,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'cc-course-structure',
@@ -24,12 +25,23 @@ export class CourseStructureComponent implements OnInit {
       this.courseService.getCourse(+params.courseId).subscribe(course => {
         course.knowledgeUnits = course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order);
         this.course = course;
-        let unitId = this.route.snapshot.queryParams['unit'];
-        if(unitId) {
-          this.selectedUnit = this.course.knowledgeUnits.find(u => u.id == unitId);
-          this.showKnowledgeComponents = true;
-        }
-      });  
+
+        forkJoin(this.courseService.getKnowledgeComponents(this.course.knowledgeUnits)).subscribe(
+          (results : any) => {
+            this.course.knowledgeUnits.forEach(unit => {
+              for (let kcs of results) {
+                if (kcs[0].knowledgeUnitId == unit.id) {
+                  unit.knowledgeComponents = kcs;
+                }
+              }
+            })
+            let unitId = this.route.snapshot.queryParams['unit'];
+            if (unitId) {
+              this.selectedUnit = this.course.knowledgeUnits.find(u => u.id == unitId);
+              this.showKnowledgeComponents = true;
+            }
+          })
+      });
     });
   }
 
@@ -65,6 +77,7 @@ export class CourseStructureComponent implements OnInit {
   saveOrUpdateUnit(unit: Unit) {
     if(!unit.id) {
       this.courseService.saveUnit(this.course.id, unit).subscribe(newUnit => {
+        newUnit.knowledgeComponents = [];
         this.course.knowledgeUnits.push(newUnit);
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order)];
         this.selectedUnit = newUnit;
@@ -86,7 +99,7 @@ export class CourseStructureComponent implements OnInit {
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
-      
+
       this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];
         this.selectedUnit = null;

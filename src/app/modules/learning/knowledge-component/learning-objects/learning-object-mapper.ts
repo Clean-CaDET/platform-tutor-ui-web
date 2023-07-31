@@ -15,7 +15,7 @@ export class LearningObjectMapper {
   constructor() {}
 
   convert(learningObject: any): LearningObject {
-    switch (learningObject.typeDiscriminator) {
+    switch (learningObject.$type) {
       case 'text':
         return new Text(learningObject);
       case 'image':

@@ -29,7 +29,7 @@ export class EventService {
 
   getAll(): Observable<void> {
     return this.http
-      .get<LearningEvent[]>(environment.apiHost + 'events/all/')
+      .get<LearningEvent[]>(environment.apiHost + 'analysis/knowledge-components/events/all')
       .pipe(map(data => this.exportEvents(data, "All events")));
   }
 

@@ -46,7 +46,7 @@ export class AssessmentItemsService {
   }
 
   convert(item: any): AssessmentItem {
-    switch (item.typeDiscriminator) {
+    switch (item.$type) {
       case 'multiChoiceQuestion': return new MultipleChoiceQuestion(item);
       case 'multiResponseQuestion': return new MultipleReponseQuestion(item);
       case 'shortAnswerQuestion': return new ShortAnswerQuestion(item);

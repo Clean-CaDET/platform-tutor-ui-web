@@ -1,5 +1,5 @@
 export interface Evaluation {
-  typeDiscriminator: string;
+  $type: string;
   correctnessLevel: number;
   correct: boolean;
 }
