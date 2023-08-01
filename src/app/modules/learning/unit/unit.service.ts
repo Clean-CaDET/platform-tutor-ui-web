@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { KCMastery } from '../model/knowledge-component-mastery.model';
 import { Unit } from '../model/unit.model';
+import {KcWithMastery} from "../model/kc-with-mastery.model";
 
 @Injectable({
   providedIn: 'root',
@@ -12,11 +12,13 @@ export class UnitService {
   constructor(private http: HttpClient) {}
 
   getUnit(unitId: number): Observable<Unit> {
-    return this.http.get<Unit>(environment.apiHost + 'learning/units/' + unitId);
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('unitId', unitId);
+    return this.http.get<Unit>(environment.apiHost + 'enrolled-courses/unit', { params: queryParams} );
   }
 
-  getMasteries(unitId: number): Observable<KCMastery[]> {
-    return this.http.get<KCMastery[]>(environment.apiHost + 'learning/units/' + unitId + '/masteries');
+  getKcsWithMasteries(unitId: number): Observable<KcWithMastery[]> {
+    return this.http.get<KcWithMastery[]>(environment.apiHost + 'learning/units/' + unitId + '/masteries');
   }
 
 }

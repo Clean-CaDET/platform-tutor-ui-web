@@ -12,6 +12,6 @@ export class KcRateService {
   constructor(private http: HttpClient) { }
 
   rate(kcRate: KnowledgeComponentRate): Observable<KnowledgeComponentRate> {
-    return this.http.post<KnowledgeComponentRate>(environment.apiHost + 'learning/rate/', kcRate);
+    return this.http.post<KnowledgeComponentRate>(environment.apiHost + 'analysis/knowledge-components/rating', kcRate);
   }
 }
