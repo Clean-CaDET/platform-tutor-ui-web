@@ -28,6 +28,7 @@ export class LearnerProgressComponent implements OnChanges {
   }
 
   calculateProgress(): void {
+    if(this.learners.length == 0) return;
     this.progressBarActive = true;
     this.monitoringService.getProgress(this.unit.id, this.learners.map(l => l.id))
       .subscribe(allProgress => {

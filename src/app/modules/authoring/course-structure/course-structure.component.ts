@@ -5,7 +5,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
-import {forkJoin} from "rxjs";
+import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
 
 @Component({
   selector: 'cc-course-structure',
@@ -18,7 +18,8 @@ export class CourseStructureComponent implements OnInit {
   showUnitDetails: boolean;
   showKnowledgeComponents: boolean;
 
-  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
+  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService,
+    private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -26,21 +27,10 @@ export class CourseStructureComponent implements OnInit {
         course.knowledgeUnits = course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order);
         this.course = course;
 
-        forkJoin(this.courseService.getKnowledgeComponents(this.course.knowledgeUnits)).subscribe(
-          (results : any) => {
-            this.course.knowledgeUnits.forEach(unit => {
-              for (let kcs of results) {
-                if (kcs[0].knowledgeUnitId == unit.id) {
-                  unit.knowledgeComponents = kcs;
-                }
-              }
-            })
-            let unitId = this.route.snapshot.queryParams['unit'];
-            if (unitId) {
-              this.selectedUnit = this.course.knowledgeUnits.find(u => u.id == unitId);
-              this.showKnowledgeComponents = true;
-            }
-          })
+        let unitId = this.route.snapshot.queryParams['unit'];
+        if (unitId) {
+          this.selectUnit(this.course.knowledgeUnits.find(u => u.id == unitId), true);
+        }
       });
     });
   }
@@ -64,14 +54,23 @@ export class CourseStructureComponent implements OnInit {
   }
 
   selectUnit(unit: Unit, showKcs: boolean) {
-    this.selectedUnit = unit;
-    this.showUnitDetails = !showKcs;
-    this.showKnowledgeComponents = showKcs;
+    if(showKcs) {
+      this.kcService.getByUnit(unit.id).subscribe(kcs => {
+        this.selectedUnit = unit;
+        this.selectedUnit.knowledgeComponents = kcs;
+        this.showKnowledgeComponents = true;
+        this.showUnitDetails = false;
+      });
+    } else {
+      this.selectedUnit = unit;
+      this.showKnowledgeComponents = false;
+      this.showUnitDetails = true;
+    }
 
     this.router.navigate([], {
       queryParams: { unit: unit.id },
       queryParamsHandling: 'merge'
-    })
+    });
   }
 
   saveOrUpdateUnit(unit: Unit) {
