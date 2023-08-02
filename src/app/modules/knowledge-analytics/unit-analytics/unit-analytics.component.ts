@@ -51,8 +51,11 @@ export class UnitAnalyticsComponent implements OnInit {
         queryParams: { unitId: this.selectedUnit.id },
         queryParamsHandling: 'merge'
       });
-      this.analyticsService.getKnowledgeComponents(this.selectedUnit.id)
-        .subscribe(kcs => this.selectedUnit.knowledgeComponents = kcs.sort((k1, k2) => k1.order - k2.order));
+
+      if(!this.selectedUnit.knowledgeComponents || this.selectedUnit.knowledgeComponents.length == 0) {
+        this.analyticsService.getKnowledgeComponents(this.selectedUnit.id)
+          .subscribe(kcs => this.selectedUnit.knowledgeComponents = kcs.sort((k1, k2) => k1.order - k2.order));
+      }
     }
   }
 

@@ -11,10 +11,8 @@ import {KcWithMastery} from "../model/kc-with-mastery.model";
 export class UnitService {
   constructor(private http: HttpClient) {}
 
-  getUnit(unitId: number): Observable<Unit> {
-    let queryParams = new HttpParams();
-    queryParams = queryParams.append('unitId', unitId);
-    return this.http.get<Unit>(environment.apiHost + 'enrolled-courses/unit', { params: queryParams} );
+  getUnit(courseId: number, unitId: number): Observable<Unit> {
+    return this.http.get<Unit>(environment.apiHost + 'enrolled-courses/' + courseId + '/units/' + unitId );
   }
 
   getKcsWithMasteries(unitId: number): Observable<KcWithMastery[]> {

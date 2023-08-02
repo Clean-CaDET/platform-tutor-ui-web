@@ -33,7 +33,7 @@ export class UnitComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.courseId = +params.courseId;
-      this.unitService.getUnit(+params.unitId).subscribe(
+      this.unitService.getUnit(this.courseId, +params.unitId).subscribe(
         unit => {
           this.unit = unit
           this.unit.knowledgeComponents = []
