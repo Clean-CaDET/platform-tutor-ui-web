@@ -42,6 +42,7 @@ export class CourseDetailsComponent implements OnChanges {
       code: this.courseForm.value['code'],
       name: this.courseForm.value['name'],
       description: this.courseForm.value['description'],
+      startDate: this.course.startDate
     };
 
     this.editMode = false;
