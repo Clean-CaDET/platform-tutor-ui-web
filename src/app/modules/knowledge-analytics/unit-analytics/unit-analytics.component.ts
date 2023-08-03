@@ -32,6 +32,7 @@ export class UnitAnalyticsComponent implements OnInit {
           let unitId = this.route.snapshot.queryParams['unitId'];
           if(unitId) {
             this.selectedUnit = this.units.find(u => u.id == unitId);
+            this.updateUnit();
           }
         });
     });
@@ -65,7 +66,7 @@ export class UnitAnalyticsComponent implements OnInit {
     this.showAssessmentAnalytics = !showKcAnalytics;
   }
 
-  exportAllToCSV(): void {
-    this.eventService.getAll().subscribe();
+  exportToCSV(unit: Unit): void {
+    this.eventService.getByKcs(unit.knowledgeComponents.map(kc => kc.id), unit.code).subscribe();
   }
 }
