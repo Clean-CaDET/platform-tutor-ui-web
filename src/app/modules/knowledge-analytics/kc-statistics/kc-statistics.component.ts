@@ -9,7 +9,6 @@ import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 })
 export class KcStatisticsComponent implements OnChanges {
   @Input() kcId: number;
-  @Input() groupId: string;
 
   knowledgeComponentStatistics: KnowledgeComponentStatistics;
   
@@ -20,7 +19,7 @@ export class KcStatisticsComponent implements OnChanges {
   constructor(private analyticsService: KnowledgeAnalyticsService) {}
 
   ngOnChanges(): void {
-    this.analyticsService.getKnowledgeComponentStatistics(this.groupId, this.kcId.toString())
+    this.analyticsService.getKnowledgeComponentStatistics(this.kcId.toString())
       .subscribe(data => {
         this.knowledgeComponentStatistics = data;
         this.createTotalCountCharts(data);

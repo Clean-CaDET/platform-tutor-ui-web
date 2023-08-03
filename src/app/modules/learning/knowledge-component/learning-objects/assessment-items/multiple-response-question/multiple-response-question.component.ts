@@ -56,7 +56,7 @@ export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, Lea
 
   onSubmit(): void {
     const submission: MrqSubmission = {
-      typeDiscriminator: submissionTypes.mutlipleResponseQuestion,
+      $type: submissionTypes.mutlipleResponseQuestion,
       answers: this.checkedAnswers,
       reattemptCount: this.submissionReattemptCount
     };

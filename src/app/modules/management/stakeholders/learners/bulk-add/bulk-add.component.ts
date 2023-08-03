@@ -14,14 +14,14 @@ import {CreateLearner} from '../../../model/create-learner.model';
 })
 export class BulkAddComponent implements OnInit {
   formGroup: FormGroup;
-  learnerTypes: FieldOption[] = [{label: 'FTN', value: 'regular'}, {label: 'FTN Inf', value: 'commercial'}];
+  learnerTypes: FieldOption[] = [{label: 'FTN', value: 'Regular'}, {label: 'FTN Inf', value: 'Commercial'}];
   learners: CreateLearner[];
   checkView: boolean;
-  
+
   dataSource: MatTableDataSource<CreateLearner>;
   displayedColumns: Array<string> = ['num', 'username', 'name', 'surname', 'email'];
   invalidEntries: string[];
-  
+
   baseUrl = environment.apiHost + "management/learners/";
   existingDatasource: MatTableDataSource<CreateLearner> = null;
   newLearners: CreateLearner[];
@@ -38,7 +38,7 @@ export class BulkAddComponent implements OnInit {
   onCheck(): void {
     this.createLearnerList()
     this.checkView = true;
-    
+
     this.learnerService.getLearners(this.learners.map(l => l.index)).subscribe((data) => {
       if (data.totalCount === 0) {
         this.newLearners = this.learners;

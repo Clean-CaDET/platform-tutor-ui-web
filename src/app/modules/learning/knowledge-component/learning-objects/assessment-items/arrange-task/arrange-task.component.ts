@@ -90,7 +90,7 @@ export class ArrangeTaskComponent implements OnInit, LearningObjectComponent {
 
   onSubmit(): void {
     const submission: ArrangeTaskSubmission = {
-      typeDiscriminator: submissionTypes.arrangeTask,
+      $type: submissionTypes.arrangeTask,
       containers: this.createArrangeTaskContainerSubmissionList(),
       reattemptCount: 0
     };

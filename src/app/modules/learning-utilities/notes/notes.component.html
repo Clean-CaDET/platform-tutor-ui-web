@@ -3,7 +3,7 @@
     <cc-markdown-editor [editMode]="true" [label]="'Beleška'"
       (textChanged)="text = $event"></cc-markdown-editor>
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Save</button>
+      <button mat-flat-button color="primary" (click)="onSave()">Save</button>
       <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
     </div>
   </div>

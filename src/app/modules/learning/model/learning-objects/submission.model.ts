@@ -1,5 +1,5 @@
 export interface Submission {
-  typeDiscriminator: string;
+  $type: string;
   reattemptCount: number;
 }
 

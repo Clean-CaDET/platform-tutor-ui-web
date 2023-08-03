@@ -11,7 +11,6 @@ import { EventService } from 'src/app/shared/events/event.service';
 export class AiStatisticsComponent implements OnChanges {
   @Input() courseId: number;
   @Input() kcId: number;
-  @Input() groupId: string;
   assessmentStatistics: AssessmentItemStatistics[];
 
   attemptsToPassGrouping: any;
@@ -20,7 +19,7 @@ export class AiStatisticsComponent implements OnChanges {
   constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService) {}
 
   ngOnChanges(): void {
-    this.analyticsService.getAssessmentItemStatistics(this.groupId, this.kcId.toString())
+    this.analyticsService.getAssessmentItemStatistics(this.kcId.toString())
       .subscribe(data => {
         this.assessmentStatistics = data;
 

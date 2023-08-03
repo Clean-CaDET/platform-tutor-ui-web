@@ -24,7 +24,7 @@
                 <mat-icon matTooltip="Ukloni pristup lekciji" [matTooltipPosition]="'above'"
                    >stop</mat-icon>
             </button>
-            <button *ngIf="!learnerEnrollment.enrollment || learnerEnrollment.enrollment.status =='Hidden'" mat-mini-fab (click)="startEnrollment(learnerEnrollment.learner.id)" color="primary">
+            <button *ngIf="!learnerEnrollment.enrollment || learnerEnrollment.enrollment.status =='Deactivated'" mat-mini-fab (click)="startEnrollment(learnerEnrollment.learner.id)" color="primary">
                 <mat-icon matTooltip="Omogući pristup lekciji" [matTooltipPosition]="'above'"
                    >play_arrow</mat-icon>
             </button>

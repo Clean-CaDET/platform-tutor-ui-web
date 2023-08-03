@@ -16,7 +16,7 @@ import {DomSanitizer} from "@angular/platform-browser";
 export class UnitComponent implements OnInit {
   courseId: number;
   unit: Unit;
-  masteries: KCMastery[];
+  masteries: KCMastery[] = [];
   sidenavOpened = false;
 
   constructor(
@@ -33,8 +33,19 @@ export class UnitComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.courseId = +params.courseId;
-      this.unitService.getUnit(+params.unitId).subscribe(unit => this.unit = unit);
-      this.unitService.getMasteries(+params.unitId).subscribe(masteries => this.masteries = masteries);
+      this.unitService.getUnit(this.courseId, +params.unitId).subscribe(
+        unit => {
+          this.unit = unit
+          this.unit.knowledgeComponents = []
+          this.unitService.getKcsWithMasteries(+params.unitId).subscribe(
+            results => {
+              results.forEach(
+                result => {
+                  this.unit.knowledgeComponents.push(result.knowledgeComponent)
+                  this.masteries.push(result.mastery)
+                })}
+          );
+        });
     });
   }
 
