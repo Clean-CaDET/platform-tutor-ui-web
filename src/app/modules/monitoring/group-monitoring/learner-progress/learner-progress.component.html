@@ -6,15 +6,13 @@
         <mat-expansion-panel hideToggle>
             <mat-expansion-panel-header [collapsedHeight]="'auto'" [expandedHeight]="'auto'" style="padding: 10px">
               <div style="width:100%" fxLayout="row" fxLayoutAlign="space-between">
-                <mat-panel-title>
-                  <b>{{learnerProgress.learner.index}} {{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}</b>
-                </mat-panel-title>
-                <mat-panel-description>
-                  <div>
-                      <div class="progress">{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</div>
-                      <div class="small-text">veštine/zadovoljeno/sumnjivo</div>
-                  </div>
-                </mat-panel-description>
+                <span>
+                  {{learnerProgress.learner.index}} {{learnerProgress.learner.name}} {{learnerProgress.learner.surname}}
+                </span>
+                <small fxLayout="column" fxLayoutAlign=" center">
+                    <span>{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</span>
+                    <span>veštine/zadovoljeno/sumnjivo</span>
+                </small>
                 <mat-icon *ngIf="shouldAlert(learnerProgress)" [ngClass] = getAlertColor(learnerProgress)>report_problem</mat-icon>
                 <mat-icon *ngIf="!shouldAlert(learnerProgress)" class="primary">check_circle</mat-icon>
               </div>

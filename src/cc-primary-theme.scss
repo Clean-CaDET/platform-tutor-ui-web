@@ -48,8 +48,8 @@ a {
 }
 
 $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
-$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 700, 400, 900);
-$cc-warn-dark: mat.define-palette(mat.$red-palette);
+$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 300);
+$cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 800);
 
 $cc-dark-theme: mat.define-dark-theme(
   (
