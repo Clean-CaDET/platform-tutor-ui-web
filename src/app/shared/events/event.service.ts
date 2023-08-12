@@ -25,24 +25,26 @@ export class EventService {
     ],
   };
 
+  private readonly baseUrl = environment.apiHost + 'analysis/knowledge-components/events/';
+
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<void> {
+  getByKcs(kcIds: number[], unitCode: string): Observable<void> {
     return this.http
-      .get<LearningEvent[]>(environment.apiHost + 'events/all/')
-      .pipe(map(data => this.exportEvents(data, "All events")));
+      .post<LearningEvent[]>(this.baseUrl, kcIds)
+      .pipe(map(data => this.exportEvents(data, unitCode + " events")));
   }
 
   getByLearnerAndKc(learnerId: number, kcId: number): Observable<void> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('learnerId', learnerId);
     queryParams = queryParams.append('kcId', kcId);
-    return this.http.get<LearningEvent[]>(environment.apiHost + "events/learner", { params: queryParams })
+    return this.http.get<LearningEvent[]>(this.baseUrl + "learner", { params: queryParams })
       .pipe(map(data => this.exportEvents(data, "Learner " + learnerId + " - KC " + kcId + " - events")));
   }
 
   getByAi(aiId: number): Observable<void> {
-    return this.http.get<LearningEvent[]>(environment.apiHost + "events/answers/" + aiId)
+    return this.http.get<LearningEvent[]>(this.baseUrl + "answers/" + aiId)
       .pipe(map(data => this.exportEvents(data, "Assessment " + aiId + " answers")));
   }
 
@@ -53,7 +55,7 @@ export class EventService {
 
   private parseEvents(data: LearningEvent[]) {
     const events = new Array<LearningEvent>();
-    data.forEach(event => events.push(new LearningEvent(event)));
+    data.forEach((event: any) => events.push(new LearningEvent(event)));
 
     for (const event of events) {
       if (event.specificData) {

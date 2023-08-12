@@ -6,6 +6,6 @@
   $accent-palette: map.get($color-config, 'accent');
 
   .kc-completed {
-    color: mat.get-color-from-palette($accent-palette, 700);
+    color: mat.get-color-from-palette($accent-palette);
   }
 }

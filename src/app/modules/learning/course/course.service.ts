@@ -14,7 +14,7 @@ export class CourseService {
     return this.http.get<Course>(environment.apiHost + 'enrolled-courses/' + courseId);
   }
 
-  getMasteredUnitIds(courseId: number) {
-    return this.http.get<number[]>(environment.apiHost + 'learning/units/' + courseId + '/mastered');
+  getMasteredUnitIds(unitIds: number[]) {
+    return this.http.post<number[]>(environment.apiHost + 'learning/units/mastered', unitIds);
   }
 }

@@ -70,7 +70,7 @@ export class InstructionalItemsComponent implements OnInit {
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
-      
+
       this.instructionService.delete(this.kcId, itemId).subscribe(() => {
         this.instructionalItems = [...this.instructionalItems.filter(i => i.id !== itemId)];
       });
@@ -83,9 +83,9 @@ export class InstructionalItemsComponent implements OnInit {
       return;
     }
     let newItem = new Text({
+      $type: 'text',
       knowledgeComponentId: this.kcId,
       content: newText,
-      typeDiscriminator: 'text',
       order: this.getMaxOrder()+1
     });
     this.instructionService.create(this.kcId, newItem).subscribe(item => {
@@ -102,7 +102,7 @@ export class InstructionalItemsComponent implements OnInit {
   createEmptyVideo(): Video {
     return new Video({
       knowledgeComponentId: this.kcId,
-      typeDiscriminator: 'video',
+      $type: 'video',
       order: this.getMaxOrder()+1
     });
   }

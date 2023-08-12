@@ -20,12 +20,12 @@ export class EnrolledLearnersComponent implements OnChanges {
   dataSource: MatTableDataSource<Learner>;
 
   fieldConfiguration: Field[] = [
-    { code: 'email', type: 'email', label: 'Email' },
+    { code: 'index', type: 'string', label: 'Indeks' },
     { code: 'name', type: 'string', label: 'Ime' },
     { code: 'surname', type: 'string', label: 'Prezime' },
     { code: 'CRUD', type: 'CRUD', label: '', crud: {delete: true} }
   ];
-  columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
+  columns: Array<string> = ['index', 'name', 'surname', 'CRUD'];
 
   constructor(private dialog: MatDialog, private membershipService: CrudService<Learner>) { }
 

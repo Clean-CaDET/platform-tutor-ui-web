@@ -9,15 +9,15 @@ html, body {
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  line-height: 1.5;
 }
 
 pre {
   white-space: pre-wrap;
 }
 
-code {
+p > code {
   font-size: 1.3em;
-  font-weight: bold;
 }
 
 .mat-snack-bar-container.interfacing-instructor {

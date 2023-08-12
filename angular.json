@@ -31,7 +31,6 @@
             "styles": [
               "src/styles.scss",
               "src/cc-primary-theme.scss",
-              "node_modules/prismjs/themes/prism-tomorrow.css",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
             ],
             "scripts": [

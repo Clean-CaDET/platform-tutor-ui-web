@@ -9,19 +9,9 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            &nbsp;
-            <mat-form-field appearance="fill">
-                <mat-label>Grupe</mat-label>
-                <mat-select [(value)]="selectedGroupId">
-                    <mat-option value="0">Sve grupe</mat-option>
-                    <mat-option *ngFor="let group of groups" [value]="group.id">
-                        {{group.name}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
         </span>
         <span fxFlex="nogrow">
-            <button id="exportAllToCSV" color="primary" mat-raised-button (click)="exportAllToCSV()">Izvoz događaja u CSV</button>
+            <button id="exportAllToCSV" color="primary" mat-raised-button [disabled]="!selectedUnit" (click)="exportToCSV(selectedUnit)">Događaji lekcije</button>
         </span>
     </mat-card>
 
@@ -45,10 +35,10 @@
             </cdk-virtual-scroll-viewport>
         </div>
         <div fxFlex="70" *ngIf="selectedKc && showKcAnalytics">
-            <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId"></cc-kc-statistics>
+            <cc-kc-statistics fxFlex [kcId]="selectedKc.id"></cc-kc-statistics>
         </div>
         <div fxFlex="70" *ngIf="selectedKc && showAssessmentAnalytics">
-            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [groupId]="selectedGroupId" [courseId]="courseId"></cc-ai-statistics>
+            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
     </div>
 </div>

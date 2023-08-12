@@ -95,7 +95,7 @@ export class KcTreeComponent implements OnChanges {
 
   editKc(id: number): void {
     let kc = this.unit.knowledgeComponents.find(kc => kc.id === id);
-    
+
     const dialogRef = this.dialog.open(KcFormComponent, {
       data: {
         knowledgeComponent: kc,
@@ -131,17 +131,17 @@ export class KcTreeComponent implements OnChanges {
       });
     })
   }
-  
+
   private getNonChildComponents(kc: KnowledgeComponent): KnowledgeComponent[] {
     let childComponents = this.getChildComponents(kc.id);
     childComponents.push(kc);
     return this.unit.knowledgeComponents.filter(component => !childComponents.includes(component));
   }
-  
+
   private getChildComponents(kcId: number): KnowledgeComponent[] {
     let subcomponents = this.findKnowledgeSubcomponents(kcId);
     let childComponents = [... subcomponents];
-    
+
     subcomponents.forEach(subcomponent => {
       childComponents = childComponents.concat(this.getChildComponents(subcomponent.id));
     });

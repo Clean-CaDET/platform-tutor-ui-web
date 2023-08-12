@@ -60,7 +60,7 @@ export class AssessmentItemsComponent implements OnInit {
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
-      
+
       this.assessmentService.delete(this.kcId, itemId).subscribe(() => {
         this.assessmentItems = [...this.assessmentItems.filter(i => i.id !== itemId)];
       });
@@ -77,12 +77,12 @@ export class AssessmentItemsComponent implements OnInit {
     if(id) this.updateItem(item);
     else this.createItem(item);
   }
-  
+
   private updateItem(item: AssessmentItem) {
     this.assessmentService.update(this.kcId, item).subscribe(response => {
       let oldItem = this.assessmentItems.find(i => i.id === item.id);
       Object.assign(oldItem, response);
-      
+
       this.editMap[item.id] = false;
     });
   }
@@ -96,7 +96,7 @@ export class AssessmentItemsComponent implements OnInit {
 
   createEmptyItem(type: string): AssessmentItem {
     return new AssessmentItem({
-      typeDiscriminator: type,
+      $type: type,
       knowledgeComponentId: this.kcId,
       order: this.getMaxOrder()+1
     });

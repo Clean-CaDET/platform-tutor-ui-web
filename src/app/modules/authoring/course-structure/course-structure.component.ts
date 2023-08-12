@@ -5,6 +5,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
+import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
 
 @Component({
   selector: 'cc-course-structure',
@@ -17,19 +18,20 @@ export class CourseStructureComponent implements OnInit {
   showUnitDetails: boolean;
   showKnowledgeComponents: boolean;
 
-  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
+  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService,
+    private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourse(+params.courseId).subscribe(course => {
         course.knowledgeUnits = course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order);
         this.course = course;
+
         let unitId = this.route.snapshot.queryParams['unit'];
-        if(unitId) {
-          this.selectedUnit = this.course.knowledgeUnits.find(u => u.id == unitId);
-          this.showKnowledgeComponents = true;
+        if (unitId) {
+          this.selectUnit(this.course.knowledgeUnits.find(u => u.id == unitId), true);
         }
-      });  
+      });
     });
   }
 
@@ -52,19 +54,29 @@ export class CourseStructureComponent implements OnInit {
   }
 
   selectUnit(unit: Unit, showKcs: boolean) {
-    this.selectedUnit = unit;
-    this.showUnitDetails = !showKcs;
-    this.showKnowledgeComponents = showKcs;
+    if(showKcs) {
+      this.kcService.getByUnit(unit.id).subscribe(kcs => {
+        this.selectedUnit = unit;
+        this.selectedUnit.knowledgeComponents = kcs;
+        this.showKnowledgeComponents = true;
+        this.showUnitDetails = false;
+      });
+    } else {
+      this.selectedUnit = unit;
+      this.showKnowledgeComponents = false;
+      this.showUnitDetails = true;
+    }
 
     this.router.navigate([], {
       queryParams: { unit: unit.id },
       queryParamsHandling: 'merge'
-    })
+    });
   }
 
   saveOrUpdateUnit(unit: Unit) {
     if(!unit.id) {
       this.courseService.saveUnit(this.course.id, unit).subscribe(newUnit => {
+        newUnit.knowledgeComponents = [];
         this.course.knowledgeUnits.push(newUnit);
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order)];
         this.selectedUnit = newUnit;
@@ -86,7 +98,7 @@ export class CourseStructureComponent implements OnInit {
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
-      
+
       this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];
         this.selectedUnit = null;

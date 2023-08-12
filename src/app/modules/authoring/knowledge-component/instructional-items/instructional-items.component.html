@@ -24,12 +24,12 @@
             </div>
         </div>
         <div *ngIf="editMap[instructionalItem.id]">
-            <div *ngIf="instructionalItem.typeDiscriminator === 'text'">
+            <div *ngIf="instructionalItem.$type === 'text'">
                 <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
                     [text]="instructionalItem.content" (submit)="updateMarkdownItem($event, instructionalItem)">
                 </cc-markdown-editor>
             </div>
-            <div *ngIf="instructionalItem.typeDiscriminator === 'video'">
+            <div *ngIf="instructionalItem.$type === 'video'">
                 <cc-video-authoring [video]="instructionalItem" (videoCreated)="updateVideoItem($event, instructionalItem.id)"></cc-video-authoring>
             </div>
         </div>

@@ -7,7 +7,7 @@
       <input autocomplete="off" matInput type="text" name="index" [(ngModel)]="answer">
     </mat-form-field>
     <div *ngIf="!evaluation">
-      <button [disabled]="submissionIsProcessing" (click)="onSubmit()" color="primary" type="submit" mat-raised-button i18n="@@submit">Pošalji</button>
+      <button [disabled]="submissionIsProcessing || !answer" (click)="onSubmit()" color="primary" type="submit" mat-raised-button i18n="@@submit">Pošalji</button>
     </div>
     <div *ngIf="evaluation?.acceptableAnswers" [class]="evaluation.correctnessLevel ? 'color-correct' : 'color-wrong'">
       Prihvatljivi odgovori:

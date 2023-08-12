@@ -40,7 +40,7 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
 
   onSubmit(): void {
     const submission: SaqSubmission = {
-      typeDiscriminator: submissionTypes.shortAnswerQuestion,
+      $type: submissionTypes.shortAnswerQuestion,
       answer: this.answer,
       reattemptCount: this.submissionReattemptCount
     };

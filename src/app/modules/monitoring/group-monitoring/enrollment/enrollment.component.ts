@@ -53,7 +53,7 @@ export class EnrollmentComponent implements OnChanges {
   }
 
   private isUnenrolled(e: LearnerEnrollment): boolean {
-    return !e.enrollment || e.enrollment.status === "Hidden";
+    return !e.enrollment || e.enrollment.status === "Deactivated";
   }
 
   enrollAll(startDate: Date): void {
@@ -79,8 +79,7 @@ export class EnrollmentComponent implements OnChanges {
   }
 
   unenroll(learnerId: number): void {
-    this.enrollmentService.unenroll(this.unit.id, learnerId)
-      .subscribe(() => {
+    this.enrollmentService.unenroll(this.unit.id, learnerId).subscribe(() => {
       let enrollment = this.enrollments.find(e => e.learner.id === learnerId);
       enrollment.enrollment = null;
       this.updateEnrollmentFlags();

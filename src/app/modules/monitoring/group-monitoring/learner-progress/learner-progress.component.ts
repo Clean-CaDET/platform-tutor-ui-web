@@ -5,7 +5,7 @@ import { LearnerProgress } from '../../model/learner-progress.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
 import * as FileSaver from "file-saver";
-
+import { KnowledgeComponentService } from 'src/app/modules/authoring/knowledge-component/knowledge-component-authoring.service';
 
 @Component({
   selector: 'cc-learner-progress',
@@ -18,17 +18,25 @@ export class LearnerProgressComponent implements OnChanges {
   progresses: LearnerProgress[] = [];
   progressBarActive = false;
 
-  constructor(private monitoringService: GroupMonitoringService) {}
+  constructor(private monitoringService: GroupMonitoringService, private kcService: KnowledgeComponentService) {}
 
   ngOnChanges(): void {
     this.progresses = [];
     if(this.unit) {
-      this.calculateProgress();
+      if(this.learners.length == 0) return;
+      this.progressBarActive = true;
+      if(!this.unit.knowledgeComponents || this.unit.knowledgeComponents.length == 0) {
+        this.kcService.getByUnit(this.unit.id).subscribe(kcs => {
+          this.unit.knowledgeComponents = kcs;
+          this.calculateProgress();
+        });
+      } else {
+        this.calculateProgress();
+      }
     }
   }
 
   calculateProgress(): void {
-    this.progressBarActive = true;
     this.monitoringService.getProgress(this.unit.id, this.learners.map(l => l.id))
       .subscribe(allProgress => {
         this.learners.forEach(learner => {

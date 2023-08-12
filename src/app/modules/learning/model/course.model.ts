@@ -5,5 +5,6 @@ export interface Course {
   code: string;
   name: string;
   description: string;
+  startDate: Date;
   knowledgeUnits?: Unit[];
 }

@@ -10,7 +10,7 @@
             <div fxLayout="row">
                 <small fxFlex fxLayoutAlign=" center">
                     <b>{{i + 1}}.&nbsp;&nbsp;</b>
-                    <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
+                    <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
                 </small>
                 <button mat-icon-button *ngIf="i !== 0"
                     (click)="swapOrder(item, assessmentItems[i-1])">
@@ -31,7 +31,7 @@
             <div>
                 <markdown lineNumbers>{{item.text}}</markdown>
                 <div>
-                    <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+                    <div *ngIf="item.$type === 'multiChoiceQuestion'">
                         <b>Ponuđeni odgovori:</b>
                         <p *ngFor="let option of item.possibleAnswers" fxLayout="row" fxLayoutGap="15px">
                             <span>
@@ -44,7 +44,7 @@
                             <b>Povratna informacija</b>: {{item.feedback}}
                         </div>
                     </div>
-                    <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+                    <div *ngIf="item.$type === 'multiResponseQuestion'">
                         <b>Ponuđeni odgovori:</b>
                         <p *ngFor="let option of item.items" fxLayout="column">
                             <span fxLayout="row" fxLayoutGap="15px">
@@ -57,7 +57,7 @@
                             <small style="margin-left:39px">{{option.feedback}}</small>
                         </p>
                     </div>
-                    <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+                    <div *ngIf="item.$type === 'shortAnswerQuestion'">
                         <b>Prihvatljivi odgovori:</b>
                         <p *ngFor="let option of item.acceptableAnswers" fxLayout="row">
                             <mat-icon>arrow_right</mat-icon>
@@ -85,17 +85,17 @@
         <div *ngIf="editMap[item.id]">
             <div fxLayout="row">
                 <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel(item.typeDiscriminator)}}</span>
+                    <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
                 </small>
             </div>
             <hr>
-            <div *ngIf="item.typeDiscriminator === 'multiChoiceQuestion'">
+            <div *ngIf="item.$type === 'multiChoiceQuestion'">
                 <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
             </div>
-            <div *ngIf="item.typeDiscriminator === 'multiResponseQuestion'">
+            <div *ngIf="item.$type === 'multiResponseQuestion'">
                 <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
             </div>
-            <div *ngIf="item.typeDiscriminator === 'shortAnswerQuestion'">
+            <div *ngIf="item.$type === 'shortAnswerQuestion'">
                 <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
             </div>
         </div>

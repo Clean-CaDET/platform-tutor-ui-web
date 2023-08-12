@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
@@ -11,6 +11,12 @@ export class KnowledgeComponentService {
   private baseUrl = environment.apiHost + 'authoring/knowledge-components/';
 
   constructor(private http: HttpClient) { }
+
+  getByUnit(unitId: number): Observable<KnowledgeComponent[]> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('unitId', unitId);
+    return this.http.get<KnowledgeComponent[]>(environment.apiHost + 'authoring/knowledge-components', { params: queryParams });
+  }
 
   get(kcId: number): Observable<KnowledgeComponent> {
     return this.http.get<KnowledgeComponent>(this.baseUrl + kcId);
