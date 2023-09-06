@@ -70,6 +70,14 @@
                             <b>Tolerancija</b>: {{item.tolerance}}
                         </p>
                     </div>
+                    <div *ngIf="item.$type === 'codeCompletionQuestion'">
+                        <pre class="language-java">
+<span *ngFor="let i of item.items">{{item.splitCode()[i.order-1]}}<input [style.width.px]=i.length*8 style="font-family: Consolas,Monaco,'Andale Mono',monospace;" readonly value="{{i.answer}}"></span><span>{{item.splitCode()[item.items.length]}}</span>
+                        </pre>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <p>
@@ -98,6 +106,9 @@
             <div *ngIf="item.$type === 'shortAnswerQuestion'">
                 <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
             </div>
+            <div *ngIf="item.$type === 'codeCompletionQuestion'">
+                <cc-ccq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-ccq-form>
+            </div>
         </div>
     </mat-card>
     <mat-card>
@@ -110,7 +121,10 @@
                 + Višestruki izbor, više odgovora
             </button>
             <button mat-raised-button color="primary" (click)="editMap[0] = 'shortAnswerQuestion'">
-                + Pitanje sa kratkim odgovorom
+                + Kratki odgovor
+            </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'codeCompletionQuestion'">
+                + Kompletiranje koda
             </button>
         </span>
         <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
@@ -140,5 +154,14 @@
             <hr>
             <cc-saq-form [item]="createEmptyItem('shortAnswerQuestion')" (saveChanges)="onCloseForm($event)"></cc-saq-form>
         </div>
+        <div *ngIf="editMap[0] === 'codeCompletionQuestion'">
+            <div fxLayout="row">
+                <small class="center-type">
+                    <span><b>Tip: </b>{{getTypeLabel('codeCompletionQuestion')}}</span>
+                </small>
+            </div>
+            <hr>
+            <cc-ccq-form [item]="createEmptyItem('codeCompletionQuestion')" (saveChanges)="onCloseForm($event)"></cc-ccq-form>
+        </div> <!--TODO: move type to forms-->
     </mat-card>
 </div>

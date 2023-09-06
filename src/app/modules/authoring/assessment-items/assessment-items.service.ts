@@ -6,6 +6,7 @@ import { AssessmentItem } from './model/assessment-item.model';
 import { MultipleChoiceQuestion } from './model/mcq.model';
 import { MultipleReponseQuestion } from './model/mrq.model';
 import { ShortAnswerQuestion } from './model/saq.model';
+import { CodeCompletionQuestion } from './model/ccq.model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,7 @@ export class AssessmentItemsService {
       case 'multiChoiceQuestion': return new MultipleChoiceQuestion(item);
       case 'multiResponseQuestion': return new MultipleReponseQuestion(item);
       case 'shortAnswerQuestion': return new ShortAnswerQuestion(item);
+      case 'codeCompletionQuestion': return new CodeCompletionQuestion(item);
     }
     return null;
   }

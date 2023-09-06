@@ -19,6 +19,7 @@ import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component
 import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component';
 import { SaqFormComponent } from './assessment-items/saq-form/saq-form.component';
 import {LearningModule} from "../learning/learning.module";
+import { CcqFormComponent } from './assessment-items/ccq-form/ccq-form.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {LearningModule} from "../learning/learning.module";
     AssessmentItemsComponent,
     MrqFormComponent,
     McqFormComponent,
-    SaqFormComponent
+    SaqFormComponent,
+    CcqFormComponent
   ],
   imports: [
     CommonModule,
