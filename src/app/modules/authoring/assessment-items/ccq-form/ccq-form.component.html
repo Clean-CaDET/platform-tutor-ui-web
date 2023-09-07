@@ -1,0 +1,43 @@
+<div fxLayout="column" fxLayoutGap="15px">
+    <cc-markdown-editor fxFlex [label]="'Tekst zadatka'" [editMode]="true" [livePreview]="false"
+        [text]="workingItem.text" (textChanged)="updateText($event)">
+    </cc-markdown-editor>
+    <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
+        <mat-form-field appearance="fill">
+            <mat-label>Kod koji treba dopuniti</mat-label>
+            <textarea matInput formControlName="code" style="height: 290px;"></textarea>
+            <mat-hint>Kod prožeti mestima gde korisnik unosi odgovor po šablonu <b>$$tačan_odgovor$$ignoriši_space_flag$$</b> (npr. <b>$$System.out.println(a);$$false$$</b>)</mat-hint>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+            <mat-label>Povratna informacija</mat-label>
+            <textarea matInput formControlName="feedback"></textarea>
+        </mat-form-field>
+
+        <b>Dodatne smernice (hints):</b>
+        <div formArrayName="hints" fxLayout="column">
+            <div *ngFor="let hintForm of hints.controls; let i = index">
+                <div [formGroup]="hintForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <mat-form-field appearance="fill" fxFlex>
+                        <mat-label>Tekst smernice</mat-label>
+                        <textarea matInput formControlName="text"></textarea>
+                    </mat-form-field>
+                    <button mat-icon-button (click)="removeHint(i)"><mat-icon>delete_forever</mat-icon></button>
+                </div>
+            </div>
+        </div>
+        <div fxLayoutGap="15px">
+            <button mat-mini-fab color="primary" (click)="addHint(null)">
+                <mat-icon>add</mat-icon>
+            </button>
+            <span fxFlex></span>
+            <span fxLayoutGap="10px">
+                <button mat-mini-fab color="primary" [disabled]="form.invalid || workingItem.text==''" (click)="save()">
+                  <mat-icon>check</mat-icon>
+                </button>
+                <button mat-mini-fab color="warn" (click)="cancel()">
+                  <mat-icon>clear</mat-icon>
+                </button>
+            </span>
+        </div>
+    </div>
+</div>

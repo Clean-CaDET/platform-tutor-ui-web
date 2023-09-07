@@ -40,6 +40,7 @@ export class AssessmentItemsComponent implements OnInit {
       case 'multiChoiceQuestion': return 'Pitanje sa višestrukim izborom i jednim odgovorom';
       case 'multiResponseQuestion': return 'Pitanje sa višestrukim izborom i više odgovara';
       case 'shortAnswerQuestion': return 'Otvoreno pitanje sa kratkim odgovorom';
+      case 'codeCompletionQuestion': return 'Pitanje za kompletiranje koda';
     }
     return "";
   }

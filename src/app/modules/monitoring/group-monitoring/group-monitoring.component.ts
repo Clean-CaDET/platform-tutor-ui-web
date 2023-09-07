@@ -46,7 +46,7 @@ export class GroupMonitoringComponent implements OnInit {
 
   private getLearnerGroups(): void {
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
-      this.groups = groupsPage.results;
+      this.groups = groupsPage.results.sort((a, b) => a.name.localeCompare(b.name));
       this.selectedGroupId = this.groups[0]?.id || 0;
       this.getLearners();
     });

@@ -70,6 +70,14 @@
                             <b>Tolerancija</b>: {{item.tolerance}}
                         </p>
                     </div>
+                    <div *ngIf="item.$type === 'codeCompletionQuestion'">
+                        <pre class="language-java">
+<span *ngFor="let i of item.items">{{item.splitCode()[i.order-1]}}<input [style.width.px]=i.length*8 style="font-family: Consolas,Monaco,'Andale Mono',monospace;" readonly value="{{i.answer}}"></span><span>{{item.splitCode()[item.items.length]}}</span>
+                        </pre>
+                        <div>
+                            <b>Povratna informacija</b>: {{item.feedback}}
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <p>
@@ -89,15 +97,10 @@
                 </small>
             </div>
             <hr>
-            <div *ngIf="item.$type === 'multiChoiceQuestion'">
-                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
-            </div>
-            <div *ngIf="item.$type === 'multiResponseQuestion'">
-                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
-            </div>
-            <div *ngIf="item.$type === 'shortAnswerQuestion'">
-                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
-            </div>
+            <cc-mcq-form *ngIf="item.$type === 'multiChoiceQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
+            <cc-mrq-form *ngIf="item.$type === 'multiResponseQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+            <cc-saq-form *ngIf="item.$type === 'shortAnswerQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
+            <cc-ccq-form *ngIf="item.$type === 'codeCompletionQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-ccq-form>
         </div>
     </mat-card>
     <mat-card>
@@ -110,35 +113,23 @@
                 + Višestruki izbor, više odgovora
             </button>
             <button mat-raised-button color="primary" (click)="editMap[0] = 'shortAnswerQuestion'">
-                + Pitanje sa kratkim odgovorom
+                + Kratki odgovor
+            </button>
+            <button mat-raised-button color="primary" (click)="editMap[0] = 'codeCompletionQuestion'">
+                + Kompletiranje koda
             </button>
         </span>
-        <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
+        <div *ngIf="editMap[0]">
             <div fxLayout="row">
                 <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('multiChoiceQuestion')}}</span>
+                    <span><b>Tip: </b>{{getTypeLabel(editMap[0])}}</span>
                 </small>
             </div>
             <hr>
-            <cc-mcq-form [item]="createEmptyItem('multiChoiceQuestion')" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
-        </div>
-        <div *ngIf="editMap[0] === 'multiResponseQuestion'">
-            <div fxLayout="row">
-                <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('multiResponseQuestion')}}</span>
-                </small>
-            </div>
-            <hr>
-            <cc-mrq-form [item]="createEmptyItem('multiResponseQuestion')" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
-        </div>
-        <div *ngIf="editMap[0] === 'shortAnswerQuestion'">
-            <div fxLayout="row">
-                <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('shortAnswerQuestion')}}</span>
-                </small>
-            </div>
-            <hr>
-            <cc-saq-form [item]="createEmptyItem('shortAnswerQuestion')" (saveChanges)="onCloseForm($event)"></cc-saq-form>
+            <cc-mcq-form *ngIf="editMap[0] === 'multiChoiceQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+            <cc-mrq-form *ngIf="editMap[0] === 'multiResponseQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
+            <cc-saq-form *ngIf="editMap[0] === 'shortAnswerQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-saq-form>
+            <cc-ccq-form *ngIf="editMap[0] === 'codeCompletionQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-ccq-form>
         </div>
     </mat-card>
 </div>
