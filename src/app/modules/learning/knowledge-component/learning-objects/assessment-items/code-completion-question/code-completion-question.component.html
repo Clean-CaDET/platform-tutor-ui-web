@@ -1,0 +1,20 @@
+<mat-card>
+<div>
+    <markdown lineNumbers>{{learningObject.text}}</markdown>
+    <!-- Code below must be in one line because of pre tag -->
+    <pre class="language-java">
+<span *ngFor="let item of items.controls; let i = index" [formGroup]="item">{{learningObject.splitCode()[i]}}<input [style.width.px]=i.length*10 style="font-family: Consolas,Monaco,'Andale Mono',monospace;" formControlName="answer"></span><span>{{learningObject.splitCode()[learningObject.items.length]}}</span>
+    </pre>
+    <br>
+    <div *ngIf="evaluation?.feedback" [class]="evaluation.correct ? 'color-correct' : 'color-wrong'">
+        Tačni odgovori:
+        <ol>
+        <li *ngFor="let i of evaluation.items">
+            {{i.answer}}
+        </li>
+        </ol>
+        {{evaluation.feedback}}
+    </div>
+    <button [disabled]="!form.valid || submissionIsProcessing" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
+</div>
+</mat-card>

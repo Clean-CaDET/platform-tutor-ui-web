@@ -13,7 +13,7 @@ export function createResponse(feedback: Feedback): string {
 function createPump(): string {
     let rnd = getRandomNumber(10);
     if (rnd <= 4) return feedbackStore.pump.answer;
-    if (rnd <= 8) return feedbackStore.pump.read;
+    if (rnd <= 9) return feedbackStore.pump.read;
     return feedbackStore.pump.instruction;
 }
 

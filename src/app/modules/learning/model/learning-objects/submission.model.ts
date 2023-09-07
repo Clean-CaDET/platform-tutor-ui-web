@@ -8,4 +8,5 @@ export const submissionTypes = {
   mutlipleChoiceQuestion: 'mcqSubmission',
   mutlipleResponseQuestion: 'mrqSubmission',
   shortAnswerQuestion: 'saqSubmission',
+  codeCompletionQuestion: 'ccqSubmission'
 };
