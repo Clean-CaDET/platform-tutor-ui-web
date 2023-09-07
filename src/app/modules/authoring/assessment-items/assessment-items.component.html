@@ -97,18 +97,10 @@
                 </small>
             </div>
             <hr>
-            <div *ngIf="item.$type === 'multiChoiceQuestion'">
-                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
-            </div>
-            <div *ngIf="item.$type === 'multiResponseQuestion'">
-                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
-            </div>
-            <div *ngIf="item.$type === 'shortAnswerQuestion'">
-                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
-            </div>
-            <div *ngIf="item.$type === 'codeCompletionQuestion'">
-                <cc-ccq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-ccq-form>
-            </div>
+            <cc-mcq-form *ngIf="item.$type === 'multiChoiceQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
+            <cc-mrq-form *ngIf="item.$type === 'multiResponseQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+            <cc-saq-form *ngIf="item.$type === 'shortAnswerQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
+            <cc-ccq-form *ngIf="item.$type === 'codeCompletionQuestion'" [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-ccq-form>
         </div>
     </mat-card>
     <mat-card>
@@ -127,41 +119,17 @@
                 + Kompletiranje koda
             </button>
         </span>
-        <div *ngIf="editMap[0] === 'multiChoiceQuestion'">
+        <div *ngIf="editMap[0]">
             <div fxLayout="row">
                 <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('multiChoiceQuestion')}}</span>
+                    <span><b>Tip: </b>{{getTypeLabel(editMap[0])}}</span>
                 </small>
             </div>
             <hr>
-            <cc-mcq-form [item]="createEmptyItem('multiChoiceQuestion')" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+            <cc-mcq-form *ngIf="editMap[0] === 'multiChoiceQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+            <cc-mrq-form *ngIf="editMap[0] === 'multiResponseQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
+            <cc-saq-form *ngIf="editMap[0] === 'shortAnswerQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-saq-form>
+            <cc-ccq-form *ngIf="editMap[0] === 'codeCompletionQuestion'" [item]="createEmptyItem(editMap[0])" (saveChanges)="onCloseForm($event)"></cc-ccq-form>
         </div>
-        <div *ngIf="editMap[0] === 'multiResponseQuestion'">
-            <div fxLayout="row">
-                <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('multiResponseQuestion')}}</span>
-                </small>
-            </div>
-            <hr>
-            <cc-mrq-form [item]="createEmptyItem('multiResponseQuestion')" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
-        </div>
-        <div *ngIf="editMap[0] === 'shortAnswerQuestion'">
-            <div fxLayout="row">
-                <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('shortAnswerQuestion')}}</span>
-                </small>
-            </div>
-            <hr>
-            <cc-saq-form [item]="createEmptyItem('shortAnswerQuestion')" (saveChanges)="onCloseForm($event)"></cc-saq-form>
-        </div>
-        <div *ngIf="editMap[0] === 'codeCompletionQuestion'">
-            <div fxLayout="row">
-                <small class="center-type">
-                    <span><b>Tip: </b>{{getTypeLabel('codeCompletionQuestion')}}</span>
-                </small>
-            </div>
-            <hr>
-            <cc-ccq-form [item]="createEmptyItem('codeCompletionQuestion')" (saveChanges)="onCloseForm($event)"></cc-ccq-form>
-        </div> <!--TODO: move type to forms-->
     </mat-card>
 </div>
