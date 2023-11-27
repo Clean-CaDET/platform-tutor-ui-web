@@ -7,44 +7,34 @@ import { ChatbotModalService } from './chatbot-modal.service';
 @Component({
   selector: 'cc-learning-observer',
   templateUrl: './learning-observer.component.html',
-  styleUrls: ['./learning-observer.component.scss']
+  styleUrls: ['./learning-observer.component.scss'],
 })
 export class LearningObserverComponent implements OnInit {
-  messages : string[] = [];
+  messages: string[] = [];
   newMessage: string = '';
-  messageCounter : any = 0
-  isDisabled = false
+  messageCounter: any = 0;
+  isDisabled = false;
 
-  constructor(private http: HttpClient, private modalService: ChatbotModalService) { }
+  constructor(
+    private http: HttpClient,
+    private modalService: ChatbotModalService
+  ) {}
 
   ngOnInit(): void {
     this.messages.push(createResponse(this.messageCounter));
     this.messageCounter++;
   }
 
-  closeModal(): void {
-    this.submit();
+  submitAndCloseModal(emotion: string): void {
+    this.submit(emotion);
     this.modalService.closeDialog();
   }
 
-  addItem() {
-    if (this.newMessage.trim()) {
-      this.messages.push(this.newMessage);
-      this.generateNewMessage();
-      this.newMessage = ''
-    }
-    if(this.messageCounter == 3){
-      this.isDisabled = true;
-    }
-  }
-
-  submit(){
-    this.http.post(environment.apiHost + 'learning/chat', this.messages).subscribe();
-  }
-
-  generateNewMessage(){
-    this.messages.push(createResponse(this.messageCounter));
-    this.messageCounter++;
-    return ''
+  submit(emotion: string) {
+    this.http
+      .post(environment.apiHost + 'learning/emotions', `"${emotion}"`, {
+        headers: { 'Content-Type': 'application/json' },
+      })
+      .subscribe();
   }
 }

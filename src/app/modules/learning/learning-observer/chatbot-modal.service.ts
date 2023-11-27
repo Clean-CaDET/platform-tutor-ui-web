@@ -19,8 +19,8 @@ export class ChatbotModalService {
   }
 
   notify() {
-    const role = this.authService.user$.getValue().role;
-    if (role === 'learnercommercial') return;
+    const user = this.authService.user$.getValue();
+    if (user.role === 'learnercommercial' || !user.username.includes('GE')) return;
     const lastOpenedString = localStorage.getItem('lastOpened');
     if (lastOpenedString) {
       this.lastOpened = Number(lastOpenedString);

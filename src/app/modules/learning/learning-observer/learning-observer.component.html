@@ -1,23 +1,47 @@
 <div class="chat">
-  <div *ngFor="let message of messages" class="message">
-    <div class="image">
-      <img src="../../../../assets/images/black.png" alt="" />
-    </div>
-    <div class="text">
-      {{ message }}
-    </div>
+  <div class="text">
+    Zamolili bismo te da nam istakneš kako se trenutno osećaš povodom učenja ovog gradiva?
   </div>
-  <div *ngIf="!isDisabled">
-    <textarea cols="70" rows="8" placeholder="Upiši odgovor..." minlength="10"
-      required [(ngModel)]="newMessage" (keyup.enter)="addItem()" [disabled]="isDisabled"></textarea>
-    <button (click)="addItem()" color="primary" mat-raised-button mat-icon-button>
-      <mat-icon matTooltip="Pošalji" [matTooltipPosition]="'above'">telegram</mat-icon>
-    </button>
-  </div>
-  <div *ngIf="isDisabled">
-    <br><br><br>
-    <button color="primary" mat-raised-button (click)="closeModal()">
-      Zatvori
-    </button>
+  <div class="avatars">
+    <div class="img__wrap">
+      <img
+        src="../../../../assets/images/bored.png"
+        alt="Dosadno"
+        (click)="submitAndCloseModal('bored')"
+      />
+      <p class="img__description">Dosadno</p>
+    </div>
+    <div class="img__wrap">
+      <img
+        src="../../../../assets/images/tired.png"
+        alt="Umorno"
+        (click)="submitAndCloseModal('tired')"
+      />
+      <p class="img__description">Umorno</p>
+    </div>
+    <div class="img__wrap">
+      <img
+        src="../../../../assets/images/neutral.png"
+        alt="Angažovano"
+        (click)="submitAndCloseModal('neutral')"
+      />
+      <p class="img__description">Angažovano</p>
+    </div>
+    <div class="img__wrap">
+      <img
+        src="../../../../assets/images/frustrated.png"
+        alt="Iznervirano"
+        (click)="submitAndCloseModal('frustrated')"
+      />
+      <p class="img__description">Iznervirano</p>
+    </div>
+    <div class="img__wrap">
+      <img
+        src="../../../../assets/images/confused.png"
+        alt="Zbunjeno"
+        (click)="submitAndCloseModal('confused')"
+      />
+      <p class="img__description">Zbunjeno</p>
+    </div>
   </div>
 </div>
