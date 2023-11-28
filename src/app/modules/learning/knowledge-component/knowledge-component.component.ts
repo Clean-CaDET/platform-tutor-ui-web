@@ -1,18 +1,18 @@
-import {Component, HostListener, OnDestroy, OnInit} from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
 import { ChatbotModalService } from '../learning-observer/chatbot-modal.service';
-import {SessionPauseService} from "./session-pause.service";
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {KcRateComponent} from "./kc-rate/kc-rate.component";
+import { SessionPauseService } from './session-pause.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { KcRateComponent } from './kc-rate/kc-rate.component';
 
 @Component({
   selector: 'cc-knowledge-component',
   templateUrl: './knowledge-component.component.html',
   styleUrls: ['./knowledge-component.component.css'],
-  providers: [SessionPauseService]
+  providers: [SessionPauseService],
 })
 export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
@@ -22,9 +22,13 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   unitId: number;
   courseId: number;
 
-  constructor(private route: ActivatedRoute, private knowledgeComponentService: KnowledgeComponentService,
-              private sessionPauseTracker: SessionPauseService, private modalService: ChatbotModalService,
-              private ratingDialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private knowledgeComponentService: KnowledgeComponentService,
+    private sessionPauseTracker: SessionPauseService,
+    private modalService: ChatbotModalService,
+    private ratingDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -32,11 +36,13 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.knowledgeComponentService
           .terminateSession(this.knowledgeComponent.id)
           .subscribe();
-      this.knowledgeComponentService.launchSession(+params.kcId).subscribe(() => {
-        this.getKnowledgeComponent(+params.kcId);
-        this.unitId = +params.unitId;
-        this.courseId = +params.courseId;
-      });
+      this.knowledgeComponentService
+        .launchSession(+params.kcId)
+        .subscribe(() => {
+          this.getKnowledgeComponent(+params.kcId);
+          this.unitId = +params.unitId;
+          this.courseId = +params.courseId;
+        });
       this.sessionPauseTracker.start(+params.kcId);
     });
   }
@@ -56,10 +62,12 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   private getKnowledgeComponent(kcId: number): void {
-    this.knowledgeComponentService.getKnowledgeComponent(kcId).subscribe((kc) => {
-      this.knowledgeComponent = kc;
-      this.onInstructionalItemsClicked();
-    });
+    this.knowledgeComponentService
+      .getKnowledgeComponent(kcId)
+      .subscribe((kc) => {
+        this.knowledgeComponent = kc;
+        this.onInstructionalItemsClicked();
+      });
   }
 
   onInstructionalItemsClicked(): void {
@@ -70,7 +78,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects = instructionalItems;
         this.scrollToTop();
       });
-      // this.modalService.notify();
+    this.modalService.notify();
   }
 
   onAssessmentItemClicked(): void {
@@ -82,16 +90,20 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects[0] = assessmentItem;
         this.scrollToTop();
       });
-      // this.modalService.notify();
+    this.modalService.notify();
   }
 
   rateKc(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.maxHeight = "800px"
-    dialogConfig.maxWidth = "350px"
-    dialogConfig.data = {kcId: this.knowledgeComponent.id, unitId: this.unitId, courseId: this.courseId}
+    dialogConfig.maxHeight = '800px';
+    dialogConfig.maxWidth = '350px';
+    dialogConfig.data = {
+      kcId: this.knowledgeComponent.id,
+      unitId: this.unitId,
+      courseId: this.courseId,
+    };
     this.ratingDialog.open(KcRateComponent, dialogConfig);
   }
 
@@ -102,8 +114,10 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   @HostListener('window:beforeunload', ['$event'])
   beforeunloadHandler(event: any) {
     event.preventDefault();
-    localStorage.removeItem("IsPaused" + this.knowledgeComponent.id);
-    localStorage.removeItem("LastActive"+ this.knowledgeComponent.id);
-    this.knowledgeComponentService.abandonSession(this.knowledgeComponent.id).subscribe();
+    localStorage.removeItem('IsPaused' + this.knowledgeComponent.id);
+    localStorage.removeItem('LastActive' + this.knowledgeComponent.id);
+    this.knowledgeComponentService
+      .abandonSession(this.knowledgeComponent.id)
+      .subscribe();
   }
 }
