@@ -1,7 +1,7 @@
 export function createResponse(messageCounter: number): string {
     if (messageCounter == 0) {
       return 'Zdravo! Kako se osećaš povodom učenja u ovom trenutku?';
-    }
+    } 
     if (messageCounter == 1) {
       return createSecondMessage();
     }
