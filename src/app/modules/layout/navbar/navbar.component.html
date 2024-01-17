@@ -1,8 +1,8 @@
-<div>
-  <span>
-    <img class="hover" *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
-    <img class="hover" *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
-  </span>
+<div fxLayout="column" fxLayoutAlign=" center">
+  <div class="logo" [routerLink]="['home']">
+    <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" alt="Clean CaDET">
+    <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" alt="Clean CaDET">
+  </div>
 
   <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role.includes('learner')"></cc-learner-controls>
   <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>

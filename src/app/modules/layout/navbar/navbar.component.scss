@@ -2,8 +2,16 @@
   display: block;
 }
 
-.hover {
+.logo {
+  margin-top: 10px;
   cursor: pointer;
+  width: 80px;
+  height: 80px;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 button {
