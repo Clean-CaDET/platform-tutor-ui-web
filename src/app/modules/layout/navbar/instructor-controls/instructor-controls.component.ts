@@ -24,6 +24,10 @@ export class InstructorControlsComponent implements OnInit {
     this.setupCourseUpdate();
     this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
+      let params = this.getParams(this.route);
+      if(params.courseId) {
+        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+      }
     });
   }
 

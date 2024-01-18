@@ -3,7 +3,7 @@
 }
 
 mat-sidenav {
-  width: 120px;
+  width: 110px;
 }
 
 #router-outlet {
@@ -18,14 +18,9 @@ mat-icon {
   vertical-align: middle;
 }
 
-mat-slide-toggle {
-  width: 85%;
-  margin-left: 7.5%;
-}
-
-.fixed {
+.theme-ctrl {
   position: fixed;
   bottom: 120px;
-  left: 40px;
+  left: 35px;
   float: right;
 }

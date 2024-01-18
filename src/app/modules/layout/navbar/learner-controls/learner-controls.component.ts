@@ -27,6 +27,10 @@ export class LearnerControlsComponent implements OnInit {
   ngOnInit(): void {
     this.layoutService.getLearnerCourses().subscribe((coursesPage) => {
       this.courses = coursesPage.results;
+      let params = this.getParams(this.route);
+      if(params.courseId) {
+        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+      }
     });
     this.setupCourseUpdate();
   }

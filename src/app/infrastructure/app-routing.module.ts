@@ -18,10 +18,19 @@ import { UnitAnalyticsComponent } from '../modules/knowledge-analytics/unit-anal
 
 
 const routes: Routes = [
-  { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'courses/:courseId', component: CourseComponent },
-
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['learner', 'learnercommercial', 'instructor', 'administrator'] }
+  },
+  {
+    path: 'courses/:courseId',
+    component: CourseComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['learner', 'learnercommercial', 'instructor'] }
+  },
   {
     path: 'course/:courseId/unit/:unitId',
     component: UnitComponent,
@@ -87,7 +96,7 @@ const routes: Routes = [
     data: { role: ['administrator'] },
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-  { path: '**', component: HomeComponent },
+  { path: '**', redirectTo: '/home', pathMatch: 'full'}
 ];
 
 @NgModule({

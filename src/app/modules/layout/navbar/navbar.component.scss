@@ -3,10 +3,10 @@
 }
 
 .logo {
-  margin-top: 10px;
+  margin: 20px 0 20px 0;
   cursor: pointer;
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
 }
 
 .logo img {
@@ -18,40 +18,6 @@ button {
   padding-bottom: 5px;
   padding-top: 5px;
   line-height: 160%;
-}
-
-#home, #login, #logout, #profile {
-  margin-top: 20px;
-  font-size: 12px;
-  width: 85%;
-  margin-left: 7.5%;
-  white-space: normal;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-img {
-  width: 85%;
-  margin-left: 7.5%;
-}
-
-#login, #logout {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  margin-bottom: 20%;
-}
-
-#username {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 60%;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
 }
 
 .mat-drawer-inner-container::-webkit-scrollbar {
