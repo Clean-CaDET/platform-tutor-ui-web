@@ -12,17 +12,13 @@ import { LayoutService } from '../../layout.service';
   styleUrls: ['./learner-controls.component.scss'],
 })
 export class LearnerControlsComponent implements OnInit {
-  units: Unit[];
-  knowledgeComponents: KnowledgeComponent[];
-  @Input() learnerId: number;
   courses: Course[];
   selectedCourse: Course;
 
-  constructor(
-    private layoutService: LayoutService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  isInUnit: boolean;
+  isInKc: boolean;
+
+  constructor(private layoutService: LayoutService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.layoutService.getLearnerCourses().subscribe((coursesPage) => {
@@ -51,6 +47,8 @@ export class LearnerControlsComponent implements OnInit {
             (c) => c.id === +params.courseId
           );
         }
+        this.isInUnit = !!params.unitId;
+        this.isInKc = !!params.kcId;
       });
   }
 
