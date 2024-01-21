@@ -4,7 +4,7 @@
     Kursevi
   </button>
   <mat-menu #course="matMenu">
-    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item routerLinkActive="accent">
+    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item [ngClass]="{'accent': course.id === selectedCourse.id}">
       {{course.name}}
     </button>
   </mat-menu>

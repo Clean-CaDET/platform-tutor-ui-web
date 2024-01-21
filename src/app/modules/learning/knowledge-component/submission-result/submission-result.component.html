@@ -1,4 +1,4 @@
-<mat-card class="sticky mat-elevation-z5">
+<mat-card class="sticky mat-elevation-z5" fxLayout.gt-xs="row" fxLayout.xs="column">
   <div fxFlex>
     <div *ngIf="feedbackMessage" class="feedback-container">
       <pre typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
