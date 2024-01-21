@@ -1,15 +1,12 @@
-<mat-sidenav-container class="container mat-app-background" [ngClass]="isDarkTheme? 'dark-theme-mode' : 'light-theme-mode'">
-  <mat-sidenav class="container mat-elevation-z4" mode="side" opened="true" [ngStyle]="isDarkTheme && {'background-color': '#021634'}">
-    <div>
+<div class="container mat-app-background" [ngClass]="isDarkTheme? 'dark-theme-mode' : 'light-theme-mode'" fxLayout="row">
+  <div class="sidenav">
       <cc-navbar [isDarkTheme]="isDarkTheme" (themeChanged)="changeTheme()"></cc-navbar>
-    </div>
-  </mat-sidenav>
+  </div>
 
-  <mat-sidenav-content fxLayout="column">
-    <div id="router-outlet" style="height: 100%;">
-      <router-outlet></router-outlet>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  <div id="router-outlet" style="height: 100%;">
+    <router-outlet></router-outlet>
+  </div>
+</div>
+
 <link *ngIf="!isDarkTheme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism.min.css" integrity="sha512-/mZ1FHPkg6EKcxo0fKXF51ak6Cr2ocgDi5ytaTBjsQZIH/RNs6GF6+oId/vPe3eJB836T36nXwVh/WBl/cWT4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link *ngIf="isDarkTheme" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/9000.0.1/themes/prism-okaidia.min.css" integrity="sha512-5HvW0a7ihK3ro2KhwEksDHXgIezsTeZybZDIn8d8Y015Ny+t7QWSIjnlCTjFzlK7Klb604HLGjsNqU/i5mJLjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />

@@ -1,0 +1,21 @@
+.fixed {
+    position: fixed;
+    width: 85px;
+    top: 302px;
+    left: 0px;
+    z-index: 8;
+    text-align: center;
+}
+
+button {
+    padding-bottom: 5px;
+    padding-top: 5px;
+    line-height: 160%;
+}
+  
+small {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 12px;
+    text-align: center;
+}

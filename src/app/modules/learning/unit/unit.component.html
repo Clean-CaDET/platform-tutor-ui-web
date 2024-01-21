@@ -1,19 +1,9 @@
-<mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav fixedInViewport="true" mode="side" position="end" [opened]="sidenavOpened">
-    <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
-    <h2 class="mat-h2" i18n>
-      Beleške
-    </h2>
-    <cc-notes></cc-notes>
+<cc-unit-controls [unit]="unit" [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
+<mat-sidenav-container hasBackdrop="true" style="height: 100%;">
+  <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
+      <cc-notes></cc-notes>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="fixed">
-      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-        <mat-icon i18n-matTooltip matTooltip="Tvoje beleške.">assignment</mat-icon>
-      </button>
-    </div>
     <div id="lecture" *ngIf="unit">
       <h1 class="mat-h1">{{unit.name}}</h1>
       <h3 class="mat-h3"><markdown>{{unit.description}}</markdown></h3>

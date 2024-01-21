@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { NavigationEnd, Params, ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { Course } from '../../../learning/model/course.model';
@@ -13,8 +13,6 @@ export class LearnerControlsComponent implements OnInit {
   courses: Course[];
   selectedCourse: Course;
 
-  unitId: number;
-
   constructor(private layoutService: LayoutService, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
@@ -22,7 +20,7 @@ export class LearnerControlsComponent implements OnInit {
       this.courses = coursesPage.results;
       let params = this.getParams(this.route);
       if(params.courseId) {
-        this.setNewCourse(+params.courseId);
+        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
       }
     });
     this.setupCourseUpdate();
@@ -36,22 +34,13 @@ export class LearnerControlsComponent implements OnInit {
       )
       .subscribe((params) => {
         if (!params.courseId) {
-          this.setNewCourse(null);
+          this.selectedCourse = null
           return;
         }
         if (this.courseIsChanged(params)) {
-          this.setNewCourse(+params.courseId);
+          this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
         }
-        this.unitId = +params.unitId;
       });
-  }
-
-  setNewCourse(courseId: number) {
-    if(!courseId) {
-      this.selectedCourse = null;
-      return;
-    }
-    this.selectedCourse = this.courses?.find((c) => c.id === courseId);
   }
 
   private courseIsChanged(params: Params) {

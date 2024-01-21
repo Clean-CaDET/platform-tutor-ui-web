@@ -21,7 +21,7 @@ button {
 }
 
 small {
-  padding-top: 10px;
+  padding-top: 20px;
   padding-bottom: 10px;
   font-size: 12px;
   text-align: center;
@@ -29,4 +29,12 @@ small {
 
 .mat-drawer-inner-container::-webkit-scrollbar {
   display: none;
+}
+
+.lightnav {
+  background-color: #ebebeb;
+}
+
+.darknav {
+  background-color: #021634;
 }
