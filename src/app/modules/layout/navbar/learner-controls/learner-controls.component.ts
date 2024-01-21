@@ -1,8 +1,6 @@
 import { Component, Input, OnInit, OnChanges, OnDestroy } from '@angular/core';
 import { NavigationEnd, Params, ActivatedRoute, Router } from '@angular/router';
 import { filter, map } from 'rxjs';
-import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
-import { Unit } from 'src/app/modules/learning/model/unit.model';
 import { Course } from '../../../learning/model/course.model';
 import { LayoutService } from '../../layout.service';
 
@@ -15,8 +13,7 @@ export class LearnerControlsComponent implements OnInit {
   courses: Course[];
   selectedCourse: Course;
 
-  isInUnit: boolean;
-  isInKc: boolean;
+  unitId: number;
 
   constructor(private layoutService: LayoutService, private router: Router, private route: ActivatedRoute) {}
 
@@ -25,7 +22,7 @@ export class LearnerControlsComponent implements OnInit {
       this.courses = coursesPage.results;
       let params = this.getParams(this.route);
       if(params.courseId) {
-        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+        this.setNewCourse(+params.courseId);
       }
     });
     this.setupCourseUpdate();
@@ -39,17 +36,22 @@ export class LearnerControlsComponent implements OnInit {
       )
       .subscribe((params) => {
         if (!params.courseId) {
-          this.selectedCourse = null;
+          this.setNewCourse(null);
           return;
         }
         if (this.courseIsChanged(params)) {
-          this.selectedCourse = this.courses?.find(
-            (c) => c.id === +params.courseId
-          );
+          this.setNewCourse(+params.courseId);
         }
-        this.isInUnit = !!params.unitId;
-        this.isInKc = !!params.kcId;
+        this.unitId = +params.unitId;
       });
+  }
+
+  setNewCourse(courseId: number) {
+    if(!courseId) {
+      this.selectedCourse = null;
+      return;
+    }
+    this.selectedCourse = this.courses?.find((c) => c.id === courseId);
   }
 
   private courseIsChanged(params: Params) {

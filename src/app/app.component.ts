@@ -8,7 +8,6 @@ import { AuthenticationService } from './infrastructure/auth/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  opened = false;
   isDarkTheme = true;
 
   constructor(
@@ -17,7 +16,6 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.opened = true;
     this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
     this.applyThemeOnLayers();
     this.checkIfUserExists();

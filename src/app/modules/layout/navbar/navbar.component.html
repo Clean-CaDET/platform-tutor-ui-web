@@ -9,6 +9,15 @@
     <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
     <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
     <div fxFlex="grow"></div>
+    <button mat-button *ngIf="!isDarkTheme" (click)="changeTheme()">
+      <mat-icon>bedtime</mat-icon><br>
+      Zatmani
+    </button>
+    <button mat-button *ngIf="isDarkTheme" (click)="changeTheme()">
+      <mat-icon>light_mode</mat-icon><br>
+      Osvetli
+    </button>
+    <mat-divider></mat-divider>
     <button *ngIf="!user" mat-button [routerLink]="['login']" i18n>
       <mat-icon>login</mat-icon><br>
       Prijavi se

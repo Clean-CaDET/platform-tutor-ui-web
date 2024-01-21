@@ -20,6 +20,13 @@ button {
   line-height: 160%;
 }
 
+small {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  text-align: center;
+}
+
 .mat-drawer-inner-container::-webkit-scrollbar {
   display: none;
 }

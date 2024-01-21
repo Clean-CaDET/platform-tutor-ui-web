@@ -4,22 +4,25 @@
     Kursevi
   </button>
   <mat-menu #course="matMenu">
-    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item>
+    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item routerLinkActive="accent">
       {{course.name}}
     </button>
   </mat-menu>
   <div *ngIf="selectedCourse" fxLayout="column">
     <mat-divider></mat-divider>
     <small>{{selectedCourse.name}}</small>
-    <button mat-button [routerLink]="['courses', selectedCourse.id]">
+    <button mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="accent">
       <mat-icon>library_books</mat-icon><br>
       Lekcije
     </button>
-    <div *ngIf="isInUnit">
-      
-      <div *ngIf="isInKc">
-    
-      </div>
+    <div *ngIf="unitId" fxLayout="column">
+      <mat-divider></mat-divider>
+      <small>Lekcija</small>
+      <button mat-button [routerLink]="['course', selectedCourse.id, 'unit', unitId]"
+        routerLinkActive="accent" [routerLinkActiveOptions]="{exact:true}">
+        <mat-icon>article</mat-icon><br>
+        Pregled
+      </button>
     </div>
   </div>
 </div>
