@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Unit } from '../../model/unit.model';
 
 @Component({
   selector: 'cc-unit-controls',
@@ -7,7 +6,8 @@ import { Unit } from '../../model/unit.model';
   styleUrls: ['./unit-controls.component.scss']
 })
 export class UnitControlsComponent implements OnInit {
-  @Input() unit: Unit;
+  @Input() unitId: number;
+  @Input() courseId: number;
   @Input() notesExpanded: boolean;
   @Output() expandNotes = new EventEmitter();
 

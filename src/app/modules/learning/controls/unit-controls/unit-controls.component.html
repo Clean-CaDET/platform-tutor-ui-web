@@ -1,7 +1,7 @@
 <div fxLayout="column" class="fixed">
     <div fxLayout="column">
-        <small>{{unit?.name}}</small>
-        <button mat-button [routerLink]="['/course', unit?.courseId, 'unit', unit?.id]"
+        <small>Aktivna lekcija</small>
+        <button mat-button [routerLink]="['/course', courseId, 'unit', unitId]"
             routerLinkActive="mat-raised-button" [routerLinkActiveOptions]="{exact:true}">
             <mat-icon>article</mat-icon><br>
             Pregled
