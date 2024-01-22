@@ -12,6 +12,11 @@ small {
   padding-top: 10px;
   font-size: 12px;
   text-align: center;
+  max-height: 46px;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
 .mat-drawer-inner-container::-webkit-scrollbar {

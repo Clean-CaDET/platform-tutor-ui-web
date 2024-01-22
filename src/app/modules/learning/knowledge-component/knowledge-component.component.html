@@ -1,7 +1,6 @@
-<div *ngIf="knowledgeComponent">
-  <cc-unit-controls [unitId]="unitId" [courseId]="courseId" [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"
-    [kcConfig]="{'instructionActive': instructionalItemsShown}" (kcViewSwapped)="nextPage($event)"></cc-unit-controls>
-  <mat-sidenav-container hasBackdrop="true" style="height: 100%;">
+<div *ngIf="knowledgeComponent" style="height: 100%; width: 100%;">
+  <cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
+  <mat-sidenav-container hasBackdrop="true" style="height: 100%; width: 100%;">
     <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
         <cc-notes></cc-notes>
     </mat-sidenav>
@@ -16,7 +15,7 @@
         <br>
         <div *ngIf="instructionalItemsShown" fxLayoutGap="10px">
           <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
-          <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Pregled lekcije</button>
+          <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
         </div>
         <div *ngIf="!instructionalItemsShown">
           <div style="margin-bottom: 180px;"></div>

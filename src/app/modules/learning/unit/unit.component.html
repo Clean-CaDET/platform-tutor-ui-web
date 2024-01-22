@@ -1,5 +1,5 @@
-<div *ngIf="unit">
-<cc-unit-controls [unitId]="unit.id" [courseId]="courseId" [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
+<div *ngIf="unit" style="height: 100%; width: 100%;">
+<cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
 <mat-sidenav-container hasBackdrop="true" style="height: 100%;">
   <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
       <cc-notes></cc-notes>
@@ -21,8 +21,8 @@
       </div>
       <mat-divider style="margin-top: 20px;"></mat-divider>
       <div style="margin-top: 20px;" fxLayoutGap="10px">
-        <button mat-raised-button color="primary" (click)="openImprovementDialog()" i18n>Oceni Tutora</button>
-        <button mat-raised-button [routerLink]="['/courses', courseId]" i18n>Pregled kursa</button>
+        <button mat-raised-button [routerLink]="['/courses', courseId]" i18n color="primary">Sve lekcije</button>
+        <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
       </div>
       <br>
       <br>

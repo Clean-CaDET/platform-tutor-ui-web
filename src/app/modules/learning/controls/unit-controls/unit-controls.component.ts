@@ -11,19 +11,9 @@ export class UnitControlsComponent {
   @Input() notesExpanded: boolean;
   @Output() expandNotes = new EventEmitter();
   
-  @Input() kcConfig: any;
-  @Output() kcViewSwapped = new EventEmitter();
-  
   constructor() { }
 
   openNotes() {
     this.expandNotes.emit(!this.notesExpanded);
-  }
-
-  swapKcView(isInstruction: boolean): void {
-    if(isInstruction && this.kcConfig.instructionActive) return;
-    if(!isInstruction && !this.kcConfig.instructionActive) return;
-    if(isInstruction) this.kcViewSwapped.emit("IE");
-    else this.kcViewSwapped.emit("AE");
   }
 }
