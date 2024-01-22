@@ -11,18 +11,9 @@ h1 {
   text-align: left;
 }
 
-.node-link {
-  display: flex;
-  cursor: pointer;
-}
-
 .kc-num {
   font-size: 15px;
   margin-top: 20px;
-}
-
-h2 {
-  display: inline;
 }
 
 .medal-icon {
