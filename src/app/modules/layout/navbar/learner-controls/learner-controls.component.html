@@ -11,7 +11,7 @@
   <div *ngIf="selectedCourse" fxLayout="column">
     <mat-divider></mat-divider>
     <small>{{selectedCourse.name}}</small>
-    <button mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-raised-button">
+    <button mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-flat-button">
       <mat-icon>library_books</mat-icon><br>
       Sve lekcije
     </button>

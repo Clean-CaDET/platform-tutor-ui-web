@@ -2,16 +2,27 @@
     <div fxLayout="column">
         <small>Aktivna lekcija</small>
         <button mat-button [routerLink]="['/course', courseId, 'unit', unitId]"
-            routerLinkActive="mat-raised-button" [routerLinkActiveOptions]="{exact:true}">
+            routerLinkActive="mat-flat-button" [routerLinkActiveOptions]="{exact:true}">
             <mat-icon>article</mat-icon><br>
             Pregled
         </button>
-        <button mat-button [ngClass]="{'mat-raised-button': notesExpanded}" (click)="openNotes()">
+        <button mat-button [ngClass]="{'mat-flat-button': notesExpanded}" (click)="openNotes()">
             <mat-icon>assignment</mat-icon>
             <mat-icon *ngIf="!notesExpanded">arrow_right</mat-icon>
             <mat-icon *ngIf="notesExpanded">arrow_left</mat-icon>
             <br>
             Beleške
         </button>
+
+        <div *ngIf="kcConfig" fxLayout="column">
+            <button mat-button (click)="swapKcView(true)" [ngClass]="{'mat-flat-button': kcConfig.instructionActive}">
+                <mat-icon>format_list_bulleted</mat-icon><br>
+                Gradivo
+            </button>
+            <button mat-button (click)="swapKcView(false)" [ngClass]="{'mat-flat-button': !kcConfig.instructionActive}">
+                <mat-icon>quizz</mat-icon><br>
+                Zadatak
+            </button>
+        </div>
     </div>
 </div>
