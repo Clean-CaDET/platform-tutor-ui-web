@@ -1,0 +1,56 @@
+<div>
+    <div fxLayout="row">
+        <span>
+            <button mat-icon-button (click)="activity.isExpanded=!activity.isExpanded">
+                <mat-icon *ngIf="!activity.isExpanded" [matTooltipPosition]="'above'"
+                    matTooltip="Prikaži podaktivnosti">add_circle</mat-icon>
+                <mat-icon *ngIf="activity.isExpanded" [matTooltipPosition]="'above'"
+                    matTooltip="Sakrij podaktivnosti">remove_circle</mat-icon>
+            </button>
+        </span>
+
+        <mat-card [class.highlight]="selectedActivity?.id===activity.id" style="margin-bottom: 15px; cursor:pointer"
+            fxFlex fxLayout="row" (click)="select(activity)">
+            <div fxFlex fxLayout="column">
+                <span fxFlex><b> {{activity.name}} </b></span>
+            </div>
+            <div fxLayoutGap="30px">
+                <span fxLayoutGap="10px">
+                </span>
+                <span fxLayoutGap="10px">
+                    <button mat-mini-fab color="primary">
+                        <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">add</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="warn" (click)="delete(activity.id)">
+                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    </button>
+                </span>
+            </div>
+        </mat-card>
+    </div>
+
+    <div *ngIf="activity.isExpanded && activity.subactivities.length">
+        <div fxLayout="row" *ngFor="let subactivity of subactivities">
+            <span style="cursor: default;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <mat-card [class.highlight]="selectedActivity?.id===subactivity.id"
+                style="margin-bottom: 15px; cursor:pointer" fxFlex fxLayout="row" (click)="select(subactivity)">
+                <div fxFlex fxLayout="column">
+                    <span fxFlex><b>{{subactivity.order}}.</b> {{subactivity.name}}
+                    </span>
+                </div>
+                <div fxLayoutGap="30px">
+                    <span fxLayoutGap="10px">
+                    </span>
+                    <span fxLayoutGap="10px">
+                        <button mat-mini-fab color="warn">
+                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                        </button>
+                    </span>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

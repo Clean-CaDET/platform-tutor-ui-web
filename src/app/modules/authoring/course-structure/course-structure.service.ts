@@ -31,4 +31,24 @@ export class CourseStructureService {
   deleteUnit(courseId: number, unitId: number): Observable<Unit> {
     return this.http.delete<Unit>(environment.apiHost + 'authoring/courses/' + courseId + '/units/' + unitId);
   }
+
+  getCourseActivities(courseId: number): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiHost + 'authoring/courses/' + courseId + '/activities');
+  }
+
+  getSubactivities(courseId: number, activityId: number): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiHost + 'authoring/courses/' + courseId + '/activities/' + activityId + '/subactivities');
+  }
+
+  saveActivity(courseId: number, activity: any) {
+    return this.http.post<any>(environment.apiHost + 'authoring/courses/' + courseId + '/activities', activity);
+  }
+
+  updateActivity(courseId: number, activity: any) {
+    return this.http.put<any>(environment.apiHost + 'authoring/courses/' + courseId + '/activities', activity);
+  }
+
+  deleteActivity(courseId: number, activityId: number) {
+    return this.http.delete<any>(environment.apiHost + 'authoring/courses/' + courseId + '/activities/' + activityId);
+  }
 }

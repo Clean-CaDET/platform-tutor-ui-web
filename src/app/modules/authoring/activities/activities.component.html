@@ -1,0 +1,27 @@
+<div fxLayout="column" style="height: 100vh; overflow: hidden;">
+    <div style="margin-bottom: 15px;">
+        <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
+    </div>
+    <div fxFlex fxLayout="row" style="height: calc(100% - 75px); overflow: hidden;">
+        <!-- Left container for activities -->
+        <div fxFlex="35" fxLayout="column" style="margin: 0 15px 0 15px; overflow-y: auto;">
+            <mat-card style="margin-bottom: 15px;">
+                <h3>Aktivnosti</h3>
+                <span fxFlex></span>
+                <button mat-mini-fab color="primary" (click)="createActivity()">
+                    <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
+                </button>
+            </mat-card>
+            <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+                <div *cdkVirtualFor="let activity of activities">
+                    <cc-activity [activity]="activity" [selectedActivity]="selectedActivity" (activitySelected)="select($event)" (deleteActivity)="delete($event)"></cc-activity>
+                </div>
+            </cdk-virtual-scroll-viewport>
+        </div>
+
+        <!-- Right container for activity details -->
+        <div *ngIf="selectedActivity" fxFlex="65" style="height: 100%; overflow-y: auto;">
+            <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
+        </div>
+    </div>
+</div>
