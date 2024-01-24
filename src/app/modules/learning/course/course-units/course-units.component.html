@@ -7,7 +7,7 @@
   <mat-card style="margin: 10px" class="card" fxFlex
     [routerLink]="'/course/' + course.id + '/unit/' + unit.id">
     <mat-card-header>
-      <mat-icon mat-card-avatar>book</mat-icon>
+      <mat-icon mat-card-avatar>article</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
       <span fxFlex></span>
       <mat-icon *ngIf="isMastered(unit.id)" class="medal-icon" matTooltip="Uspešno su savladane veštine date lekcije." svgIcon="medal"></mat-icon>

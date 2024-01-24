@@ -37,7 +37,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    this.router.navigate(['/home']).then(_ => {
+    this.router.navigate(['/login']).then(_ => {
       this.tokenStorage.clear();
       this.user$.next(null);
       }

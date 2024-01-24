@@ -1,5 +1,9 @@
+button {
+  padding: 5px;
+}
+
 .small-text {
-  font-size: 12px;
+  font-size: 10px;
   text-align: center;
 }
 
@@ -20,8 +24,8 @@
 .sticky {
   position: fixed;
   bottom: 0px;
-  left: 119px;
-  width: calc(100% - 137px);
+  left: 85px;
+  width: calc(100% - 103px);
   max-width: inherit;
   z-index: 5;
 }
