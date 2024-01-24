@@ -4,6 +4,12 @@
   margin: auto;
 }
 
+@media (max-width: 520px) {
+  #knowledge-component {
+    text-align: left;
+  }
+}
+
 h1 {
   font-weight: normal;
 }
