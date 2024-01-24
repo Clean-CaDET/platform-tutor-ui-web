@@ -37,3 +37,9 @@ small {
 .darknav {
   background-color: #021634;
 }
+
+@media only screen and (max-height: 430px) {
+  .theme-hide {
+      display: none;
+  }
+}

@@ -11,11 +11,11 @@
     <div fxFlex="grow"></div>
     <div fxLayout="column">
       <mat-divider></mat-divider>
-      <button mat-button *ngIf="!isDarkTheme" (click)="changeTheme()">
+      <button mat-button *ngIf="!isDarkTheme" (click)="changeTheme()" class="theme-hide">
         <mat-icon>bedtime</mat-icon><br>
         Zatamni
       </button>
-      <button mat-button *ngIf="isDarkTheme" (click)="changeTheme()">
+      <button mat-button *ngIf="isDarkTheme" (click)="changeTheme()" class="theme-hide">
         <mat-icon>light_mode</mat-icon><br>
         Osvetli
       </button>
