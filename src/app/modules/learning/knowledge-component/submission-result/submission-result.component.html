@@ -1,4 +1,4 @@
-<mat-card class="sticky mat-elevation-z5">
+<mat-card class="sticky" fxLayout.gt-xs="row" fxLayout.xs="column">
   <div fxFlex>
     <div *ngIf="feedbackMessage" class="feedback-container">
       <pre typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
@@ -19,8 +19,8 @@
         <div class="small-text" i18n>pokušano / urađeno / ukupno</div>
       </div>
     </div>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px" style="margin-top: 10px;">
-      <button [disabled]="!feedbackProcessed" color="primary" mat-raised-button (click)="onChangePage('AE')" i18n>Sledeći zadatak</button>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="10px" style="margin-top: 5px;">
+      <button [disabled]="!feedbackProcessed" color="primary" mat-raised-button (click)="onChangePage('AE')" i18n>Nov zadatak</button>
       <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
       <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
     </div>

@@ -1,26 +1,27 @@
-<button mat-flat-button color="primary" class="controls" 
-  [matMenuTriggerFor]="course">
-  {{ selectedCourse ? selectedCourse.code : 'Odaberi kurs'}}
-</button>
-<mat-menu #course="matMenu">
-  <button [routerLink]="['/monitoring', course.id, 'progress']" *ngFor="let course of courses" mat-menu-item>
-    {{course.code}}
+<div fxLayout="column">
+  <button mat-button [matMenuTriggerFor]="course">
+    <mat-icon>collections_bookmark</mat-icon><br>
+    Kursevi
   </button>
-</mat-menu>
-<ng-container *ngIf="selectedCourse">
-  <button mat-flat-button [color]="selectedControl === 'authoring' ? 'accent' : 'primary'" class="controls"
-    [routerLink]="['/authoring/course', selectedCourse.id]">
-    <mat-icon>edit</mat-icon><br>
-    Autorstvo
-  </button>
-  <button mat-flat-button [color]="selectedControl === 'analytics' ? 'accent' : 'primary'" class="controls"
-    [routerLink]="['/analytics', selectedCourse.id, 'statistics']">
-    <mat-icon>bar_chart</mat-icon><br>
-    Analitike
-  </button>
-  <button mat-flat-button [color]="selectedControl === 'groups' ? 'accent' : 'primary'" class="controls"
-    [routerLink]="['/monitoring', selectedCourse.id, 'progress']">
-    <mat-icon>groups</mat-icon><br>
-    Grupe
-  </button>
-</ng-container>
+  <mat-menu #course="matMenu">
+    <button [routerLink]="['/monitoring', course.id, 'progress']" *ngFor="let course of courses" mat-menu-item [ngClass]="{'accent': course.id === selectedCourse?.id}">
+      {{course.code}}
+    </button>
+  </mat-menu>
+  <div *ngIf="selectedCourse" fxLayout="column">
+    <mat-divider></mat-divider>
+    <small>{{selectedCourse.code}}</small>
+    <button mat-button [routerLink]="['/authoring/course', selectedCourse.id]" routerLinkActive="mat-flat-button">
+      <mat-icon>edit</mat-icon><br>
+      Autorstvo
+    </button>
+    <button mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-flat-button">
+      <mat-icon>bar_chart</mat-icon><br>
+      Analitike
+    </button>
+    <button mat-button [routerLink]="['/monitoring', selectedCourse.id, 'progress']" routerLinkActive="mat-flat-button">
+      <mat-icon>groups</mat-icon><br>
+      Grupe
+    </button>
+  </div>
+</div>
