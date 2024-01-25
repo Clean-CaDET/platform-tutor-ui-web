@@ -13,8 +13,10 @@
                     <span>{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</span>
                     <span>veštine/zadovoljeno/sumnjivo</span>
                 </small>
-                <mat-icon *ngIf="shouldAlert(learnerProgress)" [ngClass] = getAlertColor(learnerProgress)>report_problem</mat-icon>
-                <mat-icon *ngIf="!shouldAlert(learnerProgress)" class="primary">check_circle</mat-icon>
+                <mat-icon *ngIf="learnerProgress.performance === 'ok'" class="primary">check_circle</mat-icon>
+                <mat-icon *ngIf="learnerProgress.performance === 'consult'" class="accent"
+                  matTooltip="Javi se profesoru na kraju sledećih predavanja" >group</mat-icon>
+                <mat-icon *ngIf="learnerProgress.performance === 'poor'" class="warn">report_problem</mat-icon>
               </div>
             </mat-expansion-panel-header>
             <cc-assessments-table [knowledgeComponentProgresses]="learnerProgress.knowledgeComponentProgress" [kcs]="unit.knowledgeComponents">
