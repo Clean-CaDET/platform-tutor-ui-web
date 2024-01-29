@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { CourseStructureService } from '../../course-structure/course-structure.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 
 @Component({
   selector: 'cc-activity',
@@ -10,27 +10,24 @@ import { ActivatedRoute, Params } from '@angular/router';
 export class ActivityComponent implements OnChanges {
 
   @Input() activity: any;
-  subactivities: any[];
   @Input() selectedActivity: any;
+  @Input() subactivityOptions: any;
   @Output() activitySelected = new EventEmitter<any>();
   @Output() deleteActivity = new EventEmitter<number>();
+  @Output() editActivity = new EventEmitter<any>();
 
-  constructor(private courseService: CourseStructureService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog) { }
+  
+  ngOnChanges() {
+    this.filterSubactivityOptions();
+  }
 
-  ngOnChanges(): void {
-    this.route.params.subscribe((params: Params) => {
-      this.courseService.getSubactivities(+params.courseId, this.activity.id).subscribe(subactivities => {
-        this.subactivities = subactivities.sort((s1, s2) => s1.order - s2.order);
-        const subactivitiesWithOrder = subactivities
-          .filter(a => this.activity.subactivities.some((sa: { childId: any; }) => sa.childId === a.id))
-          .map(a => {
-            const subactivity = this.activity.subactivities.find((sa: { childId: any; }) => sa.childId === a.id);
-            a.order = subactivity?.order || 0;
-            return a;
-          });
-        this.subactivities = subactivitiesWithOrder.sort((s1, s2) => s1.order - s2.order);
-        console.log(this.subactivities);
-      });
+  filterSubactivityOptions() {
+    this.subactivityOptions = this.subactivityOptions.filter((option: { id: number; }) => {
+      return !this.activity.subactivities.some((subactivity: { childId: any; }) => subactivity.childId === option.id);
+    });
+    this.subactivityOptions = this.subactivityOptions.filter((option: {id: number;}) => {
+      return option.id !== this.activity.id;
     });
   }
 
@@ -42,4 +39,48 @@ export class ActivityComponent implements OnChanges {
     this.deleteActivity.emit(activityId);
   }
 
+  remove(index: number) {
+    this.activity.subactivities.splice(index, 1);
+    this.reorderSubactivities();
+    this.editActivity.emit(this.activity);
+  }
+
+  up(index: number) {
+    const activityAtIndex = this.activity.subactivities[index];
+    this.activity.subactivities.splice(index, 1);
+    this.activity.subactivities.splice(index - 1, 0, activityAtIndex);
+    this.reorderSubactivities();
+    this.editActivity.emit(this.activity);
+  }
+
+  down(index: number) {
+    const activityAtIndex = this.activity.subactivities[index];
+    this.activity.subactivities.splice(index, 1);
+    this.activity.subactivities.splice(index + 1, 0, activityAtIndex);
+    this.reorderSubactivities();
+    this.editActivity.emit(this.activity);
+  }
+
+  reorderSubactivities() {
+    const mappedActivities = this.activity.subactivities.map((subactivity: { order: any; }, i: number) => {
+      subactivity.order = i + 1;
+      return subactivity;
+    });
+    this.activity.subactivities = mappedActivities;
+  }
+
+  selectSubactivity() {
+    const dialogRef = this.dialog.open(GenericSelectionFormComponent, {
+      data: { items: this.subactivityOptions, presentationFunction: (activity: any) => activity.code + ": " + activity.name, label: "Izaberite podaktivnost" },
+    });
+
+    dialogRef.afterClosed().subscribe(subactivity => {
+      if (subactivity) {
+        subactivity.order = this.activity.subactivities.length + 1;
+        subactivity.childId = subactivity.id;
+        this.activity.subactivities.push(subactivity);
+        this.editActivity.emit(this.activity);
+      }
+    });
+  }
 }

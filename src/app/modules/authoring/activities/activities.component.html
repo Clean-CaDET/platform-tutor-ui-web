@@ -1,26 +1,29 @@
-<div fxLayout="column" style="height: 100vh; overflow: hidden;">
-    <div style="margin-bottom: 15px;">
-        <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
-    </div>
-    <div fxFlex fxLayout="row" style="height: calc(100% - 75px); overflow: hidden;">
-        <!-- Left container for activities -->
-        <div fxFlex="35" fxLayout="column" style="margin: 0 15px 0 15px; overflow-y: auto;">
-            <mat-card style="margin-bottom: 15px;">
-                <h3>Aktivnosti</h3>
+<div fxLayout="column" style="height: 100vh;">
+    <div fxFlex fxLayout="row">
+        
+        <!-- Left container for activity -->
+        <div fxFlex="26" fxLayout="column" style="margin: 0 15px 0 15px; overflow-y: auto; position: relative;">
+            <mat-card style="margin-bottom: 5px; position: sticky; top: 0; z-index: 1;">
+                <h3 style="font-size: 12pt;">Aktivnosti</h3>
                 <span fxFlex></span>
-                <button mat-mini-fab color="primary" (click)="createActivity()">
+                <button mat-icon-button color="primary" (click)="createActivity()">
                     <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                 </button>
             </mat-card>
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
-                    <cc-activity [activity]="activity" [selectedActivity]="selectedActivity" (activitySelected)="select($event)" (deleteActivity)="delete($event)"></cc-activity>
+                    <cc-activity [activity]="activity" 
+                    [selectedActivity]="selectedActivity" 
+                    [subactivityOptions]="activities"
+                    (activitySelected)="select($event)" 
+                    (deleteActivity)="delete($event)"
+                    (editActivity)="update($event)"></cc-activity>
                 </div>
             </cdk-virtual-scroll-viewport>
         </div>
 
         <!-- Right container for activity details -->
-        <div *ngIf="selectedActivity" fxFlex="65" style="height: 100%; overflow-y: auto;">
+        <div *ngIf="selectedActivity" fxFlex="74" style="height: 100%;">
             <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
         </div>
     </div>

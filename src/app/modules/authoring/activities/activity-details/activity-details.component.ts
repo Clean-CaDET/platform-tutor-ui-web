@@ -31,6 +31,7 @@ export class ActivityDetailsComponent implements OnChanges {
 
   createForm() {
     this.activityForm = this.builder.group({
+      code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       guidance: this.builder.group({
         description: new FormControl('', Validators.required),
@@ -41,7 +42,10 @@ export class ActivityDetailsComponent implements OnChanges {
 
   addExample(): void {
     const examplesArray = this.activityForm.get('examples') as FormArray;
-    examplesArray.push(this.builder.group({ code: '', description: '' }));
+    examplesArray.push(this.builder.group({
+      code: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required)
+    }));
     this.editModes.push(true);
   }
 
@@ -61,6 +65,7 @@ export class ActivityDetailsComponent implements OnChanges {
 
   setInitialValues(activity: any): void {
     this.createForm();
+    this.activityForm.get('code').setValue(activity.code);
     this.activityForm.get('name').setValue(activity.name);
     this.activityForm.get('guidance.description').setValue(activity.guidance.description);
     const examplesArray = this.builder.array([]) as FormArray;
@@ -75,16 +80,19 @@ export class ActivityDetailsComponent implements OnChanges {
     this.getExampleControl(index, 'description').setValue(newDescription);
   }
 
-  submitForm() {
-    if (!this.activityForm.valid) {
-      console.log("nije validna");
-      return;
-    } else {
-      console.log(this.activityForm.value);
+  updateExample(i: number) {
+    if (this.activityForm.valid) {
+      this.editModes[i] = false;
+      this.activitySaved.emit(this.activityForm.value);
     }
-    this.editMode = false;
-    this.editModes = new Array(this.activity.examples.length).fill(false);
-    this.activitySaved.emit(this.activityForm.value);
+  }
+
+  submitForm() {
+    if (this.activityForm.valid) {
+      this.editMode = false;
+      this.editModes = new Array(this.activity.examples.length).fill(false);
+      this.activitySaved.emit(this.activityForm.value);
+    }
   }
 
   discardChanges() {
@@ -93,5 +101,9 @@ export class ActivityDetailsComponent implements OnChanges {
       this.editMode = false;
     }
     this.editModes = new Array(this.activity.examples.length).fill(false);
+  }
+
+  discardExampleChanges(i: number) {
+    this.editModes[i] = false;
   }
 }

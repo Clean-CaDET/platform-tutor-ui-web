@@ -1,27 +1,26 @@
 <div>
     <div fxLayout="row">
-        <span>
-            <button mat-icon-button (click)="activity.isExpanded=!activity.isExpanded">
+        <!-- <span>
+            <button mat-icon-button (click)="activity.isExpanded=!activity.isExpanded" style="margin: 0 0 0 0">
                 <mat-icon *ngIf="!activity.isExpanded" [matTooltipPosition]="'above'"
                     matTooltip="Prikaži podaktivnosti">add_circle</mat-icon>
                 <mat-icon *ngIf="activity.isExpanded" [matTooltipPosition]="'above'"
                     matTooltip="Sakrij podaktivnosti">remove_circle</mat-icon>
             </button>
-        </span>
+        </span> -->
 
-        <mat-card [class.highlight]="selectedActivity?.id===activity.id" style="margin-bottom: 15px; cursor:pointer"
+        <mat-card [class.highlight]="selectedActivity?.id===activity.id" style="margin-bottom: 5px; cursor:pointer;"
             fxFlex fxLayout="row" (click)="select(activity)">
+
             <div fxFlex fxLayout="column">
-                <span fxFlex><b> {{activity.name}} </b></span>
+                <span fxFlex style="font-size: 11pt;"><b> {{activity.code}}: </b>{{activity.name}}</span>
             </div>
             <div fxLayoutGap="30px">
-                <span fxLayoutGap="10px">
-                </span>
-                <span fxLayoutGap="10px">
-                    <button mat-mini-fab color="primary">
+                <span fxLayoutGap="5px">
+                    <button mat-icon-button (click)="selectSubactivity()">
                         <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">add</mat-icon>
                     </button>
-                    <button mat-mini-fab color="warn" (click)="delete(activity.id)">
+                    <button mat-icon-button (click)="delete(activity.id)">
                         <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                     </button>
                 </span>
@@ -29,24 +28,31 @@
         </mat-card>
     </div>
 
-    <div *ngIf="activity.isExpanded && activity.subactivities.length">
-        <div fxLayout="row" *ngFor="let subactivity of subactivities">
+    <div *ngIf="true && activity.subactivities.length">
+        <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
             <span style="cursor: default;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <mat-card [class.highlight]="selectedActivity?.id===subactivity.id"
-                style="margin-bottom: 15px; cursor:pointer" fxFlex fxLayout="row" (click)="select(subactivity)">
+                style="margin-bottom: 5px; cursor:pointer" fxFlex fxLayout="row" (click)="select(subactivity)">
                 <div fxFlex fxLayout="column">
-                    <span fxFlex><b>{{subactivity.order}}.</b> {{subactivity.name}}
+                    <span style="font-size: 11pt;" fxFlex><b>{{subactivity.order}}.</b> {{subactivity.code}}:
+                        {{subactivity.name}}
                     </span>
                 </div>
                 <div fxLayoutGap="30px">
-                    <span fxLayoutGap="10px">
+                    <span fxLayoutGap="5px">
                     </span>
-                    <span fxLayoutGap="10px">
-                        <button mat-mini-fab color="warn">
-                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    <span>
+                        <button [disabled]="i === 0" mat-icon-button (click)="up(i)">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="down(i)">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="remove(i)">
+                            <mat-icon matTooltip="Ukloni" [matTooltipPosition]="'above'">delete</mat-icon>
                         </button>
                     </span>
                 </div>
