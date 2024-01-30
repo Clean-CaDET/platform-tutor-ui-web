@@ -15,18 +15,23 @@ export class ActivitiesComponent implements OnInit {
   constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private dialog: MatDialog) { }
 
   course: Course;
-
   activities: any[];
-
   selectedActivity: any;
 
   ngOnInit() {
+    this.setCourse();
+    this.setActivities();
+  }
+
+  setCourse() {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourse(+params.courseId).subscribe(course => {
         this.course = course;
       });
     });
+  }
 
+  setActivities() {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
         this.mapSubactivities(activities);
@@ -56,39 +61,35 @@ export class ActivitiesComponent implements OnInit {
     this.selectedActivity = activity;
   }
 
+  createActivity() {
+    this.selectedActivity = {
+      code: '',
+      name: '',
+      isExpanded: true,
+      guidance: {
+        description: ''
+      },
+      examples: [],
+      standards: [],
+      subactivities: []
+    }
+  }
+
   save(activity: any) {
     if (this.selectedActivity.id) {
       activity.id = this.selectedActivity.id;
       activity.subactivities = this.selectedActivity.subactivities;
-      this.courseService.updateActivity(this.course.id, activity).subscribe(updatedActivity => {
-        let activity = this.activities.find(u => u.id === updatedActivity.id);
-        activity.code = updatedActivity.code;
-        activity.name = updatedActivity.name;
-        activity.guidance.description = updatedActivity.guidance.description;
-        activity.examples = updatedActivity.examples;
-        activity.standards = updatedActivity.standards;
-        activity.subactivities = updatedActivity.subactivities;
-        this.mapSubactivities(this.activities);
-      });
+      this.update(activity);
     } else {
-      this.courseService.saveActivity(this.course.id, activity).subscribe(newActivity => {
-        this.activities.push(newActivity);
-        this.selectedActivity = newActivity;
-        this.mapSubactivities(this.activities);
-      });
+      this.create(activity);
     }
   }
 
-  delete(activityId: number): void {
-    let diagRef = this.dialog.open(DeleteFormComponent);
-
-    diagRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.courseService.deleteActivity(this.course.id, activityId).subscribe(() => {
-          this.activities = [...this.activities.filter(a => a.id !== activityId)];
-          this.selectedActivity = null;
-        });
-      }
+  create(activity: any) {
+    this.courseService.saveActivity(this.course.id, activity).subscribe(newActivity => {
+      this.activities.push(newActivity);
+      this.selectedActivity = newActivity;
+      this.mapSubactivities(this.activities);
     });
   }
 
@@ -105,17 +106,16 @@ export class ActivitiesComponent implements OnInit {
     });
   }
 
-  createActivity() {
-    this.selectedActivity = {
-      code: '',
-      name: '',
-      isExpanded: true,
-      guidance: {
-        description: ''
-      },
-      examples: [],
-      standards: [],
-      subactivities: []
-    }
+  delete(activityId: number): void {
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.courseService.deleteActivity(this.course.id, activityId).subscribe(() => {
+          this.activities = [...this.activities.filter(a => a.id !== activityId)];
+          this.selectedActivity = null;
+        });
+      }
+    });
   }
 }

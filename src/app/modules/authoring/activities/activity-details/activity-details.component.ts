@@ -48,17 +48,27 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm.get('code').setValue(activity.code);
     this.activityForm.get('name').setValue(activity.name);
     this.activityForm.get('guidance.description').setValue(activity.guidance.description);
+    const examplesArray = this.setExamples(activity);
+    this.activityForm.setControl('examples', examplesArray);
+    const standarsArray = this.setStandards(activity);
+    this.activityForm.setControl('standards', standarsArray);
+    this.cdr.detectChanges();
+  }
+
+  setExamples(activity: any) {
     const examplesArray = this.builder.array([]) as FormArray;
     for (let example of activity.examples) {
       examplesArray.push(this.builder.group(example));
     }
-    this.activityForm.setControl('examples', examplesArray);
+    return examplesArray;
+  }
+
+  setStandards(activity: any) {
     const standarsArray = this.builder.array([]) as FormArray;
     for (let standard of activity.standards) {
       standarsArray.push(this.builder.group(standard));
     }
-    this.activityForm.setControl('standards', standarsArray);
-    this.cdr.detectChanges();
+    return standarsArray;
   }
 
   addExample(): void {
