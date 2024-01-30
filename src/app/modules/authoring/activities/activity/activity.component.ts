@@ -86,11 +86,15 @@ export class ActivityComponent implements OnChanges {
         this.activity.subactivities.push(subactivity);
         this.filterSubactivityOptions();
         this.editActivity.emit(this.activity);
-        const currentRoute = this.router.url;
-        this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-          this.router.navigate([currentRoute]);
-        });
+        this.relooadComponent();
       }
+    });
+  }
+
+  relooadComponent() {
+    const currentRoute = this.router.url;
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate([currentRoute]);
     });
   }
 }

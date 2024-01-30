@@ -65,7 +65,7 @@
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editExampleModes[i]"
                                     [disabled]="!activityForm.valid" (click)="discardExampleChanges(i)">
-                                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">clear</mat-icon>
+                                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode" (click)="deleteExample(i)">
                                     <mat-icon>delete</mat-icon>
@@ -94,7 +94,7 @@
                         <div fxFlex fxLayout="row">
                             <div fxFlex="80" [ngStyle]="{'margin-bottom': !editStandardModes[i] ? '10px' : '0'}">
                                 <span *ngIf="!editStandardModes[i]"> <b>{{ getStandardControl(i, 'name').value }}: </b> </span>
-                                <div *ngIf="editStandardModes[i] || editMode" fxFlex="80">
+                                <div *ngIf="editStandardModes[i] || editMode">
                                     <mat-form-field fxFlex="60" *ngIf="editStandardModes[i]" appearance="fill">
                                         <mat-label>Naziv</mat-label>
                                         <input matInput [formControl]="getStandardControl(i, 'name')"
@@ -111,8 +111,8 @@
                                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editStandardModes[i]"
-                                    [disabled]="!activityForm.valid" (click)="discardExampleChanges(i)">
-                                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">clear</mat-icon>
+                                    [disabled]="!activityForm.valid" (click)="discardStandardChanges(i)">
+                                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode" (click)="deleteStandard(i)">
                                     <mat-icon>delete</mat-icon>
