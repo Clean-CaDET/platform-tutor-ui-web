@@ -34,33 +34,36 @@
             <div style="overflow-y: auto;">
                 <h3 style="margin-bottom: 0;"><b>Opis</b></h3>
                 <section fxLayoutGap="15px" style="margin-right: 15px;">
-                    <cc-markdown-editor fxFlex [label]="'Opis *'" [text]="activityForm.get('guidance.description').value"
+                    <cc-markdown-editor fxFlex [label]="'Opis *'"
+                        [text]="activityForm.get('guidance.description').value"
                         (textChanged)="this.activityForm.get('guidance.description').setValue($event)"
                         [editMode]="editMode"></cc-markdown-editor>
                 </section>
 
-                <h3 *ngIf="activity.examples.length !== 0" style="margin-top: 0;"><b>Primeri</b></h3>
+                <!-- Examples -->
+
+                <h3 *ngIf="getExamples.controls.length !== 0" style="margin-top: 0;"><b>Primeri</b></h3>
                 <div *ngFor="let example of getExamples.controls; let i = index;">
                     <mat-card fxLayout="column" style="margin-right: 15px; padding-top: 15px; margin-bottom: 15px;">
                         <div fxFlex fxLayout="row">
-                            <span *ngIf="!editModes[i]"> <b>{{ getExampleControl(i, 'code').value }}: </b> </span>
-                            <div *ngIf="editModes[i] || editMode">
-                                <mat-form-field *ngIf="editModes[i]" fxFlex fxLayoutAlign="start center"
+                            <span *ngIf="!editExampleModes[i]"> <b>{{ getExampleControl(i, 'code').value }}: </b> </span>
+                            <div *ngIf="editExampleModes[i] || editMode">
+                                <mat-form-field *ngIf="editExampleModes[i]" fxFlex fxLayoutAlign="start center"
                                     appearance="fill">
                                     <mat-label>Kod</mat-label>
                                     <input matInput [formControl]="getExampleControl(i, 'code')"
-                                        [readonly]="!editModes[i]">
+                                        [readonly]="!editExampleModes[i]">
                                 </mat-form-field>
                             </div>
                             <div fxFlex fxLayoutAlign="end start">
-                                <button mat-icon-button *ngIf="editMode && !editModes[i]" (click)="editModes[i] = true">
+                                <button mat-icon-button *ngIf="editMode && !editExampleModes[i]" (click)="editExampleModes[i] = true">
                                     <mat-icon>edit</mat-icon>
                                 </button>
-                                <button mat-icon-button *ngIf="editMode && editModes[i]"
+                                <button mat-icon-button *ngIf="editMode && editExampleModes[i]"
                                     [disabled]="!activityForm.valid" (click)="updateExample(i)">
                                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                                 </button>
-                                <button mat-icon-button *ngIf="editMode && editModes[i]"
+                                <button mat-icon-button *ngIf="editMode && editExampleModes[i]"
                                     [disabled]="!activityForm.valid" (click)="discardExampleChanges(i)">
                                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">clear</mat-icon>
                                 </button>
@@ -72,14 +75,64 @@
                         <div>
                             <cc-markdown-editor fxFlex [label]="'Opis *'"
                                 [text]="getExampleControl(i, 'description').value"
-                                (textChanged)="updateExampleDescription($event, i)" [editMode]="editModes[i]">
+                                (textChanged)="updateExampleDescription($event, i)" [editMode]="editExampleModes[i]">
                             </cc-markdown-editor>
                         </div>
                     </mat-card>
                 </div>
 
-                <button *ngIf="editMode" [disabled]="!activityForm.valid" mat-raised-button color="primary" (click)="addExample()">
+                <button *ngIf="editMode" [disabled]="!activityForm.valid" mat-raised-button color="primary"
+                    (click)="addExample()" style="margin-bottom: 5px;">
                     + Dodaj primer
+                </button>
+
+                <!-- Standards -->
+
+                <h3 *ngIf="getStandards.controls.length !== 0"><b>Standardi</b></h3>
+                <div *ngFor="let standard of getStandards.controls; let i = index;">
+                    <mat-card fxLayout="column" style="margin-right: 15px; padding-top: 15px; margin-bottom: 15px;">
+                        <div fxFlex fxLayout="row">
+                            <div fxFlex="80" [ngStyle]="{'margin-bottom': !editStandardModes[i] ? '10px' : '0'}">
+                                <span *ngIf="!editStandardModes[i]"> <b>{{ getStandardControl(i, 'name').value }}: </b> </span>
+                                <div *ngIf="editStandardModes[i] || editMode" fxFlex="80">
+                                    <mat-form-field fxFlex="60" *ngIf="editStandardModes[i]" appearance="fill">
+                                        <mat-label>Naziv</mat-label>
+                                        <input matInput [formControl]="getStandardControl(i, 'name')"
+                                            [readonly]="!editStandardModes[i]">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div fxFlex="20" fxLayoutAlign="end start">
+                                <button mat-icon-button *ngIf="editMode && !editStandardModes[i]" (click)="editStandardModes[i] = true">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                <button mat-icon-button *ngIf="editMode && editStandardModes[i]"
+                                    [disabled]="!activityForm.valid" (click)="updateStandard(i)">
+                                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                                </button>
+                                <button mat-icon-button *ngIf="editMode && editStandardModes[i]"
+                                    [disabled]="!activityForm.valid" (click)="discardExampleChanges(i)">
+                                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">clear</mat-icon>
+                                </button>
+                                <button mat-icon-button *ngIf="editMode" (click)="deleteStandard(i)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                        <div [ngStyle]="{'margin-bottom': !editStandardModes[i] ? '10px' : '0'}">
+                            <span *ngIf="!editStandardModes[i]"> {{ getStandardControl(i, 'description').value }} </span>
+                            <mat-form-field *ngIf="editStandardModes[i]" fxFlex appearance="fill">
+                                <mat-label>Opis</mat-label>
+                                <textarea [formControl]="getStandardControl(i, 'description')" matInput
+                                    [readonly]="!editMode"></textarea>
+                            </mat-form-field>
+                        </div>
+                    </mat-card>
+                </div>
+
+                <button *ngIf="editMode" [ngStyle]="{'margin-left': getStandards.controls.length === 0 ? '10px' : '0'}" [disabled]="!activityForm.valid" mat-raised-button
+                    color="primary" (click)="addStandard()">
+                    + Dodaj standard
                 </button>
             </div>
         </section>

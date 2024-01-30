@@ -29,15 +29,15 @@ export class ActivitiesComponent implements OnInit {
 
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
-        this.activities = [...activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
         this.mapSubactivities(activities);
+        this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
       });
     });
   }
 
   mapSubactivities(activities: any[]) {
     this.activities = activities.sort((a1, a2) => a1.id - a2.id);
-    for (const activity of activities) {
+    for (let activity of activities) {
       activity.subactivities = activities
         .filter((a) => activity.subactivities.some((sa: { childId: any; }) => sa.childId === a.id))
         .map((subactivity) => {
@@ -66,15 +66,14 @@ export class ActivitiesComponent implements OnInit {
         activity.name = updatedActivity.name;
         activity.guidance.description = updatedActivity.guidance.description;
         activity.examples = updatedActivity.examples;
+        activity.standards = updatedActivity.standards;
         activity.subactivities = updatedActivity.subactivities;
-        this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
         this.mapSubactivities(this.activities);
       });
     } else {
       this.courseService.saveActivity(this.course.id, activity).subscribe(newActivity => {
         this.activities.push(newActivity);
         this.selectedActivity = newActivity;
-        this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
         this.mapSubactivities(this.activities);
       });
     }
@@ -100,8 +99,8 @@ export class ActivitiesComponent implements OnInit {
       activity.name = updatedActivity.name;
       activity.guidance.description = updatedActivity.guidance.description;
       activity.examples = updatedActivity.examples;
+      activity.standards = updatedActivity.standards;
       activity.subactivities = updatedActivity.subactivities;
-      this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
       this.mapSubactivities(this.activities);
     });
   }
@@ -114,8 +113,9 @@ export class ActivitiesComponent implements OnInit {
       guidance: {
         description: ''
       },
-      subactivities: [],
-      examples: []
+      examples: [],
+      standards: [],
+      subactivities: []
     }
   }
 }
