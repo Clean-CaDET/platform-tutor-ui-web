@@ -14,6 +14,7 @@ export class AssessmentItemsComponent implements OnInit {
   kcId: number;
   assessmentItems: AssessmentItem[];
   editMap: any = {};
+  selectedAi: number;
 
   constructor(private assessmentService: AssessmentItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
 
@@ -24,6 +25,7 @@ export class AssessmentItemsComponent implements OnInit {
         this.assessmentItems = items.sort((a, b) => a.order - b.order);
         this.editMap = {};
         this.assessmentItems.forEach(i => this.editMap[i.id] = false);
+        this.selectedAi = +this.route.snapshot.queryParams['aiId'];
         setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 200);
       });
     });

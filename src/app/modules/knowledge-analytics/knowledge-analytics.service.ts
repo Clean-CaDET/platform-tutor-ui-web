@@ -20,6 +20,10 @@ export class KnowledgeAnalyticsService {
       .pipe(map((data) => data.knowledgeUnits));
   }
 
+  getTopMisconceptions(unitId: number): Observable<AssessmentItemStatistics[]> {
+    return this.http.get<AssessmentItemStatistics[]>(environment.apiHost + `analysis/units/${unitId}`);
+  }
+
   getKnowledgeComponents(unitId: number): Observable<KnowledgeComponent[]> {
     let queryParams = new HttpParams();
     queryParams = queryParams.append('unitId', unitId);

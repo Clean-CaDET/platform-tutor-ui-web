@@ -11,7 +11,7 @@ import { EventService } from 'src/app/shared/events/event.service';
 export class AiStatisticsComponent implements OnChanges {
   @Input() courseId: number;
   @Input() kcId: number;
-  assessmentStatistics: AssessmentItemStatistics[];
+  @Input() assessmentStatistics: AssessmentItemStatistics[];
 
   attemptsToPassGrouping: any;
   timeChartData: any;
@@ -19,17 +19,24 @@ export class AiStatisticsComponent implements OnChanges {
   constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService) {}
 
   ngOnChanges(): void {
-    this.analyticsService.getAssessmentItemStatistics(this.kcId.toString())
-      .subscribe(data => {
-        this.assessmentStatistics = data;
-
-        this.timeChartData = {};
-        this.attemptsToPassGrouping = {};
-        this.assessmentStatistics.forEach(ai => {
-          this.createTimeBoxData(ai);
-          this.createAttemptChart(ai);
+    if(this.kcId) {
+      this.analyticsService.getAssessmentItemStatistics(this.kcId.toString())
+        .subscribe(data => {
+          this.assessmentStatistics = data;
+          this.createCharts();
         });
-      });
+      } else if(this.assessmentStatistics) {
+        this.createCharts();
+      }
+  }
+
+  private createCharts() {
+    this.timeChartData = {};
+    this.attemptsToPassGrouping = {};
+    this.assessmentStatistics.forEach(ai => {
+      this.createTimeBoxData(ai);
+      this.createAttemptChart(ai);
+    });
   }
 
   private createAttemptChart(ai: AssessmentItemStatistics): void {

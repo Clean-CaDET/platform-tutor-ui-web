@@ -8,7 +8,7 @@
     <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
         <div *ngIf="!editMap[item.id]">
             <div fxLayout="row">
-                <small fxFlex fxLayoutAlign=" center">
+                <small fxFlex fxLayoutAlign=" center" [ngClass]="{'warn': item.id == selectedAi}">
                     <b>{{i + 1}}.&nbsp;&nbsp;</b>
                     <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
                 </small>
