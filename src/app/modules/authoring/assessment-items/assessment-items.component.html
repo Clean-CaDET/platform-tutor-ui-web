@@ -11,6 +11,9 @@
                 <small fxFlex fxLayoutAlign=" center" [ngClass]="{'warn': item.id == selectedAi}">
                     <b>{{i + 1}}.&nbsp;&nbsp;</b>
                     <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
+                    <button mat-icon-button (click)="viewCommonWrongAnswers(item.id)">
+                        <mat-icon>bar_chart</mat-icon>
+                    </button>
                 </small>
                 <button mat-icon-button *ngIf="i !== 0"
                     (click)="swapOrder(item, assessmentItems[i-1])">
