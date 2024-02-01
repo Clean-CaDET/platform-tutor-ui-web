@@ -18,6 +18,7 @@ interface AssessmentTableElement {
   activeSessionInMinutes: number,
   expectedDurationInMinutes: number,
   assessmentItemMasteries: AssessmentItemMastery[],
+  isSuspicious: boolean
 }
 
 @Component({
@@ -79,6 +80,7 @@ export class AssessmentsTableComponent implements OnChanges {
       activeSessionInMinutes: p.activeSessionInMinutes,
       expectedDurationInMinutes: kc.expectedDurationInMinutes,
       assessmentItemMasteries: p.assessmentItemMasteries,
+      isSuspicious: p.isSuspicious,
     };
   }
 

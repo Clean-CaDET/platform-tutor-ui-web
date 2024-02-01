@@ -7,4 +7,5 @@ export interface KnowledgeComponentProgress {
   statistics: KcMasteryStatistics;
   assessmentItemMasteries: AssessmentItemMastery[];
   activeSessionInMinutes: number;
+  isSuspicious: boolean;
 }

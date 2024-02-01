@@ -8,12 +8,14 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { UnitAnalyticsComponent } from './unit-analytics/unit-analytics.component';
 import { AiStatisticsComponent } from './ai-statistics/ai-statistics.component';
 import { RouterModule } from '@angular/router';
+import { SubmissionStatisticsComponent } from './submission-statistics/submission-statistics.component';
 
 @NgModule({
   declarations: [
     KcStatisticsComponent,
     UnitAnalyticsComponent,
-    AiStatisticsComponent
+    AiStatisticsComponent,
+    SubmissionStatisticsComponent
   ],
   imports: [
     CommonModule,

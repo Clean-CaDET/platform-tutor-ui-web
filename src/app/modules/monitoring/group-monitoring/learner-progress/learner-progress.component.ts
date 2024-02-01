@@ -41,12 +41,15 @@ export class LearnerProgressComponent implements OnChanges {
       .subscribe(allProgress => {
         this.learners.forEach(learner => {
           let learnerKcProgress = allProgress.filter(p => p.learnerId === learner.id);
+          let suspiciousCount = this.countSuspiciousKcs(learnerKcProgress);
+          let satisfiedCount = learnerKcProgress.filter(p => p.statistics.isSatisfied).length;
           this.progresses.push({
             learner,
             knowledgeComponentProgress: learnerKcProgress,
             kcCount: learnerKcProgress.length,
-            satisfiedCount: learnerKcProgress.filter(p => p.statistics.isSatisfied).length,
-            suspiciousCount: this.countSuspiciousKcs(learnerKcProgress)
+            satisfiedCount: satisfiedCount,
+            suspiciousCount: suspiciousCount,
+            performance: this.estimatePerformance(suspiciousCount, learnerKcProgress.length - satisfiedCount, learner.index)
           });
         });
         this.progressBarActive = false;
@@ -64,28 +67,26 @@ export class LearnerProgressComponent implements OnChanges {
       let kc = this.unit.knowledgeComponents.find(kc => kc.id === p.knowledgeComponentId);
 
       if (!p.statistics.isSatisfied) return;
-      if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes) return;
+      if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes && averageSubmissionCount < 6.6) return;
       if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes * 0.75 && averageSubmissionCount < 2.5) return;
-      if (averageSubmissionCount < 1.75) return;
+      if (p.activeSessionInMinutes >= kc.expectedDurationInMinutes * 0.35 && averageSubmissionCount < 1.75) return;
       suspiciousNum++;
+      p.isSuspicious = true;
     });
     return suspiciousNum;
   }
 
-  public shouldAlert(learnerProgress: LearnerProgress): boolean {
-    const unsatisfiedCount = learnerProgress.kcCount - learnerProgress.satisfiedCount;
-    return unsatisfiedCount > 0 || learnerProgress.suspiciousCount > 0;
-  }
-
-  public getAlertColor(learnerProgress: LearnerProgress): string {
-    let unsatisfiedCount = learnerProgress.kcCount - learnerProgress.satisfiedCount
-    if(unsatisfiedCount > 1 || learnerProgress.suspiciousCount > 1 ||
-      (learnerProgress.suspiciousCount === 1 && unsatisfiedCount === 1)) return 'warn';
-    return 'accent';
+  public estimatePerformance(suspiciousCount: number, unsatisfiedCount: number, index: string): string {
+    if(unsatisfiedCount > 0) {
+      return 'poor';
+    }
+    if(index.includes('RA-') && suspiciousCount > 1) {
+      return 'consult';
+    }
+    return 'ok';
   }
 
   public downloadProgress (groupName: string): void {
-
     let progresses: {
       username: string;
       name: string;

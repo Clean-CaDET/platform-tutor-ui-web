@@ -1,6 +1,6 @@
 <div fxLayout="column" style="height: 100%;">
-    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z5 sticky">
-        <span fxFlex>
+    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z2 sticky">
+        <span fxFlex fxLayoutGap="10px">
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
                 <mat-select [(value)]="selectedUnit" (selectionChange)="updateUnit()">
@@ -9,6 +9,10 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
+            <button *ngIf="selectedUnit" mat-mini-fab (click)="changeDisplay(null, AnalyticsType.Unit)"
+                [color]="analyticsTypeDisplay === AnalyticsType.Unit ? 'accent' : 'primary'">
+                <mat-icon matTooltip="Analiza lekcije" [matTooltipPosition]="'above'">article</mat-icon>
+            </button>
         </span>
         <span fxFlex="nogrow">
             <button id="exportAllToCSV" color="primary" mat-raised-button [disabled]="!selectedUnit" (click)="exportToCSV(selectedUnit)">Događaji lekcije</button>
@@ -22,22 +26,25 @@
                     <span><b>{{kc.code}}</b>: {{kc.name}}</span>
                     <span fxFlex></span>
                     <span fxLayoutGap="10px" fxLayout="row">
-                        <button mat-mini-fab (click)="selectKc(kc, true)"
-                            [color]="selectedKc?.id===kc.id && showKcAnalytics ? 'accent' : 'primary'">
+                        <button mat-mini-fab (click)="changeDisplay(kc, AnalyticsType.Kc)"
+                            [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : 'primary'">
                             <mat-icon matTooltip="Analiza veštine i gradiva" [matTooltipPosition]="'above'">text_snippet</mat-icon>
                         </button>
-                        <button mat-mini-fab (click)="selectKc(kc, false)"
-                            [color]="selectedKc?.id===kc.id && showAssessmentAnalytics ? 'accent' : 'primary'">
+                        <button mat-mini-fab (click)="changeDisplay(kc, AnalyticsType.Ai)"
+                            [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : 'primary'">
                             <mat-icon matTooltip="Analiza zadataka" [matTooltipPosition]="'above'">quiz</mat-icon>
                         </button>
                     </span>
                 </mat-card>
             </cdk-virtual-scroll-viewport>
         </div>
-        <div fxFlex="70" *ngIf="selectedKc && showKcAnalytics">
+        <div fxFlex="70" *ngIf="analyticsTypeDisplay === AnalyticsType.Unit">
+            <cc-ai-statistics fxFlex [assessmentStatistics]="assessmentStatistics" [courseId]="courseId"></cc-ai-statistics>
+        </div>
+        <div fxFlex="70" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc">
             <cc-kc-statistics fxFlex [kcId]="selectedKc.id"></cc-kc-statistics>
         </div>
-        <div fxFlex="70" *ngIf="selectedKc && showAssessmentAnalytics">
+        <div fxFlex="70" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Ai">
             <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
     </div>

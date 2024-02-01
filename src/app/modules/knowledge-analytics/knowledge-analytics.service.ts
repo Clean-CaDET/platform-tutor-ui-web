@@ -7,6 +7,7 @@ import {Course} from '../learning/model/course.model';
 import {KnowledgeComponentStatistics} from './model/knowledge-component-statistics.model';
 import { AssessmentItemStatistics } from './model/assessment-item-statistics';
 import {KnowledgeComponent} from "../learning/model/knowledge-component.model";
+import { SubmissionStatistics } from './model/submission-statistics';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,10 @@ export class KnowledgeAnalyticsService {
     return this.http
       .get<Course>(environment.apiHost + 'owned-courses/' + courseId)
       .pipe(map((data) => data.knowledgeUnits));
+  }
+
+  getTopMisconceptions(unitId: number): Observable<AssessmentItemStatistics[]> {
+    return this.http.get<AssessmentItemStatistics[]>(environment.apiHost + `analysis/units/${unitId}`);
   }
 
   getKnowledgeComponents(unitId: number): Observable<KnowledgeComponent[]> {
@@ -32,5 +37,9 @@ export class KnowledgeAnalyticsService {
 
   getAssessmentItemStatistics(kcId: string): Observable<AssessmentItemStatistics[]> {
       return this.http.get<AssessmentItemStatistics[]>(environment.apiHost + `analysis/knowledge-components/${kcId}/assessments`);
+  }
+
+  getSubmissionStatistics(kcId: number, aiId: number): Observable<SubmissionStatistics[]> {
+    return this.http.get<SubmissionStatistics[]>(environment.apiHost + `analysis/knowledge-components/${kcId}/assessments/${aiId}`);
   }
 }

@@ -1,47 +1,37 @@
-<div class="chat">
-  <div class="text">
-    Zamolili bismo te da nam istakneš kako se trenutno osećaš povodom učenja ovog gradiva?
-  </div>
-  <div class="avatars">
-    <div class="img__wrap">
-      <img
-        src="../../../../assets/images/bored.png"
-        alt="Dosadno"
-        (click)="submitAndCloseModal('bored')"
-      />
-      <p class="img__description">Dosadno</p>
+<div fxLayout="column">
+  <h3>
+    Kako se trenutno osećaš povodom učenja ovog gradiva?
+  </h3>
+  <div fxLayout="row wrap">
+    <div fxFlex.lt-sm="50" fxFlex style="padding: 10px;">
+      <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <img src="../../../../assets/images/bored.png" (click)="submitAndCloseModal('bored')"/>
+        <p>Dosadno</p>
+      </mat-card>
     </div>
-    <div class="img__wrap">
-      <img
-        src="../../../../assets/images/tired.png"
-        alt="Umorno"
-        (click)="submitAndCloseModal('tired')"
-      />
-      <p class="img__description">Umorno</p>
+    <div fxFlex.lt-sm="50" fxFlex style="padding: 10px;">
+      <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <img src="../../../../assets/images/tired.png" (click)="submitAndCloseModal('tired')"/>
+        <p>Umorno</p>
+      </mat-card>
     </div>
-    <div class="img__wrap">
-      <img
-        src="../../../../assets/images/neutral.png"
-        alt="Angažovano"
-        (click)="submitAndCloseModal('neutral')"
-      />
-      <p class="img__description">Angažovano</p>
+    <div fxFlex.lt-sm="50" fxFlex style="padding: 10px;">
+      <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <img src="../../../../assets/images/neutral.png" alt="Angažovano" (click)="submitAndCloseModal('neutral')"/>
+        <p>Angažovano</p>
+      </mat-card>
     </div>
-    <div class="img__wrap">
-      <img
-        src="../../../../assets/images/frustrated.png"
-        alt="Iznervirano"
-        (click)="submitAndCloseModal('frustrated')"
-      />
-      <p class="img__description">Iznervirano</p>
+    <div fxFlex.lt-sm="50" fxFlex style="padding: 10px;">
+      <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <img src="../../../../assets/images/frustrated.png" (click)="submitAndCloseModal('frustrated')"/>
+        <p>Iznervirano</p>
+      </mat-card>
     </div>
-    <div class="img__wrap">
-      <img
-        src="../../../../assets/images/confused.png"
-        alt="Zbunjeno"
-        (click)="submitAndCloseModal('confused')"
-      />
-      <p class="img__description">Zbunjeno</p>
+    <div fxFlex.lt-sm="50" fxFlex style="padding: 10px;">
+      <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <img src="../../../../assets/images/confused.png" (click)="submitAndCloseModal('confused')"/>
+        <p>Zbunjeno</p>
+      </mat-card>
     </div>
   </div>
 </div>

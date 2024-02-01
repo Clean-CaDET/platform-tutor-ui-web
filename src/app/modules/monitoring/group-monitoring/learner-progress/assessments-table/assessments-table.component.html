@@ -61,6 +61,6 @@
 
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="element-row assessments-table"
-      (click)="expandedElement[element.kcId] = expandedElement[element.kcId] === element ? null : element"></tr>
+      (click)="expandedElement[element.kcId] = expandedElement[element.kcId] === element ? null : element" [ngClass]="{'warn': element.isSuspicious}"></tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
 </table>
