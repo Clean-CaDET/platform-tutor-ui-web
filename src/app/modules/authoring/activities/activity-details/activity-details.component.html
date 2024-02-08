@@ -46,7 +46,8 @@
                 <div *ngFor="let example of getExamples.controls; let i = index;">
                     <mat-card fxLayout="column" style="margin-right: 15px; padding-top: 15px; margin-bottom: 15px;">
                         <div fxFlex fxLayout="row">
-                            <span *ngIf="!editExampleModes[i]"> <b>{{ getExampleControl(i, 'code').value }}: </b> </span>
+                            <span *ngIf="!editExampleModes[i]"> <b>{{ getExampleControl(i, 'code').value }}: </b>
+                            </span>
                             <div *ngIf="editExampleModes[i] || editMode">
                                 <mat-form-field *ngIf="editExampleModes[i]" fxFlex fxLayoutAlign="start center"
                                     appearance="fill">
@@ -56,7 +57,8 @@
                                 </mat-form-field>
                             </div>
                             <div fxFlex fxLayoutAlign="end start">
-                                <button mat-icon-button *ngIf="editMode && !editExampleModes[i]" (click)="editExampleModes[i] = true">
+                                <button mat-icon-button *ngIf="editMode && !editExampleModes[i]"
+                                    (click)="editExampleModes[i] = true">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editExampleModes[i]"
@@ -81,8 +83,8 @@
                     </mat-card>
                 </div>
 
-                <button *ngIf="editMode" [disabled]="!activityForm.valid" mat-raised-button color="primary"
-                    (click)="addExample()" style="margin-bottom: 5px;">
+                <button *ngIf="editMode" mat-raised-button color="primary" (click)="addExample()"
+                    style="margin-bottom: 5px;">
                     + Dodaj primer
                 </button>
 
@@ -93,7 +95,8 @@
                     <mat-card fxLayout="column" style="margin-right: 15px; padding-top: 15px; margin-bottom: 15px;">
                         <div fxFlex fxLayout="row">
                             <div fxFlex="80" [ngStyle]="{'margin-bottom': !editStandardModes[i] ? '10px' : '0'}">
-                                <span *ngIf="!editStandardModes[i]"> <b>{{ getStandardControl(i, 'name').value }}: </b> </span>
+                                <span *ngIf="!editStandardModes[i]"> <b>{{ getStandardControl(i, 'name').value }}: </b>
+                                </span>
                                 <div *ngIf="editStandardModes[i] || editMode">
                                     <mat-form-field fxFlex="60" *ngIf="editStandardModes[i]" appearance="fill">
                                         <mat-label>Naziv</mat-label>
@@ -103,7 +106,8 @@
                                 </div>
                             </div>
                             <div fxFlex="20" fxLayoutAlign="end start">
-                                <button mat-icon-button *ngIf="editMode && !editStandardModes[i]" (click)="editStandardModes[i] = true">
+                                <button mat-icon-button *ngIf="editMode && !editStandardModes[i]"
+                                    (click)="editStandardModes[i] = true">
                                     <mat-icon>edit</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editStandardModes[i]"
@@ -120,7 +124,8 @@
                             </div>
                         </div>
                         <div [ngStyle]="{'margin-bottom': !editStandardModes[i] ? '10px' : '0'}">
-                            <span *ngIf="!editStandardModes[i]"> {{ getStandardControl(i, 'description').value }} </span>
+                            <span *ngIf="!editStandardModes[i]"> {{ getStandardControl(i, 'description').value }}
+                            </span>
                             <mat-form-field *ngIf="editStandardModes[i]" fxFlex appearance="fill">
                                 <mat-label>Opis</mat-label>
                                 <textarea [formControl]="getStandardControl(i, 'description')" matInput
@@ -130,8 +135,8 @@
                     </mat-card>
                 </div>
 
-                <button *ngIf="editMode" [ngStyle]="{'margin-left': getStandards.controls.length === 0 ? '10px' : '0'}" [disabled]="!activityForm.valid" mat-raised-button
-                    color="primary" (click)="addStandard()">
+                <button *ngIf="editMode" [ngStyle]="{'margin-left': getStandards.controls.length === 0 ? '10px' : '0'}"
+                    mat-raised-button color="primary" (click)="addStandard()">
                     + Dodaj standard
                 </button>
             </div>

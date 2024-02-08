@@ -1,17 +1,7 @@
 <div>
     <div fxLayout="row">
-        <!-- <span>
-            <button mat-icon-button (click)="activity.isExpanded=!activity.isExpanded" style="margin: 0 0 0 0">
-                <mat-icon *ngIf="!activity.isExpanded" [matTooltipPosition]="'above'"
-                    matTooltip="Prikaži podaktivnosti">add_circle</mat-icon>
-                <mat-icon *ngIf="activity.isExpanded" [matTooltipPosition]="'above'"
-                    matTooltip="Sakrij podaktivnosti">remove_circle</mat-icon>
-            </button>
-        </span> -->
-
         <mat-card [class.highlight]="selectedActivity?.id===activity.id" style="margin-bottom: 5px; cursor:pointer;"
             fxFlex fxLayout="row" (click)="select(activity)">
-
             <div fxFlex fxLayout="column">
                 <span fxFlex style="font-size: 11pt;"><b> {{activity.code}}: </b>{{activity.name}}</span>
             </div>

@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
 
 @Component({
-  selector: 'cc-activity',
-  templateUrl: './activity.component.html',
-  styleUrls: ['./activity.component.scss']
+  selector: 'cc-activity-tree',
+  templateUrl: './activity-tree.component.html',
+  styleUrls: ['./activity-tree.component.scss']
 })
-export class ActivityComponent implements OnChanges {
+export class ActivityTreeComponent implements OnChanges {
 
   @Input() activity: any;
   @Input() selectedActivity: any;
@@ -26,12 +26,25 @@ export class ActivityComponent implements OnChanges {
   }
 
   filterSubactivityOptions() {
-    this.options = this.subactivityOptions.filter((option: { id: number; }) => {
-      return option.id !== this.activity.id;
-    });
+    const ancestors = this.findAncestors(this.activity.id);
+    this.options = this.subactivityOptions.filter(activity => !ancestors.includes(activity.id));
+    this.options = this.options.filter(activity => activity.id != this.activity.id);
     this.options = this.options.filter((option: { id: number; }) => {
       return !this.activity.subactivities.some((subactivity: { childId: any; }) => subactivity.childId === option.id);
     });
+  }
+
+  findAncestors(activityId: number) {
+    const ancestors: any[] = [];
+
+    const parentActivities = this.subactivityOptions.filter(act => act.subactivities.some((sub: { childId: any; }) => sub.childId === activityId));
+    for (const parentActivity of parentActivities) {
+      ancestors.push(parentActivity.id);
+      const parentActivitiesToRemove = this.findAncestors(parentActivity.id);
+      ancestors.push(...parentActivitiesToRemove);
+    }
+
+    return ancestors;
   }
 
   select(activity: any) {

@@ -35,13 +35,12 @@ export class ActivitiesComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
         this.mapSubactivities(activities);
-        this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
       });
     });
   }
 
   mapSubactivities(activities: any[]) {
-    this.activities = activities.sort((a1, a2) => a1.id - a2.id);
+    this.activities = activities.sort((a1, a2) => a1.code - a2.code);
     for (let activity of activities) {
       activity.subactivities = activities
         .filter((a) => activity.subactivities.some((sa: { childId: any; }) => sa.childId === a.id))
@@ -55,6 +54,7 @@ export class ActivitiesComponent implements OnInit {
         })
         .sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
     }
+    this.activities = [...this.activities.sort((a1, a2) => a1.code.localeCompare(a2.code))];
   }
 
   select(activity: any) {
@@ -87,7 +87,7 @@ export class ActivitiesComponent implements OnInit {
 
   create(activity: any) {
     this.courseService.saveActivity(this.course.id, activity).subscribe(newActivity => {
-      this.activities.push(newActivity);
+      this.activities = [...this.activities, newActivity];
       this.selectedActivity = newActivity;
       this.mapSubactivities(this.activities);
     });

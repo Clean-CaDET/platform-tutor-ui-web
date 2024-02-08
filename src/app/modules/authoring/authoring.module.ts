@@ -20,7 +20,7 @@ import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component
 import { SaqFormComponent } from './assessment-items/saq-form/saq-form.component';
 import {LearningModule} from "../learning/learning.module";
 import { ActivitiesComponent } from './activities/activities.component';
-import { ActivityComponent } from './activities/activity/activity.component';
+import { ActivityTreeComponent } from './activities/activity-tree/activity-tree.component';
 import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
 
 @NgModule({
@@ -38,7 +38,7 @@ import { ActivityDetailsComponent } from './activities/activity-details/activity
     McqFormComponent,
     SaqFormComponent,
     ActivitiesComponent,
-    ActivityComponent,
+    ActivityTreeComponent,
     ActivityDetailsComponent
   ],
   imports: [

@@ -1,6 +1,6 @@
 <div fxLayout="column" style="height: 100vh;">
     <div fxFlex fxLayout="row">
-        
+
         <!-- Left container for activity -->
         <div fxFlex="26" fxLayout="column" style="margin: 0 15px 0 15px; overflow-y: auto; position: relative;">
             <mat-card style="margin-bottom: 5px; position: sticky; top: 0; z-index: 1;">
@@ -12,12 +12,9 @@
             </mat-card>
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
-                    <cc-activity [activity]="activity" 
-                    [selectedActivity]="selectedActivity" 
-                    [subactivityOptions]="activities"
-                    (activitySelected)="select($event)" 
-                    (deleteActivity)="delete($event)"
-                    (editActivity)="update($event)"></cc-activity>
+                    <cc-activity-tree [activity]="activity" [selectedActivity]="selectedActivity"
+                        [subactivityOptions]="activities" (activitySelected)="select($event)"
+                        (deleteActivity)="delete($event)" (editActivity)="update($event)"></cc-activity-tree>
                 </div>
             </cdk-virtual-scroll-viewport>
         </div>
