@@ -15,6 +15,7 @@ import { Login } from './login.model';
 })
 export class AuthenticationService {
   user$ = new BehaviorSubject(null);
+  clientId$ = new BehaviorSubject(null);
 
   constructor(
     private http: HttpClient,
