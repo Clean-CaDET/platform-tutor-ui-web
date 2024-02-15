@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -6,6 +6,7 @@ import { KnowledgeComponentStatistics } from '../model/knowledge-component-stati
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { LearningObjectMapper } from './learning-objects/learning-object-mapper';
 import { LearningObject } from './learning-objects/learning-object.model';
+import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,19 +14,23 @@ import { LearningObject } from './learning-objects/learning-object.model';
 export class KnowledgeComponentService {
   private baseUri: string = 'learning/knowledge-component/';
 
-  constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper) {}
+  constructor(private http: HttpClient, private learningObjectMapper: LearningObjectMapper, private auth: AuthenticationService) {}
 
   getKnowledgeComponent(kcId: number): Observable<KnowledgeComponent> {
     return this.http.get<KnowledgeComponent>(environment.apiHost + this.baseUri + kcId);
   }
 
   getSuitableAssessmentItem(kcId: number): Observable<LearningObject> {
-    return this.http.get<LearningObject>(environment.apiHost + this.baseUri + kcId + '/assessment-item')
+    return this.http.get<LearningObject>(
+      environment.apiHost + this.baseUri + kcId + '/assessment-item',
+      { params: new HttpParams().set('aId', this.auth.clientId$.getValue()) })
       .pipe(map((ae) => this.learningObjectMapper.convert(ae)));
   }
 
   getInstructionalItems(kcId: number): Observable<LearningObject[]> {
-    return this.http.get<LearningObject[]>(environment.apiHost + this.baseUri + kcId + '/instructional-items')
+    return this.http.get<LearningObject[]>(
+      environment.apiHost + this.baseUri + kcId + '/instructional-items',
+      { params: new HttpParams().set('aId', this.auth.clientId$.getValue()) })
       .pipe(map((los) => this.mapLearningObjects(los)));
   }
 
