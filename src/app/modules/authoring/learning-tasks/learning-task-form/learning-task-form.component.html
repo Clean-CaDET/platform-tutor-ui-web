@@ -1,0 +1,17 @@
+<form [formGroup]="learningTaskForm" fxLayout="column">
+    <section fxLayoutGap="5px" fxLayout="column">
+        <mat-form-field fxFlex appearance="fill" style="width: 800px;">
+            <mat-label>Naziv</mat-label>
+            <input formControlName="name" matInput>
+        </mat-form-field>
+        <mat-form-field fxFlex appearance="fill">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput rows="8"></textarea>
+        </mat-form-field>
+        <mat-checkbox formControlName="isTemplate">Šablon</mat-checkbox>
+    </section>
+    <div fxFlex="column" fxLayoutGap="20px" style="margin-top: 20px;">
+        <button mat-raised-button color="primary" [disabled]="!learningTaskForm.valid" fxFlex (click)="save()">Sačuvaj</button>
+        <button mat-raised-button fxFlex (click)="close()">Zatvori</button>
+    </div>
+</form>

@@ -8,21 +8,27 @@
                 <mat-card style="margin: 15px;" fxFlex [class.highlight]="selectedUnit?.code===''">
                     <h3>Lekcije</h3>
                     <span fxFlex></span>
-                    <button mat-mini-fab [color]="selectedUnit?.code==='' ? 'accent' : 'primary'" (click)="createUnit()">
+                    <button mat-mini-fab [color]="selectedUnit?.code==='' ? 'accent' : 'primary'"
+                        (click)="createUnit()">
                         <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                     </button>
                 </mat-card>
             </div>
             <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
-                <mat-card [class.highlight]="selectedUnit?.id===unit.id" style="margin: 15px;" *cdkVirtualFor="let unit of course?.knowledgeUnits">
+                <mat-card [class.highlight]="selectedUnit?.id===unit.id" style="margin: 15px;"
+                    *cdkVirtualFor="let unit of course?.knowledgeUnits">
                     <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                     <span fxFlex></span>
                     <span fxLayoutGap="10px" fxLayout="row">
-                        <button mat-mini-fab (click)="selectUnit(unit, true)"
+                        <button mat-mini-fab (click)="showLts(unit)"
+                            [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'accent' : 'primary'">
+                            <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">assignment_turned_in</mat-icon>
+                        </button>
+                        <button mat-mini-fab (click)="showKcs(unit)"
                             [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : 'primary'">
                             <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'">account_tree</mat-icon>
                         </button>
-                        <button mat-mini-fab (click)="selectUnit(unit, false)"
+                        <button mat-mini-fab (click)="showDetails(unit)"
                             [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : 'primary'">
                             <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'">text_snippet</mat-icon>
                         </button>
@@ -38,6 +44,9 @@
         </div>
         <div fxFlex="70" *ngIf="selectedUnit && showKnowledgeComponents">
             <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
+        </div>
+        <div fxFlex="70" *ngIf="selectedUnit && showLearningTasks">
+            <cc-learning-tasks [learningTasks]="learningTasks"></cc-learning-tasks>
         </div>
     </div>
 </div>

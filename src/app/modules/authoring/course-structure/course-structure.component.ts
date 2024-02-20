@@ -6,6 +6,7 @@ import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
 import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
+import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring.service';
 
 @Component({
   selector: 'cc-course-structure',
@@ -17,8 +18,10 @@ export class CourseStructureComponent implements OnInit {
   selectedUnit: Unit;
   showUnitDetails: boolean;
   showKnowledgeComponents: boolean;
+  showLearningTasks: boolean;
+  learningTasks: any[];
 
-  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService,
+  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private ltService: LearningTasksService,
     private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -29,7 +32,7 @@ export class CourseStructureComponent implements OnInit {
 
         let unitId = this.route.snapshot.queryParams['unit'];
         if (unitId) {
-          this.selectUnit(this.course.knowledgeUnits.find(u => u.id == unitId), true);
+          this.showLts(this.course.knowledgeUnits.find(u => u.id == unitId));
         }
       });
     });
@@ -43,29 +46,52 @@ export class CourseStructureComponent implements OnInit {
   }
 
   createUnit() {
-    this.selectedUnit = { code: '', name: '', description: '', order:this.getMaxOrder()+10};
+    this.selectedUnit = { code: '', name: '', description: '', order: this.getMaxOrder() + 10 };
     this.showUnitDetails = true;
     this.showKnowledgeComponents = false;
+    this.showLearningTasks = false;
   }
 
   getMaxOrder(): number {
-    if(this.course.knowledgeUnits?.length == 0) return 0;
+    if (this.course.knowledgeUnits?.length == 0) return 0;
     return Math.max(...this.course.knowledgeUnits.map(u => u.order));
   }
 
-  selectUnit(unit: Unit, showKcs: boolean) {
-    if(showKcs) {
-      this.kcService.getByUnit(unit.id).subscribe(kcs => {
-        this.selectedUnit = unit;
-        this.selectedUnit.knowledgeComponents = kcs;
-        this.showKnowledgeComponents = true;
-        this.showUnitDetails = false;
-      });
-    } else {
+  showDetails(unit: Unit) {
+    this.selectedUnit = unit;
+    this.showKnowledgeComponents = false;
+    this.showLearningTasks = false;
+    this.showUnitDetails = true;
+
+    this.router.navigate([], {
+      queryParams: { unit: unit.id },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showKcs(unit: Unit) {
+    this.kcService.getByUnit(unit.id).subscribe(kcs => {
       this.selectedUnit = unit;
+      this.selectedUnit.knowledgeComponents = kcs;
+      this.showKnowledgeComponents = true;
+      this.showUnitDetails = false;
+      this.showLearningTasks = false;
+    });
+
+    this.router.navigate([], {
+      queryParams: { unit: unit.id },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showLts(unit: Unit) {
+    this.ltService.getByUnit(unit.id).subscribe(learningTasks => {
+      this.selectedUnit = unit;
+      this.learningTasks = learningTasks;
       this.showKnowledgeComponents = false;
-      this.showUnitDetails = true;
-    }
+      this.showUnitDetails = false;
+      this.showLearningTasks = true;
+    });
 
     this.router.navigate([], {
       queryParams: { unit: unit.id },
@@ -74,7 +100,7 @@ export class CourseStructureComponent implements OnInit {
   }
 
   saveOrUpdateUnit(unit: Unit) {
-    if(!unit.id) {
+    if (!unit.id) {
       this.courseService.saveUnit(this.course.id, unit).subscribe(newUnit => {
         newUnit.knowledgeComponents = [];
         this.course.knowledgeUnits.push(newUnit);
@@ -97,7 +123,7 @@ export class CourseStructureComponent implements OnInit {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(!result) return;
+      if (!result) return;
 
       this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];

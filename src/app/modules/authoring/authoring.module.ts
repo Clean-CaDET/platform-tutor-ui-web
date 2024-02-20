@@ -22,6 +22,9 @@ import {LearningModule} from "../learning/learning.module";
 import { ActivitiesComponent } from './activities/activities.component';
 import { ActivityTreeComponent } from './activities/activity-tree/activity-tree.component';
 import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
+import { LearningTasksComponent } from './learning-tasks/learning-tasks.component';
+import { LearningTaskTreeComponent } from './learning-tasks/learning-task-tree/learning-task-tree.component';
+import { LearningTaskFormComponent } from './learning-tasks/learning-task-form/learning-task-form.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +42,10 @@ import { ActivityDetailsComponent } from './activities/activity-details/activity
     SaqFormComponent,
     ActivitiesComponent,
     ActivityTreeComponent,
-    ActivityDetailsComponent
+    ActivityDetailsComponent,
+    LearningTasksComponent,
+    LearningTaskTreeComponent,
+    LearningTaskFormComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,82 @@
+<div fxLayout="column">
+    <div style="margin: 15px 0 0 15px">
+        <div fxLayout="row" style="margin-bottom: 10px;">
+            <span *ngIf="true">
+                <button mat-icon-button (click)="learningTask.isExpanded=!learningTask.isExpanded">
+                    <mat-icon *ngIf="!learningTask.isExpanded" [matTooltipPosition]="'above'"
+                        matTooltip="Prikaži podveštine">add_circle</mat-icon>
+                    <mat-icon *ngIf="learningTask.isExpanded" [matTooltipPosition]="'above'"
+                        matTooltip="Sakrij podveštine">remove_circle</mat-icon>
+                </button>
+            </span>
+            <mat-card fxFlex fxLayout="row">
+                <div fxFlex fxLayout="column">
+                    <span fxFlex><b>{{ learningTask.name }} </b> <span *ngIf="learningTask.isTemplate"> [šablon] </span>
+                    </span>
+                    <span>Broj koraka: {{learningTask.steps.length }} <span *ngIf="!learningTask.isTemplate">|
+                            Maksimalan broj poena: {{ learningTask.maxPoints }} </span> </span>
+                </div>
+                <div fxLayoutGap="30px">
+                    <span fxLayoutGap="10px">
+                        <button mat-mini-fab color="primary">
+                            <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="primary">
+                            <mat-icon matTooltip="Studije slučaja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                        </button>
+                    </span>
+                    <span fxLayoutGap="10px">
+                        <button mat-mini-fab color="primary">
+                            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="primary" (click)="edit()">
+                            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="warn">
+                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                        </button>
+                    </span>
+                </div>
+            </mat-card>
+        </div>
+        <div *ngIf="learningTask.isExpanded && learningTask.steps.length">
+            <div *ngFor="let step of learningTask.steps let i = index">
+                <span style="cursor: default;">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                </span>
+
+                <mat-card fxFlex fxLayout="row" style="margin-bottom: 10px;">
+                    <div fxFlex fxLayout="column">
+                        <span fxFlex><b>{{ step.order }}. {{ step.activityName }} </b> <span
+                                *ngIf="!learningTask.isTemplate">| Maksimalan broj poena: {{
+                                step.maxPoints }} </span> </span>
+                        <span style="margin-left: 15px;">Rezultat: {{
+                            step.submissionFormat.submissionGuidelines }}</span>
+                    </div>
+                    <div fxLayoutGap="30px">
+                        <span fxLayoutGap="10px">
+                            <button mat-mini-fab color="primary">
+                                <mat-icon matTooltip="Uputstvo" [matTooltipPosition]="'above'">library_books</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="primary">
+                                <mat-icon matTooltip="Primeri" [matTooltipPosition]="'above'">quiz</mat-icon>
+                            </button>
+                        </span>
+                        <span fxLayoutGap="10px">
+                            <!-- <button mat-mini-fab color="primary">
+                            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
+                        </button> -->
+                            <button mat-mini-fab color="primary">
+                                <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                            </button>
+                            <button mat-mini-fab color="warn">
+                                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
