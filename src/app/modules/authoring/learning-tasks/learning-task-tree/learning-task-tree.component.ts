@@ -10,7 +10,8 @@ import { LearningTaskFormComponent } from '../learning-task-form/learning-task-f
 export class LearningTaskTreeComponent implements OnInit {
 
   @Input() learningTask: any;
-  @Output() learningTaskSaved = new EventEmitter<any>();
+  @Output() learningTaskUpdated = new EventEmitter<any>();
+  @Output() learningTaskDeleted = new EventEmitter<number>();
 
   constructor(private dialog: MatDialog) { }
 
@@ -32,7 +33,11 @@ export class LearningTaskTreeComponent implements OnInit {
       result.caseStudies = this.learningTask.caseStudies;
       result.steps = this.learningTask.steps;
       result.maxPoints = this.learningTask.maxPoints;
-      this.learningTaskSaved.emit(result);
+      this.learningTaskUpdated.emit(result);
     });
-  }  
+  }
+
+  delete() {
+    this.learningTaskDeleted.emit(this.learningTask.id);
+  }
 }

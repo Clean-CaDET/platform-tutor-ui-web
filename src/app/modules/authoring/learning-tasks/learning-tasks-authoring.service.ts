@@ -23,4 +23,8 @@ export class LearningTasksService {
   update(unitId: number, learningTask: any) {
     return this.http.put<any>(this.baseUrl + unitId + '/learning-tasks', learningTask);
   }
+
+  delete(unitId: number, learningTaskId: number) {
+    return this.http.delete<any>(this.baseUrl + unitId + '/learning-tasks/' + learningTaskId);
+  }
 }

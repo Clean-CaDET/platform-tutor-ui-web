@@ -3,6 +3,7 @@ import { LearningTasksService } from './learning-tasks-authoring.service';
 import { ActivatedRoute } from '@angular/router';
 import { LearningTaskFormComponent } from './learning-task-form/learning-task-form.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 
 @Component({
   selector: 'cc-learning-tasks',
@@ -14,6 +15,21 @@ export class LearningTasksComponent  {
   @Input() learningTasks: any[];
 
   constructor(private route: ActivatedRoute, private learningTasksService: LearningTasksService, private dialog: MatDialog) { }
+  
+  add() {
+    const dialogRef = this.dialog.open(LearningTaskFormComponent, {
+      data: {
+        learningTask:  {}
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      result.caseStudies = [];
+      result.steps = [];
+      this.create(result);
+    });
+  }
 
   create(learningTask: any) {
     const unitId = this.route.snapshot.queryParams['unit'];
@@ -36,19 +52,16 @@ export class LearningTasksComponent  {
     });
   }
 
-  add() {
-    const dialogRef = this.dialog.open(LearningTaskFormComponent, {
-      data: {
-        learningTask:  {}
-      },
-    });
+  delete(learningTaskId: number) {
+    let diagRef = this.dialog.open(DeleteFormComponent);
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(!result) return;
-      result.caseStudies = [];
-      result.steps = [];
-      this.create(result);
+    diagRef.afterClosed().subscribe(result => {
+      if (result) {
+        const unitId = this.route.snapshot.queryParams['unit'];
+        this.learningTasksService.delete(unitId, learningTaskId).subscribe(() => {
+          this.learningTasks = [...this.learningTasks.filter(a => a.id !== learningTaskId)];
+        });
+      }
     });
   }
-
 }
