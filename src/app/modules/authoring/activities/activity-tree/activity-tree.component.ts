@@ -105,9 +105,12 @@ export class ActivityTreeComponent implements OnChanges {
   }
 
   reloadComponent() {
-    const currentRoute = this.router.url;
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([currentRoute]);
+    const currentUrlTree = this.router.parseUrl(this.router.url);
+    const queryParams = currentUrlTree.queryParams;
+
+    this.router.navigate([], {
+      queryParams: queryParams,
+      queryParamsHandling: 'merge'
     });
   }
 }

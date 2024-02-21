@@ -1,0 +1,69 @@
+<div fxLayout="column">
+    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="sticky" style="margin-bottom: 15px;">
+        <span fxLayout="row">
+            <span fxLayout="column">
+                <span fxFlex>
+                    <span>
+                        <h3 style="margin: 0 0 10px; display: inline;">{{learningTask.name}}</h3>
+                        <span *ngIf="learningTask.isTemplate"> [šablon]</span>
+                    </span>
+                </span>
+                <span *ngIf="!learningTask.isTemplate"> Maksimalan broj poena: {{learningTask.maxPoints}} </span>
+                <i fxFlex>{{learningTask.description}}</i>
+            </span>
+            <span fxFlex></span>
+            <span fxLayoutGap="30px" fxLayout="row">
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button mat-mini-fab color="primary" (click)="addCaseStudy()">
+                        <mat-icon matTooltip="Dodaj novu studiju slučaja" [matTooltipPosition]="'above'">add</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]"
+                        [queryParams]="{unit: unitId}">
+                        <mat-icon matTooltip="Pregledaj korake" [matTooltipPosition]="'below'">account_tree</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary">
+                        <mat-icon matTooltip="Studije slučaja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                    </button>
+                </span>
+            </span>
+        </span>
+    </mat-card>
+
+    <form [formGroup]="caseStudiesForm">
+        <div *ngFor="let caseStudy of getCaseStudies.controls; let i = index;">
+            <mat-card fxLayout="column" style="margin: 15px;">
+                <div fxFlex fxLayout="row">
+                    <span *ngIf="!editModes[i]"> <b>{{ getCaseStudyControl(i, 'name').value }}: </b>
+                    </span>
+                    <div *ngIf="editModes[i]">
+                        <mat-form-field *ngIf="editModes[i]" fxFlex fxLayoutAlign="start center" appearance="fill">
+                            <mat-label>Naziv</mat-label>
+                            <input matInput [formControl]="getCaseStudyControl(i, 'name')" [readonly]="!editModes[i]">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex fxLayoutAlign="end start">
+                        <button mat-icon-button *ngIf="!editModes[i]" (click)="editModes[i] = true">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button *ngIf="editModes[i]" [disabled]="!caseStudiesForm.valid"
+                            (click)="updateCaseStudy(i)">
+                            <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                        </button>
+                        <button mat-icon-button *ngIf="editModes[i]"
+                            (click)="discardChanges(i)">
+                            <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="deleteCaseStudy(i)">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div>
+                    <cc-markdown-editor fxFlex [label]="'Opis *'" [text]="getCaseStudyControl(i, 'description').value"
+                        (textChanged)="updateUseCaseDescription($event, i)" [editMode]="editModes[i]">
+                    </cc-markdown-editor>
+                </div>
+            </mat-card>
+        </div>
+    </form>
+</div>

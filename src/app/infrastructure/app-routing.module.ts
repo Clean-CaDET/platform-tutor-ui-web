@@ -17,6 +17,7 @@ import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/
 import { UnitAnalyticsComponent } from '../modules/knowledge-analytics/unit-analytics/unit-analytics.component';
 import { ActivitiesComponent } from '../modules/authoring/activities/activities.component';
 import { DomainModelComponent } from '../modules/authoring/learning-tasks/domain-model/domain-model.component';
+import { CaseStudiesComponent } from '../modules/authoring/learning-tasks/case-studies/case-studies.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -62,6 +63,12 @@ const routes: Routes = [
   {
     path: 'authoring/course/:courseId/unit/:unitId/learning-task/:ltId/domain-model',
     component: DomainModelComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['instructor'] },
+  },
+  {
+    path: 'authoring/course/:courseId/unit/:unitId/learning-task/:ltId/case-studies',
+    component: CaseStudiesComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
   },

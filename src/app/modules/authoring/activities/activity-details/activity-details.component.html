@@ -66,7 +66,7 @@
                                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editExampleModes[i]"
-                                    [disabled]="!activityForm.valid" (click)="discardExampleChanges(i)">
+                                    (click)="discardExampleChanges(i)">
                                     <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode" (click)="deleteExample(i)">
@@ -115,7 +115,7 @@
                                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode && editStandardModes[i]"
-                                    [disabled]="!activityForm.valid" (click)="discardStandardChanges(i)">
+                                    (click)="discardStandardChanges(i)">
                                     <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                                 </button>
                                 <button mat-icon-button *ngIf="editMode" (click)="deleteStandard(i)">

@@ -64,11 +64,11 @@ export class ActivityDetailsComponent implements OnChanges {
   }
 
   setStandards(activity: any) {
-    const standarsArray = this.builder.array([]) as FormArray;
+    const standardsArray = this.builder.array([]) as FormArray;
     for (let standard of activity.standards) {
-      standarsArray.push(this.builder.group(standard));
+      standardsArray.push(this.builder.group(standard));
     }
-    return standarsArray;
+    return standardsArray;
   }
 
   addExample(): void {
@@ -83,6 +83,8 @@ export class ActivityDetailsComponent implements OnChanges {
   deleteExample(index: number): void {
     const examplesArray = this.activityForm.get('examples') as FormArray;
     examplesArray.removeAt(index);
+    this.editExampleModes.splice(index, 1);
+    this.activitySaved.emit(this.activityForm.value);
   }
 
   get getExamples(): any {
@@ -105,8 +107,14 @@ export class ActivityDetailsComponent implements OnChanges {
     }
   }
 
-  discardExampleChanges(i: number) {
-    this.editExampleModes[i] = false;
+  discardExampleChanges(index: number) {
+    this.editExampleModes[index] = false;
+    if (this.activity.examples[index]) {
+      this.getExampleControl(index, 'code').setValue(this.activity.examples[index].code);
+      this.getExampleControl(index, 'description').setValue(this.activity.examples[index].description);
+    } else {
+      this.deleteExample(index);
+    }
   }
 
   addStandard() {
@@ -121,6 +129,8 @@ export class ActivityDetailsComponent implements OnChanges {
   deleteStandard(index: number): void {
     const standardsArray = this.activityForm.get('standards') as FormArray;
     standardsArray.removeAt(index);
+    this.editStandardModes.splice(index, 1);
+    this.activitySaved.emit(this.activityForm.value);
   }
 
   get getStandards(): any {
@@ -139,8 +149,14 @@ export class ActivityDetailsComponent implements OnChanges {
     }
   }
 
-  discardStandardChanges(i: number) {
-    this.editStandardModes[i] = false;
+  discardStandardChanges(index: number) {
+    this.editStandardModes[index] = false;
+    if (this.activity.examples[index]) {
+      this.getStandardControl(index, 'name').setValue(this.activity.standards[index].name);
+      this.getStandardControl(index, 'description').setValue(this.activity.standards[index].description);
+    } else {
+      this.deleteStandard(index);
+    }
   }
 
   submitForm() {
