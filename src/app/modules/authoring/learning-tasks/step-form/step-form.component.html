@@ -1,0 +1,56 @@
+<div style="width: 600px;" fxLayout="column">
+    <div mat-dialog-content>
+        <form [formGroup]="stepForm" fxLayout="column">
+            <section fxLayoutGap="15px" fxLayout="row">
+                <mat-form-field fxFlex="20" appearance="fill">
+                    <mat-label>Redni broj</mat-label>
+                    <input formControlName="order" type="number" matInput>
+                </mat-form-field>
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Izaberi aktivnost</mat-label>
+                    <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="activityId"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                        (optionSelected)='getStandards($event.option.value)'>
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="presentActivity(option)">
+                            {{presentActivity(option)}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </section>
+
+            <h3 style="margin: 0 0 15px;">Rezultat</h3>
+
+            <section fxLayoutGap="15px" fxLayout="row" formGroupName="submissionFormat">
+                <mat-form-field fxFlex appearance="fill">
+                    <mat-label>Validacija rezultata</mat-label>
+                    <input formControlName="answerValidation" matInput>
+                </mat-form-field>
+                <mat-form-field fxFlex="60" appearance="fill">
+                    <mat-label>Uputstvo za podnošenje rezultata</mat-label>
+                    <input formControlName="submissionGuidelines" matInput>
+                </mat-form-field>
+            </section>
+
+            <h3 style="margin: 0 0 15px;" *ngIf="standardsFormArray.length">Standardi</h3>
+
+            <div *ngFor="let standard of standardsFormArray.controls; let i = index" formArrayName="standards">
+                <section [formGroupName]='i' fxLayoutGap="15px" fxLayout="row">
+                    <mat-form-field fxFlex appearance="fill">
+                        <mat-label>Standard</mat-label>
+                        <input formControlName="name" matInput>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="30" appearance="fill">
+                        <mat-label>Broj bodova</mat-label>
+                        <input formControlName="maxPoints" type="number" matInput>
+                    </mat-form-field>
+                </section>
+            </div>
+        </form>
+    </div>
+
+    <div fxFlex="column" fxLayoutGap="20px" style="margin-top: 20px;" mat-dialog-actions>
+        <button mat-raised-button color="primary" fxFlex [disabled]="stepForm.invalid || noItemSelected()" (click)="save()">Sačuvaj</button>
+        <button mat-raised-button fxFlex mat-dialog-close>Zatvori</button>
+    </div>
+</div>

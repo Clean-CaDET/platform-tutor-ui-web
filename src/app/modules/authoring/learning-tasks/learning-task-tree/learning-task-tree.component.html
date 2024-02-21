@@ -1,12 +1,12 @@
 <div fxLayout="column">
     <div style="margin: 15px 0 0 15px">
         <div fxLayout="row" style="margin-bottom: 10px;">
-            <span *ngIf="true">
+            <span *ngIf="learningTask.steps.length">
                 <button mat-icon-button (click)="learningTask.isExpanded=!learningTask.isExpanded">
                     <mat-icon *ngIf="!learningTask.isExpanded" [matTooltipPosition]="'above'"
-                        matTooltip="Prikaži podveštine">add_circle</mat-icon>
+                        matTooltip="Prikaži korake">add_circle</mat-icon>
                     <mat-icon *ngIf="learningTask.isExpanded" [matTooltipPosition]="'above'"
-                        matTooltip="Sakrij podveštine">remove_circle</mat-icon>
+                        matTooltip="Sakrij korake">remove_circle</mat-icon>
                 </button>
             </span>
             <mat-card fxFlex fxLayout="row">
@@ -26,8 +26,8 @@
                         </button>
                     </span>
                     <span fxLayoutGap="10px">
-                        <button mat-mini-fab color="primary">
-                            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
+                        <button mat-mini-fab color="primary" (click)="addStep()">
+                            <mat-icon matTooltip="Dodaj korak" [matTooltipPosition]="'above'">add</mat-icon>
                         </button>
                         <button mat-mini-fab color="primary" (click)="edit()">
                             <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
@@ -48,11 +48,11 @@
 
                 <mat-card fxFlex fxLayout="row" style="margin-bottom: 10px;">
                     <div fxFlex fxLayout="column">
-                        <span fxFlex><b>{{ step.order }}. {{ step.activityName }} </b> <span
-                                *ngIf="!learningTask.isTemplate">| Maksimalan broj poena: {{
-                                step.maxPoints }} </span> </span>
-                        <span style="margin-left: 15px;">Rezultat: {{
-                            step.submissionFormat.submissionGuidelines }}</span>
+                        <span fxFlex><b>{{ step.order }}. {{ step.activityName }} </b> </span>
+                        <span *ngIf="!learningTask.isTemplate" style="margin-left: 15px;"> Maksimalan broj poena: {{
+                            step.maxPoints }} </span>
+                        <!-- <span style="margin-left: 15px;">Rezultat: {{
+                            step.submissionFormat.submissionGuidelines }}</span> -->
                     </div>
                     <div fxLayoutGap="30px">
                         <span fxLayoutGap="10px">
@@ -67,10 +67,10 @@
                             <!-- <button mat-mini-fab color="primary">
                             <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
                         </button> -->
-                            <button mat-mini-fab color="primary">
+                            <button mat-mini-fab color="primary" (click)="editStep(step)">
                                 <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
                             </button>
-                            <button mat-mini-fab color="warn">
+                            <button mat-mini-fab color="warn" (click)="deleteStep(i)">
                                 <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                             </button>
                         </span>

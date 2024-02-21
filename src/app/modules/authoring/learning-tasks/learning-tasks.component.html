@@ -7,9 +7,7 @@
     </mat-card>
 
     <div *ngFor="let learningTask of learningTasks">
-        <cc-learning-task-tree [learningTask]="learningTask"
-            (learningTaskUpdated)="update($event)"
+        <cc-learning-task-tree [learningTask]="learningTask" (learningTaskUpdated)="update($event)"
             (learningTaskDeleted)="delete($event)"></cc-learning-task-tree>
     </div>
-
 </div>
