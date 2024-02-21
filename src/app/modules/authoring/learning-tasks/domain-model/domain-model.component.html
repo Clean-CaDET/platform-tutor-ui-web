@@ -1,0 +1,51 @@
+<div fxLayout="column">
+    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="sticky">
+        <span fxLayout="row">
+            <span fxLayout="column">
+                <span fxFlex>
+                    <span>
+                        <h3 style="margin: 0 0 10px; display: inline;">{{learningTask.name}}</h3> 
+                        <span *ngIf="learningTask.isTemplate"> [šablon]</span>
+                    </span>
+                </span>
+                <span *ngIf="!learningTask.isTemplate"> Maksimalan broj poena: {{ learningTask.maxPoints }} </span>
+                <i fxFlex>{{ learningTask.description }}</i>
+            </span>
+            <span fxFlex></span>
+            <span fxLayoutGap="30px" fxLayout="row">
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: unitId}">
+                        <mat-icon matTooltip="Pregledaj korake" [matTooltipPosition]="'below'">account_tree</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary">
+                        <mat-icon matTooltip="Studije slučaja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                    </button>
+                </span>
+            </span>
+        </span>
+    </mat-card>
+
+    <mat-card fxLayout="column">
+        <div fxFlex fxLayout="row" style="position: sticky; top: 85px; background-color: white; z-index: 5;">
+            <div fxFlex fxLayoutAlign="start start">
+                <h2 style="margin: 0 0 10px 0">Gradivo</h2>
+            </div>
+            <div fxFlex fxLayoutAlign="end start">
+                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="editMode" (click)="save()">
+                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="editMode" (click)="discard()">
+                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div>
+            <cc-markdown-editor fxFlex [label]="'Opis *'" [text]="domainModel" (textChanged)="domainModel = $event"
+                [editMode]="editMode">
+            </cc-markdown-editor>
+        </div>
+    </mat-card>
+</div>

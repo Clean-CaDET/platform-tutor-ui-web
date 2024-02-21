@@ -18,7 +18,7 @@
                 </div>
                 <div fxLayoutGap="30px">
                     <span fxLayoutGap="10px">
-                        <button mat-mini-fab color="primary">
+                        <button mat-mini-fab color="primary" [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id, 'domain-model']">
                             <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
                         </button>
                         <button mat-mini-fab color="primary">

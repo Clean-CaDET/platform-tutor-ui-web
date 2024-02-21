@@ -7,10 +7,14 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class LearningTasksService {
-
+  
   private baseUrl = environment.apiHost + 'authoring/units/';
 
   constructor(private http: HttpClient) { }
+
+  get(unitId: number, id: number): Observable<any>{
+    return this.http.get<any>(this.baseUrl + unitId + '/learning-tasks/' + id);
+  }
 
   getByUnit(unitId: number): Observable<any[]> {
     return this.http.get<any[]>(this.baseUrl + unitId + '/learning-tasks');
