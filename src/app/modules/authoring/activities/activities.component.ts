@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Course } from '../../learning/model/course.model';
 import { CourseStructureService } from '../course-structure/course-structure.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class ActivitiesComponent implements OnInit {
 
-  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private dialog: MatDialog, private router: Router) { }
 
   course: Course;
   activities: any[];
@@ -35,6 +35,10 @@ export class ActivitiesComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
         this.mapSubactivities(activities);
+        let activityId = this.route.snapshot.queryParams['id'];
+        if (activityId) {
+          this.selectedActivity = this.activities.find(u => u.id == activityId);
+        }
       });
     });
   }
@@ -59,6 +63,10 @@ export class ActivitiesComponent implements OnInit {
 
   select(activity: any) {
     this.selectedActivity = activity;
+    this.router.navigate([], {
+      queryParams: { id: activity.id },
+      queryParamsHandling: 'merge'
+    });
   }
 
   createActivity() {

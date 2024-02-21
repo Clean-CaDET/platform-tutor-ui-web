@@ -16,13 +16,15 @@ export class LearningTaskTreeComponent implements OnInit {
   @Output() learningTaskUpdated = new EventEmitter<any>();
   @Output() learningTaskDeleted = new EventEmitter<number>();
   activityOptions: any;
+  courseId: number;
 
   constructor(private route: ActivatedRoute, private courseService: CourseStructureService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.learningTask.isExpanded = false;
     this.route.params.subscribe((params: Params) => {
-      this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
+      this.courseId = +params.courseId;
+      this.courseService.getCourseActivities(this.courseId).subscribe(activities => {
         this.activityOptions = activities;
       });
     });

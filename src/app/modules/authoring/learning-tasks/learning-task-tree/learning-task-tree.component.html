@@ -51,22 +51,14 @@
                         <span fxFlex><b>{{ step.order }}. {{ step.activityName }} </b> </span>
                         <span *ngIf="!learningTask.isTemplate" style="margin-left: 15px;"> Maksimalan broj poena: {{
                             step.maxPoints }} </span>
-                        <!-- <span style="margin-left: 15px;">Rezultat: {{
-                            step.submissionFormat.submissionGuidelines }}</span> -->
                     </div>
                     <div fxLayoutGap="30px">
                         <span fxLayoutGap="10px">
-                            <button mat-mini-fab color="primary">
-                                <mat-icon matTooltip="Uputstvo" [matTooltipPosition]="'above'">library_books</mat-icon>
-                            </button>
-                            <button mat-mini-fab color="primary">
-                                <mat-icon matTooltip="Primeri" [matTooltipPosition]="'above'">quiz</mat-icon>
+                            <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'activities']" [queryParams]="{id: step.activityId}">
+                                <mat-icon matTooltip="Vidi aktivnost" [matTooltipPosition]="'above'">library_books</mat-icon>
                             </button>
                         </span>
                         <span fxLayoutGap="10px">
-                            <!-- <button mat-mini-fab color="primary">
-                            <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
-                        </button> -->
                             <button mat-mini-fab color="primary" (click)="editStep(step)">
                                 <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
                             </button>
