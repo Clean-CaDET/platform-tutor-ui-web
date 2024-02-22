@@ -1,17 +1,51 @@
-<div style="width: 600px;" fxLayout="column">
-    <div mat-dialog-content>
+<div fxLayout="column">
+
+    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="sticky">
+        <span fxLayout="row">
+            <span fxLayout="column">
+                <span fxFlex>
+                    <h3 style="margin: 0 0 10px; display: inline;"> {{learningTask.name}}: </h3>
+                    <h3 *ngIf="idParam" style="margin: 0 0 10px; display: inline;"> {{step.order}}.
+                        {{step.activityName}} </h3>
+                    <h3 *ngIf="!idParam" style="margin: 0 0 10px; display: inline;"> Novi korak </h3>
+                </span>
+                <span *ngIf="!learningTask.isTemplate"> Maksimalan broj poena: {{ step.maxPoints }} </span>
+            </span>
+            <span fxFlex></span>
+            <span fxLayoutGap="30px" fxLayout="row">
+                <span fxLayoutGap="10px" fxLayout="row">
+                    <button *ngIf="idParam && !editMode" mat-mini-fab color="primary" (click)="editMode = true">
+                        <mat-icon matTooltip="Pregledaj korake" [matTooltipPosition]="'below'">edit</mat-icon>
+                    </button>
+                    <button *ngIf="editMode" mat-mini-fab color="primary"
+                        [disabled]="stepForm.invalid || noItemSelected()" (click)="save()">
+                        <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'below'">check</mat-icon>
+                    </button>
+                    <button *ngIf="editMode" mat-mini-fab color="warn" (click)="setInitialFormValues()">
+                        <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'below'">clear</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]"
+                        [queryParams]="{unit: unitId}">
+                        <mat-icon matTooltip="Pregledaj korake" [matTooltipPosition]="'below'">account_tree</mat-icon>
+                    </button>
+                </span>
+            </span>
+        </span>
+    </mat-card>
+
+    <mat-card style="margin: 10px 20px;">
         <form [formGroup]="stepForm" fxLayout="column">
             <section fxLayoutGap="15px" fxLayout="row">
-                <mat-form-field fxFlex="20" appearance="fill">
+                <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Redni broj</mat-label>
-                    <input formControlName="order" type="number" matInput>
+                    <input formControlName="order" type="number" matInput [readonly]="!editMode">
                 </mat-form-field>
-                <mat-form-field fxFlex appearance="fill">
+                <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Izaberi aktivnost</mat-label>
                     <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="activityId"
-                        [matAutocomplete]="auto">
+                        [matAutocomplete]="auto" [readonly]="!editMode">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
-                        (optionSelected)='getStandards($event.option.value)'>
+                        (optionSelected)='setActivityStandards($event.option.value)'>
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="presentActivity(option)">
                             {{presentActivity(option)}}
                         </mat-option>
@@ -19,38 +53,53 @@
                 </mat-form-field>
             </section>
 
-            <h3 style="margin: 0 0 15px;">Rezultat</h3>
+            <h3 style="margin: 0 0 15px;">Format rezultata</h3>
 
             <section fxLayoutGap="15px" fxLayout="row" formGroupName="submissionFormat">
-                <mat-form-field fxFlex appearance="fill">
+                <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Validacija rezultata</mat-label>
-                    <input formControlName="answerValidation" matInput>
+                    <input formControlName="answerValidation"
+                        placeholder="Unesite regularan izraz za validaciju rezultata" matInput [readonly]="!editMode">
                 </mat-form-field>
-                <mat-form-field fxFlex="60" appearance="fill">
+                <mat-form-field fxFlex="70" [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Uputstvo za podnošenje rezultata</mat-label>
-                    <input formControlName="submissionGuidelines" matInput>
+                    <input formControlName="submissionGuidelines" matInput [readonly]="!editMode">
                 </mat-form-field>
             </section>
 
             <h3 style="margin: 0 0 15px;" *ngIf="standardsFormArray.length">Standardi</h3>
 
             <div *ngFor="let standard of standardsFormArray.controls; let i = index" formArrayName="standards">
-                <section [formGroupName]='i' fxLayoutGap="15px" fxLayout="row">
-                    <mat-form-field fxFlex appearance="fill">
-                        <mat-label>Standard</mat-label>
-                        <input formControlName="name" matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="30" appearance="fill">
-                        <mat-label>Broj bodova</mat-label>
-                        <input formControlName="maxPoints" type="number" matInput>
-                    </mat-form-field>
-                </section>
+                <div fxLayout="row">
+                    <section fxFlex="95" [formGroupName]='i' fxLayoutGap="15px" fxLayout="row">
+                        <mat-form-field fxFlex="25" [appearance]="editMode ? 'fill' : 'outline'">
+                            <mat-label>Naziv standarda</mat-label>
+                            <input formControlName="name" matInput [readonly]="!editMode">
+                        </mat-form-field>
+                        <mat-form-field fxFlex="60" [appearance]="editMode ? 'fill' : 'outline'">
+                            <mat-label>Opis standarda</mat-label>
+                            <input formControlName="description" matInput [readonly]="!editMode">
+                        </mat-form-field>
+                        <mat-form-field fxFlex="8" [appearance]="editMode ? 'fill' : 'outline'">
+                            <mat-label>Broj bodova</mat-label>
+                            <input formControlName="maxPoints" type="number" matInput [readonly]="!editMode">
+                        </mat-form-field>
+                        <div *ngIf="editMode" fxFlexAlign=" center">
+                            <button mat-icon-button (click)="removeStandard(i)" matTooltip="Ukloni standard"
+                                matTooltipPosition="above">
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                    </section>
+                    <span fxFlex="5" *ngIf="editMode && i + 1 === standardsFormArray.controls.length"
+                        fxFlexAlign=" center">
+                        <button mat-icon-button (click)="addStandard()" matTooltip="Dodajte novi standard"
+                            matTooltipPosition="above">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </span>
+                </div>
             </div>
         </form>
-    </div>
-
-    <div fxFlex="column" fxLayoutGap="20px" style="margin-top: 20px;" mat-dialog-actions>
-        <button mat-raised-button color="primary" fxFlex [disabled]="stepForm.invalid || noItemSelected()" (click)="save()">Sačuvaj</button>
-        <button mat-raised-button fxFlex mat-dialog-close>Zatvori</button>
-    </div>
+    </mat-card>
 </div>

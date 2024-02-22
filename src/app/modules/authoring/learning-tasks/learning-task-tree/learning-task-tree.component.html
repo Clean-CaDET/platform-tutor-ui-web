@@ -26,7 +26,7 @@
                         </button>
                     </span>
                     <span fxLayoutGap="10px">
-                        <button mat-mini-fab color="primary" (click)="addStep()">
+                        <button mat-mini-fab color="primary" [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id, 'step']">
                             <mat-icon matTooltip="Dodaj korak" [matTooltipPosition]="'above'">add</mat-icon>
                         </button>
                         <button mat-mini-fab color="primary" (click)="edit()">
@@ -59,7 +59,7 @@
                             </button>
                         </span>
                         <span fxLayoutGap="10px">
-                            <button mat-mini-fab color="primary" (click)="editStep(step)">
+                            <button mat-mini-fab color="primary" [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id, 'step']" [queryParams]="{id: step.id}">
                                 <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
                             </button>
                             <button mat-mini-fab color="warn" (click)="deleteStep(i)">

@@ -1,5 +1,5 @@
 <div fxLayout="column">
-    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="sticky" style="margin-bottom: 15px;">
+    <mat-card fxFlex fxLayout="column" fxLayoutGap="20px" class="sticky">
         <span fxLayout="row">
             <span fxLayout="column">
                 <span fxFlex>
@@ -21,8 +21,8 @@
                         [queryParams]="{unit: unitId}">
                         <mat-icon matTooltip="Pregledaj korake" [matTooltipPosition]="'below'">account_tree</mat-icon>
                     </button>
-                    <button mat-mini-fab color="primary">
-                        <mat-icon matTooltip="Studije slučaja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'unit', learningTask.unitId, 'learning-task', learningTask.id, 'domain-model']">
+                        <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
                     </button>
                 </span>
             </span>

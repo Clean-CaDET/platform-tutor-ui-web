@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { LearningTaskFormComponent } from '../learning-task-form/learning-task-form.component';
-import { StepFormComponent } from '../step-form/step-form.component';
 import { CourseStructureService } from '../../course-structure/course-structure.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -28,6 +27,7 @@ export class LearningTaskTreeComponent implements OnInit {
         this.activityOptions = activities;
       });
     });
+    this.learningTask.steps.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
   }
 
   edit() {
@@ -50,45 +50,6 @@ export class LearningTaskTreeComponent implements OnInit {
 
   delete() {
     this.learningTaskDeleted.emit(this.learningTask.id);
-  }
-
-  addStep() {
-    const dialogRef = this.dialog.open(StepFormComponent, {
-      data: {
-        order: this.learningTask.steps.length + 1,
-        activityOptions: this.activityOptions,
-        isTemplate: this.learningTask.isTemplate
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) return;
-      this.learningTask.steps.push(result);
-      this.learningTask.steps.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
-      this.learningTaskUpdated.emit(this.learningTask);
-    });
-  }
-
-  editStep(selectedStep: any) {
-    const dialogRef = this.dialog.open(StepFormComponent, {
-      data: {
-        step: selectedStep,
-        activityOptions: this.activityOptions,
-        isTemplate: this.learningTask.isTemplate
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) return;
-      let step = this.learningTask.steps.find((u: { id: any; }) => u.id === selectedStep.id);
-      step.order = result.order;
-      step.activityId = result.activityId;
-      step.activityName = result.activityName;
-      step.submissionFormat = result.submissionFormat;
-      step.standards = result.standards;
-      this.learningTask.steps.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
-      this.learningTaskUpdated.emit(this.learningTask);
-    });
   }
 
   deleteStep(index: number) {
