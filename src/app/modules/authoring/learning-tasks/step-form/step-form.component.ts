@@ -20,6 +20,7 @@ export class StepFormComponent implements OnInit {
   step: any;
   activityOptions: any[];
   editMode: boolean = false;
+  selectedActivity: any;
 
   filteredOptions: Observable<any[]>;
 
@@ -33,7 +34,11 @@ export class StepFormComponent implements OnInit {
       this.courseId = +params.courseId;
       this.courseService.getCourseActivities(this.courseId).subscribe(activities => {
         this.activityOptions = activities;
-        this.initilize();
+        this.initialize();
+        this.filteredOptions = this.stepForm.controls['activityId'].valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value || '')),
+        );
       });
     });
   }
@@ -55,13 +60,13 @@ export class StepFormComponent implements OnInit {
       activityName: new FormControl(''),
       submissionFormat: this.builder.group({
         submissionGuidelines: new FormControl('', Validators.required),
-        answerValidation: new FormControl('', Validators.required)
+        answerValidation: new FormControl('')
       }),
       standards: this.builder.array([])
     });
   }
 
-  initilize() {
+  initialize() {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
       this.learningTasksService.get(this.unitId, +params.ltId).subscribe(learningTask => {
@@ -71,10 +76,6 @@ export class StepFormComponent implements OnInit {
           this.step = this.learningTask.steps.find((s: { id: any; }) => s.id == this.idParam);
         }
         this.setInitialFormValues();
-        this.filteredOptions = this.stepForm.controls['activityId'].valueChanges.pipe(
-          startWith(''),
-          map(value => this._filter(value || '')),
-        );
       });
     });
   }
@@ -130,21 +131,41 @@ export class StepFormComponent implements OnInit {
     return this.stepForm.get('standards') as FormArray;
   }
 
-  setActivityStandards(activityName: any) {
+  onActivitySelect(activityName: any) {
+    let activity = this.findActivityByName(activityName);
+    this.setActivityStandards(activity);
+    this.selectedActivity = activity;
+  }
+
+  setActivityStandards(activity: any) {
     if (this.learningTask.isTemplate)
       return;
-    let activity = this.findActivityByName(activityName);
     for (let standard of activity.standards) {
-      const existingStandard = this.standardsFormArray.controls.find((control: FormGroup) => {
-        return control.get('name').value === standard.name && control.get('description').value === standard.description;
-      });
-      if (existingStandard) continue;
+      if (this.standardExists(standard)) continue;
       this.standardsFormArray.push(this.builder.group({
         name: this.builder.control(standard.name, Validators.required),
         description: this.builder.control(standard.description, Validators.required),
         maxPoints: this.builder.control(0, Validators.required)
       }));
     }
+    this.insertBlankStandard(activity);
+  }
+
+  standardExists(standard: any) {
+    return this.standardsFormArray.controls.find((control: FormGroup) => {
+      return control.get('name').value === standard.name && control.get('description').value === standard.description;
+    });
+  }
+
+  insertBlankStandard(activity: any) {
+    if (activity.standards.length == 0 && this.standardsFormArray.length == 0) {
+      this.standardsFormArray.push(this.builder.group({
+        name: this.builder.control('', Validators.required),
+        description: this.builder.control('', Validators.required),
+        maxPoints: this.builder.control('', Validators.required)
+      }));
+    }
+    return activity;
   }
 
   addStandard() {
@@ -159,26 +180,21 @@ export class StepFormComponent implements OnInit {
     this.standardsFormArray.removeAt(index);
   }
 
+  discardChanges() {
+    this.setInitialFormValues();
+    this.selectedActivity = null;
+  }
+
   save() {
     let activity = this.findActivityByName(this.stepForm.get('activityId').value);
     this.stepForm.get('activityId').setValue(activity.id);
     this.stepForm.get('activityName').setValue(activity.name);
-    let order = this.stepForm.get('order').value;
     if (this.idParam) {
       this.editStep();
     } else {
       this.addNewStep();
     }
-    this.learningTasksService.update(this.unitId, this.learningTask).subscribe(updatedLearningTask => {
-      this.learningTask = updatedLearningTask;
-      const step = this.learningTask.steps.find((s: { order: number; }) => s.order == order);
-      this.router.navigate([], {
-        queryParams: { id: step.id },
-        queryParamsHandling: 'merge'
-      });
-      this.setInitialFormValues();
-      this.editMode = false;
-    });
+    this.updateLearningTask();
   }
 
   editStep() {
@@ -190,7 +206,22 @@ export class StepFormComponent implements OnInit {
 
   addNewStep() {
     this.learningTask.steps.push(this.stepForm.value);
-    this.step = this.stepForm.value;
+  }
+
+  updateLearningTask() {
+    let order = this.stepForm.get('order').value;
+    this.learningTasksService.update(this.unitId, this.learningTask).subscribe(updatedLearningTask => {
+      this.learningTask = updatedLearningTask;
+      this.step = this.learningTask.steps.find((s: { order: number; }) => s.order == order);
+      this.idParam = this.step.id;
+      this.router.navigate([], {
+        queryParams: { id: this.idParam },
+        queryParamsHandling: 'merge'
+      });
+      this.setInitialFormValues();
+      this.editMode = false;
+      this.selectedActivity = null;
+    });
   }
 
   noItemSelected() {

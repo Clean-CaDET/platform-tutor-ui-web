@@ -27,6 +27,7 @@ export class LearningTaskTreeComponent implements OnInit {
         this.activityOptions = activities;
       });
     });
+    this.learningTask.isExpanded = true;
     this.learningTask.steps.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
   }
 

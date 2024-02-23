@@ -58,7 +58,10 @@ export class ActivityDetailsComponent implements OnChanges {
   setExamples(activity: any) {
     const examplesArray = this.builder.array([]) as FormArray;
     for (let example of activity.examples) {
-      examplesArray.push(this.builder.group(example));
+      examplesArray.push(this.builder.group({
+        code: new FormControl(example.code, Validators.required),
+        description: new FormControl(example.description, Validators.required)
+      }));
     }
     return examplesArray;
   }
@@ -66,7 +69,10 @@ export class ActivityDetailsComponent implements OnChanges {
   setStandards(activity: any) {
     const standardsArray = this.builder.array([]) as FormArray;
     for (let standard of activity.standards) {
-      standardsArray.push(this.builder.group(standard));
+      standardsArray.push(this.builder.group({
+        name: new FormControl(standard.name, Validators.required),
+        description: new FormControl(standard.description, Validators.required)
+      }));
     }
     return standardsArray;
   }
@@ -123,7 +129,7 @@ export class ActivityDetailsComponent implements OnChanges {
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required)
     }));
-    this.editStandardModes.push(true); 
+    this.editStandardModes.push(true);
   }
 
   deleteStandard(index: number): void {

@@ -21,7 +21,7 @@
                         [disabled]="stepForm.invalid || noItemSelected()" (click)="save()">
                         <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'below'">check</mat-icon>
                     </button>
-                    <button *ngIf="editMode" mat-mini-fab color="warn" (click)="setInitialFormValues()">
+                    <button *ngIf="editMode" mat-mini-fab color="warn" (click)="discardChanges()">
                         <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'below'">clear</mat-icon>
                     </button>
                     <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]"
@@ -45,13 +45,17 @@
                     <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="activityId"
                         [matAutocomplete]="auto" [readonly]="!editMode">
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
-                        (optionSelected)='setActivityStandards($event.option.value)'>
+                        (optionSelected)='onActivitySelect($event.option.value)'>
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="presentActivity(option)">
                             {{presentActivity(option)}}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
             </section>
+
+            <cc-markdown-editor *ngIf="selectedActivity" fxFlex [label]="'Opis'" [text]="selectedActivity.guidance.description.substring(0, 300) + '...'"
+                [editMode]="false">
+            </cc-markdown-editor>
 
             <h3 style="margin: 0 0 15px;">Format rezultata</h3>
 
@@ -71,7 +75,7 @@
 
             <div *ngFor="let standard of standardsFormArray.controls; let i = index" formArrayName="standards">
                 <div fxLayout="row">
-                    <section fxFlex="95" [formGroupName]='i' fxLayoutGap="15px" fxLayout="row">
+                    <section fxFlex="98" [formGroupName]='i' fxLayoutGap="15px" fxLayout="row" fxFlexAlign="end end">
                         <mat-form-field fxFlex="25" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Naziv standarda</mat-label>
                             <input formControlName="name" matInput [readonly]="!editMode">
@@ -86,18 +90,16 @@
                         </mat-form-field>
                         <div *ngIf="editMode" fxFlexAlign=" center">
                             <button mat-icon-button (click)="removeStandard(i)" matTooltip="Ukloni standard"
-                                matTooltipPosition="above">
+                                matTooltipPosition="above" [disabled]="standardsFormArray.controls.length === 1">
                                 <mat-icon>delete</mat-icon>
                             </button>
                         </div>
                     </section>
-                    <span fxFlex="5" *ngIf="editMode && i + 1 === standardsFormArray.controls.length"
-                        fxFlexAlign=" center">
-                        <button mat-icon-button (click)="addStandard()" matTooltip="Dodajte novi standard"
-                            matTooltipPosition="above">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </span>
+                    <button fxFlex="2" *ngIf="editMode && i + 1 === standardsFormArray.controls.length"
+                        fxFlexAlign=" center" mat-icon-button (click)="addStandard()" matTooltip="Dodajte novi standard"
+                        matTooltipPosition="above">
+                        <mat-icon>add</mat-icon>
+                    </button>
                 </div>
             </div>
         </form>

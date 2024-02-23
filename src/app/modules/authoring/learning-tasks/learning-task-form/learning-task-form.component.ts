@@ -38,7 +38,4 @@ export class LearningTaskFormComponent  {
   close() {
     this.dialogref.close();
   }
-
-  
-
 }
