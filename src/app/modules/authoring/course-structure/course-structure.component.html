@@ -18,17 +18,20 @@
                     <div [class.highlight]="selectedUnit?.id===unit.id" class="unit-row">
                         <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                         <span fxLayout="row">
-                            <button mat-icon-button (click)="showLts(unit)"
-                                [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'primary' : ''">
-                                <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">assignment_turned_in</mat-icon>
+                            <button mat-icon-button (click)="showDetails(unit)"
+                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showUnitDetails"
+                                [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'primary' : ''">
+                                <mat-icon matTooltip="Ciljevi" [matTooltipPosition]="'above'">sports_score</mat-icon>
                             </button>
                             <button mat-icon-button (click)="showKcs(unit)"
+                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showKnowledgeComponents"
                                 [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'primary' : ''">
-                                <mat-icon matTooltip="Veštine" [matTooltipPosition]="'above'">account_tree</mat-icon>
+                                <mat-icon matTooltip="Znanje" [matTooltipPosition]="'above'">account_tree</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="showDetails(unit)"
-                                [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'primary' : ''">
-                                <mat-icon matTooltip="Opis" [matTooltipPosition]="'above'">text_snippet</mat-icon>
+                            <button mat-icon-button (click)="showLts(unit)"
+                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showLearningTasks"
+                                [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'primary' : ''">
+                                <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">rebase_edit</mat-icon>
                             </button>
                             <span fxFlex></span>
                             <button mat-icon-button (click)="deleteUnit(unit.id)">

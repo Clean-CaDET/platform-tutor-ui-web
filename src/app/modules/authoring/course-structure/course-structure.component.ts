@@ -32,7 +32,7 @@ export class CourseStructureComponent implements OnInit {
 
         let unitId = this.route.snapshot.queryParams['unit'];
         if (unitId) {
-          this.showLts(this.course.knowledgeUnits.find(u => u.id == unitId));
+          this.showDetails(this.course.knowledgeUnits.find(u => u.id == unitId));
         }
       });
     });
