@@ -1,10 +1,10 @@
 <div fxLayout="column">
-    <mat-card style="margin: 15px 0 0 15px;">
+    <div style="margin: 10px;">
         <button mat-mini-fab color="primary" (click)="add()">
             <mat-icon>add</mat-icon>
         </button>
-        <span>&nbsp; &nbsp; Dodaj novi zadatak</span>
-    </mat-card>
+        <span>&nbsp;&nbsp;Dodaj novi zadatak koji razvija veštinu polaznika.</span>
+    </div>
 
     <div *ngFor="let learningTask of learningTasks">
         <cc-learning-task-tree [learningTask]="learningTask" (learningTaskUpdated)="update($event)"
