@@ -30,7 +30,7 @@ import { LearningObserverComponent } from './learning-observer/learning-observer
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
 import {StarRatingModule} from "angular-star-rating";
-import {MatChipsModule} from "@angular/material/chips";
+import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +53,8 @@ import {MatChipsModule} from "@angular/material/chips";
     TutorImprovementComponent,
     LearningObserverComponent,
     TypingAnimatorDirective,
-    KcRateComponent
+    KcRateComponent,
+    UnitControlsComponent,
   ],
     imports: [
         CommonModule,

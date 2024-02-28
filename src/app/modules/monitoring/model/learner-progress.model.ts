@@ -7,4 +7,5 @@ export interface LearnerProgress {
   kcCount: number;
   satisfiedCount: number;
   suspiciousCount: number;
+  performance: string;
 }

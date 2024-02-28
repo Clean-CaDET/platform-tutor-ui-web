@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../auth.service';
-import { Router, RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Login } from '../login.model';
-import { TokenStorage } from '../jwt/token.service';
 
 @Component({
   selector: 'cc-login',
@@ -18,11 +17,7 @@ export class LoginComponent {
   });
   hasError: boolean;
 
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router,
-    private tokenStorage: TokenStorage
-  ) {}
+  constructor(private authService: AuthenticationService, private router: Router) {}
 
   login(): void {
     const login: Login = {

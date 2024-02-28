@@ -1,14 +1,14 @@
-<ng-container>
-  <button mat-flat-button [color]="selectedControl === 'courses' ? 'accent' : 'primary'"
-    class="controls" routerLink="/management/courses">
+<div fxLayout="column">
+  <button mat-button routerLink="/management/courses" routerLinkActive="mat-flat-button">
+    <mat-icon>collections_bookmark</mat-icon><br>
     Kursevi
   </button>
-  <button mat-flat-button [color]="selectedControl === 'learners' ? 'accent' : 'primary'"
-    class="controls" routerLink="/management/stakeholders/learners">
+  <button mat-button routerLink="/management/stakeholders/learners" routerLinkActive="mat-flat-button">
+    <mat-icon>group</mat-icon><br>
     Polaznici
   </button>
-  <button mat-flat-button [color]="selectedControl === 'instructors' ? 'accent' : 'primary'"
-    class="controls" routerLink="/management/stakeholders/instructors">
+  <button mat-button routerLink="/management/stakeholders/instructors" routerLinkActive="mat-flat-button">
+    <mat-icon>record_voice_over</mat-icon><br>
     Predavači
-</button>
-</ng-container>
+  </button>
+</div>

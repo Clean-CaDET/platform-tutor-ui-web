@@ -8,7 +8,6 @@ import { AuthenticationService } from './infrastructure/auth/auth.service';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
-  opened = false;
   isDarkTheme = true;
 
   constructor(
@@ -17,12 +16,12 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.opened = true;
     this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
     this.applyThemeOnLayers();
     this.checkIfUserExists();
+    this.defineClientSessionId();
   }
-
+  
   changeTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
     this.applyThemeOnLayers();
@@ -48,5 +47,12 @@ export class AppComponent implements OnInit {
 
   private checkIfUserExists(): void {
     this.authService.checkIfUserExists();
+  }
+
+  private defineClientSessionId() {
+    const mobileClientRegex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    let prefix = mobileClientRegex.test(navigator.userAgent) ? 'M' : 'D';
+    let randomSufix = Math.random().toString(36).slice(-6);
+    this.authService.clientId$.next(prefix + randomSufix);
   }
 }

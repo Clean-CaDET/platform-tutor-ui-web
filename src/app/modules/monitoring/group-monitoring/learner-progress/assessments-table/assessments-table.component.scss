@@ -24,6 +24,10 @@ table {
     opacity: 0.5;
   }
 
+  .warn {
+    background-color: #ff5252;
+  }
+
   .border {
     border-right: 1px solid rgba($color: #A1A1A1, $alpha: 1.0);
     padding-left: 10px;

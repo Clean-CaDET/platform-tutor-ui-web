@@ -1,37 +1,29 @@
-<mat-sidenav-container hasBackdrop="false">
-  <mat-sidenav fixedInViewport="true" mode="side" position="end" [opened]="sidenavOpened">
-    <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = false">
-      <mat-icon>keyboard_arrow_right</mat-icon>
-    </button>
-    <h2 class="mat-h2" i18n>
-      Beleške
-    </h2>
-    <cc-notes></cc-notes>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="fixed">
-      <button mat-raised-button mat-icon-button color="primary" (click)="sidenavOpened = true">
-        <mat-icon i18n-matTooltip matTooltip="Tvoje beleške.">assignment</mat-icon>
-      </button>
-    </div>
-    <div id="knowledge-component" *ngIf="knowledgeComponent">
-      <br>
-      <h1 class="mat-h1">Cilj: {{knowledgeComponent.name}}</h1>
-      <cc-learning-object-container
-        *ngFor="let learningObject of learningObjects"
-        [learningObject]="learningObject">
-      </cc-learning-object-container>
-      <br>
-      <div *ngIf="instructionalItemsShown" fxLayoutGap="10px">
-        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
-        <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Pregled lekcije</button>
+<div *ngIf="knowledgeComponent" style="height: 100%; width: 100%;">
+  <cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
+  <mat-sidenav-container hasBackdrop="true" style="height: 100%; width: 100%;">
+    <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
+        <cc-notes></cc-notes>
+    </mat-sidenav>
+    <mat-sidenav-content id="scroller">
+      <div id="knowledge-component">
+        <br>
+        <h1 class="mat-h1">Cilj: {{knowledgeComponent.name}}</h1>
+        <cc-learning-object-container
+          *ngFor="let learningObject of learningObjects"
+          [learningObject]="learningObject">
+        </cc-learning-object-container>
+        <br>
+        <div *ngIf="instructionalItemsShown" fxLayoutGap="10px">
+          <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
+          <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
+        </div>
+        <div *ngIf="!instructionalItemsShown">
+          <div style="margin-bottom: 180px;"></div>
+          <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
+        </div>
+        <br>
+        <br>
       </div>
-      <div *ngIf="!instructionalItemsShown">
-        <div style="margin-bottom: 90px;"></div>
-        <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
-      </div>
-      <br>
-      <br>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

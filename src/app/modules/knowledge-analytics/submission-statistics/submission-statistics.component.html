@@ -1,0 +1,12 @@
+<div *ngFor="let sub of submissionStatistics">
+    <div *ngIf="sub.submission.$type === 'saqSubmission' || sub.submission.$type === 'mcqSubmission'">
+        <b>Count</b>: {{sub.count}}; <b>Answer</b>: {{sub.submission.answer}}
+    </div>
+    <div *ngIf="sub.submission.$type === 'mrqSubmission'">
+        <b>Count</b>: {{sub.count}}; <b>Answers</b>:
+        <ul>
+            <li *ngFor="let a of sub.submission.answers">{{a.text}}</li>
+        </ul>
+    </div>
+    <mat-divider></mat-divider>
+</div>

@@ -4,6 +4,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { EventService } from 'src/app/shared/events/event.service';
+import { AssessmentItemStatistics } from '../model/assessment-item-statistics';
+
+enum AnalyticsType { Unit, Kc, Ai }
 
 @Component({
   selector: 'cc-unit-analytics',
@@ -16,8 +19,12 @@ export class UnitAnalyticsComponent implements OnInit {
   units: Unit[];
 
   selectedKc: KnowledgeComponent;
-  showKcAnalytics: boolean;
-  showAssessmentAnalytics: boolean;
+  assessmentStatistics: AssessmentItemStatistics[];
+  analyticsTypeDisplay: AnalyticsType;
+
+  public get AnalyticsType(): typeof AnalyticsType {
+    return AnalyticsType; 
+  }
 
   constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService,
     private route: ActivatedRoute, private router: Router) {}
@@ -44,8 +51,7 @@ export class UnitAnalyticsComponent implements OnInit {
 
   updateUnit(): void {
     this.selectedKc = null;
-    this.showKcAnalytics = false;
-    this.showAssessmentAnalytics = false;
+    this.analyticsTypeDisplay = AnalyticsType.Unit;
 
     if(this.selectedUnit) {
       this.router.navigate([], {
@@ -57,13 +63,14 @@ export class UnitAnalyticsComponent implements OnInit {
         this.analyticsService.getKnowledgeComponents(this.selectedUnit.id)
           .subscribe(kcs => this.selectedUnit.knowledgeComponents = kcs.sort((k1, k2) => k1.order - k2.order));
       }
+      this.analyticsService.getTopMisconceptions(this.selectedUnit.id)
+        .subscribe(ais => this.assessmentStatistics = ais);
     }
   }
 
-  selectKc(kc: KnowledgeComponent, showKcAnalytics: boolean) {
+  changeDisplay(kc: KnowledgeComponent, displayType: AnalyticsType) {
     this.selectedKc = kc;
-    this.showKcAnalytics = showKcAnalytics;
-    this.showAssessmentAnalytics = !showKcAnalytics;
+    this.analyticsTypeDisplay = displayType;
   }
 
   exportToCSV(unit: Unit): void {

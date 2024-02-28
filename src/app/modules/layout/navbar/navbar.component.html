@@ -1,14 +1,33 @@
-<div>
-  <span>
-    <img class="hover" *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
-    <img class="hover" *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" width="120px" alt="Clean CaDET" [routerLink]="['home']">
-  </span>
+<div fxLayout="column" fxLayoutAlign=" center" style="height: 100vh" [ngClass]="{'darknav': isDarkTheme, 'lightnav': !isDarkTheme}">
+  <div class="logo" [routerLink]="['home']">
+    <img *ngIf="isDarkTheme" src="../../../../assets/images/logo.png" alt="Clean CaDET">
+    <img *ngIf="!isDarkTheme" src="../../../../assets/images/black.png" alt="Clean CaDET">
+  </div>
 
-  <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role.includes('learner')"></cc-learner-controls>
-  <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
-  <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
-
-  <button color="primary" *ngIf="!user" id="login" mat-flat-button [routerLink]="['login']" i18n>Prijavi se</button>
-  <small *ngIf="user" color="primary" id="username">{{trim(user.username)}}</small>
-  <button color="primary" *ngIf="user" mat-flat-button id="logout" (click)="onLogout()" [routerLink]="['home']" i18n>Odjavi se</button>
+  <div style="width: 100%; height: 100%;" fxLayout="column">
+    <cc-learner-controls [learnerId]="user?.learnerId" *ngIf="user?.role.includes('learner')"></cc-learner-controls>
+    <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
+    <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
+    <div fxFlex="grow"></div>
+    <div fxLayout="column">
+      <mat-divider></mat-divider>
+      <button mat-button *ngIf="!isDarkTheme" (click)="changeTheme()" class="theme-hide">
+        <mat-icon>bedtime</mat-icon><br>
+        Zatamni
+      </button>
+      <button mat-button *ngIf="isDarkTheme" (click)="changeTheme()" class="theme-hide">
+        <mat-icon>light_mode</mat-icon><br>
+        Osvetli
+      </button>
+      <button *ngIf="!user" mat-button [routerLink]="['login']" i18n>
+        <mat-icon>login</mat-icon><br>
+        Prijavi se
+      </button>
+      <small *ngIf="user" style="text-align: center;">{{trim(user.username)}}</small>
+      <button *ngIf="user" mat-button (click)="onLogout()" [routerLink]="['home']" i18n>
+        <mat-icon>logout</mat-icon><br>
+        Odjavi se
+      </button>
+    </div>
+  </div>
 </div>

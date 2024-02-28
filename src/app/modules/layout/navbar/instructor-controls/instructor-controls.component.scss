@@ -3,20 +3,21 @@
 }
 
 button {
-  padding-bottom: 5px;
-  padding-top: 5px;
+  padding: 5px;
   line-height: 160%;
+  text-align: center;
 }
 
-.controls {
-  margin-top: 20px;
+small {
+  padding-top: 10px;
+  padding-bottom: 5px;
   font-size: 12px;
-  width: 85%;
-  margin-left: 7.5%;
-  white-space: normal;
   text-align: center;
+  max-height: 46px;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
 }
 
 .mat-drawer-inner-container::-webkit-scrollbar {

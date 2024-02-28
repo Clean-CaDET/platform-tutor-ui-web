@@ -2,8 +2,16 @@
   display: block;
 }
 
-.hover {
+.logo {
+  margin: 10px 0 10px 0;
   cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+.logo img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 button {
@@ -12,40 +20,26 @@ button {
   line-height: 160%;
 }
 
-#home, #login, #logout, #profile {
-  margin-top: 20px;
+small {
+  padding-top: 10px;
   font-size: 12px;
-  width: 85%;
-  margin-left: 7.5%;
-  white-space: normal;
-  text-align: center;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-img {
-  width: 85%;
-  margin-left: 7.5%;
-}
-
-#login, #logout {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  margin-bottom: 20%;
-}
-
-#username {
-  position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 60%;
-  left: 0;
-  right: 0;
-  bottom: 0;
   text-align: center;
 }
 
 .mat-drawer-inner-container::-webkit-scrollbar {
   display: none;
+}
+
+.lightnav {
+  background-color: #ddd;
+}
+
+.darknav {
+  background-color: #021634;
+}
+
+@media only screen and (max-height: 430px) {
+  .theme-hide {
+      display: none;
+  }
 }
