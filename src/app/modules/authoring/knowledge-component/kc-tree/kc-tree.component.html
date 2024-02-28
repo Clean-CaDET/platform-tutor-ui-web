@@ -51,7 +51,7 @@
   <div *ngFor="let node of nodes">
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
   </div>
-  <div *ngIf="nodes?.length === 0" style="margin: 15px 0 15px 0;">
+  <div *ngIf="nodes?.length === 0" style="margin: 5px 10px">
     <button mat-mini-fab (click)="addKc()" color="primary">
       <mat-icon>add</mat-icon>
     </button>
