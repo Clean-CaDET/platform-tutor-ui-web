@@ -15,6 +15,7 @@ import { Login } from './login.model';
 })
 export class AuthenticationService {
   user$ = new BehaviorSubject(null);
+  clientId$ = new BehaviorSubject(null);
 
   constructor(
     private http: HttpClient,
@@ -37,7 +38,7 @@ export class AuthenticationService {
   }
 
   logout(): void {
-    this.router.navigate(['/home']).then(_ => {
+    this.router.navigate(['/login']).then(_ => {
       this.tokenStorage.clear();
       this.user$.next(null);
       }

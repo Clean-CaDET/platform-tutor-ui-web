@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
+import { SubmissionStatisticsComponent } from '../../knowledge-analytics/submission-statistics/submission-statistics.component';
 
 @Component({
   selector: 'cc-assessment-items',
@@ -14,6 +15,7 @@ export class AssessmentItemsComponent implements OnInit {
   kcId: number;
   assessmentItems: AssessmentItem[];
   editMap: any = {};
+  selectedAi: number;
 
   constructor(private assessmentService: AssessmentItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
 
@@ -24,6 +26,7 @@ export class AssessmentItemsComponent implements OnInit {
         this.assessmentItems = items.sort((a, b) => a.order - b.order);
         this.editMap = {};
         this.assessmentItems.forEach(i => this.editMap[i.id] = false);
+        this.selectedAi = +this.route.snapshot.queryParams['aiId'];
         setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 200);
       });
     });
@@ -105,5 +108,16 @@ export class AssessmentItemsComponent implements OnInit {
   private getMaxOrder() {
     if(this.assessmentItems.length === 0) return 0;
     return Math.max(...this.assessmentItems.map(i => i.order));
+  }
+
+  viewCommonWrongAnswers(aiId: number) {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.maxHeight = '800px';
+    dialogConfig.maxWidth = '800px';
+    dialogConfig.data = {
+      kcId: this.kcId,
+      aiId
+    };
+    this.dialog.open(SubmissionStatisticsComponent, dialogConfig)
   }
 }

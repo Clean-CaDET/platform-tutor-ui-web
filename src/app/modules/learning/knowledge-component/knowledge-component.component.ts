@@ -108,7 +108,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   private scrollToTop() {
-    document.querySelector('#router-outlet').scrollTop = 0;
+    document.querySelector('#scroller').scrollTop = 0;
   }
 
   @HostListener('window:beforeunload', ['$event'])
