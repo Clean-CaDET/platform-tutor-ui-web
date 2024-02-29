@@ -26,8 +26,6 @@ import { LearningTasksComponent } from './learning-tasks/learning-tasks.componen
 import { LearningTaskTreeComponent } from './learning-tasks/learning-task-tree/learning-task-tree.component';
 import { LearningTaskFormComponent } from './learning-tasks/learning-task-form/learning-task-form.component';
 import { StepFormComponent } from './learning-tasks/step-form/step-form.component';
-import { DomainModelComponent } from './learning-tasks/domain-model/domain-model.component';
-import { CaseStudiesComponent } from './learning-tasks/case-studies/case-studies.component';
 
 @NgModule({
   declarations: [
@@ -49,9 +47,7 @@ import { CaseStudiesComponent } from './learning-tasks/case-studies/case-studies
     LearningTasksComponent,
     LearningTaskTreeComponent,
     LearningTaskFormComponent,
-    StepFormComponent,
-    DomainModelComponent,
-    CaseStudiesComponent
+    StepFormComponent
   ],
   imports: [
     CommonModule,

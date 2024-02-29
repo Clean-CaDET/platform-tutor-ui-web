@@ -41,8 +41,6 @@ export class LearningTaskTreeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       result.id = this.learningTask.id,
-      result.domainModel = this.learningTask.domainModel;
-      result.caseStudies = this.learningTask.caseStudies;
       result.steps = this.learningTask.steps;
       result.maxPoints = this.learningTask.maxPoints;
       this.learningTaskUpdated.emit(result);

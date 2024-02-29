@@ -25,7 +25,6 @@ export class LearningTasksComponent  {
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      result.caseStudies = [];
       result.steps = [];
       this.create(result);
     });
@@ -45,8 +44,6 @@ export class LearningTasksComponent  {
       learningTask.name = updatedLearningTask.name;
       learningTask.description = updatedLearningTask.description;
       learningTask.isTemplate = updatedLearningTask.isTemplate;
-      learningTask.domainModel = updatedLearningTask.domainModel;
-      learningTask.caseStudies = updatedLearningTask.caseStudies;
       learningTask.steps = updatedLearningTask.steps;
       learningTask.maxPoints = updatedLearningTask.maxPoints;
     });
