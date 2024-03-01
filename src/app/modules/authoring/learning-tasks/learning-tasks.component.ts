@@ -17,35 +17,31 @@ export class LearningTasksComponent  {
   constructor(private route: ActivatedRoute, private learningTasksService: LearningTasksService, private dialog: MatDialog) { }
   
   add() {
+    const dialogRef = this.dialog.open(LearningTaskFormComponent, {});
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(!result) return;
+      result.steps = [];
+      const unitId = this.route.snapshot.queryParams['unit'];
+      this.learningTasksService.create(unitId, result).subscribe(newLearningTask => {
+        this.learningTasks = [...this.learningTasks, newLearningTask];
+      });
+    });
+  }
+
+  clone(template: any) {
     const dialogRef = this.dialog.open(LearningTaskFormComponent, {
       data: {
-        learningTask:  {}
+        template
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      result.steps = [];
-      this.create(result);
-    });
-  }
-
-  create(learningTask: any) {
-    const unitId = this.route.snapshot.queryParams['unit'];
-    this.learningTasksService.create(unitId, learningTask).subscribe(newLearningTask => {
-      this.learningTasks = [...this.learningTasks, newLearningTask];
-    });
-  }
-
-  update(learningTask: any) {
-    const unitId = this.route.snapshot.queryParams['unit'];
-    this.learningTasksService.update(unitId, learningTask).subscribe(updatedLearningTask => {
-      let learningTask = this.learningTasks.find(u => u.id === updatedLearningTask.id);
-      learningTask.name = updatedLearningTask.name;
-      learningTask.description = updatedLearningTask.description;
-      learningTask.isTemplate = updatedLearningTask.isTemplate;
-      learningTask.steps = updatedLearningTask.steps;
-      learningTask.maxPoints = updatedLearningTask.maxPoints;
+      const unitId = this.route.snapshot.queryParams['unit'];
+      this.learningTasksService.clone(unitId, template.id,result).subscribe(newLearningTask => {
+        this.learningTasks = [...this.learningTasks, newLearningTask];
+      });
     });
   }
 
@@ -60,5 +56,10 @@ export class LearningTasksComponent  {
         });
       }
     });
+  }
+
+  shorten(text: string): string {
+    if(text.length <= 800) return text;
+    return text.substring(0, 800) + "...";
   }
 }

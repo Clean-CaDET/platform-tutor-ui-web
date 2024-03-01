@@ -10,23 +10,18 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class LearningTaskFormComponent  {
 
   learningTaskForm: FormGroup;
-  learningTask: any;
+  template: any;
 
   constructor(private builder: FormBuilder, private dialogref: MatDialogRef<LearningTaskFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { 
-
-    this.learningTask = data.learningTask;
+    this.template = data?.template;
 
     this.createForm();
-    
-    if(this.learningTask) {
-      this.learningTaskForm.patchValue(this.learningTask);
-    }
   }
 
   createForm(): void {
     this.learningTaskForm = this.builder.group({
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required),
+      description: new FormControl(''),
       isTemplate: new FormControl(false) 
     });
   }

@@ -74,7 +74,7 @@ export class CourseStructureComponent implements OnInit {
     this.showUnitDetails = true;
 
     this.router.navigate([], {
-      queryParams: { unit: unit.id },
+      queryParams: { unit: unit.id, mode: '' },
       queryParamsHandling: 'merge'
     });
   }
@@ -89,7 +89,7 @@ export class CourseStructureComponent implements OnInit {
     });
 
     this.router.navigate([], {
-      queryParams: { unit: unit.id },
+      queryParams: { unit: unit.id, mode: 'kc' },
       queryParamsHandling: 'merge'
     });
   }
@@ -104,7 +104,7 @@ export class CourseStructureComponent implements OnInit {
     });
 
     this.router.navigate([], {
-      queryParams: { unit: unit.id },
+      queryParams: { unit: unit.id, mode: 'lt' },
       queryParamsHandling: 'merge'
     });
   }

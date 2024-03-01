@@ -28,7 +28,7 @@
                                 [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'primary' : ''">
                                 <mat-icon matTooltip="Znanje" [matTooltipPosition]="'above'">account_tree</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="showLts(unit)"
+                            <button mat-icon-button (click)="showTasks(unit)"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showLearningTasks"
                                 [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'primary' : ''">
                                 <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">rebase_edit</mat-icon>

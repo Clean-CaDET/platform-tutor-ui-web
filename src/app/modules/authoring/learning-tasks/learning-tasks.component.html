@@ -3,11 +3,42 @@
         <button mat-mini-fab color="primary" (click)="add()">
             <mat-icon>add</mat-icon>
         </button>
-        <span>&nbsp;&nbsp;Dodaj novi zadatak koji razvija veštinu polaznika.</span>
+        <span>&nbsp;&nbsp;Inicijalizuj novi zadatak za razvoj veština koje su ishod lekcije.</span>
     </div>
 
     <div *ngFor="let learningTask of learningTasks">
-        <cc-learning-task-tree [learningTask]="learningTask" (learningTaskUpdated)="update($event)"
-            (learningTaskDeleted)="delete($event)"></cc-learning-task-tree>
+        <mat-card fxFlex style="margin: 10px;" fxLayout="column">
+            <div fxFlex fxLayout="row">
+                <div fxFlex>
+                    <span *ngIf="learningTask.isTemplate">[šablon] </span>
+                    <b>{{learningTask.name}}</b>
+                </div>
+                <div fxLayoutGap="40px">
+                    <span fxLayoutGap="10px">
+                        <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="clone(learningTask)">
+                            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
+                        </button>
+                        <button mat-icon-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
+                            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                        </button>
+                    </span>
+                    <button mat-icon-button (click)="delete(learningTask.id)">
+                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div>
+                <small *ngIf="!learningTask.isTemplate">
+                    <markdown>{{ shorten(learningTask.description) }}</markdown>
+                    <b>Broj poena</b>: {{ learningTask.maxPoints }}<br>
+                    <b>Koraci</b>:
+                </small>
+                <small>
+                    <ol>
+                        <li *ngFor="let s of learningTask.steps">{{ s.activityName }}</li>
+                    </ol>
+                </small>
+            </div>
+        </mat-card>
     </div>
 </div>

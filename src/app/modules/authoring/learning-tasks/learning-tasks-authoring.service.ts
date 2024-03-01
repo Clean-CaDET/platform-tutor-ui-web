@@ -23,6 +23,10 @@ export class LearningTasksService {
   create(unitId: number, learningTask: any) {
     return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks', learningTask);
   }
+  
+  clone(unitId: number, taskId: number, newTask: any) {
+    return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks' + taskId + '/clone', newTask);
+  }
 
   update(unitId: number, learningTask: any) {
     return this.http.put<any>(this.baseUrl + unitId + '/learning-tasks', learningTask);
