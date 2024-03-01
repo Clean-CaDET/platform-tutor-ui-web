@@ -25,6 +25,7 @@ import { ActivityDetailsComponent } from './activities/activity-details/activity
 import { LearningTasksComponent } from './learning-tasks/learning-tasks.component';
 import { LearningTaskFormComponent } from './learning-tasks/learning-task-form/learning-task-form.component';
 import { StepFormComponent } from './learning-tasks/step-form/step-form.component';
+import { LearningTaskComponent } from './learning-tasks/learning-task/learning-task.component'
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { StepFormComponent } from './learning-tasks/step-form/step-form.componen
     ActivityDetailsComponent,
     LearningTasksComponent,
     LearningTaskFormComponent,
-    StepFormComponent
+    StepFormComponent,
+    LearningTaskComponent
   ],
   imports: [
     CommonModule,

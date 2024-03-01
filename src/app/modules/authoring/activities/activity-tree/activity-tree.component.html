@@ -1,7 +1,7 @@
 <div>
     <div fxLayout="row">
-        <mat-card [class.highlight]="selectedActivity?.id===activity.id" style="margin-bottom: 5px; cursor:pointer;"
-            fxFlex fxLayout="row" (click)="select(activity)">
+        <div [class.highlight]="selectedActivity?.id===activity.id"
+            style="margin-bottom: 5px; cursor:pointer; padding: 10px;" fxFlex fxLayout="row" (click)="select(activity)">
             <div fxFlex fxLayout="column">
                 <span fxFlex style="font-size: 11pt;"><b> {{activity.code}}: </b>{{activity.name}}</span>
             </div>
@@ -15,8 +15,9 @@
                     </button>
                 </span>
             </div>
-        </mat-card>
+        </div>
     </div>
+    <mat-divider></mat-divider>
 
     <div *ngIf="true && activity.subactivities.length">
         <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
@@ -24,8 +25,9 @@
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <mat-card [class.highlight]="selectedActivity?.id===subactivity.id"
-                style="margin-bottom: 5px; cursor:pointer" fxFlex fxLayout="row" (click)="select(subactivity)">
+            <div [class.highlight]="selectedActivity?.id===subactivity.id"
+                style="margin-bottom: 5px; cursor:pointer; padding: 10px;" fxFlex fxLayout="row"
+                (click)="select(subactivity)">
                 <div fxFlex fxLayout="column">
                     <span style="font-size: 11pt;" fxFlex><b>{{subactivity.order}}.</b> {{subactivity.code}}:
                         {{subactivity.name}}
@@ -46,7 +48,10 @@
                         </button>
                     </span>
                 </div>
-            </mat-card>
+
+            </div>
+            <mat-divider></mat-divider>
+
         </div>
     </div>
 </div>

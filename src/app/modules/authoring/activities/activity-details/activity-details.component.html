@@ -1,7 +1,7 @@
 <div style="padding-bottom: 15px;">
     <form [formGroup]="activityForm">
         <section style="position: relative;">
-            <mat-card style="position: sticky; top: 0; z-index: 1000;">
+            <div style="position: sticky; top: 0; z-index: 1000; padding: 10px; background-color: #fafafa">
                 <span fxLayoutGap="20px">
                     <mat-form-field fxFlex="22" [appearance]="editMode ? 'fill' : 'outline'">
                         <mat-label>Kod</mat-label>
@@ -29,7 +29,7 @@
                         </span>
                     </section>
                 </span>
-            </mat-card>
+            </div>
 
             <div style="overflow-y: auto;">
                 <h3 style="margin-bottom: 0;"><b>Opis</b></h3>
@@ -40,9 +40,11 @@
                         [editMode]="editMode"></cc-markdown-editor>
                 </section>
 
+                <mat-divider></mat-divider>
+
                 <!-- Examples -->
 
-                <h3 *ngIf="getExamples.controls.length !== 0" style="margin-top: 0;"><b>Primeri</b></h3>
+                <h3 *ngIf="getExamples.controls.length !== 0"><b>Primeri</b></h3>
                 <div *ngFor="let example of getExamples.controls; let i = index;">
                     <mat-card fxLayout="column" style="margin-right: 15px; padding-top: 15px; margin-bottom: 15px;">
                         <div fxFlex fxLayout="row">
@@ -87,6 +89,8 @@
                     style="margin-bottom: 5px;">
                     + Dodaj primer
                 </button>
+
+                <mat-divider></mat-divider>
 
                 <!-- Standards -->
 

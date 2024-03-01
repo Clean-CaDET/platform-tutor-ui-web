@@ -1,15 +1,17 @@
-<div fxLayout="column" style="height: 100vh;">
+<div fxLayout="column" style="height: 100vh; position: relative;">
     <div fxFlex fxLayout="row">
 
         <!-- Left container for activity -->
-        <div fxFlex="26" fxLayout="column" style="margin: 0 15px 0 15px; overflow-y: auto; position: relative;">
-            <mat-card style="margin-bottom: 5px; position: sticky; top: 0; z-index: 1;">
+        <div fxFlex="26" fxLayout="column" style="margin: 0 15px 0 15px;">
+            <div style="margin-bottom: 5px; position: sticky; top: 0; z-index: 1; padding: 10px; background-color: #fafafa;">
                 <h3 style="font-size: 12pt;">Aktivnosti</h3>
                 <span fxFlex></span>
                 <button mat-icon-button color="primary" (click)="createActivity()">
                     <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                 </button>
-            </mat-card>
+            </div>
+            <mat-divider></mat-divider>
+            
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
                     <cc-activity-tree [activity]="activity" [selectedActivity]="selectedActivity"
@@ -20,7 +22,7 @@
         </div>
 
         <!-- Right container for activity details -->
-        <div *ngIf="selectedActivity" fxFlex="74" style="height: 100%;">
+        <div *ngIf="selectedActivity" fxFlex="74" style="height: 100vh;">
             <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
         </div>
     </div>
