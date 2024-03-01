@@ -32,7 +32,17 @@ export class CourseStructureComponent implements OnInit {
 
         let unitId = this.route.snapshot.queryParams['unit'];
         if (unitId) {
-          this.showDetails(this.course.knowledgeUnits.find(u => u.id == unitId));
+          let unit = this.course.knowledgeUnits.find(u => u.id == unitId)
+          let mode = this.route.snapshot.queryParams['mode'];
+          if(mode == 'kc') {
+            this.showKcs(unit);
+            return;
+          }
+          if(mode == 'lt') {
+            this.showTasks(unit);
+            return;
+          }
+          this.showDetails(unit);
         }
       });
     });
@@ -84,7 +94,7 @@ export class CourseStructureComponent implements OnInit {
     });
   }
 
-  showLts(unit: Unit) {
+  showTasks(unit: Unit) {
     this.ltService.getByUnit(unit.id).subscribe(learningTasks => {
       this.selectedUnit = unit;
       this.learningTasks = learningTasks;
