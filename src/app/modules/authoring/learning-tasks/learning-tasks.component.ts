@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { LearningTaskFormComponent } from './learning-task-form/learning-task-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { LearningTask } from './model/learning-task';
 
 @Component({
   selector: 'cc-learning-tasks',
@@ -12,34 +13,20 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 })
 export class LearningTasksComponent  {
 
-  @Input() learningTasks: any[];
+  @Input() learningTasks: LearningTask[];
 
   constructor(private route: ActivatedRoute, private learningTasksService: LearningTasksService, private dialog: MatDialog) { }
   
-  add() {
-    const dialogRef = this.dialog.open(LearningTaskFormComponent, {});
+  add(template: LearningTask) {
+    let data = {};
+    if(template) data = { data: {template}};
+
+    const dialogRef = this.dialog.open(LearningTaskFormComponent, data);
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
-      result.steps = [];
       const unitId = this.route.snapshot.queryParams['unit'];
       this.learningTasksService.create(unitId, result).subscribe(newLearningTask => {
-        this.learningTasks = [...this.learningTasks, newLearningTask];
-      });
-    });
-  }
-
-  clone(template: any) {
-    const dialogRef = this.dialog.open(LearningTaskFormComponent, {
-      data: {
-        template
-      },
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(!result) return;
-      const unitId = this.route.snapshot.queryParams['unit'];
-      this.learningTasksService.clone(unitId, template.id,result).subscribe(newLearningTask => {
         this.learningTasks = [...this.learningTasks, newLearningTask];
       });
     });

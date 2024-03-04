@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LearningTask } from './model/learning-task';
 
 @Injectable({
   providedIn: 'root'
@@ -12,27 +13,23 @@ export class LearningTasksService {
 
   constructor(private http: HttpClient) { }
 
-  get(unitId: number, id: number): Observable<any>{
-    return this.http.get<any>(this.baseUrl + unitId + '/learning-tasks/' + id);
+  get(unitId: number, id: number): Observable<LearningTask>{
+    return this.http.get<LearningTask>(this.baseUrl + unitId + '/learning-tasks/' + id);
   }
 
-  getByUnit(unitId: number): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + unitId + '/learning-tasks');
+  getByUnit(unitId: number): Observable<LearningTask[]> {
+    return this.http.get<LearningTask[]>(this.baseUrl + unitId + '/learning-tasks');
   }
 
-  create(unitId: number, learningTask: any) {
-    return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks', learningTask);
+  create(unitId: number, learningTask: LearningTask) {
+    return this.http.post<LearningTask>(this.baseUrl + unitId + '/learning-tasks', learningTask);
   }
   
-  clone(unitId: number, taskId: number, newTask: any) {
-    return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks' + taskId + '/clone', newTask);
-  }
-
-  update(unitId: number, learningTask: any) {
-    return this.http.put<any>(this.baseUrl + unitId + '/learning-tasks', learningTask);
+  update(unitId: number, learningTask: LearningTask) {
+    return this.http.put<LearningTask>(this.baseUrl + unitId + '/learning-tasks', learningTask);
   }
 
   delete(unitId: number, learningTaskId: number) {
-    return this.http.delete<any>(this.baseUrl + unitId + '/learning-tasks/' + learningTaskId);
+    return this.http.delete<LearningTask>(this.baseUrl + unitId + '/learning-tasks/' + learningTaskId);
   }
 }

@@ -1,6 +1,6 @@
 <div fxLayout="column">
     <div style="margin: 10px;">
-        <button mat-mini-fab color="primary" (click)="add()">
+        <button mat-mini-fab color="primary" (click)="add(null)">
             <mat-icon>add</mat-icon>
         </button>
         <span>&nbsp;&nbsp;Inicijalizuj novi zadatak za razvoj veština koje su ishod lekcije.</span>
@@ -15,7 +15,7 @@
                 </div>
                 <div fxLayoutGap="40px">
                     <span fxLayoutGap="10px">
-                        <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="clone(learningTask)">
+                        <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="add(learningTask)">
                             <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
                         </button>
                         <button mat-icon-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
