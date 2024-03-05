@@ -19,8 +19,8 @@
             <span style="cursor: default;">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </span>
-            <div [class.highlight]="selectedActivity?.id===subactivity.id"
-                class="row" fxFlex fxLayout="row" (click)="select(subactivity)">
+            <div class="row" fxFlex fxLayout="row" fxLayoutAlign=" center"
+                [class.highlight]="selectedActivity?.id===subactivity.id" (click)="select(subactivity)">
                 <small fxFlex>
                     {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
                 </small>

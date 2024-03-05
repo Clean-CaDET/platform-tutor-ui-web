@@ -93,7 +93,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activitySaved.emit(this.activityForm.value);
   }
 
-  get getExamples(): any {
+  get examples(): any {
     return this.activityForm.get('examples') as FormArray;
   }
 
@@ -139,7 +139,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activitySaved.emit(this.activityForm.value);
   }
 
-  get getStandards(): any {
+  get standards(): any {
     return this.activityForm.get('standards') as FormArray;
   }
 

@@ -35,7 +35,7 @@ export class ActivitiesComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.courseService.getCourseActivities(+params.courseId).subscribe(activities => {
         this.mapSubactivities(activities);
-        let activityId = this.route.snapshot.queryParams['id'];
+        let activityId = this.route.snapshot.queryParams['activityId'];
         if (activityId) {
           this.selectedActivity = this.activities.find(u => u.id == activityId);
         }
@@ -64,7 +64,7 @@ export class ActivitiesComponent implements OnInit {
   select(activity: any) {
     this.selectedActivity = activity;
     this.router.navigate([], {
-      queryParams: { id: activity.id },
+      queryParams: { activityId: activity.id },
       queryParamsHandling: 'merge'
     });
   }

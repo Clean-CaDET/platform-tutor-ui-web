@@ -17,9 +17,9 @@
                 </div>
             </cdk-virtual-scroll-viewport>
         </div>
-
+        <mat-divider vertical="true"></mat-divider>
         <!-- Right container for activity details -->
-        <div *ngIf="selectedActivity" fxFlex="75">
+        <div *ngIf="selectedActivity" fxFlex="70">
             <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
         </div>
     </div>
