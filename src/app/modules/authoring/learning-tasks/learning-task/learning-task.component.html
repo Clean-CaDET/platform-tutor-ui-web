@@ -1,139 +1,41 @@
-<div fxLayout="column" fxLayoutGap="15px" style="height: 100vh;">
-    <mat-card style="margin-bottom: 15px; padding-bottom: 0; height: 30%;">
-        <section fxLayout="row" fxLayoutGap="10px">
-            <form fxFlex="70" fxLayout="column">
-                <section fxFlex fxLayout="column">
-                    <section fxLayoutGap="20px" fxLayout="row">
-                        <mat-form-field fxFlex="85" appearance="fill">
-                            <mat-label>Naziv</mat-label>
-                            <input matInput>
-                        </mat-form-field>
-                        <mat-checkbox fxFlex fxFlexAlign="center">Šablon</mat-checkbox>
-                        <div fxFlex fxLayoutGap="5px" fxLayout="row" fxFlexAlign="start">
-                            <button mat-icon-button color="primary">
-                                <mat-icon>check</mat-icon>
-                            </button>
-                            <button mat-icon-button color="warn">
-                                <mat-icon>clear</mat-icon>
-                            </button>
-                        </div>
-                    </section>
-                    <mat-form-field fxFlex="70" appearance="fill">
-                        <mat-label>Opis</mat-label>
-                        <textarea matInput></textarea>
-                    </mat-form-field>
-                </section>
-            </form>
-            <mat-divider [vertical]="true"></mat-divider>
-            <div fxFlex fxLayoutGap="5px" fxLayout="column">
-                <div fxFlex="18" fxLayoutGap="5px" fxLayout="row" class="step-row">
-                    <div fxFlex="95">
-                        <b>Koraci</b>
-                    </div>
-                    <div fxFlex fxFlexAlign=" center">
-                        <button mat-icon-button color="primary">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </div>
-                </div>
-                <mat-divider></mat-divider>
-                <div fxFlex="18" fxLayout="row" class="step-row">
-                    <div fxFlex fxFlex="95">
-                        <span style="font-size: 11pt;"><b> 1. Prva aktivnost </b></span>
-                    </div>
-                    <div fxFlex fxFlexAlign="center">
-                        <button mat-icon-button>
-                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-                <mat-divider></mat-divider>
-                <div fxFlex="18" fxLayout="row" class="step-row">
-                    <div fxFlex="95">
-                        <span style="font-size: 11pt;"><b> 2. Druga aktivnost </b></span>
-                    </div>
-                    <div fxFlex fxFlexAlign="center">
-                        <button mat-icon-button>
-                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
-                        </button>
-                    </div>
-                </div>
-                <mat-divider></mat-divider>
-            </div>
-        </section>
-    </mat-card>
-
-    <cc-activities style="overflow-y: auto;"> </cc-activities>
-    <mat-divider></mat-divider>
-
-    <div fxFlex="15" style="overflow: scroll;">
-        <div style="padding: 10px;">
-            <h3 style="margin: 0 0 15px;">Format rezultata</h3>
-            <section fxLayoutGap="15px" fxLayout="row">
-                <mat-form-field fxFlex="30" [appearance]="'fill'">
-                    <mat-label>Validacija rezultata</mat-label>
-                    <input placeholder="Unesite regularan izraz za validaciju rezultata" matInput>
-                </mat-form-field>
-                <mat-form-field fxFlex="70" [appearance]="'fill'">
-                    <mat-label>Uputstvo za podnošenje rezultata</mat-label>
-                    <input matInput>
-                </mat-form-field>
-            </section>
+<div fxLayout="row" style="height: 100vh;">
+    <div fxFlex="20" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign=" center" class="step-row">
+            <b fxFlex>Korpa za podršku kupovina tura</b>
+            <button *ngIf="!editMode" mat-icon-button (click)="editMode = true">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div>
+        <div fxLayout="row" class="step-row" fxLayoutAlign=" center">
+            <span fxFlex>Koraci</span>
+            <button mat-icon-button>
+                <mat-icon>add</mat-icon>
+            </button>
         </div>
         <mat-divider></mat-divider>
-        <div style="padding: 10px;">
-            <h3 style="margin: 0 0 15px;">Standardi</h3>
-            <div fxLayout="row">
-                <section fxFlex="98" fxLayoutGap="15px" fxLayout="row" fxFlexAlign="end end">
-                    <mat-form-field fxFlex="25" [appearance]="'fill'">
-                        <mat-label>Naziv standarda</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="60" [appearance]="'fill'">
-                        <mat-label>Opis standarda</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="8" [appearance]="'fill'">
-                        <mat-label>Broj bodova</mat-label>
-                        <input type="number" matInput>
-                    </mat-form-field>
-                    <div fxFlexAlign=" center">
-                        <button mat-icon-button matTooltip="Ukloni standard" matTooltipPosition="above">
-                            <mat-icon>delete</mat-icon>
-                        </button>
+        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+            <div *cdkVirtualFor="let step of task?.steps">
+                <div [class.highlight]="selectedStep?.id===step.id" class="step-row">
+                    <span>{{step.order}}. {{step.activityName}}</span>
+                    <div fxLayout="row">
+                    <button mat-icon-button mat-flat-button color="primary">
+                        <mat-icon matTooltip="Aktivnost" [matTooltipPosition]="'above'">assignment</mat-icon>
+                    </button>
+                    <button mat-icon-button>
+                        <mat-icon matTooltip="Rezultati i standardi" [matTooltipPosition]="'above'">grade</mat-icon>
+                    </button>
+                    <span fxFlex></span>
+                    <button mat-icon-button>
+                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    </button>
                     </div>
-                </section>
-                <button fxFlex="2" fxFlexAlign=" center" mat-icon-button matTooltip="Dodajte novi standard"
-                    matTooltipPosition="above">
-                    <mat-icon>add</mat-icon>
-                </button>
+                </div>
+                <mat-divider></mat-divider>
             </div>
-            <div fxLayout="row">
-                <section fxFlex="98" fxLayoutGap="15px" fxLayout="row" fxFlexAlign="end end">
-                    <mat-form-field fxFlex="25" [appearance]="'fill'">
-                        <mat-label>Naziv standarda</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="60" [appearance]="'fill'">
-                        <mat-label>Opis standarda</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                    <mat-form-field fxFlex="8" [appearance]="'fill'">
-                        <mat-label>Broj bodova</mat-label>
-                        <input type="number" matInput>
-                    </mat-form-field>
-                    <div fxFlexAlign=" center">
-                        <button mat-icon-button matTooltip="Ukloni standard" matTooltipPosition="above">
-                            <mat-icon>delete</mat-icon>
-                        </button>
-                    </div>
-                </section>
-                <button fxFlex="2" fxFlexAlign=" center" mat-icon-button matTooltip="Dodajte novi standard"
-                    matTooltipPosition="above">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-        </div>
+        </cdk-virtual-scroll-viewport>
     </div>
-
+    <mat-divider vertical="true"></mat-divider>
+    <mat-card fxFlex>
+        <cc-activities></cc-activities>
+    </mat-card>
 </div>

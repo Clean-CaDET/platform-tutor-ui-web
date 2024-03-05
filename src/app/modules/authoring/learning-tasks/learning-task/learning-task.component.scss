@@ -1,4 +1,12 @@
 .step-row {
-    padding-left: 10px;
-    padding-top: 10px;
+    padding: 10px;
+}
+
+.viewport {
+    height: calc(100vh - 138px);
+    width: 100%;
+}
+
+.highlight {
+    background-color: #999;
 }

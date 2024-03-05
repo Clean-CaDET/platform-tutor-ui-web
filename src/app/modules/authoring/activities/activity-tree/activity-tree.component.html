@@ -1,57 +1,42 @@
 <div>
     <div fxLayout="row">
         <div [class.highlight]="selectedActivity?.id===activity.id"
-            style="margin-bottom: 5px; cursor:pointer; padding: 10px;" fxFlex fxLayout="row" (click)="select(activity)">
-            <div fxFlex fxLayout="column">
-                <span fxFlex style="font-size: 11pt;"><b> {{activity.code}}: </b>{{activity.name}}</span>
-            </div>
-            <div fxLayoutGap="30px">
-                <span fxLayoutGap="5px">
-                    <button mat-icon-button (click)="selectSubactivity()">
-                        <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">add</mat-icon>
+            class="row" fxFlex fxLayout="row" (click)="select(activity)">
+            <span fxFlex><b>{{activity.code}}: </b>{{activity.name}}</span>
+            <span fxLayout="row">
+                <button mat-icon-button (click)="selectSubactivity()">
+                    <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">playlist_add</mat-icon>
+                </button>
+                <button mat-icon-button (click)="delete(activity.id)">
+                    <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                </button>
+            </span>
+        </div>
+    </div>
+    <mat-divider *ngIf="!activity.subactivities?.length"></mat-divider>
+    <div *ngIf="activity.subactivities?.length">
+        <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
+            <span style="cursor: default;">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </span>
+            <div [class.highlight]="selectedActivity?.id===subactivity.id"
+                class="row" fxFlex fxLayout="row" (click)="select(subactivity)">
+                <small fxFlex>
+                    {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
+                </small>
+                <span>
+                    <button [disabled]="i === 0" mat-icon-button (click)="up(i)">
+                        <mat-icon>keyboard_arrow_up</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="delete(activity.id)">
-                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="down(i)">
+                        <mat-icon>keyboard_arrow_down</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="remove(i)">
+                        <mat-icon matTooltip="Izbaci podaktivnost" [matTooltipPosition]="'above'">playlist_remove</mat-icon>
                     </button>
                 </span>
             </div>
         </div>
-    </div>
-    <mat-divider></mat-divider>
-
-    <div *ngIf="true && activity.subactivities.length">
-        <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
-            <span style="cursor: default;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            </span>
-            <div [class.highlight]="selectedActivity?.id===subactivity.id"
-                style="margin-bottom: 5px; cursor:pointer; padding: 10px;" fxFlex fxLayout="row"
-                (click)="select(subactivity)">
-                <div fxFlex fxLayout="column">
-                    <span style="font-size: 11pt;" fxFlex><b>{{subactivity.order}}.</b> {{subactivity.code}}:
-                        {{subactivity.name}}
-                    </span>
-                </div>
-                <div fxLayoutGap="30px">
-                    <span fxLayoutGap="5px">
-                    </span>
-                    <span>
-                        <button [disabled]="i === 0" mat-icon-button (click)="up(i)">
-                            <mat-icon>keyboard_arrow_up</mat-icon>
-                        </button>
-                        <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="down(i)">
-                            <mat-icon>keyboard_arrow_down</mat-icon>
-                        </button>
-                        <button mat-icon-button (click)="remove(i)">
-                            <mat-icon matTooltip="Ukloni" [matTooltipPosition]="'above'">delete</mat-icon>
-                        </button>
-                    </span>
-                </div>
-
-            </div>
-            <mat-divider></mat-divider>
-
-        </div>
+        <mat-divider></mat-divider>
     </div>
 </div>
