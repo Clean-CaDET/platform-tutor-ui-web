@@ -126,4 +126,12 @@ export class ActivitiesComponent implements OnInit {
       }
     });
   }
+
+  confirmStep() {
+
+  }
+
+  cancelStep() {
+    
+  }
 }

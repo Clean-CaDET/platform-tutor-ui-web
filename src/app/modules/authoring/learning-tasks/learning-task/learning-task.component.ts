@@ -1,69 +1,49 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
+import { TaskStep } from '../model/task-step';
+import { ActivatedRoute, Params } from '@angular/router';
+import { LearningTasksService } from '../learning-tasks-authoring.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cc-learning-task',
   templateUrl: './learning-task.component.html',
   styleUrls: ['./learning-task.component.scss']
 })
-export class LearningTaskComponent {
+export class LearningTaskComponent implements OnInit, OnDestroy {
+  courseId: number;
+  routeSubscription: Subscription;
+  
   task: LearningTask;
-  taskDescription: string;
+  editMode: boolean = false;
+  guidance: boolean = true;
+  selectedStep: TaskStep;
 
-  editMode: false;
-  activities: any[];
+  constructor(private taskService: LearningTasksService, private route: ActivatedRoute) {}
 
-  constructor() {
-    this.task = {
-      id: 1,
-      unitId: 1,
-      isTemplate: true,
-      name: "Razvoj složene funkcionalnosti",
-      steps: [
-        {
-          id: 1,
-          order: 1,
-          activityId: 1,
-          activityName: "Dizajniranje strukture i ponašanja agregata"
-        },
-        {
-          id: 2,
-          order: 2,
-          activityId: 2,
-          activityName: "Implementacija agregata"
-        },
-        {
-          id: 3,
-          order: 3,
-          activityId: 3,
-          activityName: "Testiranje agregata"
-        }
-      ]
-    };
-
-    this.activities = [
-      {
-        id: 1,
-        courseId: 1,
-        code: "AgregatD",
-        name: "Dizajniranje strukture i ponašanja agregata"
-      },
-      {
-        id: 2,
-        courseId: 1,
-        code: "AgregatI",
-        name: "Implementacija agregata"
-      },
-      {
-        id: 3,
-        courseId: 1,
-        code: "AgregatT",
-        name: "Testiranje agregata"
-      }
-    ]
+  ngOnInit(): void {
+    this.routeSubscription = this.route.params.subscribe((params: Params) => {
+      this.courseId = +params.courseId;
+      this.taskService.get(+params.unitId, +params.ltId).subscribe(task => {
+        this.task = task;
+        if(this.task.steps?.length > 0 ) this.selectedStep = this.task.steps[0];
+      });
+    });
   }
 
-  updateDescription(description: string) {
-    this.taskDescription = description;
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
+  }
+
+  addStep(): void {
+    // TODO: Open activity details with new empty activity.
+  }
+
+  showStep(id: number, guidance: boolean): void {
+    // TODO: Open activity details with activity.
+  }
+
+  deleteStep(id: number): void {
+    // TODO: Delete activity with modal confirm.
   }
 }

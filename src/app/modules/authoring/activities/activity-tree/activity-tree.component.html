@@ -2,7 +2,7 @@
     <div fxLayout="row">
         <div [class.highlight]="selectedActivity?.id===activity.id"
             class="row" fxFlex fxLayout="row" (click)="select(activity)">
-            <span fxFlex><b>{{activity.code}}: </b>{{activity.name}}</span>
+            <span fxFlex>{{activity.code}}: {{activity.name}}</span>
             <span fxLayout="row">
                 <button mat-icon-button (click)="selectSubactivity()">
                     <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">playlist_add</mat-icon>

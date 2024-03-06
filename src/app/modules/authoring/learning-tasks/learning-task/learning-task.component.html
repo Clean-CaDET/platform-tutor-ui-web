@@ -1,14 +1,20 @@
 <div fxLayout="row" style="height: 100vh;">
-    <div fxFlex="20" fxLayout="column">
-        <div fxLayout="row" fxLayoutAlign=" center" class="step-row">
-            <b fxFlex>Korpa za podršku kupovina tura</b>
-            <button *ngIf="!editMode" mat-icon-button (click)="editMode = true">
-                <mat-icon>edit</mat-icon>
+    <div fxFlex="25" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign=" center" class="step-row" fxLayoutGap="5px"
+            [class.highlight]="editMode">
+            <b fxFlex>{{task.name}}</b>
+            <button mat-mini-fab [color]="editMode ? 'primary' : ''">
+                <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
+            </button>
+            <button mat-mini-fab color="" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task.unitId, mode: 'lt'}">
+                <mat-icon matTooltip="Pregled zadataka">rebase_edit</mat-icon>
             </button>
         </div>
-        <div fxLayout="row" class="step-row" fxLayoutAlign=" center">
-            <span fxFlex>Koraci</span>
-            <button mat-icon-button>
+        <div fxLayout="row" class="step-row" fxLayoutAlign=" center" [class.highlight]="">
+            <b fxFlex>Koraci</b>
+            <button mat-icon-button (click)="addStep()"
+                [class.mat-flat-button]="selectedStep?.activityName === ''"
+                [color]="selectedStep?.activityName === '' ? 'primary' : ''">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
@@ -18,14 +24,18 @@
                 <div [class.highlight]="selectedStep?.id===step.id" class="step-row">
                     <span>{{step.order}}. {{step.activityName}}</span>
                     <div fxLayout="row">
-                    <button mat-icon-button mat-flat-button color="primary">
-                        <mat-icon matTooltip="Aktivnost" [matTooltipPosition]="'above'">assignment</mat-icon>
+                    <button mat-icon-button (click)="showStep(step.id, true)"
+                        [class.mat-flat-button]="selectedStep?.id===step.id && guidance"
+                        [color]="selectedStep?.id===step.id && guidance ? 'primary' : ''">
+                        <mat-icon matTooltip="Smernice i primeri" [matTooltipPosition]="'above'">assignment</mat-icon>
                     </button>
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="showStep(step.id, false)"
+                        [class.mat-flat-button]="selectedStep?.id===step.id && !guidance"
+                        [color]="selectedStep?.id===step.id && !guidance ? 'primary' : ''">
                         <mat-icon matTooltip="Rezultati i standardi" [matTooltipPosition]="'above'">grade</mat-icon>
                     </button>
                     <span fxFlex></span>
-                    <button mat-icon-button>
+                    <button mat-icon-button (click)="deleteStep(step.id)">
                         <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                     </button>
                     </div>
