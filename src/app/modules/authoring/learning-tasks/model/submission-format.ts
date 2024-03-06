@@ -1,4 +1,4 @@
 export interface SubmissionFormat {
-    submissionGuidelines: string;
-    answerValidation: string;
+    guidelines: string;
+    validationRule: string;
 }

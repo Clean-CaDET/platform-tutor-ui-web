@@ -1,4 +1,4 @@
-import { TaskStep } from "./task-step";
+import { Activity } from "./activity";
 
 export interface LearningTask {
     id?: number;
@@ -6,6 +6,6 @@ export interface LearningTask {
     name: string;
     description?: string;
     isTemplate: boolean;
-    steps?: TaskStep[];
+    steps?: Activity[];
     maxPoints?: number;
 }

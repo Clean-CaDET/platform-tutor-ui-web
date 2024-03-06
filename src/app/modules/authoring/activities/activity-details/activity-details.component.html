@@ -27,8 +27,8 @@
             <h4 *ngIf="!editMode">Smernice</h4>
             <section>
                 <cc-markdown-editor fxFlex [label]="'Smernice *'" [livePreview]="false"
-                    [text]="activityForm.get('guidance.description').value"
-                    (textChanged)="this.activityForm.get('guidance.description').setValue($event)"
+                    [text]="activityForm.get('guidance').value"
+                    (textChanged)="this.activityForm.get('guidance').setValue($event)"
                     [editMode]="editMode"></cc-markdown-editor>
             </section>
         </div>
@@ -43,7 +43,7 @@
                         </mat-form-field>
                         <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="70">
                             <mat-label>Url</mat-label>
-                            <input matInput formControlName="description">
+                            <input matInput formControlName="url">
                         </mat-form-field>
                         <button *ngIf="editMode" mat-icon-button (click)="deleteExample(i)"><mat-icon>delete_forever</mat-icon></button>
                     </div>
@@ -52,6 +52,17 @@
                     <mat-icon>add</mat-icon>
                 </button>
             </div>
+        </div>
+        <div fxLayout="column">
+            <h4>Format odgovora</h4>
+            <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Uputstvo za formatiranje odgovora</mat-label>
+                <textarea formControlName="submissionFormat.guidelines" matInput [readonly]="!editMode"></textarea>
+            </mat-form-field>
+            <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Regex validacija odgovora</mat-label>
+                <input formControlName="submissionFormat.validationRule" matInput [readonly]="!editMode">
+            </mat-form-field>
         </div>
         <div><!-- Standards -->
             <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi</h4>

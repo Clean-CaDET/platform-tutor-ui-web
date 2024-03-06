@@ -2,7 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { LearningTask } from '../model/learning-task';
-import { TaskStep } from '../model/task-step';
+import { Activity } from '../model/activity';
 
 @Component({
   selector: 'cc-learning-task-form',
@@ -32,12 +32,12 @@ export class LearningTaskFormComponent  {
     this.dialogref.close(learningTask);
   }
 
-  private cloneSteps(template: LearningTask): TaskStep[] {
+  private cloneSteps(template: LearningTask): Activity[] {
     if(!this.template) return [];
     
-    let clonedSteps = new Array<TaskStep>();
+    let clonedSteps = new Array<Activity>();
     template.steps?.forEach(step => {
-      let clonedStep: TaskStep = JSON.parse(JSON.stringify(step));
+      let clonedStep: Activity = JSON.parse(JSON.stringify(step));
       clonedStep.submissionFormat = step.submissionFormat; // JSON.stringify cloning removes regex.
       delete clonedStep.id;
       clonedStep.standards.forEach(s => delete s.id);

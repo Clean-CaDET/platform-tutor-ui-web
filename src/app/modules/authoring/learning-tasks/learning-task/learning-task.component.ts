@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
-import { TaskStep } from '../model/task-step';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
 import { Subscription } from 'rxjs';
+import { Activity } from '../model/activity';
 
 @Component({
   selector: 'cc-learning-task',
@@ -15,9 +15,8 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription;
   
   task: LearningTask;
-  editMode: boolean = false;
-  guidance: boolean = true;
-  selectedStep: TaskStep;
+  mode: string = 'guidance';
+  selectedStep: Activity;
 
   constructor(private taskService: LearningTasksService, private route: ActivatedRoute) {}
 

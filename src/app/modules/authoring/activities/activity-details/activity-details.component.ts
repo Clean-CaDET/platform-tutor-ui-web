@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Activity } from '../../learning-tasks/model/activity';
 
 @Component({
   selector: 'cc-activity-details',
@@ -8,8 +9,8 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 })
 export class ActivityDetailsComponent implements OnChanges {
 
-  @Input() activity: any;
-  @Output() activitySaved = new EventEmitter<any>();
+  @Input() activity: Activity;
+  @Output() activitySaved = new EventEmitter<Activity>();
 
   activityForm: FormGroup;
   editMode: boolean = false;
@@ -39,11 +40,11 @@ export class ActivityDetailsComponent implements OnChanges {
     });
   }
 
-  setInitialValues(activity: any): void {
+  setInitialValues(activity: Activity): void {
     this.createForm();
     this.activityForm.get('code').setValue(activity.code);
     this.activityForm.get('name').setValue(activity.name);
-    this.activityForm.get('guidance.description').setValue(activity.guidance.description);
+    this.activityForm.get('guidance').setValue(activity.guidance);
     const examplesArray = this.setExamples(activity);
     this.activityForm.setControl('examples', examplesArray);
     const standarsArray = this.setStandards(activity);
@@ -52,26 +53,26 @@ export class ActivityDetailsComponent implements OnChanges {
     this.cdr.detectChanges();
   }
 
-  get examples(): any {
+  get examples(): FormArray {
     return this.activityForm.get('examples') as FormArray;
   }
   
-  get standards(): any {
+  get standards(): FormArray {
     return this.activityForm.get('standards') as FormArray;
   }
 
-  setExamples(activity: any) {
+  setExamples(activity: Activity) {
     const examplesArray = this.builder.array([]) as FormArray;
     for (let example of activity.examples) {
       examplesArray.push(this.builder.group({
         code: new FormControl(example.code, Validators.required),
-        description: new FormControl(example.description, Validators.required)
+        url: new FormControl(example.url, Validators.required)
       }));
     }
     return examplesArray;
   }
 
-  setStandards(activity: any) {
+  setStandards(activity: Activity) {
     const standardsArray = this.builder.array([]) as FormArray;
     for (let standard of activity.standards) {
       standardsArray.push(this.builder.group({

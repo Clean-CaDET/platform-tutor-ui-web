@@ -1,38 +1,38 @@
-<div fxLayout="row" style="height: 100vh;">
-    <div fxFlex="25" fxLayout="column">
-        <div fxLayout="row" fxLayoutAlign=" center" class="step-row" fxLayoutGap="5px"
-            [class.highlight]="editMode">
-            <b fxFlex>{{task.name}}</b>
-            <button mat-mini-fab [color]="editMode ? 'primary' : ''">
+<div>
+    <div fxFlex="30" fxLayout="column">
+        <div fxLayout="row" fxLayoutAlign=" center" class="padding" fxLayoutGap="5px"
+            [class.highlight]="mode === 'task'">
+            <b fxFlex>{{task?.name}}</b>
+            <button mat-icon-button [color]="mode === 'task' ? 'primary' : ''">
                 <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
             </button>
-            <button mat-mini-fab color="" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task.unitId, mode: 'lt'}">
+            <button mat-icon-button color="" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
                 <mat-icon matTooltip="Pregled zadataka">rebase_edit</mat-icon>
             </button>
         </div>
-        <div fxLayout="row" class="step-row" fxLayoutAlign=" center" [class.highlight]="">
+        <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="">
             <b fxFlex>Koraci</b>
             <button mat-icon-button (click)="addStep()"
-                [class.mat-flat-button]="selectedStep?.activityName === ''"
-                [color]="selectedStep?.activityName === '' ? 'primary' : ''">
+                [class.mat-flat-button]="selectedStep?.name === ''"
+                [color]="selectedStep?.name === '' ? 'primary' : ''">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
         <mat-divider></mat-divider>
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
-            <div *cdkVirtualFor="let step of task?.steps">
-                <div [class.highlight]="selectedStep?.id===step.id" class="step-row">
-                    <span>{{step.order}}. {{step.activityName}}</span>
+            <div *cdkVirtualFor="let step of task?.steps; index as i">
+                <div [class.highlight]="selectedStep?.id===step.id" class="padding">
+                    <span>{{i+1}}. {{step.activityName}}</span>
                     <div fxLayout="row">
                     <button mat-icon-button (click)="showStep(step.id, true)"
-                        [class.mat-flat-button]="selectedStep?.id===step.id && guidance"
-                        [color]="selectedStep?.id===step.id && guidance ? 'primary' : ''">
-                        <mat-icon matTooltip="Smernice i primeri" [matTooltipPosition]="'above'">assignment</mat-icon>
+                        [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
+                        [color]="selectedStep?.id===step.id && mode==='guidance' ? 'primary' : ''">
+                        <mat-icon matTooltip="Smernice i ocenjivanje" [matTooltipPosition]="'above'">edit</mat-icon>
                     </button>
                     <button mat-icon-button (click)="showStep(step.id, false)"
-                        [class.mat-flat-button]="selectedStep?.id===step.id && !guidance"
-                        [color]="selectedStep?.id===step.id && !guidance ? 'primary' : ''">
-                        <mat-icon matTooltip="Rezultati i standardi" [matTooltipPosition]="'above'">grade</mat-icon>
+                        [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
+                        [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'primary' : ''">
+                        <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
                     </button>
                     <span fxFlex></span>
                     <button mat-icon-button (click)="deleteStep(step.id)">
@@ -45,7 +45,9 @@
         </cdk-virtual-scroll-viewport>
     </div>
     <mat-divider vertical="true"></mat-divider>
-    <mat-card fxFlex>
-        <cc-activities></cc-activities>
-    </mat-card>
+    <div fxFlex="70" class="padding">
+        <div *ngIf="mode === 'task'"></div>
+        <cc-activity-details *ngIf="mode === 'guidance'" [activity]="selectedStep"></cc-activity-details>
+        <cc-activities *ngIf="mode === 'subactivities'"></cc-activities>
+    </div>
 </div>
