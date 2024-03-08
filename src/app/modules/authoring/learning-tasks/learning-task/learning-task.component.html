@@ -3,14 +3,16 @@
         <div fxLayout="row" fxLayoutAlign=" center" class="padding" fxLayoutGap="5px"
             [class.highlight]="mode === 'task'">
             <b fxFlex>{{task?.name}}</b>
-            <button mat-icon-button [color]="mode === 'task' ? 'primary' : ''">
+            <button mat-icon-button (click)="openTask()"
+                [class.mat-flat-button]="mode==='task'"
+                [color]="mode === 'task' ? 'primary' : ''">
                 <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
             </button>
             <button mat-icon-button color="" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
                 <mat-icon matTooltip="Pregled zadataka">rebase_edit</mat-icon>
             </button>
         </div>
-        <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="">
+        <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
             <b fxFlex>Koraci</b>
             <button mat-icon-button (click)="addStep()"
                 [class.mat-flat-button]="selectedStep?.name === ''"
@@ -46,7 +48,7 @@
     </div>
     <mat-divider vertical="true"></mat-divider>
     <div fxFlex="70" class="padding">
-        <div *ngIf="mode === 'task'"></div>
+        <div *ngIf="mode === 'task'">TODO</div>
         <cc-activity-details *ngIf="mode === 'guidance'" [activity]="selectedStep"></cc-activity-details>
         <cc-activities *ngIf="mode === 'subactivities'"></cc-activities>
     </div>

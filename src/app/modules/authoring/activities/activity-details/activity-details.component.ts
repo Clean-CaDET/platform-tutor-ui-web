@@ -19,11 +19,10 @@ export class ActivityDetailsComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.createForm();
-    if (this.activity) {
+    if (this.activity.id) {
       this.setInitialValues(this.activity);
     }
-    this.editMode = false;
-    if (!this.activity.id) {
+    else {
       this.editMode = true;
     }
   }
@@ -32,8 +31,10 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm = this.builder.group({
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
-      guidance: this.builder.group({
-        description: new FormControl('', Validators.required),
+      guidance: new FormControl('', Validators.required),
+      submissionFormat: this.builder.group({
+        guidelines: new FormControl('', Validators.required),
+        validationRule: new FormControl('')
       }),
       examples: this.builder.array([]),
       standards: this.builder.array([])
@@ -86,7 +87,7 @@ export class ActivityDetailsComponent implements OnChanges {
   addExample(): void {
     this.examples.push(this.builder.group({
       code: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      url: new FormControl('', Validators.required)
     }));
   }
 

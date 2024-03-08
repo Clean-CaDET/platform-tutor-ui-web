@@ -53,15 +53,15 @@
                 </button>
             </div>
         </div>
-        <div fxLayout="column">
+        <div fxLayout="column" formGroupName="submissionFormat">
             <h4>Format odgovora</h4>
             <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Uputstvo za formatiranje odgovora</mat-label>
-                <textarea formControlName="submissionFormat.guidelines" matInput [readonly]="!editMode"></textarea>
+                <textarea formControlName="guidelines" matInput [readonly]="!editMode"></textarea>
             </mat-form-field>
             <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Regex validacija odgovora</mat-label>
-                <input formControlName="submissionFormat.validationRule" matInput [readonly]="!editMode">
+                <input formControlName="validationRule" matInput [readonly]="!editMode">
             </mat-form-field>
         </div>
         <div><!-- Standards -->
