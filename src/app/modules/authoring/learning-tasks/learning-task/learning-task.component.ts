@@ -4,6 +4,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
 import { Subscription } from 'rxjs';
 import { Activity } from '../model/activity';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 
 @Component({
   selector: 'cc-learning-task',
@@ -12,20 +14,21 @@ import { Activity } from '../model/activity';
 })
 export class LearningTaskComponent implements OnInit, OnDestroy {
   courseId: number;
+  unitId: number;
   routeSubscription: Subscription;
   
   task: LearningTask;
   mode: string = 'task';
   selectedStep: Activity;
 
-  constructor(private taskService: LearningTasksService, private route: ActivatedRoute) {}
+  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
-      this.taskService.get(+params.unitId, +params.ltId).subscribe(task => {
-        this.task = task;
-      });
+      this.unitId = +params.unitId;
+      this.taskService.get(this.unitId, +params.ltId)
+        .subscribe(task => this.task = task);
     });
   }
 
@@ -39,7 +42,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   addStep(): void {
-    this.selectedStep = {
+    let newStep: Activity = {
       name: '',
       code: '',
       guidance: '',
@@ -48,20 +51,45 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       examples: [],
       standards: []
     };
-    this.mode = 'guidance';
-    // TODO: Open activity details with new empty activity.
+    this.showStep(newStep, true);
   }
 
-  getOrder(): number {
+  private getOrder(): number {
     if(!this.task.steps?.length) return 1;
     return Math.max(...this.task.steps.map(s => s.order)) + 1;
   }
 
-  showStep(id: number, guidance: boolean): void {
-    // TODO: Open activity details with activity.
+  showStep(step: Activity, guidance: boolean): void {
+    this.selectedStep = step;
+    this.mode = guidance ? 'guidance' : 'subactivities';
+  }
+
+  createOrUpdateStep(step: Activity) {
+    if(step.id) {
+      this.task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
+    } else {
+      step.order = this.getOrder();
+      this.task.steps.push(step);
+    }
+    this.updateTask();
   }
 
   deleteStep(id: number): void {
-    // TODO: Delete activity with modal confirm.
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if(!result) return;
+
+      this.task.steps = this.task.steps.filter(s => s.id !== id);
+      this.updateTask();
+    });
+  }
+
+  private updateTask() {
+    this.taskService.update(this.unitId, this.task)
+      .subscribe(task => {
+        this.task = task;
+        this.task.steps = this.task.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
+      });
   }
 }

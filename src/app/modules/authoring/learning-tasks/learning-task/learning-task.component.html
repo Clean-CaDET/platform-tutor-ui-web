@@ -24,14 +24,14 @@
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
             <div *cdkVirtualFor="let step of task?.steps; index as i">
                 <div [class.highlight]="selectedStep?.id===step.id" class="padding">
-                    <span>{{i+1}}. {{step.activityName}}</span>
+                    <span>{{i+1}}. {{step.code}}: {{step.name}}</span>
                     <div fxLayout="row">
-                    <button mat-icon-button (click)="showStep(step.id, true)"
+                    <button mat-icon-button (click)="showStep(step, true)"
                         [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
                         [color]="selectedStep?.id===step.id && mode==='guidance' ? 'primary' : ''">
                         <mat-icon matTooltip="Smernice i ocenjivanje" [matTooltipPosition]="'above'">edit</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="showStep(step.id, false)"
+                    <button mat-icon-button (click)="showStep(step, false)"
                         [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
                         [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'primary' : ''">
                         <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
@@ -49,7 +49,7 @@
     <mat-divider vertical="true"></mat-divider>
     <div fxFlex="70" class="padding">
         <div *ngIf="mode === 'task'">TODO</div>
-        <cc-activity-details *ngIf="mode === 'guidance'" [activity]="selectedStep"></cc-activity-details>
+        <cc-activity-details *ngIf="mode === 'guidance'" [activity]="selectedStep" (activitySaved)="createOrUpdateStep($event)"></cc-activity-details>
         <cc-activities *ngIf="mode === 'subactivities'"></cc-activities>
     </div>
 </div>

@@ -42,7 +42,6 @@ export class ActivityDetailsComponent implements OnChanges {
   }
 
   setInitialValues(activity: Activity): void {
-    this.createForm();
     this.activityForm.get('code').setValue(activity.code);
     this.activityForm.get('name').setValue(activity.name);
     this.activityForm.get('guidance').setValue(activity.guidance);
@@ -50,7 +49,8 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm.setControl('examples', examplesArray);
     const standarsArray = this.setStandards(activity);
     this.activityForm.setControl('standards', standarsArray);
-    
+    this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
+    this.activityForm.get('submissionFormat').get('validationRule').setValue(activity.submissionFormat.validationRule);
     this.cdr.detectChanges();
   }
 
@@ -109,14 +109,18 @@ export class ActivityDetailsComponent implements OnChanges {
   submitForm() {
     if (this.activityForm.valid) {
       this.editMode = false;
-      this.activitySaved.emit(this.activityForm.value);
+      let changedActivity = this.activityForm.value;
+      changedActivity.id = this.activity.id;
+      this.activitySaved.emit(changedActivity);
     }
   }
 
   discardChanges() {
-    this.setInitialValues(this.activity);
-    if (this.activity.id != undefined) {
+    if (this.activity.id) {
+      this.setInitialValues(this.activity);
       this.editMode = false;
+    } else {
+      this.createForm();
     }
   }
 }
