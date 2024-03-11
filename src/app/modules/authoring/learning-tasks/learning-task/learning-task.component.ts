@@ -16,19 +16,25 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   courseId: number;
   unitId: number;
   routeSubscription: Subscription;
-  
+
   task: LearningTask;
   mode: string = 'task';
   selectedStep: Activity;
+  steps: Activity[];
+  subactivities: Activity[];
 
-  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
       this.unitId = +params.unitId;
       this.taskService.get(this.unitId, +params.ltId)
-        .subscribe(task => this.task = task);
+        .subscribe(task => {
+          this.task = task;
+          this.steps = task.steps.filter(s => !s.parentId);
+          this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
+        });
     });
   }
 
@@ -47,7 +53,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       code: '',
       guidance: '',
       order: this.getOrder(),
-      submissionFormat: {guidelines: '', validationRule: ''},
+      submissionFormat: { guidelines: '', validationRule: '' },
       examples: [],
       standards: []
     };
@@ -55,20 +61,33 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private getOrder(): number {
-    if(!this.task.steps?.length) return 1;
+    if (!this.task.steps?.length) return 1;
     return Math.max(...this.task.steps.map(s => s.order)) + 1;
   }
 
   showStep(step: Activity, guidance: boolean): void {
     this.selectedStep = step;
     this.mode = guidance ? 'guidance' : 'subactivities';
+    if (this.mode === 'subactivities') {
+      this.subactivities = this.task.steps.filter(s => this.isDescendant(s, this.selectedStep));
+      this.subactivities = [this.selectedStep, ...this.subactivities];
+    }
+  }
+
+  isDescendant(step: any, selectedStep: any): boolean {
+    if (!step || !selectedStep) {
+      return false;
+    }
+    if (step.parentId === selectedStep.id) {
+      return true;
+    }
+    return this.isDescendant(this.task.steps.find(s => s.id === step.parentId), selectedStep);
   }
 
   createOrUpdateStep(step: Activity) {
-    if(step.id) {
+    if (step.id) {
       this.task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
     } else {
-      step.order = this.getOrder();
       this.task.steps.push(step);
     }
     this.updateTask();
@@ -78,18 +97,24 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(!result) return;
-
-      this.task.steps = this.task.steps.filter(s => s.id !== id);
-      this.updateTask();
+      if (!result) return;
+      this.deleteActivity(id);
     });
+  }
+
+  deleteActivity(activityId: number) {
+    this.task.steps = this.task.steps.filter(s => s.id !== activityId && s.parentId !== activityId);
+    this.updateTask();
   }
 
   private updateTask() {
     this.taskService.update(this.unitId, this.task)
       .subscribe(task => {
         this.task = task;
-        this.task.steps = this.task.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
+        this.steps = task.steps.filter(s => !s.parentId);
+        this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
+        this.subactivities = this.task.steps.filter(s => this.isDescendant(s, this.selectedStep));
+        this.subactivities = [this.selectedStep, ...this.subactivities];
       });
   }
 }

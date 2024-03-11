@@ -1,65 +1,48 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { GenericSelectionFormComponent } from 'src/app/shared/generics/generic-selection-form/generic-selection-form.component';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 
 @Component({
   selector: 'cc-activity-tree',
   templateUrl: './activity-tree.component.html',
   styleUrls: ['./activity-tree.component.scss']
 })
-export class ActivityTreeComponent implements OnChanges {
+export class ActivityTreeComponent {
 
   @Input() activity: any;
+  @Input() parentActivity: any;
   @Input() selectedActivity: any;
-  @Input() subactivityOptions: any[];
   @Output() activitySelected = new EventEmitter<any>();
-  @Output() deleteActivity = new EventEmitter<number>();
+  @Output() addSubactivity = new EventEmitter<any>();
   @Output() editActivity = new EventEmitter<any>();
-  options: any[];
+  @Output() deleteActivity = new EventEmitter<number>();
+  addSubactivityMode: boolean;
+  addSubactivityClicked: boolean;
 
-  constructor(private dialog: MatDialog, private router: Router) { }
-
-  ngOnChanges() {
-    this.filterSubactivityOptions();
-    this.activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
-  }
-
-  filterSubactivityOptions() {
-    const ancestors = this.findAncestors(this.activity.id);
-    this.options = this.subactivityOptions.filter(activity => !ancestors.includes(activity.id));
-    this.options = this.options.filter(activity => activity.id != this.activity.id);
-    this.options = this.options.filter((option: { id: number; }) => {
-      return !this.activity.subactivities.some((subactivity: { childId: any; }) => subactivity.childId === option.id);
-    });
-  }
-
-  findAncestors(activityId: number) {
-    const ancestors: any[] = [];
-
-    const parentActivities = this.subactivityOptions.filter(act => act.subactivities.some((sub: { childId: any; }) => sub.childId === activityId));
-    for (const parentActivity of parentActivities) {
-      ancestors.push(parentActivity.id);
-      const parentActivitiesToRemove = this.findAncestors(parentActivity.id);
-      ancestors.push(...parentActivitiesToRemove);
-    }
-
-    return ancestors;
-  }
+  constructor(private dialog: MatDialog) { }
 
   select(activity: any) {
-    this.activitySelected.emit(activity);
+    if (!this.addSubactivityClicked) {
+      this.addSubactivityMode = false;
+      this.selectedActivity = activity;
+      this.activitySelected.emit(activity);
+    }
+    this.addSubactivityClicked = false;
   }
 
-  delete(activityId: number) {
-    this.deleteActivity.emit(activityId);
-  }
-
-  remove(index: number) {
-    this.activity.subactivities.splice(index, 1);
-    this.reorderSubactivities();
-    this.filterSubactivityOptions();
-    this.editActivity.emit(this.activity);
+  createSubactivity() {
+    this.addSubactivityClicked = true;
+    this.addSubactivityMode = true;
+    this.addSubactivity.emit(this.activity);
+    let newSubactivity: any = {
+      parentId: this.activity.id,
+      order: this.activity.subactivities.length + 1,
+      code: '',
+      name: '',
+      description: '',
+      examples: []
+    }
+    this.activitySelected.emit(newSubactivity);
   }
 
   up(index: number) {
@@ -67,15 +50,14 @@ export class ActivityTreeComponent implements OnChanges {
     this.activity.subactivities.splice(index, 1);
     this.activity.subactivities.splice(index - 1, 0, activityAtIndex);
     this.reorderSubactivities();
-    this.editActivity.emit(this.activity);
   }
+
 
   down(index: number) {
     const activityAtIndex = this.activity.subactivities[index];
     this.activity.subactivities.splice(index, 1);
     this.activity.subactivities.splice(index + 1, 0, activityAtIndex);
     this.reorderSubactivities();
-    this.editActivity.emit(this.activity);
   }
 
   reorderSubactivities() {
@@ -85,32 +67,18 @@ export class ActivityTreeComponent implements OnChanges {
     });
     this.activity.subactivities = mappedActivities;
     this.activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
+    for (let activity of this.activity.subactivities) {
+      this.editActivity.emit(activity);
+    }
   }
 
-  selectSubactivity() {
-    const dialogRef = this.dialog.open(GenericSelectionFormComponent, {
-      data: { items: this.options, presentationFunction: (activity: any) => activity.code + ": " + activity.name, label: "Izaberite podaktivnost" },
-    });
+  delete(activityId: number) {
+    let diagRef = this.dialog.open(DeleteFormComponent);
 
-    dialogRef.afterClosed().subscribe(subactivity => {
-      if (subactivity) {
-        subactivity.order = this.activity.subactivities.length + 1;
-        subactivity.childId = subactivity.id;
-        this.activity.subactivities.push(subactivity);
-        this.filterSubactivityOptions();
-        this.editActivity.emit(this.activity);
-        this.reloadComponent();
+    diagRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteActivity.emit(activityId);
       }
-    });
-  }
-
-  reloadComponent() {
-    const currentUrlTree = this.router.parseUrl(this.router.url);
-    const queryParams = currentUrlTree.queryParams;
-
-    this.router.navigate([], {
-      queryParams: queryParams,
-      queryParamsHandling: 'merge'
     });
   }
 }

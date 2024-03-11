@@ -24,7 +24,6 @@ import { ActivityTreeComponent } from './activities/activity-tree/activity-tree.
 import { ActivityDetailsComponent } from './activities/activity-details/activity-details.component';
 import { LearningTasksComponent } from './learning-tasks/learning-tasks.component';
 import { LearningTaskFormComponent } from './learning-tasks/learning-task-form/learning-task-form.component';
-import { StepFormComponent } from './learning-tasks/step-form/step-form.component';
 import { LearningTaskComponent } from './learning-tasks/learning-task/learning-task.component'
 
 @NgModule({
@@ -46,7 +45,6 @@ import { LearningTaskComponent } from './learning-tasks/learning-task/learning-t
     ActivityDetailsComponent,
     LearningTasksComponent,
     LearningTaskFormComponent,
-    StepFormComponent,
     LearningTaskComponent
   ],
   imports: [

@@ -1,29 +1,13 @@
 <div fxLayout="column" style="height: 100%;">
     <div fxFlex fxLayout="row">
         <div fxFlex="30" fxLayout="column">
-            <div fxLayout="row" style="padding: 0 10px 10px 10px;" fxLayoutAlign=" center" fxLayoutGap="5px">
-                <small fxFlex *ngIf="!selectedActivity?.id">Odaberi aktivnost...</small>
-                <small fxFlex *ngIf="selectedActivity?.id"><b>Odabrano</b>: {{selectedActivity.name}}</small>
-                <button mat-mini-fab color="primary" (click)="confirmStep()" [disabled]="!selectedActivity?.id">
-                    <mat-icon matTooltip="Potvrdi korak" [matTooltipPosition]="'above'">assignment_return</mat-icon>
-                </button>
-                <button mat-mini-fab color="warn" (click)="cancelStep()">
-                    <mat-icon matTooltip="Odustani" [matTooltipPosition]="'above'">close</mat-icon>
-                </button>
-            </div>
-            <mat-divider style="border-width: 5px;"></mat-divider>
-            <div fxLayoutAlign=" center" style="padding: 10px;" [class.highlight]="selectedActivity?.code===''">
-                <b fxFlex>Aktivnosti</b>
-                <button mat-icon-button (click)="createActivity()">
-                    <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
-                </button>
-            </div>
             <mat-divider></mat-divider>
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
                     <cc-activity-tree [activity]="activity" [selectedActivity]="selectedActivity"
-                        [subactivityOptions]="activities" (activitySelected)="select($event)"
-                        (deleteActivity)="delete($event)" (editActivity)="update($event)"></cc-activity-tree>
+                        [parentActivity]="parentActivity" (addSubactivity)="addSubactivity($event)"
+                        (activitySelected)="select($event)" (deleteActivity)="delete($event)"
+                        (editActivity)="update($event)"></cc-activity-tree>
                 </div>
             </cdk-virtual-scroll-viewport>
         </div>

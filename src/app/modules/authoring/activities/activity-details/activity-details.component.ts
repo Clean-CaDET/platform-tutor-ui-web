@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Activity } from '../../learning-tasks/model/activity';
 
@@ -15,7 +15,7 @@ export class ActivityDetailsComponent implements OnChanges {
   activityForm: FormGroup;
   editMode: boolean = false;
 
-  constructor(private builder: FormBuilder, private cdr: ChangeDetectorRef) { }
+  constructor(private builder: FormBuilder) { }
 
   ngOnChanges(): void {
     this.createForm();
@@ -32,13 +32,16 @@ export class ActivityDetailsComponent implements OnChanges {
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       guidance: new FormControl('', Validators.required),
-      submissionFormat: this.builder.group({
+      examples: this.builder.array([]),
+    });
+
+    if (!this.activity.parentId) {
+      this.activityForm.addControl('submissionFormat', this.builder.group({
         guidelines: new FormControl('', Validators.required),
         validationRule: new FormControl('')
-      }),
-      examples: this.builder.array([]),
-      standards: this.builder.array([])
-    });
+      }));
+      this.activityForm.addControl('standards', this.builder.array([]));
+    }
   }
 
   setInitialValues(activity: Activity): void {
@@ -47,17 +50,18 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm.get('guidance').setValue(activity.guidance);
     const examplesArray = this.setExamples(activity);
     this.activityForm.setControl('examples', examplesArray);
-    const standarsArray = this.setStandards(activity);
-    this.activityForm.setControl('standards', standarsArray);
-    this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
-    this.activityForm.get('submissionFormat').get('validationRule').setValue(activity.submissionFormat.validationRule);
-    this.cdr.detectChanges();
+    if (!this.activity.parentId) {
+      const standarsArray = this.setStandards(activity);
+      this.activityForm.setControl('standards', standarsArray);
+      this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
+      this.activityForm.get('submissionFormat').get('validationRule').setValue(activity.submissionFormat.validationRule);
+    }
   }
 
   get examples(): FormArray {
     return this.activityForm.get('examples') as FormArray;
   }
-  
+
   get standards(): FormArray {
     return this.activityForm.get('standards') as FormArray;
   }
@@ -78,7 +82,8 @@ export class ActivityDetailsComponent implements OnChanges {
     for (let standard of activity.standards) {
       standardsArray.push(this.builder.group({
         name: new FormControl(standard.name, Validators.required),
-        description: new FormControl(standard.description, Validators.required)
+        description: new FormControl(standard.description, Validators.required),
+        maxPoints: new FormControl(standard.maxPoints, Validators.required)
       }));
     }
     return standardsArray;
@@ -98,7 +103,8 @@ export class ActivityDetailsComponent implements OnChanges {
   addStandard() {
     this.standards.push(this.builder.group({
       name: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
+      description: new FormControl('', Validators.required),
+      maxPoints: new FormControl('', Validators.required)
     }));
   }
 
@@ -111,6 +117,8 @@ export class ActivityDetailsComponent implements OnChanges {
       this.editMode = false;
       let changedActivity = this.activityForm.value;
       changedActivity.id = this.activity.id;
+      changedActivity.parentId = this.activity.parentId;
+      changedActivity.order = this.activity.order;
       this.activitySaved.emit(changedActivity);
     }
   }

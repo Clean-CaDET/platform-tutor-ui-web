@@ -53,7 +53,7 @@
                 </button>
             </div>
         </div>
-        <div fxLayout="column" formGroupName="submissionFormat">
+        <div *ngIf="!activity.parentId" fxLayout="column" formGroupName="submissionFormat">
             <h4>Format odgovora</h4>
             <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Uputstvo za formatiranje odgovora</mat-label>
@@ -64,18 +64,22 @@
                 <input formControlName="validationRule" matInput [readonly]="!editMode">
             </mat-form-field>
         </div>
-        <div><!-- Standards -->
+        <div *ngIf="!activity.parentId"><!-- Standards -->
             <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi</h4>
             <div formArrayName="standards" fxLayout="column">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
                     <div [formGroup]="standardForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
                         <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
-                            <mat-label>Kod</mat-label>
+                            <mat-label>Naziv</mat-label>
                             <input matInput formControlName="name">
                         </mat-form-field>
-                        <mat-form-field fxFlex="70" [appearance]="editMode ? 'fill' : 'outline'">
+                        <mat-form-field fxFlex="60" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Opis</mat-label>
                             <input matInput formControlName="description">
+                        </mat-form-field>
+                        <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
+                            <mat-label>Bodovi</mat-label>
+                            <input matInput type="number" formControlName="maxPoints">
                         </mat-form-field>
                         <button *ngIf="editMode" mat-icon-button (click)="deleteStandard(i)"><mat-icon>delete_forever</mat-icon></button>
                     </div>
