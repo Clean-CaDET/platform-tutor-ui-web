@@ -35,7 +35,7 @@
                 </small>
                 <small>
                     <ol>
-                        <li *ngFor="let s of learningTask.steps">{{ s.name }}</li>
+                        <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }}</li>
                     </ol>
                 </small>
             </div>

@@ -45,6 +45,10 @@ export class LearningTasksComponent  {
     });
   }
 
+  getMainSteps(learningTask : LearningTask) {
+    return learningTask.steps.filter(s => !s.parentId);
+  }
+
   shorten(text: string): string {
     if(text.length <= 800) return text;
     return text.substring(0, 800) + "...";
