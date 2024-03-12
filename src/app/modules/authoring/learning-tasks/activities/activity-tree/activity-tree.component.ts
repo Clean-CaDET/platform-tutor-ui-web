@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { Activity } from '../../model/activity';
 
 @Component({
   selector: 'cc-activity-tree',
@@ -9,12 +10,12 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 })
 export class ActivityTreeComponent {
 
-  @Input() activity: any;
-  @Input() parentActivity: any;
-  @Input() selectedActivity: any;
-  @Output() activitySelected = new EventEmitter<any>();
-  @Output() addSubactivity = new EventEmitter<any>();
-  @Output() editActivity = new EventEmitter<any>();
+  @Input() activity: Activity;
+  @Input() parentActivity: Activity;
+  @Input() selectedActivity: Activity;
+  @Output() activitySelected = new EventEmitter<Activity>();
+  @Output() addSubactivity = new EventEmitter<Activity>();
+  @Output() editActivity = new EventEmitter<Activity>();
   @Output() deleteActivity = new EventEmitter<number>();
   addSubactivityMode: boolean;
   addSubactivityClicked: boolean;
@@ -61,12 +62,12 @@ export class ActivityTreeComponent {
   }
 
   reorderSubactivities() {
-    const mappedActivities = this.activity.subactivities.map((subactivity: { order: any; }, i: number) => {
+    const mappedActivities = this.activity.subactivities.map((subactivity: Activity, i: number) => {
       subactivity.order = i + 1;
       return subactivity;
     });
     this.activity.subactivities = mappedActivities;
-    this.activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
+    this.activity.subactivities.sort((s1, s2) => s1.order - s2.order);
     for (let activity of this.activity.subactivities) {
       this.editActivity.emit(activity);
     }

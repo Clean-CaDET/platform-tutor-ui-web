@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { Course } from '../../learning/model/course.model';
 import { Router } from '@angular/router';
-import { Activity } from '../learning-tasks/model/activity';
+import { Course } from 'src/app/modules/learning/model/course.model';
+import { Activity } from '../model/activity';
 
 @Component({
   selector: 'cc-activities',
@@ -24,7 +24,7 @@ export class ActivitiesComponent implements OnChanges {
     this.mapSubactivities(this.activities);
   }
 
-  mapSubactivities(activities: any[]) {
+  mapSubactivities(activities: Activity[]) {
     for (const activity of activities) {
       activity.subactivities = [];
       
@@ -50,7 +50,7 @@ export class ActivitiesComponent implements OnChanges {
     this.activitySaved.emit(activity);
   }
 
-  update(activity: any) {
+  update(activity: Activity) {
     this.activitySaved.emit(activity);
   }
 
@@ -67,7 +67,7 @@ export class ActivitiesComponent implements OnChanges {
     this.activityDeleted.emit(activityId);
   }
 
-  addSubactivity(activity: any) {
+  addSubactivity(activity: Activity) {
     this.parentActivity = activity;
   }
 }

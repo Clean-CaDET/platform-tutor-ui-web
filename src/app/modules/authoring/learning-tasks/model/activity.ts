@@ -15,4 +15,6 @@ export interface Activity {
     submissionFormat: SubmissionFormat
     standards?: Standard[];
     maxPoints?: number;
+
+    subactivities?: Activity[];
 }

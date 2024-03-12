@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Activity } from '../../learning-tasks/model/activity';
+import { Activity } from '../../model/activity';
 
 @Component({
   selector: 'cc-activity-details',
