@@ -45,7 +45,8 @@
                             <mat-label>Url</mat-label>
                             <input matInput formControlName="url">
                         </mat-form-field>
-                        <button *ngIf="editMode" mat-icon-button (click)="deleteExample(i)"><mat-icon>delete_forever</mat-icon></button>
+                        <button *ngIf="editMode" mat-icon-button
+                            (click)="deleteExample(i)"><mat-icon>delete_forever</mat-icon></button>
                     </div>
                 </div>
                 <button mat-mini-fab color="primary" (click)="addExample()" *ngIf="editMode">
@@ -55,13 +56,23 @@
         </div>
         <div *ngIf="!activity.parentId" fxLayout="column" formGroupName="submissionFormat">
             <h4>Format odgovora</h4>
+            <section fxLayout fxLayoutGap="10px">
+                <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
+                    <mat-label>Izaberite tip</mat-label>
+                    <mat-select formControlName="type" [disabled]="!editMode" (selectionChange)="typeSelected()">
+                        <mat-option value="Text">Tekst</mat-option>
+                        <mat-option value="Link">Link</mat-option>
+                        <mat-option value="Code">Kod</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+                    <mat-label>Regex validacija odgovora</mat-label>
+                    <input formControlName="validationRule" matInput [readonly]="!editMode">
+                </mat-form-field>
+            </section>
             <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Uputstvo za formatiranje odgovora</mat-label>
                 <textarea formControlName="guidelines" matInput [readonly]="!editMode"></textarea>
-            </mat-form-field>
-            <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
-                <mat-label>Regex validacija odgovora</mat-label>
-                <input formControlName="validationRule" matInput [readonly]="!editMode">
             </mat-form-field>
         </div>
         <div *ngIf="!activity.parentId"><!-- Standards -->
@@ -81,7 +92,8 @@
                             <mat-label>Bodovi</mat-label>
                             <input matInput type="number" formControlName="maxPoints">
                         </mat-form-field>
-                        <button *ngIf="editMode" mat-icon-button (click)="deleteStandard(i)"><mat-icon>delete_forever</mat-icon></button>
+                        <button *ngIf="editMode" mat-icon-button
+                            (click)="deleteStandard(i)"><mat-icon>delete_forever</mat-icon></button>
                     </div>
                 </div>
                 <button mat-mini-fab color="primary" (click)="addStandard()" *ngIf="editMode">

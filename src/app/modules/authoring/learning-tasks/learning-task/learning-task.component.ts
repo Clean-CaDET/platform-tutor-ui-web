@@ -54,7 +54,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       code: '',
       guidance: '',
       order: this.getOrder(),
-      submissionFormat: { guidelines: '', validationRule: '' },
+      submissionFormat: { type: 'Link', validationRule: '', guidelines: '' },
       examples: [],
       standards: []
     };

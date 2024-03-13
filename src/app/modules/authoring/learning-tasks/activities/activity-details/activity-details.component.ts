@@ -37,8 +37,9 @@ export class ActivityDetailsComponent implements OnChanges {
 
     if (!this.activity.parentId) {
       this.activityForm.addControl('submissionFormat', this.builder.group({
-        guidelines: new FormControl('', Validators.required),
-        validationRule: new FormControl('')
+        type: new FormControl('Code', Validators.required),
+        validationRule: new FormControl(''),
+        guidelines: new FormControl('', Validators.required)
       }));
       this.activityForm.addControl('standards', this.builder.array([]));
     }
@@ -53,8 +54,9 @@ export class ActivityDetailsComponent implements OnChanges {
     if (!this.activity.parentId) {
       const standarsArray = this.setStandards(activity);
       this.activityForm.setControl('standards', standarsArray);
-      this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
+      this.activityForm.get('submissionFormat').get('type').setValue(activity.submissionFormat.type);
       this.activityForm.get('submissionFormat').get('validationRule').setValue(activity.submissionFormat.validationRule);
+      this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
     }
   }
 
@@ -98,6 +100,14 @@ export class ActivityDetailsComponent implements OnChanges {
 
   deleteExample(index: number): void {
     this.examples.removeAt(index);
+  }
+
+  typeSelected() {
+    switch(this.activityForm.value.submissionFormat.type) {
+      case "Text": this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{200}$"); break;
+      case "Link": this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/[a-zA-Z0-9_-]+\\/[a-zA-Z0-9_-]+\\/?$"); break;
+      default: this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{200}$"); 
+    }
   }
 
   addStandard() {
