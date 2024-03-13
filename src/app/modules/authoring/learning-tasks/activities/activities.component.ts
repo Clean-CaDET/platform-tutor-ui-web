@@ -13,9 +13,9 @@ export class ActivitiesComponent implements OnChanges {
   constructor(private router: Router) { }
 
   course: Course;
-  @Input() activities: any[];
-  selectedActivity: any;
-  parentActivity: any;
+  @Input() activities: Activity[];
+  selectedActivity: Activity;
+  parentActivity: Activity;
 
   @Output() activitySaved = new EventEmitter<Activity>();
   @Output() activityDeleted = new EventEmitter<number>();
@@ -57,10 +57,10 @@ export class ActivitiesComponent implements OnChanges {
   delete(activityId: number): void {
     const activity = this.activities.find(a => a.id === activityId);
     const parentActivity = this.activities.find(a => a.id === activity.parentId);
-    const index = parentActivity.subactivities.findIndex((subactivity: { id: number; }) => subactivity.id === activityId);
+    const index = parentActivity.subactivities.findIndex(subactivity => subactivity.id === activityId);
     parentActivity.subactivities.splice(index, 1);
     
-    parentActivity.subactivities.forEach((subactivity: { order: any; }, idx: number) => {
+    parentActivity.subactivities.forEach((subactivity: Activity, idx: number) => {
       subactivity.order = idx + 1;
     });
     this.selectedActivity = null;

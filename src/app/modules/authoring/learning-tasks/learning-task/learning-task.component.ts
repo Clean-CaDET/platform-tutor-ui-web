@@ -90,7 +90,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     } else {
       this.task.steps.push(step);
     }
-    this.updateTask();
+    this.updateTask(this.task);
   }
 
   deleteStep(id: number): void {
@@ -105,11 +105,11 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   deleteActivity(activityId: number) {
     this.task.steps = this.task.steps.filter(s => s.id !== activityId);
     this.task.steps = this.task.steps.filter(s => !this.isDescendant(s, activityId));
-    this.updateTask();
+    this.updateTask(this.task);
   }
 
-  private updateTask() {
-    this.taskService.update(this.unitId, this.task)
+  updateTask(task: LearningTask) {
+    this.taskService.update(this.unitId, task)
       .subscribe(task => {
         this.task = task;
         this.steps = task.steps.filter(s => !s.parentId);

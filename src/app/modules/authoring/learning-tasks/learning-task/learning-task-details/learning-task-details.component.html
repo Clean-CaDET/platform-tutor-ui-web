@@ -1,0 +1,27 @@
+<div style="padding-left: 10px;">
+    <form [formGroup]="taskForm" fxLayout="column">
+        <section fxLayoutGap="30px" fxLayout="row">
+            <mat-form-field fxFlex="70" [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Naziv</mat-label>
+                <input formControlName="name" matInput [readonly]="!editMode">
+            </mat-form-field>
+            <mat-checkbox fxFlex fxFlexAlign=" center" formControlName="isTemplate" [disabled]="!editMode">Šablon</mat-checkbox>
+            <section fxLayout="row" fxFlex="15">
+                <span fxFlex></span>
+                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true">
+                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="editMode" [disabled]="!taskForm.valid" (click)="submitForm()" color="primary">
+                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="editMode" (click)="discardChanges()" color="warn">
+                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                </button>
+            </section>
+        </section>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput rows="10" [readonly]="!editMode"></textarea>
+        </mat-form-field>
+    </form>
+</div>
