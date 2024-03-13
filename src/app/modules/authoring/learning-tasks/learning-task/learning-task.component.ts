@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Activity } from '../model/activity';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cc-learning-task',
@@ -23,7 +24,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   steps: Activity[];
   subactivities: Activity[];
 
-  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog, private errorsBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
@@ -85,12 +86,13 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   createOrUpdateStep(step: Activity) {
+    let task = JSON.parse(JSON.stringify(this.task));
     if (step.id) {
-      this.task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
+      task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
     } else {
-      this.task.steps.push(step);
+      task.steps.push(step);
     }
-    this.updateTask(this.task);
+    this.updateTask(task);
   }
 
   deleteStep(id: number): void {
@@ -110,12 +112,18 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
 
   updateTask(task: LearningTask) {
     this.taskService.update(this.unitId, task)
-      .subscribe(task => {
-        this.task = task;
-        this.steps = task.steps.filter(s => !s.parentId);
-        this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
-        this.subactivities = this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id));
-        this.subactivities = [this.selectedStep, ...this.subactivities];
+      .subscribe({
+        next: updatedTask => {
+          this.task = updatedTask;
+          this.steps = updatedTask.steps.filter(s => !s.parentId);
+          this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
+          this.subactivities = this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id));
+          this.subactivities = [this.selectedStep, ...this.subactivities];
+        },
+        error: (error) => {
+          if (error.error.status === 409)
+            this.errorsBar.open('Aktivnost sa unetim kodom već postoji.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
+        }
       });
   }
 }

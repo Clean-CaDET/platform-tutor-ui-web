@@ -46,7 +46,6 @@ export class ActivitiesComponent implements OnChanges {
   }
 
   save(activity: Activity) {
-    this.activities = [...this.activities, activity];
     this.activitySaved.emit(activity);
   }
 
