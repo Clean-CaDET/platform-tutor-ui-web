@@ -47,6 +47,10 @@ export class LearningTaskFormComponent  {
     return clonedSteps;
   }
 
+  getMainSteps(learningTask: LearningTask) {
+    return learningTask.steps.filter(s => !s.parentId);
+  }
+
   close() {
     this.dialogref.close();
   }

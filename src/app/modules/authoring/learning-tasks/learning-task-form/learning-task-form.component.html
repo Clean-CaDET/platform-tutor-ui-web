@@ -22,7 +22,7 @@
         <small>
             sa koracima:
             <ol>
-                <li *ngFor="let s of template.steps">{{ s.name }}</li>
+                <li *ngFor="let s of getMainSteps(template)">{{ s.name }}</li>
             </ol>
         </small>
 

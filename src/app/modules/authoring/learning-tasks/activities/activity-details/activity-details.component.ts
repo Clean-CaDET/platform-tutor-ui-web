@@ -20,6 +20,7 @@ export class ActivityDetailsComponent implements OnChanges {
   ngOnChanges(): void {
     this.createForm();
     if (this.activity.id) {
+      this.editMode = false;
       this.setInitialValues(this.activity);
     }
     else {

@@ -11,24 +11,39 @@ import { LearningTask } from './model/learning-task';
   templateUrl: './learning-tasks.component.html',
   styleUrls: ['./learning-tasks.component.scss']
 })
-export class LearningTasksComponent  {
+export class LearningTasksComponent {
 
   @Input() learningTasks: LearningTask[];
 
   constructor(private route: ActivatedRoute, private learningTasksService: LearningTasksService, private dialog: MatDialog) { }
-  
+
   add(template: LearningTask) {
     let data = {};
-    if(template) data = { data: {template}};
+    if (template) data = { data: { template } };
 
     const dialogRef = this.dialog.open(LearningTaskFormComponent, data);
 
     dialogRef.afterClosed().subscribe(result => {
-      if(!result) return;
+      if (!result) return;
       const unitId = this.route.snapshot.queryParams['unit'];
-      this.learningTasksService.create(unitId, result).subscribe(newLearningTask => {
-        this.learningTasks = [...this.learningTasks, newLearningTask];
-      });
+      if (template) {
+        result.id = template.id;
+        this.clone(result, unitId);
+      } else {
+        this.create(unitId, result);
+      }
+    });
+  }
+
+  private clone(result: any, unitId: any) {
+    this.learningTasksService.clone(unitId, result).subscribe(newLearningTask => {
+      this.learningTasks = [...this.learningTasks, newLearningTask];
+    });
+  }
+
+  private create(unitId: any, result: any) {
+    this.learningTasksService.create(unitId, result).subscribe(newLearningTask => {
+      this.learningTasks = [...this.learningTasks, newLearningTask];
     });
   }
 
@@ -45,12 +60,12 @@ export class LearningTasksComponent  {
     });
   }
 
-  getMainSteps(learningTask : LearningTask) {
+  getMainSteps(learningTask: LearningTask) {
     return learningTask.steps.filter(s => !s.parentId);
   }
 
   shorten(text: string): string {
-    if(text.length <= 800) return text;
+    if (text.length <= 800) return text;
     return text.substring(0, 800) + "...";
   }
 }
