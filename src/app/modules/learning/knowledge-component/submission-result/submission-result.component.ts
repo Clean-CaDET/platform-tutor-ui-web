@@ -43,6 +43,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.observedAssessment?.unsubscribe();
+    clearTimeout(this.messageTimeout);
   }
 
   getKnowledgeComponentStatistics(feedback: Feedback): void {

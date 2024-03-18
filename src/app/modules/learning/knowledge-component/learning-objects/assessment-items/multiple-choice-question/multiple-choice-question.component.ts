@@ -27,6 +27,7 @@ export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, Learn
   constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {}
 
   ngOnInit(): void {
+    this.submissionIsProcessing = false;
     this.learningObject.possibleAnswers = shuffleArray(this.learningObject.possibleAnswers);
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
       this.submissionIsProcessing = false;
