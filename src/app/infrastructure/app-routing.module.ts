@@ -15,7 +15,8 @@ import { InstructionalItemsComponent } from '../modules/authoring/knowledge-comp
 import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowledge-component/knowledge-component-authoring.component';
 import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/assessment-items.component';
 import { UnitAnalyticsComponent } from '../modules/knowledge-analytics/unit-analytics/unit-analytics.component';
-import { ActivitiesComponent } from '../modules/authoring/activities/activities.component';
+import { ActivitiesComponent } from '../modules/authoring/learning-tasks/activities/activities.component';
+import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learning-task/learning-task.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -64,6 +65,12 @@ const routes: Routes = [
   {
     path: 'authoring/course/:courseId/activities',
     component: ActivitiesComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['instructor'] },
+  },
+  {
+    path: 'authoring/course/:courseId/unit/:unitId/learning-task/:ltId',
+    component: LearningTaskComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
   },

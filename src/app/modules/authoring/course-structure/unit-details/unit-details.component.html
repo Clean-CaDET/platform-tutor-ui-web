@@ -1,4 +1,4 @@
-<mat-card style="margin: 15px 0 0 15px;">
+<div style="margin: 5px 15px">
     <form fxLayout="column" [formGroup]="unitForm">
         <section fxLayoutGap="15px">
             <mat-form-field fxFlex="15" [appearance]="editMode ? 'fill' : 'outline'">
@@ -30,10 +30,11 @@
                 <span fxFlex="40"></span>
             </section>
         </section>
-        <section>
+        <section fxLayout="column">
+            <h4 *ngIf="!editMode" style="margin-bottom: 0px;">Ciljevi</h4>
             <cc-markdown-editor fxFlex
-                [label]="'Opis'" [text]="unitDescription" [editMode]="editMode" [indextab]="44"
+                [label]="'Ciljevi'" [text]="unitDescription" [editMode]="editMode" [indextab]="44"
                 (textChanged)="updateDescription($event)"></cc-markdown-editor>
         </section>
     </form>
-</mat-card>
+</div>

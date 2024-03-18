@@ -8,8 +8,8 @@
             <span fxFlex></span>
             <span fxLayoutGap="30px" fxLayout="row">
                 <span fxLayoutGap="10px" fxLayout="row">
-                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId}">
-                        <mat-icon matTooltip="Pregledaj hijerarhiju veština" [matTooltipPosition]="'below'">account_tree</mat-icon>
+                    <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId, mode: 'kc'}">
+                        <mat-icon matTooltip="Komponente znanja" [matTooltipPosition]="'below'">account_tree</mat-icon>
                     </button>
                     <button mat-mini-fab color="primary" [routerLink]="['/authoring/course', courseId, 'knowledge-component', kc.id, 'instruction']">
                         <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
