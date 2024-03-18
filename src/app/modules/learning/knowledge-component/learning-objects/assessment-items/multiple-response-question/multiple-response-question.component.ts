@@ -31,6 +31,7 @@ export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, Lea
   }
 
   ngOnInit(): void {
+    this.submissionIsProcessing = false;
     this.learningObject.items = shuffleArray(this.learningObject.items);
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
       this.submissionIsProcessing = false;

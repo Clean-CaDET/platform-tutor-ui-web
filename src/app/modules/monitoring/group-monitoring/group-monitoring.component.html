@@ -31,8 +31,9 @@
         </button>
       </div>
     </div>
-    <mat-paginator (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
-                   [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
+    <mat-paginator *ngIf="selectedGroupId == 0"
+      (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
+      [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
     </mat-paginator>
   </mat-card>
 

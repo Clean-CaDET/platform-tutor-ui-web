@@ -42,6 +42,7 @@ export class EnrolledLearnersComponent implements OnChanges {
     dialogRef.afterClosed().subscribe(learners => {
       if(!learners) return;
       this.membershipService.bulkCreate(this.baseUrl, learners).subscribe(() => {
+        learners = learners.filter((l: any) => !this.dataSource.data.map(e => e.index).includes(l.index));
         this.dataSource = new MatTableDataSource(this.dataSource.data.concat(learners));
       });
     });

@@ -26,6 +26,7 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
   constructor(private submissionService: SubmissionService, private feedbackConnector: AssessmentFeedbackConnector) {}
 
   ngOnInit(): void {
+    this.submissionIsProcessing = false;
     this.observedFeedback = this.feedbackConnector.observedFeedback.subscribe(feedback => {
       this.submissionIsProcessing = false;
       if(feedback.type === feedbackTypes.solution || feedback.type === feedbackTypes.correctness) {
