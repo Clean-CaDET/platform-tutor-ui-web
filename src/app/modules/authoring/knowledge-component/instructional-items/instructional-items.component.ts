@@ -23,7 +23,7 @@ export class InstructionalItemsComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.kcId = +params.kcId;
       this.instructionService.getAll(this.kcId).subscribe(instructionalItems => {
-        this.instructionalItems = instructionalItems;
+        this.instructionalItems = instructionalItems.sort((a, b) => a.order - b.order);
         this.editMap = {};
         this.instructionalItems.forEach(i => this.editMap[i.id] = false);
       });
@@ -36,7 +36,7 @@ export class InstructionalItemsComponent implements OnInit {
     firstItem.order = secondOrder;
 
     this.instructionService.updateOrdering(this.kcId, this.instructionalItems).subscribe(items => {
-      this.instructionalItems = items;
+      this.instructionalItems = items.sort((a, b) => a.order - b.order);
     });
   }
 
