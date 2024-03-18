@@ -15,7 +15,7 @@
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" fxFlex *ngIf="learners.length > 0">
     <ng-container matColumnDef="num">
       <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let element"> {{element.num}} </td>
+      <td mat-cell *matCellDef="let element; let i = index"> {{i+1}} </td>
     </ng-container>
     <ng-container matColumnDef="username">
       <th mat-header-cell *matHeaderCellDef> Korisničko ime </th>
