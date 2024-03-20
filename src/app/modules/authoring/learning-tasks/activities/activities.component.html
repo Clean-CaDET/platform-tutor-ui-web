@@ -1,0 +1,20 @@
+<div fxLayout="column" style="height: 100%;">
+    <div fxFlex fxLayout="row">
+        <div fxFlex="30" fxLayout="column">
+            <mat-divider></mat-divider>
+            <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+                <div *cdkVirtualFor="let activity of activities">
+                    <cc-activity-tree [activity]="activity" [selectedActivity]="selectedActivity"
+                        [parentActivity]="parentActivity" (addSubactivity)="addSubactivity($event)"
+                        (activitySelected)="select($event)" (deleteActivity)="delete($event)"
+                        (editActivity)="update($event)"></cc-activity-tree>
+                </div>
+            </cdk-virtual-scroll-viewport>
+        </div>
+        <mat-divider vertical="true"></mat-divider>
+        <!-- Right container for activity details -->
+        <div *ngIf="selectedActivity" fxFlex="70" class="activity-details">
+            <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
+        </div>
+    </div>
+</div>
