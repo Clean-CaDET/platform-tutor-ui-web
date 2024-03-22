@@ -12,12 +12,14 @@ body {
   line-height: 1.5;
 }
 
+code {
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+}
+p > code, li > code {
+  font-size: 1.05em;
+}
 pre {
   white-space: pre-wrap;
-}
-
-p > code {
-  font-size: 1.3em;
 }
 
 .mat-snack-bar-container.interfacing-instructor {
