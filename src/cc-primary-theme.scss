@@ -14,7 +14,7 @@ $cc-palette: (
   50: #262626,
   100: #b3bcc7,
   200: #818fa1,
-  300: #4f627b,
+  300: #4086bf,
   400: #29405f,
   500: #031e43,
   600: #031a3d,
@@ -26,20 +26,20 @@ $cc-palette: (
   A400: #002bf4,
   A700: #0027da,
   contrast: (
-    50: #000000,
-    100: #000000,
-    200: #000000,
-    300: #ffffff,
-    400: #ffffff,
-    500: #ffffff,
-    600: #ffffff,
-    700: #ffffff,
-    800: #ffffff,
-    900: #ffffff,
-    A100: #ffffff,
-    A200: #ffffff,
-    A400: #ffffff,
-    A700: #ffffff,
+    50: #E0E0E0,
+    100: #E0E0E0,
+    200: #E0E0E0,
+    300: #E0E0E0,
+    400: #E0E0E0,
+    500: #E0E0E0,
+    600: #E0E0E0,
+    700: #E0E0E0,
+    800: #E0E0E0,
+    900: #E0E0E0,
+    A100: #E0E0E0,
+    A200: #E0E0E0,
+    A400: #E0E0E0,
+    A700: #E0E0E0,
   ),
 );
 
@@ -48,17 +48,16 @@ a {
 }
 
 $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
-$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 300);
+$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 600);
 $cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 800);
 
-$cc-dark-theme: mat.define-dark-theme(
-  (
-    color: (
-      primary: $cc-primary-dark,
-      accent: $cc-accent-dark,
-      warn: $cc-warn-dark,
-    ),
-  )
+$cc-dark-theme: (
+  primary: $cc-primary-dark,
+  accent: $cc-accent-dark,
+  warn: $cc-warn-dark,
+  is-dark: true,
+  foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
+  background: mat.$dark-theme-background-palette,
 );
 
 .dark-theme-mode {
@@ -69,8 +68,8 @@ $cc-dark-theme: mat.define-dark-theme(
   @include learner-progress.color($cc-dark-theme);
 }
 
-$cc-primary-light: mat.define-palette(mat.$teal-palette);
-$cc-accent-light: mat.define-palette(mat.$brown-palette, A400);
+$cc-primary-light: mat.define-palette(mat.$blue-palette, 700);
+$cc-accent-light: mat.define-palette(mat.$amber-palette, 600);
 $cc-warn-light: mat.define-palette(mat.$red-palette, A200);
 
 $cc-theme: mat.define-light-theme(
