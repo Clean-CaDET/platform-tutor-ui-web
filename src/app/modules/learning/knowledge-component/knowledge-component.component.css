@@ -11,11 +11,11 @@
 }
 
 h1 {
-  font-weight: normal;
+  margin-top: 0px;
 }
 
-h2 {
-  display: inline;
+::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4 {
+  font-weight: normal;
 }
 
 .fixed {
