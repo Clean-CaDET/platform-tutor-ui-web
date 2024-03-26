@@ -6,7 +6,7 @@ import { KnowledgeComponent } from '../../learning/model/knowledge-component.mod
 import { EventService } from 'src/app/shared/events/event.service';
 import { AssessmentItemStatistics } from '../model/assessment-item-statistics';
 
-enum AnalyticsType { Unit, Kc, Ai }
+enum AnalyticsType { Top10, AllKcs, Kc, Ai }
 
 @Component({
   selector: 'cc-unit-analytics',
@@ -51,7 +51,7 @@ export class UnitAnalyticsComponent implements OnInit {
 
   updateUnit(): void {
     this.selectedKc = null;
-    this.analyticsTypeDisplay = AnalyticsType.Unit;
+    this.analyticsTypeDisplay = AnalyticsType.AllKcs;
 
     if(this.selectedUnit) {
       this.router.navigate([], {

@@ -1,5 +1,5 @@
 <mat-card fxLayout="column" fxLayoutGap="15px">
-    <h2>Analiza zadataka</h2>
+    <div><b>Analiza zadataka</b></div>
     <div *ngFor="let a of assessmentStatistics">
         <small fxLayout="row" fxLayoutGap="10px">
             Id: {{a.aiId}} | 
@@ -10,17 +10,14 @@
             <button mat-raised-button [routerLink]="['/authoring/course', courseId, 'knowledge-component', a.kcId, 'assessments']" [queryParams]="{ aiId: a.aiId }">Autorstvo zadatka</button>
         </small>
         <div fxLayout="row">
-            <div fxFlex="50">
-                <div style="padding: 25px;">
-                <div fxFlex><ngx-charts-box-chart
-                    [scheme]="{'domain':['#9F7EA9', '#B1E3F6']}"
-                    [results]="timeChartData[a.aiId]"
-                    [roundEdges]="false"
-                    [xAxis]="false"
-                    [yAxis]="false">
-                </ngx-charts-box-chart></div>
-                </div>
-            </div>
+            <p fxFlex="50">
+                <b>Minimalno vreme rada</b><br>
+                ~90% učenika je provelo bar <b>{{completionTimeBarsGrouping[a.aiId][0]}} minuta</b> do prvog pokušaja.<br>
+                ~65% učenika je provelo bar <b>{{completionTimeBarsGrouping[a.aiId][1]}} minuta</b> do prvog pokušaja.<br><br>
+                <b>Maksimalno vreme rada</b><br>
+                ~65% učenika je provelo do <b>{{completionTimeBarsGrouping[a.aiId][2]}} minuta</b> do prvog pokušaja.<br>
+                ~90% učenika je provelo do <b>{{completionTimeBarsGrouping[a.aiId][3]}} minuta</b> do prvog pokušaja.<br>
+            </p>
             <div fxFlex="50" fxLayout="column">
                 <div fxFlex><ngx-charts-bar-vertical
                     [results]="attemptsToPassGrouping[a.aiId]"

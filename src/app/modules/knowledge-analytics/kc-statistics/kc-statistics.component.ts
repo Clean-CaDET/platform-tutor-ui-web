@@ -14,7 +14,8 @@ export class KcStatisticsComponent implements OnChanges {
   
   totalCountChartData: any = {};
   percentageChartData: any = {};
-  timeChartData: any = {};
+  completionTimeBars: number[];
+  passTimeBars: number[];
 
   constructor(private analyticsService: KnowledgeAnalyticsService) {}
 
@@ -24,7 +25,8 @@ export class KcStatisticsComponent implements OnChanges {
         this.knowledgeComponentStatistics = data;
         this.createTotalCountCharts(data);
         this.createPercentageCharts(data);
-        this.createTimeBoxData(data);
+        this.completionTimeBars = this.createTimeBars(data.minutesToCompletion);
+        this.passTimeBars = this.createTimeBars(data.minutesToPass);
       });
   }
   
@@ -70,27 +72,34 @@ export class KcStatisticsComponent implements OnChanges {
     });
   }
 
-  private createTimeBoxData(kc: KnowledgeComponentStatistics): void {
-    this.timeChartData = [];
-
-    if (kc.minutesToCompletion.length !== 0) {
-      this.timeChartData.push({
-        name: 'Vreme pregleda (u minutima)',
-        series: this.createTimeSeries(kc.minutesToCompletion),
-      });
-    }
-    if (kc.minutesToPass.length !== 0) {
-      this.timeChartData.push({
-        name: 'Vreme rešavanja (u minutima)',
-        series: this.createTimeSeries(kc.minutesToPass),
-      });
-    }
+  private createTimeBars(minutes: number[]): number[] {
+    if(minutes.length == 0) return [];
+    minutes.sort((a, b) => a - b);
+    const minutesWithoutOutliers = this.removeOutliers(minutes);
+    const index10 = Math.min(Math.round(minutesWithoutOutliers.length * 0.1), minutesWithoutOutliers.length-1);
+    const index35 = Math.min(Math.round(minutesWithoutOutliers.length * 0.35), minutesWithoutOutliers.length-1);
+    const index70 = Math.min(Math.round(minutesWithoutOutliers.length * 0.7), minutesWithoutOutliers.length-1);
+    const index95 = Math.min(Math.round(minutesWithoutOutliers.length * 0.95), minutesWithoutOutliers.length-1);
+    return [
+      this.round(minutesWithoutOutliers[index10]),
+      this.round(minutesWithoutOutliers[index35]),
+      this.round(minutesWithoutOutliers[index70]),
+      this.round(minutesWithoutOutliers[index95])
+    ]
   }
 
-  private createTimeSeries(minutes: number[]): number[] {
-    // TODO: Does not match return value? (returns number[], but result contains objects)
-    const result: any = [];
-    minutes.forEach((m) => result.push({ name: 'a', value: m }));
-    return result;
+  private round(number: number) : number {
+    return Math.round(number * 10) / 10;
+  }
+
+  private removeOutliers(numbers: number[]) {
+    const q1 = numbers[Math.floor((numbers.length / 4))];
+    const q3 = numbers[Math.ceil((numbers.length * (3 / 4))) - 1];
+    const iqr = q3 - q1;
+
+    const lowerBound = q1 - 1.5 * iqr;
+    const upperBound = q3 + 1.5 * iqr;
+
+    return numbers.filter(num => num >= lowerBound && num <= upperBound);
   }
 }
