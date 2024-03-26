@@ -98,7 +98,8 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
     dialogConfig.maxHeight = '800px';
-    dialogConfig.maxWidth = '350px';
+    dialogConfig.maxWidth = '345px';
+    dialogConfig.enterAnimationDuration = "350ms";
     dialogConfig.data = {
       kcId: this.knowledgeComponent.id,
       unitId: this.unitId,
