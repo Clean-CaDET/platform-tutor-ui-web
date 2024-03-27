@@ -1,35 +1,39 @@
-<mat-card *ngIf="knowledgeComponentStatistics" fxFlex fxLayout="column" fxLayoutGap="10px">
-    <div>
+<mat-card fxFlex fxLayout="column" fxLayoutGap="10px">
+    <div *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <b>Brojno stanje polaznika</b>&nbsp;
         <small>(Prijavljen = ima pristup veštini;
         Započet = krenuo razvoj veštine;
         Pregledan = video svo gradivo i zadatke;
         Rešen = svaladao veštinu)</small>
     </div>
-    <div fxLayout="row">
-        <div fxFlex="50"><ngx-charts-bar-vertical
+    <div fxLayout="row" *ngIf="knowledgeComponentStatistics?.totalRegistered">
+        <div fxFlex="45" fxLayout="column">
+            <div fxFlex><ngx-charts-bar-vertical
             [results]="totalCountChartData"
             [xAxis]="true"
             [yAxis]="true"
             [roundEdges]="false"
             [showDataLabel]="true">
-        </ngx-charts-bar-vertical></div>
-        <div fxFlex="50" *ngIf="percentageChartData?.length > 0"><ngx-charts-bar-vertical
+            </ngx-charts-bar-vertical></div>
+        </div>
+        <div fxFlex="45" fxLayout="column">
+            <div fxFlex><ngx-charts-bar-vertical
             [results]="percentageChartData"
             [xAxis]="true"
             [yAxis]="true"
             [roundEdges]="false"
             [showDataLabel]="true">
-        </ngx-charts-bar-vertical></div>
+            </ngx-charts-bar-vertical></div>
+        </div>
     </div>
-    <div *ngIf="completionTimeBars?.length != 0 && passTimeBars?.length != 0">
+    <div *ngIf="completionTimeBars?.length && passTimeBars?.length">
         <mat-divider></mat-divider>
         <p>
             <b>Minimalno vreme rada</b><br>
             ~90% učenika je provelo bar <b>{{completionTimeBars[0] < passTimeBars[0] ? completionTimeBars[0] : passTimeBars[0]}} minuta</b> da pregleda
             i bar <b>{{passTimeBars[0]}} minuta</b> da reši komponentu znanja.<br>
             ~65% učenika je provelo bar <b>{{completionTimeBars[1] < passTimeBars[1] ? completionTimeBars[1] : passTimeBars[1]}} minuta</b> da pregleda
-            i bar <b>{{passTimeBars[1]}} minuta</b> da reši komponentu znanja.<br><br>
+            i bar <b>{{passTimeBars[1]}} minuta</b> da reši komponentu znanja.<br>
             <b>Maksimalno vreme rada</b><br>
             ~65% učenika je provelo do <b>{{completionTimeBars[2] < passTimeBars[2] ? completionTimeBars[2] : passTimeBars[2]}} minuta</b> da pregleda
             i do <b>{{passTimeBars[2]}} minuta</b> da reši komponentu znanja.<br>
@@ -37,17 +41,19 @@
             i do <b>{{passTimeBars[3]}} minuta</b> da reši komponentu znanja.<br>
         </p>
     </div>
-    <div>
+    <div *ngIf="ratingChartData && ratingChartData.length">
         <mat-divider></mat-divider>
         <p><b>Ocene polaznika</b></p>
         <div fxLayout="row">
-            <div fxFlex="50"><ngx-charts-bar-vertical
+            <div fxFlex="50" fxLayout="column">
+                <div fxFlex><ngx-charts-bar-vertical
                 [results]="ratingChartData"
                 [xAxis]="true"
                 [yAxis]="true"
                 [roundEdges]="false"
                 [showDataLabel]="true">
-            </ngx-charts-bar-vertical></div>
+                </ngx-charts-bar-vertical></div>
+            </div>
             <div fxFlex="50">
                 <div *ngIf="!isEmpty(goodPoints)">
                     Polaznici kojima se svidela komponenta znanja (5/5) su istakli:
@@ -67,5 +73,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="!knowledgeComponentStatistics?.totalRegistered">
+        Ne postoje statistike za ovu komponentu znanja.
     </div>
 </mat-card>

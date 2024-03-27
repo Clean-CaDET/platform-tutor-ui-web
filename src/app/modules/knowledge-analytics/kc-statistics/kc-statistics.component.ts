@@ -86,6 +86,7 @@ export class KcStatisticsComponent implements OnChanges {
 
   private createRatingCharts() {
     this.ratingChartData = [];
+    if(!this.ratings?.length) return;
     this.ratingChartData.push({ name: '1', value: this.ratings.filter(r => r.rating == 1).length });
     this.ratingChartData.push({ name: '2', value: this.ratings.filter(r => r.rating == 2).length });
     this.ratingChartData.push({ name: '3', value: this.ratings.filter(r => r.rating == 3).length });
