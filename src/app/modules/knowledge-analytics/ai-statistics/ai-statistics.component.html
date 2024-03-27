@@ -1,4 +1,4 @@
-<mat-card fxLayout="column" fxLayoutGap="15px">
+<mat-card *ngIf="assessmentStatistics" fxLayout="column" fxLayoutGap="10px">
     <div><b>Analiza zadataka</b></div>
     <div *ngFor="let a of assessmentStatistics">
         <small fxLayout="row" fxLayoutGap="10px">

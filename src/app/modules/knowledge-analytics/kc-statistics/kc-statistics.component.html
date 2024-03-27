@@ -1,4 +1,4 @@
-<div *ngIf="knowledgeComponentStatistics" fxFlex fxLayout="column" fxLayoutGap="10px">
+<mat-card *ngIf="knowledgeComponentStatistics" fxFlex fxLayout="column" fxLayoutGap="10px">
     <div>
         <b>Analiza komponente znanja</b><br>
         <small>Prijavljen = ima pristup veštini.
@@ -25,19 +25,15 @@
     <div *ngIf="completionTimeBars?.length != 0 && passTimeBars?.length != 0" fxFlex="row">
         <p fxFlex>
             <b>Minimalno vreme rada</b><br>
-            ~90% učenika je provelo bar <b>{{completionTimeBars[0] < passTimeBars[0] ? completionTimeBars[0] : passTimeBars[0]}} minuta</b> da pregleda.<br>
-            ~65% učenika je provelo bar <b>{{completionTimeBars[1] < passTimeBars[1] ? completionTimeBars[1] : passTimeBars[1]}} minuta</b> da pregleda.<br><br>
+            ~90% učenika je provelo bar <b>{{completionTimeBars[0] < passTimeBars[0] ? completionTimeBars[0] : passTimeBars[0]}} minuta</b> da pregleda
+            i bar <b>{{passTimeBars[0]}} minuta</b> da reši komponentu znanja.<br>
+            ~65% učenika je provelo bar <b>{{completionTimeBars[1] < passTimeBars[1] ? completionTimeBars[1] : passTimeBars[1]}} minuta</b> da pregleda
+            i bar <b>{{passTimeBars[1]}} minuta</b> da reši komponentu znanja.<br><br>
             <b>Maksimalno vreme rada</b><br>
-            ~65% učenika je provelo do <b>{{completionTimeBars[2] < passTimeBars[2] ? completionTimeBars[2] : passTimeBars[2]}} minuta</b> da pregleda.<br>
-            ~90% učenika je provelo do <b>{{completionTimeBars[3] < passTimeBars[3] ? completionTimeBars[3] : passTimeBars[3]}} minuta</b> da pregleda.<br>
-        </p>
-        <p fxFlex>
-            <br>
-            ~90% učenika je provelo bar <b>{{passTimeBars[0]}} minuta</b> da reši.<br>
-            ~65% učenika je provelo bar <b>{{passTimeBars[1]}} minuta</b> da reši.<br><br>
-            <br>
-            ~65% učenika je provelo do <b>{{passTimeBars[2]}} minuta</b> da reši.<br>
-            ~90% učenika je provelo do <b>{{passTimeBars[3]}} minuta</b> da reši.<br>
+            ~65% učenika je provelo do <b>{{completionTimeBars[2] < passTimeBars[2] ? completionTimeBars[2] : passTimeBars[2]}} minuta</b> da pregleda
+            i do <b>{{passTimeBars[2]}} minuta</b> da reši komponentu znanja.<br>
+            ~90% učenika je provelo do <b>{{completionTimeBars[3] < passTimeBars[3] ? completionTimeBars[3] : passTimeBars[3]}} minuta</b> da pregleda
+            i do <b>{{passTimeBars[3]}} minuta</b> da reši komponentu znanja.<br>
         </p>
     </div>
-</div>
+</mat-card>
