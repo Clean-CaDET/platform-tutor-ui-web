@@ -1,10 +1,10 @@
 <mat-card *ngIf="knowledgeComponentStatistics" fxFlex fxLayout="column" fxLayoutGap="10px">
     <div>
-        <b>Analiza komponente znanja</b><br>
-        <small>Prijavljen = ima pristup veštini.
-        Započet = krenuo razvoj veštine.
-        Pregledan = video svo gradivo i zadatke.
-        Rešen = svaladao veštinu.</small>
+        <b>Brojno stanje polaznika</b>&nbsp;
+        <small>(Prijavljen = ima pristup veštini;
+        Započet = krenuo razvoj veštine;
+        Pregledan = video svo gradivo i zadatke;
+        Rešen = svaladao veštinu)</small>
     </div>
     <div fxLayout="row">
         <div fxFlex="50"><ngx-charts-bar-vertical
@@ -22,8 +22,9 @@
             [showDataLabel]="true">
         </ngx-charts-bar-vertical></div>
     </div>
-    <div *ngIf="completionTimeBars?.length != 0 && passTimeBars?.length != 0" fxFlex="row">
-        <p fxFlex>
+    <div *ngIf="completionTimeBars?.length != 0 && passTimeBars?.length != 0">
+        <mat-divider></mat-divider>
+        <p>
             <b>Minimalno vreme rada</b><br>
             ~90% učenika je provelo bar <b>{{completionTimeBars[0] < passTimeBars[0] ? completionTimeBars[0] : passTimeBars[0]}} minuta</b> da pregleda
             i bar <b>{{passTimeBars[0]}} minuta</b> da reši komponentu znanja.<br>
@@ -35,5 +36,36 @@
             ~90% učenika je provelo do <b>{{completionTimeBars[3] < passTimeBars[3] ? completionTimeBars[3] : passTimeBars[3]}} minuta</b> da pregleda
             i do <b>{{passTimeBars[3]}} minuta</b> da reši komponentu znanja.<br>
         </p>
+    </div>
+    <div>
+        <mat-divider></mat-divider>
+        <p><b>Ocene polaznika</b></p>
+        <div fxLayout="row">
+            <div fxFlex="50"><ngx-charts-bar-vertical
+                [results]="ratingChartData"
+                [xAxis]="true"
+                [yAxis]="true"
+                [roundEdges]="false"
+                [showDataLabel]="true">
+            </ngx-charts-bar-vertical></div>
+            <div fxFlex="50">
+                <div *ngIf="!isEmpty(goodPoints)">
+                    Polaznici kojima se svidela komponenta znanja (5/5) su istakli:
+                    <mat-chip-list multiple>
+                    <mat-chip *ngFor="let option of goodPoints | keyvalue" #chip="matChip">
+                        {{option.key}} ({{option.value}})
+                    </mat-chip>
+                    </mat-chip-list>
+                </div>
+                <div *ngIf="!isEmpty(badPoints)">
+                    Polaznici koji su dali manje od 5 su istakli da treba unaprediti:
+                    <mat-chip-list multiple>
+                    <mat-chip *ngFor="let option of badPoints | keyvalue" #chip="matChip">
+                        {{option.key}} ({{option.value}})
+                    </mat-chip>
+                    </mat-chip-list>
+                </div>
+            </div>
+        </div>
     </div>
 </mat-card>

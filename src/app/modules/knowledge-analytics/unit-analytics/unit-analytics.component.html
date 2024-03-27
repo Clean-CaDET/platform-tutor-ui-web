@@ -1,5 +1,5 @@
 <div fxLayout="column" style="height: 100%;">
-    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z2 sticky">
+    <mat-card fxLayout="row" fxLayoutAlign="center center" class="mat-elevation-z2 sticky" style="padding-bottom: 0;">
         <span fxFlex fxLayoutGap="10px">
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
@@ -9,10 +9,6 @@
                     </mat-option>
                 </mat-select>
             </mat-form-field>
-            <button *ngIf="selectedUnit" mat-mini-fab (click)="changeDisplay(null, AnalyticsType.AllKcs)"
-                [color]="analyticsTypeDisplay === AnalyticsType.AllKcs ? 'primary' : ''">
-                <mat-icon matTooltip="Pregled svih komponenti znanja" [matTooltipPosition]="'above'">account_tree</mat-icon>
-            </button>
             <button *ngIf="selectedUnit" mat-mini-fab (click)="changeDisplay(null, AnalyticsType.Top10)"
                 [color]="analyticsTypeDisplay === AnalyticsType.Top10 ? 'primary' : ''">
                 <mat-icon matTooltip="Top 10 teških zadataka" [matTooltipPosition]="'above'">quizz</mat-icon>
@@ -40,6 +36,11 @@
                                 [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'primary' : ''">
                                 <mat-icon matTooltip="Analiza zadataka" [matTooltipPosition]="'above'">quiz</mat-icon>
                             </button>
+                            <span fxFlex></span>
+                            <span fxLayout="column" *ngIf="ratingAverages && ratingAverages[kc.id]">
+                                <span fxFlex></span>
+                                <small>{{ratingAverages[kc.id]}} / 5 ({{ratings[kc.id].length}} ocena)</small>
+                            </span>
                         </span>
                     </div>
                     <mat-divider></mat-divider>
@@ -48,10 +49,10 @@
         </div>
         <mat-divider vertical="true"></mat-divider>
         <div fxFlex="75" *ngIf="analyticsTypeDisplay === AnalyticsType.Top10">
-            <cc-ai-statistics fxFlex [assessmentStatistics]="assessmentStatistics" [courseId]="courseId"></cc-ai-statistics>
+            <cc-ai-statistics fxFlex [unitId]="selectedUnit.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
         <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc">
-            <cc-kc-statistics fxFlex [kcId]="selectedKc.id"></cc-kc-statistics>
+            <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [ratings]="ratings[selectedKc.id]"></cc-kc-statistics>
         </div>
         <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Ai">
             <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [courseId]="courseId"></cc-ai-statistics>

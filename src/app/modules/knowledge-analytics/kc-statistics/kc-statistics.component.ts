@@ -1,6 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics.model';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
+import { KnowledgeComponentRate } from '../../learning/model/knowledge-component-rate.model';
 
 @Component({
   selector: 'cc-kc-statistics',
@@ -9,6 +10,7 @@ import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 })
 export class KcStatisticsComponent implements OnChanges {
   @Input() kcId: number;
+  @Input() ratings: KnowledgeComponentRate[];
 
   knowledgeComponentStatistics: KnowledgeComponentStatistics;
   
@@ -16,6 +18,9 @@ export class KcStatisticsComponent implements OnChanges {
   percentageChartData: any = {};
   completionTimeBars: number[];
   passTimeBars: number[];
+  ratingChartData: any = {};
+  goodPoints: any = {};
+  badPoints: any = {};
 
   constructor(private analyticsService: KnowledgeAnalyticsService) {}
 
@@ -28,48 +33,24 @@ export class KcStatisticsComponent implements OnChanges {
         this.completionTimeBars = this.createTimeBars(data.minutesToCompletion);
         this.passTimeBars = this.createTimeBars(data.minutesToPass);
       });
+    this.createRatingCharts();
   }
-  
+
   private createTotalCountCharts(kc: KnowledgeComponentStatistics): void {
     this.totalCountChartData = [];
-    this.totalCountChartData.push({
-      name: '# prijavljenih',
-      value: kc.totalRegistered,
-    });
-    this.totalCountChartData.push({
-      name: '# započelih',
-      value: kc.totalStarted,
-    });
-    this.totalCountChartData.push({
-      name: '# pregledanih',
-      value: kc.totalCompleted,
-    });
-    this.totalCountChartData.push({
-      name: '# rešenih',
-      value: kc.totalPassed,
-    });
+    this.totalCountChartData.push({ name: '# prijavljenih', value: kc.totalRegistered });
+    this.totalCountChartData.push({ name: '# započelih', value: kc.totalStarted });
+    this.totalCountChartData.push({ name: '# pregledanih', value: kc.totalCompleted });
+    this.totalCountChartData.push({ name: '# rešenih', value: kc.totalPassed });
   }
 
   private createPercentageCharts(kc: KnowledgeComponentStatistics): void {
     this.percentageChartData = [];
     if(kc.totalRegistered === 0) return;
-
-    this.percentageChartData.push({
-      name: '% prijavljenih',
-      value: (kc.totalRegistered * 100) / kc.totalRegistered,
-    });
-    this.percentageChartData.push({
-      name: '% započelih',
-      value: (kc.totalStarted * 100) / kc.totalRegistered,
-    });
-    this.percentageChartData.push({
-      name: '% pregledanih',
-      value: (kc.totalCompleted * 100) / kc.totalRegistered,
-    });
-    this.percentageChartData.push({
-      name: '% rešenih',
-      value: (kc.totalPassed * 100) / kc.totalRegistered,
-    });
+    this.percentageChartData.push({ name: '% prijavljenih', value: (kc.totalRegistered * 100) / kc.totalRegistered });
+    this.percentageChartData.push({ name: '% započelih', value: (kc.totalStarted * 100) / kc.totalRegistered });
+    this.percentageChartData.push({ name: '% pregledanih', value: (kc.totalCompleted * 100) / kc.totalRegistered });
+    this.percentageChartData.push({ name: '% rešenih', value: (kc.totalPassed * 100) / kc.totalRegistered });
   }
 
   private createTimeBars(minutes: number[]): number[] {
@@ -101,5 +82,33 @@ export class KcStatisticsComponent implements OnChanges {
     const upperBound = q3 + 1.5 * iqr;
 
     return numbers.filter(num => num >= lowerBound && num <= upperBound);
+  }
+
+  private createRatingCharts() {
+    this.ratingChartData = [];
+    this.ratingChartData.push({ name: '1', value: this.ratings.filter(r => r.rating == 1).length });
+    this.ratingChartData.push({ name: '2', value: this.ratings.filter(r => r.rating == 2).length });
+    this.ratingChartData.push({ name: '3', value: this.ratings.filter(r => r.rating == 3).length });
+    this.ratingChartData.push({ name: '4', value: this.ratings.filter(r => r.rating == 4).length });
+    this.ratingChartData.push({ name: '5', value: this.ratings.filter(r => r.rating == 5).length });
+
+    this.goodPoints = this.calculatePoints(this.ratings.filter(r => r.rating == 5));
+    this.badPoints = this.calculatePoints(this.ratings.filter(r => r.rating < 5));
+  }
+
+  private calculatePoints(ratings: KnowledgeComponentRate[]): any {
+    let points: any = {};
+    ratings.forEach(rating => {
+      rating.tags.forEach(tag => {
+        if(points[tag]) points[tag] = points[tag] + 1;
+        else points[tag] = 1;
+      });
+    });
+    return points;
+  }
+
+  isEmpty(object: any) {
+    if(!object) return true;
+    return Object.keys(object).length == 0;
   }
 }

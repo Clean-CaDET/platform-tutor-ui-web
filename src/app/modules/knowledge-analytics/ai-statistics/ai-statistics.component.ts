@@ -11,8 +11,9 @@ import { EventService } from 'src/app/shared/events/event.service';
 export class AiStatisticsComponent implements OnChanges {
   @Input() courseId: number;
   @Input() kcId: number;
-  @Input() assessmentStatistics: AssessmentItemStatistics[];
+  @Input() unitId: number;
 
+  assessmentStatistics: AssessmentItemStatistics[];
   attemptsToPassGrouping: any;
   completionTimeBarsGrouping: any;
 
@@ -25,9 +26,13 @@ export class AiStatisticsComponent implements OnChanges {
           this.assessmentStatistics = data;
           this.createCharts();
         });
-      } else if(this.assessmentStatistics) {
-        this.createCharts();
-      }
+    } else {
+      this.analyticsService.getTopMisconceptions(this.unitId)
+        .subscribe(data => {
+          this.assessmentStatistics = data;
+          this.createCharts();
+        });
+    }
   }
 
   private createCharts() {
