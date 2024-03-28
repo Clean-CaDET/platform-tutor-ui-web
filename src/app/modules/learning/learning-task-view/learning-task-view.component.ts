@@ -27,7 +27,6 @@ export class LearningTaskViewComponent implements OnInit {
     this.createForm();
     this.setTask();
     this.setTaskProgress();
-    this.showExample = false;
   }
 
   createForm() {
@@ -41,11 +40,11 @@ export class LearningTaskViewComponent implements OnInit {
       this.taskService.get(+params.unitId, +params.ltId)
         .subscribe(task => {
           this.task = task;
-          this.steps = task.steps.sort((a: { order: number; }, b: {order: number; }) => a.order > b.order ? 1 : -1);
+          this.steps = task.steps.sort((a: { order: number; }, b: { order: number; }) => a.order > b.order ? 1 : -1);
           this.mapSubactivities(this.steps);
           this.steps = this.steps.filter((s: { parentId: any; }) => !s.parentId);
           this.selectedStep = this.steps[0];
-          if(this.selectedStep.examples)
+          if (this.selectedStep.examples)
             this.selectedExample = this.selectedStep.examples[0];
         });
     });
@@ -86,6 +85,10 @@ export class LearningTaskViewComponent implements OnInit {
       this.progressService.viewStep(+params.unitId, this.task.id, this.taskProgress.id, step.id)
         .subscribe(progress => {
           this.taskProgress = progress;
+          this.showExample = false;
+          this.selectedExample = null;
+          if (this.selectedStep.examples)
+            this.selectedExample = this.selectedStep.examples[0];
         });
     });
   }
@@ -112,7 +115,7 @@ export class LearningTaskViewComponent implements OnInit {
 
   getNextExample() {
     let index = this.selectedStep.examples.indexOf(this.selectedExample);
-    if(index != this.selectedStep.examples.length - 1) {
+    if (index != this.selectedStep.examples.length - 1) {
       this.selectedExample = this.selectedStep.examples[index + 1];
     } else {
       this.selectedExample = this.selectedStep.examples[index - 1];
@@ -132,10 +135,18 @@ export class LearningTaskViewComponent implements OnInit {
   nextStep() {
     let index = this.steps.indexOf(this.selectedStep);
     this.selectedStep = this.steps[index + 1];
+    this.showExample = false;
+    this.selectedExample = null;
+    if (this.selectedStep.examples)
+      this.selectedExample = this.selectedStep.examples[0];
   }
 
   previosStep() {
     let index = this.steps.indexOf(this.selectedStep);
     this.selectedStep = this.steps[index - 1];
+    this.showExample = false;
+    this.selectedExample = null;
+    if (this.selectedStep.examples)
+      this.selectedExample = this.selectedStep.examples[0];
   }
 }
