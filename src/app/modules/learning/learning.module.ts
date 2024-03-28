@@ -31,6 +31,7 @@ import { TypingAnimatorDirective } from './knowledge-component/submission-result
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
 import {StarRatingModule} from "angular-star-rating";
 import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
+import { LearningTaskViewComponent } from './learning-task-view/learning-task-view.component';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { UnitControlsComponent } from './controls/unit-controls/unit-controls.co
     TypingAnimatorDirective,
     KcRateComponent,
     UnitControlsComponent,
+    LearningTaskViewComponent,
   ],
     imports: [
         CommonModule,

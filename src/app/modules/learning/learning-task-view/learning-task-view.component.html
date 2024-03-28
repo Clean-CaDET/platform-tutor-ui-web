@@ -1,0 +1,103 @@
+<div fxLayout="column" style="height: 100%;">
+    <mat-card fxFlex="25" fxLayout>
+        <section fxFlex="60" fxLayout="column">
+            <span style="font-weight: bold;">{{ task.name }}</span>
+            <p fxFlex style="overflow-y: auto;">
+                {{ task.description }}
+            </p>
+        </section>
+        <mat-divider vertical="true"></mat-divider>
+        <section fxFlex style="overflow-y: auto;">
+            <div *ngFor="let step of steps">
+                <div fxLayout fxLayoutAlign="center" style="height: 40px; cursor: pointer; padding-left: 10px;"
+                    [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
+                    <div fxFlex>{{ step.order }}. {{ step.name }}</div>
+                    <mat-icon *ngIf="isAnswered(step)">check_circle</mat-icon>
+                    <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+        </section>
+    </mat-card>
+
+    <div fxLayout="column" style="overflow: auto;">
+        <div style="padding: 10px;">
+            {{ selectedStep.guidance }}
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut sit numquam itaque aspernatur quis quam saepe
+            optio, debitis sed asperiores cumque. Quibusdam, laboriosam ratione in repudiandae cupiditate odio
+            repellendus sed!
+        </div>
+        <div fxLayout="row-reverse">
+            <button mat-flat-button fxFlex="10" color="primary" style="margin: 0 25px 10px 0;">Prikaži primer</button>
+        </div>
+
+        <div fxFlex="80" fxLayout style="margin-bottom: 10px;">
+            <div *ngIf="selectedStep.subactivities.length" fxFlex style="overflow-y: auto;">
+                <cdk-accordion class="example-accordion">
+                    <cdk-accordion-item *ngFor="let subactivity of selectedStep.subactivities; let index = index"
+                        #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
+                        [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
+                        [attr.aria-controls]="'accordion-body-' + index">
+                        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
+                            <span class="example-accordion-item-description">
+                                {{ selectedStep.order }}.{{ subactivity.order }}. {{ subactivity.name }}</span>
+                        </div>
+                        <div class="example-accordion-item-body" role="region"
+                            [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + index"
+                            [attr.aria-labelledby]="'accordion-header-' + index">
+                            {{ subactivity.guidance }}
+                        </div>
+                    </cdk-accordion-item>
+                </cdk-accordion>
+            </div>
+
+            <div fxFlex>
+                <!-- Ovde ide video -->
+                <div style="height: 300px; width: 600px; background-color: black; margin: 0 auto;"></div>
+
+                <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
+                    <button mat-flat-button fxFlex="18" color="primary">Nov primer</button>
+                    <button mat-flat-button fxFlex="18" color="primary">Skloni primer</button>
+                </div>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div fxFlex style="margin: 10px;">
+            <div *ngIf="selectedStep.standards.length" style="margin-bottom: 10px;">
+                <span style="font-weight: bold; font-size: large;">Standardi</span>
+                <div style="margin-top:10px;">
+                    <div *ngFor="let standard of selectedStep.standards">
+                        {{ standard.name }}, broj bodova: {{ standard.maxPoints }}
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="answerForm">
+                <div>
+                    <div>
+                        <span style="font-weight: bold;">Odgovor:</span> {{ selectedStep.submissionFormat.guidelines }}
+                    </div>
+                    <mat-form-field appearance="outline" style="width: 100%; margin-top: 5px;">
+                        <mat-label>Odgovor</mat-label>
+                        <textarea formControlName="answer" matInput rows="10"></textarea>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="row-reverse" style="margin-bottom: 10px;">
+                    <button mat-flat-button fxFlex="11" color="primary" [disabled]="answerForm.invalid"
+                        (click)="submitAnswer()">
+                        Podnesi odgovor
+                    </button>
+                </div>
+            </form>
+            <div fxLayout="row-reverse" fxLayoutGap="10">
+                <button mat-flat-button fxFlex="5" color="primary" [disabled]="isLast()" (click)="nextStep()">
+                    <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
+                </button>
+                <button mat-flat-button fxFlex="5" color="primary" [disabled]="isFirst()" (click)="previosStep()">
+                    <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
