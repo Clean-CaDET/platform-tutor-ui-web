@@ -23,12 +23,12 @@
     <div fxLayout="column" style="overflow: auto;">
         <div style="padding: 10px;">
             {{ selectedStep.guidance }}
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut sit numquam itaque aspernatur quis quam saepe
-            optio, debitis sed asperiores cumque. Quibusdam, laboriosam ratione in repudiandae cupiditate odio
-            repellendus sed!
         </div>
         <div fxLayout="row-reverse">
-            <button mat-flat-button fxFlex="10" color="primary" style="margin: 0 25px 10px 0;">Prikaži primer</button>
+            <button *ngIf="!showExample && selectedStep.examples.length" mat-flat-button fxFlex="10" color="primary" style="margin: 0 25px 10px 0;"
+                (click)="showExample = true">
+                Prikaži primer
+            </button>
         </div>
 
         <div fxFlex="80" fxLayout style="margin-bottom: 10px;">
@@ -51,13 +51,16 @@
                 </cdk-accordion>
             </div>
 
-            <div fxFlex>
-                <!-- Ovde ide video -->
-                <div style="height: 300px; width: 600px; background-color: black; margin: 0 auto;"></div>
-
+            <div *ngIf="showExample" fxFlex fxLayout="column">
+                <iframe width="600" height="300" style="margin: 0 auto;" [src]="getSafeUrl(selectedExample?.url)"
+                    frameborder="0" allowfullscreen></iframe>
                 <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
-                    <button mat-flat-button fxFlex="18" color="primary">Nov primer</button>
-                    <button mat-flat-button fxFlex="18" color="primary">Skloni primer</button>
+                    <button *ngIf="selectedStep.examples.length !== 1" mat-flat-button fxFlex="18" color="primary" (click)="getNextExample()">
+                        Nov primer
+                    </button>
+                    <button mat-flat-button fxFlex="18" color="primary" (click)="showExample = false">
+                        Skloni primer
+                    </button>
                 </div>
             </div>
         </div>

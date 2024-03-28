@@ -3,6 +3,7 @@ import { LearningTasksService } from './learning-tasks-learning.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-learning-task-view',
@@ -16,14 +17,17 @@ export class LearningTaskViewComponent implements OnInit {
   selectedStep: any = {};
   taskProgress: any = {};
   answerForm: FormGroup;
+  selectedExample: any;
+  showExample: boolean;
 
   constructor(private taskService: LearningTasksService, private progressService: TaskProgressService,
-    private route: ActivatedRoute, private builder: FormBuilder) { }
+    private route: ActivatedRoute, private builder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
     this.createForm();
     this.setTask();
     this.setTaskProgress();
+    this.showExample = false;
   }
 
   createForm() {
@@ -41,6 +45,8 @@ export class LearningTaskViewComponent implements OnInit {
           this.mapSubactivities(this.steps);
           this.steps = this.steps.filter((s: { parentId: any; }) => !s.parentId);
           this.selectedStep = this.steps[0];
+          if(this.selectedStep.examples)
+            this.selectedExample = this.selectedStep.examples[0];
         });
     });
   }
@@ -98,6 +104,19 @@ export class LearningTaskViewComponent implements OnInit {
           this.taskProgress = progress;
         });
     });
+  }
+
+  getSafeUrl(url: string) {
+    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+  }
+
+  getNextExample() {
+    let index = this.selectedStep.examples.indexOf(this.selectedExample);
+    if(index != this.selectedStep.examples.length - 1) {
+      this.selectedExample = this.selectedStep.examples[index + 1];
+    } else {
+      this.selectedExample = this.selectedStep.examples[index - 1];
+    }
   }
 
   isLast() {
