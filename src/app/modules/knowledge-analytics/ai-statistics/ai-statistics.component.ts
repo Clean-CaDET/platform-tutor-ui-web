@@ -11,10 +11,11 @@ import { EventService } from 'src/app/shared/events/event.service';
 export class AiStatisticsComponent implements OnChanges {
   @Input() courseId: number;
   @Input() kcId: number;
-  @Input() assessmentStatistics: AssessmentItemStatistics[];
+  @Input() unitId: number;
 
+  assessmentStatistics: AssessmentItemStatistics[];
   attemptsToPassGrouping: any;
-  timeChartData: any;
+  completionTimeBarsGrouping: any;
 
   constructor(private analyticsService: KnowledgeAnalyticsService, private eventService: EventService) {}
 
@@ -25,16 +26,20 @@ export class AiStatisticsComponent implements OnChanges {
           this.assessmentStatistics = data;
           this.createCharts();
         });
-      } else if(this.assessmentStatistics) {
-        this.createCharts();
-      }
+    } else {
+      this.analyticsService.getTopMisconceptions(this.unitId)
+        .subscribe(data => {
+          this.assessmentStatistics = data;
+          this.createCharts();
+        });
+    }
   }
 
   private createCharts() {
-    this.timeChartData = {};
     this.attemptsToPassGrouping = {};
+    this.completionTimeBarsGrouping = {};
     this.assessmentStatistics.forEach(ai => {
-      this.createTimeBoxData(ai);
+      this.completionTimeBarsGrouping[ai.aiId] = this.createTimeBars(ai.minutesToCompletion);
       this.createAttemptChart(ai);
     });
   }
@@ -65,21 +70,35 @@ export class AiStatisticsComponent implements OnChanges {
     });
   }
 
-  private createTimeBoxData(ai: AssessmentItemStatistics): void {
-    this.timeChartData[ai.aiId] = [];
-    if (ai.minutesToCompletion.length === 0) return;
-    
-    this.timeChartData[ai.aiId].push({
-      name: 'Vreme pregleda do prvog pokušaja (u minutima)',
-      series: this.createTimeSeries(ai.minutesToCompletion),
-    });
+  private createTimeBars(minutes: number[]): number[] {
+    if(minutes.length == 0) return [0, 0, 0, 0];
+    minutes.sort((a, b) => a - b);
+    const minutesWithoutOutliers = this.removeOutliers(minutes);
+    const index10 = Math.min(Math.round(minutesWithoutOutliers.length * 0.1), minutesWithoutOutliers.length-1);
+    const index35 = Math.min(Math.round(minutesWithoutOutliers.length * 0.35), minutesWithoutOutliers.length-1);
+    const index70 = Math.min(Math.round(minutesWithoutOutliers.length * 0.7), minutesWithoutOutliers.length-1);
+    const index95 = Math.min(Math.round(minutesWithoutOutliers.length * 0.95), minutesWithoutOutliers.length-1);
+    return [
+      this.round(minutesWithoutOutliers[index10]),
+      this.round(minutesWithoutOutliers[index35]),
+      this.round(minutesWithoutOutliers[index70]),
+      this.round(minutesWithoutOutliers[index95])
+    ]
   }
 
-  private createTimeSeries(minutes: number[]): number[] {
-    // TODO: Does not match return value? (returns number[], but result contains objects)
-    const result: any = [];
-    minutes.forEach((m) => result.push({ name: 'a', value: m }));
-    return result;
+  private round(number: number) : number {
+    return Math.round(number * 10) / 10;
+  }
+
+  private removeOutliers(numbers: number[]) {
+    const q1 = numbers[Math.floor((numbers.length / 4))];
+    const q3 = numbers[Math.ceil((numbers.length * (3 / 4))) - 1];
+    const iqr = q3 - q1;
+
+    const lowerBound = q1 - 1.5 * iqr;
+    const upperBound = q3 + 1.5 * iqr;
+
+    return numbers.filter(num => num >= lowerBound && num <= upperBound);
   }
 
   exportEvents(aiId: number) {
