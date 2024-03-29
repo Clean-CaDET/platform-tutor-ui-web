@@ -21,7 +21,7 @@ export class KcRateComponent {
   tags = ["Količina zadataka", "Težina zadataka", "Jasnoća zadataka", "Jasnoća gradiva"]
   selectedTags: string[] = [];
 
-  feedbackMessage = "Veština savladana, bravo 🥳! Možeš da pređeš na sledeću (klik na \"Lekcija\") ili da pogledaš moj komentar na zadatak (klik na \"Zatvori\")."
+  feedbackMessage = "Veština savladana, bravo 🥳!\nPređi na sledeću (taster \"Lekcija\") ili vidi komentar na zadatak (taster \"Zatvori\")."
 
   constructor(@Inject(MAT_DIALOG_DATA) data: { courseId: number, unitId:number, kcId:number },
               private dialogRef: MatDialogRef<KcRateComponent>, private rateService : KcRateService) {
