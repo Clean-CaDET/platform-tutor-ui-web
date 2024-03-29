@@ -25,7 +25,7 @@
             {{ selectedStep.guidance }}
         </div>
         <div fxLayout="row-reverse">
-            <button *ngIf="!showExample && selectedStep.examples" mat-flat-button fxFlex="10" color="primary"
+            <button *ngIf="!showExample && selectedStep.examples && selectedStep.examples.length > 0" mat-flat-button fxFlex="10" color="primary"
                 style="margin: 0 25px 10px 0;" (click)="showExamples()">
                 Prikaži primer
             </button>

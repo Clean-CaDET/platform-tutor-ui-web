@@ -32,7 +32,7 @@ export class LearningTaskViewComponent implements OnInit {
 
   createForm() {
     this.answerForm = this.builder.group({
-      answer: new FormControl('', Validators.required),
+      answer: new FormControl(''),
     });
   }
 
@@ -45,8 +45,6 @@ export class LearningTaskViewComponent implements OnInit {
           this.mapSubactivities(this.steps);
           this.steps = this.steps.filter((s: { parentId: any; }) => !s.parentId);
           this.selectedStep = this.steps[0];
-          if (this.selectedStep.examples)
-            this.selectedExample = this.selectedStep.examples[0];
         });
     });
   }
@@ -75,12 +73,16 @@ export class LearningTaskViewComponent implements OnInit {
   }
 
   setInitialValues() {
+    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
+    this.answerForm.get('answer').setValidators([Validators.required, Validators.pattern(regexPattern)]);
     let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
     this.answerForm.get('answer').setValue(stepProgress.answer);
   }
 
   viewStep(step: any) {
     this.selectedStep = step;
+    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
+    this.answerForm.get('answer').setValidators([Validators.required, Validators.pattern(regexPattern)]);
     this.setInitialValues();
     this.route.params.subscribe((params: Params) => {
       this.progressService.viewStep(+params.unitId, this.task.id, this.taskProgress.id, step.id)
