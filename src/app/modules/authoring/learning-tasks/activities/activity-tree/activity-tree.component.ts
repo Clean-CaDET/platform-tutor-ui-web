@@ -53,7 +53,6 @@ export class ActivityTreeComponent {
     this.reorderSubactivities();
   }
 
-
   down(index: number) {
     const activityAtIndex = this.activity.subactivities[index];
     this.activity.subactivities.splice(index, 1);
@@ -68,9 +67,7 @@ export class ActivityTreeComponent {
     });
     this.activity.subactivities = mappedActivities;
     this.activity.subactivities.sort((s1, s2) => s1.order - s2.order);
-    for (let activity of this.activity.subactivities) {
-      this.editActivity.emit(activity);
-    }
+    this.editActivity.emit(this.activity);
   }
 
   delete(activityId: number) {
