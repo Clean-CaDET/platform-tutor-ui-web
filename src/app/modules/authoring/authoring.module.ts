@@ -20,7 +20,6 @@ import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component
 import { SaqFormComponent } from './assessment-items/saq-form/saq-form.component';
 import {LearningModule} from "../learning/learning.module";
 import { ActivitiesComponent } from './learning-tasks/activities/activities.component';
-import { ActivityTreeComponent } from './learning-tasks/activities/activity-tree/activity-tree.component';
 import { ActivityDetailsComponent } from './learning-tasks/activities/activity-details/activity-details.component';
 import { LearningTasksComponent } from './learning-tasks/learning-tasks.component';
 import { LearningTaskFormComponent } from './learning-tasks/learning-task-form/learning-task-form.component';
@@ -42,7 +41,6 @@ import { LearningTaskDetailsComponent } from './learning-tasks/learning-task/lea
     McqFormComponent,
     SaqFormComponent,
     ActivitiesComponent,
-    ActivityTreeComponent,
     ActivityDetailsComponent,
     LearningTasksComponent,
     LearningTaskFormComponent,
