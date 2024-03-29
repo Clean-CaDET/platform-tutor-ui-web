@@ -1,5 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Course } from 'src/app/modules/learning/model/course.model';
 import { Activity } from '../model/activity';
 
@@ -8,9 +7,9 @@ import { Activity } from '../model/activity';
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
-export class ActivitiesComponent implements OnChanges {
+export class ActivitiesComponent {
 
-  constructor(private router: Router) { }
+  constructor() { }
 
   course: Course;
   @Input() activities: Activity[];
@@ -20,29 +19,8 @@ export class ActivitiesComponent implements OnChanges {
   @Output() activitySaved = new EventEmitter<Activity>();
   @Output() activityDeleted = new EventEmitter<number>();
 
-  ngOnChanges() {
-    this.mapSubactivities(this.activities);
-  }
-
-  mapSubactivities(activities: Activity[]) {
-    for (const activity of activities) {
-      activity.subactivities = [];
-      
-      for (const subactivity of activities) {
-        if (subactivity.parentId === activity.id) {
-          activity.subactivities.push(subactivity);
-        }
-      }
-      activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
-    }
-  }
-
   select(activity: Activity) {
     this.selectedActivity = activity;
-    this.router.navigate([], {
-      queryParams: { activityId: activity.id },
-      queryParamsHandling: 'merge'
-    });
   }
 
   save(activity: Activity) {

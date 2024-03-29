@@ -9,7 +9,7 @@
             </button>
             <button mat-icon-button color="" [routerLink]="['/authoring/course', courseId]"
                 [queryParams]="{unit: task?.unitId, mode: 'lt'}">
-                <mat-icon matTooltip="Pregled zadataka">rebase_edit</mat-icon>
+                <mat-icon matTooltip="Pregled zadataka lekcije">rebase_edit</mat-icon>
             </button>
         </div>
         <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
@@ -24,6 +24,9 @@
             <div *cdkVirtualFor="let step of steps; index as i">
                 <div [class.highlight]="selectedStep?.id===step.id" class="padding">
                     <span>{{i+1}}. {{step.code}}: {{step.name}}</span>
+                    <div *ngIf="step.subactivities?.length">
+                        <small>Broj podaktivnosti: {{step.subactivities.length}}</small>
+                    </div>
                     <div fxLayout="row">
                         <button mat-icon-button (click)="showStep(step, true)"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"

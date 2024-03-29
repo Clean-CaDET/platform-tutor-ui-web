@@ -1,7 +1,5 @@
-<div fxLayout="column" style="height: 100%;">
-    <div fxFlex fxLayout="row">
+<div fxLayout="row" style="height: 100%;">
         <div fxFlex="30" fxLayout="column">
-            <mat-divider></mat-divider>
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
                     <cc-activity-tree [activity]="activity" [selectedActivity]="selectedActivity"
@@ -16,5 +14,4 @@
         <div *ngIf="selectedActivity" fxFlex="70" class="activity-details">
             <cc-activity-details [activity]="selectedActivity" (activitySaved)="save($event)"></cc-activity-details>
         </div>
-    </div>
 </div>

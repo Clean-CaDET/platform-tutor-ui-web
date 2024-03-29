@@ -11,11 +11,11 @@
             </mat-form-field>
             <section fxLayout="row" fxFlex="15">
                 <span fxFlex></span>
-                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true">
+                <button mat-icon-button *ngIf="!editMode" (click)="edit()">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                 </button>
                 <button mat-icon-button *ngIf="editMode" color="primary" [disabled]="!activityForm.valid"
-                    (click)="submitForm()">
+                    (click)="submit()">
                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                 </button>
                 <button mat-icon-button *ngIf="editMode" color="warn" (click)="discardChanges()">
@@ -57,9 +57,9 @@
         <div *ngIf="!activity.parentId" fxLayout="column" formGroupName="submissionFormat">
             <h4>Format odgovora</h4>
             <section fxLayout fxLayoutGap="10px">
-                <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
-                    <mat-label>Izaberite tip</mat-label>
-                    <mat-select formControlName="type" [disabled]="!editMode" (selectionChange)="typeSelected()">
+                <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
+                    <mat-label>Tip</mat-label>
+                    <mat-select formControlName="type" (selectionChange)="typeSelected()">
                         <mat-option value="Text">Tekst</mat-option>
                         <mat-option value="Link">Link</mat-option>
                         <mat-option value="Code">Kod</mat-option>

@@ -32,11 +32,25 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       this.unitId = +params.unitId;
       this.taskService.get(this.unitId, +params.ltId)
         .subscribe(task => {
-          this.task = task;
+          this.task = this.linkSubactivities(task);
           this.steps = task.steps.filter(s => !s.parentId);
           this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
         });
     });
+  }
+
+  linkSubactivities(task: LearningTask): LearningTask {
+    for (const activity of task.steps) {
+      activity.subactivities = [];
+      
+      for (const subactivity of task.steps) {
+        if (subactivity.parentId === activity.id) {
+          activity.subactivities.push(subactivity);
+        }
+      }
+      activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
+    }
+    return task;
   }
 
   ngOnDestroy(): void {
@@ -114,7 +128,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     this.taskService.update(this.unitId, task)
       .subscribe({
         next: updatedTask => {
-          this.task = updatedTask;
+          this.task = this.linkSubactivities(updatedTask);
           this.steps = updatedTask.steps.filter(s => !s.parentId);
           this.steps = this.steps.sort((a, b) => a['order'] > b['order'] ? 1 : -1);
           this.subactivities = this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id));
