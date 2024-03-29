@@ -25,37 +25,23 @@
             {{ selectedStep.guidance }}
         </div>
         <div fxLayout="row-reverse">
-            <button *ngIf="!showExample && selectedStep.examples.length" mat-flat-button fxFlex="10" color="primary" style="margin: 0 25px 10px 0;"
-                (click)="showExample = true">
+            <button *ngIf="!showExample && selectedStep.examples.length" mat-flat-button fxFlex="10" color="primary"
+                style="margin: 0 25px 10px 0;" (click)="showExample = true">
                 Prikaži primer
             </button>
         </div>
 
         <div fxFlex="80" fxLayout style="margin-bottom: 10px;">
-            <div *ngIf="selectedStep.subactivities.length" fxFlex style="overflow-y: auto;">
-                <cdk-accordion class="example-accordion">
-                    <cdk-accordion-item *ngFor="let subactivity of selectedStep.subactivities; let index = index"
-                        #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
-                        [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
-                        [attr.aria-controls]="'accordion-body-' + index">
-                        <div class="example-accordion-item-header" (click)="accordionItem.toggle()">
-                            <span class="example-accordion-item-description">
-                                {{ selectedStep.order }}.{{ subactivity.order }}. {{ subactivity.name }}</span>
-                        </div>
-                        <div class="example-accordion-item-body" role="region"
-                            [style.display]="accordionItem.expanded ? '' : 'none'" [attr.id]="'accordion-body-' + index"
-                            [attr.aria-labelledby]="'accordion-header-' + index">
-                            {{ subactivity.guidance }}
-                        </div>
-                    </cdk-accordion-item>
-                </cdk-accordion>
+            <div *ngIf="selectedStep.subactivities.length > 0" fxFlex style="overflow-y: auto;">
+                <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
             </div>
 
             <div *ngIf="showExample" fxFlex fxLayout="column">
                 <iframe width="600" height="300" style="margin: 0 auto;" [src]="getSafeUrl(selectedExample?.url)"
                     frameborder="0" allowfullscreen></iframe>
                 <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
-                    <button *ngIf="selectedStep.examples.length !== 1" mat-flat-button fxFlex="18" color="primary" (click)="getNextExample()">
+                    <button *ngIf="selectedStep.examples.length !== 1" mat-flat-button fxFlex="18" color="primary"
+                        (click)="getNextExample()">
                         Nov primer
                     </button>
                     <button mat-flat-button fxFlex="18" color="primary" (click)="showExample = false">
