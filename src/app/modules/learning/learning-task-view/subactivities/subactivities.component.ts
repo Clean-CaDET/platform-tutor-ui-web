@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ExamplePopupComponent } from '../example-popup/example-popup.component';
 
 @Component({
   selector: 'cc-subactivities',
@@ -11,9 +13,15 @@ export class SubactivitiesComponent implements OnInit {
   @Input() order: string;
   accumulatedOrder: string;
 
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit() {
     this.accumulatedOrder = this.order;
+  }
+
+  showExample(subactivity: any) {
+    this.dialog.open(ExamplePopupComponent, {
+      data: subactivity
+    });
   }
 }

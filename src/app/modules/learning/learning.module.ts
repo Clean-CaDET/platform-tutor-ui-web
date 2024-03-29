@@ -29,10 +29,11 @@ import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-
 import { LearningObserverComponent } from './learning-observer/learning-observer.component';
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
-import {StarRatingModule} from "angular-star-rating";
+import { StarRatingModule } from "angular-star-rating";
 import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
 import { LearningTaskViewComponent } from './learning-task-view/learning-task-view.component';
 import { SubactivitiesComponent } from './learning-task-view/subactivities/subactivities.component';
+import { ExamplePopupComponent } from './learning-task-view/example-popup/example-popup.component';
 
 @NgModule({
   declarations: [
@@ -59,21 +60,22 @@ import { SubactivitiesComponent } from './learning-task-view/subactivities/subac
     UnitControlsComponent,
     LearningTaskViewComponent,
     SubactivitiesComponent,
+    ExamplePopupComponent,
   ],
-    imports: [
-        CommonModule,
-        BrowserModule,
-        MarkdownModule.forChild(),
-        YouTubePlayerModule,
-        FlexLayoutModule,
-        RouterModule,
-        FormsModule,
-        MaterialModule,
-        DragDropModule,
-        ReactiveFormsModule,
-        LearningUtilitiesModule,
-        StarRatingModule.forRoot()
-    ],
+  imports: [
+    CommonModule,
+    BrowserModule,
+    MarkdownModule.forChild(),
+    YouTubePlayerModule,
+    FlexLayoutModule,
+    RouterModule,
+    FormsModule,
+    MaterialModule,
+    DragDropModule,
+    ReactiveFormsModule,
+    LearningUtilitiesModule,
+    StarRatingModule.forRoot()
+  ],
   exports: [
     LearningObjectContainerComponent,
     SubmissionResultComponent,
@@ -81,4 +83,4 @@ import { SubactivitiesComponent } from './learning-task-view/subactivities/subac
     TutorImprovementComponent,
   ],
 })
-export class LearningModule {}
+export class LearningModule { }

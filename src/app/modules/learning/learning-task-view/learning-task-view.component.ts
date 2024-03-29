@@ -3,7 +3,7 @@ import { LearningTasksService } from './learning-tasks-learning.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-learning-task-view',
@@ -19,6 +19,7 @@ export class LearningTaskViewComponent implements OnInit {
   answerForm: FormGroup;
   selectedExample: any;
   showExample: boolean;
+  videoUrl: SafeResourceUrl;
 
   constructor(private taskService: LearningTasksService, private progressService: TaskProgressService,
     private route: ActivatedRoute, private builder: FormBuilder, private sanitizer: DomSanitizer) { }
@@ -86,16 +87,15 @@ export class LearningTaskViewComponent implements OnInit {
         .subscribe(progress => {
           this.taskProgress = progress;
           this.showExample = false;
-          this.selectedExample = null;
-          if (this.selectedStep.examples)
-            this.selectedExample = this.selectedStep.examples[0];
         });
     });
   }
 
   isAnswered(step: any): boolean {
-    let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === step.id);
-    return stepProgress.answer;
+    if (this.taskProgress.stepProgresses) {
+      let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === step.id);
+      return stepProgress.answer;
+    }
   }
 
   submitAnswer() {
@@ -109,6 +109,12 @@ export class LearningTaskViewComponent implements OnInit {
     });
   }
 
+  showExamples() {
+    this.showExample = true;
+    this.selectedExample = this.selectedStep.examples[0];
+    this.videoUrl = this.getSafeUrl(this.selectedExample.url);
+  }
+
   getSafeUrl(url: string) {
     return this.sanitizer.bypassSecurityTrustResourceUrl(url);
   }
@@ -120,6 +126,7 @@ export class LearningTaskViewComponent implements OnInit {
     } else {
       this.selectedExample = this.selectedStep.examples[index - 1];
     }
+    this.videoUrl = this.getSafeUrl(this.selectedExample.url);
   }
 
   isLast() {

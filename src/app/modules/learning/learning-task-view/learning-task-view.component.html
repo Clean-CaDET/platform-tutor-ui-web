@@ -25,22 +25,22 @@
             {{ selectedStep.guidance }}
         </div>
         <div fxLayout="row-reverse">
-            <button *ngIf="!showExample && selectedStep.examples.length" mat-flat-button fxFlex="10" color="primary"
-                style="margin: 0 25px 10px 0;" (click)="showExample = true">
+            <button *ngIf="!showExample && selectedStep.examples" mat-flat-button fxFlex="10" color="primary"
+                style="margin: 0 25px 10px 0;" (click)="showExamples()">
                 Prikaži primer
             </button>
         </div>
 
         <div fxFlex="80" fxLayout style="margin-bottom: 10px;">
-            <div *ngIf="selectedStep.subactivities.length > 0" fxFlex style="overflow-y: auto;">
+            <div *ngIf="selectedStep.subactivities" fxFlex style="overflow-y: auto;">
                 <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
             </div>
 
             <div *ngIf="showExample" fxFlex fxLayout="column">
-                <iframe width="600" height="300" style="margin: 0 auto;" [src]="getSafeUrl(selectedExample?.url)"
+                <iframe width="600" height="300" style="margin: 0 auto;" [src]="videoUrl"
                     frameborder="0" allowfullscreen></iframe>
                 <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
-                    <button *ngIf="selectedStep.examples.length !== 1" mat-flat-button fxFlex="18" color="primary"
+                    <button *ngIf="selectedStep.examples && selectedStep.examples.length !== 1" mat-flat-button fxFlex="18" color="primary"
                         (click)="getNextExample()">
                         Nov primer
                     </button>
@@ -53,7 +53,7 @@
 
         <mat-divider></mat-divider>
         <div fxFlex style="margin: 10px;">
-            <div *ngIf="selectedStep.standards.length" style="margin-bottom: 10px;">
+            <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" style="margin-bottom: 10px;">
                 <span style="font-weight: bold; font-size: large;">Standardi</span>
                 <div style="margin-top:10px;">
                     <div *ngFor="let standard of selectedStep.standards">
@@ -64,7 +64,7 @@
 
             <form [formGroup]="answerForm">
                 <div>
-                    <div>
+                    <div *ngIf="selectedStep.submissionFormat">
                         <span style="font-weight: bold;">Odgovor:</span> {{ selectedStep.submissionFormat.guidelines }}
                     </div>
                     <mat-form-field appearance="outline" style="width: 100%; margin-top: 5px;">

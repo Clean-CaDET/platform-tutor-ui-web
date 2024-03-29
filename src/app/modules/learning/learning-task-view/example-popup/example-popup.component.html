@@ -1,0 +1,12 @@
+<div fxFlex fxLayout="column">
+    <iframe width="600" height="300" style="margin: 0 auto;" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+    <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
+        <button *ngIf="selectedStep.examples && selectedStep.examples.length !== 1" mat-flat-button fxFlex="18"
+            color="primary" (click)="getNextExample()">
+            Nov primer
+        </button>
+        <button mat-flat-button fxFlex="18" color="primary" (click)="dialogRef.close()">
+            Skloni primer
+        </button>
+    </div>
+</div>
