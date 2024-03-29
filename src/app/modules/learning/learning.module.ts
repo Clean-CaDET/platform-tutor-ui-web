@@ -32,6 +32,7 @@ import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component
 import {StarRatingModule} from "angular-star-rating";
 import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
 import { LearningTaskViewComponent } from './learning-task-view/learning-task-view.component';
+import { SubactivitiesComponent } from './learning-task-view/subactivities/subactivities.component';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { LearningTaskViewComponent } from './learning-task-view/learning-task-vi
     KcRateComponent,
     UnitControlsComponent,
     LearningTaskViewComponent,
+    SubactivitiesComponent,
   ],
     imports: [
         CommonModule,
