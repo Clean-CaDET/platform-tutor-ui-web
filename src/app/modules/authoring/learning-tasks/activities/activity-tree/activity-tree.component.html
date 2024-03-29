@@ -1,25 +1,29 @@
 <div>
     <div fxLayout="row">
-        <div [class.highlight]="selectedActivity?.id===activity.id" class="row" fxFlex fxLayout="row"
-            (click)="select(activity)">
-            <span fxFlex>{{activity.code}}: {{activity.name}}</span>
+        <div [class.highlight]="selectedActivity?.id===activity.id" fxFlex fxLayout="column" style="padding: 10px;">
+            <span>{{activity.code}}: {{activity.name}}</span>
             <span fxLayout="row">
+                <button mat-icon-button (click)="select(activity)"
+                    [class.mat-flat-button]="selectedActivity?.id===activity.id"
+                    [color]="selectedActivity?.id===activity.id ? 'primary' : ''">
+                    <mat-icon matTooltip="Detalji" [matTooltipPosition]="'above'">edit</mat-icon>
+                </button>
                 <button mat-icon-button (click)="createSubactivity()"
                     [class.mat-flat-button]="parentActivity?.id===activity.id && addSubactivityMode"
                     [color]="parentActivity?.id===activity.id && addSubactivityMode ? 'primary' : ''">
                     <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">playlist_add</mat-icon>
                 </button>
+                <span fxFlex></span>
                 <button *ngIf="activity.parentId" mat-icon-button (click)="delete(activity.id)">
                     <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                 </button>
             </span>
         </div>
     </div>
-    <mat-divider></mat-divider>
     <div *ngIf="activity.subactivities?.length">
         <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
             <span style="cursor: default;">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;
             </span>
             <div fxFlex fxLayout="column">
                 <div class="row" fxLayout="row" fxLayoutAlign=" center"
@@ -36,8 +40,8 @@
                         </button>
                     </span>
                 </div>
-                <mat-divider></mat-divider>
             </div>
         </div>
     </div>
+    <mat-divider></mat-divider>
 </div>

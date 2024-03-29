@@ -41,6 +41,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
     if (this.selectedStep) {
+      this.selectedStep = this.task.steps.find(s => s.id === this.selectedStep.id);
       this.subactivities = [this.selectedStep, ...this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id))];
     }
   }
