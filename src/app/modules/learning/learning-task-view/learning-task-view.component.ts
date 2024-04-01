@@ -4,6 +4,10 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { LearningTask } from './model/learning-task';
+import { Activity } from './model/activity';
+import { ActivityExample } from './model/activity-example';
+import { TaskProgress } from './model/task-progress';
 
 @Component({
   selector: 'cc-learning-task-view',
@@ -12,12 +16,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 })
 export class LearningTaskViewComponent implements OnInit {
 
-  task: any = {};
-  steps: any[] = [];
-  selectedStep: any = {};
-  taskProgress: any = {};
+  task: LearningTask;
+  steps: Activity[];
+  selectedStep: Activity;
+  taskProgress: TaskProgress;
   answerForm: FormGroup;
-  selectedExample: any;
+  selectedExample: ActivityExample;
   showExample: boolean;
   videoUrl: SafeResourceUrl;
 
@@ -42,7 +46,7 @@ export class LearningTaskViewComponent implements OnInit {
           this.task = task;
           this.steps = task.steps.sort((a: { order: number; }, b: { order: number; }) => a.order > b.order ? 1 : -1);
           this.mapSubactivities(this.steps);
-          this.steps = this.steps.filter((s: { parentId: any; }) => !s.parentId);
+          this.steps = this.steps.filter(s => !s.parentId);
           this.selectedStep = this.steps[0];
           this.setTaskProgress();
         });
@@ -75,7 +79,7 @@ export class LearningTaskViewComponent implements OnInit {
   setInitialValues() {
     const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
     this.answerForm.get('answer').setValidators([Validators.required, Validators.pattern(regexPattern)]);
-    let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
     this.answerForm.get('answer').setValue(stepProgress.answer);
   }
 
@@ -93,13 +97,13 @@ export class LearningTaskViewComponent implements OnInit {
 
   isAnswered(step: any): boolean {
     if (this.taskProgress.stepProgresses) {
-      let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === step.id);
-      return stepProgress.answer;
+      let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
+      return stepProgress.answer !== '';
     }
   }
 
   submitAnswer() {
-    let stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
     stepProgress.answer = this.answerForm.value.answer;
     this.route.params.subscribe((params: Params) => {
       this.progressService.submitAnswer(+params.unitId, this.task.id, this.taskProgress.id, stepProgress)
