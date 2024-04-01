@@ -27,7 +27,6 @@ export class LearningTaskViewComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this.setTask();
-    this.setTaskProgress();
   }
 
   createForm() {
@@ -45,6 +44,7 @@ export class LearningTaskViewComponent implements OnInit {
           this.mapSubactivities(this.steps);
           this.steps = this.steps.filter((s: { parentId: any; }) => !s.parentId);
           this.selectedStep = this.steps[0];
+          this.setTaskProgress();
         });
     });
   }
@@ -81,8 +81,6 @@ export class LearningTaskViewComponent implements OnInit {
 
   viewStep(step: any) {
     this.selectedStep = step;
-    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
-    this.answerForm.get('answer').setValidators([Validators.required, Validators.pattern(regexPattern)]);
     this.setInitialValues();
     this.route.params.subscribe((params: Params) => {
       this.progressService.viewStep(+params.unitId, this.task.id, this.taskProgress.id, step.id)
