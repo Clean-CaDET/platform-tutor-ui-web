@@ -21,6 +21,7 @@
       </div>
       <mat-divider style="margin-top: 20px;"></mat-divider>
       <div style="margin-top: 20px;" fxLayoutGap="10px">
+        <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unit.id, 'learning-task']" i18n color="accent">Zadaci</button>
         <button mat-raised-button [routerLink]="['/courses', courseId]" i18n color="primary">Sve lekcije</button>
         <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
       </div>

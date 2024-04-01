@@ -15,4 +15,8 @@ export class LearningTasksService {
   get(unitId: number, id: number): Observable<any>{
     return this.http.get<any>(this.baseUrl + unitId + '/learning-tasks/' + id);
   }
+
+  getByUnit(unitId: number): Observable<any[]>{
+    return this.http.get<any>(this.baseUrl + unitId + '/learning-tasks');
+  }
 }
