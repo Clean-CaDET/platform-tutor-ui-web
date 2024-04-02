@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { Activity } from '../../model/activity';
@@ -8,7 +8,7 @@ import { Activity } from '../../model/activity';
   templateUrl: './activities.component.html',
   styleUrls: ['./activities.component.scss']
 })
-export class ActivitiesComponent {
+export class ActivitiesComponent implements OnChanges {
   @Input() activities: Activity[];
 
   activeActivity: Activity;
@@ -17,6 +17,10 @@ export class ActivitiesComponent {
   @Output() activityDeleted = new EventEmitter<number>();
 
   constructor(private dialog: MatDialog) { }
+
+  ngOnChanges(): void {
+    this.activeActivity = null;
+  }
 
   view(activity: Activity) {
     this.activeActivity = activity;

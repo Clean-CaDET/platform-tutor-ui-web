@@ -1,4 +1,4 @@
-<div fxLayout="column" style="height: 100%;">
+<div fxLayout="column" style="height: 100%;" *ngIf="task && taskProgress">
     <mat-card fxFlex="25" fxLayout>
         <section fxFlex="60" fxLayout="column">
             <span style="font-weight: bold;">{{ task.name }}</span>
