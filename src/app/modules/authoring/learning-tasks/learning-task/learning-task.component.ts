@@ -115,6 +115,13 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     this.updateTask(task);
   }
 
+  reorder(step: Activity, index: number, up: boolean) {
+    const swappedStepIndex = up ? index-1 : index+1;
+    const swappedStep = this.steps[swappedStepIndex];
+    [step.order, swappedStep.order] = [swappedStep.order, step.order];
+    this.updateTask(this.task);
+  }
+
   deleteStep(id: number): void {
     let diagRef = this.dialog.open(DeleteFormComponent);
 

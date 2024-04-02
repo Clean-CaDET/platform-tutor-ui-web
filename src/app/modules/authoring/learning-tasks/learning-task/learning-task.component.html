@@ -39,6 +39,12 @@
                             <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
                         </button>
                         <span fxFlex></span>
+                        <button [disabled]="i === 0" mat-icon-button (click)="reorder(step, i, true)">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button [disabled]="i === steps.length - 1" mat-icon-button (click)="reorder(step, i, false)">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
                         <button mat-icon-button (click)="deleteStep(step.id)">
                             <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                         </button>
