@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LearningTasksService } from '../learning-task-view/learning-tasks-learning.service';
+import { TaskService } from '../task/task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
@@ -11,7 +11,7 @@ export class LearningTaskListComponent implements OnInit {
 
   learningTasks: any[];
 
-  constructor(private taskService: LearningTasksService, private route: ActivatedRoute) { }
+  constructor(private taskService: TaskService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

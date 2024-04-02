@@ -31,9 +31,9 @@ import { TypingAnimatorDirective } from './knowledge-component/submission-result
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
 import { StarRatingModule } from "angular-star-rating";
 import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
-import { LearningTaskViewComponent } from './learning-task-view/learning-task-view.component';
-import { SubactivitiesComponent } from './learning-task-view/subactivities/subactivities.component';
-import { ExamplePopupComponent } from './learning-task-view/example-popup/example-popup.component';
+import { TaskComponent } from './task/task.component';
+import { SubactivitiesComponent } from './task/subactivities/subactivities.component';
+import { ExamplePopupComponent } from './task/example-popup/example-popup.component';
 import { LearningTaskListComponent } from './learning-task-list/learning-task-list.component';
 
 @NgModule({
@@ -59,7 +59,7 @@ import { LearningTaskListComponent } from './learning-task-list/learning-task-li
     TypingAnimatorDirective,
     KcRateComponent,
     UnitControlsComponent,
-    LearningTaskViewComponent,
+    TaskComponent,
     SubactivitiesComponent,
     ExamplePopupComponent,
     LearningTaskListComponent,

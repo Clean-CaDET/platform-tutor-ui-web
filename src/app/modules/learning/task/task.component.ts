@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LearningTasksService } from './learning-tasks-learning.service';
+import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -8,13 +8,14 @@ import { LearningTask } from './model/learning-task';
 import { Activity } from './model/activity';
 import { ActivityExample } from './model/activity-example';
 import { TaskProgress } from './model/task-progress';
+import { forkJoin } from 'rxjs';
 
 @Component({
-  selector: 'cc-learning-task-view',
-  templateUrl: './learning-task-view.component.html',
-  styleUrls: ['./learning-task-view.component.scss']
+  selector: 'cc-task',
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.scss']
 })
-export class LearningTaskViewComponent implements OnInit {
+export class TaskComponent implements OnInit {
 
   task: LearningTask;
   steps: Activity[];
@@ -25,35 +26,27 @@ export class LearningTaskViewComponent implements OnInit {
   showExample: boolean;
   videoUrl: SafeResourceUrl;
 
-  constructor(private taskService: LearningTasksService, private progressService: TaskProgressService,
+  constructor(private taskService: TaskService, private progressService: TaskProgressService,
     private route: ActivatedRoute, private builder: FormBuilder, private sanitizer: DomSanitizer) { }
 
   ngOnInit() {
-    this.createForm();
     this.setTask();
-  }
-
-  createForm() {
-    this.answerForm = this.builder.group({
-      answer: new FormControl(''),
-    });
   }
 
   setTask() {
     this.route.params.subscribe((params: Params) => {
-      this.taskService.get(+params.unitId, +params.ltId)
-        .subscribe(task => {
+      forkJoin([this.taskService.get(+params.unitId, +params.ltId), this.progressService.get(+params.unitId, +params.ltId)])
+        .subscribe(([task, progress]) => {
+          this.mapSubactivities(task.steps);
           this.task = task;
-          this.steps = task.steps.sort((a: { order: number; }, b: { order: number; }) => a.order > b.order ? 1 : -1);
-          this.mapSubactivities(this.steps);
-          this.steps = this.steps.filter(s => !s.parentId);
-          this.selectedStep = this.steps[0];
-          this.setTaskProgress();
+          this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
+          this.taskProgress = progress;
+          this.viewStep(this.findUnansweredStep() || this.steps[0]);
         });
     });
   }
 
-  mapSubactivities(activities: any[]) {
+  private mapSubactivities(activities: Activity[]) {
     for (const activity of activities) {
       activity.subactivities = [];
       for (const subactivity of activities) {
@@ -61,56 +54,47 @@ export class LearningTaskViewComponent implements OnInit {
           activity.subactivities.push(subactivity);
         }
       }
-      activity.subactivities.sort((s1: { order: number; }, s2: { order: number; }) => s1.order - s2.order);
+      activity.subactivities.sort((s1, s2) => s1.order - s2.order);
     }
   }
 
-  setTaskProgress() {
-    this.route.params.subscribe((params: Params) => {
-      this.progressService.get(+params.unitId, +params.ltId)
-        .subscribe(progress => {
-          this.taskProgress = progress;
-          this.viewStep(this.selectedStep);
-          this.setInitialValues();
-        });
+  private findUnansweredStep(): Activity {
+    return this.steps.find(s => {
+      const progress = this.taskProgress.stepProgresses.find(p => p.stepId === s.id);
+      return !progress.answer;
     });
-  }
-
-  setInitialValues() {
-    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
-    this.answerForm.get('answer').setValidators([Validators.required, Validators.pattern(regexPattern)]);
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    this.answerForm.get('answer').setValue(stepProgress.answer);
   }
 
   viewStep(step: any) {
     this.selectedStep = step;
-    this.setInitialValues();
-    this.route.params.subscribe((params: Params) => {
-      this.progressService.viewStep(+params.unitId, this.task.id, this.taskProgress.id, step.id)
-        .subscribe(progress => {
-          this.taskProgress = progress;
-          this.showExample = false;
-        });
+    this.createForm();
+    this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
+      .subscribe(progress => {
+        this.taskProgress = progress;
+        this.showExample = false;
+      });
+  }
+
+  private createForm() {
+    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
+    this.answerForm = this.builder.group({
+      answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
+    this.answerForm.get('answer').setValue(stepProgress.answer);
   }
 
   isAnswered(step: any): boolean {
-    if (this.taskProgress.stepProgresses) {
-      let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
-      return stepProgress.answer !== '';
-    }
+    if (!this.taskProgress.stepProgresses) return false;
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
+    return !!stepProgress.answer;
   }
 
   submitAnswer() {
     let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
     stepProgress.answer = this.answerForm.value.answer;
-    this.route.params.subscribe((params: Params) => {
-      this.progressService.submitAnswer(+params.unitId, this.task.id, this.taskProgress.id, stepProgress)
-        .subscribe(progress => {
-          this.taskProgress = progress;
-        });
-    });
+    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, stepProgress)
+      .subscribe(progress => this.taskProgress = progress);
   }
 
   showExamples() {

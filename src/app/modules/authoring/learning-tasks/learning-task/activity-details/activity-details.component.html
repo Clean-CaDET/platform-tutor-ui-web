@@ -33,12 +33,12 @@
             </section>
         </div>
         <div><!-- Examples -->
-            <h4 *ngIf="examples.controls?.length !== 0 || editMode">Primeri</h4>
+            <h4 *ngIf="examples.controls?.length !== 0 || editMode">Video primeri sprovođenja aktivnosti</h4>
             <div formArrayName="examples" fxLayout="column">
                 <div *ngFor="let exampleForm of examples.controls; let i = index">
                     <div [formGroup]="exampleForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
                         <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="30">
-                            <mat-label>Kod</mat-label>
+                            <mat-label>Naslov</mat-label>
                             <input matInput formControlName="code" [readonly]="!editMode">
                         </mat-form-field>
                         <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="70">

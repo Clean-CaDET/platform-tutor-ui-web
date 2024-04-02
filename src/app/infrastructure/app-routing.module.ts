@@ -16,7 +16,7 @@ import { KnowledgeComponentAuthoringComponent } from '../modules/authoring/knowl
 import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/assessment-items.component';
 import { UnitAnalyticsComponent } from '../modules/knowledge-analytics/unit-analytics/unit-analytics.component';
 import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learning-task/learning-task.component';
-import { LearningTaskViewComponent } from '../modules/learning/learning-task-view/learning-task-view.component';
+import { TaskComponent } from '../modules/learning/task/task.component';
 import { LearningTaskListComponent } from '../modules/learning/learning-task-list/learning-task-list.component';
 
 const routes: Routes = [
@@ -53,7 +53,7 @@ const routes: Routes = [
   },
   {
     path: 'course/:courseId/unit/:unitId/learning-task/:ltId',
-    component: LearningTaskViewComponent,
+    component: TaskComponent,
     canActivate: [AuthGuard],
     data: { role: ['learner', 'learnercommercial'] },
   },
