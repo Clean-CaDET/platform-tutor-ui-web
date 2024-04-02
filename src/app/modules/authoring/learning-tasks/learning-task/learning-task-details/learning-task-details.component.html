@@ -6,15 +6,15 @@
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
             <mat-checkbox fxFlex fxFlexAlign=" center" formControlName="isTemplate" [disabled]="!editMode">Šablon</mat-checkbox>
-            <section fxLayout="row" fxFlex="15">
+            <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
                 <span fxFlex></span>
-                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true">
+                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="editMode" [disabled]="!taskForm.valid" (click)="submitForm()" color="primary">
+                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid" (click)="submitForm()" color="primary">
                     <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
                 </button>
-                <button mat-icon-button *ngIf="editMode" (click)="discardChanges()" color="warn">
+                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
                     <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                 </button>
             </section>

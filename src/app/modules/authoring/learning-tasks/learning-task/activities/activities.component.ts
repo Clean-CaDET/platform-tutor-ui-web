@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
-import { Activity } from '../model/activity';
+import { Activity } from '../../model/activity';
 
 @Component({
   selector: 'cc-activities',

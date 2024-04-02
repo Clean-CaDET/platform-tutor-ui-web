@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { LearningTasksService } from './learning-tasks-authoring.service';
 import { ActivatedRoute } from '@angular/router';
-import { LearningTaskFormComponent } from './learning-task-form/learning-task-form.component';
+import { TaskCloningFormComponent } from './task-cloning-form/task-cloning-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { LearningTask } from './model/learning-task';
@@ -21,7 +21,7 @@ export class LearningTasksComponent {
     let data = {};
     if (template) data = { data: { template } };
 
-    const dialogRef = this.dialog.open(LearningTaskFormComponent, data);
+    const dialogRef = this.dialog.open(TaskCloningFormComponent, data);
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
