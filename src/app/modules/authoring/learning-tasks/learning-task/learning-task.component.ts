@@ -41,7 +41,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
     if (this.selectedStep) {
-      this.selectedStep = this.task.steps.find(s => s.id === this.selectedStep.id);
+      this.selectedStep = this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code);
       this.subactivities = [this.selectedStep, ...this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id))];
     }
   }
@@ -110,6 +110,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     if (step.id) {
       task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
     } else {
+      this.selectedStep = step;
       task.steps.push(step);
     }
     this.updateTask(task);
@@ -132,6 +133,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   deleteActivity(activityId: number) {
+    if(this.selectedStep.id === activityId) this.selectedStep = null;
     this.task.steps = this.task.steps.filter(s => s.id !== activityId);
     this.task.steps = this.task.steps.filter(s => !this.isDescendant(s, activityId));
     this.updateTask(this.task);
