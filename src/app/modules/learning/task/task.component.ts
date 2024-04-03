@@ -3,7 +3,6 @@ import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LearningTask } from './model/learning-task';
 import { Activity } from './model/activity';
 import { ActivityExample } from './model/activity-example';
@@ -24,10 +23,10 @@ export class TaskComponent implements OnInit {
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   showExample: boolean;
-  videoUrl: SafeResourceUrl;
+  videoUrl: string;
 
   constructor(private taskService: TaskService, private progressService: TaskProgressService,
-    private route: ActivatedRoute, private builder: FormBuilder, private sanitizer: DomSanitizer) { }
+    private route: ActivatedRoute, private builder: FormBuilder) { }
 
   ngOnInit() {
     this.setTask();
@@ -66,13 +65,12 @@ export class TaskComponent implements OnInit {
   }
 
   viewStep(step: any) {
+    this.showExample = false;
     this.selectedStep = step;
+    this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     this.createForm();
     this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
-      .subscribe(progress => {
-        this.taskProgress = progress;
-        this.showExample = false;
-      });
+      .subscribe(progress => this.taskProgress = progress);
   }
 
   private createForm() {
@@ -100,11 +98,7 @@ export class TaskComponent implements OnInit {
   showExamples() {
     this.showExample = true;
     this.selectedExample = this.selectedStep.examples[0];
-    this.videoUrl = this.getSafeUrl(this.selectedExample.url);
-  }
-
-  getSafeUrl(url: string) {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
   }
 
   getNextExample() {
@@ -114,7 +108,7 @@ export class TaskComponent implements OnInit {
     } else {
       this.selectedExample = this.selectedStep.examples[index - 1];
     }
-    this.videoUrl = this.getSafeUrl(this.selectedExample.url);
+    this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
   }
 
   isLast() {
