@@ -19,7 +19,8 @@ export class SubactivitiesComponent implements OnInit {
     this.accumulatedOrder = this.order;
   }
 
-  showExample(subactivity: any) {
+  showExample(event: MouseEvent, subactivity: any) {
+    event.stopPropagation();
     this.dialog.open(ExamplePopupComponent, {
       data: subactivity
     });

@@ -5,17 +5,16 @@
         [attr.aria-controls]="'accordion-body-' + index">
         <div class="example-accordion-item-header" (click)="accordionItem.toggle()" [ngClass]="{'highlight': accordionItem.expanded}">
             <span class="example-accordion-item-description">
-                {{ accumulatedOrder }}.{{ subactivity.order }}. {{ subactivity.name }}</span>
+                {{ accumulatedOrder }}.{{ subactivity.order }}. {{ subactivity.name }}
+            </span>
+            <span fxFlex></span>
+            <button *ngIf="subactivity.examples && subactivity.examples.length > 0" mat-raised-button (click)="showExample($event, subactivity)">
+                <mat-icon>photo_library</mat-icon> Primeri
+            </button>
         </div>
         <div class="example-accordion-item-body" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
             [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
             <markdown>{{ subactivity.guidance }}</markdown>
-            <div fxLayout="row-reverse">
-                <button *ngIf="subactivity.examples && subactivity.examples.length > 0" mat-flat-button color="primary"
-                    style="margin: 0 25px 10px 0;" (click)="showExample(subactivity)">
-                    <mat-icon>photo_library</mat-icon> Primeri
-                </button>
-            </div>
             <cc-subactivities *ngIf="subactivity.subactivities && subactivity.subactivities.length > 0"
                 [selectedStep]="subactivity" [order]="accumulatedOrder + '.' + subactivity.order"></cc-subactivities>
         </div>

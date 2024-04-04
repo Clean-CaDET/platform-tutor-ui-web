@@ -20,8 +20,8 @@
         </div>
     </div>
     <mat-divider style="border-width: 5px;" vertical="true"></mat-divider>
-    <div fxFlex="85" fxLayout="column" style="padding: 10px">
-        <div fxLayout="row" fxLayoutAlign=" center">
+    <div fxFlex="85" fxLayout="column" style="padding: 10px; height: calc(100% - 45px);">
+        <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
             <span style="padding-bottom: 10px" fxLayoutGap="10" fxLayout="row-reverse">
@@ -50,9 +50,9 @@
             </div>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>
-        <div fxFlex="25" fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px; overflow-y: auto;">
+        <div fxFlex fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px; overflow-y: auto;">
             <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="30">
-                <b>Standardi</b>
+                <b>Standardi za rešenje</b>
                 <div *ngFor="let standard of selectedStep.standards">
                     {{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}
                 </div>
@@ -65,16 +65,16 @@
                     <mat-label>Odgovor</mat-label>
                     <textarea formControlName="answer" matInput rows="3"></textarea>
                 </mat-form-field>
-                <div fxLayout="row-reverse" fxLayoutGap="5px">
-                    <button mat-flat-button fxFlex="5" color="primary" [disabled]="isLast()" (click)="nextStep()">
-                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
-                    </button>
-                    <button mat-flat-button fxFlex="5" color="primary" [disabled]="isFirst()" (click)="previosStep()">
-                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
-                    </button>
+                <div class="sticky-controls" fxLayoutGap="10px">
                     <button mat-flat-button color="primary" [disabled]="answerForm.invalid"
                         (click)="submitAnswer()">
-                        Podnesi odgovor
+                        Sačuvaj rešenje
+                    </button>
+                    <button mat-mini-fab color="" [disabled]="isFirst()" (click)="previosStep()">
+                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
+                    </button>
+                    <button mat-mini-fab color="" [disabled]="isLast()" (click)="nextStep()">
+                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
                     </button>
                 </div>
             </form>
