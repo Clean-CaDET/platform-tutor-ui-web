@@ -1,13 +1,13 @@
-<div fxLayout="column" style="height: 100%; padding: 10px" *ngIf="task">
-    <div fxFlex="20">
-        <section fxFlex="65" fxLayout="column">
+<div fxLayout="row" style="height: 100%" *ngIf="task">
+    <div fxFlex="15" fxLayout="column">
+        <div fxFlex="1 1 auto" fxLayout="column" style="padding: 10px 0px 10px 10px;">
             <h3 style="margin: 0;">{{ task.name }}</h3>
-            <p fxFlex style="overflow-y: auto;">
+            <p style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
                 {{ task.description }}
             </p>
-        </section>
-        <mat-divider vertical="true"></mat-divider>
-        <section fxFlex style="overflow-y: auto;">
+        </div>
+        <div fxFlex="1 1 100%" style="overflow-y: auto;">
+            <mat-divider></mat-divider>
             <div *ngFor="let step of steps; index as i">
                 <div fxLayout fxLayoutAlign="center" style="cursor: pointer; padding: 5px;"
                     [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
@@ -17,64 +17,67 @@
                 </div>
                 <mat-divider *ngIf="i < steps.length -1"></mat-divider>
             </div>
-        </section>
+        </div>
     </div>
-    <mat-card fxFlex="55" fxLayout="column">
-        <b>{{selectedStep.name}}</b>
-        <div fxLayout="row" class="step-guidance">
-            <div fxLayout="column" style="overflow-y: auto;">
+    <mat-divider style="border-width: 5px;" vertical="true"></mat-divider>
+    <div fxFlex="85" fxLayout="column" style="padding: 10px">
+        <div fxLayout="row" fxLayoutAlign=" center">
+            <b>{{selectedStep.name}}</b>
+            <span fxFlex></span>
+            <span style="padding-bottom: 10px" fxLayoutGap="10" fxLayout="row-reverse">
+                <button *ngIf="!showExample && selectedStep.examples?.length > 0" mat-flat-button color="primary"
+                    (click)="showExamples()">
+                    <mat-icon>photo_library</mat-icon> Primeri
+                </button>
+                <button *ngIf="showExample && selectedStep.examples?.length !== 1" mat-flat-button color="primary"
+                    (click)="getNextExample()">
+                    <mat-icon>image</mat-icon> Nov primer
+                </button>
+                <button *ngIf="showExample" mat-flat-button color="primary" (click)="showExample = false">
+                    <mat-icon>hide_image</mat-icon> Sakrij
+                </button>
+            </span>
+        </div>
+        <div fxFlex="67" fxLayout="row">
+            <div fxLayout="column" style="overflow-y: auto;" fxFlex>
                 <markdown [data]="selectedStep.guidance"></markdown>
                 <div *ngIf="selectedStep.subactivities" fxFlex>
                     <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                 </div>
             </div>
             <div>
-                <div style="padding: 0 0 10px 10px;" fxLayoutGap="10" fxLayout="row-reverse">
-                    <button *ngIf="!showExample && selectedStep.examples?.length > 0" mat-flat-button color="primary"
-                        (click)="showExamples()">
-                        <mat-icon>photo_library</mat-icon> Primeri
-                    </button>
-                    <button *ngIf="showExample && selectedStep.examples?.length !== 1" mat-flat-button color="primary"
-                        (click)="getNextExample()">
-                        <mat-icon>image</mat-icon> Nov primer
-                    </button>
-                    <button *ngIf="showExample" mat-flat-button color="primary" (click)="showExample = false">
-                        <mat-icon>hide_image</mat-icon> Sakrij
-                    </button>
-                </div>
                 <youtube-player style="padding-left: 10px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
             </div>
         </div>
-    </mat-card>
-    <div fxFlex="20" fxLayout="row" fxLayoutGap="10px">
-        <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="column" fxFlex>
-            <b>Rešenje koraka</b>
-            {{ selectedStep.submissionFormat.guidelines }}
-            <mat-form-field appearance="fill">
-                <mat-label>Odgovor</mat-label>
-                <textarea formControlName="answer" matInput rows="6"></textarea>
-            </mat-form-field>
-            <div fxLayout="row-reverse">
-                <button mat-flat-button color="primary" [disabled]="answerForm.invalid"
-                    (click)="submitAnswer()">
-                    Podnesi odgovor
-                </button>
+        <mat-divider style="border-width: 3px;"></mat-divider>
+        <div fxFlex="25" fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px; overflow-y: auto;">
+            <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="30">
+                <b>Standardi</b>
+                <div *ngFor="let standard of selectedStep.standards">
+                    {{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}
+                </div>
             </div>
-        </form>
-        <mat-divider vertical="true"></mat-divider>
-        <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="35">
-            <b>Standardi</b>
-            <div *ngFor="let standard of selectedStep.standards">
-                {{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}
-            </div>
+            <mat-divider vertical="true"></mat-divider>
+            <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="column" fxFlex>
+                <b>Rešenje koraka</b>
+                {{ selectedStep.submissionFormat.guidelines }}
+                <mat-form-field appearance="fill">
+                    <mat-label>Odgovor</mat-label>
+                    <textarea formControlName="answer" matInput rows="3"></textarea>
+                </mat-form-field>
+                <div fxLayout="row-reverse" fxLayoutGap="5px">
+                    <button mat-flat-button fxFlex="5" color="primary" [disabled]="isLast()" (click)="nextStep()">
+                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
+                    </button>
+                    <button mat-flat-button fxFlex="5" color="primary" [disabled]="isFirst()" (click)="previosStep()">
+                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
+                    </button>
+                    <button mat-flat-button color="primary" [disabled]="answerForm.invalid"
+                        (click)="submitAnswer()">
+                        Podnesi odgovor
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
-    <div fxLayout="row-reverse" fxLayoutGap="10">
-        <button mat-flat-button fxFlex="5" color="primary" [disabled]="isLast()" (click)="nextStep()">
-            <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
-        </button>
-        <button mat-flat-button fxFlex="5" color="primary" [disabled]="isFirst()" (click)="previosStep()">
-            <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
-        </button>
     </div>
 </div>
