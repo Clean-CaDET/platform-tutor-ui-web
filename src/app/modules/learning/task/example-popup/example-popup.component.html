@@ -1,12 +1,12 @@
 <div fxFlex fxLayout="column">
-    <iframe width="600" height="300" style="margin: 0 auto;" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+    <youtube-player [width]="540" [height]="300" [videoId]="videoUrl"></youtube-player>
     <div fxLayout="row" fxLayoutGap="10" fxLayoutAlign="center" style="margin-top: 10px;">
-        <button *ngIf="selectedStep.examples && selectedStep.examples.length !== 1" mat-flat-button fxFlex="18"
+        <button *ngIf="selectedStep.examples && selectedStep.examples.length !== 1" mat-flat-button
             color="primary" (click)="getNextExample()">
-            Nov primer
+            <mat-icon>image</mat-icon> Nov primer
         </button>
-        <button mat-flat-button fxFlex="18" color="primary" (click)="dialogRef.close()">
-            Skloni primer
+        <button mat-flat-button color="primary" (click)="dialogRef.close()">
+            <mat-icon>hide_image</mat-icon> Sakrij
         </button>
     </div>
 </div>

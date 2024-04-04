@@ -19,8 +19,8 @@
             </div>
         </div>
     </div>
-    <mat-divider style="border-width: 5px;" vertical="true"></mat-divider>
-    <div fxFlex="85" fxLayout="column" style="padding: 10px; height: calc(100% - 45px);">
+    <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
+    <div fxFlex="85" fxLayout="column" style="padding: 10px">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
@@ -58,23 +58,25 @@
                 </div>
             </div>
             <mat-divider vertical="true"></mat-divider>
-            <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="column" fxFlex>
-                <b>Rešenje koraka</b>
-                {{ selectedStep.submissionFormat.guidelines }}
-                <mat-form-field appearance="fill">
-                    <mat-label>Odgovor</mat-label>
-                    <textarea formControlName="answer" matInput rows="3"></textarea>
-                </mat-form-field>
-                <div class="sticky-controls" fxLayoutGap="10px">
-                    <button mat-flat-button color="primary" [disabled]="answerForm.invalid"
+            <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="row" fxLayoutGap="10" fxFlex>
+                <div fxLayout="column">
+                    <b>Rešenje koraka</b>
+                    {{ selectedStep.submissionFormat.guidelines }}
+                    <mat-form-field appearance="fill">
+                        <mat-label>Odgovor</mat-label>
+                        <textarea formControlName="answer" matInput rows="3"></textarea>
+                    </mat-form-field>
+                </div>
+                <div fxLayout="column" fxLayoutGap="10px" style="padding: 30px 10px 10px 0;">
+                    <button mat-mini-fab color="primary" [disabled]="answerForm.invalid"
                         (click)="submitAnswer()">
-                        Sačuvaj rešenje
+                        <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
                     </button>
                     <button mat-mini-fab color="" [disabled]="isFirst()" (click)="previosStep()">
-                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">navigate_before</mat-icon>
+                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
                     </button>
                     <button mat-mini-fab color="" [disabled]="isLast()" (click)="nextStep()">
-                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">navigate_next</mat-icon>
+                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
                     </button>
                 </div>
             </form>
