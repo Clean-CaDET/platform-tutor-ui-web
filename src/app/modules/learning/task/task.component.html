@@ -51,7 +51,7 @@
         </span>
     </div>
     <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-    <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px;">
+    <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px 10px 0 10px;">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
@@ -69,7 +69,7 @@
                 </button>
             </span>
         </div>
-        <div fxFlex="67" fxLayout="row" class="guidance">
+        <div fxFlex="calc(100% - 246px)" fxLayout="row" class="guidance">
             <div fxLayout="column" style="overflow-y: auto;" fxFlex>
                 <markdown [data]="selectedStep.guidance" style="padding-right: 5px;"></markdown>
                 <div *ngIf="selectedStep.subactivities" fxFlex style="padding-right: 5px;">
@@ -79,36 +79,40 @@
             <youtube-player style="padding-left: 5px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>
-        <div fxFlex fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px; overflow-y: auto;">
-            <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="30">
-                <b>Standardi za rešenje</b>
-                <div *ngFor="let standard of selectedStep.standards">
-                    {{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}
+        <div fxLayout="row" style="height: 190px; margin-top: 10px; overflow-y: auto" fxLayoutGap="5px">
+            <div fxFlex fxLayout="row" style="overflow-y: auto" fxLayoutGap="10px">
+                <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="25">
+                    <b>Standardi za odgovor</b>
+                    <div *ngFor="let standard of selectedStep.standards">
+                        <small>{{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</small>
+                    </div>
                 </div>
+                <mat-divider vertical="true"></mat-divider>
+                <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="row" fxLayoutGap="10" fxFlex>
+                    <div fxLayout="column" fxFlex>
+                        {{ selectedStep.submissionFormat.guidelines }}
+                        <mat-form-field appearance="fill">
+                            <mat-label>Odgovor</mat-label>
+                            <small><textarea formControlName="answer" matInput rows="5"></textarea></small>
+                        </mat-form-field>
+                    </div>
+                </form>
             </div>
-            <mat-divider vertical="true"></mat-divider>
-            <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="row" fxLayoutGap="10" fxFlex>
-                <div fxLayout="column">
-                    <b>Rešenje koraka</b>
-                    {{ selectedStep.submissionFormat.guidelines }}
-                    <mat-form-field appearance="fill">
-                        <mat-label>Odgovor</mat-label>
-                        <textarea formControlName="answer" matInput rows="3"></textarea>
-                    </mat-form-field>
-                </div>
-                <div fxLayout="column" fxLayoutGap="10px" style="padding: 30px 10px 10px 0;">
-                    <button mat-mini-fab color="primary" [disabled]="answerForm.invalid"
-                        (click)="submitAnswer()">
-                        <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
-                    </button>
-                    <button mat-mini-fab color="" [disabled]="selectedStep.order == 1" (click)="changeStep(-1)">
-                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
-                    </button>
-                    <button mat-mini-fab color="" [disabled]="selectedStep.order == steps.length" (click)="changeStep(1)">
-                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
-                    </button>
-                </div>
-            </form>
+            <div fxLayout="column" fxLayoutGap="5px" style="padding: 5px">
+                <button mat-mini-fab [color]="isAnswered(selectedStep) ? '' : 'primary'" [disabled]="answerForm.invalid"
+                    (click)="submitAnswer()">
+                    <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
+                </button>
+                <button mat-mini-fab color="" [disabled]="selectedStep.order == 1" (click)="changeStep(-1)">
+                    <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
+                </button>
+                <button mat-mini-fab color="" [disabled]="selectedStep.order == steps.length" (click)="changeStep(1)">
+                    <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
+                </button>
+                <button mat-mini-fab [color]="taskProgress.status === 'Completed' ? 'accent' : ''" [routerLink]="['/course', courseId, 'unit', task.unitId]">
+                    <mat-icon matTooltip="Pregled lekcije" [matTooltipPosition]="'above'">keyboard_return</mat-icon>
+                </button>
+            </div>
         </div>
     </div>
 </div>

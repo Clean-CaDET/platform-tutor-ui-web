@@ -16,6 +16,7 @@ import { forkJoin } from 'rxjs';
 })
 export class TaskComponent implements OnInit {
   showTask: boolean = true;
+  courseId: number;
 
   task: LearningTask;
   steps: Activity[];
@@ -35,6 +36,7 @@ export class TaskComponent implements OnInit {
 
   setTask() {
     this.route.params.subscribe((params: Params) => {
+      this.courseId = +params.courseId;
       forkJoin([this.taskService.get(+params.unitId, +params.ltId), this.progressService.get(+params.unitId, +params.ltId)])
         .subscribe(([task, progress]) => {
           this.mapSubactivities(task.steps);
