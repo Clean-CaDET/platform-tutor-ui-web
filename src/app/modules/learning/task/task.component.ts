@@ -122,21 +122,8 @@ export class TaskComponent implements OnInit {
     return index == 0;
   }
 
-  nextStep() {
+  changeStep(moveFactor: number) {
     let index = this.steps.indexOf(this.selectedStep);
-    this.selectedStep = this.steps[index + 1];
-    this.showExample = false;
-    this.selectedExample = null;
-    if (this.selectedStep.examples)
-      this.selectedExample = this.selectedStep.examples[0];
-  }
-
-  previosStep() {
-    let index = this.steps.indexOf(this.selectedStep);
-    this.selectedStep = this.steps[index - 1];
-    this.showExample = false;
-    this.selectedExample = null;
-    if (this.selectedStep.examples)
-      this.selectedExample = this.selectedStep.examples[0];
+    this.viewStep(this.steps[index + moveFactor])
   }
 }

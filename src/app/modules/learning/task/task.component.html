@@ -103,10 +103,10 @@
                         (click)="submitAnswer()">
                         <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
                     </button>
-                    <button mat-mini-fab color="" [disabled]="isFirst()" (click)="previosStep()">
+                    <button mat-mini-fab color="" [disabled]="isFirst()" (click)="changeStep(-1)">
                         <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
                     </button>
-                    <button mat-mini-fab color="" [disabled]="isLast()" (click)="nextStep()">
+                    <button mat-mini-fab color="" [disabled]="isLast()" (click)="changeStep(1)">
                         <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
                     </button>
                 </div>
