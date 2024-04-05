@@ -20,7 +20,10 @@ export class ActivitiesComponent implements OnChanges {
 
   ngOnChanges(): void {
     if(this.activeActivity) {
-      if(!this.activities.some(a => a.id === this.activeActivity.id)) {
+      let correspondingActivity = this.activities.find(a => a.id === this.activeActivity.id || a.code === this.activeActivity.code);
+      if(correspondingActivity) {
+        this.activeActivity = correspondingActivity;
+      } else {
         this.activeActivity = null;
       }
     }
@@ -57,6 +60,7 @@ export class ActivitiesComponent implements OnChanges {
 
   save(activity: Activity) {
     this.activitySaved.emit(activity);
+    this.activeActivity = activity;
   }
 
   delete(activity: Activity) {

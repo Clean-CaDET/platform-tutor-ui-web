@@ -110,7 +110,6 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     if (step.id) {
       task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
     } else {
-      this.selectedStep = step;
       task.steps.push(step);
     }
     this.updateTask(task);

@@ -27,16 +27,15 @@
                     </button>
                 </div>
             </div>
-            <div>
-                <small *ngIf="!learningTask.isTemplate">
+            <div fxLayout="row" fxLayoutAlign=" end">
+                <small fxFlex>
                     <markdown>{{ shorten(learningTask.description) }}</markdown>
-                    <b>Broj poena</b>: {{ learningTask.maxPoints }}<br>
-                    <b>Koraci</b>:
+                    <ol>
+                        <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }} ({{s.maxPoints}} p.)</li>
+                    </ol>
                 </small>
                 <small>
-                    <ol>
-                        <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }}</li>
-                    </ol>
+                    <b>Broj poena</b>: {{ learningTask.maxPoints }}
                 </small>
             </div>
         </mat-card>
