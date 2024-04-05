@@ -15,6 +15,7 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+  showTask: boolean = true;
 
   task: LearningTask;
   steps: Activity[];

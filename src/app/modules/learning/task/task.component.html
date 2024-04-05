@@ -1,5 +1,5 @@
 <div fxLayout="row" style="height: 100%" *ngIf="task">
-    <div fxFlex="20" fxLayout="column">
+    <div fxFlex="20" fxLayout="column" *ngIf="showTask">
         <div fxFlex="1 1 auto" fxLayout="column" style="padding: 10px 0px 10px 10px;">
             <h3 style="margin: 0;">{{ task.name }}</h3>
             <p style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
@@ -18,9 +18,40 @@
                 <mat-divider *ngIf="i < steps.length -1"></mat-divider>
             </div>
         </div>
+        <span fxFlex></span>
+        <span fxLayoutAlign="start">
+            <button mat-icon-button color="primary" (click)="showTask = false" style="margin-left: 10px;"
+                matTooltip="Sakrij zadatak i korake">
+                <mat-icon>keyboard_double_arrow_left</mat-icon>
+            </button>
+        </span>
+    </div>
+    <div style="width: 50px;"  fxLayout="column" *ngIf="!showTask">
+        <div fxFlex="1 1 auto" style="padding: 10px 3px 5px 3px; writing-mode: vertical-rl">
+            <b>{{ task.name }}</b>
+        </div>
+        <div fxFlex="1 1 100%" style="overflow-y: auto;">
+            <mat-divider></mat-divider>
+            <div *ngFor="let step of steps; index as i">
+                <div fxLayout fxLayoutAlign="center" style="cursor: pointer; padding: 5px;"
+                    [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
+                    {{ step.order }}.
+                    <mat-icon *ngIf="isAnswered(step)" color="primary" style="font-size: 20px;">check_circle</mat-icon>
+                    <mat-icon *ngIf="!isAnswered(step)" style="font-size: 20px;">radio_button_unchecked</mat-icon>
+                </div>
+                <mat-divider *ngIf="i < steps.length -1"></mat-divider>
+            </div>
+        </div>
+        <span fxFlex></span>
+        <span fxLayoutAlign="start">
+            <button mat-icon-button color="primary" (click)="showTask = true" style="margin-left: 10px;"
+                matTooltip="Prikaži zadatak i korake">
+                <mat-icon>keyboard_double_arrow_right</mat-icon>
+            </button>
+        </span>
     </div>
     <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-    <div fxFlex="80" fxLayout="column" style="padding: 10px;">
+    <div fxFlex fxLayout="column" style="padding: 10px;">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
