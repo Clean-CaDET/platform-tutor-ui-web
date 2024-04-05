@@ -107,19 +107,9 @@ export class TaskComponent implements OnInit {
     if (index != this.selectedStep.examples.length - 1) {
       this.selectedExample = this.selectedStep.examples[index + 1];
     } else {
-      this.selectedExample = this.selectedStep.examples[index - 1];
+      this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
-  }
-
-  isLast() {
-    let index = this.steps.indexOf(this.selectedStep);
-    return index == this.steps.length - 1;
-  }
-
-  isFirst() {
-    let index = this.steps.indexOf(this.selectedStep);
-    return index == 0;
   }
 
   changeStep(moveFactor: number) {

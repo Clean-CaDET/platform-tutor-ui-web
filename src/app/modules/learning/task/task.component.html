@@ -26,7 +26,7 @@
             </button>
         </span>
     </div>
-    <div style="width: 50px;"  fxLayout="column" *ngIf="!showTask">
+    <div style="width: 50px;" fxLayout="column" *ngIf="!showTask">
         <div fxFlex="1 1 auto" style="padding: 10px 3px 5px 3px; writing-mode: vertical-rl">
             <b>{{ task.name }}</b>
         </div>
@@ -51,7 +51,7 @@
         </span>
     </div>
     <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-    <div fxFlex fxLayout="column" style="padding: 10px;">
+    <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px;">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
@@ -76,9 +76,7 @@
                     <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                 </div>
             </div>
-            <div>
-                <youtube-player style="padding-left: 5px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
-            </div>
+            <youtube-player style="padding-left: 5px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>
         <div fxFlex fxLayout="row" fxLayoutGap="10px" style="margin-top: 10px; overflow-y: auto;">
@@ -103,10 +101,10 @@
                         (click)="submitAnswer()">
                         <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
                     </button>
-                    <button mat-mini-fab color="" [disabled]="isFirst()" (click)="changeStep(-1)">
+                    <button mat-mini-fab color="" [disabled]="selectedStep.order == 1" (click)="changeStep(-1)">
                         <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
                     </button>
-                    <button mat-mini-fab color="" [disabled]="isLast()" (click)="changeStep(1)">
+                    <button mat-mini-fab color="" [disabled]="selectedStep.order == steps.length" (click)="changeStep(1)">
                         <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
                     </button>
                 </div>
