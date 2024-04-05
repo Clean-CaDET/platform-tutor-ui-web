@@ -23,7 +23,7 @@
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
             <div *cdkVirtualFor="let step of steps; index as i">
                 <div [class.highlight]="selectedStep?.id===step.id" class="padding">
-                    <span>{{i+1}}. {{step.code}}: {{step.name}}</span>
+                    <span>{{step.order}}. {{step.code}}: {{step.name}}</span>
                     <div *ngIf="step.subactivities?.length">
                         <small>Broj podaktivnosti: {{step.subactivities.length}}</small>
                     </div>

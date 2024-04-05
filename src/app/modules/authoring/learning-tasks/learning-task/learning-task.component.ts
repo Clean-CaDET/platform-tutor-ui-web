@@ -84,7 +84,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
 
   private getOrder(): number {
     if (!this.task.steps?.length) return 1;
-    return Math.max(...this.task.steps.map(s => s.order)) + 1;
+    return Math.max(...this.task.steps.filter(s => !s.parentId).map(s => s.order)) + 1;
   }
 
   showStep(step: Activity, guidance: boolean): void {
@@ -110,6 +110,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     if (step.id) {
       task.steps = this.task.steps.map(s => s.id === step.id ? step : s);
     } else {
+      if(!step.parentId) this.selectedStep = step;
       task.steps.push(step);
     }
     this.updateTask(task);
@@ -127,12 +128,17 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
 
     diagRef.afterClosed().subscribe(result => {
       if (!result) return;
+      let orderCounter = 1;
+      this.task.steps.filter(s => s.id !== id && !s.parentId).forEach(s => {
+        s.order = orderCounter;
+        orderCounter++;
+      });
       this.deleteActivity(id);
     });
   }
 
   deleteActivity(activityId: number) {
-    if(this.selectedStep.id === activityId) this.selectedStep = null;
+    if(this.selectedStep?.id === activityId) this.selectedStep = null;
     this.task.steps = this.task.steps.filter(s => s.id !== activityId);
     this.task.steps = this.task.steps.filter(s => !this.isDescendant(s, activityId));
     this.updateTask(this.task);

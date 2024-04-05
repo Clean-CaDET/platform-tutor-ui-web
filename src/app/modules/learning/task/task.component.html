@@ -1,5 +1,5 @@
 <div fxLayout="row" style="height: 100%" *ngIf="task">
-    <div fxFlex="15" fxLayout="column">
+    <div fxFlex="20" fxLayout="column">
         <div fxFlex="1 1 auto" fxLayout="column" style="padding: 10px 0px 10px 10px;">
             <h3 style="margin: 0;">{{ task.name }}</h3>
             <p style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
@@ -11,7 +11,7 @@
             <div *ngFor="let step of steps; index as i">
                 <div fxLayout fxLayoutAlign="center" style="cursor: pointer; padding: 5px;"
                     [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
-                    <div fxFlex>{{ i+1 }}. {{ step.name }}</div>
+                    <div fxFlex>{{ step.order }}. {{ step.name }}</div>
                     <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
                     <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
                 </div>
@@ -20,7 +20,7 @@
         </div>
     </div>
     <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-    <div fxFlex="85" fxLayout="column" style="padding: 10px">
+    <div fxFlex="80" fxLayout="column" style="padding: 10px;">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>
@@ -38,15 +38,15 @@
                 </button>
             </span>
         </div>
-        <div fxFlex="67" fxLayout="row">
+        <div fxFlex="67" fxLayout="row" class="guidance">
             <div fxLayout="column" style="overflow-y: auto;" fxFlex>
-                <markdown [data]="selectedStep.guidance"></markdown>
-                <div *ngIf="selectedStep.subactivities" fxFlex>
+                <markdown [data]="selectedStep.guidance" style="padding-right: 5px;"></markdown>
+                <div *ngIf="selectedStep.subactivities" fxFlex style="padding-right: 5px;">
                     <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                 </div>
             </div>
             <div>
-                <youtube-player style="padding-left: 10px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
+                <youtube-player style="padding-left: 5px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
             </div>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>

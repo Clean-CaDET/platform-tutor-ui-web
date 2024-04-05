@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExamplePopupComponent } from '../example-popup/example-popup.component';
 
@@ -7,7 +7,7 @@ import { ExamplePopupComponent } from '../example-popup/example-popup.component'
   templateUrl: './subactivities.component.html',
   styleUrls: ['./subactivities.component.scss']
 })
-export class SubactivitiesComponent implements OnInit {
+export class SubactivitiesComponent implements OnChanges {
 
   @Input() selectedStep: any;
   @Input() order: string;
@@ -15,7 +15,7 @@ export class SubactivitiesComponent implements OnInit {
 
   constructor(private dialog: MatDialog) { }
 
-  ngOnInit() {
+  ngOnChanges() {
     this.accumulatedOrder = this.order;
   }
 
