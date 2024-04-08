@@ -43,7 +43,7 @@ export class TaskComponent implements OnInit {
           this.task = task;
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
-          this.viewStep(this.findUnansweredStep() || this.steps[0]);
+          if(this.steps.length) this.viewStep(this.findUnansweredStep() || this.steps[0]);
         });
     });
   }

@@ -34,7 +34,6 @@ import { UnitControlsComponent } from './controls/unit-controls/unit-controls.co
 import { TaskComponent } from './task/task.component';
 import { SubactivitiesComponent } from './task/subactivities/subactivities.component';
 import { ExamplePopupComponent } from './task/example-popup/example-popup.component';
-import { LearningTaskListComponent } from './learning-task-list/learning-task-list.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +61,6 @@ import { LearningTaskListComponent } from './learning-task-list/learning-task-li
     TaskComponent,
     SubactivitiesComponent,
     ExamplePopupComponent,
-    LearningTaskListComponent,
   ],
   imports: [
     CommonModule,

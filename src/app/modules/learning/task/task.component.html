@@ -2,9 +2,9 @@
     <div fxFlex="20" fxLayout="column" *ngIf="showTask">
         <div fxFlex="1 1 auto" fxLayout="column" style="padding: 10px 0px 10px 10px;">
             <h3 style="margin: 0;">{{ task.name }}</h3>
-            <p style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
-                {{ task.description }}
-            </p>
+            <small style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
+                <markdown>{{ task.description }}</markdown>
+            </small>
         </div>
         <div fxFlex="1 1 100%" style="overflow-y: auto;">
             <mat-divider></mat-divider>
@@ -51,7 +51,7 @@
         </span>
     </div>
     <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-    <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px 10px 0 10px;">
+    <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px 10px 0 10px;" *ngIf="selectedStep">
         <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
             <b>{{selectedStep.name}}</b>
             <span fxFlex></span>

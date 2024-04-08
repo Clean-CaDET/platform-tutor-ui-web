@@ -11,6 +11,7 @@
             <div fxFlex fxLayout="row">
                 <div fxFlex>
                     <span *ngIf="learningTask.isTemplate">[šablon] </span>
+                    <span *ngIf="!learningTask.isTemplate"><b>{{learningTask.order}}. </b></span>
                     <b>{{learningTask.name}}</b>
                 </div>
                 <div fxLayoutGap="40px">

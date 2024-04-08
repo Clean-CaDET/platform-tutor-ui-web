@@ -7,6 +7,8 @@ import { UnitService } from './unit.service';
 import { KCMastery } from '../model/knowledge-component-mastery.model';
 import {MatIconRegistry} from "@angular/material/icon";
 import {DomSanitizer} from "@angular/platform-browser";
+import { TaskService } from '../task/task.service';
+import { LearningTask } from '../task/model/learning-task';
 
 @Component({
   selector: 'cc-unit',
@@ -17,10 +19,12 @@ export class UnitComponent implements OnInit {
   courseId: number;
   unit: Unit;
   masteries: KCMastery[] = [];
+  learningTasks: LearningTask[];
   sidenavOpened = false;
 
   constructor(
     private unitService: UnitService,
+    private taskService: TaskService,
     private route: ActivatedRoute,
     private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
   ) {
@@ -42,9 +46,13 @@ export class UnitComponent implements OnInit {
               results.forEach(
                 result => {
                   this.unit.knowledgeComponents.push(result.knowledgeComponent)
-                  this.masteries.push(result.mastery)
-                })}
+                  if(result.mastery) this.masteries.push(result.mastery)
+                });
+              }
           );
+          this.taskService.getByUnit(+params.unitId).subscribe(learningTasks => {
+            this.learningTasks = learningTasks;
+          });
         });
     });
   }
@@ -61,6 +69,10 @@ export class UnitComponent implements OnInit {
   }
 
   calcSatisfiedKcs(): number {
-    return this.masteries?.filter(m => m.isSatisfied == true).length
+    return this.masteries?.filter(m => m.isSatisfied).length
+  }
+
+  displayTaskDescription(text: string): string {
+    return text.length > 300 ? text.substring(0, 300) + "..." : text;
   }
 }
