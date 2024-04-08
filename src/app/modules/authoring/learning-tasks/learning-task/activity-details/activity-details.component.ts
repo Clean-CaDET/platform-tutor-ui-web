@@ -20,11 +20,11 @@ export class ActivityDetailsComponent implements OnChanges {
   ngOnChanges(): void {
     this.createForm();
     if (this.activity.id) {
-      this.editMode = false;
+      this.view();
       this.setInitialValues(this.activity);
     }
     else {
-      this.editMode = true;
+      this.edit();
     }
   }
 
@@ -39,7 +39,7 @@ export class ActivityDetailsComponent implements OnChanges {
     if (!this.activity.parentId) {
       this.activityForm.addControl('submissionFormat', this.builder.group({
         type: new FormControl('Code', Validators.required),
-        validationRule: new FormControl(''),
+        validationRule: new FormControl('^.{100}$'),
         guidelines: new FormControl('', Validators.required)
       }));
       this.activityForm.addControl('standards', this.builder.array([]));
@@ -61,12 +61,26 @@ export class ActivityDetailsComponent implements OnChanges {
     }
   }
 
-  get examples(): FormArray {
-    return this.activityForm.get('examples') as FormArray;
+  edit() {
+    this.editMode = true;
+    this.activityForm.get('submissionFormat')?.get('type').enable();
   }
 
-  get standards(): FormArray {
-    return this.activityForm.get('standards') as FormArray;
+  view() {
+    this.editMode = false;
+    this.activityForm.get('submissionFormat')?.get('type').disable();
+  }
+  
+  typeSelected() {
+    switch(this.activityForm.value.submissionFormat.type) {
+      case "Text": this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$"); break;
+      case "Link": this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$"); break;
+      default: this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$"); 
+    }
+  }
+
+  get examples(): FormArray {
+    return this.activityForm.get('examples') as FormArray;
   }
 
   setExamples(activity: Activity) {
@@ -80,18 +94,6 @@ export class ActivityDetailsComponent implements OnChanges {
     return examplesArray;
   }
 
-  setStandards(activity: Activity) {
-    const standardsArray = this.builder.array([]) as FormArray;
-    for (let standard of activity.standards) {
-      standardsArray.push(this.builder.group({
-        name: new FormControl(standard.name, Validators.required),
-        description: new FormControl(standard.description, Validators.required),
-        maxPoints: new FormControl(standard.maxPoints, Validators.required)
-      }));
-    }
-    return standardsArray;
-  }
-
   addExample(): void {
     this.examples.push(this.builder.group({
       code: new FormControl('', Validators.required),
@@ -103,12 +105,21 @@ export class ActivityDetailsComponent implements OnChanges {
     this.examples.removeAt(index);
   }
 
-  typeSelected() {
-    switch(this.activityForm.value.submissionFormat.type) {
-      case "Text": this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{200}$"); break;
-      case "Link": this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/[a-zA-Z0-9_-]+\\/[a-zA-Z0-9_-]+\\/?$"); break;
-      default: this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{200}$"); 
+  get standards(): FormArray {
+    return this.activityForm.get('standards') as FormArray;
+  }
+
+  setStandards(activity: Activity) {
+    const standardsArray = this.builder.array([]) as FormArray;
+    activity.standards.sort((a, b) => a.name > b.name ? 1 : -1);
+    for (let standard of activity.standards) {
+      standardsArray.push(this.builder.group({
+        name: new FormControl(standard.name, Validators.required),
+        description: new FormControl(standard.description, Validators.required),
+        maxPoints: new FormControl(standard.maxPoints, Validators.required)
+      }));
     }
+    return standardsArray;
   }
 
   addStandard() {
@@ -123,21 +134,21 @@ export class ActivityDetailsComponent implements OnChanges {
     this.standards.removeAt(index);
   }
 
-  submitForm() {
+  submit() {
     if (this.activityForm.valid) {
-      this.editMode = false;
       let changedActivity = this.activityForm.value;
       changedActivity.id = this.activity.id;
       changedActivity.parentId = this.activity.parentId;
       changedActivity.order = this.activity.order;
       this.activitySaved.emit(changedActivity);
+      this.view();
     }
   }
 
   discardChanges() {
     if (this.activity.id) {
       this.setInitialValues(this.activity);
-      this.editMode = false;
+      this.view();
     } else {
       this.createForm();
     }

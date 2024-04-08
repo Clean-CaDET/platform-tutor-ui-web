@@ -5,24 +5,25 @@ import { LearningTask } from '../model/learning-task';
 import { Activity } from '../model/activity';
 
 @Component({
-  selector: 'cc-learning-task-form',
-  templateUrl: './learning-task-form.component.html',
-  styleUrls: ['./learning-task-form.component.scss']
+  selector: 'cc-task-cloning-form',
+  templateUrl: './task-cloning-form.component.html',
+  styleUrls: ['./task-cloning-form.component.scss']
 })
-export class LearningTaskFormComponent  {
+export class TaskCloningFormComponent  {
   learningTaskForm: FormGroup;
   template: LearningTask;
 
-  constructor(private builder: FormBuilder, private dialogref: MatDialogRef<LearningTaskFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { 
+  constructor(private builder: FormBuilder, private dialogref: MatDialogRef<TaskCloningFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { 
     this.template = data?.template;
-    this.createForm();
+    this.createForm(data?.newOrder);
   }
 
-  createForm(): void {
+  createForm(order: number): void {
     this.learningTaskForm = this.builder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl(''),
-      isTemplate: new FormControl(false) 
+      order: new FormControl(order),
+      isTemplate: new FormControl(false)
     });
   }
 

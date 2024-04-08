@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { LearningTasksService } from './learning-tasks-authoring.service';
 import { ActivatedRoute } from '@angular/router';
-import { LearningTaskFormComponent } from './learning-task-form/learning-task-form.component';
+import { TaskCloningFormComponent } from './task-cloning-form/task-cloning-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { LearningTask } from './model/learning-task';
@@ -15,13 +15,15 @@ export class LearningTasksComponent {
 
   @Input() learningTasks: LearningTask[];
 
-  constructor(private route: ActivatedRoute, private learningTasksService: LearningTasksService, private dialog: MatDialog) { }
+  constructor(private route: ActivatedRoute, private taskService: LearningTasksService, private dialog: MatDialog) { }
 
   add(template: LearningTask) {
     let data = {};
-    if (template) data = { data: { template } };
+    const newOrder = this.learningTasks ? Math.max(...this.learningTasks.map(t => t.order)) + 1 : 1;
+    if (template) data = { data: { template, newOrder } };
+    else data = { data: { newOrder } };
 
-    const dialogRef = this.dialog.open(LearningTaskFormComponent, data);
+    const dialogRef = this.dialog.open(TaskCloningFormComponent, data);
 
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
@@ -36,14 +38,25 @@ export class LearningTasksComponent {
   }
 
   private clone(result: any, unitId: any) {
-    this.learningTasksService.clone(unitId, result).subscribe(newLearningTask => {
+    this.taskService.clone(unitId, result).subscribe(newLearningTask => {
       this.learningTasks = [...this.learningTasks, newLearningTask];
+      this.sortTasks();
+    });
+  }
+  
+  sortTasks() {
+    this.learningTasks.sort((a, b) => {
+      if (a.isTemplate !== b.isTemplate) {
+          return a.isTemplate ? -1 : 1;
+      }
+      return a.order - b.order;
     });
   }
 
   private create(unitId: any, result: any) {
-    this.learningTasksService.create(unitId, result).subscribe(newLearningTask => {
+    this.taskService.create(unitId, result).subscribe(newLearningTask => {
       this.learningTasks = [...this.learningTasks, newLearningTask];
+      this.sortTasks();
     });
   }
 
@@ -53,7 +66,7 @@ export class LearningTasksComponent {
     diagRef.afterClosed().subscribe(result => {
       if (result) {
         const unitId = this.route.snapshot.queryParams['unit'];
-        this.learningTasksService.delete(unitId, learningTaskId).subscribe(() => {
+        this.taskService.delete(unitId, learningTaskId).subscribe(() => {
           this.learningTasks = [...this.learningTasks.filter(a => a.id !== learningTaskId)];
         });
       }

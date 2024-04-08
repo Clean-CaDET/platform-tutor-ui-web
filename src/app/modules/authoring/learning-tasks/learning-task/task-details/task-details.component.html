@@ -1,0 +1,37 @@
+<div style="padding: 10px;">
+    <form [formGroup]="taskForm" fxLayout="column">
+        <section fxLayoutGap="20px" fxLayout="row">
+            <mat-form-field fxFlex="85" [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Naziv</mat-label>
+                <input formControlName="name" matInput [readonly]="!editMode">
+            </mat-form-field>
+            <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
+                <span fxFlex></span>
+                <button mat-mini-fab *ngIf="!editMode" (click)="editMode = true" color="primary">
+                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid" (click)="submitForm()" color="primary">
+                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                </button>
+                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
+                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                </button>
+            </section>
+        </section>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Opis</mat-label>
+            <textarea formControlName="description" matInput rows="25" [readonly]="!editMode"></textarea>
+        </mat-form-field>
+        <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+            <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Redni broj</mat-label>
+                <input type="number" formControlName="order" matInput [readonly]="!editMode">
+            </mat-form-field>
+            <mat-checkbox formControlName="isTemplate" [disabled]="!editMode">
+                Šablon
+                <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
+                            matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
+            </mat-checkbox>
+        </span>
+    </form>
+</div>

@@ -21,7 +21,7 @@ export class CourseStructureComponent implements OnInit {
   showLearningTasks: boolean;
   learningTasks: any[];
 
-  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private ltService: LearningTasksService,
+  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private taskService: LearningTasksService,
     private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -95,9 +95,15 @@ export class CourseStructureComponent implements OnInit {
   }
 
   showTasks(unit: Unit) {
-    this.ltService.getByUnit(unit.id).subscribe(learningTasks => {
+    this.taskService.getByUnit(unit.id).subscribe(learningTasks => {
       this.selectedUnit = unit;
       this.learningTasks = learningTasks;
+      this.learningTasks.sort((a, b) => {
+        if (a.isTemplate !== b.isTemplate) {
+            return a.isTemplate ? -1 : 1;
+        }
+        return a.order - b.order;
+      });
       this.showKnowledgeComponents = false;
       this.showUnitDetails = false;
       this.showLearningTasks = true;

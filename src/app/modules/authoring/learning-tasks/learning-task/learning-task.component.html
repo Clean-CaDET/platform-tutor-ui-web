@@ -9,7 +9,7 @@
             </button>
             <button mat-icon-button color="" [routerLink]="['/authoring/course', courseId]"
                 [queryParams]="{unit: task?.unitId, mode: 'lt'}">
-                <mat-icon matTooltip="Pregled zadataka">rebase_edit</mat-icon>
+                <mat-icon matTooltip="Pregled zadataka lekcije">rebase_edit</mat-icon>
             </button>
         </div>
         <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
@@ -23,7 +23,10 @@
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
             <div *cdkVirtualFor="let step of steps; index as i">
                 <div [class.highlight]="selectedStep?.id===step.id" class="padding">
-                    <span>{{i+1}}. {{step.code}}: {{step.name}}</span>
+                    <span>{{step.order}}. {{step.code}}: {{step.name}}</span>
+                    <div *ngIf="step.subactivities?.length">
+                        <small>Broj podaktivnosti: {{step.subactivities.length}}</small>
+                    </div>
                     <div fxLayout="row">
                         <button mat-icon-button (click)="showStep(step, true)"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
@@ -36,6 +39,12 @@
                             <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
                         </button>
                         <span fxFlex></span>
+                        <button [disabled]="i === 0" mat-icon-button (click)="reorder(step, i, true)">
+                            <mat-icon>keyboard_arrow_up</mat-icon>
+                        </button>
+                        <button [disabled]="i === steps.length - 1" mat-icon-button (click)="reorder(step, i, false)">
+                            <mat-icon>keyboard_arrow_down</mat-icon>
+                        </button>
                         <button mat-icon-button (click)="deleteStep(step.id)">
                             <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
                         </button>
@@ -46,11 +55,11 @@
         </cdk-virtual-scroll-viewport>
     </div>
     <mat-divider vertical="true"></mat-divider>
-    <div fxFlex="77" class="padding">
-        <cc-learning-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-learning-task-details>
-        <cc-activity-details *ngIf="mode === 'guidance'" [activity]="selectedStep"
+    <div fxFlex="77">
+        <cc-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-task-details>
+        <cc-activity-details *ngIf="mode === 'guidance' && selectedStep" [activity]="selectedStep"
             (activitySaved)="createOrUpdateStep($event)"></cc-activity-details>
-        <cc-activities *ngIf="mode === 'subactivities'" [activities]="subactivities"
+        <cc-activities *ngIf="mode === 'subactivities' && selectedStep" [activities]="subactivities"
             (activitySaved)="createOrUpdateStep($event)" (activityDeleted)="deleteActivity($event)"></cc-activities>
     </div>
 </div>
