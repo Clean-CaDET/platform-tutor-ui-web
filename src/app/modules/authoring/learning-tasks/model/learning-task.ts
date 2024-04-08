@@ -5,6 +5,7 @@ export interface LearningTask {
     unitId?: number;
     name: string;
     description?: string;
+    order?: number;
     isTemplate: boolean;
     steps?: Activity[];
     maxPoints?: number;

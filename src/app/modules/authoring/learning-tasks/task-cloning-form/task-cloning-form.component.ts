@@ -15,14 +15,15 @@ export class TaskCloningFormComponent  {
 
   constructor(private builder: FormBuilder, private dialogref: MatDialogRef<TaskCloningFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) { 
     this.template = data?.template;
-    this.createForm();
+    this.createForm(data?.newOrder);
   }
 
-  createForm(): void {
+  createForm(order: number): void {
     this.learningTaskForm = this.builder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl(''),
-      isTemplate: new FormControl(false) 
+      order: new FormControl(order),
+      isTemplate: new FormControl(false)
     });
   }
 

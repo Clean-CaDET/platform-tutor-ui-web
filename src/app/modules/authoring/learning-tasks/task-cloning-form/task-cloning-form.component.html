@@ -9,10 +9,16 @@
                 <mat-label>Opis</mat-label>
                 <textarea formControlName="description" matInput rows="8"></textarea>
             </mat-form-field>
-            <span>
-                <mat-checkbox formControlName="isTemplate">Šablon</mat-checkbox>
-                <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
-                    matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
+            <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+                <mat-form-field fxFlex appearance="fill" fxFlex="30">
+                    <mat-label>Redni broj</mat-label>
+                    <input type="number" formControlName="order" matInput>
+                </mat-form-field>
+                <mat-checkbox formControlName="isTemplate">
+                    Šablon
+                    <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
+                        matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
+                </mat-checkbox>
             </span>
         </section>
         <div fxFlex="column" fxLayoutGap="20px" style="margin-top: 20px;">

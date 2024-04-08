@@ -3,11 +3,11 @@ import { LearningTask } from '../../model/learning-task';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
-  selector: 'cc-learning-task-details',
-  templateUrl: './learning-task-details.component.html',
-  styleUrls: ['./learning-task-details.component.scss']
+  selector: 'cc-task-details',
+  templateUrl: './task-details.component.html',
+  styleUrls: ['./task-details.component.scss']
 })
-export class LearningTaskDetailsComponent implements OnChanges {
+export class TaskDetailsComponent implements OnChanges {
 
   @Input() task: LearningTask;
   @Output() taskSaved = new EventEmitter<LearningTask>();
@@ -30,6 +30,7 @@ export class LearningTaskDetailsComponent implements OnChanges {
       name: new FormControl('', Validators.required),
       description: new FormControl(''),
       isTemplate: new FormControl(false),
+      order: new FormControl(0),
     });
   }
 
@@ -37,6 +38,7 @@ export class LearningTaskDetailsComponent implements OnChanges {
     this.taskForm.get('name').setValue(task.name);
     this.taskForm.get('description').setValue(task.description);
     this.taskForm.get('isTemplate').setValue(task.isTemplate);
+    this.taskForm.get('order').setValue(task.order);
   }
 
   submitForm() {
@@ -45,6 +47,7 @@ export class LearningTaskDetailsComponent implements OnChanges {
       this.task.name = this.taskForm.value.name;
       this.task.description = this.taskForm.value.description;
       this.task.isTemplate = this.taskForm.value.isTemplate;
+      this.task.order = this.taskForm.value.order;
       this.taskSaved.emit(this.task);
     }
   }

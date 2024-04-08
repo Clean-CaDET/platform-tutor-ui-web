@@ -24,7 +24,7 @@ import { TaskCloningFormComponent } from './learning-tasks/task-cloning-form/tas
 import { LearningTaskComponent } from './learning-tasks/learning-task/learning-task.component';
 import { ActivitiesComponent } from './learning-tasks/learning-task/activities/activities.component';
 import { ActivityDetailsComponent } from './learning-tasks/learning-task/activity-details/activity-details.component';
-import { LearningTaskDetailsComponent } from './learning-tasks/learning-task/learning-task-details/learning-task-details.component'
+import { TaskDetailsComponent } from './learning-tasks/learning-task/task-details/task-details.component'
 
 @NgModule({
   declarations: [
@@ -45,7 +45,7 @@ import { LearningTaskDetailsComponent } from './learning-tasks/learning-task/lea
     LearningTasksComponent,
     TaskCloningFormComponent,
     LearningTaskComponent,
-    LearningTaskDetailsComponent
+    TaskDetailsComponent
   ],
   imports: [
     CommonModule,

@@ -61,7 +61,7 @@ export class KcTreeComponent implements OnChanges {
         knowledgeComponent: {
           parentId: parentId,
           knowledgeUnitId: this.unit.id,
-          order: parentId ? this.getMaxChildOrder(parentId)+10 : 1
+          order: parentId ? this.getMaxChildOrder(parentId)+1 : 10
         },
         parentComponentOptions: this.unit.knowledgeComponents,
         formMode: parentId ? FormMode.AddChild : FormMode.AddFirst

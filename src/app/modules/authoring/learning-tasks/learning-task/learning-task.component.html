@@ -56,7 +56,7 @@
     </div>
     <mat-divider vertical="true"></mat-divider>
     <div fxFlex="77">
-        <cc-learning-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-learning-task-details>
+        <cc-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-task-details>
         <cc-activity-details *ngIf="mode === 'guidance' && selectedStep" [activity]="selectedStep"
             (activitySaved)="createOrUpdateStep($event)"></cc-activity-details>
         <cc-activities *ngIf="mode === 'subactivities' && selectedStep" [activities]="subactivities"
