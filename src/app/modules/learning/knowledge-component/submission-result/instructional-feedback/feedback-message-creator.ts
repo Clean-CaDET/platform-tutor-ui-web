@@ -12,7 +12,8 @@ export function createResponse(feedback: Feedback): string {
 
 function createPump(): string {
     let rnd = getRandomNumber(10);
-    if (rnd <= 4) return feedbackStore.pump.answer;
+    if (rnd <= 3) return feedbackStore.pump.think;
+    if (rnd <= 6) return feedbackStore.pump.answer;
     if (rnd <= 8) return feedbackStore.pump.read;
     return feedbackStore.pump.instruction;
 }
@@ -28,8 +29,11 @@ function createCorrectness(feedback: Feedback): string {
 function createSolution(feedback: Feedback): string {
     if(feedback.evaluation.correct) {
         let rnd = getRandomNumber(10);
-        if (rnd <= 6) return feedbackStore.solution.basicCorrect;
-        return feedbackStore.solution.catCorrect;
+        if (rnd <= 2) return feedbackStore.solution.basicCorrect1;
+        if (rnd <= 4) return feedbackStore.solution.basicCorrect2;
+        if (rnd <= 6) return feedbackStore.solution.basicCorrect3;
+        if (rnd <= 8) return feedbackStore.solution.basicCorrect4;
+        return feedbackStore.solution.basicCorrect5;
     }
     return feedbackStore.solution.basicIncorrect(feedback.evaluation.correctnessLevel);
 }
@@ -38,31 +42,35 @@ function getRandomNumber(max: number) {
     return Math.floor(Math.random() * max) + 1;
 }
 
-const incorrectAnswer = "Dati odgovor nije skroz tačan. ";
-const alternative = "\nAlternativno, pređi na sledeći zadatak pa ćeš kasnije rešiti ovaj.";
+const incorrectAnswer = "🤔 Odgovor nije skroz tačan. ";
+const alternative = "\nMožeš i da pređeš na nov zadatak, pa ćeš kasnije ovaj rešiti.";
 // There is a deep structure to this conversation that AutoTutor has already explored. We are creating a basic version for now.
 const feedbackStore = {
     pump: {
-        answer: incorrectAnswer + "Ako se negde dvoumiš, zamisli se nad tom dilemom i formiraj nov odgovor." + alternative,
-        read: incorrectAnswer + "Da li da ponovo pročitaš tekst zadatka i onda formiraš nov odgovor?" + alternative,
+        think: incorrectAnswer + "Razmisli malo i kreiraj nov odgovor." + alternative,
+        answer: incorrectAnswer + "Ako se negde dvoumiš, zamisli se nad dilemom i formiraj nov odgovor." + alternative,
+        read: incorrectAnswer + "Da li da ponovo pročitaš tekst zadatka i daš nov odgovor?" + alternative,
         instruction: incorrectAnswer + "Da li ima smisla da ponovo prođeš gradivo?" + alternative
         // A more advanced version would decide when to recommend instruction based on error patterns. We can highlight the appropriate buttons based on feedback response.
     },
     hint: {
         basic: function(hint: string) {
-            return incorrectAnswer + "Zamisli se nad sledećom smernicom 💡:\n" + hint + alternative;
+            return incorrectAnswer + "💡Zamisli se nad sledećom smernicom:\n" + hint + alternative;
         }
     },
     correctness: {
         basic: function(correctness: number) {
-            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nHajde da pređemo na sledeći zadatak, pa ćemo se kasnije vratiti na ovaj.";
+            return incorrectAnswer + "Tačnost je " + (correctness * 100).toFixed(0) + "%. \n🙂 Hajde da pređemo na nov zadatak, pa se kasnije vraćamo na ovaj.";
         }
     },
     solution: {
-        basicCorrect: "Tvoj odgovor je tačan, sjajno 😎.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
-        catCorrect: "Tvoj odgovor je tačan, super 😸.\nIznad ću diskutovati rešenje pa savetujem da analiziraš moje teze pre nego što pređemo na sledeći zadatak.",
+        basicCorrect1: "😎 Najs, rešen zadatak.\nIznad ću diskutovati rešenje, pa prođi moje teze pre nego što odemo na nov zadatak.",
+        basicCorrect2: "😊 Odgovor je tačan, sjajno.\nIznad ću istaći rešenje, pa analiziraj moje teze pre nego što pređemo na nov zadatak.",
+        basicCorrect3: "🤗 Još jedan rešen, ekstra.\nIznad ću staviti rešenje, pa pročitaj moje teze pre nego što pređemo na nov zadatak.",
+        basicCorrect4: "😁 Tačno.\nIznad je rešenje, pa ga istumači ako treba, a onda idemo u nove poduhvate!",
+        basicCorrect5: "😸 Odgovor je tačan, super.\nIznad ću postaviti rešenje, pa pogledaj moje teze pre nego što skočimo na nov zadatak.",
         basicIncorrect: function(correctness: number) {
-            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nIznad ću diskutovati tačno rešenje pa savetujem da temeljno analiziraš moje teze pre nego što pređemo na sledeći zadatak.";
+            return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nIznad ću diskutovati rešenje pa savetujem da temeljno analiziraš moje teze pre nego što pređemo na nov zadatak.";
         }
     }
 };
