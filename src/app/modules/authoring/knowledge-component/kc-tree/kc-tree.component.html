@@ -3,8 +3,8 @@
     <div class="node-title" fxLayout="row">
       <span *ngIf="node.children.length">
         <button mat-icon-button (click)="node.isExpanded=!node.isExpanded">
-          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Prikaži podveštine">add_circle</mat-icon>
-          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Sakrij podveštine">remove_circle</mat-icon>
+          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Prikaži podkomponente znanja">add_circle</mat-icon>
+          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Sakrij podkomponente znanja">remove_circle</mat-icon>
         </button>
       </span>
       <span *ngIf="!node.children.length" style="cursor: default;">

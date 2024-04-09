@@ -11,7 +11,7 @@
                 </span>
                 <small fxLayout="column" fxLayoutAlign=" center">
                     <span>{{learnerProgress.kcCount}} / {{learnerProgress.satisfiedCount}} / {{learnerProgress.suspiciousCount}}</span>
-                    <span>veštine/zadovoljeno/sumnjivo</span>
+                    <span>ukupno/zadovoljeno/sumnjivo</span>
                 </small>
                 <mat-icon *ngIf="learnerProgress.performance === 'ok'" class="primary">check_circle</mat-icon>
                 <mat-icon *ngIf="learnerProgress.performance === 'consult'" class="accent"
