@@ -1,10 +1,10 @@
 <mat-card fxFlex fxLayout="column" fxLayoutGap="10px">
     <div *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <b>Brojno stanje polaznika</b>&nbsp;
-        <small>(Prijavljen = ima pristup veštini;
-        Započet = krenuo razvoj veštine;
+        <small>(Prijavljen = ima pristup;
+        Započet = krenuo da rešava;
         Pregledan = video svo gradivo i zadatke;
-        Rešen = svaladao veštinu)</small>
+        Rešen = svaladao komponentu znanja)</small>
     </div>
     <div fxLayout="row" *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <div fxFlex="45" fxLayout="column">

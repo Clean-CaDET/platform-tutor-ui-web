@@ -1,0 +1,44 @@
+<div fxLayout="column">
+    <div style="margin: 10px;">
+        <button mat-mini-fab color="primary" (click)="add(null)">
+            <mat-icon>add</mat-icon>
+        </button>
+        <span>&nbsp;&nbsp;Inicijalizuj novi složen zadatak za razvoj veština koje su ishod lekcije.</span>
+    </div>
+
+    <div *ngFor="let learningTask of learningTasks">
+        <mat-card fxFlex style="margin: 10px;" fxLayout="column">
+            <div fxFlex fxLayout="row">
+                <div fxFlex>
+                    <span *ngIf="learningTask.isTemplate">[šablon] </span>
+                    <span *ngIf="!learningTask.isTemplate"><b>{{learningTask.order}}. </b></span>
+                    <b>{{learningTask.name}}</b>
+                </div>
+                <div fxLayoutGap="40px">
+                    <span fxLayoutGap="10px">
+                        <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="add(learningTask)">
+                            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
+                        </button>
+                        <button mat-icon-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
+                            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                        </button>
+                    </span>
+                    <button mat-icon-button (click)="delete(learningTask.id)">
+                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign=" end">
+                <small fxFlex>
+                    <markdown>{{ shorten(learningTask.description) }}</markdown>
+                    <ol>
+                        <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }} ({{s.maxPoints}} p.)</li>
+                    </ol>
+                </small>
+                <small>
+                    <b>Broj poena</b>: {{ learningTask.maxPoints }}
+                </small>
+            </div>
+        </mat-card>
+    </div>
+</div>

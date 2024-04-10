@@ -1,8 +1,12 @@
 .viewport {
-    height: calc(100% - 105px);
+    height: calc(100% - 61px);
     width: 100%;
 }
 
 .highlight {
-    background-color: #AAA;
+    background-color: #999;
+}
+
+.unit-row {
+    padding: 10px;
 }

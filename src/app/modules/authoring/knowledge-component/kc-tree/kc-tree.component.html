@@ -3,8 +3,8 @@
     <div class="node-title" fxLayout="row">
       <span *ngIf="node.children.length">
         <button mat-icon-button (click)="node.isExpanded=!node.isExpanded">
-          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Prikaži podveštine">add_circle</mat-icon>
-          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Sakrij podveštine">remove_circle</mat-icon>
+          <mat-icon *ngIf="!node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Prikaži podkomponente znanja">add_circle</mat-icon>
+          <mat-icon *ngIf="node.isExpanded" [matTooltipPosition]="'above'" matTooltip="Sakrij podkomponente znanja">remove_circle</mat-icon>
         </button>
       </span>
       <span *ngIf="!node.children.length" style="cursor: default;">
@@ -15,7 +15,7 @@
           <span fxFlex><b>{{node.code}}</b>: {{node.name}}</span>
           <small>Redni broj: {{node.order}} | Minimalno minuta rada: {{node.expectedDurationInMinutes}}</small>
         </div>
-        <div fxLayoutGap="30px">
+        <div fxLayoutGap="40px">
           <span fxLayoutGap="10px">
             <button mat-mini-fab color="primary" [routerLink]="['knowledge-component', node.id, 'instruction']">
               <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
@@ -25,16 +25,16 @@
             </button>
           </span>
           <span fxLayoutGap="10px">
-            <button mat-mini-fab (click)="addKc(node.id)" color="primary">
-              <mat-icon matTooltip="Dodaj podveštinu" [matTooltipPosition]="'above'">add</mat-icon>
+            <button mat-mini-fab (click)="addKc(node.id)" color="">
+              <mat-icon matTooltip="Dodaj podkomponentu znanja" [matTooltipPosition]="'above'">add</mat-icon>
             </button>
-            <button mat-mini-fab (click)="editKc(node.id)" color="primary">
+            <button mat-mini-fab (click)="editKc(node.id)" color="">
               <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
             </button>
-            <button mat-mini-fab (click)="deleteKc(node.id)" color="warn">
-              <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
-            </button>
           </span>
+          <button mat-mini-fab (click)="deleteKc(node.id)" color="">
+            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+          </button>
         </div>
       </mat-card>
     </div>
@@ -51,10 +51,10 @@
   <div *ngFor="let node of nodes">
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
   </div>
-  <div *ngIf="nodes?.length === 0" style="margin: 15px 0 15px 0;">
+  <div *ngIf="nodes?.length === 0" style="margin: 10px">
     <button mat-mini-fab (click)="addKc()" color="primary">
       <mat-icon>add</mat-icon>
     </button>
-    <span>&nbsp;Dodaj korensku veštinu koja proverava da li je učenik savladao suštinu lekcije.</span>
+    <span>&nbsp;&nbsp;Dodaj komponentu znanja koja sabira svo gradivo vezano za ishod lekcije.</span>
   </div>
 </div>

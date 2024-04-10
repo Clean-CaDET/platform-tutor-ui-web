@@ -27,6 +27,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatChipsModule} from "@angular/material/chips";
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 300,
@@ -97,7 +98,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatProgressBarModule,
     MatDividerModule,
     ScrollingModule,
-    MatChipsModule
+    MatChipsModule,
+    CdkAccordionModule
   ],
   providers: [
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }

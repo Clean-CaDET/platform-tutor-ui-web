@@ -6,6 +6,7 @@ import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
 import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
+import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring.service';
 
 @Component({
   selector: 'cc-course-structure',
@@ -17,8 +18,10 @@ export class CourseStructureComponent implements OnInit {
   selectedUnit: Unit;
   showUnitDetails: boolean;
   showKnowledgeComponents: boolean;
+  showLearningTasks: boolean;
+  learningTasks: any[];
 
-  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService,
+  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private taskService: LearningTasksService,
     private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
@@ -29,7 +32,17 @@ export class CourseStructureComponent implements OnInit {
 
         let unitId = this.route.snapshot.queryParams['unit'];
         if (unitId) {
-          this.selectUnit(this.course.knowledgeUnits.find(u => u.id == unitId), true);
+          let unit = this.course.knowledgeUnits.find(u => u.id == unitId)
+          let mode = this.route.snapshot.queryParams['mode'];
+          if(mode == 'kc') {
+            this.showKcs(unit);
+            return;
+          }
+          if(mode == 'lt') {
+            this.showTasks(unit);
+            return;
+          }
+          this.showDetails(unit);
         }
       });
     });
@@ -43,38 +56,67 @@ export class CourseStructureComponent implements OnInit {
   }
 
   createUnit() {
-    this.selectedUnit = { code: '', name: '', description: '', order:this.getMaxOrder()+10};
+    this.selectedUnit = { code: '', name: '', description: '', order: this.getMaxOrder() + 10 };
     this.showUnitDetails = true;
     this.showKnowledgeComponents = false;
+    this.showLearningTasks = false;
   }
 
   getMaxOrder(): number {
-    if(this.course.knowledgeUnits?.length == 0) return 0;
+    if (this.course.knowledgeUnits?.length == 0) return 0;
     return Math.max(...this.course.knowledgeUnits.map(u => u.order));
   }
 
-  selectUnit(unit: Unit, showKcs: boolean) {
-    if(showKcs) {
-      this.kcService.getByUnit(unit.id).subscribe(kcs => {
-        this.selectedUnit = unit;
-        this.selectedUnit.knowledgeComponents = kcs;
-        this.showKnowledgeComponents = true;
-        this.showUnitDetails = false;
-      });
-    } else {
-      this.selectedUnit = unit;
-      this.showKnowledgeComponents = false;
-      this.showUnitDetails = true;
-    }
+  showDetails(unit: Unit) {
+    this.selectedUnit = unit;
+    this.showKnowledgeComponents = false;
+    this.showLearningTasks = false;
+    this.showUnitDetails = true;
 
     this.router.navigate([], {
-      queryParams: { unit: unit.id },
+      queryParams: { unit: unit.id, mode: '' },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showKcs(unit: Unit) {
+    this.kcService.getByUnit(unit.id).subscribe(kcs => {
+      this.selectedUnit = unit;
+      this.selectedUnit.knowledgeComponents = kcs;
+      this.showKnowledgeComponents = true;
+      this.showUnitDetails = false;
+      this.showLearningTasks = false;
+    });
+
+    this.router.navigate([], {
+      queryParams: { unit: unit.id, mode: 'kc' },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showTasks(unit: Unit) {
+    this.taskService.getByUnit(unit.id).subscribe(learningTasks => {
+      this.selectedUnit = unit;
+      this.learningTasks = learningTasks;
+      this.learningTasks.sort((a, b) => {
+        if (a.isTemplate !== b.isTemplate) {
+            return a.isTemplate ? -1 : 1;
+        }
+        return a.order - b.order;
+      });
+      this.showKnowledgeComponents = false;
+      this.showUnitDetails = false;
+      this.showLearningTasks = true;
+    });
+
+    this.router.navigate([], {
+      queryParams: { unit: unit.id, mode: 'lt' },
       queryParamsHandling: 'merge'
     });
   }
 
   saveOrUpdateUnit(unit: Unit) {
-    if(!unit.id) {
+    if (!unit.id) {
       this.courseService.saveUnit(this.course.id, unit).subscribe(newUnit => {
         newUnit.knowledgeComponents = [];
         this.course.knowledgeUnits.push(newUnit);
@@ -97,7 +139,7 @@ export class CourseStructureComponent implements OnInit {
     let diagRef = this.dialog.open(DeleteFormComponent);
 
     diagRef.afterClosed().subscribe(result => {
-      if(!result) return;
+      if (!result) return;
 
       this.courseService.deleteUnit(this.course.id, unitId).subscribe(() => {
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.filter(u => u.id !== unitId)];

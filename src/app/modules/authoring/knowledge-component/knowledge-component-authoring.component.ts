@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
-import { filter, map } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component-authoring.service';
 

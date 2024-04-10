@@ -1,0 +1,40 @@
+<div fxLayout="row" fxLayoutGap="10px">
+    <form [formGroup]="learningTaskForm" fxLayout="column" style="width: 800px;">
+        <section fxLayoutGap="5px" fxLayout="column">
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Naziv</mat-label>
+                <input formControlName="name" matInput>
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="fill">
+                <mat-label>Opis</mat-label>
+                <textarea formControlName="description" matInput rows="8"></textarea>
+            </mat-form-field>
+            <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+                <mat-form-field fxFlex appearance="fill" fxFlex="30">
+                    <mat-label>Redni broj</mat-label>
+                    <input type="number" formControlName="order" matInput>
+                </mat-form-field>
+                <mat-checkbox formControlName="isTemplate">
+                    Šablon
+                    <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
+                        matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
+                </mat-checkbox>
+            </span>
+        </section>
+        <div fxFlex="column" fxLayoutGap="20px" style="margin-top: 20px;">
+            <button mat-raised-button color="primary" [disabled]="!learningTaskForm.valid" fxFlex (click)="save()">Sačuvaj</button>
+            <button mat-raised-button fxFlex (click)="close()">Zatvori</button>
+        </div>
+    </form>
+    <div *ngIf="template" style="width: 250px;">
+        <small>Zadatak se inicijalizuje spram šablona:</small><br>
+        {{template.name}}<br><br>
+        <small>
+            sa koracima:
+            <ol>
+                <li *ngFor="let s of getMainSteps(template)">{{ s.name }}</li>
+            </ol>
+        </small>
+
+    </div>
+</div>

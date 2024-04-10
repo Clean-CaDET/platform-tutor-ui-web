@@ -19,6 +19,12 @@ import { MrqFormComponent } from './assessment-items/mrq-form/mrq-form.component
 import { McqFormComponent } from './assessment-items/mcq-form/mcq-form.component';
 import { SaqFormComponent } from './assessment-items/saq-form/saq-form.component';
 import {LearningModule} from "../learning/learning.module";
+import { LearningTasksComponent } from './learning-tasks/learning-tasks.component';
+import { TaskCloningFormComponent } from './learning-tasks/task-cloning-form/task-cloning-form.component';
+import { LearningTaskComponent } from './learning-tasks/learning-task/learning-task.component';
+import { ActivitiesComponent } from './learning-tasks/learning-task/activities/activities.component';
+import { ActivityDetailsComponent } from './learning-tasks/learning-task/activity-details/activity-details.component';
+import { TaskDetailsComponent } from './learning-tasks/learning-task/task-details/task-details.component'
 
 @NgModule({
   declarations: [
@@ -33,7 +39,13 @@ import {LearningModule} from "../learning/learning.module";
     AssessmentItemsComponent,
     MrqFormComponent,
     McqFormComponent,
-    SaqFormComponent
+    SaqFormComponent,
+    ActivitiesComponent,
+    ActivityDetailsComponent,
+    LearningTasksComponent,
+    TaskCloningFormComponent,
+    LearningTaskComponent,
+    TaskDetailsComponent
   ],
   imports: [
     CommonModule,
