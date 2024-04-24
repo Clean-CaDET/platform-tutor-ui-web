@@ -10,7 +10,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
 import { AuthenticationService } from '../auth.service';
 import { AuthenticationResponse } from './authentication-response.model';
-import { ACCESS_TOKEN } from '../../../shared/constants';
+import { ACCESS_TOKEN } from './constants';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

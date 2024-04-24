@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ACCESS_TOKEN, REFRESH_TOKEN, USER } from '../../../shared/constants';
+import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +28,5 @@ export class TokenStorage {
   clear() {
     localStorage.removeItem(ACCESS_TOKEN);
     localStorage.removeItem(REFRESH_TOKEN);
-    localStorage.removeItem(USER);
   }
 }
