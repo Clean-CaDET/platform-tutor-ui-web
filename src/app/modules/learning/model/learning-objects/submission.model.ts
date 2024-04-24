@@ -4,7 +4,6 @@ export interface Submission {
 }
 
 export const submissionTypes = {
-  arrangeTask: 'atSubmission',
   mutlipleChoiceQuestion: 'mcqSubmission',
   mutlipleResponseQuestion: 'mrqSubmission',
   shortAnswerQuestion: 'saqSubmission',
