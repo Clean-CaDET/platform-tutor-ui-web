@@ -2,7 +2,7 @@
     <small>
         <span fxFlex></span>
         <span>
-            Broj zadataka: {{ assessmentItems?.length }}
+            Broj pitanja: {{ assessmentItems?.length }}
         </span>
     </small>
     <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
@@ -105,7 +105,7 @@
     </mat-card>
     <mat-card>
         <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
-            <b>Zadaci</b>
+            <b>Pitanja</b>
             <button mat-raised-button color="primary" (click)="editMap[0] = 'multiChoiceQuestion'">
                 + Višestruki izbor, jedan odgovor
             </button>
@@ -113,7 +113,7 @@
                 + Višestruki izbor, više odgovora
             </button>
             <button mat-raised-button color="primary" (click)="editMap[0] = 'shortAnswerQuestion'">
-                + Pitanje sa kratkim odgovorom
+                + Kratak otvoren odgovor
             </button>
         </span>
         <div *ngIf="editMap[0] === 'multiChoiceQuestion'">

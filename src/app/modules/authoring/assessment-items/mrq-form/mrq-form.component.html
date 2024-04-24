@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="10px">
-    <cc-markdown-editor fxFlex [label]="'Tekst zadatka'" [editMode]="true" [livePreview]="false"
+    <cc-markdown-editor fxFlex [label]="'Tekst pitanja'" [editMode]="true" [livePreview]="false"
         [text]="workingItem.text" (textChanged)="updateText($event)">
     </cc-markdown-editor>
     <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="10px">

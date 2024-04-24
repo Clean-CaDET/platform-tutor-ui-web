@@ -1,5 +1,5 @@
 <mat-card *ngIf="assessmentStatistics" fxLayout="column" fxLayoutGap="10px">
-    <div><b>Analiza zadataka</b></div>
+    <div><b>Analiza pitanja</b></div>
     <div *ngFor="let a of assessmentStatistics">
         <small fxLayout="row" fxLayoutGap="10px">
             Id: {{a.aiId}} | 
@@ -7,7 +7,7 @@
             Broj rešenih: {{a.totalPassed}}
             <span fxFlex></span>
             <button mat-raised-button color="primary" (click)="exportEvents(a.aiId)">Događaji</button>
-            <button mat-raised-button [routerLink]="['/authoring/course', courseId, 'knowledge-component', a.kcId, 'assessments']" [queryParams]="{ aiId: a.aiId }">Autorstvo zadatka</button>
+            <button mat-raised-button [routerLink]="['/authoring/course', courseId, 'knowledge-component', a.kcId, 'assessments']" [queryParams]="{ aiId: a.aiId }">Autorstvo pitanja</button>
         </small>
         <div fxLayout="row">
             <p fxFlex="50">
@@ -33,6 +33,6 @@
         <mat-divider></mat-divider>
     </div>
     <div *ngIf="assessmentStatistics?.length === 0">
-        Ne postoje statistike nad zadacima u okviru ove komponente znanja.
+        Ne postoje statistike nad pitanjima u okviru ove komponente znanja.
     </div>
 </mat-card>

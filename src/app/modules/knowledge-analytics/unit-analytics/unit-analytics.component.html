@@ -11,7 +11,7 @@
             </mat-form-field>
             <button *ngIf="selectedUnit" mat-mini-fab (click)="changeDisplay(null, AnalyticsType.Top10)"
                 [color]="analyticsTypeDisplay === AnalyticsType.Top10 ? 'primary' : ''">
-                <mat-icon matTooltip="Top 10 teških zadataka" [matTooltipPosition]="'above'">quizz</mat-icon>
+                <mat-icon matTooltip="Top 10 teških pitanja" [matTooltipPosition]="'above'">quizz</mat-icon>
             </button>
         </span>
         <span fxFlex="nogrow">
@@ -34,7 +34,7 @@
                             <button mat-icon-button class="mat-flat-button" (click)="changeDisplay(kc, AnalyticsType.Ai)"
                                 [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
                                 [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'primary' : ''">
-                                <mat-icon matTooltip="Analiza zadataka" [matTooltipPosition]="'above'">quiz</mat-icon>
+                                <mat-icon matTooltip="Analiza pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
                             </button>
                             <span fxFlex></span>
                             <span fxLayout="column" *ngIf="ratingAverages && ratingAverages[kc.id]">
