@@ -3,7 +3,7 @@
         <span fxFlex fxLayoutGap="10px">
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
-                <mat-select [(value)]="selectedUnit" (selectionChange)="updateUnit()">
+                <mat-select [(value)]="selectedUnit" (selectionChange)="changeUnitSelection($event)">
                     <mat-option *ngFor="let unit of units" [value]="unit">
                         {{unit.name}}
                     </mat-option>
@@ -51,7 +51,7 @@
         <div fxFlex="75" *ngIf="analyticsTypeDisplay === AnalyticsType.Top10">
             <cc-ai-statistics fxFlex [unitId]="selectedUnit.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
-        <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc">
+        <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc && ratings">
             <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [ratings]="ratings[selectedKc.id]"></cc-kc-statistics>
         </div>
         <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Ai">
