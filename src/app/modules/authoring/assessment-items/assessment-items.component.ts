@@ -37,7 +37,7 @@ export class AssessmentItemsComponent implements OnInit {
   scroll(elem: string) {
     if(!elem) return;
     const element = document.querySelector('#a'+elem)!;
-    element.scrollIntoView({behavior: 'smooth', block:'center'});
+    element.scrollIntoView({behavior: 'smooth', block:'start'});
   }
 
   getTypeLabel(type: string): string {

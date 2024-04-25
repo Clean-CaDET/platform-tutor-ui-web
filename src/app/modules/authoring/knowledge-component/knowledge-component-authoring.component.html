@@ -1,5 +1,5 @@
-<div fxLayout="column">
-    <mat-card fxFlex *ngIf="kc" fxLayout="column" fxLayoutGap="20px" class="sticky">
+<div fxLayout="column" style="height: 100vh;">
+    <mat-card *ngIf="kc" fxLayout="column" fxLayoutGap="20px" style="z-index: 5;">
         <span fxLayout="row">
             <span fxLayout="column">
                 <span fxFlex><b>{{kc.code}}</b>: {{kc.name}}</span>
@@ -21,7 +21,7 @@
             </span>
         </span>
     </mat-card>
-    <div style="margin: 15px;" fxFlex>
+    <div fxFlex style="overflow-y: auto; padding: 15px">
         <router-outlet></router-outlet>
     </div>
 </div>
