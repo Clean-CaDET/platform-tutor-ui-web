@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
@@ -17,7 +18,8 @@ export class AssessmentItemsComponent implements OnInit {
   editMap: any = {};
   selectedAi: number;
 
-  constructor(private assessmentService: AssessmentItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private assessmentService: AssessmentItemsService,
+    private route: ActivatedRoute, private dialog: MatDialog, private clipboard: Clipboard) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -55,6 +57,7 @@ export class AssessmentItemsComponent implements OnInit {
     this.assessmentService.updateOrdering(this.kcId, [firstItem, secondItem]).subscribe(items => {
       let updatedItems = this.assessmentItems.filter(i => i.id !== items[0].id && i.id !== items[1].id);
       this.assessmentItems = updatedItems.concat(items).sort((a, b) => a.order - b.order);
+      setTimeout(() => this.scroll(firstItem.id.toString()), 50);
     });
   }
 
@@ -119,5 +122,11 @@ export class AssessmentItemsComponent implements OnInit {
       aiId
     };
     this.dialog.open(SubmissionStatisticsComponent, dialogConfig)
+  }
+
+  copyLink(aiId: number) {
+    this.selectedAi = aiId;
+    const baseUrl = window.location.href.split('?')[0];
+    this.clipboard.copy(baseUrl + "?aiId=" + aiId);
   }
 }

@@ -12,7 +12,10 @@
                     <b>{{i + 1}}.&nbsp;&nbsp;</b>
                     <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
                     <button mat-icon-button (click)="viewCommonWrongAnswers(item.id)">
-                        <mat-icon>bar_chart</mat-icon>
+                        <mat-icon matTooltip="Najčešći pogrešni odgovori">bar_chart</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="copyLink(item.id)">
+                        <mat-icon matTooltip="Kopiraj link do pitanja">link</mat-icon>
                     </button>
                 </small>
                 <button mat-icon-button *ngIf="i !== 0"
