@@ -1,9 +1,11 @@
 <div fxLayout="column">
     <div style="margin: 10px;">
-        <button mat-mini-fab color="primary" (click)="add(null)">
+        <button mat-icon-button (click)="add(null)"
+            [class.mat-flat-button]="!learningTasks?.length"
+            [color]="!learningTasks?.length ? 'primary' : ''">
             <mat-icon>add</mat-icon>
         </button>
-        <span>&nbsp;&nbsp;Inicijalizuj novi složen zadatak za razvoj veština koje su ishod lekcije.</span>
+        <span>&nbsp;&nbsp;Inicijalizuj novi zadatak za razvoj veština koje su ishod lekcije.</span>
     </div>
 
     <div *ngFor="let learningTask of learningTasks">
@@ -19,9 +21,9 @@
                         <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="add(learningTask)">
                             <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
                         </button>
-                        <button mat-icon-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
+                        <a mat-icon-button mat-stroked-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
                             <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
-                        </button>
+                        </a>
                     </span>
                     <button mat-icon-button (click)="delete(learningTask.id)">
                         <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>

@@ -7,7 +7,9 @@
             <div [class.highlight]="selectedUnit?.code===''" class="unit-row">
                 <b>Lekcije</b>
                 <span fxFlex></span>
-                <button mat-mini-fab [color]="selectedUnit?.code==='' ? 'primary' : ''"
+                <button mat-icon-button
+                    [class.mat-flat-button]="!course?.knowledgeUnits?.length || selectedUnit?.code===''"
+                    [color]="!course?.knowledgeUnits?.length || selectedUnit?.code==='' ? 'primary' : ''"
                     (click)="createUnit()">
                     <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                 </button>

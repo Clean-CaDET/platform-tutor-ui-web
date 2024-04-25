@@ -32,7 +32,8 @@ export class CourseStructureComponent implements OnInit {
 
         let unitId = this.route.snapshot.queryParams['unit'];
         if (unitId) {
-          let unit = this.course.knowledgeUnits.find(u => u.id == unitId)
+          let unit = this.course.knowledgeUnits.find(u => u.id == unitId);
+          if(!unit) return;
           let mode = this.route.snapshot.queryParams['mode'];
           if(mode == 'kc') {
             this.showKcs(unit);
