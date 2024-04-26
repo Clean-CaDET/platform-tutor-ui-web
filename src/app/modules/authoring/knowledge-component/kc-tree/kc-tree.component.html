@@ -17,10 +17,10 @@
         </div>
         <div fxLayoutGap="40px">
           <span fxLayoutGap="10px">
-            <a mat-icon-button mat-stroked-button [routerLink]="['knowledge-component', node.id, 'instruction']">
+            <a mat-icon-button mat-stroked-button [routerLink]="['unit', unit.id, 'knowledge-component', node.id, 'instruction']">
               <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
             </a>
-            <a mat-icon-button mat-stroked-button  [routerLink]="['knowledge-component', node.id, 'assessments']">
+            <a mat-icon-button mat-stroked-button  [routerLink]="['unit', unit.id, 'knowledge-component', node.id, 'assessments']">
               <mat-icon matTooltip="Pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
             </a>
           </span>
