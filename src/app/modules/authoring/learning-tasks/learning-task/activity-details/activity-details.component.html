@@ -11,7 +11,7 @@
             </mat-form-field>
             <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
                 <span fxFlex></span>
-                <button mat-mini-fab *ngIf="!editMode" (click)="edit()">
+                <button mat-icon-button *ngIf="!editMode" (click)="edit()" color="">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                 </button>
                 <button mat-mini-fab *ngIf="editMode" color="primary" [disabled]="!activityForm.valid"

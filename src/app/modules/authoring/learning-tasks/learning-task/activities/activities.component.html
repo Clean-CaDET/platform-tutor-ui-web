@@ -8,12 +8,12 @@
                             <span fxLayout="row">
                                 <button mat-icon-button (click)="view(activity)"
                                     [class.mat-flat-button]="activeActivity?.id===activity.id"
-                                    [color]="activeActivity?.id===activity.id ? 'primary' : ''">
+                                    [color]="activeActivity?.id===activity.id ? 'accent' : ''">
                                     <mat-icon matTooltip="Detalji" [matTooltipPosition]="'above'">edit</mat-icon>
                                 </button>
                                 <button mat-icon-button (click)="createSubactivity(activity)"
                                     [class.mat-flat-button]="!activeActivity?.id && activeActivity?.parentId === activity.id"
-                                    [color]="!activeActivity?.id && activeActivity?.parentId === activity.id ? 'primary' : ''">
+                                    [color]="!activeActivity?.id && activeActivity?.parentId === activity.id ? 'accent' : ''">
                                     <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">playlist_add</mat-icon>
                                 </button>
                                 <span fxFlex></span>

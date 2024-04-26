@@ -9,7 +9,7 @@
                 <span fxFlex></span>
                 <button mat-icon-button
                     [class.mat-flat-button]="!course?.knowledgeUnits?.length || selectedUnit?.code===''"
-                    [color]="!course?.knowledgeUnits?.length || selectedUnit?.code==='' ? 'primary' : ''"
+                    [color]="selectedUnit?.code==='' ? 'accent' : !course?.knowledgeUnits?.length ? 'primary' : ''"
                     (click)="createUnit()">
                     <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
                 </button>
@@ -22,17 +22,17 @@
                         <span fxLayout="row">
                             <button mat-icon-button (click)="showDetails(unit)"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showUnitDetails"
-                                [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'primary' : ''">
+                                [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : ''">
                                 <mat-icon matTooltip="Ciljevi" [matTooltipPosition]="'above'">sports_score</mat-icon>
                             </button>
                             <button mat-icon-button (click)="showKcs(unit)"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showKnowledgeComponents"
-                                [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'primary' : ''">
+                                [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : ''">
                                 <mat-icon matTooltip="Znanje" [matTooltipPosition]="'above'">account_tree</mat-icon>
                             </button>
                             <button mat-icon-button (click)="showTasks(unit)"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showLearningTasks"
-                                [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'primary' : ''">
+                                [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'accent' : ''">
                                 <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">rebase_edit</mat-icon>
                             </button>
                             <span fxFlex></span>

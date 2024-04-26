@@ -4,7 +4,7 @@
             [class.highlight]="mode === 'task'">
             <b fxFlex>{{task?.name}}</b>
             <button mat-icon-button (click)="openTask()" [class.mat-flat-button]="mode==='task'"
-                [color]="mode === 'task' ? 'primary' : ''">
+                [color]="mode === 'task' ? 'accent' : ''">
                 <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
             </button>
             <button mat-icon-button mat-stroked-button color="" [routerLink]="['/authoring/course', courseId]"
@@ -14,8 +14,8 @@
         </div>
         <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
             <b fxFlex>Koraci</b>
-            <button mat-icon-button (click)="addStep()" [class.mat-flat-button]="selectedStep?.name === ''"
-                [color]="selectedStep?.name === '' ? 'primary' : ''">
+            <button mat-icon-button (click)="addStep()" [class.mat-flat-button]="selectedStep?.name === '' || !steps?.length"
+                [color]="selectedStep?.name === '' ? 'accent' : !steps?.length ? 'primary' : ''">
                 <mat-icon>add</mat-icon>
             </button>
         </div>
@@ -30,12 +30,12 @@
                     <div fxLayout="row">
                         <button mat-icon-button (click)="showStep(step, true)"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
-                            [color]="selectedStep?.id===step.id && mode==='guidance' ? 'primary' : ''">
+                            [color]="selectedStep?.id===step.id && mode==='guidance' ? 'accent' : ''">
                             <mat-icon matTooltip="Smernice i ocenjivanje" [matTooltipPosition]="'above'">edit</mat-icon>
                         </button>
                         <button mat-icon-button (click)="showStep(step, false)"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
-                            [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'primary' : ''">
+                            [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'accent' : ''">
                             <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
                         </button>
                         <span fxFlex></span>
