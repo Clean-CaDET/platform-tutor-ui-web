@@ -32,8 +32,8 @@
         </section>
         <section fxLayout="column">
             <h4 *ngIf="!editMode" style="margin-bottom: 0px;">Ciljevi</h4>
-            <cc-markdown-editor fxFlex
-                [label]="'Ciljevi'" [text]="unitDescription" [editMode]="editMode" [indextab]="44"
+            <markdown *ngIf="!editMode">{{unitDescription}}</markdown>
+            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Ciljevi'" [text]="unitDescription" [indextab]="44"
                 (textChanged)="updateDescription($event)"></cc-markdown-editor>
         </section>
     </form>

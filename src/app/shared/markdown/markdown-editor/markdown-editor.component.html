@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="column" class="editor-container">
-  <div fxLayout="row" *ngIf="editMode">
+  <div fxLayout="row">
     <div fxLayout="row">
       <button mat-icon-button (click)="insertElement('bold')">
         <mat-icon>format_bold</mat-icon>
@@ -42,14 +42,15 @@
       </button>
     </div>
   </div>
-  <div *ngIf="editMode">
-    <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
+  <div>
+    <mat-form-field appearance="fill">
       <mat-label>{{label}}</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" [readonly]="!editMode" [tabindex]="indextab"
+      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab"
         (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"
         style="height: 290px;"></textarea>
     </mat-form-field>
   </div>
-  <markdown *ngIf="livePreview || !editMode" [data]="text" lineNumbers></markdown>
+  <small>
+    <markdown *ngIf="livePreview" [data]="text" lineNumbers></markdown>
+  </small>
 </div>
-

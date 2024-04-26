@@ -23,14 +23,12 @@
                 </button>
             </section>
         </div>
-        <div>
+        <div fxLayout="column">
             <h4 *ngIf="!editMode">Smernice</h4>
-            <section>
-                <cc-markdown-editor fxFlex [label]="'Smernice *'" [livePreview]="false"
-                    [text]="activityForm.get('guidance').value"
-                    (textChanged)="this.activityForm.get('guidance').setValue($event)"
-                    [editMode]="editMode"></cc-markdown-editor>
-            </section>
+            <markdown *ngIf="!editMode">{{activityForm.get('guidance').value}}</markdown>
+            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice *'" [livePreview]="false"
+                [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
+            </cc-markdown-editor>
         </div>
         <div><!-- Examples -->
             <h4 *ngIf="examples.controls?.length !== 0 || editMode">Video primeri sprovođenja aktivnosti</h4>
