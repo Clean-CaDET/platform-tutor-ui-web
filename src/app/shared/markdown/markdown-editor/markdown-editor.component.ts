@@ -8,6 +8,7 @@ import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, 
 export class MarkdownEditorComponent implements OnChanges {
   @Input() label = "";
   @Input() text = "";
+  @Input() sidePreview = false;
   @Input() submitCtrls = false;
   @Input() indextab = 50;
   @Output() submit = new EventEmitter<string>();

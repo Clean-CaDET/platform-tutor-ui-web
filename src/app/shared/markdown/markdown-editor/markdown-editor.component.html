@@ -42,15 +42,25 @@
       </button>
     </div>
   </div>
-  <div>
-    <mat-form-field appearance="fill">
+  <div *ngIf="!sidePreview" fxLayout="column">
+    <mat-form-field appearance="fill" fxFlex>
       <mat-label>{{label}}</mat-label>
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab"
         (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"
         style="height: 290px;"></textarea>
     </mat-form-field>
+    <small fxFlex>
+      <markdown *ngIf="livePreview" [data]="text" lineNumbers></markdown>
+    </small>
   </div>
-  <small>
-    <markdown *ngIf="livePreview" [data]="text" lineNumbers></markdown>
-  </small>
+  <div *ngIf="sidePreview" fxLayout="row" fxLayoutGap="10px" style="height: 70vh;">
+    <mat-form-field appearance="fill" fxFlex>
+      <mat-label>{{label}}</mat-label>
+      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: 64vh; resize: none;"
+        (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"></textarea>
+    </mat-form-field>
+    <small fxFlex style="overflow-y: auto;" *ngIf="livePreview">
+      <markdown [data]="text" lineNumbers></markdown>
+    </small>
+  </div>
 </div>
