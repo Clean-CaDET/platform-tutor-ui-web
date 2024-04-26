@@ -33,6 +33,7 @@
             <div fxLayout="row" fxLayoutAlign=" end">
                 <small fxFlex>
                     <markdown>{{ shorten(learningTask.description) }}</markdown>
+                    <b>Koraci</b>
                     <ol>
                         <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }} ({{s.maxPoints}} p.)</li>
                     </ol>

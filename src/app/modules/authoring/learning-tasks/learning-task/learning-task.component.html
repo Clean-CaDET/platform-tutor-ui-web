@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="task">
     <div fxFlex="23" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign=" center" class="padding" fxLayoutGap="5px"
             [class.highlight]="mode === 'task'">
@@ -13,7 +13,10 @@
             </button>
         </div>
         <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
-            <b fxFlex>Koraci</b>
+            <span fxFlex>
+                <b>Koraci</b>
+                <small *ngIf="task.maxPoints"> Ukupno bodova: {{task.maxPoints}}</small>
+            </span>
             <button mat-icon-button (click)="addStep()" [class.mat-flat-button]="selectedStep?.name === '' || !steps?.length"
                 [color]="selectedStep?.name === '' ? 'accent' : !steps?.length ? 'primary' : ''">
                 <mat-icon>add</mat-icon>
@@ -24,8 +27,9 @@
             <div *cdkVirtualFor="let step of steps; index as i">
                 <div [class.highlight]="selectedStep?.id===step.id" class="padding">
                     <span>{{step.order}}. {{step.code}}: {{step.name}}</span>
-                    <div *ngIf="step.subactivities?.length">
-                        <small>Broj podaktivnosti: {{step.subactivities.length}}</small>
+                    <div>
+                        <small>Broj bodova: {{step.maxPoints}}</small>
+                        <small *ngIf="step.subactivities?.length"> | Podaktivnosti: {{step.subactivities.length}}</small>
                     </div>
                     <div fxLayout="row">
                         <button mat-icon-button (click)="showStep(step, true)"

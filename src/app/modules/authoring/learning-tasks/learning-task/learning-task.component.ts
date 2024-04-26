@@ -152,7 +152,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           if (error.error.status === 409)
-            this.errorsBar.open('Greška: Aktivnost sa datim kodom već postoji u okviru zadatka. Izmeni kod.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
+            this.errorsBar.open('Greška: Aktivnost sa datim kodom već postoji u zadatku. Izmeni kod.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
         }
       });
   }
