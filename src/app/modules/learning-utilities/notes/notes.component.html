@@ -12,8 +12,8 @@
   <div *ngIf="edit" class="mat-card" fxLayout="column">
     <cc-markdown-editor [label]="'Beleška'" (textChanged)="text = $event"></cc-markdown-editor>
     <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-flat-button color="primary" (click)="onSave()">Save</button>
-      <button mat-flat-button color="accent" (click)="onCancel()">Cancel</button>
+      <button mat-flat-button color="primary" (click)="onSave()">Sačuvaj</button>
+      <button mat-flat-button (click)="onCancel()">Otkaži</button>
     </div>
   </div>
   <div class="note-width" *ngIf="notes.length === 0 && !edit" fxFlexAlign="center" i18n>
@@ -27,7 +27,8 @@
     <div fxLayout="row" fxLayoutAlign="space-between end">
       <div>
         <div fxLayout="row" fxLayoutGap="10px" *ngIf="note.mode === 'edit'">
-          <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Save</button>
+          <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Sačuvaj</button>
+          <button mat-flat-button (click)="note.mode = 'preview'">Otkaži</button>
         </div>
       </div>
       <div fxLayout="row" fxLayoutGap="5px" *ngIf="note.mode !== 'edit'">

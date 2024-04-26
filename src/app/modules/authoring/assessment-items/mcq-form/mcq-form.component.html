@@ -13,7 +13,7 @@
 </div>
 <hr>
 <div fxLayout="column" fxLayoutGap="15px">
-    <cc-markdown-editor fxFlex [label]="'Tekst pitanja'" [livePreview]="false"
+    <cc-markdown-editor fxFlex [label]="'Tekst pitanja'" [sidePreview]="true"
         [text]="workingItem.text" (textChanged)="updateText($event)">
     </cc-markdown-editor>
     <div [formGroup]="form" fxFlex fxLayout="column" fxLayoutGap="15px">
