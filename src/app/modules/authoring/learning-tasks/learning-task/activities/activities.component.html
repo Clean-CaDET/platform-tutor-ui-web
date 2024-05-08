@@ -51,8 +51,8 @@
             </cdk-virtual-scroll-viewport>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <!-- Right container for activity details -->
         <div *ngIf="activeActivity" fxFlex="70" class="activity-details">
-            <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)"></cc-activity-details>
+            <!-- Warning: There is a bug for client-side code uniquness validation as the component receives only the step subactivites (and not all task activities). -->
+            <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)" [activities]="activities"></cc-activity-details>
         </div>
 </div>

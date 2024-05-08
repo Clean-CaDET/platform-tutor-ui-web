@@ -52,6 +52,11 @@ export class MarkdownEditorComponent implements OnChanges {
         tagBegin = tagEnd = '```';
         tagText = 'Code';
         break;
+      case 'link':
+          tagBegin = '<a href="';
+          tagEnd= '" target="_blank">Text</a>'
+          tagText = 'Url';
+          break;
       case 'h1':
         tagBegin = '# ';
         tagText = 'Heading 1';
@@ -105,7 +110,7 @@ export class MarkdownEditorComponent implements OnChanges {
     this.selection = event.target;
   }
 
-  onBlur(): void {
+  onChange(): void {
     this.textChanged.emit(this.text);
   }
 

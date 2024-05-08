@@ -3,6 +3,9 @@
         <mat-form-field fxFlex="30" appearance="fill">
             <mat-label>Kod</mat-label>
             <input formControlName="code" matInput>
+            <mat-error *ngIf="formGroup.get('code').hasError('notUnique') && formGroup.get('code').touched">
+                Mora biti jedinstven za lekciju
+            </mat-error>
         </mat-form-field>
         <mat-form-field fxFlex="50" appearance="fill">
             <mat-label>Naziv</mat-label>

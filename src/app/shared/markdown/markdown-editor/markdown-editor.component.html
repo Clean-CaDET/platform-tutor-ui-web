@@ -27,6 +27,9 @@
       <button mat-icon-button (click)="insertElement('code')">
         <mat-icon>code</mat-icon>
       </button>
+      <button mat-icon-button (click)="insertElement('link')">
+        <mat-icon>link</mat-icon>
+      </button>
     </div>
     <span fxFlex></span>
     <button mat-icon-button (click)="livePreview = !livePreview">
@@ -46,7 +49,7 @@
     <mat-form-field appearance="fill" fxFlex>
       <mat-label>{{label}}</mat-label>
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab"
-        (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"
+        (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"
         style="height: 290px;"></textarea>
     </mat-form-field>
     <small fxFlex>
@@ -57,7 +60,7 @@
     <mat-form-field appearance="fill" fxFlex>
       <mat-label>{{label}}</mat-label>
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: 60vh; resize: none;"
-        (select)="onSelect($event)" (click)="onClick($event)" (blur)="onBlur()"></textarea>
+        (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"></textarea>
     </mat-form-field>
     <small fxFlex style="overflow-y: auto;" *ngIf="livePreview">
       <markdown [data]="text" lineNumbers></markdown>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Activity } from '../../model/activity';
 
 @Component({
@@ -8,8 +8,8 @@ import { Activity } from '../../model/activity';
   styleUrls: ['./activity-details.component.scss']
 })
 export class ActivityDetailsComponent implements OnChanges {
-
   @Input() activity: Activity;
+  @Input() activities: Activity[];
   @Output() activitySaved = new EventEmitter<Activity>();
 
   activityForm: FormGroup;
@@ -30,7 +30,7 @@ export class ActivityDetailsComponent implements OnChanges {
 
   createForm() {
     this.activityForm = this.builder.group({
-      code: new FormControl('', Validators.required),
+      code: new FormControl('', [Validators.required, this.uniqueCode(this.activities)]),
       name: new FormControl('', Validators.required),
       guidance: new FormControl('', Validators.required),
       examples: this.builder.array([]),
@@ -44,6 +44,18 @@ export class ActivityDetailsComponent implements OnChanges {
       }));
       this.activityForm.addControl('standards', this.builder.array([]));
     }
+  }
+
+  private uniqueCode(activities: Activity[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if(!control.value) return null;
+      for(let i = 0; i < activities.length; i++) {
+        if(activities[i].code == control.value && activities[i].id != this.activity.id) {
+          return { notUnique: true };
+        }
+      }
+      return null;
+    };
   }
 
   setInitialValues(activity: Activity): void {
@@ -73,8 +85,28 @@ export class ActivityDetailsComponent implements OnChanges {
   
   typeSelected() {
     switch(this.activityForm.value.submissionFormat.type) {
-      case "Text": this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$"); break;
-      case "Link": this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$"); break;
+      case "Text": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$");
+        break;
+      }
+      case "Link": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
+        break;
+      }
+      case "GitPR": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/pull\\/([0-9]{1,4})$");
+        this.activityForm.get('submissionFormat').get('guidelines').setValue("Navedi link do pull requesta koji sabira sve izmene koje si napravio.\nPrimer: https://github.com/Clean-CaDET/tutor/pull/106");
+        break;
+      }
+      case "GitCommit": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
+        break;
+      }
+      case "TrelloCard": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/trello\\.com\\/c\\/.*");
+        this.activityForm.get('submissionFormat').get('guidelines').setValue("Rezultat treba da bude link do kartice na Trello tabli koji se dobija otvaranjem kartice u browseru i kopiranjem linka.\nPrimer: https://trello.com/c/GXSjvfIs/test");
+        break;
+      }
       default: this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$"); 
     }
   }
