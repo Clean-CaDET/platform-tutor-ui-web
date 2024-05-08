@@ -32,12 +32,12 @@
                         <small *ngIf="step.subactivities?.length"> | Podaktivnosti: {{step.subactivities.length}}</small>
                     </div>
                     <div fxLayout="row">
-                        <button mat-icon-button (click)="showStep(step, true)"
+                        <button mat-icon-button (click)="setStepAndParams(step, 'guidance')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
                             [color]="selectedStep?.id===step.id && mode==='guidance' ? 'accent' : ''">
                             <mat-icon matTooltip="Smernice i ocenjivanje" [matTooltipPosition]="'above'">edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="showStep(step, false)"
+                        <button mat-icon-button (click)="setStepAndParams(step, 'subactivities')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
                             [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'accent' : ''">
                             <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>

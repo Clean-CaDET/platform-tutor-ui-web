@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
 import { Subscription } from 'rxjs';
 import { Activity } from '../model/activity';
@@ -24,25 +24,28 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   steps: Activity[];
   subactivities: Activity[];
 
-  constructor(private taskService: LearningTasksService, private route: ActivatedRoute, private dialog: MatDialog, private errorsBar: MatSnackBar) { }
+  constructor(private taskService: LearningTasksService, private route: ActivatedRoute,
+    private router: Router, private dialog: MatDialog, private errorsBar: MatSnackBar) { }
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       this.courseId = +params.courseId;
       this.unitId = +params.unitId;
-      this.taskService.get(this.unitId, +params.ltId)
-        .subscribe(task => {
-          this.setupTaskAndActivities(task);
-        });
+      this.taskService.get(this.unitId, +params.ltId).subscribe(task => {
+        this.setupTaskAndActivities(task);
+      });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.routeSubscription.unsubscribe();
   }
 
   private setupTaskAndActivities(task: LearningTask) {
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
     if (this.selectedStep) {
-      this.selectedStep = this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code);
-      this.subactivities = [this.selectedStep, ...this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id))];
+      this.selectStep(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
     }
   }
 
@@ -60,13 +63,23 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     return task;
   }
 
-  ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+  private selectStep(step: Activity, mode: string) {
+    this.selectedStep = step;
+    this.mode = mode;
+    if (this.mode === 'subactivities') {
+      this.subactivities = [this.selectedStep, ...this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id))];
+    }
+  }
+
+  private isDescendant(step: Activity, parentId: number): boolean {
+    if (!step || !parentId) return false;
+    if (step.parentId === parentId) return true;
+    return this.isDescendant(this.task.steps.find(s => s.id === step.parentId), parentId);
   }
 
   openTask(): void {
-    this.mode = 'task';
-    this.selectedStep = null;
+    this.selectStep(null, 'task');
+    this.router.navigate([], { queryParams: { mode: this.mode }});
   }
 
   addStep(): void {
@@ -79,7 +92,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       examples: [],
       standards: []
     };
-    this.showStep(newStep, true);
+    this.selectStep(newStep, 'guidance');
   }
 
   private getOrder(): number {
@@ -87,22 +100,12 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     return Math.max(...this.task.steps.filter(s => !s.parentId).map(s => s.order)) + 1;
   }
 
-  showStep(step: Activity, guidance: boolean): void {
-    this.selectedStep = step;
-    this.mode = guidance ? 'guidance' : 'subactivities';
-    if (this.mode === 'subactivities') {
-      this.subactivities = [this.selectedStep, ...this.task.steps.filter(s => this.isDescendant(s, this.selectedStep.id))];
-    }
-  }
-
-  isDescendant(step: Activity, parentId: number): boolean {
-    if (!step || !parentId) {
-      return false;
-    }
-    if (step.parentId === parentId) {
-      return true;
-    }
-    return this.isDescendant(this.task.steps.find(s => s.id === step.parentId), parentId);
+  setStepAndParams(step: Activity, mode: string): void {
+    this.selectStep(step, mode);
+    this.router.navigate([], {
+      queryParams: { step: this.selectedStep.id, mode: this.mode },
+      queryParamsHandling: 'merge'
+    });
   }
 
   createOrUpdateStep(step: Activity) {
