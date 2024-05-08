@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { Activity } from '../model/activity';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
@@ -14,9 +14,10 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./learning-task.component.scss']
 })
 export class LearningTaskComponent implements OnInit, OnDestroy {
+  private $destroy = new Subject<void>();
+  
   courseId: number;
   unitId: number;
-  routeSubscription: Subscription;
 
   task: LearningTask;
   mode: string = 'task';
@@ -28,25 +29,27 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     private router: Router, private dialog: MatDialog, private errorsBar: MatSnackBar) { }
 
   ngOnInit(): void {
-    this.routeSubscription = this.route.params.subscribe((params: Params) => {
+    this.route.params.pipe(takeUntil(this.$destroy)).subscribe((params: Params) => {
       this.courseId = +params.courseId;
       this.unitId = +params.unitId;
       this.taskService.get(this.unitId, +params.ltId).subscribe(task => {
         this.setupTaskAndActivities(task);
+        this.processParams(this.route.snapshot.queryParams);
       });
+    });
+    this.route.queryParams.pipe(takeUntil(this.$destroy)).subscribe((params: Params) => {
+      this.processParams(params);
     });
   }
 
   ngOnDestroy(): void {
-    this.routeSubscription.unsubscribe();
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 
   private setupTaskAndActivities(task: LearningTask) {
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
-    if (this.selectedStep) {
-      this.selectStep(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
-    }
   }
 
   private linkSubactivities(task: LearningTask): LearningTask {
@@ -75,6 +78,12 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     if (!step || !parentId) return false;
     if (step.parentId === parentId) return true;
     return this.isDescendant(this.task.steps.find(s => s.id === step.parentId), parentId);
+  }
+
+  private processParams(queryParams: Params) {
+    if(!this.steps?.length) return;
+    let step = this.steps.find(s => s.id == +queryParams['step']);
+    this.selectStep(step, queryParams['mode']);
   }
 
   openTask(): void {
@@ -152,6 +161,9 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
       .subscribe({
         next: updatedTask => {
           this.setupTaskAndActivities(updatedTask);
+          if (this.selectedStep) {
+            this.selectStep(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
+          }
         },
         error: (error) => {
           if (error.error.status === 409)
