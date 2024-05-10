@@ -16,6 +16,7 @@ export class AssessmentItemsComponent implements OnInit {
   kcId: number;
   assessmentItems: AssessmentItem[];
   editMap: any = {};
+  clone: boolean = false;
   selectedAi: number;
 
   constructor(private assessmentService: AssessmentItemsService,
@@ -29,7 +30,7 @@ export class AssessmentItemsComponent implements OnInit {
         this.editMap = {};
         this.assessmentItems.forEach(i => this.editMap[i.id] = false);
         this.selectedAi = +this.route.snapshot.queryParams['aiId'];
-        setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 200);
+        setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 100);
       });
     });
   }
@@ -100,8 +101,17 @@ export class AssessmentItemsComponent implements OnInit {
     });
   }
 
-  createEmptyItem(type: string): AssessmentItem {
-    return new AssessmentItem({
+  cloneItem(item: AssessmentItem): void {
+    let clonedItem = JSON.parse(JSON.stringify(item));
+    delete clonedItem.id
+    clonedItem.order = this.getMaxOrder()+1;
+    this.editMap[0] = clonedItem;
+
+    setTimeout(() => this.scroll('form'), 50);
+  }
+
+  createEmptyItem(type: string): void {
+    this.editMap[0] = new AssessmentItem({
       $type: type,
       knowledgeComponentId: this.kcId,
       order: this.getMaxOrder()+1
