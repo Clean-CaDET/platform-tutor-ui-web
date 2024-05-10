@@ -41,7 +41,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
   <div *ngIf="missingEntries.length > 0">
-    <h3>Polaznici koji nisu pronađeni</h3>
+    <h3>Učenici koji nisu pronađeni</h3>
     <div *ngFor="let e of missingEntries">{{e}}</div>
   </div>
   <div fxFlex="row" fxLayoutGap="20px">

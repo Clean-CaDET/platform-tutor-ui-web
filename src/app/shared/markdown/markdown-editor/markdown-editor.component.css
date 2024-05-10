@@ -9,11 +9,3 @@ mat-form-field {
 textarea {
   width: 100%;
 }
-
-p {
-  font-size: smaller;
-}
-
-mat-icon:hover {
-  cursor: pointer;
-}

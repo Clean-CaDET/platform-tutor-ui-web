@@ -5,7 +5,7 @@ import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/f
 import { McqEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-evaluation.model';
 import { McqSubmission } from 'src/app/modules/learning/model/learning-objects/multiple-choice-question/mcq-submission.model';
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
-import { shuffleArray } from 'src/app/shared/helpers/arrays';
+import { shuffleArray } from 'src/app/modules/learning/knowledge-component/learning-objects/assessment-items/arrays';
 import { SubmissionService } from '../../../submission.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { MultipleChoiceQuestion } from './multiple-choice-question.model';

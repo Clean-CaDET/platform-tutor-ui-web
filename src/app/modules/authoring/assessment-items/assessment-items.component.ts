@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
@@ -15,9 +16,11 @@ export class AssessmentItemsComponent implements OnInit {
   kcId: number;
   assessmentItems: AssessmentItem[];
   editMap: any = {};
+  clone: boolean = false;
   selectedAi: number;
 
-  constructor(private assessmentService: AssessmentItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private assessmentService: AssessmentItemsService,
+    private route: ActivatedRoute, private dialog: MatDialog, private clipboard: Clipboard) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -27,7 +30,7 @@ export class AssessmentItemsComponent implements OnInit {
         this.editMap = {};
         this.assessmentItems.forEach(i => this.editMap[i.id] = false);
         this.selectedAi = +this.route.snapshot.queryParams['aiId'];
-        setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 200);
+        setTimeout(() => this.scroll(this.route.snapshot.queryParams['aiId']), 100);
       });
     });
   }
@@ -35,7 +38,7 @@ export class AssessmentItemsComponent implements OnInit {
   scroll(elem: string) {
     if(!elem) return;
     const element = document.querySelector('#a'+elem)!;
-    element.scrollIntoView({behavior: 'smooth', block:'center'});
+    element.scrollIntoView({behavior: 'smooth', block:'start'});
   }
 
   getTypeLabel(type: string): string {
@@ -55,6 +58,7 @@ export class AssessmentItemsComponent implements OnInit {
     this.assessmentService.updateOrdering(this.kcId, [firstItem, secondItem]).subscribe(items => {
       let updatedItems = this.assessmentItems.filter(i => i.id !== items[0].id && i.id !== items[1].id);
       this.assessmentItems = updatedItems.concat(items).sort((a, b) => a.order - b.order);
+      setTimeout(() => this.scroll(firstItem.id.toString()), 50);
     });
   }
 
@@ -97,8 +101,17 @@ export class AssessmentItemsComponent implements OnInit {
     });
   }
 
-  createEmptyItem(type: string): AssessmentItem {
-    return new AssessmentItem({
+  cloneItem(item: AssessmentItem): void {
+    let clonedItem = JSON.parse(JSON.stringify(item));
+    delete clonedItem.id
+    clonedItem.order = this.getMaxOrder()+1;
+    this.editMap[0] = clonedItem;
+
+    setTimeout(() => this.scroll('form'), 50);
+  }
+
+  createEmptyItem(type: string): void {
+    this.editMap[0] = new AssessmentItem({
       $type: type,
       knowledgeComponentId: this.kcId,
       order: this.getMaxOrder()+1
@@ -119,5 +132,11 @@ export class AssessmentItemsComponent implements OnInit {
       aiId
     };
     this.dialog.open(SubmissionStatisticsComponent, dialogConfig)
+  }
+
+  copyLink(aiId: number) {
+    this.selectedAi = aiId;
+    const baseUrl = window.location.href.split('?')[0];
+    this.clipboard.copy(baseUrl + "?aiId=" + aiId);
   }
 }

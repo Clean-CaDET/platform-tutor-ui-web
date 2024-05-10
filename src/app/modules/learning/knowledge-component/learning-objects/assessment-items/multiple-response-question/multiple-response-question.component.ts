@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MultipleReponseQuestion } from './multiple-response-question.model';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { AssessmentFeedbackConnector } from 'src/app/modules/learning/knowledge-component/assessment-feedback-connector.service';
-import { shuffleArray } from 'src/app/shared/helpers/arrays';
+import { shuffleArray } from 'src/app/modules/learning/knowledge-component/learning-objects/assessment-items/arrays';
 import { MrqEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-evaluation.model';
 import { MrqItem } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-item.model';
 import { MrqItemEvaluation } from 'src/app/modules/learning/model/learning-objects/multiple-response-question/mrq-item-evaluation.model';

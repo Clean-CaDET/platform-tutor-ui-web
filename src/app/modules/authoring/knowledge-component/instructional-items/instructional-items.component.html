@@ -25,7 +25,7 @@
         </div>
         <div *ngIf="editMap[instructionalItem.id]">
             <div *ngIf="instructionalItem.$type === 'text'">
-                <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
+                <cc-markdown-editor fxFlex [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
                     [text]="instructionalItem.content" (submit)="updateMarkdownItem($event, instructionalItem)">
                 </cc-markdown-editor>
             </div>
@@ -45,7 +45,7 @@
             </button>
         </span>
         <div *ngIf="editMap[0] === 'markdown'">
-            <cc-markdown-editor fxFlex [label]="'Markdown'" [editMode]="true" [submitCtrls]="true"
+            <cc-markdown-editor fxFlex [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
                 [text]="''" (submit)="createMarkdown($event)">
             </cc-markdown-editor>
         </div>

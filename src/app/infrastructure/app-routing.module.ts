@@ -75,7 +75,7 @@ const routes: Routes = [
     data: { role: ['instructor'] },
   },
   {
-    path: 'authoring/course/:courseId/knowledge-component/:kcId',
+    path: 'authoring/course/:courseId/unit/:unitId/knowledge-component/:kcId',
     component: KnowledgeComponentAuthoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },

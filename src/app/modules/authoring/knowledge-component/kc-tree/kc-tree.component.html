@@ -17,22 +17,22 @@
         </div>
         <div fxLayoutGap="40px">
           <span fxLayoutGap="10px">
-            <button mat-mini-fab color="primary" [routerLink]="['knowledge-component', node.id, 'instruction']">
+            <a mat-icon-button mat-stroked-button [routerLink]="['unit', unit.id, 'knowledge-component', node.id, 'instruction']">
               <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
-            </button>
-            <button mat-mini-fab color="primary" [routerLink]="['knowledge-component', node.id, 'assessments']">
-              <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">quiz</mat-icon>
-            </button>
+            </a>
+            <a mat-icon-button mat-stroked-button  [routerLink]="['unit', unit.id, 'knowledge-component', node.id, 'assessments']">
+              <mat-icon matTooltip="Pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
+            </a>
           </span>
           <span fxLayoutGap="10px">
-            <button mat-mini-fab (click)="addKc(node.id)" color="">
+            <button mat-icon-button (click)="addKc(node.id)" color="">
               <mat-icon matTooltip="Dodaj podkomponentu znanja" [matTooltipPosition]="'above'">add</mat-icon>
             </button>
-            <button mat-mini-fab (click)="editKc(node.id)" color="">
+            <button mat-icon-button (click)="editKc(node.id)" color="">
               <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
             </button>
           </span>
-          <button mat-mini-fab (click)="deleteKc(node.id)" color="">
+          <button mat-icon-button (click)="deleteKc(node.id)" color="">
             <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
           </button>
         </div>
@@ -52,7 +52,7 @@
     <ng-container *ngTemplateOutlet="tmplNode,context:{node:node}"></ng-container>
   </div>
   <div *ngIf="nodes?.length === 0" style="margin: 10px">
-    <button mat-mini-fab (click)="addKc()" color="primary">
+    <button mat-icon-button mat-flat-button (click)="addKc()" color="primary">
       <mat-icon>add</mat-icon>
     </button>
     <span>&nbsp;&nbsp;Dodaj komponentu znanja koja sabira svo gradivo vezano za ishod lekcije.</span>

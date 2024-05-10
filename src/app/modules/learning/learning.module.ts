@@ -20,7 +20,6 @@ import { SubmissionResultComponent } from './knowledge-component/submission-resu
 import { UnitComponent } from './unit/unit.component';
 import { LearningUtilitiesModule } from '../learning-utilities/learning-utilities.module';
 import { TutorImprovementComponent } from './unit/tutor-improvement/tutor-improvement.component';
-import { ArrangeTaskComponent } from './knowledge-component/learning-objects/assessment-items/arrange-task/arrange-task.component';
 import { ImageComponent } from './knowledge-component/learning-objects/instructional-items/image/image.component';
 import { MultipleResponseQuestionComponent } from './knowledge-component/learning-objects/assessment-items/multiple-response-question/multiple-response-question.component';
 import { ImageDialogComponent } from './knowledge-component/learning-objects/instructional-items/image/image-dialog/image-dialog.component';
@@ -37,7 +36,6 @@ import { ExamplePopupComponent } from './task/example-popup/example-popup.compon
 
 @NgModule({
   declarations: [
-    ArrangeTaskComponent,
     ImageComponent,
     MultipleResponseQuestionComponent,
     TextComponent,
