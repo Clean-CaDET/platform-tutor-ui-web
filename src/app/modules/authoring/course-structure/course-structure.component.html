@@ -53,7 +53,7 @@
             <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
         </div>
         <div fxFlex="75" *ngIf="selectedUnit && showLearningTasks">
-            <cc-learning-tasks [learningTasks]="learningTasks"></cc-learning-tasks>
+            <cc-learning-tasks [learningTasks]="learningTasks" [units]="course.knowledgeUnits"></cc-learning-tasks>
         </div>
     </div>
 </div>

@@ -5,6 +5,8 @@ import { TaskCloningFormComponent } from './task-cloning-form/task-cloning-form.
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { LearningTask } from './model/learning-task';
+import { TaskMovingFormComponent } from './task-moving-form/task-moving-form.component';
+import { Unit } from '../../learning/model/unit.model';
 
 @Component({
   selector: 'cc-learning-tasks',
@@ -12,8 +14,8 @@ import { LearningTask } from './model/learning-task';
   styleUrls: ['./learning-tasks.component.scss']
 })
 export class LearningTasksComponent {
-
   @Input() learningTasks: LearningTask[];
+  @Input() units: Unit[];
 
   constructor(private route: ActivatedRoute, private taskService: LearningTasksService, private dialog: MatDialog) { }
 
@@ -57,6 +59,21 @@ export class LearningTasksComponent {
     this.taskService.create(unitId, result).subscribe(newLearningTask => {
       this.learningTasks = [...this.learningTasks, newLearningTask];
       this.sortTasks();
+    });
+  }
+
+  move(learningTask: LearningTask): void {
+    let diagRef = this.dialog.open(TaskMovingFormComponent, { data: {
+      units: this.units,
+      taskName: learningTask.name
+    }, height: '210px', width: '500px'});
+
+    diagRef.afterClosed().subscribe(destinationUnitId => {
+      if(!destinationUnitId || learningTask.unitId === destinationUnitId) return;
+      
+      this.taskService.move(learningTask.unitId, learningTask.id, destinationUnitId).subscribe(() => {
+        this.learningTasks = [...this.learningTasks.filter(a => a.id !== learningTask.id)];
+      });
     });
   }
 

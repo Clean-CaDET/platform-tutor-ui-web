@@ -16,14 +16,17 @@
                     <span *ngIf="!learningTask.isTemplate"><b>{{learningTask.order}}. </b></span>
                     <b>{{learningTask.name}}</b>
                 </div>
-                <div fxLayoutGap="40px">
-                    <span fxLayoutGap="10px">
-                        <button *ngIf="learningTask.isTemplate" mat-icon-button (click)="add(learningTask)">
+                <div fxLayoutGap="30px">
+                    <a mat-icon-button mat-stroked-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
+                        <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                    </a>
+                    <span>
+                        <button mat-icon-button (click)="add(learningTask)">
                             <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
                         </button>
-                        <a mat-icon-button mat-stroked-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
-                            <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
-                        </a>
+                        <button mat-icon-button (click)="move(learningTask)">
+                            <mat-icon matTooltip="Premesti u drugu lekciju" [matTooltipPosition]="'above'">drive_file_move_outline</mat-icon>
+                        </button>
                     </span>
                     <button mat-icon-button (click)="delete(learningTask.id)">
                         <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
