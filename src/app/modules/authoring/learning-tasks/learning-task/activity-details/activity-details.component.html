@@ -4,6 +4,9 @@
             <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Kod</mat-label>
                 <input formControlName="code" matInput [readonly]="!editMode">
+                <mat-error *ngIf="activityForm.get('code').hasError('notUnique') && activityForm.get('code').touched">
+                    Mora biti jedinstven za zadatak
+                </mat-error>
             </mat-form-field>
             <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
@@ -11,7 +14,7 @@
             </mat-form-field>
             <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
                 <span fxFlex></span>
-                <button mat-mini-fab *ngIf="!editMode" (click)="edit()">
+                <button mat-icon-button *ngIf="!editMode" (click)="edit()" color="">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                 </button>
                 <button mat-mini-fab *ngIf="editMode" color="primary" [disabled]="!activityForm.valid"
@@ -23,14 +26,12 @@
                 </button>
             </section>
         </div>
-        <div>
+        <div fxLayout="column">
             <h4 *ngIf="!editMode">Smernice</h4>
-            <section>
-                <cc-markdown-editor fxFlex [label]="'Smernice *'" [livePreview]="false"
-                    [text]="activityForm.get('guidance').value"
-                    (textChanged)="this.activityForm.get('guidance').setValue($event)"
-                    [editMode]="editMode"></cc-markdown-editor>
-            </section>
+            <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
+            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice *'"
+                [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
+            </cc-markdown-editor>
         </div>
         <div><!-- Examples -->
             <h4 *ngIf="examples.controls?.length !== 0 || editMode">Video primeri sprovođenja aktivnosti</h4>
@@ -63,6 +64,9 @@
                         <mat-option value="Text">Tekst</mat-option>
                         <mat-option value="Link">Link</mat-option>
                         <mat-option value="Code">Kod</mat-option>
+                        <mat-option value="GitPR">Git PR</mat-option>
+                        <mat-option value="GitCommit">Git Commit</mat-option>
+                        <mat-option value="TrelloCard">Trello Card</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
@@ -76,7 +80,7 @@
             </mat-form-field>
         </div>
         <div *ngIf="!activity.parentId"><!-- Standards -->
-            <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi</h4>
+            <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi (sortirani po nazivu)</h4>
             <div formArrayName="standards" fxLayout="column">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
                     <div [formGroup]="standardForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">

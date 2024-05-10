@@ -63,6 +63,7 @@ export class KcTreeComponent implements OnChanges {
           knowledgeUnitId: this.unit.id,
           order: parentId ? this.getMaxChildOrder(parentId)+1 : 10
         },
+        allKcs: this.unit.knowledgeComponents,
         parentComponentOptions: this.unit.knowledgeComponents,
         formMode: parentId ? FormMode.AddChild : FormMode.AddFirst
       },
@@ -99,6 +100,7 @@ export class KcTreeComponent implements OnChanges {
     const dialogRef = this.dialog.open(KcFormComponent, {
       data: {
         knowledgeComponent: kc,
+        allKcs: this.unit.knowledgeComponents,
         parentComponentOptions: this.getNonChildComponents(kc),
         formMode: kc.parentId ? FormMode.EditChild : FormMode.EditFirst
       },

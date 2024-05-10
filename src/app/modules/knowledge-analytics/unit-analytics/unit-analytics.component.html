@@ -3,15 +3,15 @@
         <span fxFlex fxLayoutGap="10px">
             <mat-form-field appearance="fill">
                 <mat-label>Lekcije</mat-label>
-                <mat-select [(value)]="selectedUnit" (selectionChange)="updateUnit()">
+                <mat-select [(value)]="selectedUnit" (selectionChange)="changeUnitSelection($event)">
                     <mat-option *ngFor="let unit of units" [value]="unit">
                         {{unit.name}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
             <button *ngIf="selectedUnit" mat-mini-fab (click)="changeDisplay(null, AnalyticsType.Top10)"
-                [color]="analyticsTypeDisplay === AnalyticsType.Top10 ? 'primary' : ''">
-                <mat-icon matTooltip="Top 10 teških zadataka" [matTooltipPosition]="'above'">quizz</mat-icon>
+                [color]="analyticsTypeDisplay === AnalyticsType.Top10 ? 'accent' : ''">
+                <mat-icon matTooltip="Top 10 teških pitanja" [matTooltipPosition]="'above'">quizz</mat-icon>
             </button>
         </span>
         <span fxFlex="nogrow">
@@ -28,13 +28,13 @@
                         <span fxLayout="row">
                             <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Kc)"
                                 [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc"
-                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'primary' : ''">
+                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : ''">
                                 <mat-icon matTooltip="Analiza komponente znanja" [matTooltipPosition]="'above'">text_snippet</mat-icon>
                             </button>
                             <button mat-icon-button class="mat-flat-button" (click)="changeDisplay(kc, AnalyticsType.Ai)"
                                 [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
-                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'primary' : ''">
-                                <mat-icon matTooltip="Analiza zadataka" [matTooltipPosition]="'above'">quiz</mat-icon>
+                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : ''">
+                                <mat-icon matTooltip="Analiza pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
                             </button>
                             <span fxFlex></span>
                             <span fxLayout="column" *ngIf="ratingAverages && ratingAverages[kc.id]">
@@ -51,7 +51,7 @@
         <div fxFlex="75" *ngIf="analyticsTypeDisplay === AnalyticsType.Top10">
             <cc-ai-statistics fxFlex [unitId]="selectedUnit.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
-        <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc">
+        <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Kc && ratings">
             <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [ratings]="ratings[selectedKc.id]"></cc-kc-statistics>
         </div>
         <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Ai">

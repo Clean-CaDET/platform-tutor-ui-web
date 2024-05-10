@@ -10,17 +10,17 @@
   </ng-container>
 
   <ng-container matColumnDef="totalCount">
-    <th mat-header-cell *matHeaderCellDef width="11%"> Broj dostupnih zadataka</th>
+    <th mat-header-cell *matHeaderCellDef width="11%"> Broj dostupnih pitanja</th>
     <td mat-cell *matCellDef="let element" width="10%"> {{element.totalCount}} </td>
   </ng-container>
 
   <ng-container matColumnDef="passedCount">
-    <th mat-header-cell *matHeaderCellDef width="11%"> Broj urađenih zadataka</th>
+    <th mat-header-cell *matHeaderCellDef width="11%"> Broj urađenih pitanja</th>
     <td mat-cell *matCellDef="let element" width="10%"> {{element.passedCount}} </td>
   </ng-container>
 
   <ng-container matColumnDef="attemptedCount">
-    <th mat-header-cell *matHeaderCellDef width="11%"> Broj pokušanih zadataka</th>
+    <th mat-header-cell *matHeaderCellDef width="11%"> Broj pokušanih pitanja</th>
     <td mat-cell *matCellDef="let element" width="10%"> {{element.attemptedCount}} </td>
   </ng-container>
 
@@ -39,7 +39,7 @@
           <div *ngFor="let am of element.assessmentItemMasteries" fxFlex="25">
             <div fxLayout="column" fxFill class="border">
               <div>
-                <b>Zadatak: {{am.assessmentItemId}}</b>
+                <b>Pitanje: {{am.assessmentItemId}}</b>
               </div>
               <p>
                 Broj datih odgovora: {{am.submissionCount}}<br>

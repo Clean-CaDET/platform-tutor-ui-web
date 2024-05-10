@@ -1,10 +1,10 @@
 <mat-card fxFlex fxLayout="column" fxLayoutGap="10px">
     <div *ngIf="knowledgeComponentStatistics?.totalRegistered">
-        <b>Brojno stanje polaznika</b>&nbsp;
+        <b>Brojno stanje učenika</b>&nbsp;
         <small>(Prijavljen = ima pristup;
         Započet = krenuo da rešava;
-        Pregledan = video svo gradivo i zadatke;
-        Rešen = svaladao komponentu znanja)</small>
+        Pregledan = video svo gradivo i pitanja;
+        Rešen = ispravno odgovorio na pitanja)</small>
     </div>
     <div fxLayout="row" *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <div fxFlex="45" fxLayout="column">
@@ -43,7 +43,7 @@
     </div>
     <div *ngIf="ratingChartData && ratingChartData.length">
         <mat-divider></mat-divider>
-        <p><b>Ocene polaznika</b></p>
+        <p><b>Ocene učenika</b></p>
         <div fxLayout="row">
             <div fxFlex="50" fxLayout="column">
                 <div fxFlex><ngx-charts-bar-vertical
@@ -56,7 +56,7 @@
             </div>
             <div fxFlex="50">
                 <div *ngIf="!isEmpty(goodPoints)">
-                    Polaznici kojima se svidela komponenta znanja (5/5) su istakli:
+                    Učenici kojima se svidela komponenta znanja (5/5) su istakli:
                     <mat-chip-list multiple>
                     <mat-chip *ngFor="let option of goodPoints | keyvalue" #chip="matChip">
                         {{option.key}} ({{option.value}})
@@ -64,7 +64,7 @@
                     </mat-chip-list>
                 </div>
                 <div *ngIf="!isEmpty(badPoints)">
-                    Polaznici koji su dali manje od 5 su istakli da treba unaprediti:
+                    Učenici koji su dali manje od 5 su istakli da treba unaprediti:
                     <mat-chip-list multiple>
                     <mat-chip *ngFor="let option of badPoints | keyvalue" #chip="matChip">
                         {{option.key}} ({{option.value}})

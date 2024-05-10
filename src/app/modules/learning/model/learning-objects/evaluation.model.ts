@@ -5,7 +5,6 @@ export interface Evaluation {
 }
 
 export const evaluationTypes = {
-  arrangeTask: 'atEvaluation',
   mutlipleChoiceQuestion: 'mcqEvaluation',
   mutlipleResponseQuestion: 'mrqEvaluation',
   shortAnswerQuestion: 'saqEvaluation',

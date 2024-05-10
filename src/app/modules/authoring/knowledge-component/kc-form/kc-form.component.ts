@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { map, Observable, startWith } from 'rxjs';
 import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
@@ -18,8 +18,11 @@ export enum FormMode {
 })
 export class KcFormComponent {
   formGroup: FormGroup;
+  allKcs: KnowledgeComponent[];
+
   knowledgeComponent: KnowledgeComponent;
   parentOptions: KnowledgeComponent[];
+  
   mode: FormMode;
   FormMode = FormMode;
 
@@ -28,6 +31,7 @@ export class KcFormComponent {
   constructor(private builder: FormBuilder, private dialogRef: MatDialogRef<KcFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
       this.knowledgeComponent = data.knowledgeComponent;
       this.parentOptions = data.parentComponentOptions;
+      this.allKcs = data.allKcs;
       this.mode = data.formMode;
 
       this.createForm();
@@ -48,12 +52,24 @@ export class KcFormComponent {
 
   private createForm(): void {
     this.formGroup = this.builder.group({
-      code: new FormControl('', Validators.required),
+      code: new FormControl('', [Validators.required, this.uniqueCode(this.allKcs)]),
       name: new FormControl('', Validators.required),
       order: new FormControl(100, Validators.required),
       expectedDurationInMinutes: new FormControl(10, Validators.required),
       parentComponent: new FormControl('', this.requireIfChildComponent())
     });
+  }
+
+  private uniqueCode(kcs: KnowledgeComponent[]): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if(!control.value) return null;
+      for(let i = 0; i < kcs.length; i++) {
+        if(kcs[i].code == control.value && kcs[i].id != this.knowledgeComponent.id) {
+          return { notUnique: true };
+        }
+      }
+      return null;
+    };
   }
 
   requireIfChildComponent() {

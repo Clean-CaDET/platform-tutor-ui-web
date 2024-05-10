@@ -1,7 +1,7 @@
 <div fxLayout="column" *ngIf="!checkView">
 <h3>Unos više učenika <mat-icon [matTooltipPosition]="'above'" matTooltip="Jedna stavka po redu. Podaci se razdvajaju zarezom. Podaci su: korisničko ime, lozinka, ime, prezime, email." class="small-icon">help_outline</mat-icon></h3>
 <form fxLayout="column" fxFlex [formGroup]="formGroup">
-  <mat-label class="required">Tip polaznika</mat-label>
+  <mat-label class="required">Tip učenika</mat-label>
   <mat-radio-group formControlName="learnersType" fxLayout="row" fxLayoutGap="5%">
     <mat-radio-button *ngFor="let type of learnerTypes" [value]="type.value">
       {{type.label}}

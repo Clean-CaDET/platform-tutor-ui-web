@@ -8,7 +8,6 @@ import { LearningTask } from './model/learning-task';
   providedIn: 'root'
 })
 export class LearningTasksService {
-  
   private baseUrl = environment.apiHost + 'authoring/units/';
 
   constructor(private http: HttpClient) { }
@@ -27,6 +26,10 @@ export class LearningTasksService {
 
   clone(unitId: number, learningTask: LearningTask) {
     return this.http.post<LearningTask>(this.baseUrl + unitId + '/learning-tasks/clone', learningTask);
+  }
+
+  move(unitId: number, id: number, destinationUnitId: any) {
+    return this.http.patch(this.baseUrl + unitId + '/learning-tasks/' + id + '/move', destinationUnitId);
   }
   
   update(unitId: number, learningTask: LearningTask) {
