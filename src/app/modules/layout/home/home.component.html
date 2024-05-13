@@ -12,6 +12,6 @@
     Odabirom kursa dobijaš spisak dostupnih lekcija koji će se vremenom širiti.
     Postaraj se da pregledaš i savladaš svaku lekciju.
   </p>
-  <cc-dashboard></cc-dashboard>
+  <cc-dashboard *ngIf="user" [courses]="courses" [user]="user"></cc-dashboard>
 </div>
 <br /><br />
