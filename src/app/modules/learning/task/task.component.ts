@@ -8,6 +8,7 @@ import { Activity } from './model/activity';
 import { ActivityExample } from './model/activity-example';
 import { TaskProgress } from './model/task-progress';
 import { forkJoin } from 'rxjs';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-task',
@@ -27,8 +28,13 @@ export class TaskComponent implements OnInit {
   showExample: boolean;
   videoUrl: string;
 
-  constructor(private taskService: TaskService, private progressService: TaskProgressService,
-    private route: ActivatedRoute, private builder: FormBuilder) { }
+  constructor(
+    private route: ActivatedRoute,
+    private title: Title,
+    private builder: FormBuilder,
+    private taskService: TaskService,
+    private progressService: TaskProgressService
+  ) { }
 
   ngOnInit() {
     this.setTask();
@@ -41,6 +47,7 @@ export class TaskComponent implements OnInit {
         .subscribe(([task, progress]) => {
           this.mapSubactivities(task.steps);
           this.task = task;
+          this.title.setTitle("Tutor - " + task.name);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
           if(this.steps.length) this.viewStep(this.findUnansweredStep() || this.steps[0]);

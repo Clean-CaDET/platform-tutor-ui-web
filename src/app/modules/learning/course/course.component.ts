@@ -4,6 +4,7 @@ import { Course } from '../model/course.model';
 import { AuthenticationService } from '../../../infrastructure/auth/auth.service';
 import { User } from '../../../infrastructure/auth/user.model';
 import { CourseService } from './course.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-course-component',
@@ -16,6 +17,7 @@ export class CourseComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private title: Title,
     private courseService: CourseService,
     private authService: AuthenticationService
   ) {}
@@ -30,6 +32,7 @@ export class CourseComponent implements OnInit {
         .subscribe(course => {
           this.course = course;
           this.course.knowledgeUnits = this.course.knowledgeUnits.sort((a, b) => a.order - b.order);
+          this.title.setTitle("Tutor - " + course.name);
         });
     });
   }

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component-authoring.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-knowledge-component-authoring',
@@ -18,7 +19,7 @@ export class KnowledgeComponentAuthoringComponent implements OnInit, OnDestroy {
 
   routeSubscription: any;
 
-  constructor(private kcService: KnowledgeComponentService, private route: ActivatedRoute) { }
+  constructor(private kcService: KnowledgeComponentService, private route: ActivatedRoute, private title: Title) { }
 
   ngOnInit(): void {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
@@ -39,6 +40,7 @@ export class KnowledgeComponentAuthoringComponent implements OnInit, OnDestroy {
     const index = this.allKcs.findIndex(kc => kc.id == activeKcId);
     this.prevKc = index != 0 ? this.allKcs[index-1] : null;
     this.nextKc = index != this.allKcs.length - 1 ? this.allKcs[index+1] : null;
+    this.title.setTitle("Tutor - Znanje - " + this.kc.name);
   }
 
   ngOnDestroy(): void {
