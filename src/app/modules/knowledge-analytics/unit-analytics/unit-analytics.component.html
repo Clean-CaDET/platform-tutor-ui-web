@@ -25,17 +25,22 @@
                 <div *cdkVirtualFor="let kc of selectedUnit?.knowledgeComponents">
                     <div [class.highlight]="selectedKc?.id===kc.id" style="padding: 10px">
                         <span><b>{{kc.code}}</b>: {{kc.name}}</span>
-                        <span fxLayout="row">
-                            <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Kc)"
-                                [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc"
-                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : ''">
-                                <mat-icon matTooltip="Analiza komponente znanja" [matTooltipPosition]="'above'">text_snippet</mat-icon>
-                            </button>
-                            <button mat-icon-button class="mat-flat-button" (click)="changeDisplay(kc, AnalyticsType.Ai)"
-                                [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
-                                [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : ''">
-                                <mat-icon matTooltip="Analiza pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
-                            </button>
+                        <span fxLayout="row" fxLayoutGap="20px">
+                            <span fxLayout="row">
+                                <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Kc)"
+                                    [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc"
+                                    [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : ''">
+                                    <mat-icon matTooltip="Analiza komponente znanja" [matTooltipPosition]="'above'">text_snippet</mat-icon>
+                                </button>
+                                <button mat-icon-button class="mat-flat-button" (click)="changeDisplay(kc, AnalyticsType.Ai)"
+                                    [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
+                                    [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : ''">
+                                    <mat-icon matTooltip="Analiza pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                                </button>
+                            </span>
+                            <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']">
+                                <mat-icon matTooltip="Autorstvo gradiva komponente" [matTooltipPosition]="'above'">library_books</mat-icon>
+                            </a>
                             <span fxFlex></span>
                             <span fxLayout="column" *ngIf="ratingAverages && ratingAverages[kc.id]">
                                 <span fxFlex></span>
@@ -55,7 +60,7 @@
             <cc-kc-statistics fxFlex [kcId]="selectedKc.id" [ratings]="ratings[selectedKc.id]"></cc-kc-statistics>
         </div>
         <div fxFlex="75" *ngIf="selectedKc && analyticsTypeDisplay === AnalyticsType.Ai">
-            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [courseId]="courseId"></cc-ai-statistics>
+            <cc-ai-statistics fxFlex [kcId]="selectedKc.id" [unitId]="selectedUnit.id" [courseId]="courseId"></cc-ai-statistics>
         </div>
     </div>
 </div>
