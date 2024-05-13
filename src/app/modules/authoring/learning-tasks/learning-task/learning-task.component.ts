@@ -7,6 +7,7 @@ import { Activity } from '../model/activity';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-learning-task',
@@ -26,7 +27,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   subactivities: Activity[];
 
   constructor(private taskService: LearningTasksService, private route: ActivatedRoute,
-    private router: Router, private dialog: MatDialog, private errorsBar: MatSnackBar) { }
+    private router: Router, private dialog: MatDialog, private errorsBar: MatSnackBar, private title: Title) { }
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.$destroy)).subscribe((params: Params) => {
@@ -48,6 +49,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private setupTaskAndActivities(task: LearningTask) {
+    this.title.setTitle("Tutor - Zadatak - " + task.name);
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
   }

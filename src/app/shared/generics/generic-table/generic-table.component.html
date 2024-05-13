@@ -38,19 +38,19 @@
         <span *ngIf="field.type === 'CRUD'">
           <span fxFlex></span>
           <button *ngIf="field.crud.clone" mat-button class="table-button" (click)="onClone(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'" color="accent">content_copy</mat-icon>
+            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
           </button>
           <button *ngIf="field.crud.update" mat-button class="table-button" (click)="onEdit(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'" color="accent">edit</mat-icon>
+            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
           </button>
           <button *ngIf="field.crud.archive && !element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, true); $event.stopPropagation()">
-            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'above'" color="accent">archive</mat-icon>
+            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'above'">archive</mat-icon>
           </button>
           <button *ngIf="field.crud.archive && element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, false); $event.stopPropagation()">
-            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'above'" color="accent">unarchive</mat-icon>
+            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'above'">unarchive</mat-icon>
           </button>
           <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'" color="warn">delete</mat-icon>
+            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
           </button>
         </span>
       </td>

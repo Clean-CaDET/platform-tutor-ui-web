@@ -7,6 +7,7 @@ import { ChatbotModalService } from '../learning-observer/chatbot-modal.service'
 import { SessionPauseService } from './session-pause.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { KcRateComponent } from './kc-rate/kc-rate.component';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'cc-knowledge-component',
@@ -24,6 +25,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
 
   constructor(
     private route: ActivatedRoute,
+    private title: Title,
     private knowledgeComponentService: KnowledgeComponentService,
     private sessionPauseTracker: SessionPauseService,
     private modalService: ChatbotModalService,
@@ -66,6 +68,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
       .getKnowledgeComponent(kcId)
       .subscribe((kc) => {
         this.knowledgeComponent = kc;
+        this.title.setTitle("Tutor - " + kc.name);
         this.onInstructionalItemsClicked();
       });
   }

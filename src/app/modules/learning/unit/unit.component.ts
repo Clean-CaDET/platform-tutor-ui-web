@@ -6,7 +6,7 @@ import { Unit } from '../model/unit.model';
 import { UnitService } from './unit.service';
 import { KCMastery } from '../model/knowledge-component-mastery.model';
 import {MatIconRegistry} from "@angular/material/icon";
-import {DomSanitizer} from "@angular/platform-browser";
+import {DomSanitizer, Title} from "@angular/platform-browser";
 import { TaskService } from '../task/task.service';
 import { LearningTask } from '../task/model/learning-task';
 
@@ -23,9 +23,10 @@ export class UnitComponent implements OnInit {
   sidenavOpened = false;
 
   constructor(
+    private route: ActivatedRoute,
+    private title: Title,
     private unitService: UnitService,
     private taskService: TaskService,
-    private route: ActivatedRoute,
     private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -39,14 +40,15 @@ export class UnitComponent implements OnInit {
       this.courseId = +params.courseId;
       this.unitService.getUnit(this.courseId, +params.unitId).subscribe(
         unit => {
-          this.unit = unit
-          this.unit.knowledgeComponents = []
+          this.unit = unit;
+          this.title.setTitle("Tutor - " + unit.name);
+          this.unit.knowledgeComponents = [];
           this.unitService.getKcsWithMasteries(+params.unitId).subscribe(
             results => {
               results.forEach(
                 result => {
-                  this.unit.knowledgeComponents.push(result.knowledgeComponent)
-                  if(result.mastery) this.masteries.push(result.mastery)
+                  this.unit.knowledgeComponents.push(result.knowledgeComponent);
+                  if(result.mastery) this.masteries.push(result.mastery);
                 });
               }
           );

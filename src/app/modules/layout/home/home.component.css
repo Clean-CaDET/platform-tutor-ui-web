@@ -2,25 +2,3 @@
   margin: 30px;
   text-align: justify;
 }
-
-mat-icon.mat-card-avatar {
-  width: 36px;
-  height: 36px;
-  font-size: 36px;
-}
-
-.mat-card{
-  display:flex;
-  flex-direction: column;
-}
-
-.mat-card-header {
-  flex-shrink: 0;
-}
-
-.mat-card-content{
-  flex-grow: 1;
-  overflow: auto;
-}
-
-.card { cursor: pointer; }

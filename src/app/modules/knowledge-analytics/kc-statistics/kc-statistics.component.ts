@@ -40,7 +40,6 @@ export class KcStatisticsComponent implements OnChanges {
     this.totalCountChartData = [];
     this.totalCountChartData.push({ name: '# prijavljenih', value: kc.totalRegistered });
     this.totalCountChartData.push({ name: '# započelih', value: kc.totalStarted });
-    this.totalCountChartData.push({ name: '# pregledanih', value: kc.totalCompleted });
     this.totalCountChartData.push({ name: '# rešenih', value: kc.totalPassed });
   }
 
@@ -49,7 +48,6 @@ export class KcStatisticsComponent implements OnChanges {
     if(kc.totalRegistered === 0) return;
     this.percentageChartData.push({ name: '% prijavljenih', value: (kc.totalRegistered * 100) / kc.totalRegistered });
     this.percentageChartData.push({ name: '% započelih', value: (kc.totalStarted * 100) / kc.totalRegistered });
-    this.percentageChartData.push({ name: '% pregledanih', value: (kc.totalCompleted * 100) / kc.totalRegistered });
     this.percentageChartData.push({ name: '% rešenih', value: (kc.totalPassed * 100) / kc.totalRegistered });
   }
 
