@@ -57,7 +57,7 @@ export class CourseStructureComponent implements OnInit {
   }
 
   createUnit() {
-    this.selectedUnit = { code: '', name: '', description: '', order: this.getMaxOrder() + 10 };
+    this.selectedUnit = { code: '', name: '', goals: '', order: this.getMaxOrder() + 10 };
     this.showUnitDetails = true;
     this.showKnowledgeComponents = false;
     this.showLearningTasks = false;
@@ -129,7 +129,9 @@ export class CourseStructureComponent implements OnInit {
         let unit = this.course.knowledgeUnits.find(u => u.id === updatedUnit.id);
         unit.code = updatedUnit.code;
         unit.name = updatedUnit.name;
-        unit.description = updatedUnit.description;
+        unit.introduction = updatedUnit.introduction;
+        unit.goals = updatedUnit.goals;
+        unit.guidelines = updatedUnit.guidelines;
         unit.order = updatedUnit.order;
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order)];
       });

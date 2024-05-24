@@ -30,11 +30,17 @@
                 <span fxFlex="40"></span>
             </section>
         </section>
-        <section fxLayout="column">
-            <h4 *ngIf="!editMode" style="margin-bottom: 0px;">Ciljevi</h4>
-            <markdown *ngIf="!editMode">{{unitDescription}}</markdown>
-            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Ciljevi'" [text]="unitDescription" [indextab]="44"
-                (textChanged)="updateDescription($event)"></cc-markdown-editor>
-        </section>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Uvod</mat-label>
+            <textarea formControlName="introduction" matInput [readonly]="!editMode" tabindex="45" rows="8"></textarea>
+        </mat-form-field>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Cilj</mat-label>
+            <textarea formControlName="goals" matInput [readonly]="!editMode" tabindex="46" rows="5"></textarea>
+        </mat-form-field>
+        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-label>Smernice za postizanje cilja</mat-label>
+            <textarea formControlName="guidelines" matInput [readonly]="!editMode" tabindex="47" rows="8"></textarea>
+        </mat-form-field>
     </form>
 </div>

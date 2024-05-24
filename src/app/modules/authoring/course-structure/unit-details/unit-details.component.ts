@@ -10,7 +10,6 @@ import { Unit } from 'src/app/modules/learning/model/unit.model';
 export class UnitDetailsComponent implements OnChanges {
   @Input() unit: Unit;
   @Output() unitSaved = new EventEmitter<Unit>();
-  unitDescription: string;
   
   editMode: boolean;
   unitForm: FormGroup;
@@ -23,7 +22,6 @@ export class UnitDetailsComponent implements OnChanges {
     if(this.unit) {
       this.unitForm.reset();
       this.unitForm.patchValue(this.unit);
-      this.unitDescription = this.unit.description;
       if(!this.unit.id) this.editMode = true;
     }
   }
@@ -33,13 +31,14 @@ export class UnitDetailsComponent implements OnChanges {
       code: new FormControl('', Validators.required),
       name: new FormControl('', Validators.required),
       order: new FormControl(100, Validators.required),
-      description: new FormControl('')
+      introduction: new FormControl(''),
+      goals: new FormControl(''),
+      guidelines: new FormControl('')
     });
   }
 
   discardChanges() {
     this.unitForm.patchValue(this.unit);
-    this.unitDescription = this.unit.description;
     if(this.unit.id) this.editMode = false;
   }
 
@@ -49,16 +48,14 @@ export class UnitDetailsComponent implements OnChanges {
       code: this.unitForm.value['code'],
       name: this.unitForm.value['name'],
       order: this.unitForm.value['order'],
-      description: this.unitDescription,
+      introduction: this.unitForm.value['introduction'],
+      goals: this.unitForm.value['goals'],
+      guidelines: this.unitForm.value['guidelines'],
     };
     if(this.unit.id) newUnit.id = this.unit.id;
 
     this.editMode = false;
 
     this.unitSaved.emit(newUnit);
-  }
-
-  updateDescription(text: string): void {
-    this.unitDescription = text;
   }
 }

@@ -5,7 +5,9 @@ export interface Unit {
   courseId?: number;
   code: string;
   name: string;
-  description: string;
+  introduction?: string;
+  goals: string;
+  guidelines?: string;
   order: number;
   knowledgeComponents?: KnowledgeComponent[];
 }
