@@ -8,9 +8,9 @@
     <div id="lecture">
       <div>
         <h1 class="mat-h1">{{unit.name}}</h1>
-        <markdown>{{unit.introduction}}</markdown>
-        <markdown>**Cilj**: {{unit.goals}}</markdown>
-        <markdown>**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>
+        <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
+        <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
+        <markdown *ngIf="unit.guidelines">**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>
       </div>
       <div>
         <div fxLayout="row" fxLayoutAlign=" center">
