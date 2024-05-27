@@ -60,11 +60,27 @@ const routes: Routes = [
     data: { role: ['instructor'] },
   },
   {
-    path: 'monitoring/:courseId/progress',
-    title: 'Tutor - Monitoring',
+    path: 'monitoring/:courseId',
     component: GroupMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
+    children: [
+      {
+        title: 'Tutor - Grupe - Pristup',
+        path: 'enrollments',
+        component: InstructionalItemsComponent
+      },
+      {
+        title: 'Tutor - Grupe - Ocenjivanje',
+        path: 'grades',
+        component: AssessmentItemsComponent
+      },
+      {
+        title: 'Tutor - Grupe - Napredak',
+        path: 'progress',
+        component: AssessmentItemsComponent
+      }
+    ]
   },
   {
     path: 'authoring/course/:courseId',

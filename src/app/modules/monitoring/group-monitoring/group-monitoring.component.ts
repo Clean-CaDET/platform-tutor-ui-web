@@ -6,7 +6,6 @@ import {LearnerGroup} from '../model/learner-group.model';
 import {GroupMonitoringService} from './group-monitoring.service';
 import {PageEvent} from '@angular/material/paginator';
 import {Learner} from '../model/learner.model';
-import {LearnerProgressComponent} from "./learner-progress/learner-progress.component";
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -14,9 +13,6 @@ import {LearnerProgressComponent} from "./learner-progress/learner-progress.comp
   styleUrls: ['./group-monitoring.component.scss'],
 })
 export class GroupMonitoringComponent implements OnInit {
-
-  @ViewChild(LearnerProgressComponent) learnerProgress: LearnerProgressComponent
-
   courseId = 0;
   course: Course;
 
@@ -75,10 +71,5 @@ export class GroupMonitoringComponent implements OnInit {
     }
     this.pageSize = paginator.pageSize;
     this.getLearners();
-  }
-
-  downloadProgress(): void {
-    let groupName = this.groups.find((g: LearnerGroup) => g.id === this.selectedGroupId)?.name || "SVE" ;
-    this.learnerProgress.downloadProgress(groupName);
   }
 }

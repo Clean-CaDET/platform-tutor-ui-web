@@ -4,7 +4,6 @@ import { Learner } from 'src/app/modules/monitoring/model/learner.model';
 import { LearnerProgress } from '../../model/learner-progress.model';
 import { GroupMonitoringService } from '../group-monitoring.service';
 import { Unit } from 'src/app/modules/learning/model/unit.model';
-import * as FileSaver from "file-saver";
 import { KnowledgeComponentService } from 'src/app/modules/authoring/knowledge-component/knowledge-component-authoring.service';
 
 @Component({
@@ -84,34 +83,5 @@ export class LearnerProgressComponent implements OnChanges {
       return 'consult';
     }
     return 'ok';
-  }
-
-  public downloadProgress (groupName: string): void {
-    let progresses: {
-      username: string;
-      name: string;
-      count: number;
-      suspicious: number;
-      satisfied: number; }[] = []
-
-    this.progresses.forEach(learner => {
-      const progress = {
-        username: learner.learner.index,
-        name: learner.learner.name,
-        count: learner.kcCount,
-        suspicious: learner.suspiciousCount,
-        satisfied: learner.satisfiedCount
-      }
-      progresses.push(progress)
-    })
-
-    let unitProgresses = {
-      unitName: this.unit.name,
-      groupName: groupName,
-      progress: progresses
-    }
-
-    const blob = new Blob([JSON.stringify(unitProgresses)], {type: "text/plain;charset=utf-8"});
-    FileSaver.saveAs(blob, groupName + "-" + this.unit.name + ".txt");
   }
 }
