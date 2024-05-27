@@ -8,15 +8,17 @@
     <div id="lecture">
       <div>
         <h1 class="mat-h1">{{unit.name}}</h1>
-        <markdown>{{unit.description}}</markdown>
+        <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
+        <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
+        <markdown *ngIf="unit.guidelines">**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>
       </div>
       <div>
         <div fxLayout="row" fxLayoutAlign=" center">
-          <small><i>Komponente znanja&nbsp;&nbsp;</i></small>
           <mat-divider fxFlex></mat-divider>
+          <small><i>Komponente znanja&nbsp;&nbsp;</i></small>
         </div>
         <div *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length > 0" fxLayout="row" fxLayoutAlign="start start" class="kc-num">
-          <cc-knowledge-map fxFlex="90" [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
+          <cc-knowledge-map fxFlex [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
           <mat-card *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
           <mat-icon class="medal-icon" *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
         </div>
@@ -29,8 +31,8 @@
       </div>      
       <div *ngIf="learningTasks?.length > 0" fxLayout="column" fxLayoutGap="10px">
         <div fxLayout="row" fxLayoutAlign=" center">
-          <small><i>Složeni zadaci&nbsp;&nbsp;</i></small>
           <mat-divider fxFlex></mat-divider>
+          <small><i>Složeni zadaci&nbsp;&nbsp;</i></small>
         </div>
         <mat-card *ngFor="let task of learningTasks" style="cursor: pointer;" [routerLink]="['learning-task', task.id]">
           <div fxLayout="row" fxLayoutAlign="space-between center">

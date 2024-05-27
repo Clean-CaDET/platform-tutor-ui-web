@@ -14,16 +14,15 @@
         </p>
     </mat-card-content>
     <span fxFlex></span>
-    <mat-card-actions *ngIf="user.role === 'instructor'"
-        fxLayoutAlign="end" fxLayoutGap="16px">
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/authoring/course', course.id]">
-            <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/analytics', course.id, 'statistics']">
-            <mat-icon>bar_chart</mat-icon>
-        </button>
-        <button mat-flat-button mat-icon-button color="primary" [routerLink]="['/monitoring', course.id, 'progress']">
-            <mat-icon>groups</mat-icon>
-        </button>
-    </mat-card-actions>
+    <span *ngIf="user.role === 'instructor'" fxLayoutAlign="end" fxLayoutGap="10px">
+        <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', course.id]">
+            <mat-icon matTooltip="Autorstvo" [matTooltipPosition]="'below'">edit</mat-icon>
+        </a>
+        <a mat-icon-button mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']">
+            <mat-icon matTooltip="Analitike" [matTooltipPosition]="'below'">bar_chart</mat-icon>
+        </a>
+        <a mat-icon-button mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']">
+            <mat-icon matTooltip="Grupe" [matTooltipPosition]="'below'">groups</mat-icon>
+        </a>
+    </span>
 </mat-card>

@@ -7,7 +7,7 @@
     <mat-sidenav-content id="scroller">
       <div id="knowledge-component">
         <br>
-        <h1>Cilj: {{knowledgeComponent.name}}</h1>
+        <h1>{{knowledgeComponent.name}}</h1>
         <cc-learning-object-container
           *ngFor="let learningObject of learningObjects"
           [learningObject]="learningObject">

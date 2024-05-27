@@ -16,6 +16,7 @@ h1 {
 
 ::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4 {
   font-weight: normal;
+  text-align: left;
 }
 
 .mat-icon-button {

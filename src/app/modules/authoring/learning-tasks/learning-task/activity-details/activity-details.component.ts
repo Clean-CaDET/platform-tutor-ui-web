@@ -93,6 +93,11 @@ export class ActivityDetailsComponent implements OnChanges {
         this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
         break;
       }
+      case "Code": {
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$");
+        this.activityForm.get('submissionFormat').get('guidelines').setValue("Nalepi kompletan sadržaj programa koji si iskucao (u editor Ctrl+A da se sve odabere, Ctrl+C da se kopira i onda ovde Ctrl+V da se nalepi).");
+        break;
+      }
       case "GitPR": {
         this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/pull\\/([0-9]{1,4})$");
         this.activityForm.get('submissionFormat').get('guidelines').setValue("Navedi link do pull requesta koji sabira sve izmene koje si napravio.\nPrimer: https://github.com/Clean-CaDET/tutor/pull/106");
@@ -100,11 +105,12 @@ export class ActivityDetailsComponent implements OnChanges {
       }
       case "GitCommit": {
         this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
+        this.activityForm.get('submissionFormat').get('guidelines').setValue("Navedi link do commita na GitHubu koji uključuje naziv repozitorijuma i heš kod commita.\nPrimer: https://github.com/Clean-CaDET/tutor/commit/9d3f671042e91bda63e20dfdbe9c31204f9d6b12");
         break;
       }
       case "TrelloCard": {
         this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/trello\\.com\\/c\\/.*");
-        this.activityForm.get('submissionFormat').get('guidelines').setValue("Rezultat treba da bude link do kartice na Trello tabli koji se dobija otvaranjem kartice u browseru i kopiranjem linka.\nPrimer: https://trello.com/c/GXSjvfIs/test");
+        this.activityForm.get('submissionFormat').get('guidelines').setValue("Navedi link do kartice na Trello tabli koji se dobija otvaranjem kartice u browseru i kopiranjem linka.\nPrimer: https://trello.com/c/GXSjvfIs/test");
         break;
       }
       default: this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{100}$"); 
