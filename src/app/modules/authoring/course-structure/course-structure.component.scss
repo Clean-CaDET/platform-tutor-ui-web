@@ -3,6 +3,11 @@
     width: 100%;
 }
 
+.content {
+  flex: 1;
+  overflow-y: auto;
+}
+
 .highlight {
     background-color: #999;
 }

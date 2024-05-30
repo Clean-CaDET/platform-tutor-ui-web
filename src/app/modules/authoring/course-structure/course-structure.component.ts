@@ -123,6 +123,10 @@ export class CourseStructureComponent implements OnInit {
         this.course.knowledgeUnits.push(newUnit);
         this.course.knowledgeUnits = [...this.course.knowledgeUnits.sort((u1, u2) => u1.order - u2.order)];
         this.selectedUnit = newUnit;
+        setTimeout(() => {
+          const element = document.querySelector('#u'+this.selectedUnit.id)!;
+          element.scrollIntoView({behavior: 'smooth', block:'start'});
+        }, 100);
       });
     } else {
       this.courseService.updateUnit(this.course.id, unit).subscribe(updatedUnit => {
