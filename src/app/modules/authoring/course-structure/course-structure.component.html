@@ -2,7 +2,7 @@
     <div>
         <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
     </div>
-    <div fxFlex>
+    <div style="height: calc(100% - 97px);">
         <div fxFlex="25">
             <div [class.highlight]="selectedUnit?.code===''" class="unit-row">
                 <b>Lekcije</b>
@@ -17,7 +17,7 @@
             <mat-divider></mat-divider>
             <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
                 <div *cdkVirtualFor="let unit of course?.knowledgeUnits">
-                    <div [class.highlight]="selectedUnit?.id===unit.id" class="unit-row">
+                    <div [class.highlight]="selectedUnit?.id===unit.id" class="unit-row" id="u{{unit.id}}">
                         <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                         <span fxLayout="row">
                             <button mat-icon-button (click)="showDetails(unit)"
@@ -46,14 +46,16 @@
             </cdk-virtual-scroll-viewport>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <div fxFlex="75" *ngIf="selectedUnit && showUnitDetails">
-            <cc-unit-details [unit]="selectedUnit" (unitSaved)="saveOrUpdateUnit($event)"></cc-unit-details>
-        </div>
-        <div fxFlex="75" *ngIf="selectedUnit && showKnowledgeComponents">
-            <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
-        </div>
-        <div fxFlex="75" *ngIf="selectedUnit && showLearningTasks">
-            <cc-learning-tasks [learningTasks]="learningTasks" [units]="course.knowledgeUnits"></cc-learning-tasks>
+        <div class="content">
+            <div *ngIf="selectedUnit && showUnitDetails">
+                <cc-unit-details [unit]="selectedUnit" (unitSaved)="saveOrUpdateUnit($event)"></cc-unit-details>
+            </div>
+            <div *ngIf="selectedUnit && showKnowledgeComponents">
+                <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
+            </div>
+            <div *ngIf="selectedUnit && showLearningTasks">
+                <cc-learning-tasks [learningTasks]="learningTasks" [units]="course.knowledgeUnits"></cc-learning-tasks>
+            </div>
         </div>
     </div>
 </div>

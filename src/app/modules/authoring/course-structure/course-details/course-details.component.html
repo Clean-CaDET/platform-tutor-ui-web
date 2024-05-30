@@ -31,7 +31,7 @@
     <section *ngIf="editMode">
         <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Opis</mat-label>
-            <textarea formControlName="description" matInput [readonly]="!editMode"></textarea>
+            <textarea formControlName="description" matInput [readonly]="!editMode" rows="6"></textarea>
         </mat-form-field>
     </section>
 </form>
