@@ -1,5 +1,7 @@
 <div fxLayout="row">
   <div fxFlex="75" style="overflow-y: auto; height: 100vh;">
+    <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
+    <div style="margin: 20px" *ngIf="!progressBarActive"></div>
     <div *ngFor="let unit of units">
       <div fxLayout="row" fxLayoutGap="20px" style="padding: 10px;" *ngIf="unit.groupEnrollment">
         <span>

@@ -19,7 +19,7 @@
         </div>
     </cdk-virtual-scroll-viewport>
   </div>
-  <mat-divider vertical="true"></mat-divider>
+  <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
   <div fxFlex style="overflow-y: auto;">
       <div *ngIf="learners?.length > 0 && mode === 'enrollments'">
         <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
