@@ -1,4 +1,4 @@
-import { Enrollment } from "../enrollments/enrollment.model";
+import { Enrollment } from "./enrollment.model";
 
 export interface Unit {
   id: number;

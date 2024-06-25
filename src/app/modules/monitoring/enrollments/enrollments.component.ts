@@ -3,7 +3,7 @@ import { Unit } from '../model/unit.model';
 import { Learner } from '../model/learner.model';
 import { MatDialog } from '@angular/material/dialog';
 import { EnrollmentsService } from './enrollments.service';
-import { Enrollment } from './enrollment.model';
+import { Enrollment } from '../model/enrollment.model';
 import { Field } from 'src/app/shared/generics/model/field.model';
 import { GenericFormComponent } from 'src/app/shared/generics/generic-form/generic-form.component';
 
