@@ -1,0 +1,41 @@
+<div fxLayout="row">
+  <div fxFlex="75" style="overflow-y: auto; height: 100vh;">
+    <div *ngFor="let unit of units">
+      <div fxLayout="row" fxLayoutGap="20px" style="padding: 10px;" *ngIf="unit.groupEnrollment">
+        <span>
+          <b>{{unit.code}}</b><br>
+          {{unit.name}}
+        </span>
+        <span fxFlex></span>
+        <span *ngIf="unit.groupEnrollment.status !== 'InactiveAll'" >
+          <small>Pristup od</small><br>
+          {{unit.groupEnrollment.availableFrom | date: 'd.M.y'}}
+        </span>
+        <span *ngIf="unit.groupEnrollment.status !== 'InactiveAll'" >
+          <small>Najbolje do</small><br>
+          {{unit.groupEnrollment.bestBefore | date: 'd.M.y'}}
+        </span>
+        <span>
+          <small>Status</small><br>
+          <mat-icon *ngIf="unit.groupEnrollment.status === 'Active'" matTooltip="Pristup je omogućen za sve studente">check_circle</mat-icon>
+          <mat-icon *ngIf="unit.groupEnrollment.status === 'InactiveAll'" matTooltip="Nije omogućen pristup za sve studente">cancel</mat-icon>
+          <mat-icon *ngIf="unit.groupEnrollment.status === 'InactiveSome'" color="warn" matTooltip="Deo studenata nema pristup. To su verovatno studenti koji su naknadno dodati. Omogući pristup lekciji da rešiš problem.">cancel</mat-icon>
+        </span>
+        <span fxLayoutGap="10px">
+          <span></span>
+          <button [disabled]="unit.groupEnrollment.status === 'Active'" mat-mini-fab (click)="startEnrollment(unit)" [color]="unit.groupEnrollment.status === 'InactiveSome' ? 'warn' : ''">
+            <mat-icon matTooltip="Omogući pristup lekciji">refresh</mat-icon>
+          </button>
+          <button [disabled]="unit.groupEnrollment.status === 'InactiveAll'" mat-mini-fab (click)="groupUnenroll(unit)" color="">
+            <mat-icon matTooltip="Blokiraj pristup lekciji">stop</mat-icon>
+          </button>
+        </span>
+      </div>
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+  <mat-divider vertical="true"></mat-divider>
+  <div fxFlex="23">
+    <mat-calendar></mat-calendar>
+  </div>
+</div>

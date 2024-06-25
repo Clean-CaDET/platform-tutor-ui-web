@@ -9,6 +9,9 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import {AssessmentsTableComponent} from './group-monitoring/learner-progress/assessments-table/assessments-table.component';
 import {LearnerProgressComponent} from './group-monitoring/learner-progress/learner-progress.component';
 import { EnrollmentComponent } from './group-monitoring/enrollment/enrollment.component';
+import { GradingComponent } from './grading/grading.component';
+import { ProgressComponent } from './progress/progress.component';
+import { EnrollmentsComponent } from './enrollments/enrollments.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +19,9 @@ import { EnrollmentComponent } from './group-monitoring/enrollment/enrollment.co
     AssessmentsTableComponent,
     LearnerProgressComponent,
     EnrollmentComponent,
+    GradingComponent,
+    ProgressComponent,
+    EnrollmentsComponent,
   ],
   imports: [
     CommonModule,

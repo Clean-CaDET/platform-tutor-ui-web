@@ -11,8 +11,8 @@
     <mat-divider></mat-divider>
     <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
         <div *cdkVirtualFor="let learner of learners">
-            <div [class.highlight]="selectedLearner?.id===learner.id" style="padding: 10px">
-                <small>{{learner.index}}</small><br>
+            <div [class.highlight]="selectedLearner?.id===learner.id" style="padding: 10px; cursor: pointer;" (click)="selectedLearner = learner">
+                <small style="font-size: 12px;">{{learner.index}}</small><br>
                 <span>{{learner.name}} {{learner.surname}}</span>
             </div>
             <mat-divider></mat-divider>
@@ -20,15 +20,15 @@
     </cdk-virtual-scroll-viewport>
   </div>
   <mat-divider vertical="true"></mat-divider>
-  <div>
-      <div *ngIf="mode === 'enrollments'">
-        Enrollments
+  <div fxFlex style="overflow-y: auto;">
+      <div *ngIf="learners?.length > 0 && mode === 'enrollments'">
+        <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
       </div>
-      <div *ngIf="mode === 'grading'">
-        Grading
+      <div *ngIf="selectedLearner && mode === 'grading'">
+        <cc-grading></cc-grading>
       </div>
-      <div *ngIf="mode === 'progress'">
-        Progress
+      <div *ngIf="selectedLearner && mode === 'progress'">
+        <cc-progress></cc-progress>
       </div>
   </div>
 </div>

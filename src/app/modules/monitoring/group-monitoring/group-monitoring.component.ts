@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Unit} from '../../learning/model/unit.model';
-import {Course} from '../../learning/model/course.model';
-import {LearnerGroup} from '../model/learner-group.model';
+import {Group} from '../model/group.model';
 import {GroupMonitoringService} from './group-monitoring.service';
 import {Learner} from '../model/learner.model';
+import { Unit } from '../model/unit.model';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -16,9 +15,10 @@ export class GroupMonitoringComponent implements OnInit {
   courseId: number;
   units: Unit[];
 
-  groups: LearnerGroup[];
+  groups: Group[];
   selectedGroupId = 0;
   learners: Learner[] = [];
+  selectedLearner: Learner;
 
   constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService) {}
 
@@ -33,22 +33,23 @@ export class GroupMonitoringComponent implements OnInit {
   }
 
   private getLearnerGroups(): void {
+    this.selectedGroupId = 0;
+    this.learners = null;
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
       this.groups = groupsPage.results;
-      this.selectedGroupId = this.groups[0]?.id;
       if(this.selectedGroupId) this.getLearners();
     });
   }
 
   private getCourse(): void {
-    this.groupMonitoringService.getCourse(this.courseId).subscribe((course) => {
-      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order);
-    });
+    this.groupMonitoringService.getUnits(this.courseId).subscribe(course => 
+      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order));
   }
 
   public getLearners(): void {
     this.groupMonitoringService.getLearners(1, 1, this.selectedGroupId, this.courseId)
       .subscribe((data) => {
+        this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
       });
   }
