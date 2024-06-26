@@ -2,12 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Activity } from '../model/activity';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { MarkdownPanelComponent } from 'src/app/shared/markdown/markdown-panel/markdown-panel.component';
 
 @Component({
   selector: 'cc-learning-task',
@@ -83,14 +84,34 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private processParams(queryParams: Params) {
-    if(!this.steps?.length) return;
+    if(!this.steps?.length) {
+      this.selectStep(null, 'task');
+      return;
+    }
     let step = this.steps.find(s => s.id == +queryParams['step']);
-    this.selectStep(step, queryParams['mode']);
+    if(step) {
+      this.selectStep(step, queryParams['mode']);
+    }
+    else if(!queryParams['mode']) { 
+      this.selectStep(this.steps[0], 'guidance');
+    }
+    else {
+      this.selectStep(null, queryParams['mode']);
+    }
   }
 
   openTask(): void {
     this.selectStep(null, 'task');
     this.router.navigate([], { queryParams: { mode: this.mode }});
+  }
+
+  previewTask(): void {
+    this.dialog.open(MarkdownPanelComponent, {
+      data: { markdown: this.task.description },
+      position: {left: "85px", top: "106px"},
+      maxHeight: "calc(100vh - 106px)",
+      maxWidth: "22.3vw"
+    });
   }
 
   addStep(): void {
@@ -112,9 +133,8 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   setStepAndParams(step: Activity, mode: string): void {
-    this.selectStep(step, mode);
     this.router.navigate([], {
-      queryParams: { step: this.selectedStep.id, mode: this.mode },
+      queryParams: { step: step.id, mode: mode },
       queryParamsHandling: 'merge'
     });
   }
@@ -164,7 +184,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
         next: updatedTask => {
           this.setupTaskAndActivities(updatedTask);
           if (this.selectedStep) {
-            this.selectStep(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
+            this.setStepAndParams(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
           }
         },
         error: (error) => {

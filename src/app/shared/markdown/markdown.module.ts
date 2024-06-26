@@ -4,10 +4,11 @@ import { MarkdownEditorComponent } from './markdown-editor/markdown-editor.compo
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownPanelComponent } from './markdown-panel/markdown-panel.component';
 
 
 @NgModule({
-  declarations: [MarkdownEditorComponent],
+  declarations: [MarkdownEditorComponent, MarkdownPanelComponent],
   imports: [
     CommonModule,
     FormsModule,

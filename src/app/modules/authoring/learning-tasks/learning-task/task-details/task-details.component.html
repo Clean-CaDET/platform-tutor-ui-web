@@ -1,10 +1,19 @@
-<div style="padding: 10px;">
+<div class="overflow">
     <form [formGroup]="taskForm" fxLayout="column">
         <section fxLayoutGap="20px" fxLayout="row">
-            <mat-form-field fxFlex="85" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
+            <mat-form-field style="width: 70px;" [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-label>Redni #</mat-label>
+                <input type="number" formControlName="order" matInput [readonly]="!editMode">
+            </mat-form-field>
+            <mat-checkbox formControlName="isTemplate" [disabled]="!editMode" style="padding-top: 20px;">
+                Šablon
+                <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
+                            matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
+            </mat-checkbox>
             <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
                 <span fxFlex></span>
                 <button mat-icon-button *ngIf="!editMode" (click)="editMode = true"
@@ -20,20 +29,12 @@
                 </button>
             </section>
         </section>
-        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
-            <mat-label>Opis</mat-label>
-            <textarea formControlName="description" matInput rows="25" [readonly]="!editMode"></textarea>
-        </mat-form-field>
-        <span fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-            <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
-                <mat-label>Redni broj</mat-label>
-                <input type="number" formControlName="order" matInput [readonly]="!editMode">
-            </mat-form-field>
-            <mat-checkbox formControlName="isTemplate" [disabled]="!editMode">
-                Šablon
-                <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
-                            matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
-            </mat-checkbox>
-        </span>
+        <div fxLayout="column">
+            <h4 *ngIf="!editMode">Opis</h4>
+            <markdown *ngIf="!editMode" [data]="taskForm.get('description').value"></markdown>
+            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Opis'" [text]="taskForm.get('description').value"
+                (textChanged)="this.taskForm.get('description').setValue($event)">
+            </cc-markdown-editor>
+        </div>
     </form>
 </div>
