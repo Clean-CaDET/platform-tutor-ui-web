@@ -14,9 +14,11 @@ import { GenericFormComponent } from 'src/app/shared/generics/generic-form/gener
 })
 export class EnrollmentsComponent implements OnChanges {
   progressBarActive = false;
+  selectedDate: Date = new Date();
 
   @Input() learners: Learner[];
   @Input() units: Unit[];
+
 
   constructor(private enrollmentsService: EnrollmentsService, private dialog: MatDialog) { }
 
@@ -50,8 +52,13 @@ export class EnrollmentsComponent implements OnChanges {
     const availableFromField: Field = { code: 'availableFrom', type: 'date', label: 'Pristup od', required: true };
     const bestBeforeField: Field = { code: 'bestBefore', type: 'date', label: 'Najbolje rešiti do', required: true };
 
+    const startingDates = {
+      availableFrom: unit.groupEnrollment.availableFrom || this.selectedDate,
+      bestBefore: unit.groupEnrollment.bestBefore || this.selectedDate
+    }
+
     const dialogRef = this.dialog.open(GenericFormComponent, {
-      data: {entity: unit.groupEnrollment, fieldConfiguration: new Array(availableFromField, bestBeforeField)},
+      data: {entity: startingDates, fieldConfiguration: new Array(availableFromField, bestBeforeField)},
     });
 
     dialogRef.afterClosed().subscribe(result => {
