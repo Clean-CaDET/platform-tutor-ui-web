@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LearningTask } from '../model/learning-task';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { LearningTasksService } from '../learning-tasks-authoring.service';
-import { Subject, Subscription, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Activity } from '../model/activity';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
@@ -83,9 +83,20 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private processParams(queryParams: Params) {
-    if(!this.steps?.length) return;
+    if(!this.steps?.length) {
+      this.selectStep(null, 'task');
+      return;
+    }
     let step = this.steps.find(s => s.id == +queryParams['step']);
-    this.selectStep(step, queryParams['mode']);
+    if(step) {
+      this.selectStep(step, queryParams['mode']);
+    }
+    else if(!queryParams['mode']) { 
+      this.selectStep(this.steps[0], 'guidance');
+    }
+    else {
+      this.selectStep(null, queryParams['mode']);
+    }
   }
 
   openTask(): void {
@@ -112,9 +123,8 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   setStepAndParams(step: Activity, mode: string): void {
-    this.selectStep(step, mode);
     this.router.navigate([], {
-      queryParams: { step: this.selectedStep.id, mode: this.mode },
+      queryParams: { step: step.id, mode: mode },
       queryParamsHandling: 'merge'
     });
   }
@@ -164,7 +174,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
         next: updatedTask => {
           this.setupTaskAndActivities(updatedTask);
           if (this.selectedStep) {
-            this.selectStep(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
+            this.setStepAndParams(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
           }
         },
         error: (error) => {

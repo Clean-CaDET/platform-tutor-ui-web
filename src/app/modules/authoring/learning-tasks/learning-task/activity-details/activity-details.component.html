@@ -29,7 +29,7 @@
         <div fxLayout="column">
             <h4 *ngIf="!editMode">Smernice (uputstva i heuristike)</h4>
             <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
-            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice (uputstva i heuristike)'"
+            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice (uputstva i heuristike) *'"
                 [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
             </cc-markdown-editor>
         </div>
