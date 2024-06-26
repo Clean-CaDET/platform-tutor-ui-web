@@ -2,16 +2,27 @@
     <div fxFlex="23" fxLayout="column">
         <div fxLayout="row" fxLayoutAlign=" center" class="padding" fxLayoutGap="5px"
             [class.highlight]="mode === 'task'">
-            <b fxFlex>{{task?.name}}</b>
-            <button mat-icon-button (click)="openTask()" [class.mat-flat-button]="mode==='task'"
-                [color]="mode === 'task' ? 'accent' : ''">
-                <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
-            </button>
-            <button mat-icon-button mat-stroked-button color="" [routerLink]="['/authoring/course', courseId]"
-                [queryParams]="{unit: task?.unitId, mode: 'lt'}">
-                <mat-icon matTooltip="Pregled zadataka lekcije">rebase_edit</mat-icon>
-            </button>
+            <small fxFlex>{{task?.name}}</small>
+            <div fxLayout="column" fxLayoutGap="5px">
+                <span fxLayoutGap="5px">
+                    <button mat-icon-button (click)="openTask()" [class.mat-flat-button]="mode==='task'"
+                        [color]="mode === 'task' ? 'accent' : ''">
+                        <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
+                    </button>
+                    <button mat-icon-button mat-stroked-button color="" [routerLink]="['/authoring/course', courseId]"
+                        [queryParams]="{unit: task?.unitId, mode: 'lt'}">
+                        <mat-icon matTooltip="Pregled zadataka lekcije">rebase_edit</mat-icon>
+                    </button>
+                </span>
+                <span fxLayoutGap="5px">
+                    <span fxFlex></span>
+                    <button mat-icon-button (click)="previewTask()">
+                        <mat-icon matTooltip="Opis zadatka u modalu">preview</mat-icon>
+                    </button>
+                </span>
+            </div>
         </div>
+        <mat-divider style="border-width: 3px;"></mat-divider>
         <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
             <span fxFlex>
                 <b>Koraci</b>
@@ -58,7 +69,7 @@
             </div>
         </cdk-virtual-scroll-viewport>
     </div>
-    <mat-divider vertical="true"></mat-divider>
+    <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
     <div fxFlex="77">
         <cc-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-task-details>
         <cc-activity-details *ngIf="mode === 'guidance' && selectedStep" [activity]="selectedStep" [activities]="task.steps"

@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
+import { MarkdownPanelComponent } from 'src/app/shared/markdown/markdown-panel/markdown-panel.component';
 
 @Component({
   selector: 'cc-learning-task',
@@ -102,6 +103,15 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   openTask(): void {
     this.selectStep(null, 'task');
     this.router.navigate([], { queryParams: { mode: this.mode }});
+  }
+
+  previewTask(): void {
+    this.dialog.open(MarkdownPanelComponent, {
+      data: { markdown: this.task.description },
+      position: {left: "85px", top: "106px"},
+      maxHeight: "calc(100vh - 106px)",
+      maxWidth: "22.3vw"
+    });
   }
 
   addStep(): void {

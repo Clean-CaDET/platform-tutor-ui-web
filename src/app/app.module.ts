@@ -17,7 +17,6 @@ import { ManagementModule } from './modules/management/management.module';
 import { KnowledgeAnalyticsModule } from './modules/knowledge-analytics/knowledge-analytics.module';
 import { GenericsModule } from './shared/generics/generics.module';
 import { AuthoringModule } from './modules/authoring/authoring.module';
-import {StarRatingModule} from "angular-star-rating";
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
