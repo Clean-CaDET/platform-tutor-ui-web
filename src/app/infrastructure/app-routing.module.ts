@@ -60,11 +60,10 @@ const routes: Routes = [
     data: { role: ['instructor'] },
   },
   {
-    path: 'monitoring/:courseId/progress',
-    title: 'Tutor - Monitoring',
+    path: 'monitoring/:courseId/:mode',
     component: GroupMonitoringComponent,
     canActivate: [AuthGuard],
-    data: { role: ['instructor'] },
+    data: { role: ['instructor'] }
   },
   {
     path: 'authoring/course/:courseId',

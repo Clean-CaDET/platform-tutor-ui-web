@@ -1,44 +1,34 @@
-<div>
-  <mat-card fxLayout="row" fxLayoutAlign="space-between"
-    class="mat-elevation-z5 sticky">
-    <div fxLayoutGap="15px" fxLayout="row">
-      <mat-form-field appearance="fill">
-          <mat-label>Grupa</mat-label>
-          <mat-select [(value)]="selectedGroupId" (selectionChange)="getLearners()">
-              <mat-option value="0">Sve</mat-option>
-              <mat-option *ngFor="let group of groups" [value]="group.id">
-                {{group.name}}
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Lekcija</mat-label>
-        <mat-select [(value)]="selectedUnit">
-            <mat-option *ngFor="let unit of units" [value]="unit">
-              {{unit.name}}
-            </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div fxLayout="row" fxLayoutGap="10px">
-        <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'accent' : 'primary'" (click)="showProgress = true">
-            Napredak
-        </button>
-        <button style="width: 92px; height:60px" mat-raised-button [color]="showProgress ? 'primary' : 'accent'" (click)="showProgress = false">
-            Pristup
-        </button>
-        <button [disabled]="selectedUnit===null || !showProgress" style="width: 92px; height:60px" color="primary" mat-raised-button (click)="downloadProgress()">
-            Preuzmi
-        </button>
+<div fxLayout="row" style="height: 100%;">
+  <div width="224px">
+    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+      <mat-label>Grupa</mat-label>
+      <mat-select [(value)]="selectedGroupId" (selectionChange)="getLearners()">
+          <mat-option *ngFor="let group of groups" [value]="group.id">
+            {{group.name}}
+          </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-divider></mat-divider>
+    <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+        <div *cdkVirtualFor="let learner of learners">
+            <div [class.highlight]="selectedLearner?.id===learner.id" style="padding: 10px; cursor: pointer;" (click)="selectedLearner = learner">
+                <small style="font-size: 12px;">{{learner.index}}</small><br>
+                <span>{{learner.name}} {{learner.surname}}</span>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+    </cdk-virtual-scroll-viewport>
+  </div>
+  <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
+  <div fxFlex style="overflow-y: auto;">
+      <div *ngIf="learners?.length > 0 && mode === 'enrollments'">
+        <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
       </div>
-    </div>
-    <mat-paginator *ngIf="selectedGroupId == 0"
-      (page)="changePage($event)" [pageIndex]="pageIndex" [length]="count"
-      [pageSizeOptions]="[20, 50, 150]" [pageSize]="pageSize">
-    </mat-paginator>
-  </mat-card>
-
-  <cc-learner-progress *ngIf="showProgress" [unit]="selectedUnit"
-    [learners]="learners"></cc-learner-progress>
-  <cc-enrollment *ngIf="!showProgress" [unit]="selectedUnit"
-    [learners]="learners"></cc-enrollment>
+      <div *ngIf="selectedLearner && mode === 'grading'">
+        <cc-grading></cc-grading>
+      </div>
+      <div *ngIf="selectedLearner && mode === 'progress'">
+        <cc-progress></cc-progress>
+      </div>
+  </div>
 </div>

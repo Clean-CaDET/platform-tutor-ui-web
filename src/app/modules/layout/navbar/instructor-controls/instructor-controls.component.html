@@ -9,19 +9,30 @@
     </button>
   </mat-menu>
   <div *ngIf="selectedCourse" fxLayout="column">
-    <mat-divider></mat-divider>
     <small>{{selectedCourse.code}}</small>
+    <mat-divider></mat-divider>
     <button mat-button [routerLink]="['/authoring/course', selectedCourse.id]" routerLinkActive="mat-flat-button">
       <mat-icon>edit</mat-icon><br>
       Autorstvo
     </button>
+    <mat-divider></mat-divider>
+    <small>Grupe</small>
+    <button mat-button [routerLink]="['/monitoring', selectedCourse.id, 'enrollments']" routerLinkActive="mat-flat-button">
+      <mat-icon>lock_open</mat-icon><br>
+      Pristup
+    </button>
+    <button mat-button [routerLink]="['/monitoring', selectedCourse.id, 'grading']" routerLinkActive="mat-flat-button">
+      <mat-icon>checklist_rtl</mat-icon><br>
+      Ocenjivanje
+    </button>
+    <button mat-button [routerLink]="['/monitoring', selectedCourse.id, 'progress']" routerLinkActive="mat-flat-button">
+      <mat-icon>calendar_month</mat-icon><br>
+      Napredak
+    </button>
+    <mat-divider></mat-divider>
     <button mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-flat-button">
       <mat-icon>bar_chart</mat-icon><br>
       Analitike
-    </button>
-    <button mat-button [routerLink]="['/monitoring', selectedCourse.id, 'progress']" routerLinkActive="mat-flat-button">
-      <mat-icon>groups</mat-icon><br>
-      Grupe
     </button>
   </div>
 </div>
