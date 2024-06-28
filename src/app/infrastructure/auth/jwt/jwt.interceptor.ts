@@ -12,7 +12,7 @@ import { AuthenticationService } from '../auth.service';
 import { AuthenticationResponse } from './authentication-response.model';
 import { ACCESS_TOKEN } from './constants';
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class JwtInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {}
 

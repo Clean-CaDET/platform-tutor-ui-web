@@ -19,7 +19,7 @@
         </div>
         <div *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length > 0" fxLayout="row" fxLayoutAlign="start start" class="kc-num">
           <cc-knowledge-map fxFlex [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
-          <mat-card *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
+          <mat-card appearance="outlined" *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
           <mat-icon class="medal-icon" *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
         </div>
         <p *ngIf="unit.knowledgeComponents?.length === 0">
@@ -34,7 +34,7 @@
           <mat-divider fxFlex></mat-divider>
           <small><i>Složeni zadaci&nbsp;&nbsp;</i></small>
         </div>
-        <mat-card *ngFor="let task of learningTasks" style="cursor: pointer;" [routerLink]="['learning-task', task.id]">
+        <mat-card appearance="outlined" *ngFor="let task of learningTasks" style="cursor: pointer;" [routerLink]="['learning-task', task.id]">
           <div fxLayout="row" fxLayoutAlign="space-between center">
             <b fxFlex>{{task.order}}. {{ task.name }}</b>
             <span fxFlex style="text-align: end;">Broj bodova: {{ task.maxPoints }}</span>

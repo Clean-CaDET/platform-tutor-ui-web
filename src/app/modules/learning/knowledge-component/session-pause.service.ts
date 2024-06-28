@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {VideoPlaybackService} from "./learning-objects/instructional-items/video/video-playback.service";
 
-@Injectable()
+@Injectable({providedIn: "root"})
 export class SessionPauseService implements OnDestroy {
   private activityCheckIntervalSubscription: Subscription;
   private eventsSubscriptions: Subscription[] = [];

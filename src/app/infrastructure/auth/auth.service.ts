@@ -10,9 +10,7 @@ import { User } from './user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Login } from './login.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class AuthenticationService {
   user$ = new BehaviorSubject(null);
   clientId$ = new BehaviorSubject(null);

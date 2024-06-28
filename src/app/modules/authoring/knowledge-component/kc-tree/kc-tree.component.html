@@ -10,7 +10,7 @@
       <span *ngIf="!node.children.length" style="cursor: default;">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </span>
-      <mat-card fxFlex fxLayout="row">
+      <mat-card appearance="outlined" fxFlex fxLayout="row">
         <div fxFlex fxLayout="column">
           <span fxFlex><b>{{node.code}}</b>: {{node.name}}</span>
           <small>Redni broj: {{node.order}} | Minimalno minuta rada: {{node.expectedDurationInMinutes}}</small>

@@ -1,4 +1,4 @@
-<mat-card style="margin: 10px" fxLayout="column" fxFlex
+<mat-card appearance="outlined" style="margin: 10px" fxLayout="column" fxFlex
     (click)="onCourseClick()"
     [ngClass]="{'pointer': user.role.includes('learner')}">
     <mat-card-header>
@@ -15,13 +15,13 @@
     </mat-card-content>
     <span fxFlex></span>
     <span *ngIf="user.role === 'instructor'" fxLayoutAlign="end" fxLayoutGap="10px">
-        <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', course.id]">
+        <a mat-stroked-button [routerLink]="['/authoring/course', course.id]">
             <mat-icon matTooltip="Autorstvo" [matTooltipPosition]="'below'">edit</mat-icon>
         </a>
-        <a mat-icon-button mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']">
+        <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']">
             <mat-icon matTooltip="Analitike" [matTooltipPosition]="'below'">bar_chart</mat-icon>
         </a>
-        <a mat-icon-button mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']">
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']">
             <mat-icon matTooltip="Grupe" [matTooltipPosition]="'below'">groups</mat-icon>
         </a>
     </span>

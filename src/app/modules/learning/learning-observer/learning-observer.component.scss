@@ -7,10 +7,12 @@ p {
   font-size: 14px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card {
   padding: 5px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card:hover {
   cursor: pointer;
 }

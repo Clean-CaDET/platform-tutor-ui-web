@@ -1,6 +1,4 @@
 @import "./cc-primary-theme.scss"; /* You can add global styles to this file, and also import other style files */
-@import '~css-star-rating/scss/star-rating';
-@import "~css-star-rating/css/star-rating.css";
 
 html, body {
   min-height: 100vh;
@@ -22,7 +20,7 @@ pre {
   white-space: pre-wrap;
 }
 
-.mat-snack-bar-container.interfacing-instructor {
+.mat-mdc-snack-bar-container.interfacing-instructor {
   transform: scale(1.2) !important;
 }
 

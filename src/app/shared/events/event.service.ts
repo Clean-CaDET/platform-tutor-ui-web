@@ -5,9 +5,7 @@ import { Observable, map } from 'rxjs';
 import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class EventService {
   exportOptions = {
     fieldSeparator: ',',

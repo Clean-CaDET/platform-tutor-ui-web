@@ -9,7 +9,7 @@
     </div>
 
     <div *ngFor="let learningTask of learningTasks">
-        <mat-card fxFlex style="margin: 10px;" fxLayout="column">
+        <mat-card appearance="outlined" fxFlex style="margin: 10px;" fxLayout="column">
             <div fxFlex fxLayout="row">
                 <div fxFlex>
                     <span *ngIf="learningTask.isTemplate">[šablon] </span>

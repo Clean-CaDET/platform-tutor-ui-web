@@ -36,7 +36,6 @@ export class KcRateComponent {
   }
 
   selectTag(selectedTag: MatChip) {
-    selectedTag.toggleSelected();
     if(this.selectedTags.includes(selectedTag.value)) {
       this.selectedTags = this.selectedTags.filter(tag => tag !== selectedTag.value)
     } else {

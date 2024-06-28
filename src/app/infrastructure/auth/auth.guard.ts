@@ -8,18 +8,11 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from './auth.service';
-import { TokenStorage } from './jwt/token.service';
 import { User } from './user.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class AuthGuard implements CanActivate {
-  constructor(
-    private router: Router,
-    private tokenStorage: TokenStorage,
-    private authService: AuthenticationService
-  ) {}
+  constructor(private router: Router, private authService: AuthenticationService) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,

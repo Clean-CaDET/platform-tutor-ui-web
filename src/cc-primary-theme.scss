@@ -51,17 +51,21 @@ $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
 $cc-accent-dark: mat.define-palette(mat.$yellow-palette, 600);
 $cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 800);
 
-$cc-dark-theme: (
-  primary: $cc-primary-dark,
-  accent: $cc-accent-dark,
-  warn: $cc-warn-dark,
-  is-dark: true,
-  foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
-  background: mat.$dark-theme-background-palette,
+$cc-dark-theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $cc-primary-dark,
+      accent: $cc-accent-dark,
+      warn: $cc-warn-dark,
+      is-dark: true,
+      foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
+      background: mat.$dark-theme-background-palette,
+    )
+  )
 );
 
 .dark-theme-mode {
-  @include mat.all-component-themes($cc-dark-theme);
+  @include mat.all-component-colors($cc-dark-theme);
   @include knowledge-map.color($cc-dark-theme);
   @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
@@ -79,6 +83,7 @@ $cc-theme: mat.define-light-theme(
       accent: $cc-accent-light,
       warn: $cc-warn-light,
     ),
+    density: 0
   )
 );
 
@@ -89,3 +94,7 @@ $cc-theme: mat.define-light-theme(
   @include assessments-table.color($cc-theme);
   @include learner-progress.color($cc-theme);
 }
+
+@include mat.all-component-typographies(mat.define-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif'
+));

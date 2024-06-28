@@ -7,11 +7,11 @@
   <div class="margin" *ngIf="isRated" fxLayout="column">
     <p *ngIf="rating === 5">Šta misliš da smo posebno dobro uradili? </p>
     <p *ngIf="rating < 5">Na šta treba da obratimo pažnju?</p>
-    <mat-chip-list id="options" selectable multiple>
-      <mat-chip *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
+    <mat-chip-listbox id="options" selectable multiple>
+      <mat-chip-option *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
         {{option}}
-      </mat-chip>
-    </mat-chip-list>
+      </mat-chip-option>
+    </mat-chip-listbox>
   </div>
   <div style="height: 138px;" *ngIf="!isRated"></div>
 </div>

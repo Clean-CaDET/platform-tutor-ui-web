@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="25px">
-    <mat-card *ngFor="let instructionalItem of instructionalItems; let i = index" fxFlex>
+    <mat-card appearance="outlined" *ngFor="let instructionalItem of instructionalItems; let i = index" fxFlex>
         <div *ngIf="!editMap[instructionalItem.id]">
             <div fxLayout="row">
                 <span fxFlex></span>
@@ -34,7 +34,7 @@
             </div>
         </div>
     </mat-card>
-    <mat-card>
+    <mat-card appearance="outlined">
         <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
             <b>Gradivo</b>
             <button style="width: 80px" mat-raised-button color="primary" (click)="editMap[0] = 'markdown'">

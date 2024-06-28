@@ -9,9 +9,7 @@ interface TutorImprovementDTO {
   contentComment: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class ImprovementService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 

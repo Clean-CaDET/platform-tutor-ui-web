@@ -6,12 +6,12 @@
   width: 340px;
 }
 
-.mat-card {
+.mat-mdc-card {
   padding: 10px;
   margin-bottom: 10px;
 }
 
-.mat-icon-button {
+.mat-mdc-icon-button {
   margin-bottom: 10px;
 }
 
@@ -20,6 +20,7 @@ ngx-mat-markdown-text-editor {
   word-break: break-word;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
 mat-card-content {
   word-break: break-word;
 }

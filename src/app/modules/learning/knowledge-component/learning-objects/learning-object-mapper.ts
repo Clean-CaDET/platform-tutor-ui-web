@@ -7,9 +7,7 @@ import { MultipleChoiceQuestion } from './assessment-items/multiple-choice-quest
 import { Image } from './instructional-items/image/image.model';
 import { ShortAnswerQuestion } from './assessment-items/short-answer-question/short-answer-question.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class LearningObjectMapper {
   constructor() {}
 

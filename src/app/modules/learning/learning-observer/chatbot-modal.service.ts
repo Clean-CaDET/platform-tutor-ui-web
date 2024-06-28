@@ -3,9 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 import { LearningObserverComponent } from './learning-observer.component';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class ChatbotModalService {
   private readonly modalOpenInterval = 20 * 60 * 1000; //minutes * seconds * milliseconds
   private lastOpened: number;

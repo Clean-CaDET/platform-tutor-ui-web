@@ -7,7 +7,7 @@
             <b>Broj pitanja</b>: {{ assessmentItems?.length }}
         </span>
     </small>
-    <mat-card *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
+    <mat-card appearance="outlined" *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
         <div *ngIf="!editMap[item.id]">
             <div fxLayout="row" fxLayoutGap="30px">
                 <small fxFlex fxLayoutAlign=" center" [ngClass]="{'warn': item.id == selectedAi}">
@@ -109,7 +109,7 @@
             </div>
         </div>
     </mat-card>
-    <mat-card id="aform">
+    <mat-card appearance="outlined" id="aform">
         <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
             <b>Pitanja</b>
             <button mat-raised-button color="primary" (click)="createEmptyItem('multiChoiceQuestion')">
