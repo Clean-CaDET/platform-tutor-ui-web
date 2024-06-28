@@ -21,13 +21,13 @@ export class InstructorControlsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.setupCourseUpdate();
     this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
       let params = this.getParams(this.route);
       if(params.courseId) {
-        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+        this.selectCourse(+params.courseId);
       }
+      this.setupCourseUpdate();
     });
   }
 
@@ -44,20 +44,13 @@ export class InstructorControlsComponent implements OnInit {
           return;
         }
         if (this.courseIsChanged(params)) {
-          this.findCourse(+params.courseId);
+          this.selectCourse(+params.courseId);
         }
       });
   }
 
-  private findCourse(courseId: number): void{
-    if (!this.courses) {
-      this.layoutService.getInstructorCourses().subscribe((courses) => {
-        this.courses = courses;
-        this.selectedCourse = this.courses.find((c) => c.id === courseId);
-      });
-    } else {
-      this.selectedCourse = this.courses.find((c) => c.id === courseId);
-    }
+  private selectCourse(courseId: number): void{
+    this.selectedCourse = this.courses?.find((c) => c.id === courseId);
   }
 
   private courseIsChanged(params: Params): boolean {
