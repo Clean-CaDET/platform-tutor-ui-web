@@ -1,0 +1,15 @@
+.dashboard {
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 10px;
+}
+
+.course-card {
+    flex-basis: 100%;
+}
+
+@media (min-width: 768px) {
+    .course-card {
+      flex-basis: 49%;
+    }
+  }

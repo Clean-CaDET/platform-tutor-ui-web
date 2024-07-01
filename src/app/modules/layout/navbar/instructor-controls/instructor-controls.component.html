@@ -13,38 +13,38 @@
   <div *ngIf="selectedCourse" class="flex-col">
     <small>{{selectedCourse.code}}</small>
     <mat-divider></mat-divider>
-    <button class="navbar-button" mat-button [routerLink]="['/authoring/course', selectedCourse.id]" routerLinkActive="mat-accent">
+    <a class="navbar-button" mat-button [routerLink]="['/authoring/course', selectedCourse.id]" routerLinkActive="mat-accent">
       <div>
         <mat-icon>edit</mat-icon><br>
         Autorstvo
       </div>
-    </button>
+    </a>
     <mat-divider></mat-divider>
     <small>Grupe</small>
-    <button class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'enrollments']" routerLinkActive="mat-accent">
+    <a class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'enrollments']" routerLinkActive="mat-accent">
       <div>
         <mat-icon>lock_open</mat-icon><br>
         Pristup
       </div>
-    </button>
-    <button class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'grading']" routerLinkActive="mat-accent">
+    </a>
+    <a class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'grading']" routerLinkActive="mat-accent">
       <div>
         <mat-icon>checklist_rtl</mat-icon><br>
         Ocenjivanje
       </div>
-    </button>
-    <button class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'progress']" routerLinkActive="mat-accent">
+    </a>
+    <a class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'progress']" routerLinkActive="mat-accent">
       <div>
         <mat-icon>calendar_month</mat-icon><br>
         Napredak
       </div>
-    </button>
+    </a>
     <mat-divider></mat-divider>
-    <button class="navbar-button" mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-accent">
+    <a class="navbar-button" mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-accent">
       <div>
         <mat-icon>bar_chart</mat-icon><br>
         Analitike
       </div>
-    </button>
+    </a>
   </div>
 </div>
