@@ -1,7 +1,5 @@
 @use "@angular/material" as mat;
 mat.$theme-ignore-duplication-warnings: true;
-@use "./src/app/modules/learning/unit/knowledge-map/knowledge-map.component-theme"
-  as knowledge-map;
 @use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
   as submission-result;
 @use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
@@ -67,7 +65,6 @@ $cc-dark-theme: mat.define-dark-theme(
 
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
-  @include knowledge-map.color($cc-dark-theme);
   @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
   @include learner-progress.color($cc-dark-theme);
@@ -89,7 +86,6 @@ $cc-theme: mat.define-light-theme(
 
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
-  @include knowledge-map.color($cc-theme);
   @include submission-result.color($cc-theme);
   @include assessments-table.color($cc-theme);
   @include learner-progress.color($cc-theme);

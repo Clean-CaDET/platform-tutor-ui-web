@@ -39,6 +39,16 @@ mat-icon {
   border-radius: 10px;
 }
 
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
 .navbar-button {
   height: 55px !important;
   letter-spacing: normal !important;

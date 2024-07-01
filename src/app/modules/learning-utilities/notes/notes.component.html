@@ -2,11 +2,11 @@
   <div fxLayout="row" fxLayoutGap="10px">
     <small>Beleške aktuelne lekcije</small>
     <span fxFlex></span>
-    <button *ngIf="!edit" mat-icon-button mat-raised-button color="primary" (click)="edit = true">
-      <mat-icon matTooltip="Dodaj belešku.">add</mat-icon>
+    <button *ngIf="!edit" mat-mini-fab color="primary" (click)="edit = true" matTooltip="Dodaj belešku.">
+      <mat-icon>add</mat-icon>
     </button>
-    <button *ngIf="!edit" mat-icon-button mat-raised-button color="accent" (click)="onExport()">
-      <mat-icon matTooltip="Preuzmi sve beleške.">file_download</mat-icon>
+    <button *ngIf="!edit" mat-mini-fab (click)="onExport()" matTooltip="Preuzmi sve beleške.">
+      <mat-icon>file_download</mat-icon>
     </button>
   </div>
   <div *ngIf="edit" class="mat-card" fxLayout="column">

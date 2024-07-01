@@ -9,7 +9,7 @@
     <cc-instructor-controls *ngIf="user?.role === 'instructor'"></cc-instructor-controls>
     <cc-admin-controls *ngIf="user?.role === 'administrator'"></cc-admin-controls>
     <div style="flex-grow: 1"></div>
-    <div style="display: flex; flex-direction: column;">
+    <div class="flex-col">
       <mat-divider></mat-divider>
       <button class="navbar-button theme-hide" mat-button *ngIf="!isDarkTheme" (click)="changeTheme()">
         <div>

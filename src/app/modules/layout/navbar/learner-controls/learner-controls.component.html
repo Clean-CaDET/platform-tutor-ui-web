@@ -1,4 +1,4 @@
-<div style="display: flex; flex-direction: column;">
+<div class="flex-col">
   <button class="navbar-button" mat-button [matMenuTriggerFor]="course">
     <div>
       <mat-icon>collections_bookmark</mat-icon><br>
@@ -10,7 +10,7 @@
       <div [ngClass]="{'accent': course.id === selectedCourse?.id}">{{course.name}}</div>
     </button>
   </mat-menu>
-  <div *ngIf="selectedCourse" style="display: flex; flex-direction: column;">
+  <div *ngIf="selectedCourse" class="flex-col">
     <mat-divider></mat-divider>
     <small>{{selectedCourse.name}}</small>
     <button class="navbar-button" mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-accent">
