@@ -1,14 +1,20 @@
-<div fxLayout="column">
-  <button mat-button routerLink="/management/courses" routerLinkActive="mat-flat-button">
-    <mat-icon>collections_bookmark</mat-icon><br>
-    Kursevi
+<div style="display: flex; flex-direction: column;">
+  <button class="navbar-button" mat-button routerLink="/management/courses" routerLinkActive="mat-accent">
+    <div>
+      <mat-icon>collections_bookmark</mat-icon>
+      Kursevi
+    </div>
   </button>
-  <button mat-button routerLink="/management/stakeholders/learners" routerLinkActive="mat-flat-button">
-    <mat-icon>group</mat-icon><br>
-    Učenici
+  <button class="navbar-button" mat-button routerLink="/management/stakeholders/learners" routerLinkActive="mat-accent">
+    <div>
+      <mat-icon>group</mat-icon>
+      Učenici
+    </div>
   </button>
-  <button mat-button routerLink="/management/stakeholders/instructors" routerLinkActive="mat-flat-button">
-    <mat-icon>record_voice_over</mat-icon><br>
-    Predavači
+  <button class="navbar-button" mat-button routerLink="/management/stakeholders/instructors" routerLinkActive="mat-accent">
+    <div>
+      <mat-icon>record_voice_over</mat-icon>
+      Predavači
+    </div>
   </button>
 </div>

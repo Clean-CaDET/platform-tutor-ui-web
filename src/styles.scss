@@ -4,6 +4,7 @@ html, body {
   min-height: 100vh;
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -13,15 +14,17 @@ body {
 code {
   font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
+
 p > code, li > code {
   font-size: 1.05em;
 }
+
 pre {
   white-space: pre-wrap;
 }
 
-.mat-mdc-snack-bar-container.interfacing-instructor {
-  transform: scale(1.2) !important;
+mat-icon {
+  vertical-align: middle;
 }
 
 ::-webkit-scrollbar {
@@ -34,4 +37,9 @@ pre {
 ::-webkit-scrollbar-thumb {
   background: #999;
   border-radius: 10px;
+}
+
+.navbar-button {
+  height: 55px !important;
+  letter-spacing: normal !important;
 }

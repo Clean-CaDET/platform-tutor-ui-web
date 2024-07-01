@@ -11,6 +11,7 @@ import { Login } from '../login.model';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
+  disable = false;
   loginForm = new FormGroup({
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
@@ -20,6 +21,7 @@ export class LoginComponent {
   constructor(private authService: AuthenticationService, private router: Router) {}
 
   login(): void {
+    this.disable = true;
     const login: Login = {
       username: this.loginForm.value.username,
       password: this.loginForm.value.password,
@@ -33,6 +35,7 @@ export class LoginComponent {
         error: (error) => {
           if (error instanceof HttpErrorResponse) {
             this.hasError = true;
+            this.disable = false;
           }
         },
       });

@@ -26,7 +26,7 @@ export class ImprovementService {
         this.snackBar.open(
           'Hvala puno na savetima za unapređenje 😊! Tvoji komentari utiču na stotine učenika koji će doći posle tebe.',
           null,
-          { duration: 5000, panelClass: 'interfacing-instructor' }
+          { duration: 5000 }
         );
       });
   }

@@ -1,4 +1,5 @@
 @use "@angular/material" as mat;
+mat.$theme-ignore-duplication-warnings: true;
 @use "./src/app/modules/learning/unit/knowledge-map/knowledge-map.component-theme"
   as knowledge-map;
 @use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
@@ -14,7 +15,7 @@ $cc-palette: (
   50: #262626,
   100: #b3bcc7,
   200: #818fa1,
-  300: #4086bf,
+  300: #5b97c8,
   400: #29405f,
   500: #031e43,
   600: #031a3d,
@@ -49,7 +50,7 @@ a {
 
 $cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
 $cc-accent-dark: mat.define-palette(mat.$yellow-palette, 600);
-$cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 800);
+$cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 400);
 
 $cc-dark-theme: mat.define-dark-theme(
   (
@@ -57,15 +58,15 @@ $cc-dark-theme: mat.define-dark-theme(
       primary: $cc-primary-dark,
       accent: $cc-accent-dark,
       warn: $cc-warn-dark,
-      is-dark: true,
       foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
-      background: mat.$dark-theme-background-palette,
-    )
+      background: mat.$dark-theme-background-palette
+    ),
+    density: 0
   )
 );
 
 .dark-theme-mode {
-  @include mat.all-component-colors($cc-dark-theme);
+  @include mat.all-component-themes($cc-dark-theme);
   @include knowledge-map.color($cc-dark-theme);
   @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
@@ -73,7 +74,7 @@ $cc-dark-theme: mat.define-dark-theme(
 }
 
 $cc-primary-light: mat.define-palette(mat.$blue-palette, 700);
-$cc-accent-light: mat.define-palette(mat.$amber-palette, 600);
+$cc-accent-light: mat.define-palette(mat.$amber-palette, 700);
 $cc-warn-light: mat.define-palette(mat.$red-palette, A200);
 
 $cc-theme: mat.define-light-theme(
@@ -83,7 +84,6 @@ $cc-theme: mat.define-light-theme(
       accent: $cc-accent-light,
       warn: $cc-warn-light,
     ),
-    density: 0
   )
 );
 
