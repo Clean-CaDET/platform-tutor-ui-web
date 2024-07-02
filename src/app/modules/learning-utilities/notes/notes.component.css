@@ -8,21 +8,8 @@
 
 .mat-mdc-card {
   padding: 10px;
-  margin-bottom: 10px;
-}
-
-.mat-mdc-icon-button {
-  margin-bottom: 10px;
-}
-
-ngx-mat-markdown-text-editor {
-  width: 340px;
-  word-break: break-word;
-}
-
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version. */
-mat-card-content {
-  word-break: break-word;
+  margin-top: 10px;
+  word-break: break-all;
 }
 
 mat-form-field {

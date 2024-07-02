@@ -14,10 +14,7 @@ export class NotesComponent implements OnInit {
   edit = false;
   unitId: number;
 
-  constructor(
-    private noteService: NotesService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private noteService: NotesService, private route: ActivatedRoute) {
     this.notes = [];
   }
 

@@ -1,39 +1,39 @@
-<div id="notes" fxLayout="column">
-  <div fxLayout="row" fxLayoutGap="10px">
+<div id="notes" class="flex-col">
+  <div class="flex-row" style="gap: 10px">
     <small>Beleške aktuelne lekcije</small>
-    <span fxFlex></span>
-    <button *ngIf="!edit" mat-mini-fab color="primary" (click)="edit = true" matTooltip="Dodaj belešku.">
+    <span style="flex-grow: 1;"></span>
+    <button *ngIf="!edit" mat-mini-fab color="primary" (click)="edit = true" matTooltip="Dodaj belešku">
       <mat-icon>add</mat-icon>
     </button>
-    <button *ngIf="!edit" mat-mini-fab (click)="onExport()" matTooltip="Preuzmi sve beleške.">
+    <button *ngIf="!edit" mat-mini-fab color="no" (click)="onExport()" matTooltip="Preuzmi beleške">
       <mat-icon>file_download</mat-icon>
     </button>
   </div>
-  <div *ngIf="edit" class="mat-card" fxLayout="column">
+  <mat-card appearance="outlined" *ngIf="edit" class="note-width">
     <cc-markdown-editor [label]="'Beleška'" (textChanged)="text = $event"></cc-markdown-editor>
-    <div fxLayout="row" fxLayoutGap="10px">
-      <button mat-flat-button color="primary" (click)="onSave()">Sačuvaj</button>
+    <div class="flex-row" style="gap: 10px">
+      <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Sačuvaj</button>
       <button mat-flat-button (click)="onCancel()">Otkaži</button>
     </div>
-  </div>
-  <div class="note-width" *ngIf="notes.length === 0 && !edit" fxFlexAlign="center" i18n>
-    Prostor za pitanja, ideje, nejasnoće i ostale beleške.
+  </mat-card>
+  <div class="note-width" *ngIf="notes.length === 0 && !edit" i18n>
+    <br>Prostor za pitanja, ideje, nejasnoće i ostale beleške.
   </div>
   <mat-card appearance="outlined" class="note-width" *ngFor="let note of notes">
     <cc-markdown-editor *ngIf="note.mode === 'edit'" [text]="note.text" [label]="'Beleška'"
       (textChanged)="note.text = $event">
     </cc-markdown-editor>
     <p *ngIf="note.mode === 'preview'" markdown>{{note.text}}</p>
-    <div fxLayout="row" fxLayoutAlign="space-between end">
-      <div>
-        <div fxLayout="row" fxLayoutGap="10px" *ngIf="note.mode === 'edit'">
+    <div class="flex-row">
+      <div style="flex-grow: 1;">
+        <div class="flex-row" style="gap: 10px" *ngIf="note.mode === 'edit'">
           <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Sačuvaj</button>
           <button mat-flat-button (click)="note.mode = 'preview'">Otkaži</button>
         </div>
       </div>
-      <div fxLayout="row" fxLayoutGap="5px" *ngIf="note.mode !== 'edit'">
-        <mat-icon class="pointer" (click)="note.mode = 'edit'" color="primary">edit</mat-icon>
-        <mat-icon class="pointer" (click)="onDelete(note.id)" color="accent">delete</mat-icon>
+      <div class="flex-row" style="gap: 10px" *ngIf="note.mode !== 'edit'">
+        <mat-icon class="pointer" (click)="note.mode = 'edit'">edit</mat-icon>
+        <mat-icon class="pointer" (click)="onDelete(note.id)">delete</mat-icon>
       </div>
     </div>
   </mat-card>

@@ -1,17 +1,13 @@
-<div fxFlex fxLayout="column" class="editor-container">
-  <div fxLayout="row">
-    <div fxLayout="row">
+<div style="flex-grow: 1">
+  <div class="flex-row">
+    <div class="flex-row">
       <button mat-icon-button (click)="insertElement('bold')">
         <mat-icon>format_bold</mat-icon>
       </button>
-      <button mat-icon-button (click)="insertElement('italic')">
-        <mat-icon>format_italic</mat-icon>
+      <button mat-icon-button [matMenuTriggerFor]="headings">
+        <mat-icon>title</mat-icon>
       </button>
-      <mat-divider vertical="true"></mat-divider>
-      <button mat-icon-button>
-        <mat-icon [matMenuTriggerFor]="menu">title</mat-icon>
-      </button>
-      <mat-menu #menu class="mat-menu" fxLayout="column">
+      <mat-menu #headings="matMenu">
         <div (click)="insertElement('h1')" mat-menu-item>h1</div>
         <div (click)="insertElement('h2')" mat-menu-item>h2</div>
         <div (click)="insertElement('h3')" mat-menu-item>h3</div>
@@ -31,7 +27,7 @@
         <mat-icon>link</mat-icon>
       </button>
     </div>
-    <span fxFlex></span>
+    <span style="flex-grow: 1;"></span>
     <button mat-icon-button (click)="livePreview = !livePreview">
       <mat-icon>{{ livePreview ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
@@ -45,24 +41,24 @@
       </button>
     </div>
   </div>
-  <div *ngIf="!sidePreview" fxLayout="column">
-    <mat-form-field appearance="fill" fxFlex>
+  <div *ngIf="!sidePreview" class="flex-col">
+    <mat-form-field appearance="fill">
       <mat-label>{{label}}</mat-label>
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab"
         (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"
         style="height: 290px;"></textarea>
     </mat-form-field>
-    <small fxFlex>
+    <small>
       <markdown *ngIf="livePreview" [data]="text" lineNumbers></markdown>
     </small>
   </div>
-  <div *ngIf="sidePreview" fxLayout="row" fxLayoutGap="10px" style="height: 65vh;">
-    <mat-form-field appearance="fill" fxFlex>
+  <div *ngIf="sidePreview" class="flex-row" style="height: 65vh; gap: 10px">
+    <mat-form-field appearance="fill" style="width: 50%;">
       <mat-label>{{label}}</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: 60vh; resize: none;"
+      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: calc(65vh - 40px); resize: none;"
         (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"></textarea>
     </mat-form-field>
-    <small fxFlex style="overflow-y: auto;" *ngIf="livePreview">
+    <small style="width: 50%; overflow-y: auto;" *ngIf="livePreview">
       <markdown [data]="text" lineNumbers></markdown>
     </small>
   </div>

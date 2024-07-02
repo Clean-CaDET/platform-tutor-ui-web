@@ -14,13 +14,13 @@
     <mat-card-actions *ngIf="user.role === 'instructor'" class="flex-row" style="gap: 10px;">
         <span style="flex-grow: 1;"></span>
         <a mat-stroked-button [routerLink]="['/authoring/course', course.id]" matTooltip="Autorstvo">
-            <div><mat-icon [matTooltipPosition]="'below'">edit</mat-icon></div>
+            <div><mat-icon>edit</mat-icon></div>
         </a>
         <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']" matTooltip="Analitike">
-            <div><mat-icon [matTooltipPosition]="'below'">bar_chart</mat-icon></div>
+            <div><mat-icon>bar_chart</mat-icon></div>
         </a>
         <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']" matTooltip="Grupe">
-            <div><mat-icon [matTooltipPosition]="'below'">groups</mat-icon></div>
+            <div><mat-icon>groups</mat-icon></div>
         </a>
     </mat-card-actions>
 </mat-card>
