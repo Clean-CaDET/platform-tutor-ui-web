@@ -11,13 +11,13 @@
       </div>
     </button>
   </div>
-  <mat-sidenav-container hasBackdrop="true" style="height: 100%;">
+  <mat-sidenav-container hasBackdrop="false" style="height: 100%;">
     <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
         <cc-notes></cc-notes>
     </mat-sidenav>
     <mat-sidenav-content>
         <router-outlet></router-outlet>
-        <br><br>
+        <br>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

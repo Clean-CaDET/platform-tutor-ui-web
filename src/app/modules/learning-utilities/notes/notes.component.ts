@@ -47,11 +47,8 @@ export class NotesComponent implements OnInit {
   }
 
   onDelete(noteId: number): void {
-    this.noteService.deleteNote(this.unitId, noteId).subscribe((id) => {
-      this.notes.splice(
-        this.notes.findIndex((note) => note.id === id),
-        1
-      );
+    this.noteService.deleteNote(this.unitId, noteId).subscribe(() => {
+      this.notes = this.notes.filter(n => n.id !== noteId);
     });
   }
 

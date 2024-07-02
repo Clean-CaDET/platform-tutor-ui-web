@@ -1,4 +1,4 @@
-<div *ngIf="course" class="learning-viewport">
+<div *ngIf="course" style="padding: 20px">
   <h1 class="mat-h1">{{ course.name }}</h1>
   <markdown>{{ course.description }}</markdown>
   <cc-course-units *ngIf="user?.role.includes('learner')"

@@ -1,5 +1,5 @@
-<div *ngIf="unit" style="padding: 0 20px 0 20px">
-  <h1>{{unit.name}}</h1>
+<div *ngIf="unit" style="padding: 20px">
+  <h1 class="mat-h1">{{unit.name}}</h1>
   <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
   <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
   <markdown *ngIf="unit.guidelines">**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>

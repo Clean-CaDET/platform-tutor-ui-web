@@ -112,7 +112,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   private scrollToTop() {
-    document.querySelector('#scroller').scrollTop = 0;
+    setTimeout(() => { document.querySelector('#scroller').scrollIntoView()}, 100);
   }
 
   @HostListener('window:beforeunload', ['$event'])

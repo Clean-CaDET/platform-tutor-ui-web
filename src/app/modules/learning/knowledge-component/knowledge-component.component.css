@@ -1,12 +1,19 @@
+.learning-viewport {
+  max-width: 660px;
+  flex: 1 1 auto;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
 @media (max-width: 520px) {
-  #knowledge-component {
+  .learning-viewport {
     text-align: left;
   }
 }
 
 h1 {
   font-size: xx-large;
-  text-align: left;
 }
 
 ::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4 {
