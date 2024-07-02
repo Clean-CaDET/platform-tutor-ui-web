@@ -21,11 +21,10 @@ export class NotesComponent implements OnInit {
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
+      this.noteService
+        .getNotes(this.unitId)
+        .subscribe(notes => this.notes = notes);
     });
-
-    this.noteService
-      .getNotes(this.unitId)
-      .subscribe((notes) => (this.notes = notes));
   }
 
   onCancel(): void {

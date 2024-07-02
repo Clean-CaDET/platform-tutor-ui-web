@@ -17,6 +17,7 @@ import { AssessmentItemsComponent } from '../modules/authoring/assessment-items/
 import { UnitAnalyticsComponent } from '../modules/knowledge-analytics/unit-analytics/unit-analytics.component';
 import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learning-task/learning-task.component';
 import { TaskComponent } from '../modules/learning/task/task.component';
+import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit-details.component';
 
 // Generic titles are defined here. Title service is used in components for data-based titles.
 const routes: Routes = [
@@ -35,23 +36,27 @@ const routes: Routes = [
     data: { role: ['learner', 'learnercommercial'] }
   },
   {
-    path: 'course/:courseId/unit/:unitId',
+    path: 'courses/:courseId/units/:unitId',
     component: UnitComponent,
     canActivate: [AuthGuard],
     data: { role: ['learner', 'learnercommercial'] },
+    children: [
+      {
+        path: '',
+        component: UnitDetailsComponent,
+      },
+      {
+        path: 'kcs/:kcId',
+        component: KnowledgeComponentComponent,
+      },
+      {
+        path: 'tasks/:ltId',
+        component: TaskComponent,
+      }
+    ]
   },
-  {
-    path: 'course/:courseId/unit/:unitId/kc/:kcId',
-    component: KnowledgeComponentComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['learner', 'learnercommercial'] },
-  },
-  {
-    path: 'course/:courseId/unit/:unitId/learning-task/:ltId',
-    component: TaskComponent,
-    canActivate: [AuthGuard],
-    data: { role: ['learner', 'learnercommercial'] },
-  },
+
+  
   {
     path: 'analytics/:courseId/statistics',
     title: 'Tutor - Analitike',
@@ -94,6 +99,8 @@ const routes: Routes = [
       }
     ]
   },
+
+  
   {
     path: 'management/stakeholders/learners',
     title: 'Tutor - Učenici',

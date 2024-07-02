@@ -4,12 +4,18 @@
   gap: 10px;
 }
 
-.course-card {
-    flex-basis: 100%;
+.flex-item {
+  flex-basis: 100%;
 }
 
-@media (min-width: 768px) {
-    .course-card {
-      flex-basis: 49%;
-    }
+@media (min-width: 960px) {
+  .flex-item {
+    flex-basis: 49%;
   }
+}
+
+@media (min-width: 1280px) {
+  .flex-item {
+    flex-basis: 32%;
+  }
+}

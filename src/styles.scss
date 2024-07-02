@@ -49,8 +49,13 @@ mat-icon {
   flex-direction: row;
 }
 
+.gap {
+  gap: 10px;
+}
+
 .navbar-button {
   height: 55px !important;
+  width: 100%;
   letter-spacing: normal !important;
   text-align: center;
 }

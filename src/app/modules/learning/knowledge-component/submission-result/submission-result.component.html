@@ -23,7 +23,7 @@
       <button [disabled]="!feedbackProcessed" color="primary" mat-raised-button (click)="onChangePage('AE')" i18n
         matTooltip="Dostupno nakon što probaš trenutni zadatak da rešiš" [matTooltipDisabled]="feedbackProcessed">Nov zadatak</button>
       <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
-      <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
+      <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
     </div>
   </div>
 </mat-card>

@@ -1,5 +1,5 @@
 <mat-card appearance="outlined" style="height: 100%;"
-    (click)="onCourseClick()" [ngClass]="{'pointer': user.role.includes('learner')}">
+    (click)="onCourseClick()" [ngClass]="{'theme-hover': user.role.includes('learner')}">
     <mat-card-header>
         <mat-icon mat-card-avatar>book</mat-icon>
         <mat-card-title style="text-align: left;">
@@ -11,7 +11,7 @@
         <small><markdown>{{course.description}}</markdown></small>
     </mat-card-content>
     <span style="flex-grow: 1;"></span>
-    <mat-card-actions *ngIf="user.role === 'instructor'" class="flex-row" style="gap: 10px;">
+    <mat-card-actions *ngIf="user.role === 'instructor'" class="flex-row gap">
         <span style="flex-grow: 1;"></span>
         <a mat-stroked-button [routerLink]="['/authoring/course', course.id]" matTooltip="Autorstvo">
             <div><mat-icon>edit</mat-icon></div>

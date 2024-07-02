@@ -1,4 +1,24 @@
-.card { cursor: pointer; }
+.dashboard {
+  flex-wrap: wrap;
+  align-content: center;
+  gap: 10px;
+}
+
+.flex-item {
+  flex-basis: 100%;
+}
+
+@media (min-width: 960px) {
+  .flex-item {
+    flex-basis: 49%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .flex-item {
+    flex-basis: 32%;
+  }
+}
 
 .medal-icon {
   transform: scale(1.5);

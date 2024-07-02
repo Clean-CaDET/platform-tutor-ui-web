@@ -1,0 +1,49 @@
+<div *ngIf="unit" style="padding: 0 20px 0 20px">
+  <h1>{{unit.name}}</h1>
+  <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
+  <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
+  <markdown *ngIf="unit.guidelines">**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>
+  <div>
+    <div class="flex-row" style="align-items: center;">
+      <mat-divider style="flex-grow: 1;"></mat-divider>
+      <small><i>&nbsp;&nbsp;Komponente znanja&nbsp;&nbsp;</i></small>
+      <div>
+        <span *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">
+          [ {{calcSatisfiedKcs()}}/{{calcKcs()}} ]
+        </span>
+        <mat-icon class="medal-icon" *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
+      </div>
+    </div>
+    <div *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length > 0">
+      <cc-knowledge-map [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
+    </div>
+    <p *ngIf="unit.knowledgeComponents?.length === 0">
+      <b>Lekcija nema sadržaj. Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
+    </p>
+    <p *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length === 0">
+      <b>Nemate pristup delu lekcije. Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
+    </p>
+  </div>      
+  <div *ngIf="learningTasks?.length > 0" class="flex-col gap">
+    <div class="flex-row" style="align-items: center;">
+      <mat-divider style="flex-grow: 1;"></mat-divider>
+      <small><i>&nbsp;&nbsp;Zadaci</i></small>
+    </div>
+    <mat-card appearance="outlined" *ngFor="let task of learningTasks" class="theme-hover" [routerLink]="['tasks', task.id]">
+      <mat-card-header>
+        {{task.order}}. {{ task.name }}
+      </mat-card-header>
+      <mat-card-content>
+        <small><markdown>{{ displayTaskDescription(task.description) }}</markdown></small>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div style="margin-top: 20px;" class="flex-col gap">
+    <mat-divider></mat-divider>
+    <div class="flex-row gap">
+      <span style="flex-grow: 1;"></span>
+      <button mat-raised-button [routerLink]="['/courses', courseId]" i18n color="primary">Sve lekcije</button>
+      <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
+    </div>
+  </div>
+</div>

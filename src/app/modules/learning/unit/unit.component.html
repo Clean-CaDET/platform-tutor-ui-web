@@ -1,58 +1,23 @@
-<div *ngIf="unit" style="height: 100%; width: 100%;">
-<cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
-<mat-sidenav-container hasBackdrop="true" style="height: 100%;">
-  <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
-      <cc-notes></cc-notes>
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div id="lecture">
+<div style="height: 100%; width: 100%;">
+  <div class="fixed">
+    <button class="navbar-button" mat-button [ngClass]="{'mat-accent': sidenavOpened}"
+      (click)="sidenavOpened = !sidenavOpened">
       <div>
-        <h1 class="mat-h1">{{unit.name}}</h1>
-        <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
-        <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
-        <markdown *ngIf="unit.guidelines">**Smernice za postizanje cilja**: {{unit.guidelines}}</markdown>
+        <mat-icon>assignment</mat-icon>
+        <mat-icon *ngIf="!sidenavOpened">arrow_right</mat-icon>
+        <mat-icon *ngIf="sidenavOpened">arrow_left</mat-icon>
+        <br>
+        Beleške
       </div>
-      <div>
-        <div fxLayout="row" fxLayoutAlign=" center">
-          <mat-divider fxFlex></mat-divider>
-          <small><i>Komponente znanja&nbsp;&nbsp;</i></small>
-        </div>
-        <div *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length > 0" fxLayout="row" fxLayoutAlign="start start" class="kc-num">
-          <cc-knowledge-map fxFlex [knowledgeComponents]="unit.knowledgeComponents" [masteries]="masteries"></cc-knowledge-map>
-          <mat-card appearance="outlined" *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">{{calcSatisfiedKcs()}}/{{calcKcs()}}</mat-card>
-          <mat-icon class="medal-icon" *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
-        </div>
-        <p *ngIf="unit.knowledgeComponents?.length === 0">
-          <b>Lekcija nema sadržaj. Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
-        </p>
-        <p *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length === 0">
-          <b>Nemate pristup delu lekcije. Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
-        </p>
-      </div>      
-      <div *ngIf="learningTasks?.length > 0" fxLayout="column" fxLayoutGap="10px">
-        <div fxLayout="row" fxLayoutAlign=" center">
-          <mat-divider fxFlex></mat-divider>
-          <small><i>Složeni zadaci&nbsp;&nbsp;</i></small>
-        </div>
-        <mat-card appearance="outlined" *ngFor="let task of learningTasks" style="cursor: pointer;" [routerLink]="['learning-task', task.id]">
-          <div fxLayout="row" fxLayoutAlign="space-between center">
-            <b fxFlex>{{task.order}}. {{ task.name }}</b>
-            <span fxFlex style="text-align: end;">Broj bodova: {{ task.maxPoints }}</span>
-          </div>
-          <small><markdown>{{ displayTaskDescription(task.description) }}</markdown></small>
-        </mat-card>
-      </div>
-      <div style="margin-top: 20px;" fxLayoutGap="10px" fxLayout="column">
-        <mat-divider></mat-divider>
-        <div fxLayoutGap="10px">
-          <span fxFlex></span>
-          <button mat-raised-button [routerLink]="['/courses', courseId]" i18n color="primary">Sve lekcije</button>
-          <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
-        </div>
-      </div>
-      <br>
-      <br>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+    </button>
+  </div>
+  <mat-sidenav-container hasBackdrop="true" style="height: 100%;">
+    <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
+        <cc-notes></cc-notes>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <router-outlet></router-outlet>
+        <br><br>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
 </div>

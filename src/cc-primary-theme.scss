@@ -59,16 +59,10 @@ $cc-dark-theme: mat.define-dark-theme(
       foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
       background: mat.$dark-theme-background-palette
     ),
+    is-dark: true,
     density: 0
   )
 );
-
-.dark-theme-mode {
-  @include mat.all-component-themes($cc-dark-theme);
-  @include submission-result.color($cc-dark-theme);
-  @include assessments-table.color($cc-dark-theme);
-  @include learner-progress.color($cc-dark-theme);
-}
 
 $cc-primary-light: mat.define-palette(mat.$blue-palette, 700);
 $cc-accent-light: mat.define-palette(mat.$amber-palette, 700);
@@ -81,14 +75,38 @@ $cc-theme: mat.define-light-theme(
       accent: $cc-accent-light,
       warn: $cc-warn-light,
     ),
+    is-dark: false
   )
 );
+
+@mixin theme-hover-effect($theme) {
+  $is-dark: map-get($theme, is-dark);
+
+  // Adjusting the hover color based on whether the theme is dark or light
+  $hover-color: if($is-dark, #555, #eee);
+
+  .theme-hover {
+    &:hover {
+      background-color: $hover-color;
+      cursor: pointer;
+    }
+  }
+}
+
+.dark-theme-mode {
+  @include mat.all-component-themes($cc-dark-theme);
+  @include submission-result.color($cc-dark-theme);
+  @include assessments-table.color($cc-dark-theme);
+  @include learner-progress.color($cc-dark-theme);
+  @include theme-hover-effect($cc-dark-theme);
+}
 
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
   @include submission-result.color($cc-theme);
   @include assessments-table.color($cc-theme);
   @include learner-progress.color($cc-theme);
+  @include theme-hover-effect($cc-theme);
 }
 
 @include mat.all-component-typographies(mat.define-typography-config(
