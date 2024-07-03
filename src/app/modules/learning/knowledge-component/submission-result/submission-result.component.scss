@@ -18,6 +18,7 @@
 }
 
 pre {
+  font-size: 16px;
   margin: 0;
 }
 
@@ -25,7 +26,8 @@ pre {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 auto;
+  justify-content: space-between;
+  width: 100%;
 }
 
 @media (min-width: 630px) {
