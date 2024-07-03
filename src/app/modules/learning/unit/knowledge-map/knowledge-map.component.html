@@ -1,6 +1,6 @@
 <ng-template #tmplNode let-node="node">
   <div class="node-item">
-    <div class="node-title" fxLayout="row">
+    <div class="node-title flex-row">
       <button mat-menu-item [routerLink]="['kcs', node.id]" [disabled]="isLocked(node)">
         <mat-icon *ngIf="isLocked(node)">lock</mat-icon>
         <mat-icon *ngIf="isCompleted(node)" color="accent">done</mat-icon>

@@ -13,9 +13,7 @@ interface TutorImprovementDTO {
 export class ImprovementService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
-  submitImprovement(unitId: number, improvement: any): void {
-    const softwareComment = improvement.value.tutorImprovement;
-    const contentComment = improvement.value.educationalContentImprovement;
+  submitImprovement(unitId: number, softwareComment: string, contentComment: string): void {
     const tutorImprovement = { unitId, softwareComment, contentComment };
     this.http
       .post<TutorImprovementDTO>(

@@ -19,6 +19,7 @@ export class UnitDetailsComponent implements OnInit {
   courseId: number;
   unit: Unit;
   masteries: KCMastery[] = [];
+  satisfiedMasteriesCount: number;
   learningTasks: LearningTask[];
 
   constructor(
@@ -42,15 +43,13 @@ export class UnitDetailsComponent implements OnInit {
           this.unit = unit;
           this.title.setTitle("Tutor - " + unit.name);
           this.unit.knowledgeComponents = [];
-          this.unitService.getKcsWithMasteries(+params.unitId).subscribe(
-            results => {
-              results.forEach(
-                result => {
-                  this.unit.knowledgeComponents.push(result.knowledgeComponent);
-                  if(result.mastery) this.masteries.push(result.mastery);
-                });
-              }
-          );
+          this.unitService.getKcsWithMasteries(+params.unitId).subscribe(results => {
+            results.forEach(result => {
+              this.unit.knowledgeComponents.push(result.knowledgeComponent);
+              if(result.mastery) this.masteries.push(result.mastery);
+            });
+            this.satisfiedMasteriesCount = this.masteries.filter(m => m.isSatisfied).length;
+          });
           this.taskService.getByUnit(+params.unitId).subscribe(learningTasks => {
             this.learningTasks = learningTasks;
           });
@@ -63,14 +62,6 @@ export class UnitDetailsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.data = { unitId: this.unit.id };
     this.dialog.open(TutorImprovementComponent, dialogConfig);
-  }
-
-  calcKcs(): number {
-    return this.masteries?.length;
-  }
-
-  calcSatisfiedKcs(): number {
-    return this.masteries?.filter(m => m.isSatisfied).length
   }
 
   displayTaskDescription(text: string): string {

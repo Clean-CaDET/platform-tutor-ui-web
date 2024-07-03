@@ -4,7 +4,8 @@
     <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject">
     </cc-learning-object-container>
     <div *ngIf="instructionalItemsShown" class="flex-row gap">
-      <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na pitanja</button>
+      <span style="flex-grow: 1;"></span>
+      <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pitanja</button>
       <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
     </div>
     <div *ngIf="!instructionalItemsShown">

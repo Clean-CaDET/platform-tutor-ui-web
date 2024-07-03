@@ -8,10 +8,10 @@
       <mat-divider style="flex-grow: 1;"></mat-divider>
       <small><i>&nbsp;&nbsp;Komponente znanja&nbsp;&nbsp;</i></small>
       <div>
-        <span *ngIf="calcSatisfiedKcs() != calcKcs()" matTooltip="Broj savladanih komponenti / Broj komponenti">
-          [ {{calcSatisfiedKcs()}}/{{calcKcs()}} ]
+        <span *ngIf="satisfiedMasteriesCount !== masteries.length" matTooltip="Broj savladanih komponenti / Broj komponenti">
+          [ {{satisfiedMasteriesCount}}/{{ masteries.length}} ]
         </span>
-        <mat-icon class="medal-icon" *ngIf="calcSatisfiedKcs() == calcKcs()"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
+        <mat-icon class="medal-icon" *ngIf="satisfiedMasteriesCount === masteries.length"  matTooltip="Uspešno su savladane sve komponente znanja." svgIcon="medal"></mat-icon>
       </div>
     </div>
     <div *ngIf="unit.knowledgeComponents?.length > 0 && masteries?.length > 0">
@@ -42,7 +42,7 @@
     <mat-divider></mat-divider>
     <div class="flex-row gap">
       <span style="flex-grow: 1;"></span>
-      <button mat-raised-button [routerLink]="['/courses', courseId]" i18n color="primary">Sve lekcije</button>
+      <button mat-raised-button [routerLink]="['/courses', courseId]" i18n [color]="satisfiedMasteriesCount === masteries.length ? 'primary' : ''">Sve lekcije</button>
       <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
     </div>
   </div>
