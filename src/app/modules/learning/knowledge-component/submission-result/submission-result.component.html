@@ -1,6 +1,6 @@
 <mat-card appearance="outlined" class="sticky">
-  <div *ngIf="feedbackMessage" class="feedback-container">
-    <pre typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
+  <div class="feedback-container">
+    <pre *ngIf="feedbackMessage" typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
     [deleteSpeed]="1000000" [showCursor]="false"></pre>
   </div>
   <div class="controls">
@@ -18,10 +18,10 @@
     </div>
     <div class="flex-row gap">
       <div matTooltip="Dostupno nakon što odgovoriš na trenutno pitanje" [matTooltipDisabled]="feedbackProcessed">
-        <button [disabled]="!feedbackProcessed" color="primary" mat-raised-button (click)="onChangePage('AE')">Nov zadatak</button>
+        <button [disabled]="!feedbackProcessed" [color]="!statistics?.isSatisfied ? 'primary' : ''" mat-raised-button (click)="onChangePage('AE')">Nov zadatak</button>
       </div>
       <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
-      <button [color]="statistics?.isSatisfied ? 'accent' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
+      <button [color]="statistics?.isSatisfied ? 'primary' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
     </div>
   </div>
 </mat-card>

@@ -96,8 +96,11 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.maxHeight = '800px';
-    dialogConfig.maxWidth = '345px';
+    dialogConfig.position = {
+      bottom: "0",
+      left: "calc(50% - 330px + 45px)"
+    }
+    dialogConfig.height = '270px';
     dialogConfig.enterAnimationDuration = "350ms";
     dialogConfig.data = {
       kcId: this.knowledgeComponent.id,

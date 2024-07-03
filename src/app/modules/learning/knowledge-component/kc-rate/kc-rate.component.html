@@ -1,23 +1,20 @@
-<div fxLayout="column" style="text-align: center;">
-  <pre>{{feedbackMessage}}</pre>
-  <div fxLayout="column">
-    <p>Kako bi ocenio ovaj deo lekcije?</p>
+<div class="flex-col gap container">
+  <pre>Celina savladana, bravo 🥳! Kako bi ocenio komponentu znanja?</pre>
+  <div class="flex-col">
     <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
   </div>
-  <div class="margin" *ngIf="isRated" fxLayout="column">
-    <p *ngIf="rating === 5">Šta misliš da smo posebno dobro uradili? </p>
-    <p *ngIf="rating < 5">Na šta treba da obratimo pažnju?</p>
-    <mat-chip-listbox id="options" selectable multiple>
-      <mat-chip-option *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
-        {{option}}
+  <div *ngIf="isRated" class="flex-col" style="height: 104px;">
+    <pre *ngIf="rating === 5">Šta smo posebno dobro uradili?</pre>
+    <pre *ngIf="rating < 5">Šta treba da unapredimo?</pre>
+    <mat-chip-listbox id="options" selectable multiple style="margin: 0 auto;">
+      <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary">
+        <small>{{tag}}</small>
       </mat-chip-option>
     </mat-chip-listbox>
   </div>
-  <div style="height: 138px;" *ngIf="!isRated"></div>
+  <div style="height: 104px;" *ngIf="!isRated"></div>
+  <div class="flex-row gap" style="justify-content: flex-end;">
+    <button id="comment-button" mat-button (click)="closeDialog()">Ostani na pitanju</button>
+    <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Pregled lekcije</button>
+  </div>
 </div>
-<mat-divider class="margin"></mat-divider>
-<div fxLayout="row" fxLayoutAlign="space-between center">
-  <button mat-raised-button color="accent" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Lekcija</button>
-  <button id="comment-button" mat-button color="primary" (click)="closeDialog()">Zatvori</button>
-</div>
-

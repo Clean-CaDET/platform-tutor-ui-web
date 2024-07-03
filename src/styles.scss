@@ -1,4 +1,5 @@
-@import "./cc-primary-theme.scss"; /* You can add global styles to this file, and also import other style files */
+@import "./cc-primary-theme.scss";
+@import "~css-star-rating/css/star-rating.css";
 
 html, body {
   min-height: 100vh;

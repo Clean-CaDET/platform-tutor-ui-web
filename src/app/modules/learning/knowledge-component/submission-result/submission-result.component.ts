@@ -65,7 +65,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     this.feedbackProcessed = true;
     // If typing animation onComplete callback is fixed this should be changed
     this.messageTimeout = setTimeout(() => this.assessmentConnector.sendToAssessment(feedback), 1200);
-    if(isFirstSatisfaction) {
+    if(true) {
       this.rateKc.next();
     }
   }
