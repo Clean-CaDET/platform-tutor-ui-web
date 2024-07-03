@@ -1,3 +1,36 @@
+.sticky {
+  position: fixed;
+  bottom: 0px;
+  margin: 0 auto;
+  padding: 5px;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 130px);
+  max-width: 660px;
+}
+
+@media (min-width: 780px) {
+  .sticky {
+    width: 660px;
+  }
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+}
+
+@media (min-width: 630px) {
+  .controls {
+    flex-direction: row;
+    gap: 30px;
+  }
+}
+
 button {
   padding: 5px;
 }
@@ -8,7 +41,7 @@ button {
 }
 
 .small-icon {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 .accent-text {
@@ -17,22 +50,11 @@ button {
 }
 
 .accent-icon {
-  margin-top: 4px;
   font-size: 20px;
 }
 
-.sticky {
-  position: fixed;
-  bottom: 0px;
-  left: 85px;
-  width: calc(100% - 91px);
-  max-width: inherit;
-  z-index: 5;
-}
-
 .feedback-container {
-  height: 100px;
-  margin-right: 20px;
+  height: 104px;
   padding-right: 5px;
   font-size: 16px;
   text-align: left;

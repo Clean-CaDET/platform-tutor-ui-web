@@ -9,7 +9,7 @@
       <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
     </div>
     <div *ngIf="!instructionalItemsShown">
-      <div style="margin-bottom: 130px;"></div>
+      <div style="margin-bottom: 168px;"></div>
       <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
     </div>
   </div>

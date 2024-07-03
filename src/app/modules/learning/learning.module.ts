@@ -25,7 +25,6 @@ import { MultipleResponseQuestionComponent } from './knowledge-component/learnin
 import { ImageDialogComponent } from './knowledge-component/learning-objects/instructional-items/image/image-dialog/image-dialog.component';
 import { ShortAnswerQuestionComponent } from './knowledge-component/learning-objects/assessment-items/short-answer-question/short-answer-question.component';
 import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/assessment-items/multiple-choice-question/multiple-choice-question.component';
-import { LearningObserverComponent } from './learning-observer/learning-observer.component';
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
 import { StarRatingModule } from "angular-star-rating";
@@ -52,7 +51,6 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
     CourseComponent,
     CourseUnitsComponent,
     TutorImprovementComponent,
-    LearningObserverComponent,
     TypingAnimatorDirective,
     KcRateComponent,
     TaskComponent,
