@@ -98,7 +98,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     dialogConfig.autoFocus = false;
     dialogConfig.position = {
       bottom: "0",
-      left: "calc(50% - 330px + 45px)"
+      left: "calc(50% - 340px + 40px)"
     }
     dialogConfig.height = '270px';
     dialogConfig.enterAnimationDuration = "350ms";
