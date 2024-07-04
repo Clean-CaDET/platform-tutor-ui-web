@@ -1,7 +1,6 @@
-<div fxLayout="column">
-    <small>Premeštanje zadatka: {{taskName}}</small>
-    <span fxFlex></span>
-    <form [formGroup]="formGroup" fxLayout="column">
+<div class="flex-col gap" style="padding: 20px">
+    <small style="height: 45px;"><b>Premeštanje zadatka</b>: {{taskName}}</small>
+    <form [formGroup]="formGroup" class="flex-col">
         <mat-form-field appearance="fill">
             <mat-label>Lekcija u koju se premešta</mat-label>
             <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="units" [matAutocomplete]="auto">
@@ -11,9 +10,9 @@
             </mat-option>
             </mat-autocomplete>
         </mat-form-field>
-        <div fxLayout="row" fxLayoutGap="20px">
-            <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !findUnitId()" (click)="onSubmit()" fxFlex>Sačuvaj</button>
-            <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+        <div class="flex-row gap">
+            <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !findUnitId()" (click)="onSubmit()">Sačuvaj</button>
+            <button mat-raised-button (click)="onClose()">Zatvori</button>
         </div>
     </form>
 </div>

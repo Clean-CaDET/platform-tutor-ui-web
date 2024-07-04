@@ -12,7 +12,7 @@
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
-            <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
+            <section class="flex-row" fxFlex="15" fxLayoutGap="10px">
                 <span fxFlex></span>
                 <button mat-icon-button *ngIf="!editMode" (click)="edit()" color="">
                     <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
@@ -26,7 +26,7 @@
                 </button>
             </section>
         </div>
-        <div fxLayout="column">
+        <div class="flex-col">
             <h4 *ngIf="!editMode">Smernice (uputstva i heuristike)</h4>
             <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
             <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice (uputstva i heuristike) *'"
@@ -35,9 +35,9 @@
         </div>
         <div><!-- Examples -->
             <h4 *ngIf="examples.controls?.length !== 0 || editMode">Video primeri sprovođenja aktivnosti</h4>
-            <div formArrayName="examples" fxLayout="column">
+            <div formArrayName="examples" class="flex-col">
                 <div *ngFor="let exampleForm of examples.controls; let i = index">
-                    <div [formGroup]="exampleForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <div [formGroup]="exampleForm" class="flex-row" fxLayoutGap="10px" fxLayoutAlign=" center">
                         <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="30">
                             <mat-label>Naslov</mat-label>
                             <input matInput formControlName="code" [readonly]="!editMode">
@@ -55,7 +55,7 @@
                 </button>
             </div>
         </div>
-        <div *ngIf="!activity.parentId" fxLayout="column" formGroupName="submissionFormat">
+        <div *ngIf="!activity.parentId" class="flex-col" formGroupName="submissionFormat">
             <h4>Format odgovora</h4>
             <section fxLayout fxLayoutGap="10px">
                 <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
@@ -81,9 +81,9 @@
         </div>
         <div *ngIf="!activity.parentId"><!-- Standards -->
             <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi (sortirani po nazivu)</h4>
-            <div formArrayName="standards" fxLayout="column">
+            <div formArrayName="standards" class="flex-col">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
-                    <div [formGroup]="standardForm" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign=" center">
+                    <div [formGroup]="standardForm" class="flex-row" fxLayoutGap="10px" fxLayoutAlign=" center">
                         <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Naziv</mat-label>
                             <input matInput formControlName="name" [readonly]="!editMode">

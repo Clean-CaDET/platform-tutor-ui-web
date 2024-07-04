@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div class="flex-col">
     <div style="margin: 10px;">
         <button mat-icon-button (click)="add(null)"
             [class.mat-flat-button]="!learningTasks?.length"
@@ -9,40 +9,43 @@
     </div>
 
     <div *ngFor="let learningTask of learningTasks">
-        <mat-card appearance="outlined" fxFlex style="margin: 10px;" fxLayout="column">
-            <div fxFlex fxLayout="row">
-                <div fxFlex>
+        <mat-card appearance="outlined" class="flex-col" style="margin: 10px" >
+            <div class="flex-row gap theme-highlight-primary" style="align-items: center">
+                <div style="flex-grow: 1; padding-left: 10px;">
                     <span *ngIf="learningTask.isTemplate">[šablon] </span>
                     <span *ngIf="!learningTask.isTemplate"><b>{{learningTask.order}}. </b></span>
                     <b>{{learningTask.name}}</b>
                 </div>
-                <div fxLayoutGap="30px">
-                    <a mat-icon-button mat-stroked-button [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
-                        <mat-icon matTooltip="Ažuriraj" [matTooltipPosition]="'above'">edit</mat-icon>
+                <div class="flex-row" style="align-items: center; gap: 30px">
+                    <a mat-stroked-button matTooltip="Ažuriraj"
+                        [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
+                        <span><mat-icon>edit</mat-icon></span>
                     </a>
                     <span>
-                        <button mat-icon-button (click)="add(learningTask)">
-                            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
+                        <button mat-icon-button (click)="add(learningTask)" matTooltip="Kloniraj">
+                            <mat-icon>content_copy</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="move(learningTask)">
-                            <mat-icon matTooltip="Premesti u drugu lekciju" [matTooltipPosition]="'above'">drive_file_move_outline</mat-icon>
+                        <button mat-icon-button (click)="move(learningTask)" matTooltip="Premesti u drugu lekciju">
+                            <mat-icon>drive_file_move_outline</mat-icon>
                         </button>
                     </span>
-                    <button mat-icon-button (click)="delete(learningTask.id)">
-                        <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                    <button mat-icon-button (click)="delete(learningTask.id)" matTooltip="Obriši">
+                        <mat-icon>delete</mat-icon>
                     </button>
                 </div>
             </div>
-            <div fxLayout="row" fxLayoutAlign=" end">
-                <small fxFlex>
-                    <markdown>{{ shorten(learningTask.description) }}</markdown>
-                    <b>Koraci</b>
-                    <ol>
-                        <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }} ({{s.maxPoints}} p.)</li>
-                    </ol>
-                </small>
-                <small>
-                    <b>Broj poena</b>: {{ learningTask.maxPoints }}
+            <div class="flex-col" style="padding: 0 10px 10px 10px;">
+                <small><markdown>{{ shorten(learningTask.description) }}</markdown></small>
+                <small class="flex-row" style="align-items: end;">
+                    <span style="flex-grow: 1;">
+                        <b>Koraci</b>
+                        <ol>
+                            <li *ngFor="let s of getMainSteps(learningTask)">{{ s.name }} ({{s.maxPoints}} p.)</li>
+                        </ol>
+                    </span>
+                    <span>
+                        <b>Broj poena</b>: {{ learningTask.maxPoints }}
+                    </span>
                 </small>
             </div>
         </mat-card>

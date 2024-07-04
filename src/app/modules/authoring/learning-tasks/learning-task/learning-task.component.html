@@ -1,29 +1,30 @@
-<div *ngIf="task">
-    <div fxFlex="23" fxLayout="column">
-        <div fxLayout="row" fxLayoutAlign=" center" class="padding" fxLayoutGap="5px"
-            [class.highlight]="mode === 'task'">
+<div *ngIf="task" class="flex-row">
+    <div style="width: 25%" class="flex-col">
+        <div class="flex-row gap"
+            [class.theme-highlight-primary]="mode === 'task'">
             <small fxFlex>{{task?.name}}</small>
-            <div fxLayout="column" fxLayoutGap="5px">
+            <div class="flex-col" fxLayoutGap="5px">
                 <span fxLayoutGap="5px">
-                    <button mat-icon-button (click)="openTask()" [class.mat-flat-button]="mode==='task'"
+                    <button mat-icon-button matTooltip="Opis zadatka"
+                        (click)="openTask()" [class.mat-flat-button]="mode==='task'"
                         [color]="mode === 'task' ? 'accent' : ''">
-                        <mat-icon matTooltip="Opis zadatka">edit</mat-icon>
+                        <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button mat-stroked-button color="" [routerLink]="['/authoring/course', courseId]"
-                        [queryParams]="{unit: task?.unitId, mode: 'lt'}">
-                        <mat-icon matTooltip="Pregled zadataka lekcije">rebase_edit</mat-icon>
+                    <button mat-stroked-button matTooltip="Pregled zadataka lekcije"
+                        [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
+                        <span><mat-icon>rebase_edit</mat-icon></span>
                     </button>
                 </span>
                 <span fxLayoutGap="5px">
                     <span fxFlex></span>
-                    <button mat-icon-button (click)="previewTask()">
-                        <mat-icon matTooltip="Opis zadatka u modalu">preview</mat-icon>
+                    <button mat-icon-button (click)="previewTask()" matTooltip="Opis zadatka u modalu">
+                        <mat-icon>preview</mat-icon>
                     </button>
                 </span>
             </div>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>
-        <div fxLayout="row" class="padding" fxLayoutAlign=" center" [class.highlight]="selectedStep?.name === ''">
+        <div class="flex-row" style="padding: 10px" [class.theme-highlight-primary]="selectedStep?.name === ''">
             <span fxFlex>
                 <b>Koraci</b>
                 <small *ngIf="task.maxPoints"> Ukupno bodova: {{task.maxPoints}}</small>
@@ -36,22 +37,24 @@
         <mat-divider></mat-divider>
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
             <div *cdkVirtualFor="let step of steps; index as i">
-                <div [class.highlight]="selectedStep?.id===step.id" class="padding">
+                <div [class.theme-highlight-primary]="selectedStep?.id===step.id" style="padding: 10px">
                     <span>{{step.order}}. {{step.code}}: {{step.name}}</span>
                     <div>
                         <small>Broj bodova: {{step.maxPoints}}</small>
                         <small *ngIf="step.subactivities?.length"> | Podaktivnosti: {{step.subactivities.length}}</small>
                     </div>
-                    <div fxLayout="row">
-                        <button mat-icon-button (click)="setStepAndParams(step, 'guidance')"
+                    <div class="flex-row">
+                        <button mat-icon-button matTooltip="Smernice i ocenjivanje"
+                            (click)="setStepAndParams(step, 'guidance')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
                             [color]="selectedStep?.id===step.id && mode==='guidance' ? 'accent' : ''">
-                            <mat-icon matTooltip="Smernice i ocenjivanje" [matTooltipPosition]="'above'">edit</mat-icon>
+                            <mat-icon>edit</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="setStepAndParams(step, 'subactivities')"
+                        <button mat-icon-button matTooltip="Podaktivnosti"
+                            (click)="setStepAndParams(step, 'subactivities')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
                             [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'accent' : ''">
-                            <mat-icon matTooltip="Podaktivnosti" [matTooltipPosition]="'above'">account_tree</mat-icon>
+                            <mat-icon>account_tree</mat-icon>
                         </button>
                         <span fxFlex></span>
                         <button [disabled]="i === 0" mat-icon-button (click)="reorder(step, i, true)">
@@ -60,8 +63,8 @@
                         <button [disabled]="i === steps.length - 1" mat-icon-button (click)="reorder(step, i, false)">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
-                        <button mat-icon-button (click)="deleteStep(step.id)">
-                            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                        <button mat-icon-button matTooltip="Obriši" (click)="deleteStep(step.id)">
+                            <mat-icon>delete</mat-icon>
                         </button>
                     </div>
                 </div>
@@ -70,7 +73,7 @@
         </cdk-virtual-scroll-viewport>
     </div>
     <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
-    <div fxFlex="77">
+    <div style="width: 75%">
         <cc-task-details *ngIf="mode === 'task'" [task]="task" (taskSaved)="updateTask($event)"></cc-task-details>
         <cc-activity-details *ngIf="mode === 'guidance' && selectedStep" [activity]="selectedStep" [activities]="task.steps"
             (activitySaved)="createOrUpdateStep($event)"></cc-activity-details>

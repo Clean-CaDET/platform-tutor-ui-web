@@ -1,11 +1,11 @@
-<div fxLayout="row" style="height: 100%;">
-        <div fxFlex="30" fxLayout="column">
+<div class="flex-row" style="height: 100%;">
+        <div fxFlex="30" class="flex-col">
             <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
                 <div *cdkVirtualFor="let activity of activities">
-                    <div fxLayout="row">
-                        <div [class.highlight]="activeActivity?.id===activity.id || (!activeActivity?.id && activeActivity?.parentId === activity.id)" fxFlex fxLayout="column" style="padding: 10px;">
+                    <div class="flex-row">
+                        <div [class.highlight]="activeActivity?.id===activity.id || (!activeActivity?.id && activeActivity?.parentId === activity.id)" fxFlex class="flex-col" style="padding: 10px;">
                             <span>{{activity.code}}: {{activity.name}}</span>
-                            <span fxLayout="row">
+                            <span class="flex-row">
                                 <button mat-icon-button (click)="view(activity)"
                                     [class.mat-flat-button]="activeActivity?.id===activity.id"
                                     [color]="activeActivity?.id===activity.id ? 'accent' : ''">
@@ -24,12 +24,12 @@
                         </div>
                     </div>
                     <div *ngIf="activity.subactivities?.length">
-                        <div fxLayout="row" *ngFor="let subactivity of activity.subactivities let i = index">
+                        <div class="flex-row" *ngFor="let subactivity of activity.subactivities let i = index">
                             <span style="cursor: default;">
                                 &nbsp;&nbsp;&nbsp;&nbsp;
                             </span>
-                            <div fxFlex fxLayout="column">
-                                <div class="row" fxLayout="row" fxLayoutAlign=" center"
+                            <div fxFlex class="flex-col">
+                                <div class="row" class="flex-row" fxLayoutAlign=" center"
                                     [class.highlight]="activeActivity?.id===subactivity.id" (click)="view(subactivity)">
                                     <small fxFlex>
                                         {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
