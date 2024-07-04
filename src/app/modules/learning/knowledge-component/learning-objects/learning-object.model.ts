@@ -2,9 +2,9 @@ import { Type } from '@angular/core';
 import { LearningObjectComponent } from './learning-object-component';
 
 export abstract class LearningObject {
+  $type: string; // must be first to support back-end deserialization
   id?: number;
   knowledgeComponentId: number;
-  $type: string;
   order: number;
 
   protected constructor(obj?: any) {

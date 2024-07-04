@@ -53,7 +53,7 @@
     </small>
   </div>
   <div *ngIf="sidePreview" class="flex-row" style="height: 65vh; gap: 10px">
-    <mat-form-field appearance="fill" style="width: 50%;">
+    <mat-form-field appearance="fill" style="flex-grow: 1;">
       <mat-label>{{label}}</mat-label>
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: calc(65vh - 40px); resize: none;"
         (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"></textarea>

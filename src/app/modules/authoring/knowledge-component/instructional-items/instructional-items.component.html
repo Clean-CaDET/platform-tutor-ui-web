@@ -1,8 +1,8 @@
-<div fxLayout="column" fxLayoutGap="25px">
-    <mat-card appearance="outlined" *ngFor="let instructionalItem of instructionalItems; let i = index" fxFlex>
+<div class="flex-col gap">
+    <mat-card appearance="outlined" *ngFor="let instructionalItem of instructionalItems; let i = index">
         <div *ngIf="!editMap[instructionalItem.id]">
-            <div fxLayout="row">
-                <span fxFlex></span>
+            <div class="flex-row">
+                <span style="flex-grow: 1"></span>
                 <button mat-icon-button *ngIf="i !== 0"
                     (click)="swapOrder(instructionalItem, instructionalItems[i-1])">
                     <mat-icon>arrow_upward</mat-icon>
@@ -18,14 +18,14 @@
                     <mat-icon>delete</mat-icon>
                 </button>
             </div>
-            <hr>
-            <div>
+            <mat-divider></mat-divider>
+            <div class="flex-row" style="padding: 0 10px; justify-content: center;">
                 <cc-learning-object-container [learningObject]="instructionalItem"></cc-learning-object-container>
             </div>
         </div>
         <div *ngIf="editMap[instructionalItem.id]">
             <div *ngIf="instructionalItem.$type === 'text'">
-                <cc-markdown-editor fxFlex [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
+                <cc-markdown-editor style="flex-grow: 1" [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
                     [text]="instructionalItem.content" (submit)="updateMarkdownItem($event, instructionalItem)">
                 </cc-markdown-editor>
             </div>
@@ -35,21 +35,21 @@
         </div>
     </mat-card>
     <mat-card appearance="outlined">
-        <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+        <span *ngIf="!editMap[0]" class="flex-row gap" style="padding: 10px; align-items: center;">
             <b>Gradivo</b>
-            <button style="width: 80px" mat-raised-button color="primary" (click)="editMap[0] = 'markdown'">
+            <button style="width: 90px" mat-raised-button color="primary" (click)="editMap[0] = 'markdown'">
                 + Text
             </button>
-            <button style="width: 80px" mat-raised-button color="primary" (click)="editMap[0] = 'video'">
+            <button style="width: 90px" mat-raised-button color="primary" (click)="editMap[0] = 'video'">
                 + Video
             </button>
         </span>
         <div *ngIf="editMap[0] === 'markdown'">
-            <cc-markdown-editor fxFlex [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
+            <cc-markdown-editor style="flex-grow: 1" [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
                 [text]="''" (submit)="createMarkdown($event)">
             </cc-markdown-editor>
         </div>
-        <div *ngIf="editMap[0] === 'video'">
+        <div *ngIf="editMap[0] === 'video'" style="padding: 0 10px;">
             <cc-video-authoring [video]="createEmptyVideo()" (videoCreated)="createVideoItem($event)"></cc-video-authoring>
         </div>
     </mat-card>

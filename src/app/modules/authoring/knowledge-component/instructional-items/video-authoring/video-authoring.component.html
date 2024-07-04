@@ -1,5 +1,5 @@
-<div fxLayout="row">
-    <span fxFlex></span>
+<div class="flex-row">
+    <span style="flex-grow: 1;"></span>
     <button mat-icon-button color="primary" (click)="updateVideoItem(false)">
       <mat-icon>check</mat-icon>
     </button>
@@ -7,12 +7,12 @@
       <mat-icon>clear</mat-icon>
     </button>
 </div>
-<form [formGroup]="videoForm" fxLayout="row" fxLayoutGap="15px">
-    <mat-form-field fxFlex="60" appearance="fill">
+<form [formGroup]="videoForm" class="flex-row gap">
+    <mat-form-field style="width: 60%;" appearance="fill">
         <mat-label>Naslov</mat-label>
         <input formControlName="caption" matInput>
     </mat-form-field>
-    <mat-form-field fxFlex="40" appearance="fill">
+    <mat-form-field style="width: 40%;" appearance="fill">
         <mat-label>URL</mat-label>
         <input formControlName="url" matInput>
     </mat-form-field>
