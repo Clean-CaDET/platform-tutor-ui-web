@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
@@ -25,15 +25,17 @@ export class TaskComponent implements OnInit {
   taskProgress: TaskProgress;
   answerForm: FormGroup;
   selectedExample: ActivityExample;
-  showExample: boolean;
   videoUrl: string;
+
+  selectedTab = 0;
 
   constructor(
     private route: ActivatedRoute,
     private title: Title,
     private builder: FormBuilder,
     private taskService: TaskService,
-    private progressService: TaskProgressService
+    private progressService: TaskProgressService,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -75,9 +77,12 @@ export class TaskComponent implements OnInit {
   }
 
   viewStep(step: any) {
-    this.showExample = false;
     this.selectedStep = step;
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
+    if(this.selectedStep.examples?.length > 0) {
+      this.selectedExample = this.selectedStep.examples[0];
+      this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+    }
     this.createForm();
     this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
       .subscribe(progress => this.taskProgress = progress);
@@ -105,12 +110,6 @@ export class TaskComponent implements OnInit {
       .subscribe(progress => this.taskProgress = progress);
   }
 
-  showExamples() {
-    this.showExample = true;
-    this.selectedExample = this.selectedStep.examples[0];
-    this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
-  }
-
   getNextExample() {
     let index = this.selectedStep.examples.indexOf(this.selectedExample);
     if (index != this.selectedStep.examples.length - 1) {
@@ -122,6 +121,7 @@ export class TaskComponent implements OnInit {
   }
 
   changeStep(moveFactor: number) {
+    this.selectedTab = 0;
     let index = this.steps.indexOf(this.selectedStep);
     this.viewStep(this.steps[index + moveFactor])
   }

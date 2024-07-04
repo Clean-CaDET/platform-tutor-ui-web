@@ -1,17 +1,50 @@
-.highlight {
-    background-color: #999;
+.container {
+    height: 100vh;
+    width: 95%;
+    max-width: 850px;
+    margin: 0 auto;
 }
 
-.guidance {
+.task-definition {
+    height: 35%;
+
+    h3 {
+        margin: 10px 0 0 0;
+    }
+
+    .task-description {
+        overflow-y: auto;
+        padding-right: 10px;
+        flex-grow: 1;
+    }
+}
+
+.task-content {
+    height: 65%;
+
+    .steps {
+        height: 100%;
+        width: 25%;
+        overflow-y: auto;
+    }
+    
+    .tabs {
+        height: 100%;
+        overflow-y: auto;
+        padding: 10px;
+    }
+}
+
+.padding-s {
+    padding: 5px;
+}
+
+.text-alignment {
     text-align: justify;
 }
 
 @media (max-width: 780px) {
-    .guidance {
+    .text-alignment {
         text-align: left;
-    }
-
-    div {
-        font-size: 12px;
     }
 }
