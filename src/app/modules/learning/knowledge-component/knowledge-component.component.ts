@@ -93,14 +93,13 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   rateKc(): void {
+    document.querySelector('#scroller').scroll({top: document.querySelector('#scroller').scrollHeight});
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.position = {
-      bottom: "0",
-      left: "calc(50% - 340px + 40px)"
-    }
-    dialogConfig.height = '270px';
+    dialogConfig.height = '330px';
+    dialogConfig.width = '330px';
     dialogConfig.enterAnimationDuration = "350ms";
     dialogConfig.data = {
       kcId: this.knowledgeComponent.id,
@@ -111,7 +110,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   private scrollToTop() {
-    setTimeout(() => { document.querySelector('#scroller').scrollIntoView()}, 100);
+    setTimeout(() => { document.querySelector('#scroller').scroll({top: 0})}, 50);
   }
 
   @HostListener('window:beforeunload', ['$event'])

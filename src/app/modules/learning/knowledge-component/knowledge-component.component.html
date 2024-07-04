@@ -1,16 +1,17 @@
-<div *ngIf="knowledgeComponent" id="scroller">
-  <div class="flex-col learning-viewport">
-    <h1 class="mat-h1">{{knowledgeComponent.name}}</h1>
-    <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject">
-    </cc-learning-object-container>
-    <div *ngIf="instructionalItemsShown" class="flex-row gap">
-      <span style="flex-grow: 1;"></span>
-      <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pitanja</button>
-      <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
+<div *ngIf="knowledgeComponent" class="flex-col" style="height: 100%;">
+  <div id="scroller">
+    <div class="flex-col learning-viewport">
+      <h1 class="mat-h1">{{knowledgeComponent.name}}</h1>
+      <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject">
+      </cc-learning-object-container>
+      <div *ngIf="instructionalItemsShown" class="flex-row gap">
+        <span style="flex-grow: 1;"></span>
+        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pitanja</button>
+        <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
+      </div>
     </div>
-    <div *ngIf="!instructionalItemsShown">
-      <div style="margin-bottom: 168px;"></div>
-      <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
-    </div>
+  </div>
+  <div *ngIf="!instructionalItemsShown">
+    <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
   </div>
 </div>

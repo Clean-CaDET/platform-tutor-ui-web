@@ -91,6 +91,12 @@ $cc-theme: mat.define-light-theme(
       cursor: pointer;
     }
   }
+
+  $highlight-color: if($is-dark, #666, #ddd);
+
+  .theme-highlight {
+    background-color: $highlight-color
+  }
 }
 
 .dark-theme-mode {

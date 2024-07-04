@@ -1,6 +1,10 @@
+#scroller {
+  flex: 1 1 auto;
+  overflow-x: auto;
+}
+
 .learning-viewport {
   max-width: 680px;
-  flex: 1 1 auto;
   padding: 20px;
   margin: 0 auto;
   text-align: justify;

@@ -51,7 +51,7 @@ export class UnitDetailsComponent implements OnInit {
             this.satisfiedMasteriesCount = this.masteries.filter(m => m.isSatisfied).length;
           });
           this.taskService.getByUnit(+params.unitId).subscribe(learningTasks => {
-            this.learningTasks = learningTasks;
+            this.learningTasks = learningTasks.sort((a, b) => a.order - b.order);
           });
         });
     });

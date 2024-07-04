@@ -1,20 +1,15 @@
 .container {
   text-align: center;
-  width: calc(100vw - 200px);
-  padding: 5px;
-}
-
-@media (min-width: 850px) {
-  .container {
-    width: 670px;
-  }
+  padding: 20px;
 }
 
 star-rating {
-  margin-left: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 
 pre {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }

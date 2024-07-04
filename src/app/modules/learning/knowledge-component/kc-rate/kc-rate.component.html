@@ -1,20 +1,22 @@
 <div class="flex-col gap container">
-  <pre>Celina savladana, bravo 🥳! Kako bi ocenio komponentu znanja?</pre>
+  <pre style="font-size: 18px;">Celina savladana, bravo 🥳!</pre>
+  <pre>Kako bi ocenio komponentu znanja?</pre>
   <div class="flex-col">
     <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
   </div>
   <div *ngIf="isRated" class="flex-col" style="height: 104px;">
     <pre *ngIf="rating === 5">Šta smo posebno dobro uradili?</pre>
     <pre *ngIf="rating < 5">Šta treba da unapredimo?</pre>
-    <mat-chip-listbox id="options" selectable multiple style="margin: 0 auto;">
-      <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary">
+    <mat-chip-listbox id="options" selectable multiple class="flex-row" style="flex-wrap: wrap;">
+      <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary" style="flex: 1 1;">
         <small>{{tag}}</small>
       </mat-chip-option>
     </mat-chip-listbox>
   </div>
   <div style="height: 104px;" *ngIf="!isRated"></div>
+  <mat-divider></mat-divider>
   <div class="flex-row gap" style="justify-content: flex-end;">
-    <button id="comment-button" mat-button (click)="closeDialog()">Ostani na pitanju</button>
-    <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Pregled lekcije</button>
+    <button id="comment-button" mat-button (click)="closeDialog()">Ostani ovde</button>
+    <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Lekcija</button>
   </div>
 </div>

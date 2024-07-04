@@ -1,9 +1,6 @@
-.sticky {
-  position: fixed;
-  bottom: 0px;
+.panel {
   margin: 0 auto;
   padding: 10px;
-  z-index: 5;
 
   display: flex;
   flex-direction: column;
@@ -12,7 +9,7 @@
 }
 
 @media (min-width: 810px) {
-  .sticky {
+  .panel {
     width: 680px;
   }
 }
@@ -30,7 +27,7 @@ pre {
   width: 100%;
 }
 
-@media (min-width: 630px) {
+@media (min-width: 600px) {
   .controls {
     flex-direction: row;
   }
@@ -59,9 +56,8 @@ button {
 }
 
 .feedback-container {
-  height: 104px;
+  height: 68px;
   padding-right: 5px;
-  font-size: 16px;
   text-align: left;
 
   overflow-y: auto;
@@ -71,4 +67,10 @@ button {
 
 .feedback-container > pre:last-child {
   scroll-snap-align: end;
+}
+
+@media (min-width: 600px) {
+  .feedback-container {
+    height: 104px;
+  }
 }

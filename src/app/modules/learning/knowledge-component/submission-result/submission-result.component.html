@@ -1,27 +1,29 @@
-<mat-card appearance="outlined" class="sticky">
-  <div class="feedback-container">
-    <pre *ngIf="feedbackMessage" typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
-    [deleteSpeed]="1000000" [showCursor]="false"></pre>
-  </div>
-  <div class="controls">
-    <div class="flex-row gap" *ngIf="statistics">
-      <div [ngClass]="{'kc-satisfied': statistics.isSatisfied}" class="flex-col">
-        <div class="accent-text">{{(statistics.mastery * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
-        <div class="small-text flex-row" style="align-items: start;">
-          vičnost <mat-icon i18n-matTooltip matTooltip="Progres nad trenutnom komponentom znanja. Povećava se sa tačnim odgovorima na pitanja." class="small-icon">help_outline</mat-icon>
+<mat-card appearance="outlined">
+  <div class="panel">
+    <div class="feedback-container">
+      <pre *ngIf="feedbackMessage" typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
+      [deleteSpeed]="1000000" [showCursor]="false"></pre>
+    </div>
+    <div class="controls">
+      <div class="flex-row gap" *ngIf="statistics">
+        <div [ngClass]="{'kc-satisfied': statistics.isSatisfied}" class="flex-col">
+          <div class="accent-text">{{(statistics.mastery * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+          <div class="small-text flex-row" style="align-items: start;">
+            vičnost <mat-icon i18n-matTooltip matTooltip="Progres nad trenutnom komponentom znanja. Povećava se sa tačnim odgovorima na pitanja." class="small-icon">help_outline</mat-icon>
+          </div>
+        </div>
+        <div class="flex-col">
+          <div class="accent-text">{{statistics.attemptedCount}} / {{statistics.passedCount}} / {{statistics.totalCount}}</div>
+          <div class="small-text" i18n>pokušano / urađeno / ukupno</div>
         </div>
       </div>
-      <div class="flex-col">
-        <div class="accent-text">{{statistics.attemptedCount}} / {{statistics.passedCount}} / {{statistics.totalCount}}</div>
-        <div class="small-text" i18n>pokušano / urađeno / ukupno</div>
+      <div class="flex-row gap">
+        <div matTooltip="Dostupno nakon što odgovoriš na trenutno pitanje" [matTooltipDisabled]="feedbackProcessed">
+          <button [disabled]="!feedbackProcessed" [color]="!statistics?.isSatisfied ? 'primary' : ''" mat-raised-button (click)="onChangePage('AE')">Nov zadatak</button>
+        </div>
+        <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
+        <button [color]="statistics?.isSatisfied ? 'primary' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
       </div>
-    </div>
-    <div class="flex-row gap">
-      <div matTooltip="Dostupno nakon što odgovoriš na trenutno pitanje" [matTooltipDisabled]="feedbackProcessed">
-        <button [disabled]="!feedbackProcessed" [color]="!statistics?.isSatisfied ? 'primary' : ''" mat-raised-button (click)="onChangePage('AE')">Nov zadatak</button>
-      </div>
-      <button mat-raised-button (click)="onChangePage('IE')" i18n>Gradivo</button>
-      <button [color]="statistics?.isSatisfied ? 'primary' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
     </div>
   </div>
 </mat-card>
