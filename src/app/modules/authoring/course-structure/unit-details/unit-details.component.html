@@ -1,22 +1,21 @@
-<div style="margin: 5px 15px">
-    <form fxLayout="column" [formGroup]="unitForm">
-        <section fxLayoutGap="15px">
-            <mat-form-field fxFlex="15" [appearance]="editMode ? 'fill' : 'outline'">
+<div style="margin: 15px 15px 0 15px">
+    <form class="flex-col" [formGroup]="unitForm">
+        <section class="flex-row gap">
+            <mat-form-field style="width: 15%" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Kod</mat-label>
                 <input formControlName="code" matInput [readonly]="!editMode" tabindex="41">
             </mat-form-field>
-            <mat-form-field fxFlex="50" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-form-field style="width: 55%" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode" tabindex="42">
             </mat-form-field>
-            <mat-form-field fxFlex="15" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-form-field style="width: 15%" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Redni broj</mat-label>
                 <input formControlName="order" type="number" matInput [readonly]="!editMode" tabindex="43">
             </mat-form-field>
-            <span fxFlex></span>
-            <section fxLayout="column">
-                <span fxFlex="8"></span>
-                <span fxLayoutGap="10px" fxLayout="row">
+            <span style="flex-grow: 1"></span>
+            <section class="flex-col">
+                <span class="flex-row gap">
                     <button mat-icon-button *ngIf="!editMode" (click)="editMode = true" tabindex="50">
                         <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
                     </button>
@@ -27,18 +26,17 @@
                         <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
                     </button>
                 </span>
-                <span fxFlex="40"></span>
             </section>
         </section>
-        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Uvod</mat-label>
             <textarea formControlName="introduction" matInput [readonly]="!editMode" tabindex="45" rows="8"></textarea>
         </mat-form-field>
-        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Cilj</mat-label>
             <textarea formControlName="goals" matInput [readonly]="!editMode" tabindex="46" rows="5"></textarea>
         </mat-form-field>
-        <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
             <mat-label>Smernice za postizanje cilja</mat-label>
             <textarea formControlName="guidelines" matInput [readonly]="!editMode" tabindex="47" rows="8"></textarea>
         </mat-form-field>

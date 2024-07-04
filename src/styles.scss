@@ -20,13 +20,17 @@ p > code, li > code {
   font-size: 1.05em;
 }
 
+b {
+  font-weight: 500;
+}
+
 pre {
   white-space: pre-wrap;
   font-size: 14px;
 }
 
 mat-icon {
-  vertical-align: middle;
+  vertical-align: top;
 }
 
 ::-webkit-scrollbar {
