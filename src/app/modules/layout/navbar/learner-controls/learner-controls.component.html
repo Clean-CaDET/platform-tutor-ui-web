@@ -13,7 +13,7 @@
   <div *ngIf="selectedCourse" class="flex-col">
     <mat-divider></mat-divider>
     <small>{{selectedCourse.name}}</small>
-    <button class="navbar-button" mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-accent">
+    <button class="navbar-button" mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact: true}">
       <div>
         <mat-icon>library_books</mat-icon><br>
         Sve lekcije

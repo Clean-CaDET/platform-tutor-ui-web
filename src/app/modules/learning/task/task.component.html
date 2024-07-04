@@ -1,4 +1,4 @@
-<div *ngIf="task" class="flex-col container">
+<mat-card *ngIf="task" class="flex-col container">
     <div class="flex-col task-definition">
         <h3>{{ task.name }}</h3>
         <div class="text-alignment task-description">
@@ -11,11 +11,11 @@
             <div>
                 <div *ngFor="let step of steps; index as i" class="theme-hover">
                     <div [class.theme-highlight-primary]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
-                        <div>
+                        <div style="padding: 0 5px 0 15px">
                             <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
                             <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
                         </div>
-                        <span class="padding-s">{{ step.order }}. {{ step.name }}</span>
+                        <span style="padding: 5px">{{ step.order }}. {{ step.name }}</span>
                     </div>
                     <mat-divider *ngIf="i < steps.length -1"></mat-divider>
                 </div>
@@ -69,4 +69,4 @@
             </mat-tab>
         </mat-tab-group>
     </div>
-</div>
+</mat-card>

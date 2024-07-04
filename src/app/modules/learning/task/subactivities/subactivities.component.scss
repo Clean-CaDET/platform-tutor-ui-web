@@ -1,13 +1,13 @@
-.example-accordion {
+.container {
     display: block;
 }
 
-.example-accordion-item {
+.item {
     display: block;
     border-bottom: solid 1px #999;
 }
 
-.example-accordion-item:last-child {
+.item:last-child {
     display: block;
     border-bottom: none;
 }

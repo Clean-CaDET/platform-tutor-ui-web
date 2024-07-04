@@ -1,17 +1,17 @@
-<cdk-accordion class="example-accordion">
+<cdk-accordion class="container">
     <cdk-accordion-item *ngFor="let subactivity of selectedStep.subactivities; let index = index"
-        #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
+        #accordionItem="cdkAccordionItem" class="item" role="button" tabindex="0"
         [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-' + index">
         <div class="theme-hover item-header" (click)="accordionItem.toggle()" [ngClass]="{'theme-highlight-primary': accordionItem.expanded}">
-            <span class="example-accordion-item-description">
+            <span>
                 {{ accumulatedOrder }}.{{ subactivity.order }}. {{ subactivity.name }}
             </span>
             <button *ngIf="subactivity.examples && subactivity.examples.length > 0" mat-raised-button (click)="showExample($event, subactivity)">
                 <mat-icon>photo_library</mat-icon> Primeri
             </button>
         </div>
-        <div class="example-accordion-item-body" role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+        <div role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
             [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
             <markdown>{{ subactivity.guidance }}</markdown>
             <cc-subactivities *ngIf="subactivity.subactivities && subactivity.subactivities.length > 0"

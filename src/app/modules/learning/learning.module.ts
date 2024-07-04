@@ -63,7 +63,6 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
     BrowserModule,
     MarkdownModule.forChild(),
     YouTubePlayerModule,
-    FlexLayoutModule,
     RouterModule,
     FormsModule,
     MaterialModule,

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
@@ -16,17 +16,16 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
-  showTask: boolean = true;
-  courseId: number;
-
   task: LearningTask;
   steps: Activity[];
-  selectedStep: Activity;
   taskProgress: TaskProgress;
+
+  selectedStep: Activity;
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
-
+  
+  courseId: number;
   selectedTab = 0;
 
   constructor(
@@ -35,7 +34,6 @@ export class TaskComponent implements OnInit {
     private builder: FormBuilder,
     private taskService: TaskService,
     private progressService: TaskProgressService,
-    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -77,6 +75,7 @@ export class TaskComponent implements OnInit {
   }
 
   viewStep(step: any) {
+    this.selectedTab = 0;
     this.selectedStep = step;
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     if(this.selectedStep.examples?.length > 0) {
@@ -118,11 +117,5 @@ export class TaskComponent implements OnInit {
       this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
-  }
-
-  changeStep(moveFactor: number) {
-    this.selectedTab = 0;
-    let index = this.steps.indexOf(this.selectedStep);
-    this.viewStep(this.steps[index + moveFactor])
   }
 }
