@@ -12,28 +12,11 @@
     border-bottom: none;
 }
 
-.example-accordion-item-header {
+.item-header {
     display: flex;
     align-content: center;
     justify-content: space-between;
-    // sticky
     position: sticky;
     top: 0;
-}
-
-.example-accordion-item-description {
-    font-weight: bold;
-}
-
-.example-accordion-item-header {
     padding: 10px;
-}
-
-.example-accordion-item-header:hover {
-    cursor: pointer;
-    background-color: #999;
-}
-
-.highlight {
-    background-color: #999;
 }

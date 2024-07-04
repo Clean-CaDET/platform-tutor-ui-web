@@ -6,7 +6,7 @@
     </div>
     <div class="controls">
       <div class="flex-row gap" *ngIf="statistics">
-        <div [ngClass]="{'kc-satisfied': statistics.isSatisfied}" class="flex-col">
+        <div [ngClass]="{'theme-highlight-accent': statistics.isSatisfied}" class="flex-col">
           <div class="accent-text">{{(statistics.mastery * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
           <div class="small-text flex-row" style="align-items: start;">
             vičnost <mat-icon i18n-matTooltip matTooltip="Progres nad trenutnom komponentom znanja. Povećava se sa tačnim odgovorima na pitanja." class="small-icon">help_outline</mat-icon>

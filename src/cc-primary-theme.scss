@@ -1,7 +1,5 @@
 @use "@angular/material" as mat;
 mat.$theme-ignore-duplication-warnings: true;
-@use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
-  as submission-result;
 @use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
   as assessments-table;
 @use "./src/app/modules/monitoring/group-monitoring/learner-progress/learner-progress.component.scss"
@@ -13,7 +11,7 @@ $cc-palette: (
   50: #262626,
   100: #b3bcc7,
   200: #818fa1,
-  300: #4488c1,
+  300: hsl(207, 50%, 57%),
   400: #29405f,
   500: #031e43,
   600: #031a3d,
@@ -92,16 +90,21 @@ $cc-theme: mat.define-light-theme(
     }
   }
 
-  $highlight-color: if($is-dark, #666, #ddd);
+  $color-config: mat.get-color-config($theme);
+  $accent-palette: map-get($color-config, 'accent');
 
-  .theme-highlight {
-    background-color: $highlight-color
+  $primary-highlight: if($is-dark, #122536, #bbd9f7);
+  .theme-highlight-primary {
+    background-color: $primary-highlight;
+  }
+
+  .theme-highlight-accent {
+    color: mat.get-color-from-palette($accent-palette);
   }
 }
 
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
-  @include submission-result.color($cc-dark-theme);
   @include assessments-table.color($cc-dark-theme);
   @include learner-progress.color($cc-dark-theme);
   @include theme-hover-effect($cc-dark-theme);
@@ -109,7 +112,6 @@ $cc-theme: mat.define-light-theme(
 
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
-  @include submission-result.color($cc-theme);
   @include assessments-table.color($cc-theme);
   @include learner-progress.color($cc-theme);
   @include theme-hover-effect($cc-theme);

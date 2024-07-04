@@ -3,11 +3,10 @@
         #accordionItem="cdkAccordionItem" class="example-accordion-item" role="button" tabindex="0"
         [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
         [attr.aria-controls]="'accordion-body-' + index">
-        <div class="example-accordion-item-header" (click)="accordionItem.toggle()" [ngClass]="{'highlight': accordionItem.expanded}">
+        <div class="theme-hover item-header" (click)="accordionItem.toggle()" [ngClass]="{'theme-highlight-primary': accordionItem.expanded}">
             <span class="example-accordion-item-description">
                 {{ accumulatedOrder }}.{{ subactivity.order }}. {{ subactivity.name }}
             </span>
-            <span fxFlex></span>
             <button *ngIf="subactivity.examples && subactivity.examples.length > 0" mat-raised-button (click)="showExample($event, subactivity)">
                 <mat-icon>photo_library</mat-icon> Primeri
             </button>

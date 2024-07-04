@@ -10,7 +10,7 @@
         <div class="steps flex-col" style="justify-content: space-between;">
             <div>
                 <div *ngFor="let step of steps; index as i" class="theme-hover">
-                    <div [class.theme-highlight]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
+                    <div [class.theme-highlight-primary]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
                         <div>
                             <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
                             <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
@@ -29,27 +29,25 @@
         <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight [selectedIndex]="selectedTab">
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">
-                    <div>
+                    <div class="flex-col gap" style="justify-content: space-between;">
                         <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
-                            <b>Standardi za odgovor</b>
-                            <div *ngFor="let standard of selectedStep.standards">
-                                {{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}
+                            <b>Šta tražimo u tvom rešenju?</b>
+                            <div *ngFor="let standard of selectedStep.standards" class="flex-row gap">
+                                <span style="flex-grow: 1;">{{ standard.name }}</span>
+                                <span style="min-width: 70px;">/ {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
                             </div>
                         </div>
-                        <mat-divider vertical="true"></mat-divider>
+                        {{ selectedStep.submissionFormat.guidelines }}
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
-                            <div>
-                                {{ selectedStep.submissionFormat.guidelines }}
-                                <mat-form-field appearance="fill">
-                                    <mat-label>Odgovor</mat-label>
-                                    <small><textarea formControlName="answer" matInput rows="5"></textarea></small>
-                                </mat-form-field>
-                            </div>
+                            <mat-form-field appearance="fill" style="width: 100%;">
+                                <mat-label>Rešenje</mat-label>
+                                <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
+                            </mat-form-field>
                         </form>
-                        <button mat-mini-fab [color]="isAnswered(selectedStep) ? '' : 'primary'" [disabled]="answerForm.invalid"
-                            (click)="submitAnswer()">
-                            <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
-                        </button>
+                        <div style="margin-bottom: 20px">
+                            <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
+                                [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
+                        </div>
                     </div>
                 </div>
             </mat-tab>
@@ -59,6 +57,7 @@
                     <div *ngIf="selectedStep.subactivities">
                         <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                     </div>
+                    <br>
                 </div>
             </mat-tab>
             <mat-tab label="Primeri" *ngIf="selectedStep.examples?.length > 0">
