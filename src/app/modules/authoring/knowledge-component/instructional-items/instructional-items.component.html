@@ -1,7 +1,7 @@
 <div class="flex-col gap">
     <mat-card appearance="outlined" *ngFor="let instructionalItem of instructionalItems; let i = index">
         <div *ngIf="!editMap[instructionalItem.id]">
-            <div class="flex-row">
+            <div class="flex-row theme-highlight-primary">
                 <span style="flex-grow: 1"></span>
                 <button mat-icon-button *ngIf="i !== 0"
                     (click)="swapOrder(instructionalItem, instructionalItems[i-1])">

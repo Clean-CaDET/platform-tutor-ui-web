@@ -1,59 +1,60 @@
-<div fxLayout="column" fxLayoutGap="25px">
-    <small>
-        <span fxFlex>
+<div class="flex-col gap">
+    <small class="flex-row">
+        <span style="flex-grow: 1;">
             <b>Preporuke</b>: Sortiraj pitanja po težini; Izbegavaj reprodukciju činjenica i fokusiraj se na analizu primera; Definiši 1 hint za netrivijalna pitanja.
         </span>
         <span>
             <b>Broj pitanja</b>: {{ assessmentItems?.length }}
         </span>
     </small>
-    <mat-card appearance="outlined" *ngFor="let item of assessmentItems; let i = index;" fxFlex id="a{{item.id}}">
+    <mat-card appearance="outlined" *ngFor="let item of assessmentItems; let i = index;" id="a{{item.id}}">
         <div *ngIf="!editMap[item.id]">
-            <div fxLayout="row" fxLayoutGap="30px">
-                <small fxFlex fxLayoutAlign=" center" [ngClass]="{'warn': item.id == selectedAi}">
+            <div class="flex-row gap theme-highlight-primary">
+                <small class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;" [ngClass]="{'warn': item.id == selectedAi}">
                     <b>{{i + 1}}.&nbsp;&nbsp;</b>
                     <span><b>Tip: </b>{{getTypeLabel(item.$type)}}</span>
-                    <button mat-icon-button (click)="viewCommonWrongAnswers(item.id)">
-                        <mat-icon matTooltip="Najčešći pogrešni odgovori">bar_chart</mat-icon>
+                    <button mat-icon-button (click)="viewCommonWrongAnswers(item.id)" matTooltip="Najčešći pogrešni odgovori">
+                        <mat-icon>bar_chart</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="copyLink(item.id)">
-                        <mat-icon matTooltip="Kopiraj link do pitanja">link</mat-icon>
+                    <button mat-icon-button (click)="copyLink(item.id)" matTooltip="Kopiraj link do pitanja">
+                        <mat-icon>link</mat-icon>
                     </button>
                 </small>
-                <div fxLayout="row">
-                    <button mat-icon-button *ngIf="i !== 0"
+                <div class="flex-row">
+                    <button mat-icon-button *ngIf="i !== 0" matTooltip="Rotiraj sa gornjim"
                         (click)="swapOrder(item, assessmentItems[i-1])">
-                        <mat-icon matTooltip="Rotiraj sa gornjim">arrow_upward</mat-icon>
+                        <mat-icon>arrow_upward</mat-icon>
                     </button>
-                    <button mat-icon-button *ngIf="i !== (assessmentItems.length-1)"
+                    <button mat-icon-button *ngIf="i !== (assessmentItems.length-1)" matTooltip="Rotiraj sa donjim"
                         (click)="swapOrder(item, assessmentItems[i+1])">
-                        <mat-icon matTooltip="Rotiraj sa donjim">arrow_downward</mat-icon>
+                        <mat-icon>arrow_downward</mat-icon>
                     </button>
                 </div>
-                <div fxLayout="row">
-                    <button mat-icon-button (click)="editMap[item.id] = true">
-                        <mat-icon matTooltip="Ažuriraj">edit</mat-icon>
+                <div class="flex-row">
+                    <button mat-icon-button (click)="editMap[item.id] = true" matTooltip="Ažuriraj">
+                        <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-icon-button (click)="cloneItem(item)">
-                        <mat-icon matTooltip="Kloniraj">content_copy</mat-icon>
+                    <button mat-icon-button (click)="cloneItem(item)" matTooltip="Kloniraj">
+                        <mat-icon>content_copy</mat-icon>
                     </button>
                 </div>
-                <button mat-icon-button (click)="deleteItem(item.id)">
-                    <mat-icon matTooltip="Obriši">delete</mat-icon>
+                <button mat-icon-button (click)="deleteItem(item.id)" matTooltip="Obriši">
+                    <mat-icon>delete</mat-icon>
                 </button>
             </div>
-            <hr>
-            <div>
+            <mat-divider></mat-divider>
+            <div style="padding: 0 10px">
                 <markdown lineNumbers>{{item.text}}</markdown>
+                <mat-divider style="margin: 10px 0;"></mat-divider>
                 <div>
                     <div *ngIf="item.$type === 'multiChoiceQuestion'">
                         <b>Ponuđeni odgovori:</b>
-                        <p *ngFor="let option of item.possibleAnswers" fxLayout="row" fxLayoutGap="15px">
+                        <p *ngFor="let option of item.possibleAnswers" class="flex-row gap">
                             <span>
                                 <mat-icon *ngIf="option === item.correctAnswer">check</mat-icon>
                                 <mat-icon *ngIf="option !== item.correctAnswer"></mat-icon>
                             </span>
-                            <span fxLayoutAlign=" center">{{option}}</span>
+                            <span>{{option}}</span>
                         </p>
                         <div>
                             <b>Povratna informacija</b>: {{item.feedback}}
@@ -61,22 +62,22 @@
                     </div>
                     <div *ngIf="item.$type === 'multiResponseQuestion'">
                         <b>Ponuđeni odgovori:</b>
-                        <p *ngFor="let option of item.items" fxLayout="column">
-                            <span fxLayout="row" fxLayoutGap="15px">
+                        <p *ngFor="let option of item.items" class="flex-col">
+                            <span class="flex-row gap">
                                 <span>
                                     <mat-icon *ngIf="option.isCorrect">check</mat-icon>
                                     <mat-icon *ngIf="!option.isCorrect">clear</mat-icon>
                                 </span>
-                                <span fxLayoutAlign=" center">{{option.text}}</span>
+                                <span>{{option.text}}</span>
                             </span>
-                            <small style="margin-left:39px">{{option.feedback}}</small>
+                            <small style="margin-left:34px">{{option.feedback}}</small>
                         </p>
                     </div>
                     <div *ngIf="item.$type === 'shortAnswerQuestion'">
                         <b>Prihvatljivi odgovori:</b>
-                        <p *ngFor="let option of item.acceptableAnswers" fxLayout="row">
+                        <p *ngFor="let option of item.acceptableAnswers" class="flex-row">
                             <mat-icon>arrow_right</mat-icon>
-                            <span fxLayoutAlign=" center">{{option}}</span>
+                            <span>{{option}}</span>
                         </p>
                         <div>
                             <b>Povratna informacija</b>: {{item.feedback}}
@@ -87,6 +88,7 @@
                     </div>
                 </div>
                 <div>
+                    <mat-divider style="margin: 10px 0;"></mat-divider>
                     <p>
                         <b *ngIf="item.hints.length === 0">Nema definisanih smernica!</b>
                         <b *ngIf="item.hints.length !== 0">Definisane smernice (hints):</b>
@@ -110,7 +112,7 @@
         </div>
     </mat-card>
     <mat-card appearance="outlined" id="aform">
-        <span *ngIf="!editMap[0]" fxLayout="row" fxLayoutAlign=" center" fxLayoutGap="10px">
+        <span *ngIf="!editMap[0]" class="flex-row gap" style="padding: 10px; align-items: center;">
             <b>Pitanja</b>
             <button mat-raised-button color="primary" (click)="createEmptyItem('multiChoiceQuestion')">
                 + Višestruki izbor, jedan odgovor
