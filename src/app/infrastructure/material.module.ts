@@ -23,7 +23,6 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatChipsModule} from "@angular/material/chips";
@@ -59,7 +58,6 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatRadioModule,
     MatSelectModule,
     MatDatepickerModule,
-    FlexLayoutModule,
     MatIconModule,
     MatNativeDateModule,
     MatTabsModule,
@@ -90,7 +88,6 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatRadioModule,
     MatSelectModule,
     MatDatepickerModule,
-    FlexLayoutModule,
     MatIconModule,
     MatNativeDateModule,
     MatTabsModule,

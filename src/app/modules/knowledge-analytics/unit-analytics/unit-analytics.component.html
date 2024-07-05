@@ -32,13 +32,14 @@
                                     [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : ''">
                                     <mat-icon>text_snippet</mat-icon>
                                 </button>
-                                <button mat-icon-button class="mat-flat-button" (click)="changeDisplay(kc, AnalyticsType.Ai)" matTooltip="Analiza pitanja"
+                                <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Ai)" matTooltip="Analiza pitanja"
                                     [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
                                     [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : ''">
                                     <mat-icon>quiz</mat-icon>
                                 </button>
                             </span>
-                            <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']" matTooltip="Autorstvo gradiva komponente">                                <mat-icon>library_books</mat-icon>
+                            <a mat-stroked-button [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']" matTooltip="Autorstvo gradiva komponente">
+                                <span><mat-icon>library_books</mat-icon></span>
                             </a>
                             <span fxFlex></span>
                             <span fxLayout="column" *ngIf="ratingAverages && ratingAverages[kc.id]">

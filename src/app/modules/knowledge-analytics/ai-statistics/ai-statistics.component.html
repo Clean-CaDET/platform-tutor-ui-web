@@ -22,13 +22,13 @@
                 ~90% učenika je provelo do <b>{{completionTimeBarsGrouping[a.aiId][3]}} minuta</b> do prvog pokušaja.<br>
             </p>
             <div fxFlex="50" fxLayout="column">
-                <div fxFlex><ngx-charts-bar-vertical
+                <div fxFlex><!--ngx-charts-bar-vertical
                     [results]="attemptsToPassGrouping[a.aiId]"
                     [xAxis]="true"
                     [yAxis]="true"
                     [roundEdges]="false"
                     [showDataLabel]="true">
-                </ngx-charts-bar-vertical></div>
+                </ngx-charts-bar-vertical--></div>
                 <small style="text-align: center;">Broj submisija do rešenja</small>
             </div>
         </div>
