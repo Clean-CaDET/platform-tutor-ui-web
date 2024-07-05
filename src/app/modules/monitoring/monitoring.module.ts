@@ -6,8 +6,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
-import {AssessmentsTableComponent} from './group-monitoring/learner-progress/assessments-table/assessments-table.component';
-import {LearnerProgressComponent} from './group-monitoring/learner-progress/learner-progress.component';
 import { GradingComponent } from './grading/grading.component';
 import { ProgressComponent } from './progress/progress.component';
 import { EnrollmentsComponent } from './enrollments/enrollments.component';
@@ -15,8 +13,6 @@ import { EnrollmentsComponent } from './enrollments/enrollments.component';
 @NgModule({
   declarations: [
     GroupMonitoringComponent,
-    AssessmentsTableComponent,
-    LearnerProgressComponent,
     GradingComponent,
     ProgressComponent,
     EnrollmentsComponent,

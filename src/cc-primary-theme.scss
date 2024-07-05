@@ -1,9 +1,5 @@
 @use "@angular/material" as mat;
 mat.$theme-ignore-duplication-warnings: true;
-@use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
-  as assessments-table;
-@use "./src/app/modules/monitoring/group-monitoring/learner-progress/learner-progress.component.scss"
-  as learner-progress;
 
 @include mat.core();
 
@@ -105,15 +101,11 @@ $cc-theme: mat.define-light-theme(
 
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
-  @include assessments-table.color($cc-dark-theme);
-  @include learner-progress.color($cc-dark-theme);
   @include theme-hover-effect($cc-dark-theme);
 }
 
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
-  @include assessments-table.color($cc-theme);
-  @include learner-progress.color($cc-theme);
   @include theme-hover-effect($cc-theme);
 }
 
