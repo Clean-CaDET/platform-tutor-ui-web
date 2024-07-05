@@ -1,53 +1,55 @@
-<h3>{{label}}</h3>
-<form [formGroup]="formGroup" fxLayout="column">
-  <div fxFlex *ngFor="let field of fieldConfiguration">
-    <mat-form-field appearance="fill" *ngIf="field.type === 'email'" fxFlex>
-      <mat-label>{{field.label}}</mat-label>
-      <input matInput placeholder="pera@gmail.com" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
-      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
-    </mat-form-field>
+<mat-dialog-content>
+  <h3>{{label}}</h3>
+  <form [formGroup]="formGroup" class="flex-col">
+    <div *ngFor="let field of fieldConfiguration">
+      <mat-form-field appearance="fill" *ngIf="field.type === 'email'" style="width: 100%;">
+        <mat-label>{{field.label}}</mat-label>
+        <input matInput placeholder="pera@gmail.com" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+        <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="field.type === 'password' && !entity?.id" fxFlex>
-      <mat-label>{{field.label}}</mat-label>
-      <input type="password" matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
-      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill" *ngIf="field.type === 'password' && !entity?.id" style="width: 100%;">
+        <mat-label>{{field.label}}</mat-label>
+        <input type="password" matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+        <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      </mat-form-field>
 
-    <section *ngIf="field.type === 'boolean' || field.type === 'archive'" fxFlex fxLayoutGap="20px" class="margin-bottom">
-      <mat-checkbox formControlName="{{field.code}}"></mat-checkbox>
-      <mat-label>{{field.label}}</mat-label>
-    </section>
+      <section *ngIf="field.type === 'boolean' || field.type === 'archive'" style="width: 100%; margin-bottom: 20px; gap: 10px">
+        <mat-checkbox formControlName="{{field.code}}"></mat-checkbox>
+        <mat-label>{{field.label}}</mat-label>
+      </section>
 
-    <mat-form-field appearance="fill" *ngIf="field.type === 'string'" fxFlex>
-      <mat-label>{{field.label}}</mat-label>
-      <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
-      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill" *ngIf="field.type === 'string'" style="width: 100%;">
+        <mat-label>{{field.label}}</mat-label>
+        <input matInput formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+        <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      </mat-form-field>
 
-    <mat-form-field appearance="fill" *ngIf="field.type === 'date'" fxFlex>
-      <mat-label>{{field.label}}</mat-label>
-      <input matInput [matDatepicker]="picker" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
-      <span fxFlex></span>
-      <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="field.readOnly"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill" *ngIf="field.type === 'date'" style="width: 100%;" class="flex-row">
+        <mat-label>{{field.label}}</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="{{field.code}}" [readonly]="field.readOnly" autocomplete="off">
+        <span style="width: 100%;"></span>
+        <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="field.readOnly"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      </mat-form-field>
 
-    <div *ngIf="field.type === 'radio'" class="margin-bottom">
-      <mat-label [ngClass]="field.required ? 'required' : ''">{{field.label}}</mat-label>
-      <mat-radio-group formControlName="{{field.code}}" fxLayout="row" fxLayoutGap="5%">
-        <mat-radio-button *ngFor="let option of field.options" [value]="option.value" 
-        [checked]="entity[field.code] === option.value" [disabled]="entity[field.code] ? entity[field.code] !== option.value : false">
-          {{option.label}}
-        </mat-radio-button>
-      </mat-radio-group>
-      <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      <div *ngIf="field.type === 'radio'" class="margin-bottom">
+        <mat-label [ngClass]="field.required ? 'required' : ''">{{field.label}}</mat-label>
+        <mat-radio-group formControlName="{{field.code}}" class="flex-row gap">
+          <mat-radio-button *ngFor="let option of field.options" [value]="option.value" 
+          [checked]="entity[field.code] === option.value" [disabled]="entity[field.code] ? entity[field.code] !== option.value : false">
+            {{option.label}}
+          </mat-radio-button>
+        </mat-radio-group>
+        <mat-error *ngIf="formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched">{{getErrorMessage(field.code)}}</mat-error>
+      </div>
+      
     </div>
-    
-  </div>
-  <div fxFlex="column" fxLayoutGap="20px">
-    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()" fxFlex>Sačuvaj</button>
-    <button mat-raised-button (click)="onReset()" fxFlex>Osveži</button>
-    <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
-  </div>
-</form>
+    <div class="flex-row gap">
+      <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onSubmit()">Sačuvaj</button>
+      <button mat-raised-button (click)="onReset()">Osveži</button>
+      <button mat-raised-button (click)="onClose()">Zatvori</button>
+    </div>
+  </form>
+</mat-dialog-content>

@@ -25,11 +25,11 @@
         </span>
         <span fxLayoutGap="10px">
           <span></span>
-          <button [disabled]="unit.groupEnrollment.status === 'Active'" mat-mini-fab (click)="startEnrollment(unit)" [color]="unit.groupEnrollment.status === 'InactiveSome' ? 'warn' : ''">
-            <mat-icon matTooltip="Omogući pristup lekciji">refresh</mat-icon>
+          <button [disabled]="unit.groupEnrollment.status === 'Active'" mat-mini-fab (click)="startEnrollment(unit)" [color]="unit.groupEnrollment.status === 'InactiveSome' ? 'warn' : ''" matTooltip="Omogući pristup lekciji">
+            <mat-icon>refresh</mat-icon>
           </button>
-          <button [disabled]="unit.groupEnrollment.status === 'InactiveAll'" mat-mini-fab (click)="groupUnenroll(unit)" color="">
-            <mat-icon matTooltip="Blokiraj pristup lekciji">stop</mat-icon>
+          <button [disabled]="unit.groupEnrollment.status === 'InactiveAll'" mat-mini-fab (click)="groupUnenroll(unit)" color="" matTooltip="Blokiraj pristup lekciji">
+            <mat-icon>stop</mat-icon>
           </button>
         </span>
       </div>

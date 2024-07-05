@@ -88,7 +88,7 @@ export class GenericTableComponent implements OnChanges {
     const bulkCreateDialogComponent = this.crud?.crud.bulkCreateDialogComponent;
     if(!bulkCreateDialogComponent) return;
 
-    const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '600px', width: '900px'});
+    const dialogRef = this.dialog.open(bulkCreateDialogComponent, {height: '800px', width: '900px'});
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;

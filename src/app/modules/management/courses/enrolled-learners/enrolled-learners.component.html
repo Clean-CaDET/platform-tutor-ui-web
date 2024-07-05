@@ -4,8 +4,8 @@
             <h2 style="margin-bottom: 0px;">Učenici ({{group.name}})</h2>
             <small>Broj učenika: {{dataSource?.data.length}}</small>
         </div>
-        <button mat-mini-fab color="primary" (click)="onAddBulk()">
-            <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'">library_add</mat-icon>
+        <button mat-mini-fab color="primary" (click)="onAddBulk()" matTooltip="Dodaj">
+            <mat-icon>library_add</mat-icon>
         </button>
     </div>
     <div style="overflow-y: auto; flex-grow: 1;">

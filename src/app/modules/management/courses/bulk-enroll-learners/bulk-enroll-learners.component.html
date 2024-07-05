@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <div class="flex-col" *ngIf="!checkView">
-      <h3>Uvezivanje više učenika <mat-icon [matTooltipPosition]="'above'" matTooltip="Jedno korisničko ime po redu.">help_outline</mat-icon></h3>
+      <h3>Uvezivanje više učenika <mat-icon matTooltip="Jedno korisničko ime po redu.">help_outline</mat-icon></h3>
       <form class="flex-col" [formGroup]="formGroup">
           <mat-form-field appearance="fill" style="width: 100%;">
               <textarea matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="Jedno korisničko ime po redu"></textarea>
