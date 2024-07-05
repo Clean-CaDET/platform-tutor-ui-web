@@ -7,9 +7,7 @@ import { MultipleChoiceQuestion } from './model/mcq.model';
 import { MultipleReponseQuestion } from './model/mrq.model';
 import { ShortAnswerQuestion } from './model/saq.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class AssessmentItemsService {
   private baseUrl(kcId: number): string {
     return environment.apiHost + 'authoring/knowledge-components/' + kcId + '/assessments/';

@@ -5,9 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class CourseStructureService {
 
   constructor(private http: HttpClient) { }

@@ -2,9 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Feedback } from '../model/learning-objects/feedback.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class AssessmentFeedbackConnector {
   observedAssessment: Subject<Feedback> = new Subject();
   observedFeedback: Subject<Feedback> = new Subject();

@@ -1,4 +1,4 @@
-<div fxLayout="row" style="height: 100%;">
+<div class="flex-row" style="height: 100%;">
   <div width="224px">
     <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
       <mat-label>Grupa</mat-label>
@@ -20,7 +20,7 @@
     </cdk-virtual-scroll-viewport>
   </div>
   <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
-  <div fxFlex style="overflow-y: auto;">
+  <div style="overflow-y: auto; flex-grow: 1;">
       <div *ngIf="learners?.length > 0 && mode === 'enrollments'">
         <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
       </div>

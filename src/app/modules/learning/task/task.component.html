@@ -1,126 +1,74 @@
-<div fxLayout="row" style="height: 100%; width: 100%;" *ngIf="task">
-    <cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
-    <mat-sidenav-container hasBackdrop="true" style="height: 100%; width: 100%;">
-        <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
-            <cc-notes></cc-notes>
-        </mat-sidenav>
-        <mat-sidenav-content>
-        <div fxFlex="20" fxLayout="column" *ngIf="showTask">
-            <div fxFlex="1 1 auto" fxLayout="column" style="padding: 10px 0px 10px 10px;">
-                <h3 style="margin: 0;">{{ task.name }}</h3>
-                <small style="overflow-y: auto; max-height: 50vh; padding-right: 5px;">
-                    <markdown>{{ task.description }}</markdown>
-                </small>
-            </div>
-            <div fxFlex="1 1 100%" style="overflow-y: auto;">
-                <mat-divider></mat-divider>
-                <div *ngFor="let step of steps; index as i">
-                    <div fxLayout fxLayoutAlign="center" style="cursor: pointer; padding: 5px;"
-                        [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
-                        <div fxFlex>{{ step.order }}. {{ step.name }}</div>
-                        <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
-                        <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
+<mat-card *ngIf="task" class="flex-col container">
+    <div class="flex-col task-definition">
+        <h3>{{ task.name }}</h3>
+        <div class="text-alignment task-description">
+            <markdown>{{ task.description }}</markdown>
+        </div>
+        <mat-divider style="border-width: 4px;"></mat-divider>
+    </div>
+    <div class="flex-row task-content">
+        <div class="steps flex-col" style="justify-content: space-between;">
+            <div>
+                <div *ngFor="let step of steps; index as i" class="theme-hover">
+                    <div [class.theme-highlight-primary]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
+                        <div style="padding: 0 5px 0 15px">
+                            <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
+                            <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
+                        </div>
+                        <span style="padding: 5px">{{ step.order }}. {{ step.name }}</span>
                     </div>
                     <mat-divider *ngIf="i < steps.length -1"></mat-divider>
                 </div>
             </div>
-            <span fxFlex></span>
-            <span fxLayoutAlign="start">
-                <button mat-icon-button color="primary" (click)="showTask = false" style="margin-left: 10px;"
-                    matTooltip="Sakrij zadatak i korake">
-                    <mat-icon>keyboard_double_arrow_left</mat-icon>
-                </button>
-            </span>
-        </div>
-        <div style="width: 50px;" fxLayout="column" *ngIf="!showTask">
-            <div fxFlex="1 1 auto" style="padding: 10px 3px 5px 3px; writing-mode: vertical-rl">
-                <b>{{ task.name }}</b>
+            <div style="margin: 10px 10px 20px auto">
+                <button mat-raised-button [color]="taskProgress.status === 'Completed' ? 'primary' : ''"
+                    [routerLink]="['/courses', courseId, 'units', task.unitId]">Lekcija</button>
             </div>
-            <div fxFlex="1 1 100%" style="overflow-y: auto;">
-                <mat-divider></mat-divider>
-                <div *ngFor="let step of steps; index as i">
-                    <div fxLayout fxLayoutAlign="center" style="cursor: pointer; padding: 5px;"
-                        [class.highlight]="selectedStep.id===step.id" (click)="viewStep(step)">
-                        {{ step.order }}.
-                        <mat-icon *ngIf="isAnswered(step)" color="primary" style="font-size: 20px;">check_circle</mat-icon>
-                        <mat-icon *ngIf="!isAnswered(step)" style="font-size: 20px;">radio_button_unchecked</mat-icon>
+        </div>
+        <mat-divider vertical="true"></mat-divider>
+        <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight [selectedIndex]="selectedTab">
+            <mat-tab label="Submisija rešenja">
+                <div class="tabs">
+                    <div class="flex-col gap" style="justify-content: space-between;">
+                        <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
+                            <b>Šta tražimo u tvom rešenju?</b>
+                            <div *ngFor="let standard of selectedStep.standards" class="flex-row gap">
+                                <span style="flex-grow: 1;">{{ standard.name }}</span>
+                                <span style="min-width: 70px;">/ {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
+                            </div>
+                        </div>
+                        {{ selectedStep.submissionFormat.guidelines }}
+                        <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
+                            <mat-form-field appearance="fill" style="width: 100%;">
+                                <mat-label>Rešenje</mat-label>
+                                <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
+                            </mat-form-field>
+                        </form>
+                        <div style="margin-bottom: 20px">
+                            <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
+                                [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
+                        </div>
                     </div>
-                    <mat-divider *ngIf="i < steps.length -1"></mat-divider>
                 </div>
-            </div>
-            <span fxFlex></span>
-            <span fxLayoutAlign="start">
-                <button mat-icon-button color="primary" (click)="showTask = true" style="margin-left: 10px;"
-                    matTooltip="Prikaži zadatak i korake">
-                    <mat-icon>keyboard_double_arrow_right</mat-icon>
-                </button>
-            </span>
-        </div>
-        <mat-divider style="border-width: 6px;" vertical="true"></mat-divider>
-        <div [fxFlex]="showTask ? '80%' : 'calc(100% - 56px)'" fxLayout="column" style="padding: 10px 10px 0 10px;" *ngIf="selectedStep">
-            <div fxLayout="row" fxLayoutAlign=" center" style="height: 46px;">
-                <b>{{selectedStep.name}}</b>
-                <span fxFlex></span>
-                <span style="padding-bottom: 10px" fxLayoutGap="10" fxLayout="row-reverse">
-                    <button *ngIf="!showExample && selectedStep.examples?.length > 0" mat-flat-button color="primary"
-                        (click)="showExamples()">
-                        <mat-icon>photo_library</mat-icon> Primeri
-                    </button>
-                    <button *ngIf="showExample && selectedStep.examples?.length !== 1" mat-flat-button color="primary"
+            </mat-tab>
+            <mat-tab label="Smernice">
+                <div class="tabs text-alignment">
+                    <markdown [data]="selectedStep.guidance"></markdown>
+                    <div *ngIf="selectedStep.subactivities">
+                        <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
+                    </div>
+                    <br>
+                </div>
+            </mat-tab>
+            <mat-tab label="Primeri" *ngIf="selectedStep.examples?.length > 0">
+                <div class="tabs" style="text-align: center;">
+                    <youtube-player *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
+                    <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
                         (click)="getNextExample()">
                         <mat-icon>image</mat-icon> Nov primer
                     </button>
-                    <button *ngIf="showExample" mat-flat-button color="primary" (click)="showExample = false">
-                        <mat-icon>hide_image</mat-icon> Sakrij
-                    </button>
-                </span>
-            </div>
-            <div fxFlex="calc(100% - 246px)" fxLayout="row" class="guidance">
-                <div fxLayout="column" style="overflow-y: auto;" fxFlex>
-                    <markdown [data]="selectedStep.guidance" style="padding-right: 5px;"></markdown>
-                    <div *ngIf="selectedStep.subactivities" fxFlex style="padding-right: 5px;">
-                        <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
-                    </div>
                 </div>
-                <youtube-player style="padding-left: 5px;" *ngIf="showExample" [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>
-            </div>
-            <mat-divider style="border-width: 3px;"></mat-divider>
-            <div fxLayout="row" style="height: 190px; margin-top: 10px; overflow-y: auto" fxLayoutGap="5px">
-                <div fxFlex fxLayout="row" style="overflow-y: auto" fxLayoutGap="10px">
-                    <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0" fxFlex="25">
-                        <b>Standardi za odgovor</b>
-                        <div *ngFor="let standard of selectedStep.standards">
-                            <small>{{ standard.name }} / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</small>
-                        </div>
-                    </div>
-                    <mat-divider vertical="true"></mat-divider>
-                    <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat" fxLayout="row" fxLayoutGap="10" fxFlex>
-                        <div fxLayout="column" fxFlex>
-                            {{ selectedStep.submissionFormat.guidelines }}
-                            <mat-form-field appearance="fill">
-                                <mat-label>Odgovor</mat-label>
-                                <small><textarea formControlName="answer" matInput rows="5"></textarea></small>
-                            </mat-form-field>
-                        </div>
-                    </form>
-                </div>
-                <div fxLayout="column" fxLayoutGap="5px" style="padding: 5px">
-                    <button mat-mini-fab [color]="isAnswered(selectedStep) ? '' : 'primary'" [disabled]="answerForm.invalid"
-                        (click)="submitAnswer()">
-                        <mat-icon matTooltip="Sačuvaj rešenje" [matTooltipPosition]="'above'">save</mat-icon>
-                    </button>
-                    <button mat-mini-fab color="" [disabled]="selectedStep.order == 1" (click)="changeStep(-1)">
-                        <mat-icon matTooltip="Prethodni korak" [matTooltipPosition]="'above'">arrow_upward</mat-icon>
-                    </button>
-                    <button mat-mini-fab color="" [disabled]="selectedStep.order == steps.length" (click)="changeStep(1)">
-                        <mat-icon matTooltip="Sledeći korak" [matTooltipPosition]="'above'">arrow_downward</mat-icon>
-                    </button>
-                    <button mat-mini-fab [color]="taskProgress.status === 'Completed' ? 'accent' : ''" [routerLink]="['/course', courseId, 'unit', task.unitId]">
-                        <mat-icon matTooltip="Pregled lekcije" [matTooltipPosition]="'above'">keyboard_return</mat-icon>
-                    </button>
-                </div>
-            </div>
-        </div>
-        </mat-sidenav-content>
-    </mat-sidenav-container>
-</div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</mat-card>

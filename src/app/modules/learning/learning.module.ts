@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -25,14 +24,13 @@ import { MultipleResponseQuestionComponent } from './knowledge-component/learnin
 import { ImageDialogComponent } from './knowledge-component/learning-objects/instructional-items/image/image-dialog/image-dialog.component';
 import { ShortAnswerQuestionComponent } from './knowledge-component/learning-objects/assessment-items/short-answer-question/short-answer-question.component';
 import { MultipleChoiceQuestionComponent } from './knowledge-component/learning-objects/assessment-items/multiple-choice-question/multiple-choice-question.component';
-import { LearningObserverComponent } from './learning-observer/learning-observer.component';
 import { TypingAnimatorDirective } from './knowledge-component/submission-result/instructional-feedback/typing-animation.directive';
 import { KcRateComponent } from './knowledge-component/kc-rate/kc-rate.component';
 import { StarRatingModule } from "angular-star-rating";
-import { UnitControlsComponent } from './controls/unit-controls/unit-controls.component';
 import { TaskComponent } from './task/task.component';
 import { SubactivitiesComponent } from './task/subactivities/subactivities.component';
 import { ExamplePopupComponent } from './task/example-popup/example-popup.component';
+import { UnitDetailsComponent } from './unit/unit-details/unit-details.component';
 
 @NgModule({
   declarations: [
@@ -52,20 +50,18 @@ import { ExamplePopupComponent } from './task/example-popup/example-popup.compon
     CourseComponent,
     CourseUnitsComponent,
     TutorImprovementComponent,
-    LearningObserverComponent,
     TypingAnimatorDirective,
     KcRateComponent,
-    UnitControlsComponent,
     TaskComponent,
     SubactivitiesComponent,
     ExamplePopupComponent,
+    UnitDetailsComponent,
   ],
   imports: [
     CommonModule,
     BrowserModule,
     MarkdownModule.forChild(),
     YouTubePlayerModule,
-    FlexLayoutModule,
     RouterModule,
     FormsModule,
     MaterialModule,

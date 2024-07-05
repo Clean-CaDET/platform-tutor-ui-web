@@ -2,7 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './infrastructure/app-routing.module';
@@ -43,7 +42,6 @@ export function markdownConfiguration(): MarkedOptions {
     AppRoutingModule,
     MaterialModule,
     HttpClientModule,
-    FlexLayoutModule,
     AuthenticationModule,
     MarkdownModule.forRoot({
       markedOptions: {

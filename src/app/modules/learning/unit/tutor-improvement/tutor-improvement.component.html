@@ -1,24 +1,23 @@
-<form [formGroup]="improvementForm" (ngSubmit)="onSubmit()" fxLayout="column">
-  <mat-form-field fxFlex="10">
-    <mat-label class="question" i18n>Kako biste unapredili Tutora kao softver? (minimalno 10 karaktera)
-    </mat-label>
-    <textarea matInput type="text" name="tutorImprovement" formControlName="tutorImprovement"></textarea>
-  </mat-form-field>
-  <mat-form-field fxFlex="10">
-    <mat-label class="question" i18n>Kako biste unapredili edukativni sadržaj? (minimalno 10 karaktera)
-    </mat-label>
-    <textarea matInput type="text" name="educationalContentImprovement" formControlName="educationalContentImprovement"></textarea>
-  </mat-form-field>
-  <div id="submit">
-    <button [disabled]="!improvementForm.valid" color="primary" mat-raised-button
-            type="submit" i18n="@@save">Sačuvaj
-    </button>
-    <mat-icon i18n-matTooltip matTooltip="Za Tutora kao softver prijaviti eventualne bug-ove ili predložiti nove funkcionalnosti. Npr.:
-                          - Napravio bih ga u potpunosti na srpskom jeziku :)
-                          - Procenti nisu dobro zaokruženi.
-
-                          Za sadržaj navesti da li određeni tip sadržaja treba da se menja, ili nekog sadržaja treba više/manje. Npr.:
-                          - Izazovi su previše lagani.
-                          - Mislim da ima previše teksta. Želeo bih više videa." id="help-icon">help_outline</mat-icon>
-  </div>
-</form>
+<div style="width: 600px; height: 360px; padding: 10px;">
+  <form [formGroup]="improvementForm" class="flex-col">
+    <section class="flex-row gap">
+      <mat-form-field style="flex-grow: 1;">
+        <mat-label>Kako biste unapredili Tutora kao softver?</mat-label>
+        <textarea matInput formControlName="tutorImprovement" rows="4"></textarea>
+      </mat-form-field>
+      <mat-icon matTooltip="Istaknite bugove, unapređenja interfejsa, predloge za funkcionalnosti ili vaše zadovoljstvo">help_outline</mat-icon>
+    </section>
+    <section class="flex-row gap">
+      <mat-form-field style="flex-grow: 1;">
+        <mat-label class="question" i18n>Kako biste unapredili sadržaj ove lekcije?
+        </mat-label>
+        <textarea matInput formControlName="educationalContentImprovement" rows="4"></textarea>
+      </mat-form-field>
+      <mat-icon matTooltip="Istaknite generalni utisak o sadržaju lekcije i njenoj organizaciji">help_outline</mat-icon>
+    </section>
+    <section>
+      <button [disabled]="improvementForm.invalid" color="primary" (click)="onSubmit()" mat-raised-button type="submit" i18n="@@save">Sačuvaj</button>
+      <button mat-button (click)="onClose()">Otkaži</button>
+    </section>
+  </form>
+</div>

@@ -1,43 +1,40 @@
-<div fxLayout="column" style="height: 100%;">
+<div class="flex-col" style="height: 100%;">
     <div>
         <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)"></cc-course-details>
     </div>
-    <div style="height: calc(100% - 97px);">
-        <div fxFlex="25">
-            <div [class.highlight]="selectedUnit?.code===''" class="unit-row">
+    <div style="height: calc(100% - 98px);" class="flex-row">
+        <div style="width: 25%">
+            <div [class.theme-highlight-primary]="selectedUnit?.code===''" class="flex-row unit-row" style="justify-content: space-between; align-items: center;">
                 <b>Lekcije</b>
-                <span fxFlex></span>
-                <button mat-icon-button
-                    [class.mat-flat-button]="!course?.knowledgeUnits?.length || selectedUnit?.code===''"
-                    [color]="selectedUnit?.code==='' ? 'accent' : !course?.knowledgeUnits?.length ? 'primary' : ''"
-                    (click)="createUnit()">
-                    <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'above'">add</mat-icon>
+                <button mat-icon-button (click)="createUnit()" matTooltip="Dodaj"
+                    [color]="selectedUnit?.code==='' ? 'accent' : !course?.knowledgeUnits?.length ? 'primary' : ''">
+                    <mat-icon>add</mat-icon>
                 </button>
             </div>
             <mat-divider></mat-divider>
             <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
                 <div *cdkVirtualFor="let unit of course?.knowledgeUnits">
-                    <div [class.highlight]="selectedUnit?.id===unit.id" class="unit-row" id="u{{unit.id}}">
+                    <div [class.theme-highlight-primary]="selectedUnit?.id===unit.id" class="unit-row" id="u{{unit.id}}">
                         <span><b>{{unit.code}}</b>: {{unit.name}}</span>
-                        <span fxLayout="row">
-                            <button mat-icon-button (click)="showDetails(unit)"
+                        <span class="flex-row">
+                            <button mat-icon-button (click)="showDetails(unit)" matTooltip="Cilj i smernice"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showUnitDetails"
                                 [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : ''">
-                                <mat-icon matTooltip="Cilj i smernice" [matTooltipPosition]="'above'">sports_score</mat-icon>
+                                <mat-icon>sports_score</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="showKcs(unit)"
+                            <button mat-icon-button (click)="showKcs(unit)" matTooltip="Komponente znanja"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showKnowledgeComponents"
                                 [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : ''">
-                                <mat-icon matTooltip="Znanje" [matTooltipPosition]="'above'">account_tree</mat-icon>
+                                <mat-icon>account_tree</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="showTasks(unit)"
+                            <button mat-icon-button (click)="showTasks(unit)" matTooltip="Zadaci"
                                 [class.mat-flat-button]="selectedUnit?.id===unit.id && showLearningTasks"
                                 [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'accent' : ''">
-                                <mat-icon matTooltip="Zadaci" [matTooltipPosition]="'above'">rebase_edit</mat-icon>
+                                <mat-icon>rebase_edit</mat-icon>
                             </button>
-                            <span fxFlex></span>
-                            <button mat-icon-button (click)="deleteUnit(unit.id)">
-                                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
+                            <span style="flex-grow: 1;"></span>
+                            <button mat-icon-button (click)="deleteUnit(unit.id)" matTooltip="Obriši">
+                                <mat-icon>delete</mat-icon>
                             </button>
                         </span>
                     </div>

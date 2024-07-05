@@ -1,8 +1,8 @@
-<mat-card>
-<div>
+<mat-card appearance="outlined">
+<mat-card-content>
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
-    <mat-form-field fxFlexFill>
+    <mat-form-field style="width: 100%;">
       <mat-label i18n>Primer odgovora: PrvaReč, DrugaReč</mat-label>
       <input autocomplete="off" matInput type="text" name="index" [(ngModel)]="answer">
     </mat-form-field>
@@ -17,5 +17,5 @@
       {{evaluation.feedback}}
     </div>
   </div>
-</div>
+</mat-card-content>
 </mat-card>

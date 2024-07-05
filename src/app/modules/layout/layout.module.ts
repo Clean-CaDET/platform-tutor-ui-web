@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexModule } from '@angular/flex-layout';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { MarkdownModule } from 'ngx-markdown';
@@ -30,7 +29,6 @@ import { AdminControlsComponent } from './navbar/admin-controls/admin-controls.c
     BrowserModule,
     RouterModule,
     MaterialModule,
-    FlexModule,
     MarkdownModule,
     LearningModule,
     AppRoutingModule,

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { User } from 'src/app/infrastructure/auth/user.model';
 import { Course } from '../../../../learning/model/course.model';

@@ -1,16 +1,11 @@
-<div fxLayout="row wrap">
-  <div *ngFor="let unit of course.knowledgeUnits"
-    fxFlex="33"
-    fxFlex.md="50"
-    fxFlex.sm="100"
-    fxFlex.xs="100">
-  <mat-card style="margin: 10px" class="card" fxFlex
-    [routerLink]="'/course/' + course.id + '/unit/' + unit.id">
+<div class="flex-row dashboard">
+  <mat-card appearance="outlined" class="flex-item theme-hover"
+    *ngFor="let unit of course.knowledgeUnits" [routerLink]="'units/' + unit.id">
     <mat-card-header>
       <mat-icon mat-card-avatar>article</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
-      <span fxFlex></span>
-      <mat-icon *ngIf="isMastered(unit.id)" class="medal-icon" matTooltip="Uspešno su savladane komponente znanja date lekcije." svgIcon="medal"></mat-icon>
+      <span style="flex-grow: 1;"></span>
+      <mat-icon *ngIf="isMastered(unit.id)" class="medal-icon" matTooltip="Lekcija uspešno savladana!" svgIcon="medal"></mat-icon>
     </mat-card-header>
     <mat-card-content>
       <p>
@@ -18,5 +13,4 @@
       </p>
     </mat-card-content>
   </mat-card>
-  </div>
 </div>

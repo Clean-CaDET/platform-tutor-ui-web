@@ -132,11 +132,16 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     return Math.max(...this.task.steps.filter(s => !s.parentId).map(s => s.order)) + 1;
   }
 
-  setStepAndParams(step: Activity, mode: string): void {
-    this.router.navigate([], {
-      queryParams: { step: step.id, mode: mode },
-      queryParamsHandling: 'merge'
-    });
+  setParams(step: Activity, mode: string): void {
+    const params = { step: step.id, mode: mode };
+    const currentParams = this.route.snapshot.queryParams;
+
+    if(currentParams['step'] == step.id && currentParams['mode'] == mode) {
+      this.processParams(params);
+      return;
+    }
+
+    this.router.navigate([], { queryParams: params }); // This will trigger subscription on query params if the params are different
   }
 
   createOrUpdateStep(step: Activity) {
@@ -184,7 +189,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
         next: updatedTask => {
           this.setupTaskAndActivities(updatedTask);
           if (this.selectedStep) {
-            this.setStepAndParams(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
+            this.setParams(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
           }
         },
         error: (error) => {

@@ -1,14 +1,16 @@
-<form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off" fxLayout="column">
-  <mat-error *ngIf="hasError" i18n>Korisničko ime ili lozinka nisu ispravni.</mat-error>
-  <mat-form-field>
-    <mat-label i18n>Korisničko ime</mat-label>
-    <input matInput type="text" name="username" formControlName="username" ccAutoFocus>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label i18n>Lozinka</mat-label>
-    <input matInput type="password" name="password" formControlName="password">
-  </mat-form-field>
-  <div fxLayout="row" fxLayoutAlign="space-between end">
-    <button color="primary" type="submit" mat-raised-button i18n>Prijava</button>
-  </div>
-</form>
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+    <mat-form-field>
+      <mat-label i18n>Korisničko ime</mat-label>
+      <input matInput type="text" name="username" formControlName="username" ccAutoFocus>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label i18n>Lozinka</mat-label>
+      <input matInput type="password" name="password" formControlName="password">
+    </mat-form-field>
+    <div>
+      <button style="width: 80px;" [disabled]="disable || loginForm.invalid" color="primary" type="submit" mat-raised-button i18n>Prijava</button>
+      <mat-error *ngIf="hasError" i18n><small>Korisničko ime ili lozinka nisu ispravni.</small></mat-error>
+    </div>
+  </form>
+</div>

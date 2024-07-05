@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import {Course} from '../../model/course.model';
 import {environment} from '../../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class InstructorsService {
   baseUrl = environment.apiHost + 'management/instructors/';
 

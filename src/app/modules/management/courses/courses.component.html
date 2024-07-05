@@ -1,13 +1,13 @@
-<div fxFlex fxLayout="row" fxLayoutGap="20px">
+<div class="flex-row gap" style="height: 100%;">
     <cc-generic-table
-        fxFlex="40"
+        style="width: 40%"
         [title]="'Kursevi'"
         [fieldConfiguration]="fields"
         [baseUrl]="baseUrl"
         (selectItem)="onSelect($event)">
     </cc-generic-table>
-    <div fxLayout="column" fxFlex="28" *ngIf="selectedCourse" fxLayoutGap="20px">
-        <div>
+    <div class="flex-col gap" style="width: 20%;" *ngIf="selectedCourse">
+        <div style="height: 50%">
             <cc-generic-table
                 [title]="'Grupe (' + selectedCourse.code + ')'"
                 [fieldConfiguration]="groupFields"
@@ -16,11 +16,11 @@
                 (selectItem)="onSelectGroup($event)">
             </cc-generic-table>
         </div>
-        <div>
+        <div style="height: 50%">
             <cc-owners [course]="selectedCourse" [allInstructors]="allInstructors"></cc-owners>
         </div>
     </div>
-    <div fxFlex="28" *ngIf="selectedGroup">
+    <div style="width: calc(40% - 30px);" *ngIf="selectedGroup">
         <cc-enrolled-learners [group]="selectedGroup"></cc-enrolled-learners>
     </div>
 </div>

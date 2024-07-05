@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Enrollment } from '../model/enrollment.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class EnrollmentsService {
   baseUrl = environment.apiHost + `monitoring/enrollments/`;
   

@@ -1,5 +1,7 @@
-<div>Da li ste sigurni da želite da obrišete označenu stavku?</div>
-<div fxFlex="column" fxLayoutGap="20px">
-    <button mat-raised-button color="primary" (click)="onClose(true)" fxFlex>Potvrdi</button>
-    <button mat-raised-button (click)="onClose(false)" fxFlex>Odustani</button>
-</div>
+<mat-dialog-content>
+    Da li ste sigurni da želite da obrišete označenu stavku?
+</mat-dialog-content>
+<mat-dialog-actions align="center" class="col-row gap">
+    <button mat-raised-button color="warn" (click)="onClose(true)">Potvrdi</button>
+    <button mat-raised-button (click)="onClose(false)">Odustani</button>
+</mat-dialog-actions>

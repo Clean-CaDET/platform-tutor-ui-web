@@ -8,9 +8,7 @@ import { Learner } from '../model/learner.model';
 import { KnowledgeComponentProgress } from '../model/knowledge-component-progress.model';
 import { Course } from '../model/course.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class GroupMonitoringService {
   constructor(private http: HttpClient) {}
 

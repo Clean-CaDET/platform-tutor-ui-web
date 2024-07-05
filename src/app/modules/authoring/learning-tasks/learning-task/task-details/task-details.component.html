@@ -1,38 +1,40 @@
 <div class="overflow">
-    <form [formGroup]="taskForm" fxLayout="column">
-        <section fxLayoutGap="20px" fxLayout="row">
-            <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+    <form [formGroup]="taskForm" class="flex-col">
+        <section class="flex-row gap">
+            <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" style="flex-grow: 1;">
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
             <mat-form-field style="width: 70px;" [appearance]="editMode ? 'fill' : 'outline'">
-                <mat-label>Redni #</mat-label>
+                <mat-label>R. broj</mat-label>
                 <input type="number" formControlName="order" matInput [readonly]="!editMode">
             </mat-form-field>
-            <mat-checkbox formControlName="isTemplate" [disabled]="!editMode" style="padding-top: 20px;">
-                Šablon
-                <mat-icon [matTooltipPosition]="'above'" style="font-size: 16px;"
-                            matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">help_outline</mat-icon>
-            </mat-checkbox>
-            <section fxLayout="row" fxFlex="15" fxLayoutGap="10px">
-                <span fxFlex></span>
+            <section matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">
+                <mat-checkbox formControlName="isTemplate" [disabled]="!editMode" style="padding-top: 10px;">
+                    Šablon
+                    <mat-icon style="font-size: 16px;">help_outline</mat-icon>
+                </mat-checkbox>
+            </section>
+            <section class="flex-row gap" style="width: 100px;">
+                <span style="flex-grow: 1;"></span>
                 <button mat-icon-button *ngIf="!editMode" (click)="editMode = true"
-                    [class.mat-flat-button]="!task?.description"
+                    matTooltip="Izmeni" [class.mat-flat-button]="!task?.description"
                     [color]="task?.description ? '' : 'primary'">
-                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                    <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid" (click)="submitForm()" color="primary">
-                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid"
+                    (click)="submitForm()" color="primary" matTooltip="Sačuvaj">
+                    <mat-icon>check</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
-                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" matTooltip="Odbaci"
+                    (click)="discardChanges()" color="warn">
+                    <mat-icon>clear</mat-icon>
                 </button>
             </section>
         </section>
-        <div fxLayout="column">
-            <h4 *ngIf="!editMode">Opis</h4>
+        <div class="flex-col">
             <markdown *ngIf="!editMode" [data]="taskForm.get('description').value"></markdown>
-            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Opis'" [text]="taskForm.get('description').value"
+            <cc-markdown-editor *ngIf="editMode" [label]="'Opis'" [text]="taskForm.get('description').value"
                 (textChanged)="this.taskForm.get('description').setValue($event)">
             </cc-markdown-editor>
         </div>

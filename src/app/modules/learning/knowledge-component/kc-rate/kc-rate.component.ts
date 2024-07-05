@@ -1,5 +1,4 @@
 import {Component, Inject} from '@angular/core';
-import {MatChip} from "@angular/material/chips";
 import {KnowledgeComponentRate} from "../../model/knowledge-component-rate.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {KcRateService} from "./kc-rate.service";
@@ -18,10 +17,8 @@ export class KcRateComponent {
   isRated: boolean = false;
   rating: number;
 
-  tags = ["Količina zadataka", "Težina zadataka", "Jasnoća zadataka", "Jasnoća gradiva"]
+  tags = ["Količina pitanja", "Težina pitanja", "Jasnoća pitanja", "Jasnoća gradiva"]
   selectedTags: string[] = [];
-
-  feedbackMessage = "Celina savladana, bravo 🥳!\nPređi na sledeću (taster \"Lekcija\") ili vidi komentar na zadatak (taster \"Zatvori\")."
 
   constructor(@Inject(MAT_DIALOG_DATA) data: { courseId: number, unitId:number, kcId:number },
               private dialogRef: MatDialogRef<KcRateComponent>, private rateService : KcRateService) {
@@ -35,12 +32,11 @@ export class KcRateComponent {
     this.isRated = true;
   }
 
-  selectTag(selectedTag: MatChip) {
-    selectedTag.toggleSelected();
-    if(this.selectedTags.includes(selectedTag.value)) {
-      this.selectedTags = this.selectedTags.filter(tag => tag !== selectedTag.value)
+  selectTag(selectedTag: string) {
+    if(this.selectedTags.includes(selectedTag)) {
+      this.selectedTags = this.selectedTags.filter(tag => tag !== selectedTag);
     } else {
-      this.selectedTags.push(selectedTag.value)
+      this.selectedTags.push(selectedTag);
     }
   }
 

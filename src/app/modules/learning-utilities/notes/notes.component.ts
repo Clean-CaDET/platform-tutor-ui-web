@@ -14,21 +14,17 @@ export class NotesComponent implements OnInit {
   edit = false;
   unitId: number;
 
-  constructor(
-    private noteService: NotesService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private noteService: NotesService, private route: ActivatedRoute) {
     this.notes = [];
   }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.unitId = +params.unitId;
+      this.noteService
+        .getNotes(this.unitId)
+        .subscribe(notes => this.notes = notes);
     });
-
-    this.noteService
-      .getNotes(this.unitId)
-      .subscribe((notes) => (this.notes = notes));
   }
 
   onCancel(): void {
@@ -51,11 +47,8 @@ export class NotesComponent implements OnInit {
   }
 
   onDelete(noteId: number): void {
-    this.noteService.deleteNote(this.unitId, noteId).subscribe((id) => {
-      this.notes.splice(
-        this.notes.findIndex((note) => note.id === id),
-        1
-      );
+    this.noteService.deleteNote(this.unitId, noteId).subscribe(() => {
+      this.notes = this.notes.filter(n => n.id !== noteId);
     });
   }
 

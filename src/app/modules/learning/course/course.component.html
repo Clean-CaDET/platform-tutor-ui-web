@@ -1,11 +1,6 @@
-<div fxFlex></div>
-<div *ngIf="course" fxFlex="90">
+<div *ngIf="course" style="padding: 20px">
   <h1 class="mat-h1">{{ course.name }}</h1>
   <markdown>{{ course.description }}</markdown>
-  <mat-divider style="margin-bottom: 20px;"></mat-divider>
-  <cc-course-units
-    [course]="course"
-    *ngIf="user?.role.includes('learner')"
-  ></cc-course-units>
+  <cc-course-units *ngIf="user?.role.includes('learner')"
+    [course]="course"></cc-course-units>
 </div>
-<div fxFlex></div>

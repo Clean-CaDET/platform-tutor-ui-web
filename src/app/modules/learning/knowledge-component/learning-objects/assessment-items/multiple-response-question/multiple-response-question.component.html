@@ -1,5 +1,5 @@
-<mat-card>
-<div id="question">
+<mat-card appearance="outlined">
+<mat-card-content>
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
     <ul>
@@ -11,13 +11,12 @@
         <div
           [class]="getAnswerResult(answer.text).submissionWasCorrect ? 'color-correct' : 'color-wrong'"
           class="mat-card-subtitle"
-          *ngIf="evaluation?.itemEvaluations"
-        >
+          *ngIf="evaluation?.itemEvaluations">
           {{getAnswerResult(answer.text).feedback}}
         </div>
       </mat-list-item>
     </ul>
     <button [disabled]="submissionIsProcessing" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
   </div>
-</div>
+</mat-card-content>
 </mat-card>

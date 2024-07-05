@@ -5,9 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class NotesService {
   constructor(private http: HttpClient) {}
 

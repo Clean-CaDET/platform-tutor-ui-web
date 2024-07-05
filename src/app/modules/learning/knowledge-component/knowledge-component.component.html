@@ -1,29 +1,17 @@
-<div *ngIf="knowledgeComponent" style="height: 100%; width: 100%;">
-  <cc-unit-controls [notesExpanded]="sidenavOpened" (expandNotes)="sidenavOpened = $event"></cc-unit-controls>
-  <mat-sidenav-container hasBackdrop="true" style="height: 100%; width: 100%;">
-    <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
-        <cc-notes></cc-notes>
-    </mat-sidenav>
-    <mat-sidenav-content id="scroller">
-      <div id="knowledge-component">
-        <br>
-        <h1>{{knowledgeComponent.name}}</h1>
-        <cc-learning-object-container
-          *ngFor="let learningObject of learningObjects"
-          [learningObject]="learningObject">
-        </cc-learning-object-container>
-        <br>
-        <div *ngIf="instructionalItemsShown" fxLayoutGap="10px">
-          <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pređi na zadatke</button>
-          <button mat-raised-button [routerLink]="['/course', courseId, 'unit', unitId]" i18n>Lekcija</button>
-        </div>
-        <div *ngIf="!instructionalItemsShown">
-          <div style="margin-bottom: 180px;"></div>
-          <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
-        </div>
-        <br>
-        <br>
+<div *ngIf="knowledgeComponent" class="flex-col" style="height: 100%;">
+  <div id="scroller">
+    <div class="flex-col learning-viewport">
+      <h1 class="mat-h1">{{knowledgeComponent.name}}</h1>
+      <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject">
+      </cc-learning-object-container>
+      <div *ngIf="instructionalItemsShown" class="flex-row gap">
+        <span style="flex-grow: 1;"></span>
+        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pitanja</button>
+        <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
       </div>
-    </mat-sidenav-content>
-  </mat-sidenav-container>
+    </div>
+  </div>
+  <div *ngIf="!instructionalItemsShown">
+    <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
+  </div>
 </div>
