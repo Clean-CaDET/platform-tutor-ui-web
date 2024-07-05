@@ -1,31 +1,32 @@
-<mat-card appearance="outlined" style="margin-bottom: 10px;" fxFlex fxLayout="column">
-    <h2>Učenici ({{group.name}})</h2>
-    <div fxLayout="row">
-        <span>Broj učenika: {{dataSource?.data.length}}</span>
-        <span fxFlex>
-        </span>
+<mat-card appearance="outlined" class="flex-col" style="height: 100%;">
+    <div class="flex-row gap" style="justify-content: space-between; align-items: center; padding: 0 10px;">
+        <div>
+            <h2 style="margin-bottom: 0px;">Učenici ({{group.name}})</h2>
+            <small>Broj učenika: {{dataSource?.data.length}}</small>
+        </div>
         <button mat-mini-fab color="primary" (click)="onAddBulk()">
             <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'right'">library_add</mat-icon>
         </button>
     </div>
-    
-    <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource?.data.length > 0">
-        <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
-        <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
-        <td mat-cell *matCellDef="let element">
-            <span *ngIf="field.type === 'string' || field.type === 'email'">
-                {{trim(element[field.code])}}
-            </span>
-            <span *ngIf="field.type === 'CRUD'">
-            <span fxFlex></span>
-            <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id)">
-                <mat-icon matTooltip="Obriši" [matTooltipPosition]="'right'">delete</mat-icon>
-            </button>
-            </span>
-        </td>
-        </ng-container>
-        
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let element; columns: columns;"></tr>
-    </table>
+    <div style="overflow-y: auto; flex-grow: 1;">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource?.data.length > 0">
+            <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
+            <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
+            <td mat-cell *matCellDef="let element">
+                <span *ngIf="field.type === 'string' || field.type === 'email'">
+                    {{trim(element[field.code])}}
+                </span>
+                <span *ngIf="field.type === 'CRUD'" class="flex-row">
+                    <span style="flex-grow: 1;"></span>
+                    <button *ngIf="field.crud.delete" mat-icon-button (click)="onDelete(element.id)" matTooltip="Obriši">
+                        <mat-icon>delete</mat-icon>
+                    </button>
+                </span>
+            </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let element; columns: columns;"></tr>
+        </table>
+    </div>
 </mat-card>

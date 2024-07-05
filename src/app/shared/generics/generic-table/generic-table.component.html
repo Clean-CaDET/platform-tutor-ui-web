@@ -1,65 +1,64 @@
-<mat-card appearance="outlined" fxFlex fxLayout="column" style="margin-bottom: 10px;">
-  <h2>{{title}}</h2>
-
-  <div fxLayout="row">
-    <span fxFlex>
-    <mat-form-field fxFlex *ngIf="crud?.crud.filter">
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
-    </mat-form-field>
-    </span>
-    <span fxLayoutGap="5px">
-      <button *ngIf="crud?.crud.create" mat-mini-fab color="primary" (click)="onCreate()">
-        <mat-icon matTooltip="Dodaj" [matTooltipPosition]="'below'">add</mat-icon>
+<mat-card appearance="outlined" class="flex-col" style="margin-bottom: 10px; height: 100%">
+  <div class="flex-row gap" style="padding: 0 10px; align-items: center; justify-content: space-between;">
+    <h2>{{title}}</h2>
+    <span class="flex-row gap">
+      <button *ngIf="crud?.crud.create" mat-mini-fab color="primary" matTooltip="Dodaj" (click)="onCreate()">
+        <mat-icon>add</mat-icon>
       </button>
-      <button *ngIf="crud?.crud.bulkCreate" mat-mini-fab color="primary" (click)="onBulkCreate()">
-        <mat-icon matTooltip="Dodaj više" [matTooltipPosition]="'below'">library_add</mat-icon>
+      <button *ngIf="crud?.crud.bulkCreate" mat-mini-fab color="primary" matTooltip="Dodaj više" (click)="onBulkCreate()">
+        <mat-icon>library_add</mat-icon>
       </button>
     </span>
   </div>
 
-  <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource.data.length > 0">
-    <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
-      <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
-      <td mat-cell *matCellDef="let element">
-        <span *ngIf="field.type === 'string' || field.type === 'email'">
-          {{element[field.code]}}
-        </span>
-        <span *ngIf="field.type === 'boolean' || field.type === 'archive' ">
-          <mat-icon *ngIf="element[field.code]">check</mat-icon>
-          <mat-icon *ngIf="!element[field.code]">clear</mat-icon>
-        </span>
-        <span *ngIf="field.type === 'date'">
-          {{element[field.code] | date : 'd/M/yy'}}
-        </span>
-        <span *ngIf="field.type === 'radio'">
-          {{element[field.code] | fieldOptions: field.options}}
-        </span>
-        <span *ngIf="field.type === 'CRUD'">
-          <span fxFlex></span>
-          <button *ngIf="field.crud.clone" mat-button class="table-button" (click)="onClone(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Kloniraj" [matTooltipPosition]="'above'">content_copy</mat-icon>
-          </button>
-          <button *ngIf="field.crud.update" mat-button class="table-button" (click)="onEdit(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
-          </button>
-          <button *ngIf="field.crud.archive && !element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, true); $event.stopPropagation()">
-            <mat-icon matTooltip="Arhiviraj" [matTooltipPosition]="'above'">archive</mat-icon>
-          </button>
-          <button *ngIf="field.crud.archive && element.isArchived" mat-button class="table-button" (click)="onArchive(element.id, false); $event.stopPropagation()">
-            <mat-icon matTooltip="Aktiviraj" [matTooltipPosition]="'above'">unarchive</mat-icon>
-          </button>
-          <button *ngIf="field.crud.delete" mat-button class="table-button" (click)="onDelete(element.id); $event.stopPropagation()">
-            <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
-          </button>
-        </span>
-      </td>
-    </ng-container>
+  <mat-form-field *ngIf="crud?.crud.filter" style="padding: 0 10px;">
+    <mat-label>Filter</mat-label>
+    <input matInput (keyup)="applyFilter($event)" #input autocomplete="off">
+  </mat-form-field>
+  <div style="overflow-y: auto; flex-grow: 1;">
+    <table mat-table [dataSource]="dataSource" multiTemplateDataRows *ngIf="dataSource.data.length > 0">
+      <ng-container [matColumnDef]="field.code" *ngFor="let field of fieldConfiguration">
+        <th mat-header-cell *matHeaderCellDef>{{field.label}}</th>
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="field.type === 'string' || field.type === 'email'">
+            {{element[field.code]}}
+          </span>
+          <span *ngIf="field.type === 'boolean' || field.type === 'archive' ">
+            <mat-icon *ngIf="element[field.code]">check</mat-icon>
+            <mat-icon *ngIf="!element[field.code]">clear</mat-icon>
+          </span>
+          <span *ngIf="field.type === 'date'">
+            {{element[field.code] | date : 'd/M/yy'}}
+          </span>
+          <span *ngIf="field.type === 'radio'">
+            {{element[field.code] | fieldOptions: field.options}}
+          </span>
+          <span *ngIf="field.type === 'CRUD'" class="flex-row" style="flex-grow: 1;">
+            <span style="flex-grow: 1;"></span>
+            <button *ngIf="field.crud.clone" mat-icon-button matTooltip="Kloniraj" (click)="onClone(element.id); $event.stopPropagation()">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button *ngIf="field.crud.update" mat-icon-button matTooltip="Izmeni" (click)="onEdit(element.id); $event.stopPropagation()">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button *ngIf="field.crud.archive && !element.isArchived" mat-icon-button matTooltip="Arhiviraj" (click)="onArchive(element.id, true); $event.stopPropagation()">
+              <mat-icon>archive</mat-icon>
+            </button>
+            <button *ngIf="field.crud.archive && element.isArchived" mat-icon-button matTooltip="Dearhiviraj" (click)="onArchive(element.id, false); $event.stopPropagation()">
+              <mat-icon>unarchive</mat-icon>
+            </button>
+            <button *ngIf="field.crud.delete" mat-icon-button matTooltip="Obriši" (click)="onDelete(element.id); $event.stopPropagation()">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </span>
+        </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)" [class.highlight]="selectedItem?.id===element.id" [class.fade]="element.isArchived"></tr>
-  </table>
-
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let element; columns: columns;" (click)="selectElement(element)"
+        [class.theme-highlight-primary]="selectedItem?.id===element.id" [class.fade]="element.isArchived"></tr>
+    </table>
+  </div>
   <mat-paginator *ngIf="pageProperties" (page)="pageChanged($event)" [pageSize]="pageProperties.pageSize"
     [length]="pageProperties.totalCount" [pageIndex]="pageProperties.page" [pageSizeOptions]="pageProperties.pageSizeOptions"
     showFirstLastButtons="true"></mat-paginator>
