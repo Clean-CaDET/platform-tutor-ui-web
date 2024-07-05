@@ -99,7 +99,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
     dialogConfig.height = '330px';
-    dialogConfig.width = '330px';
+    dialogConfig.width = '340px';
     dialogConfig.enterAnimationDuration = "350ms";
     dialogConfig.data = {
       kcId: this.knowledgeComponent.id,

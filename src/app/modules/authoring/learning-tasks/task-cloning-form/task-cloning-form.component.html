@@ -26,7 +26,7 @@
             <button mat-raised-button (click)="close()">Zatvori</button>
         </div>
     </form>
-    <div *ngIf="template" class="theme-highlight-primary" style="width: 250px; padding: 20px">
+    <mat-dialog-content *ngIf="template" class="theme-highlight-primary" style="width: 250px; padding: 20px">
         <small>Zadatak pravim spram šablona:</small><br>
         {{template.name}}<br><br>
         <small>
@@ -35,6 +35,5 @@
                 <li *ngFor="let s of getMainSteps(template)">{{ s.name }}</li>
             </ol>
         </small>
-
-    </div>
+    </mat-dialog-content>
 </div>

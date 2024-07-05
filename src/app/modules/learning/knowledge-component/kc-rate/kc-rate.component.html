@@ -1,22 +1,23 @@
-<div class="flex-col gap container">
-  <pre style="font-size: 18px;">Celina savladana, bravo 🥳!</pre>
-  <pre>Kako bi ocenio komponentu znanja?</pre>
-  <div class="flex-col">
-    <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
+<mat-dialog-content class="container">
+    <div class="flex-col gap">
+    <span style="font-size: 18px;">Celina savladana, bravo 🥳!</span>
+    <span>Kako bi ocenio komponentu znanja?</span>
+    <div class="flex-col">
+      <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
+    </div>
+    <div *ngIf="isRated" class="flex-col" style="height: 104px;">
+      <span *ngIf="rating === 5">Šta smo posebno dobro uradili?</span>
+      <span *ngIf="rating < 5">Šta treba da unapredimo?</span>
+      <mat-chip-listbox id="options" selectable multiple class="flex-row" style="flex-wrap: wrap;">
+        <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary" style="flex: 1 1;">
+          <small>{{tag}}</small>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+    <div style="height: 104px;" *ngIf="!isRated"></div>
   </div>
-  <div *ngIf="isRated" class="flex-col" style="height: 104px;">
-    <pre *ngIf="rating === 5">Šta smo posebno dobro uradili?</pre>
-    <pre *ngIf="rating < 5">Šta treba da unapredimo?</pre>
-    <mat-chip-listbox id="options" selectable multiple class="flex-row" style="flex-wrap: wrap;">
-      <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary" style="flex: 1 1;">
-        <small>{{tag}}</small>
-      </mat-chip-option>
-    </mat-chip-listbox>
-  </div>
-  <div style="height: 104px;" *ngIf="!isRated"></div>
-  <mat-divider></mat-divider>
-  <div class="flex-row gap" style="justify-content: flex-end;">
-    <button id="comment-button" mat-button (click)="closeDialog()">Ostani ovde</button>
-    <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Lekcija</button>
-  </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Ostani ovde</button>
+  <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Lekcija</button>
+</mat-dialog-actions>

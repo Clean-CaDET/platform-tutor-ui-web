@@ -1,31 +1,26 @@
 <div *ngIf="task" class="flex-row">
-    <div style="width: 25%" class="flex-col">
-        <div class="flex-row gap"
-            [class.theme-highlight-primary]="mode === 'task'">
-            <small fxFlex>{{task?.name}}</small>
-            <div class="flex-col" fxLayoutGap="5px">
-                <span fxLayoutGap="5px">
-                    <button mat-icon-button matTooltip="Opis zadatka"
-                        (click)="openTask()" [class.mat-flat-button]="mode==='task'"
-                        [color]="mode === 'task' ? 'accent' : ''">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button mat-stroked-button matTooltip="Pregled zadataka lekcije"
-                        [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
-                        <span><mat-icon>rebase_edit</mat-icon></span>
-                    </button>
-                </span>
-                <span fxLayoutGap="5px">
-                    <span fxFlex></span>
-                    <button mat-icon-button (click)="previewTask()" matTooltip="Opis zadatka u modalu">
-                        <mat-icon>preview</mat-icon>
-                    </button>
-                </span>
+    <div class="flex-col" style="width: 25%">
+        <div class="flex-col" [class.theme-highlight-primary]="mode === 'task'" style="padding: 10px 10px 0 10px">
+            <small style="height: 80px;">{{task?.name}}</small>
+            <div class="flex-row gap" style="align-items: center;">
+                <button mat-icon-button matTooltip="Opis zadatka"
+                    (click)="openTask()" [class.mat-flat-button]="mode==='task'"
+                    [color]="mode === 'task' ? 'accent' : ''">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="previewTask()" matTooltip="Opis zadatka u modalu">
+                    <mat-icon>preview</mat-icon>
+                </button>
+                <span style="flex-grow: 1;"></span>
+                <button mat-stroked-button matTooltip="Pregled zadataka lekcije"
+                    [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
+                    <span><mat-icon>rebase_edit</mat-icon></span>
+                </button>
             </div>
         </div>
         <mat-divider style="border-width: 3px;"></mat-divider>
         <div class="flex-row" style="padding: 10px" [class.theme-highlight-primary]="selectedStep?.name === ''">
-            <span fxFlex>
+            <span class="flex-col" style="flex-grow: 1;">
                 <b>Koraci</b>
                 <small *ngIf="task.maxPoints"> Ukupno bodova: {{task.maxPoints}}</small>
             </span>
@@ -56,13 +51,14 @@
                             [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'accent' : ''">
                             <mat-icon>account_tree</mat-icon>
                         </button>
-                        <span fxFlex></span>
+                        <span style="flex-grow: 1"></span>
                         <button [disabled]="i === 0" mat-icon-button (click)="reorder(step, i, true)">
                             <mat-icon>keyboard_arrow_up</mat-icon>
                         </button>
                         <button [disabled]="i === steps.length - 1" mat-icon-button (click)="reorder(step, i, false)">
                             <mat-icon>keyboard_arrow_down</mat-icon>
                         </button>
+                        <span style="flex-grow: 1"></span>
                         <button mat-icon-button matTooltip="Obriši" (click)="deleteStep(step.id)">
                             <mat-icon>delete</mat-icon>
                         </button>
