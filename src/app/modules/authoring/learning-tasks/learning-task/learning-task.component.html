@@ -40,13 +40,13 @@
                     </div>
                     <div class="flex-row">
                         <button mat-icon-button matTooltip="Smernice i ocenjivanje"
-                            (click)="setStepAndParams(step, 'guidance')"
+                            (click)="setParams(step, 'guidance')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='guidance'"
                             [color]="selectedStep?.id===step.id && mode==='guidance' ? 'accent' : ''">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button matTooltip="Podaktivnosti"
-                            (click)="setStepAndParams(step, 'subactivities')"
+                            (click)="setParams(step, 'subactivities')"
                             [class.mat-flat-button]="selectedStep?.id===step.id && mode==='subactivities'"
                             [color]="selectedStep?.id===step.id && mode==='subactivities' ? 'accent' : ''">
                             <mat-icon>account_tree</mat-icon>

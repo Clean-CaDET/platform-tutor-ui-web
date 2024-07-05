@@ -16,14 +16,17 @@
             <span style="flex-grow: 1"></span>
             <section class="flex-col">
                 <span class="flex-row gap">
-                    <button mat-icon-button *ngIf="!editMode" (click)="editMode = true" tabindex="50">
-                        <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                    <button mat-icon-button *ngIf="!editMode" matTooltip="Izmeni"
+                        (click)="editMode = true" tabindex="50">
+                        <mat-icon>edit</mat-icon>
                     </button>
-                    <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="51">
-                        <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                    <button mat-mini-fab *ngIf="editMode" matTooltip="Sačuvaj"
+                        (click)="saveChanges()" color="primary" [disabled]="unitForm.invalid"  tabindex="51">
+                        <mat-icon>check</mat-icon>
                     </button>
-                    <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn" tabindex="52">
-                        <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                    <button mat-mini-fab *ngIf="editMode" matTooltip="Odbaci"
+                        (click)="discardChanges()" color="warn" tabindex="52">
+                        <mat-icon>clear</mat-icon>
                     </button>
                 </span>
             </section>

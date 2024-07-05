@@ -1,48 +1,50 @@
 <div class="overflow">
     <form [formGroup]="activityForm">
-        <div fxLayoutGap="10px">
-            <mat-form-field fxFlex="20" [appearance]="editMode ? 'fill' : 'outline'">
+        <div class="flex-row gap">
+            <mat-form-field style="width: 100px;" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Kod</mat-label>
                 <input formControlName="code" matInput [readonly]="!editMode">
                 <mat-error *ngIf="activityForm.get('code').hasError('notUnique') && activityForm.get('code').touched">
                     Mora biti jedinstven za zadatak
                 </mat-error>
             </mat-form-field>
-            <mat-form-field fxFlex="65" [appearance]="editMode ? 'fill' : 'outline'">
+            <mat-form-field style="flex-grow: 1;" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
-            <section class="flex-row" fxFlex="15" fxLayoutGap="10px">
-                <span fxFlex></span>
-                <button mat-icon-button *ngIf="!editMode" (click)="edit()" color="">
-                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+            <section class="flex-row gap" style="width: 100px;">
+                <span style="flex-grow: 1;"></span>
+                <button mat-icon-button *ngIf="!editMode"
+                    matTooltip="Izmeni" (click)="edit()">
+                    <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" color="primary" [disabled]="!activityForm.valid"
-                    (click)="submit()">
-                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" color="primary" matTooltip="Sačuvaj"
+                    [disabled]="!activityForm.valid" (click)="submit()">
+                    <mat-icon>check</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" color="warn" (click)="discardChanges()">
-                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" color="warn"
+                    matTooltip="Odbaci" (click)="discardChanges()">
+                    <mat-icon>clear</mat-icon>
                 </button>
             </section>
         </div>
         <div class="flex-col">
-            <h4 *ngIf="!editMode">Smernice (uputstva i heuristike)</h4>
+            <b *ngIf="!editMode" class="theme-highlight-primary header">Smernice (uputstva i heuristike)</b>
             <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
-            <cc-markdown-editor *ngIf="editMode" fxFlex [label]="'Smernice (uputstva i heuristike) *'"
+            <cc-markdown-editor *ngIf="editMode" [label]="'Smernice (uputstva i heuristike) *'"
                 [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
             </cc-markdown-editor>
         </div>
-        <div><!-- Examples -->
-            <h4 *ngIf="examples.controls?.length !== 0 || editMode">Video primeri sprovođenja aktivnosti</h4>
+        <div class="flex-col gap" *ngIf="examples.controls?.length !== 0 || editMode"><!-- Examples -->
+            <b class="theme-highlight-primary header">Video primeri sprovođenja aktivnosti</b>
             <div formArrayName="examples" class="flex-col">
                 <div *ngFor="let exampleForm of examples.controls; let i = index">
-                    <div [formGroup]="exampleForm" class="flex-row" fxLayoutGap="10px" fxLayoutAlign=" center">
-                        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="30">
+                    <div [formGroup]="exampleForm" class="flex-row gap">
+                        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" style="width: 70%">
                             <mat-label>Naslov</mat-label>
                             <input matInput formControlName="code" [readonly]="!editMode">
                         </mat-form-field>
-                        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" fxFlex="70">
+                        <mat-form-field [appearance]="editMode ? 'fill' : 'outline'" style="width: 30%">
                             <mat-label>Url</mat-label>
                             <input matInput formControlName="url" [readonly]="!editMode">
                         </mat-form-field>
@@ -55,10 +57,10 @@
                 </button>
             </div>
         </div>
-        <div *ngIf="!activity.parentId" class="flex-col" formGroupName="submissionFormat">
-            <h4>Format odgovora</h4>
-            <section fxLayout fxLayoutGap="10px">
-                <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
+        <div *ngIf="!activity.parentId" class="flex-col gap" formGroupName="submissionFormat">
+            <b class="theme-highlight-primary header">Format odgovora</b>
+            <section class="flex-row gap">
+                <mat-form-field style="width: 20%" [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Tip</mat-label>
                     <mat-select formControlName="type" (selectionChange)="typeSelected()">
                         <mat-option value="Text">Tekst</mat-option>
@@ -69,7 +71,7 @@
                         <mat-option value="TrelloCard">Trello Card</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field fxFlex [appearance]="editMode ? 'fill' : 'outline'">
+                <mat-form-field style="width: 80%;" [appearance]="editMode ? 'fill' : 'outline'">
                     <mat-label>Regex validacija odgovora</mat-label>
                     <input formControlName="validationRule" matInput [readonly]="!editMode">
                 </mat-form-field>
@@ -79,20 +81,20 @@
                 <textarea formControlName="guidelines" matInput [readonly]="!editMode"></textarea>
             </mat-form-field>
         </div>
-        <div *ngIf="!activity.parentId"><!-- Standards -->
-            <h4 *ngIf="standards.controls?.length !== 0 || editMode">Standardi (sortirani po nazivu)</h4>
+        <div *ngIf="!activity.parentId && (standards.controls?.length !== 0 || editMode)" class="flex-col gap"><!-- Standards -->
+            <b class="theme-highlight-primary header">Standardi (sortirani po nazivu)</b>
             <div formArrayName="standards" class="flex-col">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
-                    <div [formGroup]="standardForm" class="flex-row" fxLayoutGap="10px" fxLayoutAlign=" center">
-                        <mat-form-field fxFlex="30" [appearance]="editMode ? 'fill' : 'outline'">
+                    <div [formGroup]="standardForm" class="flex-row gap">
+                        <mat-form-field style="width: 30%;" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Naziv</mat-label>
                             <input matInput formControlName="name" [readonly]="!editMode">
                         </mat-form-field>
-                        <mat-form-field fxFlex="60" [appearance]="editMode ? 'fill' : 'outline'">
+                        <mat-form-field style="flex-grow: 1;" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Smernice za ocenjivanje</mat-label>
                             <input matInput formControlName="description" [readonly]="!editMode">
                         </mat-form-field>
-                        <mat-form-field fxFlex="10" [appearance]="editMode ? 'fill' : 'outline'">
+                        <mat-form-field style="width: 71px" [appearance]="editMode ? 'fill' : 'outline'">
                             <mat-label>Bodovi</mat-label>
                             <input matInput type="number" formControlName="maxPoints" [readonly]="!editMode">
                         </mat-form-field>

@@ -1,58 +1,50 @@
 <div class="flex-row" style="height: 100%;">
-        <div fxFlex="30" class="flex-col">
-            <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
-                <div *cdkVirtualFor="let activity of activities">
-                    <div class="flex-row">
-                        <div [class.highlight]="activeActivity?.id===activity.id || (!activeActivity?.id && activeActivity?.parentId === activity.id)" fxFlex class="flex-col" style="padding: 10px;">
-                            <span>{{activity.code}}: {{activity.name}}</span>
-                            <span class="flex-row">
-                                <button mat-icon-button (click)="view(activity)"
-                                    [class.mat-flat-button]="activeActivity?.id===activity.id"
-                                    [color]="activeActivity?.id===activity.id ? 'accent' : ''">
-                                    <mat-icon matTooltip="Detalji" [matTooltipPosition]="'above'">edit</mat-icon>
-                                </button>
-                                <button mat-icon-button (click)="createSubactivity(activity)"
-                                    [class.mat-flat-button]="!activeActivity?.id && activeActivity?.parentId === activity.id"
-                                    [color]="!activeActivity?.id && activeActivity?.parentId === activity.id ? 'accent' : ''">
-                                    <mat-icon matTooltip="Dodaj podaktivnost" [matTooltipPosition]="'above'">playlist_add</mat-icon>
-                                </button>
-                                <span fxFlex></span>
-                                <button *ngIf="activity.parentId" mat-icon-button (click)="delete(activity)">
-                                    <mat-icon matTooltip="Obriši" [matTooltipPosition]="'above'">delete</mat-icon>
-                                </button>
-                            </span>
-                        </div>
-                    </div>
-                    <div *ngIf="activity.subactivities?.length">
-                        <div class="flex-row" *ngFor="let subactivity of activity.subactivities let i = index">
-                            <span style="cursor: default;">
-                                &nbsp;&nbsp;&nbsp;&nbsp;
-                            </span>
-                            <div fxFlex class="flex-col">
-                                <div class="row" class="flex-row" fxLayoutAlign=" center"
-                                    [class.highlight]="activeActivity?.id===subactivity.id" (click)="view(subactivity)">
-                                    <small fxFlex>
-                                        {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
-                                    </small>
-                                    <span>
-                                        <button [disabled]="i === 0" mat-icon-button (click)="reorder(activity, i, true)">
-                                            <mat-icon>keyboard_arrow_up</mat-icon>
-                                        </button>
-                                        <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="reorder(activity, i, false)">
-                                            <mat-icon>keyboard_arrow_down</mat-icon>
-                                        </button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <mat-divider></mat-divider>
+    <div class="flex-col" style="width: 30%;">
+        <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+            <div *cdkVirtualFor="let activity of activities">
+                <div [class.theme-highlight-primary]="activeActivity?.id===activity.id || (!activeActivity?.id && activeActivity?.parentId === activity.id)"
+                    class="flex-col" style="padding: 10px;">
+                    <span>{{activity.code}}: {{activity.name}}</span>
+                    <span class="flex-row">
+                        <button mat-icon-button (click)="view(activity)" matTooltip="Detalji"
+                            [class.mat-flat-button]="activeActivity?.id===activity.id"
+                            [color]="activeActivity?.id===activity.id ? 'accent' : ''">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="createSubactivity(activity)"  matTooltip="Dodaj podaktivnost"
+                            [class.mat-flat-button]="!activeActivity?.id && activeActivity?.parentId === activity.id"
+                            [color]="!activeActivity?.id && activeActivity?.parentId === activity.id ? 'accent' : ''">
+                            <mat-icon>playlist_add</mat-icon>
+                        </button>
+                        <span style="flex-grow: 1;"></span>
+                        <button *ngIf="activity.parentId" mat-icon-button (click)="delete(activity)" matTooltip="Obriši">
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </span>
                 </div>
-            </cdk-virtual-scroll-viewport>
-        </div>
-        <mat-divider vertical="true"></mat-divider>
-        <div *ngIf="activeActivity" fxFlex="70" class="activity-details">
-            <!-- Warning: There is a bug for client-side code uniquness validation as the component receives only the step subactivites (and not all task activities). -->
-            <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)" [activities]="activities"></cc-activity-details>
-        </div>
+                <div *ngIf="activity.subactivities?.length">
+                    <div class="flex-row theme-hover" style="padding-left: 20px; align-items: center;" [class.theme-highlight-primary]="activeActivity?.id===subactivity.id"
+                        *ngFor="let subactivity of activity.subactivities let i = index" (click)="view(subactivity)">
+                        <small style="flex-grow: 1;">
+                            {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
+                        </small>
+                        <span class="flex-row">
+                            <button [disabled]="i === 0" mat-icon-button (click)="reorder(activity, i, true)">
+                                <mat-icon>keyboard_arrow_up</mat-icon>
+                            </button>
+                            <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="reorder(activity, i, false)">
+                                <mat-icon>keyboard_arrow_down</mat-icon>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <mat-divider vertical="true"></mat-divider>
+    <div *ngIf="activeActivity" style="width: 70%;">
+        <!-- Warning: There is a bug for client-side code uniquness validation as the component receives only the step subactivites (and not all task activities). -->
+        <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)" [activities]="activities"></cc-activity-details>
+    </div>
 </div>

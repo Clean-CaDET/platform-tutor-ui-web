@@ -13,15 +13,17 @@
         <section class="flex-col" style="width: auto;">
             <span class="flex-row gap">
                 <button mat-icon-button *ngIf="!editMode" (click)="editMode = true"
-                    [class.mat-flat-button]="!course?.description"
+                    [class.mat-flat-button]="!course?.description" matTooltip="Izmeni"
                     [color]="course?.description ? '' : 'primary'">
-                    <mat-icon matTooltip="Izmeni" [matTooltipPosition]="'above'">edit</mat-icon>
+                    <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" (click)="saveChanges()" color="primary" [disabled]="courseForm.invalid">
-                    <mat-icon matTooltip="Sačuvaj" [matTooltipPosition]="'above'">check</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" matTooltip="Sačuvaj"
+                    (click)="saveChanges()" color="primary" [disabled]="courseForm.invalid">
+                    <mat-icon >check</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" (click)="discardChanges()" color="warn">
-                    <mat-icon matTooltip="Odbaci" [matTooltipPosition]="'above'">clear</mat-icon>
+                <button mat-mini-fab *ngIf="editMode" matTooltip="Odbaci"
+                    (click)="discardChanges()" color="warn">
+                    <mat-icon>clear</mat-icon>
                 </button>
             </span>
         </section>

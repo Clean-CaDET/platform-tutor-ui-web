@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
@@ -13,7 +12,6 @@ import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
     CommonModule,
     FormsModule,
     MaterialModule,
-    FlexLayoutModule,
     MarkdownModule.forChild(),
     ReactiveFormsModule,
     TutorMarkdownModule

@@ -61,11 +61,13 @@
                 </div>
             </mat-tab>
             <mat-tab label="Primeri" *ngIf="selectedStep.examples?.length > 0">
-                <youtube-player [width]="500" [height]="280" [videoId]="videoUrl"></youtube-player>  
-                <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
-                    (click)="getNextExample()">
-                    <mat-icon>image</mat-icon> Nov primer
-                </button>
+                <div class="tabs" style="text-align: center;">
+                    <youtube-player *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
+                    <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
+                        (click)="getNextExample()">
+                        <mat-icon>image</mat-icon> Nov primer
+                    </button>
+                </div>
             </mat-tab>
         </mat-tab-group>
     </div>
