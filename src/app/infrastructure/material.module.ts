@@ -23,10 +23,10 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { ScrollingModule } from '@angular/cdk/scrolling';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatChipsModule} from "@angular/material/chips";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 300,
@@ -64,7 +64,9 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatAutocompleteModule,
     MatProgressBarModule,
     MatDividerModule,
-    ScrollingModule
+    ScrollingModule,
+    MatChipsModule,
+    CdkAccordionModule
   ],
   exports: [
     MatButtonModule,

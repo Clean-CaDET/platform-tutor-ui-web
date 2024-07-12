@@ -8,7 +8,7 @@
           <b class="mastery">{{(node.mastery * 100).toFixed(0)}}</b>
           <mat-icon class="percent-icon">percent</mat-icon>
         </span>
-        <span [ngClass]="{'accent': isCompleted(node)}">{{node.order}}. {{node.name}}</span>
+        <span [ngClass]="{'theme-highlight-accent': isCompleted(node)}">{{node.order}}. {{node.name}}</span>
       </button>
     </div>
     <div *ngIf="node.children.length" class="node-children">

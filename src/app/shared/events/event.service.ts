@@ -1,6 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ngxCsv } from 'ngx-csv';
 import { Observable, map } from 'rxjs';
 import { LearningEvent } from 'src/app/modules/knowledge-analytics/model/learning-event.model';
 import { environment } from 'src/environments/environment';
@@ -48,7 +47,8 @@ export class EventService {
 
   private exportEvents(data: LearningEvent[], title: string) {
     const events = this.parseEvents(data);
-    new ngxCsv(events, title, this.exportOptions);
+    //new ngxCsv(events, title, this.exportOptions);
+    // TODO: Replace ngxCsv with logic that does not use CommonJS.
   }
 
   private parseEvents(data: LearningEvent[]) {

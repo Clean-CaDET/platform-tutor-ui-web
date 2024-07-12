@@ -13,6 +13,6 @@
         <b>Tačan odgovor</b>: {{evaluation.correctAnswer}}<br><br>
         {{evaluation.feedback}}
     </div>
-    <button [disabled]="!checked || submissionIsProcessing" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()" i18n="@@submit">Pošalji</button>
+    <button [disabled]="!checked || submissionIsProcessing" *ngIf="!evaluation" mat-raised-button color="primary" (click)="onSubmit()">Pošalji</button>
 </mat-card-content>
 </mat-card>

@@ -23,14 +23,14 @@
           Osvetli
         </div>
       </button>
-      <button class="navbar-button" *ngIf="!user" mat-button  [routerLink]="['login']" i18n>
+      <button class="navbar-button" *ngIf="!user" mat-button  [routerLink]="['login']">
         <div>
           <mat-icon>login</mat-icon><br>
           Prijavi se
         </div>
       </button>
       <small *ngIf="user">{{trim(user.username)}}</small>
-      <button class="navbar-button" *ngIf="user" mat-button (click)="onLogout()" [routerLink]="['home']" i18n>
+      <button class="navbar-button" *ngIf="user" mat-button (click)="onLogout()" [routerLink]="['home']">
         <div>
           <mat-icon>logout</mat-icon><br>
           Odjavi se
