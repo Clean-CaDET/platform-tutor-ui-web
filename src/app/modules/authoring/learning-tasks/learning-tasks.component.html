@@ -1,7 +1,6 @@
 <div class="flex-col">
     <div style="margin: 10px;">
         <button mat-icon-button (click)="add(null)"
-            [class.mat-flat-button]="!learningTasks?.length"
             [color]="!learningTasks?.length ? 'primary' : ''">
             <mat-icon>add</mat-icon>
         </button>

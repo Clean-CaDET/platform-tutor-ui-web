@@ -26,7 +26,7 @@ export class TaskComponent implements OnInit {
   videoUrl: string;
   
   courseId: number;
-  selectedTab = 0;
+  selectedTab = new FormControl(0);
 
   constructor(
     private route: ActivatedRoute,
@@ -75,7 +75,7 @@ export class TaskComponent implements OnInit {
   }
 
   viewStep(step: any) {
-    this.selectedTab = 0;
+    this.selectedTab.setValue(0);
     this.selectedStep = step;
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     if(this.selectedStep.examples?.length > 0) {

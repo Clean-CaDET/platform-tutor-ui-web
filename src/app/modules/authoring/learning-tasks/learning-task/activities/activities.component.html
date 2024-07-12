@@ -7,12 +7,10 @@
                     <span>{{activity.code}}: {{activity.name}}</span>
                     <span class="flex-row">
                         <button mat-icon-button (click)="view(activity)" matTooltip="Detalji"
-                            [class.mat-flat-button]="activeActivity?.id===activity.id"
                             [color]="activeActivity?.id===activity.id ? 'accent' : ''">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button (click)="createSubactivity(activity)"  matTooltip="Dodaj podaktivnost"
-                            [class.mat-flat-button]="!activeActivity?.id && activeActivity?.parentId === activity.id"
                             [color]="!activeActivity?.id && activeActivity?.parentId === activity.id ? 'accent' : ''">
                             <mat-icon>playlist_add</mat-icon>
                         </button>

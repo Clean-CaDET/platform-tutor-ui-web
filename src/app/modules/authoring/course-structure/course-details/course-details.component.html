@@ -12,8 +12,7 @@
         <span style="flex-grow: 1"></span>
         <section class="flex-col" style="width: auto;">
             <span class="flex-row gap">
-                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true"
-                    [class.mat-flat-button]="!course?.description" matTooltip="Izmeni"
+                <button mat-icon-button *ngIf="!editMode" (click)="editMode = true" matTooltip="Izmeni"
                     [color]="course?.description ? '' : 'primary'">
                     <mat-icon>edit</mat-icon>
                 </button>

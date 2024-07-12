@@ -28,12 +28,10 @@
                         <span fxLayout="row" fxLayoutGap="20px">
                             <span fxLayout="row">
                                 <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Kc)" matTooltip="Analiza komponente znanja"
-                                    [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc"
                                     [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Kc ? 'accent' : ''">
                                     <mat-icon>text_snippet</mat-icon>
                                 </button>
                                 <button mat-icon-button (click)="changeDisplay(kc, AnalyticsType.Ai)" matTooltip="Analiza pitanja"
-                                    [class.mat-flat-button]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai"
                                     [color]="selectedKc?.id===kc.id && analyticsTypeDisplay === AnalyticsType.Ai ? 'accent' : ''">
                                     <mat-icon>quiz</mat-icon>
                                 </button>

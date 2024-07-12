@@ -18,17 +18,14 @@
                         <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                         <span class="flex-row">
                             <button mat-icon-button (click)="showDetails(unit)" matTooltip="Cilj i smernice"
-                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showUnitDetails"
                                 [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : ''">
                                 <mat-icon>sports_score</mat-icon>
                             </button>
                             <button mat-icon-button (click)="showKcs(unit)" matTooltip="Komponente znanja"
-                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showKnowledgeComponents"
                                 [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : ''">
                                 <mat-icon>account_tree</mat-icon>
                             </button>
                             <button mat-icon-button (click)="showTasks(unit)" matTooltip="Zadaci"
-                                [class.mat-flat-button]="selectedUnit?.id===unit.id && showLearningTasks"
                                 [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'accent' : ''">
                                 <mat-icon>rebase_edit</mat-icon>
                             </button>

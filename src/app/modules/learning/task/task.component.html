@@ -26,7 +26,8 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight [selectedIndex]="selectedTab">
+        <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
+            [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">
                     <div class="flex-col gap" style="justify-content: space-between;">
@@ -64,7 +65,7 @@
                 <div class="tabs" style="text-align: center;">
                     <youtube-player *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
                     <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
-                        (click)="getNextExample()">
+                        style="margin-top: 10px;" (click)="getNextExample()">
                         <mat-icon>image</mat-icon> Nov primer
                     </button>
                 </div>

@@ -18,8 +18,7 @@
             <section class="flex-row gap" style="width: 100px;">
                 <span style="flex-grow: 1;"></span>
                 <button mat-icon-button *ngIf="!editMode" (click)="editMode = true"
-                    matTooltip="Izmeni" [class.mat-flat-button]="!task?.description"
-                    [color]="task?.description ? '' : 'primary'">
+                    matTooltip="Izmeni" [color]="task?.description ? '' : 'primary'">
                     <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid"
