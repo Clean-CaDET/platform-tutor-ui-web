@@ -6,8 +6,8 @@
       </cc-learning-object-container>
       <div *ngIf="instructionalItemsShown" class="flex-row gap">
         <span style="flex-grow: 1;"></span>
-        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()" i18n>Pitanja</button>
-        <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]" i18n>Lekcija</button>
+        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()">Pitanja</button>
+        <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]">Lekcija</button>
       </div>
     </div>
   </div>

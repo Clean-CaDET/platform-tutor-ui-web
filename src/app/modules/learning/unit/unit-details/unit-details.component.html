@@ -42,8 +42,8 @@
     <mat-divider></mat-divider>
     <div class="flex-row gap">
       <span style="flex-grow: 1;"></span>
-      <button mat-raised-button [routerLink]="['/courses', courseId]" i18n [color]="satisfiedMasteriesCount === masteries.length ? 'primary' : ''">Sve lekcije</button>
-      <button mat-raised-button (click)="openImprovementDialog()" i18n>Oceni lekciju</button>
+      <button mat-raised-button [routerLink]="['/courses', courseId]" [color]="satisfiedMasteriesCount === masteries.length ? 'primary' : ''">Sve lekcije</button>
+      <button mat-raised-button (click)="openImprovementDialog()">Oceni lekciju</button>
     </div>
   </div>
 </div>

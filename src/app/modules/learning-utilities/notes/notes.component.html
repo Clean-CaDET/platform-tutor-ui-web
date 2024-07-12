@@ -16,7 +16,7 @@
       <button mat-flat-button (click)="onCancel()">Otkaži</button>
     </div>
   </mat-card>
-  <div class="note-width" *ngIf="notes.length === 0 && !edit" i18n>
+  <div class="note-width" *ngIf="notes.length === 0 && !edit">
     <br>Prostor za pitanja, ideje, nejasnoće i ostale beleške.
   </div>
   <mat-card appearance="outlined" class="note-width" *ngFor="let note of notes">

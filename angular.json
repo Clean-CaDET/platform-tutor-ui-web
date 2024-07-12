@@ -21,7 +21,7 @@
             "outputPath": "dist/platform-smart-tutor-web",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "aot": true,
             "assets": [
@@ -91,17 +91,17 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "platform-smart-tutor-web:build"
+            "buildTarget": "platform-smart-tutor-web:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "platform-smart-tutor-web:build:production"
+              "buildTarget": "platform-smart-tutor-web:build:production"
             },
             "development": {
-              "browserTarget": "platform-smart-tutor-web:build:development"
+              "buildTarget": "platform-smart-tutor-web:build:development"
             },
             "en": {
-              "browserTarget": "platform-smart-tutor-web:build:en"
+              "buildTarget": "platform-smart-tutor-web:build:en"
             }
           },
           "defaultConfiguration": "development"
@@ -109,14 +109,14 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "platform-smart-tutor-web:build"
+            "buildTarget": "platform-smart-tutor-web:build"
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
             "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
@@ -151,18 +151,9 @@
             ]
           }
         }
-      },
-      "i18n": {
-        "sourceLocale": "sr",
-        "locales": {
-          "en": {
-            "translation": "/locale/messages.en.xlf"
-          }
-        }
       }
     }
   },
-  "defaultProject": "platform-smart-tutor-web",
   "cli": {
     "analytics": "df29504f-f108-4064-806b-e496ae0db600",
     "schematicCollections": [

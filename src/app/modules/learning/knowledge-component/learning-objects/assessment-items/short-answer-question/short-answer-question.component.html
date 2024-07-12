@@ -3,11 +3,11 @@
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
     <mat-form-field style="width: 100%;">
-      <mat-label i18n>Primer odgovora: PrvaReč, DrugaReč</mat-label>
+      <mat-label>Primer odgovora: PrvaReč, DrugaReč</mat-label>
       <input autocomplete="off" matInput type="text" name="index" [(ngModel)]="answer">
     </mat-form-field>
     <div *ngIf="!evaluation">
-      <button [disabled]="submissionIsProcessing || !answer" (click)="onSubmit()" color="primary" type="submit" mat-raised-button i18n="@@submit">Pošalji</button>
+      <button [disabled]="submissionIsProcessing || !answer" (click)="onSubmit()" color="primary" type="submit" mat-raised-button>Pošalji</button>
     </div>
     <div *ngIf="evaluation?.acceptableAnswers" [class]="evaluation.correctnessLevel ? 'color-correct' : 'color-wrong'">
       Prihvatljivi odgovori:

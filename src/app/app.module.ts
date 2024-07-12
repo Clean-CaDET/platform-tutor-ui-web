@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownModule, MARKED_OPTIONS, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './infrastructure/app-routing.module';
 import { MaterialModule } from './infrastructure/material.module';
@@ -28,9 +28,7 @@ export function markdownConfiguration(): MarkedOptions {
     renderer: renderer,
     gfm: true,
     breaks: false,
-    pedantic: false,
-    smartLists: true,
-    smartypants: false,
+    pedantic: false
   };
 }
 
@@ -45,7 +43,7 @@ export function markdownConfiguration(): MarkedOptions {
     AuthenticationModule,
     MarkdownModule.forRoot({
       markedOptions: {
-        provide: MarkedOptions,
+        provide: MARKED_OPTIONS,
         useFactory: markdownConfiguration,
       },
     }),

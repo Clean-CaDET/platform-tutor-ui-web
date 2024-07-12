@@ -9,14 +9,14 @@
     </section>
     <section class="flex-row gap">
       <mat-form-field style="flex-grow: 1;">
-        <mat-label class="question" i18n>Kako biste unapredili sadržaj ove lekcije?
+        <mat-label class="question">Kako biste unapredili sadržaj ove lekcije?
         </mat-label>
         <textarea matInput formControlName="educationalContentImprovement" rows="4"></textarea>
       </mat-form-field>
       <mat-icon matTooltip="Istaknite generalni utisak o sadržaju lekcije i njenoj organizaciji">help_outline</mat-icon>
     </section>
     <section>
-      <button [disabled]="improvementForm.invalid" color="primary" (click)="onSubmit()" mat-raised-button type="submit" i18n="@@save">Sačuvaj</button>
+      <button [disabled]="improvementForm.invalid" color="primary" (click)="onSubmit()" mat-raised-button type="submit">Sačuvaj</button>
       <button mat-button (click)="onClose()">Otkaži</button>
     </section>
   </form>
