@@ -5,9 +5,7 @@ import { StakeholderAccount } from '../model/stakeholder-account.model';
 import { PagedResults } from '../../../shared/model/paged-results.model';
 import { environment } from '../../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class LearnersService {
   baseUrl = environment.apiHost + 'management/learners/';
 

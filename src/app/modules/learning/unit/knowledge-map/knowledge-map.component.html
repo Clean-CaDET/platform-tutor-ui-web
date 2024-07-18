@@ -1,14 +1,14 @@
 <ng-template #tmplNode let-node="node">
   <div class="node-item">
-    <div class="node-title" fxLayout="row">
-      <button mat-menu-item [routerLink]="['kc', node.id]" [disabled]="isLocked(node)" [ngClass]="{'kc-completed': isCompleted(node)}">
+    <div class="node-title flex-row">
+      <button mat-menu-item [routerLink]="['kcs', node.id]" [disabled]="isLocked(node)">
         <mat-icon *ngIf="isLocked(node)">lock</mat-icon>
         <mat-icon *ngIf="isCompleted(node)" color="accent">done</mat-icon>
         <span *ngIf="isInProgress(node)">
           <b class="mastery">{{(node.mastery * 100).toFixed(0)}}</b>
           <mat-icon class="percent-icon">percent</mat-icon>
         </span>
-        {{node.order}}. {{node.name}}
+        <span [ngClass]="{'theme-highlight-accent': isCompleted(node)}">{{node.order}}. {{node.name}}</span>
       </button>
     </div>
     <div *ngIf="node.children.length" class="node-children">

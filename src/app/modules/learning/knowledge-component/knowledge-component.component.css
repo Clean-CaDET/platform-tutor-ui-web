@@ -1,17 +1,23 @@
-#knowledge-component {
-  width: 90%;
+#scroller {
+  flex: 1 1 auto;
+  overflow-x: auto;
+}
+
+.learning-viewport {
+  max-width: 680px;
+  padding: 20px;
+  margin: 0 auto;
   text-align: justify;
-  margin: auto;
 }
 
 @media (max-width: 520px) {
-  #knowledge-component {
+  .learning-viewport {
     text-align: left;
   }
 }
 
 h1 {
-  margin-top: 0px;
+  font-size: xx-large;
 }
 
 ::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4 {
@@ -19,6 +25,6 @@ h1 {
   text-align: left;
 }
 
-.mat-icon-button {
+.mat-mdc-icon-button {
   margin: 10px;
 }

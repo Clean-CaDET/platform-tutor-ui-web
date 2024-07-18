@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
-import { ChatbotModalService } from '../learning-observer/chatbot-modal.service';
 import { SessionPauseService } from './session-pause.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { KcRateComponent } from './kc-rate/kc-rate.component';
@@ -28,7 +27,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     private title: Title,
     private knowledgeComponentService: KnowledgeComponentService,
     private sessionPauseTracker: SessionPauseService,
-    private modalService: ChatbotModalService,
     private ratingDialog: MatDialog
   ) {}
 
@@ -81,7 +79,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects = instructionalItems;
         this.scrollToTop();
       });
-    this.modalService.notify();
   }
 
   onAssessmentItemClicked(): void {
@@ -93,15 +90,16 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects[0] = assessmentItem;
         this.scrollToTop();
       });
-    this.modalService.notify();
   }
 
   rateKc(): void {
+    document.querySelector('#scroller').scroll({top: document.querySelector('#scroller').scrollHeight});
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
-    dialogConfig.maxHeight = '800px';
-    dialogConfig.maxWidth = '345px';
+    dialogConfig.height = '330px';
+    dialogConfig.width = '340px';
     dialogConfig.enterAnimationDuration = "350ms";
     dialogConfig.data = {
       kcId: this.knowledgeComponent.id,
@@ -112,7 +110,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   }
 
   private scrollToTop() {
-    document.querySelector('#scroller').scrollTop = 0;
+    setTimeout(() => { document.querySelector('#scroller').scroll({top: 0})}, 50);
   }
 
   @HostListener('window:beforeunload', ['$event'])

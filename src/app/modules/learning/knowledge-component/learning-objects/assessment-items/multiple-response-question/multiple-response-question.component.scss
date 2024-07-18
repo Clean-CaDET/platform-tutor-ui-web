@@ -6,19 +6,6 @@
   color: #FF3C47
 }
 
-mat-icon {
-  margin-right: 1em;
-  font-size: 2em;
-}
-
 mat-checkbox {
   margin-top: 1em;
-}
-
-:host::ng-deep.mat-checkbox-layout{
-  white-space: normal !important;
-}
-
-:host::ng-deep.mat-checkbox-inner-container{
-  margin-top: 4px;
 }

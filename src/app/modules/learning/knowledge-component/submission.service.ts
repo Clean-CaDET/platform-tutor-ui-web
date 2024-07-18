@@ -5,9 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Feedback } from '../model/learning-objects/feedback.model';
 import { Submission } from '../model/learning-objects/submission.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class SubmissionService {
   constructor(private http: HttpClient) {}
 

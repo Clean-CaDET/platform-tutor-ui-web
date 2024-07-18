@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from './constants';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class TokenStorage {
   constructor() {}
 

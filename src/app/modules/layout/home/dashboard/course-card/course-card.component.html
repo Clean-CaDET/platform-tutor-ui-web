@@ -1,6 +1,5 @@
-<mat-card style="margin: 10px" fxLayout="column" fxFlex
-    (click)="onCourseClick()"
-    [ngClass]="{'pointer': user.role.includes('learner')}">
+<mat-card appearance="outlined" style="height: 100%;"
+    (click)="onCourseClick()" [ngClass]="{'theme-hover': user.role.includes('learner')}">
     <mat-card-header>
         <mat-icon mat-card-avatar>book</mat-icon>
         <mat-card-title style="text-align: left;">
@@ -9,20 +8,19 @@
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
-        <p>
-            <markdown>{{course.description}}</markdown>
-        </p>
+        <small><markdown>{{course.description}}</markdown></small>
     </mat-card-content>
-    <span fxFlex></span>
-    <span *ngIf="user.role === 'instructor'" fxLayoutAlign="end" fxLayoutGap="10px">
-        <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', course.id]">
-            <mat-icon matTooltip="Autorstvo" [matTooltipPosition]="'below'">edit</mat-icon>
+    <span style="flex-grow: 1;"></span>
+    <mat-card-actions *ngIf="user.role === 'instructor'" class="flex-row gap">
+        <span style="flex-grow: 1;"></span>
+        <a mat-stroked-button [routerLink]="['/authoring/course', course.id]" matTooltip="Autorstvo">
+            <div><mat-icon>edit</mat-icon></div>
         </a>
-        <a mat-icon-button mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']">
-            <mat-icon matTooltip="Analitike" [matTooltipPosition]="'below'">bar_chart</mat-icon>
+        <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']" matTooltip="Analitike">
+            <div><mat-icon>bar_chart</mat-icon></div>
         </a>
-        <a mat-icon-button mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']">
-            <mat-icon matTooltip="Grupe" [matTooltipPosition]="'below'">groups</mat-icon>
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']" matTooltip="Grupe">
+            <div><mat-icon>groups</mat-icon></div>
         </a>
-    </span>
+    </mat-card-actions>
 </mat-card>

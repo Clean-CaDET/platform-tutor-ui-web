@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LearningTask } from './model/learning-task';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class LearningTasksService {
   private baseUrl = environment.apiHost + 'authoring/units/';
 

@@ -1,4 +1,4 @@
-<mat-card fxFlex fxLayout="column" fxLayoutGap="10px">
+<mat-card appearance="outlined" fxFlex fxLayout="column" fxLayoutGap="10px">
     <div *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <b>Brojno stanje učenika</b>&nbsp;
         <small>(Prijavljen = ima pristup;
@@ -6,7 +6,7 @@
         Pregledan = video svo gradivo i pitanja;
         Rešen = ispravno odgovorio na pitanja)</small>
     </div>
-    <div fxLayout="row" *ngIf="knowledgeComponentStatistics?.totalRegistered">
+    <!--div fxLayout="row" *ngIf="knowledgeComponentStatistics?.totalRegistered">
         <div fxFlex="47" fxLayout="column">
             <div fxFlex><ngx-charts-bar-vertical
             [results]="totalCountChartData"
@@ -25,7 +25,7 @@
             [showDataLabel]="true">
             </ngx-charts-bar-vertical></div>
         </div>
-    </div>
+    </div-->
     <div *ngIf="completionTimeBars?.length && passTimeBars?.length">
         <mat-divider></mat-divider>
         <p>
@@ -46,30 +46,30 @@
         <p><b>Ocene učenika</b></p>
         <div fxLayout="row">
             <div fxFlex="50" fxLayout="column">
-                <div fxFlex><ngx-charts-bar-vertical
+                <div fxFlex><!--ngx-charts-bar-vertical
                 [results]="ratingChartData"
                 [xAxis]="true"
                 [yAxis]="true"
                 [roundEdges]="false"
                 [showDataLabel]="true">
-                </ngx-charts-bar-vertical></div>
+                </ngx-charts-bar-vertical--></div>
             </div>
             <div fxFlex="50">
                 <div *ngIf="!isEmpty(goodPoints)">
                     Učenici kojima se svidela komponenta znanja (5/5) su istakli:
-                    <mat-chip-list multiple>
-                    <mat-chip *ngFor="let option of goodPoints | keyvalue" #chip="matChip">
+                    <mat-chip-listbox multiple>
+                    <mat-chip-option *ngFor="let option of goodPoints | keyvalue" #chip="matChip">
                         {{option.key}} ({{option.value}})
-                    </mat-chip>
-                    </mat-chip-list>
+                    </mat-chip-option>
+                    </mat-chip-listbox>
                 </div>
                 <div *ngIf="!isEmpty(badPoints)">
                     Učenici koji su dali manje od 5 su istakli da treba unaprediti:
-                    <mat-chip-list multiple>
-                    <mat-chip *ngFor="let option of badPoints | keyvalue" #chip="matChip">
+                    <mat-chip-listbox multiple>
+                    <mat-chip-option *ngFor="let option of badPoints | keyvalue" #chip="matChip">
                         {{option.key}} ({{option.value}})
-                    </mat-chip>
-                    </mat-chip-list>
+                    </mat-chip-option>
+                    </mat-chip-listbox>
                 </div>
             </div>
         </div>

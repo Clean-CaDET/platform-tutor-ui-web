@@ -1,27 +1,11 @@
-#notes {
-  padding: 10px;
-}
-
 .note-width {
   width: 340px;
 }
 
-.mat-card {
+.mat-mdc-card {
   padding: 10px;
-  margin-bottom: 10px;
-}
-
-.mat-icon-button {
-  margin-bottom: 10px;
-}
-
-ngx-mat-markdown-text-editor {
-  width: 340px;
-  word-break: break-word;
-}
-
-mat-card-content {
-  word-break: break-word;
+  margin-top: 10px;
+  word-break: break-all;
 }
 
 mat-form-field {

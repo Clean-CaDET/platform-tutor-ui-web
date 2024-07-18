@@ -1,11 +1,8 @@
-.editor-container {
-  width: 340px;
-}
-
 mat-form-field {
-  width: 100%;
+  margin-bottom: -10px;
 }
 
-textarea {
-  width: 100%;
+.mat-mdc-icon-button {
+  width: 45px !important;
+  height: 45px !important;
 }

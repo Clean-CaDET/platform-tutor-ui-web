@@ -5,9 +5,7 @@ import { LearningObjectMapper } from 'src/app/modules/learning/knowledge-compone
 import { environment } from 'src/environments/environment';
 import { LearningObject } from '../../../learning/knowledge-component/learning-objects/learning-object.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class InstructionalItemsService {
   private baseUrl(kcId: number): string {
     return environment.apiHost + 'authoring/knowledge-components/' + kcId + '/instruction/';

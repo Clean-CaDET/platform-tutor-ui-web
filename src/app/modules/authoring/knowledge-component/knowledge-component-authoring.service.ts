@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import { KnowledgeComponent } from 'src/app/modules/learning/model/knowledge-component.model';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export class KnowledgeComponentService {
   private baseUrl = environment.apiHost + 'authoring/knowledge-components/';
 

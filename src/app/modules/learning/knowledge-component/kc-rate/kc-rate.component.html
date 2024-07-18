@@ -1,23 +1,23 @@
-<div fxLayout="column" style="text-align: center;">
-  <pre>{{feedbackMessage}}</pre>
-  <div fxLayout="column">
-    <p>Kako bi ocenio ovaj deo lekcije?</p>
-    <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
+<mat-dialog-content class="container">
+    <div class="flex-col gap">
+    <span style="font-size: 18px;">Celina savladana, bravo 🥳!</span>
+    <span>Kako bi ocenio komponentu znanja?</span>
+    <div class="flex-col">
+      <star-rating [starType]="'svg'" (starClickChange)="rate($event)" [size]="'large'" [staticColor]="'ok'"></star-rating>
+    </div>
+    <div *ngIf="isRated" class="flex-col" style="height: 104px;">
+      <span *ngIf="rating === 5">Šta smo posebno dobro uradili?</span>
+      <span *ngIf="rating < 5">Šta treba da unapredimo?</span>
+      <mat-chip-listbox id="options" selectable multiple class="flex-row" style="flex-wrap: wrap;">
+        <mat-chip-option *ngFor="let tag of tags; let pos = index" (click)="selectTag(tag)" [value]="tag" color="primary" style="flex: 1 1;">
+          <small>{{tag}}</small>
+        </mat-chip-option>
+      </mat-chip-listbox>
+    </div>
+    <div style="height: 104px;" *ngIf="!isRated"></div>
   </div>
-  <div class="margin" *ngIf="isRated" fxLayout="column">
-    <p *ngIf="rating === 5">Šta misliš da smo posebno dobro uradili? </p>
-    <p *ngIf="rating < 5">Na šta treba da obratimo pažnju?</p>
-    <mat-chip-list id="options" selectable multiple>
-      <mat-chip *ngFor="let option of tags; let pos = index" #chip="matChip" (click)="selectTag(chip)" [value]="option" color="primary">
-        {{option}}
-      </mat-chip>
-    </mat-chip-list>
-  </div>
-  <div style="height: 138px;" *ngIf="!isRated"></div>
-</div>
-<mat-divider class="margin"></mat-divider>
-<div fxLayout="row" fxLayoutAlign="space-between center">
-  <button mat-raised-button color="accent" [routerLink]="['/course', courseId, 'unit', unitId]" (click)="closeDialog()">Lekcija</button>
-  <button id="comment-button" mat-button color="primary" (click)="closeDialog()">Zatvori</button>
-</div>
-
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="closeDialog()">Ostani ovde</button>
+  <button mat-raised-button color="primary" [routerLink]="['/courses', courseId, 'units', unitId]" (click)="closeDialog()">Lekcija</button>
+</mat-dialog-actions>

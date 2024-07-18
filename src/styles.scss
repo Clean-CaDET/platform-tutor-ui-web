@@ -1,11 +1,11 @@
-@import "./cc-primary-theme.scss"; /* You can add global styles to this file, and also import other style files */
-@import '~css-star-rating/scss/star-rating';
+@import "./cc-primary-theme.scss";
 @import "~css-star-rating/css/star-rating.css";
 
 html, body {
   min-height: 100vh;
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
@@ -15,15 +15,22 @@ body {
 code {
   font-family: Consolas, Monaco, 'Andale Mono', monospace;
 }
+
 p > code, li > code {
   font-size: 1.05em;
 }
-pre {
-  white-space: pre-wrap;
+
+b, strong {
+  font-weight: 500;
 }
 
-.mat-snack-bar-container.interfacing-instructor {
-  transform: scale(1.2) !important;
+pre {
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+mat-icon {
+  vertical-align: top;
 }
 
 ::-webkit-scrollbar {
@@ -36,4 +43,32 @@ pre {
 ::-webkit-scrollbar-thumb {
   background: #999;
   border-radius: 10px;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.gap {
+  gap: 10px;
+}
+
+.navbar-button {
+  height: 55px !important;
+  width: 100%;
+  letter-spacing: normal !important;
+  text-align: center;
+}
+
+a.mat-mdc-outlined-button {
+  border-radius: 50% !important;
+  padding: 0px !important;
+  min-width: 48px !important;
+  height: 48px !important;
 }

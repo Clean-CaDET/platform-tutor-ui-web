@@ -1,8 +1,11 @@
-form {
-  width: 300px;
-  margin: 100px auto auto;
+.container {
+  display: flex;
+  justify-content: center;
 }
 
-a {
-  color: #5b78ff;
+form {
+  width: 300px;
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
 }

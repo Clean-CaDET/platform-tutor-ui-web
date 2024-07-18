@@ -1,19 +1,11 @@
-:host ::ng-deep .mat-radio-label-content {
-  white-space: normal !important;
-}
-
-:host ::ng-deep .color-correct .mat-radio-label-content {
-  color: #3ca0ff !important;
-}
-
-:host ::ng-deep .color-wrong .mat-radio-label-content {
-  color: #ff3c47 !important;
-}
-
 .color-correct {
   color: #3ca0ff;
 }
 
 .color-wrong {
   color: #ff3c47;
+}
+
+mat-radio-button {
+  margin-top: 1em;
 }

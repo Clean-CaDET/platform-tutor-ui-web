@@ -1,37 +1,40 @@
-<div fxLayout="column" style="height: 100vh;">
-    <mat-card *ngIf="kc" fxLayout="column" fxLayoutGap="20px" style="z-index: 5;">
-        <span fxLayout="row">
-            <span fxLayout="column">
-                <span fxFlex><b>{{kc.code}}</b>: {{kc.name}}</span>
+<div class="flex-col" style="height: 100vh;">
+    <mat-card appearance="outlined" *ngIf="kc" style="padding: 10px;">
+        <span class="flex-row gap">
+            <span class="flex-col">
+                <span><b>{{kc.code}}</b>: {{kc.name}}</span>
                 <small>Redosled: {{kc.order}} | Minimalno minuta rada: {{kc.expectedDurationInMinutes}}</small>
             </span>
-            <span fxFlex></span>
-            <span fxLayoutGap="40px" fxLayout="row">
-                <span fxLayoutGap="10px" fxLayout="row">
-                    <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: kc.knowledgeUnitId, mode: 'kc'}">
-                        <mat-icon matTooltip="Komponente znanja" [matTooltipPosition]="'below'">account_tree</mat-icon>
+            <span style="flex-grow: 1"></span>
+            <span class="flex-row" style="gap: 30px">
+                <span class="flex-row gap">
+                    <a mat-stroked-button matTooltip="Komponente znanja" [routerLink]="['/authoring/course', courseId]"
+                        [queryParams]="{unit: kc.knowledgeUnitId, mode: 'kc'}">
+                        <span><mat-icon>account_tree</mat-icon></span>
                     </a>
-                    <a mat-icon-button mat-stroked-button [disabled]="!prevKc"
+                    <a mat-stroked-button [disabled]="!prevKc" [matTooltip]="prevKc ? 'Komponenta: ' + prevKc.name : 'Nema prethodne komponente'"
                         [routerLink]="prevKc ? ['/authoring/course', courseId, 'unit', prevKc.knowledgeUnitId, 'knowledge-component', prevKc.id, 'instruction'] : null">
-                        <mat-icon [matTooltip]="prevKc ? 'Komponenta: ' + prevKc.name : 'Nema prethodne komponente'" [matTooltipPosition]="'above'">navigate_before</mat-icon>
+                        <span><mat-icon>navigate_before</mat-icon></span>
                     </a>
-                    <a mat-icon-button mat-stroked-button [disabled]="!nextKc"
+                    <a mat-stroked-button [disabled]="!nextKc" [matTooltip]="nextKc ? 'Komponenta: ' + nextKc.name : 'Nema sledeće komponente'"
                         [routerLink]="nextKc ? ['/authoring/course', courseId, 'unit', nextKc.knowledgeUnitId, 'knowledge-component', nextKc.id, 'instruction'] : null">
-                        <mat-icon [matTooltip]="nextKc ? 'Komponenta: ' + nextKc.name : 'Nema sledeće komponente'" [matTooltipPosition]="'above'">navigate_next</mat-icon>
+                        <span><mat-icon>navigate_next</mat-icon></span>
                     </a>
                 </span>
-                <span fxLayoutGap="10px" fxLayout="row">
-                    <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']">
-                        <mat-icon matTooltip="Gradivo" [matTooltipPosition]="'above'">library_books</mat-icon>
+                <span class="flex-row gap">
+                    <a mat-stroked-button matTooltip="Gradivo" 
+                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']">
+                        <span><mat-icon>library_books</mat-icon></span>
                     </a>
-                    <a mat-icon-button mat-stroked-button [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'assessments']">
-                        <mat-icon matTooltip="Pitanja" [matTooltipPosition]="'above'">quiz</mat-icon>
+                    <a mat-stroked-button matTooltip="Pitanja"
+                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'assessments']">
+                        <span><mat-icon>quiz</mat-icon></span>
                     </a>
                 </span>
             </span>
         </span>
     </mat-card>
-    <div fxFlex style="overflow-y: auto; padding: 15px">
+    <div style="overflow-y: auto; padding: 20px">
         <router-outlet></router-outlet>
     </div>
 </div>

@@ -1,3 +1,38 @@
+.panel {
+  margin: 0 auto;
+  padding: 10px;
+
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 130px);
+  max-width: 680px;
+}
+
+@media (min-width: 810px) {
+  .panel {
+    width: 680px;
+  }
+}
+
+pre {
+  font-size: 16px;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .controls {
+    flex-direction: row;
+  }
+}
+
 button {
   padding: 5px;
 }
@@ -8,7 +43,7 @@ button {
 }
 
 .small-icon {
-  font-size: 16px;
+  font-size: 16px !important;
 }
 
 .accent-text {
@@ -17,24 +52,12 @@ button {
 }
 
 .accent-icon {
-  margin-top: 4px;
   font-size: 20px;
 }
 
-.sticky {
-  position: fixed;
-  bottom: 0px;
-  left: 85px;
-  width: calc(100% - 91px);
-  max-width: inherit;
-  z-index: 5;
-}
-
 .feedback-container {
-  height: 100px;
-  margin-right: 20px;
+  height: 68px;
   padding-right: 5px;
-  font-size: 16px;
   text-align: left;
 
   overflow-y: auto;
@@ -44,4 +67,10 @@ button {
 
 .feedback-container > pre:last-child {
   scroll-snap-align: end;
+}
+
+@media (min-width: 600px) {
+  .feedback-container {
+    height: 104px;
+  }
 }

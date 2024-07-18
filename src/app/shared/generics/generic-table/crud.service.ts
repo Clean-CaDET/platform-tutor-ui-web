@@ -4,9 +4,7 @@ import { Observable } from 'rxjs';
 import {PagedResults} from '../../model/paged-results.model';
 import { Entity } from '../model/entity.model';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({providedIn: "root"})
 export abstract class CrudService<T extends Entity> {
   constructor(private http: HttpClient) {}
 

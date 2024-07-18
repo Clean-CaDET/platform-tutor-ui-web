@@ -1,12 +1,5 @@
 @use "@angular/material" as mat;
-@use "./src/app/modules/learning/unit/knowledge-map/knowledge-map.component-theme"
-  as knowledge-map;
-@use "./src/app/modules/learning/knowledge-component/submission-result/submission-result.component-theme"
-  as submission-result;
-@use "./src/app/modules/monitoring/group-monitoring/learner-progress/assessments-table/_assessments-table.component-theme.scss"
-  as assessments-table;
-@use "./src/app/modules/monitoring/group-monitoring/learner-progress/learner-progress.component.scss"
-  as learner-progress;
+mat.$theme-ignore-duplication-warnings: true;
 
 @include mat.core();
 
@@ -14,7 +7,7 @@ $cc-palette: (
   50: #262626,
   100: #b3bcc7,
   200: #818fa1,
-  300: #4086bf,
+  300: #5b97c8,
   400: #29405f,
   500: #031e43,
   600: #031a3d,
@@ -47,45 +40,73 @@ a {
   color: #5b78ff;
 }
 
-$cc-primary-dark: mat.define-palette($cc-palette, 300, 100, 800);
-$cc-accent-dark: mat.define-palette(mat.$yellow-palette, 600);
-$cc-warn-dark: mat.define-palette(mat.$deep-orange-palette, 800);
+$cc-primary-dark: mat.m2-define-palette($cc-palette, 300, 100, 800);
+$cc-accent-dark: mat.m2-define-palette(mat.$m2-yellow-palette, 600);
+$cc-warn-dark: mat.m2-define-palette(mat.$m2-deep-orange-palette, 400);
 
-$cc-dark-theme: (
-  primary: $cc-primary-dark,
-  accent: $cc-accent-dark,
-  warn: $cc-warn-dark,
-  is-dark: true,
-  foreground: map-merge(mat.$dark-theme-foreground-palette, (text: #e0e0e0)),
-  background: mat.$dark-theme-background-palette,
+$cc-dark-theme: mat.m2-define-dark-theme(
+  (
+    color: (
+      primary: $cc-primary-dark,
+      accent: $cc-accent-dark,
+      warn: $cc-warn-dark
+    ),
+    is-dark: true,
+    density: 0
+  )
 );
 
-.dark-theme-mode {
-  @include mat.all-component-themes($cc-dark-theme);
-  @include knowledge-map.color($cc-dark-theme);
-  @include submission-result.color($cc-dark-theme);
-  @include assessments-table.color($cc-dark-theme);
-  @include learner-progress.color($cc-dark-theme);
-}
+$cc-primary-light: mat.m2-define-palette(mat.$m2-blue-palette, 700);
+$cc-accent-light: mat.m2-define-palette(mat.$m2-amber-palette, 700);
+$cc-warn-light: mat.m2-define-palette(mat.$m2-red-palette, A200);
 
-$cc-primary-light: mat.define-palette(mat.$blue-palette, 700);
-$cc-accent-light: mat.define-palette(mat.$amber-palette, 600);
-$cc-warn-light: mat.define-palette(mat.$red-palette, A200);
-
-$cc-theme: mat.define-light-theme(
+$cc-theme: mat.m2-define-light-theme(
   (
     color: (
       primary: $cc-primary-light,
       accent: $cc-accent-light,
       warn: $cc-warn-light,
     ),
+    is-dark: false
   )
 );
 
+@mixin theme-hover-effect($theme) {
+  $is-dark: map-get($theme, is-dark);
+
+  // Adjusting the hover color based on whether the theme is dark or light
+  $hover-color: if($is-dark, #555, #eee);
+
+  .theme-hover {
+    &:hover {
+      background-color: $hover-color;
+      cursor: pointer;
+    }
+  }
+
+  $color-config: mat.m2-get-color-config($theme);
+  $accent-palette: map-get($color-config, 'accent');
+
+  $primary-highlight: if($is-dark, #122536, #e6e6e6);
+  .theme-highlight-primary {
+    background-color: $primary-highlight;
+  }
+
+  .theme-highlight-accent {
+    color: mat.m2-get-color-from-palette($accent-palette);
+  }
+}
+
+.dark-theme-mode {
+  @include mat.all-component-themes($cc-dark-theme);
+  @include theme-hover-effect($cc-dark-theme);
+}
+
 .light-theme-mode {
   @include mat.all-component-themes($cc-theme);
-  @include knowledge-map.color($cc-theme);
-  @include submission-result.color($cc-theme);
-  @include assessments-table.color($cc-theme);
-  @include learner-progress.color($cc-theme);
+  @include theme-hover-effect($cc-theme);
 }
+
+@include mat.all-component-typographies(mat.m2-define-typography-config(
+  $font-family: 'Roboto, "Helvetica Neue", sans-serif'
+));

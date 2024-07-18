@@ -1,27 +1,27 @@
-<form [formGroup]="formGroup" fxLayout="column">
-    <section fxLayoutGap="15px">
-        <mat-form-field fxFlex="30" appearance="fill">
+<form [formGroup]="formGroup" class="flex-col" style="padding: 20px;">
+    <section class="flex-row gap">
+        <mat-form-field style="width: 15%" appearance="fill">
             <mat-label>Kod</mat-label>
             <input formControlName="code" matInput>
             <mat-error *ngIf="formGroup.get('code').hasError('notUnique') && formGroup.get('code').touched">
                 Mora biti jedinstven za lekciju
             </mat-error>
         </mat-form-field>
-        <mat-form-field fxFlex="50" appearance="fill">
+        <mat-form-field style="width: 60%" appearance="fill">
             <mat-label>Naziv</mat-label>
             <input formControlName="name" matInput>
         </mat-form-field>
-        <mat-form-field fxFlex="20" appearance="fill">
-            <mat-label>Redni broj</mat-label>
+        <mat-form-field style="width: 10%" appearance="fill">
+            <mat-label>R. broj</mat-label>
             <input formControlName="order" type="number" matInput>
         </mat-form-field>
-        <mat-form-field fxFlex="20" appearance="fill">
-            <mat-label>Minimalno vreme rada (u minutima)</mat-label>
+        <mat-form-field style="width: 20%" appearance="fill">
+            <mat-label>Minimalno minuta rada</mat-label>
             <input formControlName="expectedDurationInMinutes" type="number" matInput>
         </mat-form-field>
     </section>
     <section *ngIf="mode === FormMode.AddChild || mode === FormMode.EditChild">
-        <mat-form-field appearance="fill" fxFlex>
+        <mat-form-field appearance="fill" style="width: 100%;">
             <mat-label>Roditeljska komponenta</mat-label>
             <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="parentComponent" [matAutocomplete]="auto">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
@@ -31,9 +31,9 @@
             </mat-autocomplete>
         </mat-form-field>
     </section>
-    <div fxFlex="column" fxLayoutGap="20px">
-        <button mat-raised-button color="primary" [disabled]="formGroup.invalid || noItemSelected()" (click)="onSubmit()" fxFlex>Sačuvaj</button>
-        <button mat-raised-button (click)="onReset()" fxFlex>Osveži</button>
-        <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
+    <div class="flex-row gap">
+        <button mat-raised-button color="primary" [disabled]="formGroup.invalid || noItemSelected()" (click)="onSubmit()">Sačuvaj</button>
+        <button mat-raised-button (click)="onReset()">Osveži</button>
+        <button mat-raised-button (click)="onClose()">Zatvori</button>
     </div>
 </form>

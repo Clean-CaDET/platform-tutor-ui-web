@@ -19,12 +19,11 @@ export class OwnersComponent implements OnChanges {
   dataSource: MatTableDataSource<StakeholderAccount>;
 
   fieldConfiguration: Field[] = [
-    { code: 'email', type: 'email', label: 'Email' },
     { code: 'name', type: 'string', label: 'Ime' },
     { code: 'surname', type: 'string', label: 'Prezime' },
     { code: 'CRUD', type: 'CRUD', label: '', crud: {delete: true} }
   ];
-  columns: Array<string> = ['email', 'name', 'surname', 'CRUD'];
+  columns: Array<string> = ['name', 'surname', 'CRUD'];
 
   constructor(private ownersService: CoursesService,
     private dialog: MatDialog) { }

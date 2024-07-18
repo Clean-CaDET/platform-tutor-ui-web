@@ -9,15 +9,11 @@ interface TutorImprovementDTO {
   contentComment: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class ImprovementService {
   constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
-  submitImprovement(unitId: number, improvement: any): void {
-    const softwareComment = improvement.value.tutorImprovement;
-    const contentComment = improvement.value.educationalContentImprovement;
+  submitImprovement(unitId: number, softwareComment: string, contentComment: string): void {
     const tutorImprovement = { unitId, softwareComment, contentComment };
     this.http
       .post<TutorImprovementDTO>(
@@ -28,7 +24,7 @@ export class ImprovementService {
         this.snackBar.open(
           'Hvala puno na savetima za unapređenje 😊! Tvoji komentari utiču na stotine učenika koji će doći posle tebe.',
           null,
-          { duration: 5000, panelClass: 'interfacing-instructor' }
+          { duration: 5000 }
         );
       });
   }

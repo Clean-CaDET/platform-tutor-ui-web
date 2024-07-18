@@ -5,9 +5,7 @@ import { Course } from '../learning/model/course.model';
 import { Observable } from 'rxjs';
 import { PagedResults } from 'src/app/shared/model/paged-results.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class LayoutService {
   constructor(private http: HttpClient) {}
 

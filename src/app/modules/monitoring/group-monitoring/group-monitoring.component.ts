@@ -1,12 +1,9 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import {Unit} from '../../learning/model/unit.model';
-import {Course} from '../../learning/model/course.model';
-import {LearnerGroup} from '../model/learner-group.model';
+import {Group} from '../model/group.model';
 import {GroupMonitoringService} from './group-monitoring.service';
-import {PageEvent} from '@angular/material/paginator';
 import {Learner} from '../model/learner.model';
-import {LearnerProgressComponent} from "./learner-progress/learner-progress.component";
+import { Unit } from '../model/unit.model';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -14,71 +11,46 @@ import {LearnerProgressComponent} from "./learner-progress/learner-progress.comp
   styleUrls: ['./group-monitoring.component.scss'],
 })
 export class GroupMonitoringComponent implements OnInit {
-
-  @ViewChild(LearnerProgressComponent) learnerProgress: LearnerProgressComponent
-
-  courseId = 0;
-  course: Course;
-
-  selectedUnit: Unit;
+  mode: string;
+  courseId: number;
   units: Unit[];
 
+  groups: Group[];
   selectedGroupId = 0;
-  groups: LearnerGroup[];
-
   learners: Learner[] = [];
-  count: number;
-  pageIndex = 0;
-  pageSize = 20;
-
-  showProgress = true;
+  selectedLearner: Learner;
 
   constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
+      this.mode = params.mode;
+      if(this.courseId === +params.courseId) return;
       this.courseId = +params.courseId;
-      this.selectedUnit = null;
       this.getLearnerGroups();
       this.getCourse();
     });
   }
 
   private getLearnerGroups(): void {
+    this.selectedGroupId = 0;
+    this.learners = null;
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
       this.groups = groupsPage.results;
-      this.selectedGroupId = this.groups[0]?.id || 0;
-      this.getLearners();
+      if(this.selectedGroupId) this.getLearners();
     });
   }
 
   private getCourse(): void {
-    this.groupMonitoringService.getCourse(this.courseId).subscribe((course) => {
-      this.course = course;
-      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order);
-    });
+    this.groupMonitoringService.getUnits(this.courseId).subscribe(course => 
+      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order));
   }
 
   public getLearners(): void {
-    this.groupMonitoringService.getLearners(this.pageIndex+1, this.pageSize, +this.selectedGroupId, +this.courseId)
+    this.groupMonitoringService.getLearners(1, 1, this.selectedGroupId, this.courseId)
       .subscribe((data) => {
-        this.learners = data.results;
-        this.count = data.totalCount;
+        this.selectedLearner = null;
+        this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
       });
-  }
-
-  changePage(paginator: PageEvent): void {
-    if(this.pageSize !== paginator.pageSize) {
-      this.pageIndex = 0;
-    } else {
-      this.pageIndex = paginator.pageIndex;
-    }
-    this.pageSize = paginator.pageSize;
-    this.getLearners();
-  }
-
-  downloadProgress(): void {
-    let groupName = this.groups.find((g: LearnerGroup) => g.id === this.selectedGroupId)?.name || "SVE" ;
-    this.learnerProgress.downloadProgress(groupName);
   }
 }

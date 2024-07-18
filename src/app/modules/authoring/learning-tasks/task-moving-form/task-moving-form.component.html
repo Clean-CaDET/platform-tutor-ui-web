@@ -1,19 +1,20 @@
-<div fxLayout="column">
-    <small>Premeštanje zadatka: {{taskName}}</small>
-    <span fxFlex></span>
-    <form [formGroup]="formGroup" fxLayout="column">
-        <mat-form-field appearance="fill">
-            <mat-label>Lekcija u koju se premešta</mat-label>
-            <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="units" [matAutocomplete]="auto">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-            <mat-option *ngFor="let unit of filteredUnits | async" [value]="present(unit)">
-                {{present(unit)}}
-            </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <div fxLayout="row" fxLayoutGap="20px">
-            <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !findUnitId()" (click)="onSubmit()" fxFlex>Sačuvaj</button>
-            <button mat-raised-button (click)="onClose()" fxFlex>Zatvori</button>
-        </div>
-    </form>
-</div>
+<mat-dialog-content>
+    <div class="flex-col gap">
+        <small style="height: 45px;"><b>Premeštanje zadatka</b>: {{taskName}}</small>
+        <form [formGroup]="formGroup" class="flex-col">
+            <mat-form-field appearance="fill">
+                <mat-label>Lekcija u koju se premešta</mat-label>
+                <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="units" [matAutocomplete]="auto">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                <mat-option *ngFor="let unit of filteredUnits | async" [value]="present(unit)">
+                    {{present(unit)}}
+                </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+            <div class="flex-row gap">
+                <button mat-raised-button color="primary" [disabled]="formGroup.invalid || !findUnitId()" (click)="onSubmit()">Sačuvaj</button>
+                <button mat-raised-button (click)="onClose()">Zatvori</button>
+            </div>
+        </form>
+    </div>
+</mat-dialog-content>

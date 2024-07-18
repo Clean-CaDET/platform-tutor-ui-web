@@ -8,9 +8,7 @@ import { LearningObjectMapper } from './learning-objects/learning-object-mapper'
 import { LearningObject } from './learning-objects/learning-object.model';
 import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class KnowledgeComponentService {
   private baseUri: string = 'learning/knowledge-component/';
 

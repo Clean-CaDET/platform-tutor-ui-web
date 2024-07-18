@@ -10,9 +10,7 @@ import {KnowledgeComponent} from "../learning/model/knowledge-component.model";
 import { SubmissionStatistics } from './model/submission-statistics';
 import { KnowledgeComponentRate } from '../learning/model/knowledge-component-rate.model';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({providedIn: "root"})
 export class KnowledgeAnalyticsService {
   constructor(private http: HttpClient) {}
 

@@ -1,19 +1,23 @@
-<div fxLayout="column">
-  <button mat-button [matMenuTriggerFor]="course">
-    <mat-icon>collections_bookmark</mat-icon><br>
-    Kursevi
+<div class="flex-col">
+  <button class="navbar-button" mat-button [matMenuTriggerFor]="course">
+    <div>
+      <mat-icon>collections_bookmark</mat-icon><br>
+      Kursevi
+    </div>
   </button>
   <mat-menu #course="matMenu">
-    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item [ngClass]="{'accent': course.id === selectedCourse?.id}">
-      {{course.name}}
+    <button [routerLink]="['courses', course.id]" *ngFor="let course of courses" mat-menu-item>
+      <div [ngClass]="{'theme-highlight-accent': course.id === selectedCourse?.id}">{{course.name}}</div>
     </button>
   </mat-menu>
-  <div *ngIf="selectedCourse" fxLayout="column">
+  <div *ngIf="selectedCourse" class="flex-col">
     <mat-divider></mat-divider>
     <small>{{selectedCourse.name}}</small>
-    <button mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-flat-button">
-      <mat-icon>library_books</mat-icon><br>
-      Sve lekcije
+    <button class="navbar-button" mat-button [routerLink]="['courses', selectedCourse.id]" routerLinkActive="mat-accent" [routerLinkActiveOptions]="{exact: true}">
+      <div>
+        <mat-icon>library_books</mat-icon><br>
+        Sve lekcije
+      </div>
     </button>
   </div>
 </div>
