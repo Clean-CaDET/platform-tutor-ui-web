@@ -1,7 +1,7 @@
 <div *ngIf="task" class="flex-row">
     <div class="flex-col" style="width: 25%">
         <div class="flex-col" [class.theme-highlight-primary]="mode === 'task'" style="padding: 10px 10px 0 10px">
-            <small style="height: 80px;">{{task?.name}}</small>
+            <small style="height: 75px;">{{task?.name}}</small>
             <div class="flex-row gap" style="align-items: center;">
                 <button mat-icon-button matTooltip="Opis zadatka"
                     (click)="openTask()" [color]="mode === 'task' ? 'accent' : ''">
@@ -11,13 +11,13 @@
                     <mat-icon>preview</mat-icon>
                 </button>
                 <span style="flex-grow: 1;"></span>
-                <button mat-stroked-button matTooltip="Pregled zadataka lekcije"
+                <a mat-stroked-button matTooltip="Pregled zadataka lekcije"
                     [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
                     <span><mat-icon>rebase_edit</mat-icon></span>
-                </button>
+                </a>
             </div>
         </div>
-        <mat-divider style="border-width: 3px;"></mat-divider>
+        <mat-divider style="border-width: 3px; margin-top: 5px;"></mat-divider>
         <div class="flex-row" style="padding: 10px" [class.theme-highlight-primary]="selectedStep?.name === ''">
             <span class="flex-col" style="flex-grow: 1;">
                 <b>Koraci</b>
