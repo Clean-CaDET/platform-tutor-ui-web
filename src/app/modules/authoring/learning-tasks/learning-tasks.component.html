@@ -9,13 +9,13 @@
 
     <div *ngFor="let learningTask of learningTasks">
         <mat-card appearance="outlined" class="flex-col" style="margin: 10px" >
-            <div class="flex-row gap theme-highlight-primary" style="align-items: center">
+            <div class="flex-row gap theme-highlight-primary" style="align-items: center; padding: 5px 0">
                 <div style="flex-grow: 1; padding-left: 10px;">
                     <span *ngIf="learningTask.isTemplate">[šablon] </span>
                     <span *ngIf="!learningTask.isTemplate"><b>{{learningTask.order}}. </b></span>
                     <b>{{learningTask.name}}</b>
                 </div>
-                <div class="flex-row" style="align-items: center; gap: 30px">
+                <div class="flex-row" style="align-items: center; gap: 20px">
                     <a mat-stroked-button matTooltip="Ažuriraj"
                         [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
                         <span><mat-icon>edit</mat-icon></span>

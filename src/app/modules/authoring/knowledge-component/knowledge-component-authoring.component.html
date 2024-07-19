@@ -23,18 +23,20 @@
                 </span>
                 <span class="flex-row gap">
                     <a mat-stroked-button matTooltip="Gradivo" 
-                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']">
+                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']"
+                        routerLinkActive="mat-accent">
                         <span><mat-icon>library_books</mat-icon></span>
                     </a>
                     <a mat-stroked-button matTooltip="Pitanja"
-                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'assessments']">
+                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'assessments']"
+                        routerLinkActive="mat-accent">
                         <span><mat-icon>quiz</mat-icon></span>
                     </a>
                 </span>
             </span>
         </span>
     </mat-card>
-    <div style="overflow-y: auto; padding: 20px">
+    <div style="overflow-y: auto; padding: 20px" id="scroller">
         <router-outlet></router-outlet>
     </div>
 </div>

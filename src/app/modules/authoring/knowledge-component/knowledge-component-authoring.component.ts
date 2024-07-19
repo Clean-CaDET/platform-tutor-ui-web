@@ -41,8 +41,13 @@ export class KnowledgeComponentAuthoringComponent implements OnInit, OnDestroy {
     this.prevKc = index != 0 ? this.allKcs[index-1] : null;
     this.nextKc = index != this.allKcs.length - 1 ? this.allKcs[index+1] : null;
     this.title.setTitle("Tutor - Znanje - " + this.kc.name);
+    this.scrollToTop();
   }
-
+  
+  private scrollToTop() {
+    setTimeout(() => { document.querySelector('#scroller').scroll({top: 0})}, 50);
+  }
+  
   ngOnDestroy(): void {
     this.routeSubscription.unsubscribe();
   }

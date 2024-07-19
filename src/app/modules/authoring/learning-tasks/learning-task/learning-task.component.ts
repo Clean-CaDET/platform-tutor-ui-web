@@ -108,9 +108,9 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   previewTask(): void {
     this.dialog.open(MarkdownPanelComponent, {
       data: { markdown: this.task.description },
-      position: {left: "85px", top: "106px"},
-      maxHeight: "calc(100vh - 106px)",
-      maxWidth: "22.3vw"
+      position: {left: "85px", top: "80px"},
+      maxHeight: "calc(100vh - 80px)",
+      maxWidth: "24vw"
     });
   }
 
