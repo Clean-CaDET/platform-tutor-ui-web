@@ -21,6 +21,7 @@ export class TaskComponent implements OnInit {
   taskProgress: TaskProgress;
 
   selectedStep: Activity;
+  selectedStepIndex: number;
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
@@ -74,9 +75,10 @@ export class TaskComponent implements OnInit {
     });
   }
 
-  viewStep(step: any) {
+  viewStep(step: Activity) {
     this.selectedTab.setValue(0);
     this.selectedStep = step;
+    this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     if(this.selectedStep.examples?.length > 0) {
       this.selectedExample = this.selectedStep.examples[0];

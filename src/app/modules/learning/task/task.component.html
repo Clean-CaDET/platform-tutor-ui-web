@@ -45,9 +45,11 @@
                                 <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
                             </mat-form-field>
                         </form>
-                        <div style="margin-bottom: 20px">
+                        <div class="flex-row gap" style="margin-bottom: 20px">
                             <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
                                 [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
+                            <button *ngIf="selectedStepIndex < steps.length - 1" mat-raised-button [color]="isAnswered(selectedStep) ? 'primary' : ''"
+                                (click)="viewStep(steps[selectedStepIndex+1])">Sledeći korak</button>
                         </div>
                     </div>
                 </div>
