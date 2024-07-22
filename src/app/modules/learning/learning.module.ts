@@ -10,7 +10,6 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { CourseComponent } from './course/course.component';
 import { CourseUnitsComponent } from './course/course-units/course-units.component';
 import { KnowledgeComponentComponent } from './knowledge-component/knowledge-component.component';
-import { KnowledgeMapComponent } from './unit/knowledge-map/knowledge-map.component';
 import { LearningObjectContainerComponent } from './knowledge-component/learning-objects/learning-object-container/learning-object-container.component';
 import { LearningObjectDirective } from './knowledge-component/learning-objects/learning-object.directive';
 import { TextComponent } from './knowledge-component/learning-objects/instructional-items/text/text.component';
@@ -31,6 +30,7 @@ import { TaskComponent } from './task/task.component';
 import { SubactivitiesComponent } from './task/subactivities/subactivities.component';
 import { ExamplePopupComponent } from './task/example-popup/example-popup.component';
 import { UnitDetailsComponent } from './unit/unit-details/unit-details.component';
+import { UnitItemComponent } from "./unit/unit-item/unit-item.component";
 
 @NgModule({
   declarations: [
@@ -43,7 +43,6 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
     ImageDialogComponent,
     UnitComponent,
     KnowledgeComponentComponent,
-    KnowledgeMapComponent,
     ShortAnswerQuestionComponent,
     SubmissionResultComponent,
     MultipleChoiceQuestionComponent,
@@ -56,6 +55,7 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
     SubactivitiesComponent,
     ExamplePopupComponent,
     UnitDetailsComponent,
+    UnitItemComponent
   ],
   imports: [
     CommonModule,
@@ -69,11 +69,10 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
     ReactiveFormsModule,
     LearningUtilitiesModule,
     StarRatingModule.forRoot()
-  ],
+],
   exports: [
     LearningObjectContainerComponent,
     SubmissionResultComponent,
-    KnowledgeMapComponent,
     TutorImprovementComponent,
   ],
 })

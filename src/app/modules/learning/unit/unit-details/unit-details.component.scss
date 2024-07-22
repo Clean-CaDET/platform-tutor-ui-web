@@ -12,3 +12,8 @@ h1 {
 .medal-icon {
   transform: scale(1.5);
 }
+
+.mat-mdc-progress-bar {
+  --mdc-linear-progress-track-height: 20px;
+  --mdc-linear-progress-active-indicator-height: 20px;
+}

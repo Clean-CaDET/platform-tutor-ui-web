@@ -1,0 +1,39 @@
+<div style="padding: 10px 0;">
+  <mat-card appearance="outlined" *ngIf="item.isKc">
+      <mat-card-title style="text-align: left; padding: 10px;">
+        <div class="flex-row gap">
+          <mat-icon matTooltip="Komponenta znanja" style="margin-top: 4px; min-width: 24px;" [ngClass]="{ 'done': item.isSatisfied}">menu_book</mat-icon>
+          <span style="flex-grow: 1;" [ngClass]="{ 'done': item.isSatisfied}">{{item.kc.name}}</span>
+          <span style="min-width: 48px; text-align: right;">
+            <mat-icon *ngIf="item.isSatisfied" color="primary" style="margin-top: 4px;" matTooltip="Rešeno!">check_circle</mat-icon>
+            <span *ngIf="!item.isSatisfied">
+              {{(item.kcMastery.mastery * 100).toFixed(0)}}%
+            </span>
+          </span>
+        </div>
+      </mat-card-title>
+    <mat-card-actions style="gap: 10px">
+      <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['kcs', item.kc.id]">Pristupi gradivu</button>
+      <button mat-flat-button *ngIf="item.isSatisfied">Pregledaj pitanja</button>
+    </mat-card-actions>
+  </mat-card>
+
+  <mat-card appearance="outlined" *ngIf="!item.isKc">
+    <mat-card-title style="text-align: left; padding: 10px;">
+      <div class="flex-row gap">
+        <mat-icon matTooltip="Zadatak" style="margin-top: 4px; min-width: 24px;" [ngClass]="{ 'done': item.isSatisfied}">terminal</mat-icon>
+        <span style="flex-grow: 1;" [ngClass]="{ 'done': item.isSatisfied}">{{item.task.name}}</span>
+        <span style="min-width: 48px; text-align: right;">
+          <mat-icon *ngIf="item.isSatisfied" color="primary" style="margin-top: 4px;" matTooltip="Rešeno!">check_circle</mat-icon>
+          <span *ngIf="!item.isSatisfied">
+            0%
+          </span>
+        </span>
+      </div>
+    </mat-card-title>
+  <mat-card-actions style="gap: 10px">
+    <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['tasks', item.task.id]">Pristupi zadatku</button>
+    <button mat-flat-button *ngIf="item.isSatisfied">Pregledaj komentare mentora</button>
+  </mat-card-actions>
+</mat-card>
+</div>
