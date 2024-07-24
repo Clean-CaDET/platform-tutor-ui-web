@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { MarkdownPanelComponent } from './markdown-panel/markdown-panel.component';
+import { ClipboardButtonComponent } from './clipboard-button/clipboard-button.component';
 
 
 @NgModule({
-  declarations: [MarkdownEditorComponent, MarkdownPanelComponent],
+  declarations: [MarkdownEditorComponent, MarkdownPanelComponent, ClipboardButtonComponent],
   imports: [
     CommonModule,
     FormsModule,

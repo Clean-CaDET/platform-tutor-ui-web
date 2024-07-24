@@ -11,6 +11,7 @@ import { MrqSubmission } from 'src/app/modules/learning/model/learning-objects/m
 import { submissionTypes } from 'src/app/modules/learning/model/learning-objects/submission.model';
 import { Subscription } from 'rxjs';
 import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/feedback.model';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-multiple-response-question',
@@ -18,6 +19,8 @@ import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/f
   styleUrls: ['./multiple-response-question.component.scss'],
 })
 export class MultipleResponseQuestionComponent implements OnInit, OnDestroy, LearningObjectComponent {
+  readonly clipboard = ClipboardButtonComponent;
+  
   learningObject: MultipleReponseQuestion;
   private observedFeedback: Subscription;
 

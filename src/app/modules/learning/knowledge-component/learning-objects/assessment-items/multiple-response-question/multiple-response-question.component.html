@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
 <mat-card-content>
-  <markdown lineNumbers>{{learningObject.text}}</markdown>
+  <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{learningObject.text}}</markdown>
   <div>
     <ul style="padding-left: 5px;">
       <mat-list-item *ngFor="let answer of learningObject.items; let i = index">

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DragDropModule } from '@angular/cdk/drag-drop';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
@@ -32,6 +31,7 @@ import { ExamplePopupComponent } from './task/example-popup/example-popup.compon
 import { UnitDetailsComponent } from './unit/unit-details/unit-details.component';
 import { UnitItemComponent } from "./unit/unit-item/unit-item.component";
 import { AssessmentItemListComponent } from './knowledge-component/assessment-item-list/assessment-item-list.component';
+import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 
 @NgModule({
   declarations: [
@@ -67,10 +67,10 @@ import { AssessmentItemListComponent } from './knowledge-component/assessment-it
     RouterModule,
     FormsModule,
     MaterialModule,
-    DragDropModule,
     ReactiveFormsModule,
     LearningUtilitiesModule,
-    StarRatingModule.forRoot()
+    StarRatingModule.forRoot(),
+    TutorMarkdownModule
 ],
   exports: [
     LearningObjectContainerComponent,

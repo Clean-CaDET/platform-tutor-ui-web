@@ -9,6 +9,7 @@ import { shuffleArray } from 'src/app/modules/learning/knowledge-component/learn
 import { SubmissionService } from '../../../submission.service';
 import { LearningObjectComponent } from '../../learning-object-component';
 import { MultipleChoiceQuestion } from './multiple-choice-question.model';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-multiple-choice-question',
@@ -16,6 +17,8 @@ import { MultipleChoiceQuestion } from './multiple-choice-question.model';
   styleUrls: ['./multiple-choice-question.component.scss'],
 })
 export class MultipleChoiceQuestionComponent implements OnInit, OnDestroy, LearningObjectComponent {
+  readonly clipboard = ClipboardButtonComponent;
+
   learningObject: MultipleChoiceQuestion;
   private observedFeedback: Subscription;
 

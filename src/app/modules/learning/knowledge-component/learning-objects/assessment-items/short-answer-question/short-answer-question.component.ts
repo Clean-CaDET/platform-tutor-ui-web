@@ -8,6 +8,7 @@ import { submissionTypes } from 'src/app/modules/learning/model/learning-objects
 import { SubmissionService } from '../../../submission.service';
 import { Subscription } from 'rxjs';
 import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/feedback.model';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-short-answer-question',
@@ -15,6 +16,8 @@ import { feedbackTypes } from 'src/app/modules/learning/model/learning-objects/f
   styleUrls: ['./short-answer-question.component.scss'],
 })
 export class ShortAnswerQuestionComponent implements LearningObjectComponent {
+  readonly clipboard = ClipboardButtonComponent;
+
   learningObject: ShortAnswerQuestion;
   private observedFeedback: Subscription;
 

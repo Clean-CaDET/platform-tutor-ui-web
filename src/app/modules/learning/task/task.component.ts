@@ -9,6 +9,7 @@ import { ActivityExample } from './model/activity-example';
 import { TaskProgress } from './model/task-progress';
 import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-task',
@@ -16,6 +17,8 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+  readonly clipboard = ClipboardButtonComponent;
+  
   task: LearningTask;
   steps: Activity[];
   taskProgress: TaskProgress;

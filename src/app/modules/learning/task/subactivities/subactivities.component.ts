@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExamplePopupComponent } from '../example-popup/example-popup.component';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-subactivities',
@@ -8,6 +9,7 @@ import { ExamplePopupComponent } from '../example-popup/example-popup.component'
   styleUrls: ['./subactivities.component.scss']
 })
 export class SubactivitiesComponent implements OnChanges {
+  readonly clipboard = ClipboardButtonComponent;
 
   @Input() selectedStep: any;
   @Input() order: string;
