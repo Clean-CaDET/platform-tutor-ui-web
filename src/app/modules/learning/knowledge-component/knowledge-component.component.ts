@@ -17,8 +17,9 @@ import { Title } from '@angular/platform-browser';
 export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
-  sidenavOpened = false;
-  instructionalItemsShown = true;
+  
+  mode = 'instruction';
+  isSatisfied = false;
   unitId: number;
   courseId: number;
 
@@ -75,19 +76,34 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     this.knowledgeComponentService
       .getInstructionalItems(this.knowledgeComponent.id)
       .subscribe((instructionalItems) => {
-        this.instructionalItemsShown = true;
+        this.mode = "instruction";
         this.learningObjects = instructionalItems;
         this.scrollToTop();
       });
+
+      this.isSatisfied = false;
+      this.knowledgeComponentService
+        .getKnowledgeComponentStatistics(this.knowledgeComponent.id)
+        .subscribe(results => this.isSatisfied = results.isSatisfied);
   }
 
   onAssessmentItemClicked(): void {
     this.knowledgeComponentService
       .getSuitableAssessmentItem(this.knowledgeComponent.id)
       .subscribe((assessmentItem) => {
-        this.instructionalItemsShown = false;
+        this.mode = "assessment";
         this.learningObjects = [];
         this.learningObjects[0] = assessmentItem;
+        this.scrollToTop();
+      });
+  }
+
+  onReviewAssessmentsClicked(): void {
+    this.knowledgeComponentService
+      .getAssessmentItems(this.knowledgeComponent.id)
+      .subscribe((items) => {
+        this.mode = "review";
+        this.learningObjects = items;
         this.scrollToTop();
       });
   }

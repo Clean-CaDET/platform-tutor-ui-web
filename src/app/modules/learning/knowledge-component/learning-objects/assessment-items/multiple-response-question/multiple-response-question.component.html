@@ -2,7 +2,7 @@
 <mat-card-content>
   <markdown lineNumbers>{{learningObject.text}}</markdown>
   <div>
-    <ul>
+    <ul style="padding-left: 5px;">
       <mat-list-item *ngFor="let answer of learningObject.items; let i = index">
         <mat-checkbox [disabled]="evaluation ? true : false" [(ngModel)]="checked[i]" style="text-align: left">
           {{answer.text}}

@@ -2,16 +2,48 @@
   <div id="scroller">
     <div class="flex-col learning-viewport">
       <h1 class="mat-h1">{{knowledgeComponent.name}}</h1>
-      <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject">
-      </cc-learning-object-container>
-      <div *ngIf="instructionalItemsShown" class="flex-row gap">
-        <span style="flex-grow: 1;"></span>
-        <button mat-raised-button color="primary" (click)="onAssessmentItemClicked()">Pitanja</button>
-        <button mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]">Lekcija</button>
+      <div *ngIf="mode === 'instruction'">
+        <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject"></cc-learning-object-container>
+        <div class="flex-row gap">
+          <span style="flex-grow: 1;"></span>
+          <button mat-raised-button *ngIf="isSatisfied" (click)="onReviewAssessmentsClicked()">
+            <mat-icon>quiz</mat-icon>
+            Pregledaj pitanja
+          </button>
+          <button mat-raised-button [color]="isSatisfied ? '' : 'primary'" (click)="onAssessmentItemClicked()">
+            <mat-icon>help_center</mat-icon>
+            Reši pitanja
+          </button>
+          <button mat-raised-button [color]="isSatisfied ? 'primary' : ''" [routerLink]="['/courses', courseId, 'units', unitId]">
+            <mat-icon>article</mat-icon>
+            Lekcija
+          </button>
+        </div>
+      </div>
+      <div *ngIf="mode === 'assessment'">
+        <cc-learning-object-container *ngFor="let learningObject of learningObjects" [learningObject]="learningObject"></cc-learning-object-container>
+      </div>
+      <div *ngIf="mode === 'review'">
+        <cc-assessment-item-list [items]="learningObjects"></cc-assessment-item-list>
+        <div class="flex-row gap" style="margin-top: 20px;">
+          <span style="flex-grow: 1;"></span>
+          <button mat-raised-button (click)="onInstructionalItemsClicked()">
+            <mat-icon>library_books</mat-icon>
+            Pregledaj gradivo
+          </button>
+          <button mat-raised-button (click)="onAssessmentItemClicked()">
+            <mat-icon>help_center</mat-icon>
+            Reši pitanja
+          </button>
+          <button mat-raised-button [color]="isSatisfied ? 'primary' : ''" [routerLink]="['/courses', courseId, 'units', unitId]">
+            <mat-icon>article</mat-icon>
+            Lekcija
+          </button>
+        </div>
       </div>
     </div>
   </div>
-  <div *ngIf="!instructionalItemsShown">
+  <div *ngIf="mode === 'assessment'">
     <cc-submission-result (rateKc)="rateKc()" (changePage)="nextPage($event)" [kcId]="knowledgeComponent.id"></cc-submission-result>
   </div>
 </div>

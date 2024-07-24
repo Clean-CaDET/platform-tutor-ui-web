@@ -13,8 +13,7 @@
         </div>
       </mat-card-title>
     <mat-card-actions style="gap: 10px">
-      <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['kcs', item.kc.id]">Pristupi gradivu</button>
-      <button mat-flat-button *ngIf="item.isSatisfied">Pregledaj pitanja</button>
+      <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['kcs', item.kc.id]">Pristupi</button>
     </mat-card-actions>
   </mat-card>
 
@@ -32,8 +31,7 @@
       </div>
     </mat-card-title>
   <mat-card-actions style="gap: 10px">
-    <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['tasks', item.task.id]">Pristupi zadatku</button>
-    <button mat-flat-button *ngIf="item.isSatisfied">Pregledaj komentare mentora</button>
+    <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['tasks', item.task.id]">Pristupi</button>
   </mat-card-actions>
 </mat-card>
 </div>

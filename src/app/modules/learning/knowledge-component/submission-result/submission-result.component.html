@@ -19,7 +19,7 @@
       </div>
       <div class="flex-row gap">
         <div matTooltip="Dostupno nakon što odgovoriš na trenutno pitanje" [matTooltipDisabled]="feedbackProcessed">
-          <button [disabled]="!feedbackProcessed" [color]="!statistics?.isSatisfied ? 'primary' : ''" mat-raised-button (click)="onChangePage('AE')">Nov zadatak</button>
+          <button [disabled]="!feedbackProcessed" [color]="!statistics?.isSatisfied ? 'primary' : ''" mat-raised-button (click)="onChangePage('AE')">Novo pitanje</button>
         </div>
         <button mat-raised-button (click)="onChangePage('IE')">Gradivo</button>
         <button [color]="statistics?.isSatisfied ? 'primary' : ''" mat-raised-button [routerLink]="['/courses', courseId, 'units', unitId]">Lekcija</button>

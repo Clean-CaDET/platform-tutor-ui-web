@@ -31,6 +31,7 @@ import { SubactivitiesComponent } from './task/subactivities/subactivities.compo
 import { ExamplePopupComponent } from './task/example-popup/example-popup.component';
 import { UnitDetailsComponent } from './unit/unit-details/unit-details.component';
 import { UnitItemComponent } from "./unit/unit-item/unit-item.component";
+import { AssessmentItemListComponent } from './knowledge-component/assessment-item-list/assessment-item-list.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { UnitItemComponent } from "./unit/unit-item/unit-item.component";
     SubactivitiesComponent,
     ExamplePopupComponent,
     UnitDetailsComponent,
-    UnitItemComponent
+    UnitItemComponent,
+    AssessmentItemListComponent
   ],
   imports: [
     CommonModule,
