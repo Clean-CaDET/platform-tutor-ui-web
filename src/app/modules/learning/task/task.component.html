@@ -65,7 +65,7 @@
             </mat-tab>
             <mat-tab label="Primeri" *ngIf="selectedStep.examples?.length > 0">
                 <div class="tabs" style="text-align: center;">
-                    <youtube-player *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
+                    <youtube-player (stateChange)="onVideoStatusChanged($event)" *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
                     <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
                         style="margin-top: 10px;" (click)="getNextExample()">
                         <mat-icon>image</mat-icon> Nov primer

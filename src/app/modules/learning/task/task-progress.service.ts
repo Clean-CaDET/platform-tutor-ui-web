@@ -21,7 +21,7 @@ export class TaskProgressService {
   submitAnswer(unitId: number, taskId: number, progressId: number, stepProgress: any) {
     return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks/' + taskId + '/progress/' + progressId + '/step/', stepProgress); 
   }
-  
+
   submissionOpened(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
     return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/open-submission', null)
   }
@@ -32,5 +32,17 @@ export class TaskProgressService {
 
   exampleOpened(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
     return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/open-example', null)
+  }
+
+  exampleVideoPlayed(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/play-video', null)
+  }
+
+  exampleVideoPaused(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/pause-video', null)
+  }
+
+  exampleVideoFinished(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/finish-video', null)
   }
 }

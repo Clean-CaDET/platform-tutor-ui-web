@@ -57,6 +57,19 @@ export class TaskComponent implements OnInit {
       .subscribe();
     }
   }
+  
+  public onVideoStatusChanged(event: any): void {
+    if (event.data === 0) {
+      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe()
+    } else if (event.data === 1) {
+      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe()
+    } else if (event.data === 2) {
+      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe()
+    }
+  }
 
   setTask() {
     this.route.params.subscribe((params: Params) => {
