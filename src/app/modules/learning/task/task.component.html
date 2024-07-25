@@ -26,7 +26,7 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
+        <mat-tab-group #tabGroup (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">

@@ -21,4 +21,16 @@ export class TaskProgressService {
   submitAnswer(unitId: number, taskId: number, progressId: number, stepProgress: any) {
     return this.http.post<any>(this.baseUrl + unitId + '/learning-tasks/' + taskId + '/progress/' + progressId + '/step/', stepProgress); 
   }
+  
+  submissionOpened(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/open-submission', null)
+  }
+
+  guidanceOpened(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/open-guidance', null)
+  }
+
+  exampleOpened(unitId: number, taskId: number, progressId: number, stepId: number): Observable<unknown> {
+    return this.http.post<unknown>(this.baseUrl + unitId + '/learning-tasks/' + taskId +'/progress/' + progressId + '/step/' + stepId + '/open-example', null)
+  }
 }
