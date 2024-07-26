@@ -1,11 +1,18 @@
 .panel {
   margin: 0 auto;
-  padding: 10px;
+  padding: 10px 10px 5px 10px;
 
   display: flex;
   flex-direction: column;
   width: calc(100vw - 130px);
   max-width: 680px;
+  height: 158px;
+
+  transition: height 1s ease-in-out;
+}
+
+.expand {
+  height: 280px;
 }
 
 @media (min-width: 810px) {
@@ -56,7 +63,7 @@ button {
 }
 
 .feedback-container {
-  height: 68px;
+  flex-grow: 1;
   padding-right: 5px;
   text-align: left;
 
@@ -67,10 +74,4 @@ button {
 
 .feedback-container > pre:last-child {
   scroll-snap-align: end;
-}
-
-@media (min-width: 600px) {
-  .feedback-container {
-    height: 104px;
-  }
 }

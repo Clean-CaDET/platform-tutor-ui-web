@@ -4,8 +4,6 @@ import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
 import { SessionPauseService } from './session-pause.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { KcRateComponent } from './kc-rate/kc-rate.component';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -28,7 +26,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     private title: Title,
     private knowledgeComponentService: KnowledgeComponentService,
     private sessionPauseTracker: SessionPauseService,
-    private ratingDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -106,23 +103,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
         this.learningObjects = items;
         this.scrollToTop();
       });
-  }
-
-  rateKc(): void {
-    document.querySelector('#scroller').scroll({top: document.querySelector('#scroller').scrollHeight});
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.height = '330px';
-    dialogConfig.width = '340px';
-    dialogConfig.enterAnimationDuration = "350ms";
-    dialogConfig.data = {
-      kcId: this.knowledgeComponent.id,
-      unitId: this.unitId,
-      courseId: this.courseId,
-    };
-    this.ratingDialog.open(KcRateComponent, dialogConfig);
   }
 
   private scrollToTop() {

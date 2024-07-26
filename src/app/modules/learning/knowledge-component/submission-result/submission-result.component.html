@@ -1,5 +1,5 @@
 <mat-card appearance="outlined">
-  <div class="panel">
+  <div class="panel" [class.expand]="expand">
     <div class="feedback-container">
       <pre *ngIf="feedbackMessage" typingAnimator [typeSpeed]="10" [sentences]="[feedbackMessage]"
       [deleteSpeed]="1000000" [showCursor]="false"></pre>
@@ -7,7 +7,7 @@
     <div class="controls">
       <div class="flex-row gap" *ngIf="statistics">
         <div [ngClass]="{'theme-highlight-accent': statistics.isSatisfied}" class="flex-col">
-          <div class="accent-text">{{(statistics.mastery * 100).toFixed(0)}} <mat-icon class="accent-icon">percent</mat-icon></div>
+          <div class="accent-text">{{(statistics.mastery * 100).toFixed(0)}} %</div>
           <div class="small-text flex-row" style="align-items: start;">
             vičnost <mat-icon matTooltip="Progres nad trenutnom komponentom znanja. Povećava se sa tačnim odgovorima na pitanja." class="small-icon">help_outline</mat-icon>
           </div>

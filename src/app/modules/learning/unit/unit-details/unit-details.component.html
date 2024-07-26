@@ -28,8 +28,14 @@
           </div>
         </div>
       </div>
-      <button mat-raised-button [routerLink]="['/courses', courseId]" [color]="percentMastered === 100 ? 'primary' : ''">Sve lekcije</button>
-      <button mat-raised-button (click)="openImprovementDialog()">Oceni lekciju</button>
+      <button mat-raised-button [routerLink]="['/courses', courseId]" [color]="percentMastered === 100 ? 'primary' : ''">
+        <mat-icon>book</mat-icon>
+        Sve lekcije
+      </button>
+      <button mat-raised-button (click)="openImprovementDialog()">
+        <mat-icon>star</mat-icon>
+        Oceni lekciju
+      </button>
     </div>
   </mat-card>
 </div>

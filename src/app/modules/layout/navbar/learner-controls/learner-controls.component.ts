@@ -20,10 +20,10 @@ export class LearnerControlsComponent implements OnInit {
       this.courses = coursesPage.results;
       let params = this.getParams(this.route);
       if(params.courseId) {
-        this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+        this.selectCourse(+params.courseId);
       }
+      this.setupCourseUpdate();
     });
-    this.setupCourseUpdate();
   }
 
   private setupCourseUpdate(): void {
@@ -34,13 +34,17 @@ export class LearnerControlsComponent implements OnInit {
       )
       .subscribe((params) => {
         if (!params.courseId) {
-          this.selectedCourse = null
+          this.selectedCourse = null;
           return;
         }
         if (this.courseIsChanged(params)) {
-          this.selectedCourse = this.courses?.find((c) => c.id === +params.courseId);
+          this.selectCourse(+params.courseId);
         }
       });
+  }
+
+  private selectCourse(courseId: number): void{
+    this.selectedCourse = this.courses?.find((c) => c.id === courseId);
   }
 
   private courseIsChanged(params: Params) {

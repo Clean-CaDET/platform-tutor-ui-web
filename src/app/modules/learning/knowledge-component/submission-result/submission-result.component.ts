@@ -25,8 +25,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   feedbackMessage: string;
   feedbackProcessed: boolean;
   messageTimeout: any;
-
-  @Output() rateKc = new EventEmitter<void>();
+  expand = false;
 
   constructor(private assessmentConnector: AssessmentFeedbackConnector, private kcService: KnowledgeComponentService, private route: ActivatedRoute) {}
 
@@ -60,14 +59,16 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
     });
   }
 
+  
   private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean) {
-    this.feedbackMessage = createResponse(feedback);
     this.feedbackProcessed = true;
+    this.feedbackMessage = createResponse(feedback);
+    if(isFirstSatisfaction) {
+      this.expand = true;
+      this.feedbackMessage += "\n\n🥳 Pitanje na stranu, čestitam! Komponenta znanja je rešena! Možeš dalje da ispituješ pitanja ili da se vratiš na 'Lekciju' i pređeš na sledeći izazov."
+    }
     // If typing animation onComplete callback is fixed this should be changed
     this.messageTimeout = setTimeout(() => this.assessmentConnector.sendToAssessment(feedback), 1200);
-    if(isFirstSatisfaction) {
-      this.rateKc.next();
-    }
   }
 
   onChangePage(page: string): void {
@@ -75,6 +76,7 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
 
     this.feedbackProcessed = false;
     this.feedbackMessage = "";
+    this.expand = false;
 
     this.changePage.emit(page);
   }

@@ -31,7 +31,7 @@
   <mat-card appearance="outlined" *ngIf="!item.isKc">
     <mat-card-title style="text-align: left; padding: 10px;">
       <div class="flex-row gap">
-        <mat-icon matTooltip="Zadatak" style="margin-top: 4px; min-width: 24px;" [ngClass]="{ 'done': item.isSatisfied}">terminal</mat-icon>
+        <mat-icon matTooltip="Zadatak" style="margin-top: 4px; min-width: 24px;" [ngClass]="{ 'done': item.isSatisfied}">rebase_edit</mat-icon>
         <span style="flex-grow: 1;" [ngClass]="{ 'done': item.isSatisfied}">{{item.task.name}}</span>
         <span style="min-width: 48px; text-align: right;">
           <mat-icon *ngIf="item.isSatisfied" color="primary" style="margin-top: 4px;" matTooltip="Rešeno!">check_circle</mat-icon>
