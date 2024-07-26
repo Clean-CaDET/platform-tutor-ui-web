@@ -1,0 +1,18 @@
+.container {
+  text-align: center;
+  height: 100%;
+}
+
+.label-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.option-label {
+  width: 70px;
+}
+
+mat-slider {
+  margin-bottom: 20px;
+}

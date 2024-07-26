@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "../../../../../environments/environment";
-import {KnowledgeComponentRate} from "../../model/knowledge-component-rate.model";
+import {UnitProgressRating} from "../../model/unit-progress-rating.model";
 
 @Injectable({providedIn: "root"})
 export class KcRateService {
 
   constructor(private http: HttpClient) { }
 
-  rate(kcRate: KnowledgeComponentRate): Observable<KnowledgeComponentRate> {
-    return this.http.post<KnowledgeComponentRate>(environment.apiHost + 'analysis/knowledge-components/rating', kcRate);
+  rate(progressRating: UnitProgressRating): Observable<UnitProgressRating> {
+    return this.http.post<UnitProgressRating>(environment.apiHost + 'analysis/units/rating', progressRating);
   }
 }

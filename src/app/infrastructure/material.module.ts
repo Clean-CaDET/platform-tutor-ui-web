@@ -27,6 +27,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatChipsModule} from "@angular/material/chips";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import {MatSliderModule} from '@angular/material/slider';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 300,
@@ -66,7 +67,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatDividerModule,
     ScrollingModule,
     MatChipsModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatSliderModule
   ],
   exports: [
     MatButtonModule,
@@ -98,7 +100,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     MatDividerModule,
     ScrollingModule,
     MatChipsModule,
-    CdkAccordionModule
+    CdkAccordionModule,
+    MatSliderModule
   ],
   providers: [
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }

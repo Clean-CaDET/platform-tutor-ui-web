@@ -1,0 +1,43 @@
+<mat-dialog-content class="container">
+  <div class="flex-col gap">
+    <span>🫡 Zdravo! Zanimaju me tvoji utisci od poslednjeg puta kad smo se čuli.</span>
+    <mat-divider></mat-divider>
+    <form [formGroup]="ratingForm" class="flex-col">
+      <mat-label><b><mat-icon>trending_up</mat-icon> Koliki vidiš napredak kod sebe?</b></mat-label>
+      <div class="label-group">
+        <small *ngFor="let label of options.learnerProgress" class="option-label">{{label}}</small>
+      </div>
+      <mat-slider [min]="-2" [max]="2" [step]="1">
+        <input formControlName="learnerProgress" matSliderThumb>
+      </mat-slider>
+      <mat-label *ngIf="completedKcIds?.length"><b>Koliko je gradivo jasno izloženo?</b></mat-label>
+      <div class="label-group" *ngIf="completedKcIds?.length">
+        <small *ngFor="let label of options.instructionClarity" class="option-label">{{label}}</small>
+      </div>
+      <mat-slider [min]="-2" [max]="2" [step]="1" *ngIf="completedKcIds?.length">
+        <input formControlName="instructionClarity" matSliderThumb>
+      </mat-slider>
+      <mat-label *ngIf="completedKcIds?.length"><b>Koliko su pitanja jasno formulisana?</b></mat-label>
+      <div class="label-group" *ngIf="completedKcIds?.length">
+        <small *ngFor="let label of options.assessmentClarity" class="option-label">{{label}}</small>
+      </div>
+      <mat-slider [min]="-2" [max]="2" [step]="1" *ngIf="completedKcIds?.length">
+        <input formControlName="assessmentClarity" matSliderThumb>
+      </mat-slider>
+      <mat-label *ngIf="completedTaskIds?.length"><b>Koliko su zadaci zahtevni?</b></mat-label>
+      <div class="label-group" *ngIf="completedTaskIds?.length">
+        <small *ngFor="let label of options.taskChallenge" class="option-label">{{label}}</small>
+      </div>
+      <mat-slider [min]="-2" [max]="2" [step]="1" *ngIf="completedTaskIds?.length">
+        <input formControlName="taskChallenge" matSliderThumb>
+      </mat-slider>
+      <mat-form-field appearance="fill" style="width: 100%; padding: 0px;">
+        <mat-label>Da li bi mi posebno skrenuo pažnju na nešto?</mat-label>
+        <textarea matInput style="height: 65px;" formControlName="comment" autocomplete="off"></textarea>
+      </mat-form-field>
+    </form>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button color="primary" (click)="closeDialog()">Zatvori</button>
+</mat-dialog-actions>

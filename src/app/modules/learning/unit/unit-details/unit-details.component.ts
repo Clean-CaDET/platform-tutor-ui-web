@@ -6,11 +6,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Unit } from '../../model/unit.model';
 import { LearningTask } from '../../task/model/learning-task';
 import { TaskService } from '../../task/task.service';
-import { TutorImprovementComponent } from '../tutor-improvement/tutor-improvement.component';
 import { UnitService } from '../unit.service';
 import { forkJoin } from 'rxjs';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
 import { UnitItem } from '../../model/unit-item.model';
+import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
 
 @Component({
   selector: 'cc-unit-details',
@@ -97,10 +97,14 @@ export class UnitDetailsComponent implements OnInit {
     }
   }
 
-  openImprovementDialog(): void {
+  rateProgress(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { unitId: this.unit.id };
-    this.dialog.open(TutorImprovementComponent, dialogConfig);
+    dialogConfig.data = { 
+      unitId: this.unit.id,
+      completedKcIds: this.unitItems.filter(i => i.isKc && i.isSatisfied),
+      completedTaskIds: this.unitItems.filter(i => !i.isKc && i.isSatisfied)
+    };
+    this.dialog.open(UnitProgressRatingComponent, dialogConfig);
   }
 }

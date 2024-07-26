@@ -8,7 +8,7 @@ import {KnowledgeComponentStatistics} from './model/knowledge-component-statisti
 import { AssessmentItemStatistics } from './model/assessment-item-statistics';
 import {KnowledgeComponent} from "../learning/model/knowledge-component.model";
 import { SubmissionStatistics } from './model/submission-statistics';
-import { KnowledgeComponentRate } from '../learning/model/knowledge-component-rate.model';
+import { UnitProgressRating } from '../learning/model/unit-progress-rating.model';
 
 @Injectable({providedIn: "root"})
 export class KnowledgeAnalyticsService {
@@ -31,7 +31,7 @@ export class KnowledgeAnalyticsService {
   }
 
   getKcRatings(unitId: number) {
-    return this.http.get<KnowledgeComponentRate[]>(environment.apiHost + `analysis/units/${unitId}/knowledge-components/ratings`);
+    return this.http.get<UnitProgressRating[]>(environment.apiHost + `analysis/units/${unitId}/knowledge-components/ratings`);
   }
 
   getKnowledgeComponentStatistics(kcId: string): Observable<KnowledgeComponentStatistics> {
