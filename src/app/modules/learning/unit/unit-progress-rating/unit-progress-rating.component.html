@@ -1,6 +1,7 @@
 <mat-dialog-content class="container">
   <div class="flex-col gap">
-    <span>🫡 Zdravo! Zanimaju me tvoji utisci od poslednjeg puta kad smo se čuli.</span>
+    <span *ngIf="!flags.isLearnerInitiated">🫡 Zdravo! Zanimaju me tvoji utisci od poslednjeg puta kad smo se čuli.</span>
+    <span *ngIf="flags.isLearnerInitiated">🥰 Zdravo! Vidim da nam samoinicijativno daješ povratnu informaciju.<br>Ovo će nam baš pomoći da razumemo gde treba da se unapredimo!</span>
     <mat-divider></mat-divider>
     <form [formGroup]="ratingForm" class="flex-col">
       <section *ngIf="!flags.isLearnerInitiated" class="flex-col">
