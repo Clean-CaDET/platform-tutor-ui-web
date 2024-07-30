@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, Params} from '@angular/router';
-import {Group} from '../model/group.model';
-import {GroupMonitoringService} from './group-monitoring.service';
-import {Learner} from '../model/learner.model';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Group } from '../model/group.model';
+import { GroupMonitoringService } from './group-monitoring.service';
+import { Learner } from '../model/learner.model';
 import { Unit } from '../model/unit.model';
 
 @Component({
@@ -20,12 +20,12 @@ export class GroupMonitoringComponent implements OnInit {
   learners: Learner[] = [];
   selectedLearner: Learner;
 
-  constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService) {}
+  constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.mode = params.mode;
-      if(this.courseId === +params.courseId) return;
+      if (this.courseId === +params.courseId) return;
       this.courseId = +params.courseId;
       this.getLearnerGroups();
       this.getCourse();
@@ -37,12 +37,12 @@ export class GroupMonitoringComponent implements OnInit {
     this.learners = null;
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
       this.groups = groupsPage.results;
-      if(this.selectedGroupId) this.getLearners();
+      if (this.selectedGroupId) this.getLearners();
     });
   }
 
   private getCourse(): void {
-    this.groupMonitoringService.getUnits(this.courseId).subscribe(course => 
+    this.groupMonitoringService.getUnits(this.courseId).subscribe(course =>
       this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order));
   }
 
@@ -53,4 +53,9 @@ export class GroupMonitoringComponent implements OnInit {
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
       });
   }
+
+  public changeLearner(learnerId: number) {
+    this.selectedLearner = this.learners.find(learner => learner.id === learnerId);
+  }
+
 }

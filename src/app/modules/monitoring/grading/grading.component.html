@@ -1,1 +1,99 @@
-<p>grading works!</p>
+<div class="flex-row" style="height: 100vh;">
+    <div class="flex-col" style="width: 20%; height: 100%;">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+            <mat-label>Lekcija</mat-label>
+            <mat-select [(value)]="selectedUnitId" (selectionChange)="getTasks()">
+                <mat-option *ngFor="let unit of units" [value]="unit.id">
+                    {{unit.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
+        <div *cdkVirtualFor="let task of tasks">
+            <div [class.theme-highlight-primary]="selectedTask === task" style="padding: 10px;">
+                <span>{{task.order}}. {{task.name}}</span>
+            </div>
+            <div *ngFor="let step of task.steps">
+                <div class="flex-row theme-hover" style="padding-left: 20px; align-items: center;"
+                    [class.theme-highlight-primary]="selectedStep === step" (click)="select(task, step)">
+                    <small>
+                        {{step.order}}. {{step.name}}
+                    </small>
+                </div>
+            </div>
+            <mat-divider style="border-width: 2px;"></mat-divider>
+        </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
+
+    <div *ngIf="selectedTask" style="height: 100%; width: 80%;">
+        <div
+            style="height: 30%; width: 100%; position: sticky; top: 0; z-index: 1000; overflow-y: auto; padding: 15px;">
+            <markdown lineNumbers>{{ selectedTask.description }}
+            </markdown>
+            <h3>Uputstvo za formatiranje odgovora:</h3>
+            <div style="padding-bottom: 20px;">{{ selectedStep.submissionFormat.guidelines }}</div>
+        </div>
+        <mat-divider style="border-width: 4px;"></mat-divider>
+
+        <div style="height: 60%; width: 100%; overflow-y: auto; padding: 15px;">
+            <div style="max-height: 50%; width: 100%; margin-bottom:15px; border: 3px solid lightgray; padding: 15px; overflow: auto;">
+                {{ stepProgress?.answer }}
+            </div>
+
+            <div [formGroup]="stepProgressForm" style="height: 50%;">
+                <div>
+                    <div formArrayName="evaluations">
+                        <div *ngFor="let evaluation of evaluations.controls; let i = index" [formGroup]="evaluation">
+                            <div class="flex-row gap">
+                                <div style="width: 25%; overflow:auto;">
+                                    <div>{{ selectedStep.standards[i]?.name }}</div>
+                                    <small> {{ selectedStep.standards[i]?.description }}</small>
+                                </div>
+                                <mat-form-field style="width: 10%" [appearance]="'fill'">
+                                    <mat-label>Bodovi</mat-label>
+                                    <input matInput type="number" formControlName="points" autofocus>
+                                </mat-form-field>
+                                <div style="align-self: center; width: 3%;">
+                                    /{{ selectedStep.standards[i]?.maxPoints}}
+                                </div>
+                                <mat-form-field style="flex-grow: 1;" [appearance]="'fill'">
+                                    <mat-label>Komentar</mat-label>
+                                    <input matInput formControlName="comment">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-row gap" style="height: auto; width: 100%;">
+                    <mat-form-field style="width: 95%;" appearance="fill">
+                        <mat-label>Dodatan komentar</mat-label>
+                        <input matInput formControlName="comment">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" style="align-self: center;"
+                        [disabled]="stepProgressForm.invalid" (click)="submit()">
+                        Oceni
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-row gap"
+            style="height: 9%; position: sticky; bottom: 0; justify-content: flex-end; align-items: center; z-index: 1000; padding: 15px;">
+            <button mat-raised-button color="primary" (click)="changeLearner(-1)">
+                Prethodni polaznik
+            </button>
+            <button mat-raised-button color="primary" (click)="changeLearner(1)">
+                Sledeći polaznik
+            </button>
+            <button mat-raised-button color="primary" (click)="previousStep()">
+                Prethodni korak
+            </button>
+            <button mat-raised-button color="primary" (click)="nextStep()">
+                Sledeći korak
+            </button>
+        </div>
+    </div>
+</div>
