@@ -28,7 +28,10 @@
       </button>
     </div>
     <span style="flex-grow: 1;"></span>
-    <button mat-icon-button (click)="livePreview = !livePreview">
+    <button *ngIf="sidePreview && livePreview" mat-icon-button (click)="synchEnabled = !synchEnabled"  [matTooltip]="synchEnabled ? 'Ukini skrol sinhronizaciju' : 'Aktiviraj skrol sinhronizaciju'">
+      <mat-icon>{{ synchEnabled ? 'sync_disabled' : 'sync' }}</mat-icon>
+    </button>
+    <button mat-icon-button (click)="livePreview = !livePreview; setupScrollSync();" [matTooltip]="livePreview ? 'Sakrij formatiran tekst' : 'Prikaži formatiran tekst'">
       <mat-icon>{{ livePreview ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
     <div *ngIf="submitCtrls">
@@ -58,7 +61,7 @@
       <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: calc(65vh - 40px); resize: none;"
         (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"></textarea>
     </mat-form-field>
-    <small style="width: 50%; overflow-y: auto;" *ngIf="livePreview">
+    <small #markdownContainerElement style="width: 50%; overflow-y: auto;" *ngIf="livePreview">
       <markdown [data]="text" lineNumbers></markdown>
     </small>
   </div>
