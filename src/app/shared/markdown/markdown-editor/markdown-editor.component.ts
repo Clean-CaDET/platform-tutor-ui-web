@@ -1,14 +1,15 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, Output, EventEmitter } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
 
 @Component({
   selector: 'cc-markdown-editor',
   templateUrl: './markdown-editor.component.html',
   styleUrls: ['./markdown-editor.component.css']
 })
-export class MarkdownEditorComponent implements OnChanges {
+export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
   @Input() label = "";
   @Input() text = "";
   @Input() sidePreview = false;
+  synchEnabled = false;
   @Input() submitCtrls = false;
   @Input() indextab = 50;
   @Output() submit = new EventEmitter<string>();
@@ -17,6 +18,7 @@ export class MarkdownEditorComponent implements OnChanges {
   @Input() livePreview = true;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
+  @ViewChild('markdownContainerElement') markdownContainer: ElementRef<HTMLElement>;
 
   constructor(private changeDetector: ChangeDetectorRef) {}
 
@@ -25,6 +27,44 @@ export class MarkdownEditorComponent implements OnChanges {
       this.textArea.nativeElement.focus();
       this.changeDetector.detectChanges();
     }
+    this.synchEnabled = this.sidePreview;
+  }
+
+  ngAfterViewInit() {
+    this.setupScrollSync();
+  }
+
+  setupScrollSync() {
+    if(!this.sidePreview || !this.livePreview) return;
+    setTimeout(() => { // Timeout is needed for ngIf in case the user turns off livePreview and reactivates it.
+      const textArea = this.textArea.nativeElement;
+      const markdownContainer = this.markdownContainer.nativeElement;
+  
+      const syncScroll = (source: HTMLElement, target: HTMLElement) => {
+        const sourceRatio = source.scrollTop / (source.scrollHeight - source.clientHeight);
+        const targetScrollTop = sourceRatio * (target.scrollHeight - target.clientHeight);
+  
+        if (Math.abs(target.scrollTop - targetScrollTop) > 1) {
+          target.scrollTop = targetScrollTop;
+        }
+      };
+  
+      let isSyncing = false;
+  
+      const handleScroll = (source: HTMLElement, target: HTMLElement) => {
+        if (isSyncing || !this.synchEnabled) return;
+        isSyncing = true;
+  
+        syncScroll(source, target);
+  
+        setTimeout(() => {
+          isSyncing = false;
+        }, 50);  // Slight delay to prevent rapid firing
+      };
+  
+      textArea.addEventListener('scroll', () => handleScroll(textArea, markdownContainer));
+      markdownContainer.addEventListener('scroll', () => handleScroll(markdownContainer, textArea));
+    }, 100);
   }
 
   insertElement(type: string): void {
