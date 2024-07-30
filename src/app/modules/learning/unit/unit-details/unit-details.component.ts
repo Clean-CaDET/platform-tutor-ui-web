@@ -114,6 +114,7 @@ export class UnitDetailsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
+    dialogConfig.enterAnimationDuration = 500;
     dialogConfig.data = this.createDialogData(feedbackRequested, isLearnerInitiated, itemId);
     const dialogRef = this.dialog.open(UnitProgressRatingComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(rating => {

@@ -14,14 +14,18 @@
         </mat-slider>
       </section>
       <section *ngIf="flags.kcFeedback" class="flex-col">
-        <mat-label><b>Koliko je gradivo jasno izloženo?</b></mat-label>
+        <mat-label><b>
+          <mat-icon>library_books</mat-icon> {{ flags.isLearnerInitiated ? 'Za odabranu komponentu, koliko je gradivo jasno izloženo?' : 'Koliko je gradivo bilo jasno izloženo?' }}
+        </b></mat-label>
         <div class="label-group">
           <small *ngFor="let label of options.instructionClarity" class="option-label">{{label}}</small>
         </div>
         <mat-slider [min]="-2" [max]="2" [step]="1">
           <input formControlName="instructionClarity" matSliderThumb>
         </mat-slider>
-        <mat-label><b>Koliko su pitanja jasno formulisana?</b></mat-label>
+        <mat-label><b>
+          <mat-icon>quiz</mat-icon> {{ flags.isLearnerInitiated ? 'Za odabranu komponentu, koliko su pitanja jasno formulisana?' : 'Koliko su pitanja bila jasno formulisana?' }}
+        </b></mat-label>
         <div class="label-group">
           <small *ngFor="let label of options.assessmentClarity" class="option-label">{{label}}</small>
         </div>
@@ -29,8 +33,10 @@
           <input formControlName="assessmentClarity" matSliderThumb>
         </mat-slider>
       </section>
-      <section *ngIf="flags.taskFeedback" class="flex-col">
-        <mat-label ><b>Koliko su zadaci zahtevni?</b></mat-label>
+      <section *ngIf="flags.taskFeedback" class="flex-col">rebase_edit
+        <mat-label><b>
+          <mat-icon>rebase_edit</mat-icon> {{ flags.isLearnerInitiated ? 'Koliko je odabran zadatak zahtevan za rešavanje?' : 'Koliko su zadaci bili zahtevni?' }}</b>
+        </mat-label>
         <div class="label-group">
           <small *ngFor="let label of options.taskChallenge" class="option-label">{{label}}</small>
         </div>
@@ -39,7 +45,7 @@
         </mat-slider>
       </section>
       <mat-form-field appearance="fill" style="width: 100%; padding: 0px;">
-        <mat-label>Da li treba na nešto posebno da obratimo pažnju?</mat-label>
+        <mat-label>Da li treba negde posebno da obratimo pažnju?</mat-label>
         <textarea matInput style="height: 65px;" formControlName="comment" autocomplete="off"></textarea>
       </mat-form-field>
     </form>
