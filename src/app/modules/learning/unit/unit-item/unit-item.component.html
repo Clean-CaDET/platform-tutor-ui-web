@@ -25,6 +25,11 @@
           </span>
         </button>
       </span>
+      <span style="flex-grow: 1;"></span>
+      <button *ngIf="item.isSatisfied" mat-flat-button (click)="rate()">
+        <mat-icon>star</mat-icon>
+        Oceni kvalitet
+      </button>
     </mat-card-actions>
   </mat-card>
 

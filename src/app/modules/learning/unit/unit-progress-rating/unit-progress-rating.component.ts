@@ -1,7 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {UnitProgressRating} from "../../model/unit-progress-rating.model";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {KcRateService as UnitProgressRatingService} from "./unit-progress-rating.service";
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -15,12 +14,20 @@ export class UnitProgressRatingComponent {
   completedTaskIds: number[];
   ratingForm: FormGroup;
   options: any;
+  flags = {
+    isLearnerInitiated: false,
+    kcFeedback: false,
+    taskFeedback: false
+  }
 
   constructor(@Inject(MAT_DIALOG_DATA) data: any, private dialogRef: MatDialogRef<UnitProgressRatingComponent>,
-    private ratingService : UnitProgressRatingService, private builder: FormBuilder) {
+    private builder: FormBuilder) {
     this.unitId = data.unitId;
     this.completedKcIds = data.completedKcIds;
     this.completedTaskIds = data.completedTaskIds;
+    this.flags.isLearnerInitiated = data.isLearnerInitiated;
+    this.flags.kcFeedback = data.kcFeedback;
+    this.flags.taskFeedback = data.taskFeedback;
 
     this.options = {
       learnerProgress: ['Slab', 'Umeren', 'Jak'],
@@ -30,23 +37,26 @@ export class UnitProgressRatingComponent {
     };
     
     this.ratingForm = this.builder.group({      
-      learnerProgress: new FormControl('0'),
-      instructionClarity: new FormControl('0'),
-      assessmentClarity: new FormControl('0'),
-      taskChallenge: new FormControl('0'),
       comment: new FormControl('')
     });
+    if(!this.flags.isLearnerInitiated) this.ratingForm.addControl('learnerProgress', new FormControl('0'));
+    if(this.flags.kcFeedback) this.ratingForm.addControl('instructionClarity', new FormControl('0'));
+    if(this.flags.kcFeedback) this.ratingForm.addControl('assessmentClarity', new FormControl('0'));
+    if(this.flags.taskFeedback) this.ratingForm.addControl('taskChallenge', new FormControl('0'));
   }
 
-  closeDialog() {
+  submit() {
     const rating: UnitProgressRating = {
-      unitId: this.unitId,
+      knowledgeUnitId: this.unitId,
       completedKcIds: this.completedKcIds,
       completedTaskIds: this.completedTaskIds,
-      feedback: JSON.stringify(this.ratingForm.value)
+      feedback: JSON.stringify(this.ratingForm.value),
+      isLearnerInitiated: this.flags.isLearnerInitiated
     };
-    this.ratingService.rate(rating).subscribe(_ => {
-      this.dialogRef.close();
-    });
+    this.dialogRef.close(rating);
+  }
+
+  close() {
+    this.dialogRef.close();
   }
 }

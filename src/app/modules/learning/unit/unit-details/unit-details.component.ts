@@ -11,6 +11,9 @@ import { forkJoin } from 'rxjs';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
 import { UnitItem } from '../../model/unit-item.model';
 import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
+import { UnitProgressRatingService } from '../unit-progress-rating/unit-progress-rating.service';
+import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cc-unit-details',
@@ -26,8 +29,8 @@ export class UnitDetailsComponent implements OnInit {
   error: string;
 
   constructor(
-    private route: ActivatedRoute, private title: Title,
-    private unitService: UnitService, private taskService: TaskService,
+    private route: ActivatedRoute, private title: Title, private snackBar: MatSnackBar,
+    private unitService: UnitService, private taskService: TaskService, private ratingService: UnitProgressRatingService,
     private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -53,6 +56,7 @@ export class UnitDetailsComponent implements OnInit {
             next: ([kcResults, taskResults]) => {
               this.createUnitItems(kcResults, taskResults);
               this.checkErrors();
+              this.checkFeedbackCollection();
             },
             error: (error) => {
               this.error = "Sadržaj nije ispravno dobavljen.";
@@ -66,6 +70,7 @@ export class UnitDetailsComponent implements OnInit {
   private createUnitItems(kcResults: KcWithMastery[], taskResults: LearningTask[]) {
     kcResults.forEach(kcResult => {
       this.unitItems.push({
+        id: kcResult.knowledgeComponent.id,
         order: kcResult.knowledgeComponent.order,
         isKc: true,
         isSatisfied: kcResult.mastery.isSatisfied,
@@ -76,6 +81,7 @@ export class UnitDetailsComponent implements OnInit {
     });
     taskResults.forEach(taskResult => {
       this.unitItems.push({
+        id: taskResult.id,
         order: taskResult.order,
         isKc: false,
         isNext: false,
@@ -97,14 +103,45 @@ export class UnitDetailsComponent implements OnInit {
     }
   }
 
-  rateProgress(): void {
+  private checkFeedbackCollection() {
+    this.ratingService.shouldRequestFeedback(this.unit.id).subscribe(feedbackRequest => {
+      if(!feedbackRequest.requestKcFeedback && !feedbackRequest.requestTaskFeedback) return;
+      this.rateProgress(feedbackRequest, false);
+    });
+  }
+
+  rateProgress(feedbackRequested: UnitFeedbackRequest, isLearnerInitiated: boolean, itemId: number = 0): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.data = { 
+    dialogConfig.disableClose = true;
+    dialogConfig.data = this.createDialogData(feedbackRequested, isLearnerInitiated, itemId);
+    const dialogRef = this.dialog.open(UnitProgressRatingComponent, dialogConfig);
+    dialogRef.afterClosed().subscribe(rating => {
+      if(!rating) return;
+      this.ratingService.rate(rating).subscribe(_ => this.snackBar.open(
+        "Hvala na povratnoj informaciji 🤗! Pametnije ćemo raditi na unapređenju.", "👋", {duration: 5000}
+      ));
+    });
+  }
+
+  private createDialogData(feedbackRequested: UnitFeedbackRequest, isLearnerInitiated: boolean, itemId: number) {
+    if(isLearnerInitiated) {
+      return {
+        unitId: this.unit.id,
+        completedKcIds: feedbackRequested.requestKcFeedback ? [itemId] : [],
+        completedTaskIds: feedbackRequested.requestTaskFeedback ? [itemId] : [],
+        kcFeedback: feedbackRequested.requestKcFeedback,
+        taskFeedback: feedbackRequested.requestTaskFeedback,
+        isLearnerInitiated: true
+      };
+    }
+    return {
       unitId: this.unit.id,
-      completedKcIds: this.unitItems.filter(i => i.isKc && i.isSatisfied),
-      completedTaskIds: this.unitItems.filter(i => !i.isKc && i.isSatisfied)
+      completedKcIds: this.unitItems.filter(i => i.isKc && i.isSatisfied).map(i => i.kc.id),
+      completedTaskIds: this.unitItems.filter(i => !i.isKc && i.isSatisfied).map(i => i.task.id),
+      kcFeedback: feedbackRequested.requestKcFeedback,
+      taskFeedback: feedbackRequested.requestTaskFeedback,
+      isLearnerInitiated: false
     };
-    this.dialog.open(UnitProgressRatingComponent, dialogConfig);
   }
 }

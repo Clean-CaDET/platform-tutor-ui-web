@@ -1,6 +1,8 @@
 export interface UnitProgressRating {
-  unitId: number;
+  knowledgeUnitId: number;
   completedKcIds: number[];
   completedTaskIds: number[];
+  created?: Date;
   feedback: string;
+  isLearnerInitiated: boolean;
 }

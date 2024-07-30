@@ -3,6 +3,7 @@ import { KCMastery } from "./knowledge-component-mastery.model";
 import { KnowledgeComponent } from "./knowledge-component.model";
 
 export interface UnitItem {
+  id: number;
   order: number;
   isKc: boolean;
   isSatisfied: boolean;

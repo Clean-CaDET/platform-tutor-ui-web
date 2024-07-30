@@ -9,7 +9,7 @@
         <b>{{error}} Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
       </div>
       <div *ngIf="unitItems.length">
-          <cc-unit-item *ngFor="let item of unitItems" [item]="item"></cc-unit-item>
+          <cc-unit-item *ngFor="let item of unitItems" [item]="item" (rateItem)="rateProgress({requestKcFeedback: item.isKc, requestTaskFeedback: !item.isKc}, true, item.id)"></cc-unit-item>
       </div>
     </div>
   </div>
@@ -31,10 +31,6 @@
       <button mat-raised-button [routerLink]="['/courses', courseId]" [color]="percentMastered === 100 ? 'primary' : ''">
         <mat-icon>book</mat-icon>
         Sve lekcije
-      </button>
-      <button mat-raised-button (click)="rateProgress()">
-        <mat-icon>star</mat-icon>
-        Oceni lekciju
       </button>
     </div>
   </mat-card>

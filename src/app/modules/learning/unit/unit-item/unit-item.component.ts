@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { UnitItem } from '../../model/unit-item.model';
 
 @Component({
@@ -8,4 +8,9 @@ import { UnitItem } from '../../model/unit-item.model';
 })
 export class UnitItemComponent {
   @Input() item: UnitItem;
+  @Output() rateItem = new EventEmitter;
+
+  rate() {
+    this.rateItem.emit();
+  }
 }
