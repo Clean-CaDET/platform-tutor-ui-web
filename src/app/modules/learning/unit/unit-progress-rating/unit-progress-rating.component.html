@@ -1,5 +1,5 @@
 <mat-dialog-content class="container">
-  <div class="flex-col gap">
+  <div class="flex-col gap" *ngIf="!endMessage">
     <span *ngIf="!flags.isLearnerInitiated">🫡 Zdravo! Zanimaju me tvoji utisci od poslednjeg puta kad smo se čuli.</span>
     <span *ngIf="flags.isLearnerInitiated">🥰 Zdravo! Vidim da nam samoinicijativno daješ povratnu informaciju.<br>Ovo će nam baš pomoći da razumemo gde treba da se unapredimo!</span>
     <mat-divider></mat-divider>
@@ -50,8 +50,10 @@
       </mat-form-field>
     </form>
   </div>
+  <div *ngIf="endMessage" @fadeIn>{{endMessage}}</div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-  <button *ngIf="flags.isLearnerInitiated" mat-flat-button (click)="close()" style="margin-right: 10px; margin-bottom: 5px;">Zatvori</button>
-  <button mat-flat-button color="primary" (click)="submit()" style="margin-right: 16px; margin-bottom: 5px;">Pošalji</button>
+  <button *ngIf="flags.isLearnerInitiated || endMessage" mat-flat-button (click)="close()" style="margin-right: 10px; margin-bottom: 5px;">Zatvori</button>
+  <button *ngIf="!endMessage" [disabled]="isProcessing" mat-flat-button color="primary" (click)="submit()" style="margin-right: 16px; margin-bottom: 5px;">Pošalji</button>
+  <mat-progress-bar *ngIf="endMessage" mode="determinate" [value]="endProgress" style="width: 100%;"></mat-progress-bar>
 </mat-dialog-actions>
