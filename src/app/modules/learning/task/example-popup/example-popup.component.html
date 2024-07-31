@@ -1,5 +1,5 @@
 <div class="flex-col" style="padding: 10px">
-    <youtube-player [width]="540" [height]="300" [videoId]="videoUrl"></youtube-player>
+    <youtube-player (stateChange)="onVideoStatusChanged($event)" [width]="540" [height]="300" [videoId]="videoUrl"></youtube-player>
     <div class="flex-row gap" style="margin-top: 10px; margin: 0 auto;">
         <button *ngIf="selectedStep.examples && selectedStep.examples.length !== 1" mat-flat-button
             color="primary" (click)="getNextExample()">

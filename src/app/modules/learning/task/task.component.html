@@ -26,7 +26,7 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <mat-tab-group #tabGroup (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
+        <mat-tab-group (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">
@@ -58,7 +58,7 @@
                 <div class="tabs text-alignment">
                     <markdown [data]="selectedStep.guidance" clipboard [clipboardButtonComponent]="clipboard"></markdown>
                     <div *ngIf="selectedStep.subactivities">
-                        <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
+                        <cc-subactivities (videoStatusChanged)="onStepVideoStatusChanged($event)" [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                     </div>
                     <br>
                 </div>
