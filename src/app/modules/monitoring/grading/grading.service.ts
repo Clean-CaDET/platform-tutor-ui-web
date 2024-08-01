@@ -14,11 +14,11 @@ export class GradingService {
     return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks');
   }
 
-  getTaskProgress(unitId: number, taskId: any, learnerId: number): Observable<any> {
-    return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/' + taskId + '/learners/' + learnerId + '/progress');
+  getTaskProgresses(unitId: number, learnerId: number): Observable<any> {
+    return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/learners/' + learnerId + '/progresses');
   }
 
   submitGrade(unitId: number, progressId: number, stepProgress: any): Observable<any> {
-    return this.http.put<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/progress/' + progressId +'/step', stepProgress);
+    return this.http.put<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/progresses/' + progressId +'/steps', stepProgress);
   }
 }

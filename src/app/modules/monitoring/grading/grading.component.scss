@@ -6,3 +6,8 @@
     height: calc(100% - 82px);
     width: 100%;
 }
+
+.unclickable {
+    pointer-events: none;
+    opacity: 0.5;
+}

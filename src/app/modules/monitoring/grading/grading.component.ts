@@ -1,52 +1,133 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
 import { Learner } from '../model/learner.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { DomSanitizer } from '@angular/platform-browser';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { LearningTask } from '../model/learning-task';
+import { Step } from '../model/step';
+import { TaskProgress } from '../model/task-progress';
+import { StepProgress } from '../model/step-progress';
 
 @Component({
   selector: 'cc-grading',
   templateUrl: './grading.component.html',
   styleUrls: ['./grading.component.scss']
 })
-export class GradingComponent {
+export class GradingComponent implements OnChanges {
 
   @Input() units: Unit[];
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   selectedUnitId = 0;
-  tasks: any[] = [];
-  taskProgress: any;
-  stepProgress: any;
-  selectedTask: any;
-  selectedStep: any;
+
+  tasks: LearningTask[] = [];
+  selectedTask: LearningTask;
+  selectedStep: Step;
+  taskProgresses: TaskProgress[] = [];
+  selectedTaskProgress: TaskProgress;
+  selectedStepProgress: StepProgress;
+  
   @Output() learnerChanged = new EventEmitter<number>();
   stepProgressForm: FormGroup;
-  pr: any;
 
-  constructor(private gradingService: GradingService, private builder: FormBuilder, public sanitizer: DomSanitizer, private http: HttpClient) { }
+  constructor(private gradingService: GradingService, private builder: FormBuilder) { }
+
+  ngOnChanges() {
+    if (this.selectedUnitId) {
+      this.selectedTaskProgress = null;
+      this.selectedStepProgress = null;
+      this.getTaskProgresses();
+    }
+  }
 
   public getTasks() {
     this.gradingService.getTasks(this.selectedUnitId)
       .subscribe((data) => {
         this.tasks = data;
+        this.taskProgresses = [];
+        this.selectedTaskProgress = null;
+        this.selectedStepProgress = null;
+        if (this.tasks.length == 0)
+          return;
         this.selectedTask = this.tasks[0];
         this.selectedStep = this.selectedTask.steps[0];
-        this.getTaskProgress();
+        this.getTaskProgresses();
       });
   }
 
-  private getTaskProgress() {
-    this.createForm();
-    this.gradingService.getTaskProgress(this.selectedUnitId, this.selectedTask.id, this.selectedLearnerId)
+  private getTaskProgresses() {
+    this.gradingService.getTaskProgresses(this.selectedUnitId, this.selectedLearnerId)
       .subscribe((data) => {
-        this.taskProgress = data;
-        this.stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
-        this.setValues();
+        this.taskProgresses = data;
+        if (this.taskProgresses.length == 0) {
+          return;
+        }
+        this.mapTaskProgresses();
+        this.findNextStep();
+        if (this.selectedTaskProgress != null) {
+          this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
+          this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
+          this.createForm();
+          this.setValues();
+        }
       });
+  }
+
+  private mapTaskProgresses() {
+    this.tasks.forEach(task => {
+      let progress = this.taskProgresses.find(p => p.learningTaskId === task.id);
+      if (progress) {
+        progress.order = task.order;
+        progress.name = task.name;
+        task.steps.forEach(step => {
+          let stepProgress = progress.stepProgresses.find(s => s.stepId === step.id);
+          stepProgress.order = step.order;
+          stepProgress.name = step.name;
+        })
+        progress.stepProgresses.sort((a, b) => a.order > b.order ? 1 : -1);
+      }
+    });
+    this.taskProgresses.sort((a, b) => a.order > b.order ? 1 : -1);
+  }
+
+  private findNextStep() {
+    this.selectedTaskProgress = this.taskProgresses.find(p => p.learningTaskId == this.selectedTask.id);
+    if (this.selectedTaskProgress != null) {
+      this.selectedStepProgress = this.selectedTaskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
+    } else {
+      this.selectedTaskProgress = this.taskProgresses[0];
+      this.selectedStepProgress = this.selectedTaskProgress.stepProgresses[0];
+    }
+    this.findAnsweredOrGradedStep();
+  }
+
+  private findAnsweredOrGradedStep() {
+    let currentStepProgressId = this.selectedStepProgress.id;
+    while (!this.isAnswered(this.selectedStepProgress) && !this.isGraded(this.selectedStepProgress)) {
+      this.nextStepProgress();
+      if (this.selectedStepProgress.id == currentStepProgressId) {
+        this.selectedTaskProgress = null;
+        this.selectedStepProgress = null;
+        return;
+      }
+    }
+    this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
+    this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
+    this.createForm();
+    this.setValues();
+  }
+
+  private nextStepProgress() {
+    let nextStepProgressIndex = this.selectedTaskProgress.stepProgresses.indexOf(this.selectedStepProgress) + 1;
+    if (nextStepProgressIndex >= this.selectedTaskProgress.stepProgresses.length) {
+      let nextTaskProgressIndex = this.taskProgresses.indexOf(this.selectedTaskProgress) + 1;
+      if (nextTaskProgressIndex >= this.taskProgresses.length) {
+        nextTaskProgressIndex = 0;
+      }
+      this.selectedTaskProgress = this.taskProgresses[nextTaskProgressIndex];
+      nextStepProgressIndex = 0;
+    }
+    this.selectedStepProgress = this.selectedTaskProgress.stepProgresses[nextStepProgressIndex];
   }
 
   private createForm() {
@@ -57,57 +138,70 @@ export class GradingComponent {
     });
 
     if (this.selectedStep) {
-      const evaluationsArray = this.builder.array([]) as FormArray;
-      this.selectedStep.standards.sort((a: { name: number; }, b: { name: number; }) => a.name > b.name ? 1 : -1);
-      for (let standard of this.selectedStep.standards) {
-        evaluationsArray.push(this.builder.group({
-          standardId: standard.id,
-          points: new FormControl(0, Validators.max(standard.maxPoints)),
-          comment: new FormControl('')
-        }));
-      }
-      this.stepProgressForm.setControl('evaluations', evaluationsArray);
+      this.createEvaluations();
     }
-    console.log(this.stepProgressForm.value);
+  }
+
+  private createEvaluations() {
+    let evaluationsArray = this.builder.array([]) as FormArray;
+    this.selectedStep.standards.sort((a, b) => a.name > b.name ? 1 : -1);
+    for (let standard of this.selectedStep.standards) {
+      evaluationsArray.push(this.builder.group({
+        standardId: standard.id,
+        points: new FormControl(0, Validators.max(standard.maxPoints)),
+        comment: new FormControl('')
+      }));
+    }
+    this.stepProgressForm.setControl('evaluations', evaluationsArray);
   }
 
   private setValues() {
-    if (this.stepProgress) {
-      this.stepProgressForm.get('stepId')?.setValue(this.stepProgress.stepId);
-      for (let evaluation of this.stepProgress.evaluations) {
+    if (this.selectedStepProgress) {
+      this.stepProgressForm.get('stepId')?.setValue(this.selectedStepProgress.stepId);
+      for (let evaluation of this.selectedStepProgress.evaluations) {
         let evaluationForm = this.evaluations.controls.find((control: FormGroup) => {
           return control.get('standardId')?.value === evaluation.standardId;
         });
         evaluationForm.get('points')?.setValue(evaluation.points);
         evaluationForm.get('comment')?.setValue(evaluation.comment);
       }
-      this.stepProgressForm.get('comment')?.setValue(this.stepProgress.comment);
+      this.stepProgressForm.get('comment')?.setValue(this.selectedStepProgress.comment);
     }
-    console.log(this.stepProgressForm.value);
   }
 
   get evaluations(): FormArray {
     return this.stepProgressForm.get('evaluations') as FormArray;
   }
 
-  public select(task: any, step: any) {
-    this.selectedStep = step;
-    if (this.selectedTask !== task) {
-      this.selectedTask = task;
-      this.getTaskProgress();
-    } else {
-      this.stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
-      this.createForm();
-      this.setValues();
-    }
+  public select(taskProgress: any, stepProgress: any) {
+    this.selectedTaskProgress = taskProgress;
+    this.selectedStepProgress = stepProgress;
+    this.selectedTask = this.tasks.find(t => t.id == taskProgress.learningTaskId);
+    this.selectedStep = this.selectedTask.steps.find(s => s.id == stepProgress.stepId);
+    this.createForm();
+    this.setValues();
+  }
+
+  public isGraded(stepProgress: any) {
+    return stepProgress.status == 'Graded';
+  }
+
+  public isAnswered(stepProgress: any) {
+    return stepProgress.status == 'Answered';
   }
 
   public submit() {
     console.log(this.stepProgressForm.value);
-    this.gradingService.submitGrade(this.selectedUnitId, this.taskProgress.id, this.stepProgressForm.value)
+    this.gradingService.submitGrade(this.selectedUnitId, this.selectedTaskProgress.id, this.stepProgressForm.value)
       .subscribe((data) => {
-        this.taskProgress = data;
-        this.stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
+        let newTaskProgress = data;
+        let oldTaskProgress = this.taskProgresses.find(p => p.id === this.selectedTaskProgress.id);
+        let index = this.taskProgresses.indexOf(oldTaskProgress);
+        this.taskProgresses.splice(index, 1, newTaskProgress);
+        this.taskProgresses = [...this.taskProgresses]; // to update list because of *cdkVirtualFor
+        this.mapTaskProgresses();
+        this.selectedTaskProgress = this.taskProgresses.find(p => p.id === newTaskProgress.id);
+        this.selectedStepProgress = this.selectedTaskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
         this.setValues();
       });
   }
@@ -117,40 +211,40 @@ export class GradingComponent {
     let currentIndex = this.learners.indexOf(currentLearner);
     let newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
     this.selectedLearnerId = this.learners[newIndex].id;
-    this.getTaskProgress();
+    this.selectedTaskProgress = null;
+    this.selectedStepProgress = null;
     this.learnerChanged.emit(this.selectedLearnerId);
   }
 
   public previousStep() {
-    let previousStepIndex = this.selectedTask.steps.indexOf(this.selectedStep) - 1;
-    if (previousStepIndex < 0) {
-      let previousTaskIndex = this.tasks.indexOf(this.selectedTask) - 1;
-      if (previousTaskIndex < 0) {
-        previousTaskIndex = this.tasks.length - 1;
-      }
-      this.selectedTask = this.tasks[previousTaskIndex];
-      previousStepIndex = this.selectedTask.steps.length - 1;
-      this.getTaskProgress();
-    }
-    this.selectedStep = this.selectedTask.steps[previousStepIndex];
-    this.stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
+    do {
+      this.previousStepProgress();
+    } while (!this.isAnswered(this.selectedStepProgress) && !this.isGraded(this.selectedStepProgress));
+    this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
+    this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
     this.createForm();
     this.setValues();
   }
 
-  public nextStep() {
-    let nextStepIndex = this.selectedTask.steps.indexOf(this.selectedStep) + 1;
-    if (nextStepIndex >= this.selectedTask.steps.length) {
-      let nextTaskIndex = this.tasks.indexOf(this.selectedTask) + 1;
-      if (nextTaskIndex >= this.tasks.length) {
-        nextTaskIndex = 0;
+  private previousStepProgress() {
+    let previousStepProgressIndex = this.selectedTaskProgress.stepProgresses.indexOf(this.selectedStepProgress) - 1;
+    if (previousStepProgressIndex < 0) {
+      let previoustTaskProgressIndex = this.taskProgresses.indexOf(this.selectedTaskProgress) - 1;
+      if (previoustTaskProgressIndex < 0) {
+        previoustTaskProgressIndex = this.taskProgresses.length - 1;
       }
-      this.selectedTask = this.tasks[nextTaskIndex];
-      nextStepIndex = 0;
-      this.getTaskProgress();
+      this.selectedTaskProgress = this.taskProgresses[previoustTaskProgressIndex];
+      previousStepProgressIndex = this.selectedTaskProgress.stepProgresses.length - 1;
     }
-    this.selectedStep = this.selectedTask.steps[nextStepIndex];
-    this.stepProgress = this.taskProgress.stepProgresses.find((s: { stepId: any; }) => s.stepId === this.selectedStep.id);
+    this.selectedStepProgress = this.selectedTaskProgress.stepProgresses[previousStepProgressIndex];
+  }
+
+  public nextStep() {
+    do {
+      this.nextStepProgress();
+    } while (!this.isAnswered(this.selectedStepProgress) && !this.isGraded(this.selectedStepProgress));
+    this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
+    this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
     this.createForm();
     this.setValues();
   }

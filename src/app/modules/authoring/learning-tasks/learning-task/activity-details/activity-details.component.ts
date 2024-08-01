@@ -118,6 +118,7 @@ export class ActivityDetailsComponent implements OnChanges {
     activity.standards.sort((a, b) => a.name > b.name ? 1 : -1);
     for (let standard of activity.standards) {
       standardsArray.push(this.builder.group({
+        id: standard.id,
         name: new FormControl(standard.name, Validators.required),
         description: new FormControl(standard.description, Validators.required),
         maxPoints: new FormControl(standard.maxPoints, Validators.required)
