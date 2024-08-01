@@ -28,7 +28,7 @@ export class SubactivitiesComponent implements OnChanges {
       data: subactivity
     });
 
-    dialogRef.componentInstance.videoEventEmitter.subscribe(data => {
+    dialogRef.componentInstance.videoStatusChanged.subscribe(data => {
       this.videoStatusChanged.emit(data)
     })
   }

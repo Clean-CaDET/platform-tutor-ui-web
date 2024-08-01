@@ -11,7 +11,7 @@ export class ExamplePopupComponent {
   selectedStep: any;
   selectedExample: any;
   videoUrl: string;
-  videoEventEmitter: EventEmitter<any> = new EventEmitter();
+  videoStatusChanged: EventEmitter<any> = new EventEmitter();
 
   constructor(public dialogRef: MatDialogRef<ExamplePopupComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
     this.selectedStep = data;
@@ -31,21 +31,21 @@ export class ExamplePopupComponent {
 
   public onVideoStatusChanged(event: any): void {
     if (event.data === 0) {
-      this.videoEventEmitter.emit(
+      this.videoStatusChanged.emit(
         {
           videoStatus: 0,
           videoUrl: this.videoUrl
         }
       )
     } else if (event.data === 1) {
-      this.videoEventEmitter.emit(
+      this.videoStatusChanged.emit(
         {
           videoStatus: 1,
           videoUrl: this.videoUrl
         }
       )
     } else if (event.data === 2) {
-      this.videoEventEmitter.emit(
+      this.videoStatusChanged.emit(
         {
           videoStatus: 2,
           videoUrl: this.videoUrl
