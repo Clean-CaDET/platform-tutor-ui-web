@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
 <mat-card-content>
-  <markdown lineNumbers>{{learningObject.text}}</markdown>
+  <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{learningObject.text}}</markdown>
   <div>
     <mat-form-field style="width: 100%;">
       <mat-label>Primer odgovora: PrvaReč, DrugaReč</mat-label>

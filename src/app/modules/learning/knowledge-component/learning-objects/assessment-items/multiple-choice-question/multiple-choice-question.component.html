@@ -1,6 +1,6 @@
 <mat-card appearance="outlined">
 <mat-card-content>
-    <markdown lineNumbers>{{learningObject.text}}</markdown>
+    <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{learningObject.text}}</markdown>
     <mat-radio-group [(ngModel)]="checked" class="flex-col" style="gap: 5px">
         <mat-radio-button *ngFor="let item of learningObject.possibleAnswers"
             [value]="item" style="text-align: left" [disabled]="evaluation ? true : false"

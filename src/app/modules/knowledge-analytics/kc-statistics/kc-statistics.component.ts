@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges} from '@angular/core';
 import {KnowledgeComponentStatistics} from '../model/knowledge-component-statistics.model';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
-import { KnowledgeComponentRate } from '../../learning/model/knowledge-component-rate.model';
+import { UnitProgressRating } from '../../learning/model/unit-progress-rating.model';
 
 @Component({
   selector: 'cc-kc-statistics',
@@ -10,7 +10,7 @@ import { KnowledgeComponentRate } from '../../learning/model/knowledge-component
 })
 export class KcStatisticsComponent implements OnChanges {
   @Input() kcId: number;
-  @Input() ratings: KnowledgeComponentRate[];
+  @Input() ratings: UnitProgressRating[];
 
   knowledgeComponentStatistics: KnowledgeComponentStatistics;
   
@@ -85,24 +85,24 @@ export class KcStatisticsComponent implements OnChanges {
   private createRatingCharts() {
     this.ratingChartData = [];
     if(!this.ratings?.length) return;
-    this.ratingChartData.push({ name: '1', value: this.ratings.filter(r => r.rating == 1).length });
+    /*this.ratingChartData.push({ name: '1', value: this.ratings.filter(r => r.rating == 1).length });
     this.ratingChartData.push({ name: '2', value: this.ratings.filter(r => r.rating == 2).length });
     this.ratingChartData.push({ name: '3', value: this.ratings.filter(r => r.rating == 3).length });
     this.ratingChartData.push({ name: '4', value: this.ratings.filter(r => r.rating == 4).length });
     this.ratingChartData.push({ name: '5', value: this.ratings.filter(r => r.rating == 5).length });
 
     this.goodPoints = this.calculatePoints(this.ratings.filter(r => r.rating == 5));
-    this.badPoints = this.calculatePoints(this.ratings.filter(r => r.rating < 5));
+    this.badPoints = this.calculatePoints(this.ratings.filter(r => r.rating < 5));*/
   }
 
-  private calculatePoints(ratings: KnowledgeComponentRate[]): any {
+  private calculatePoints(ratings: UnitProgressRating[]): any {
     let points: any = {};
-    ratings.forEach(rating => {
+    /*ratings.forEach(rating => {
       rating.tags.forEach(tag => {
         if(points[tag]) points[tag] = points[tag] + 1;
         else points[tag] = 1;
       });
-    });
+    });*/ // TODO: Rework
     return points;
   }
 

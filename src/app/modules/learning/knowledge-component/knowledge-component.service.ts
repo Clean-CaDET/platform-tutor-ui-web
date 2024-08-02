@@ -25,6 +25,13 @@ export class KnowledgeComponentService {
       .pipe(map((ae) => this.learningObjectMapper.convert(ae)));
   }
 
+  getAssessmentItems(kcId: number): Observable<LearningObject[]> {
+    return this.http.get<LearningObject[]>(
+      environment.apiHost + this.baseUri + kcId + '/assessment-item/review',
+      { params: new HttpParams().set('aId', this.auth.clientId$.getValue()) })
+      .pipe(map((los) => this.mapLearningObjects(los)));
+  }
+
   getInstructionalItems(kcId: number): Observable<LearningObject[]> {
     return this.http.get<LearningObject[]>(
       environment.apiHost + this.baseUri + kcId + '/instructional-items',

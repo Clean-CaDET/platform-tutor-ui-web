@@ -13,7 +13,7 @@
         </div>
         <div role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
             [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
-            <markdown>{{ subactivity.guidance }}</markdown>
+            <markdown clipboard [clipboardButtonComponent]="clipboard">{{ subactivity.guidance }}</markdown>
             <cc-subactivities *ngIf="subactivity.subactivities && subactivity.subactivities.length > 0"
                 [selectedStep]="subactivity" [order]="accumulatedOrder + '.' + subactivity.order"></cc-subactivities>
         </div>

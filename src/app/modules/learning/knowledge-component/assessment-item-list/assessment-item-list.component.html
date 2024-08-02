@@ -1,0 +1,60 @@
+<div class="flex-col gap">
+    <mat-card appearance="outlined" *ngFor="let item of items; let i = index;">
+        <div class="flex-row theme-highlight-primary" style="align-items: center; padding-left: 10px; height: 48px;">
+            <span style="flex-grow: 1;">{{i+1}}.</span>
+            <button *ngIf="!showAnswer[item.id]" mat-mini-fab
+                (click)="showAnswer[item.id] = true" matTooltip="Prikaži odgovor i povratnu informaciju">
+                <mat-icon>visibility</mat-icon>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+        <div style="padding: 0 10px 10px 10px">
+            <markdown lineNumbers>{{item.text}}</markdown>
+            <mat-divider style="margin: 10px 0;"></mat-divider>
+            <div>
+                <div *ngIf="item.$type === 'multiChoiceQuestion'">
+                    <b>Ponuđeni odgovori:</b>
+                    <p *ngFor="let option of item.possibleAnswers" class="flex-row gap">
+                        <span *ngIf="showAnswer[item.id]">
+                            <mat-icon *ngIf="option === item.correctAnswer">check</mat-icon>
+                            <mat-icon *ngIf="option !== item.correctAnswer"></mat-icon>
+                        </span>
+                        <span *ngIf="!showAnswer[item.id]">
+                            <mat-icon>radio_button_unchecked</mat-icon>
+                        </span>
+                        <span>{{option}}</span>
+                    </p>
+                    <div *ngIf="showAnswer[item.id]">
+                        <b>Povratna informacija</b>: {{item.feedback}}
+                    </div>
+                </div>
+                <div *ngIf="item.$type === 'multiResponseQuestion'">
+                    <b>Ponuđeni odgovori:</b>
+                    <p *ngFor="let option of item.items" class="flex-col">
+                        <span class="flex-row gap">
+                            <span *ngIf="showAnswer[item.id]">
+                                <mat-icon *ngIf="option.isCorrect">check</mat-icon>
+                                <mat-icon *ngIf="!option.isCorrect">clear</mat-icon>
+                            </span>
+                            <span *ngIf="!showAnswer[item.id]">
+                                <mat-icon>check_box_outline_blank</mat-icon>
+                            </span>
+                            <span>{{option.text}}</span>
+                        </span>
+                        <small *ngIf="showAnswer[item.id]" style="margin-left:34px">{{option.feedback}}</small>
+                    </p>
+                </div>
+                <div *ngIf="item.$type === 'shortAnswerQuestion' && showAnswer[item.id]">
+                    <b>Prihvatljivi odgovori:</b>
+                    <p *ngFor="let option of item.acceptableAnswers" class="flex-row">
+                        <mat-icon>arrow_right</mat-icon>
+                        <span>{{option}}</span>
+                    </p>
+                    <div>
+                        <b>Povratna informacija</b>: {{item.feedback}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

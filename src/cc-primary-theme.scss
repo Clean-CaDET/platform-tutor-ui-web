@@ -95,6 +95,10 @@ $cc-theme: mat.m2-define-light-theme(
   .theme-highlight-accent {
     color: mat.m2-get-color-from-palette($accent-palette);
   }
+
+  .mat-mdc-dialog-content {
+    color: if($is-dark, #fffd, #000b) !important;
+  }
 }
 
 .dark-theme-mode {

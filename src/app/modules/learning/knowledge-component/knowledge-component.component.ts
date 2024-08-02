@@ -4,8 +4,6 @@ import { LearningObject } from './learning-objects/learning-object.model';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
 import { SessionPauseService } from './session-pause.service';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { KcRateComponent } from './kc-rate/kc-rate.component';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -17,8 +15,9 @@ import { Title } from '@angular/platform-browser';
 export class KnowledgeComponentComponent implements OnInit, OnDestroy {
   knowledgeComponent: KnowledgeComponent;
   learningObjects: LearningObject[];
-  sidenavOpened = false;
-  instructionalItemsShown = true;
+  
+  mode = 'instruction';
+  isSatisfied = false;
   unitId: number;
   courseId: number;
 
@@ -27,7 +26,6 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     private title: Title,
     private knowledgeComponentService: KnowledgeComponentService,
     private sessionPauseTracker: SessionPauseService,
-    private ratingDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -75,38 +73,36 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
     this.knowledgeComponentService
       .getInstructionalItems(this.knowledgeComponent.id)
       .subscribe((instructionalItems) => {
-        this.instructionalItemsShown = true;
+        this.mode = "instruction";
         this.learningObjects = instructionalItems;
         this.scrollToTop();
       });
+
+      this.isSatisfied = false;
+      this.knowledgeComponentService
+        .getKnowledgeComponentStatistics(this.knowledgeComponent.id)
+        .subscribe(results => this.isSatisfied = results.isSatisfied);
   }
 
   onAssessmentItemClicked(): void {
     this.knowledgeComponentService
       .getSuitableAssessmentItem(this.knowledgeComponent.id)
       .subscribe((assessmentItem) => {
-        this.instructionalItemsShown = false;
+        this.mode = "assessment";
         this.learningObjects = [];
         this.learningObjects[0] = assessmentItem;
         this.scrollToTop();
       });
   }
 
-  rateKc(): void {
-    document.querySelector('#scroller').scroll({top: document.querySelector('#scroller').scrollHeight});
-
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.disableClose = true;
-    dialogConfig.autoFocus = false;
-    dialogConfig.height = '330px';
-    dialogConfig.width = '340px';
-    dialogConfig.enterAnimationDuration = "350ms";
-    dialogConfig.data = {
-      kcId: this.knowledgeComponent.id,
-      unitId: this.unitId,
-      courseId: this.courseId,
-    };
-    this.ratingDialog.open(KcRateComponent, dialogConfig);
+  onReviewAssessmentsClicked(): void {
+    this.knowledgeComponentService
+      .getAssessmentItems(this.knowledgeComponent.id)
+      .subscribe((items) => {
+        this.mode = "review";
+        this.learningObjects = items;
+        this.scrollToTop();
+      });
   }
 
   private scrollToTop() {

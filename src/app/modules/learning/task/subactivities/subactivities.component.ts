@@ -1,6 +1,7 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ExamplePopupComponent } from '../example-popup/example-popup.component';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-subactivities',
@@ -8,9 +9,11 @@ import { ExamplePopupComponent } from '../example-popup/example-popup.component'
   styleUrls: ['./subactivities.component.scss']
 })
 export class SubactivitiesComponent implements OnChanges {
+  readonly clipboard = ClipboardButtonComponent;
 
   @Input() selectedStep: any;
   @Input() order: string;
+  @Output() videoStatusChanged = new EventEmitter<any>();
   accumulatedOrder: string;
 
   constructor(private dialog: MatDialog) { }
@@ -21,8 +24,12 @@ export class SubactivitiesComponent implements OnChanges {
 
   showExample(event: MouseEvent, subactivity: any) {
     event.stopPropagation();
-    this.dialog.open(ExamplePopupComponent, {
+    let dialogRef = this.dialog.open(ExamplePopupComponent, {
       data: subactivity
     });
+
+    dialogRef.componentInstance.videoStatusChanged.subscribe(data => {
+      this.videoStatusChanged.emit(data)
+    })
   }
 }

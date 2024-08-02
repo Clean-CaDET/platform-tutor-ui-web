@@ -6,11 +6,15 @@ import { ShortAnswerQuestionComponent } from './short-answer-question.component'
 export class ShortAnswerQuestion extends LearningObject {
 
   text: string;
+  acceptableAnswers: string[];
+  feedback: string;
 
   constructor(obj?: any) {
     if (obj) {
       super(obj);
       this.text = obj.text;
+      this.acceptableAnswers = obj.acceptableAnswers;
+      this.feedback = obj.feedback;
     }
   }
 

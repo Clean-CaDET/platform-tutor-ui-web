@@ -4,7 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { KnowledgeAnalyticsService } from '../knowledge-analytics.service';
 import { KnowledgeComponent } from '../../learning/model/knowledge-component.model';
 import { EventService } from 'src/app/shared/events/event.service';
-import { KnowledgeComponentRate } from '../../learning/model/knowledge-component-rate.model';
+import { UnitProgressRating } from '../../learning/model/unit-progress-rating.model';
 import { Subject, takeUntil } from 'rxjs';
 
 enum AnalyticsType { Top10, Kc, Ai }
@@ -84,8 +84,8 @@ export class UnitAnalyticsComponent implements OnInit, OnDestroy {
     });
   }
 
-  calculateRatings(ratings: KnowledgeComponentRate[]) {
-    this.ratings = {};
+  calculateRatings(ratings: UnitProgressRating[]) {
+    /*this.ratings = {};
     this.ratingAverages = {};
     let ids = new Set<number>();
     ratings.forEach(rating => {
@@ -96,9 +96,9 @@ export class UnitAnalyticsComponent implements OnInit, OnDestroy {
     });
 
     ids.forEach(kcId => {
-      const average = this.ratings[kcId].reduce((total: number, next: KnowledgeComponentRate) => total + next.rating, 0) / this.ratings[kcId].length;
+      const average = this.ratings[kcId].reduce((total: number, next: UnitProgressRating) => total + next.rating, 0) / this.ratings[kcId].length;
       this.ratingAverages[kcId] = Math.round(average*10) / 10
-    });
+    });*/ //TODO: Rework
   }
 
   changeUnitSelection(event: any) {
