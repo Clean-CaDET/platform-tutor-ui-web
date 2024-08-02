@@ -26,7 +26,7 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <mat-tab-group *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
+        <mat-tab-group (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">
@@ -58,14 +58,14 @@
                 <div class="tabs text-alignment">
                     <markdown [data]="selectedStep.guidance" clipboard [clipboardButtonComponent]="clipboard"></markdown>
                     <div *ngIf="selectedStep.subactivities">
-                        <cc-subactivities [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
+                        <cc-subactivities (videoStatusChanged)="onSubStepVideoStatusChanged($event)" [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                     </div>
                     <br>
                 </div>
             </mat-tab>
             <mat-tab label="Primeri" *ngIf="selectedStep.examples?.length > 0">
                 <div class="tabs" style="text-align: center;">
-                    <youtube-player *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
+                    <youtube-player (stateChange)="onVideoStatusChanged($event)" *ngIf="videoUrl" [width]="630" [height]="353" [videoId]="videoUrl"></youtube-player>
                     <button *ngIf="selectedStep.examples?.length !== 1" mat-flat-button color="primary"
                         style="margin-top: 10px;" (click)="getNextExample()">
                         <mat-icon>image</mat-icon> Nov primer

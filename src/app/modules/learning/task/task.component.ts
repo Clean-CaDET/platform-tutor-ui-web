@@ -10,6 +10,7 @@ import { TaskProgress } from './model/task-progress';
 import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'cc-task',
@@ -42,6 +43,57 @@ export class TaskComponent implements OnInit {
 
   ngOnInit() {
     this.setTask();
+  }
+
+  public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    if(tabChangeEvent.index === 0) {
+      this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe();
+    } else if(tabChangeEvent.index === 1) {
+      this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe();
+    } else if(tabChangeEvent.index === 2) {
+      this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
+      .subscribe();
+    }
+  }
+  
+  public onVideoStatusChanged(event: any): void {
+    if (event.data === 0) {
+      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        this.videoUrl
+      )
+      .subscribe()
+    } else if (event.data === 1) {
+      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        this.videoUrl
+      )
+      .subscribe()
+    } else if (event.data === 2) {
+      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        this.videoUrl
+      )
+      .subscribe()
+    }
+  }
+
+  public onSubStepVideoStatusChanged(event: any): void {
+    if (event.videoStatus === 0) {
+      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl
+      )
+      .subscribe()
+    } else if (event.videoStatus === 1) {
+      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl
+      )
+      .subscribe()
+    } else if (event.videoStatus === 2) {
+      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl
+      )
+      .subscribe()
+    }
   }
 
   setTask() {
