@@ -38,7 +38,7 @@
                                 <span style="min-width: 70px;">/ {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
                             </div>
                         </div>
-                        {{ selectedStep.submissionFormat.guidelines }}
+                        <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ selectedStep.submissionFormat.guidelines }}</markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
                             <mat-form-field appearance="fill" style="width: 100%;">
                                 <mat-label>Rešenje</mat-label>

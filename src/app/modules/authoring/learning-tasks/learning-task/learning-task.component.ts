@@ -92,11 +92,8 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
     if(step) {
       this.selectStep(step, queryParams['mode']);
     }
-    else if(!queryParams['mode']) { 
-      this.selectStep(this.steps[0], 'guidance');
-    }
     else {
-      this.selectStep(null, queryParams['mode']);
+      this.selectStep(null, queryParams['mode'] ?? 'task');
     }
   }
 
