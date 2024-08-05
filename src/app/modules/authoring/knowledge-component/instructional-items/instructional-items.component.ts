@@ -6,18 +6,26 @@ import { Video } from 'src/app/modules/learning/knowledge-component/learning-obj
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { LearningObject } from '../../../learning/knowledge-component/learning-objects/learning-object.model';
 import { InstructionalItemsService } from './instructional-items.service';
+import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
 
 @Component({
   selector: 'cc-instructional-items',
   templateUrl: './instructional-items.component.html',
   styleUrls: ['./instructional-items.component.scss']
 })
-export class InstructionalItemsComponent implements OnInit {
+export class InstructionalItemsComponent implements OnInit, CanComponentDeactivate {
   kcId: number;
   instructionalItems: LearningObject[];
   editMap: any = {};
 
   constructor(private instructionService: InstructionalItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
+
+  canDeactivate(): boolean {
+    if (Object.values(this.editMap).some(value => value)) {
+      return confirm('Neko gradivo se ažurira i izmene nisu sačuvane.\nDa li želite da napustite stranicu?');
+    }
+    return true;
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
