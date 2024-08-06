@@ -13,7 +13,6 @@ import { UnitItem } from '../../model/unit-item.model';
 import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
 import { UnitProgressRatingService } from '../unit-progress-rating/unit-progress-rating.service';
 import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'cc-unit-details',
@@ -29,7 +28,7 @@ export class UnitDetailsComponent implements OnInit {
   error: string;
 
   constructor(
-    private route: ActivatedRoute, private title: Title, private snackBar: MatSnackBar,
+    private route: ActivatedRoute, private title: Title,
     private unitService: UnitService, private taskService: TaskService, private ratingService: UnitProgressRatingService,
     private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
   ) {
@@ -114,14 +113,9 @@ export class UnitDetailsComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
+    dialogConfig.enterAnimationDuration = 500;
     dialogConfig.data = this.createDialogData(feedbackRequested, isLearnerInitiated, itemId);
-    const dialogRef = this.dialog.open(UnitProgressRatingComponent, dialogConfig);
-    dialogRef.afterClosed().subscribe(rating => {
-      if(!rating) return;
-      this.ratingService.rate(rating).subscribe(_ => this.snackBar.open(
-        "Hvala na povratnoj informaciji 🤗! Pametnije ćemo raditi na unapređenju.", "👋", {duration: 5000}
-      ));
-    });
+    this.dialog.open(UnitProgressRatingComponent, dialogConfig);
   }
 
   private createDialogData(feedbackRequested: UnitFeedbackRequest, isLearnerInitiated: boolean, itemId: number) {

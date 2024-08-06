@@ -16,9 +16,9 @@
                     <b>{{learningTask.name}}</b>
                 </div>
                 <div class="flex-row" style="align-items: center; gap: 20px">
-                    <a mat-stroked-button matTooltip="Ažuriraj"
+                    <a mat-stroked-button matTooltip="Opis i koraci"
                         [routerLink]="['unit', learningTask.unitId, 'learning-task', learningTask.id]">
-                        <span><mat-icon>edit</mat-icon></span>
+                        <span><mat-icon>view_quilt</mat-icon></span>
                     </a>
                     <span class="flex-row">
                         <button mat-icon-button (click)="add(learningTask)" matTooltip="Kloniraj">

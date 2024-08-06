@@ -6,13 +6,14 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
 import { SubmissionStatisticsComponent } from '../../knowledge-analytics/submission-statistics/submission-statistics.component';
+import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
 
 @Component({
   selector: 'cc-assessment-items',
   templateUrl: './assessment-items.component.html',
   styleUrls: ['./assessment-items.component.scss']
 })
-export class AssessmentItemsComponent implements OnInit {
+export class AssessmentItemsComponent implements OnInit, CanComponentDeactivate {
   kcId: number;
   assessmentItems: AssessmentItem[];
   editMap: any = {};
@@ -21,6 +22,13 @@ export class AssessmentItemsComponent implements OnInit {
 
   constructor(private assessmentService: AssessmentItemsService,
     private route: ActivatedRoute, private dialog: MatDialog, private clipboard: Clipboard) { }
+  
+  canDeactivate(): boolean {
+    if (Object.values(this.editMap).some(value => value)) {
+      return confirm('Neko pitanje se ažurira i izmene nisu sačuvane.\nDa li želite da napustite stranicu?');
+    }
+    return true;
+  }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {

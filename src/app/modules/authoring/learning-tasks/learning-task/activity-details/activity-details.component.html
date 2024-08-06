@@ -29,14 +29,14 @@
             </section>
         </div>
         <div class="flex-col">
-            <b *ngIf="!editMode" class="theme-highlight-primary header">Smernice (uputstva i heuristike)</b>
+            <b *ngIf="!editMode" class="theme-highlight-primary header">Smernice (parcijalna rešenja i preporuke za nesnađenog studenta)</b>
             <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
-            <cc-markdown-editor *ngIf="editMode" [label]="'Smernice (uputstva i heuristike) *'"
+            <cc-markdown-editor *ngIf="editMode" [label]="'Smernice (parcijalna rešenja i preporuke za nesnađenog studenta) *'"
                 [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
             </cc-markdown-editor>
         </div>
         <div class="flex-col gap" *ngIf="examples.controls?.length !== 0 || editMode"><!-- Examples -->
-            <b class="theme-highlight-primary header">Video primeri sprovođenja aktivnosti</b>
+            <b class="theme-highlight-primary header">Video primeri rešavanja koraka</b>
             <div formArrayName="examples" class="flex-col">
                 <div *ngFor="let exampleForm of examples.controls; let i = index">
                     <div [formGroup]="exampleForm" class="flex-row gap">
@@ -76,10 +76,13 @@
                     <input formControlName="validationRule" matInput [readonly]="!editMode">
                 </mat-form-field>
             </section>
-            <mat-form-field [appearance]="editMode ? 'fill' : 'outline'">
-                <mat-label>Uputstvo za formatiranje odgovora</mat-label>
-                <textarea formControlName="guidelines" matInput [readonly]="!editMode"></textarea>
-            </mat-form-field>
+            <div>
+                <b *ngIf="!editMode">Uputstvo za formatiranje odgovora</b>
+                <markdown *ngIf="!editMode" [data]="activityForm.get('submissionFormat').get('guidelines').value"></markdown>
+                <cc-markdown-editor *ngIf="editMode" [label]="'Uputstvo za formatiranje odgovora *'"
+                    [text]="activityForm.get('submissionFormat').get('guidelines').value" (textChanged)="this.activityForm.get('submissionFormat').get('guidelines').setValue($event)">
+                </cc-markdown-editor>
+            </div>
         </div>
         <div *ngIf="!activity.parentId && (standards.controls?.length !== 0 || editMode)" class="flex-col gap"><!-- Standards -->
             <b class="theme-highlight-primary header">Standardi (sortirani po nazivu)</b>
