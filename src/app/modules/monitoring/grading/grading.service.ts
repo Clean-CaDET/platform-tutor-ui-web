@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TaskProgress } from '../model/task-progress';
+import { LearningTask } from '../model/learning-task';
+import { StepProgress } from '../model/step-progress';
 
 @Injectable({
   providedIn: 'root'
@@ -11,15 +13,15 @@ export class GradingService {
 
   constructor(private http: HttpClient) { }
 
-  getTasks(unitId: number): Observable<any> {
-    return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks');
+  getTasks(unitId: number): Observable<LearningTask[]> {
+    return this.http.get<LearningTask[]>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks');
   }
 
   getTaskProgresses(unitId: number, learnerId: number): Observable<TaskProgress[]> {
     return this.http.get<TaskProgress[]>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/learners/' + learnerId + '/progresses');
   }
 
-  submitGrade(unitId: number, progressId: number, stepProgress: any): Observable<any> {
-    return this.http.put<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/progresses/' + progressId +'/steps', stepProgress);
+  submitGrade(unitId: number, progressId: number, stepProgress: StepProgress): Observable<TaskProgress> {
+    return this.http.put<TaskProgress>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/progresses/' + progressId +'/steps', stepProgress);
   }
 }

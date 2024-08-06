@@ -9,23 +9,23 @@
             </mat-select>
         </mat-form-field>
         <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
-            <div *cdkVirtualFor="let taskProgress of taskProgresses">
-                <div [class.theme-highlight-primary]="selectedTaskProgress === taskProgress" style="padding: 10px;">
-                    <small>{{taskProgress.order}}. {{taskProgress.name}}</small>
+            <div *cdkVirtualFor="let task of tasks">
+                <div [class.theme-highlight-primary]="selectedTask?.id === task.id" style="padding: 10px;">
+                    <small>{{task.order}}. {{task.name}}</small>
                 </div>
-                <div *ngFor="let stepProgress of taskProgress.stepProgresses">
+                <div *ngFor="let step of task.steps">
                     <div class="flex-row theme-hover"
                         style="padding-left: 20px; align-items: center; justify-content: space-between;"
-                        [class.unclickable]="!isAnswered(stepProgress) && !isGraded(stepProgress)"
-                        [class.theme-highlight-primary]="selectedStepProgress === stepProgress"
-                        (click)="select(taskProgress, stepProgress)">
+                        [class.unclickable]="isUnanswered(step)"
+                        [class.theme-highlight-primary]="selectedStep?.id === step.id"
+                        (click)="select(task, step)">
                         <small>
-                            {{stepProgress.order}}. {{stepProgress.name}}
+                            {{step.order}}. {{step.name}}
                         </small>
                         <span>
-                            <mat-icon *ngIf="!isAnswered(stepProgress) && !isGraded(stepProgress)">cancel</mat-icon>
-                            <mat-icon *ngIf="isAnswered(stepProgress) && !isGraded(stepProgress)">radio_button_unchecked</mat-icon>
-                            <mat-icon *ngIf="isGraded(stepProgress)" color="primary">check_circle</mat-icon>
+                            <mat-icon *ngIf="isUnanswered(step)">cancel</mat-icon>
+                            <mat-icon *ngIf="isAnswered(step)">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="isGraded(step)" color="primary">check_circle</mat-icon>
                         </span>
                     </div>
                 </div>
@@ -34,9 +34,9 @@
         </cdk-virtual-scroll-viewport>
     </div>
     <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
-    <div style="height: 100%; width: 80%; display: flex; flex-direction: column; position: relative;">
-        <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-            <div *ngIf="selectedStepProgress" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+    <div style="height: 100%; width: 80%; display: flex; flex-direction: column; position: relative;" *ngIf="selectedStep">
+        <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;" *ngIf="selectedStep.progress">
+            <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
                 <div
                     style="height: 30%; width: 100%; position: sticky; top: 0; z-index: 1000; overflow-y: auto; padding: 15px;">
                     <markdown lineNumbers>{{ selectedTask?.description }}</markdown>
@@ -52,7 +52,9 @@
                         </div>
 
                         <markdown *ngIf="selectedStep?.submissionFormat.type === 'Code'">
-                            ```csharp {{ selectedStepProgress?.answer }}
+                            ```csharp
+                            {{ selectedStepProgress?.answer }}
+                            ```
                         </markdown>
 
                         <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
@@ -98,25 +100,20 @@
                     </div>
                 </div>
             </div>
-
-            <div *ngIf="!selectedStepProgress"
-                style="flex: 1; display: flex; justify-content: center; align-items: center;">
-                <!-- This placeholder is necessary to keep the footer buttons at the bottom when selectedStepProgress is null. -->
-            </div>
         </div>
-
+        <div *ngIf="!selectedStep.progress">Student nije još uvek otvorio ovaj korak.</div>
         <div *ngIf="selectedUnitId" class="flex-row gap"
-            style="height: 60px; width: 100%; display: flex; justify-content: flex-end; align-items: center; padding: 15px; background: white; position: absolute; bottom: 0; z-index: 1;">
+            style="height: 60px; width: 100%; display: flex; justify-content: flex-end; align-items: center; padding: 15px; position: absolute; bottom: 0; z-index: 1;">
             <button mat-raised-button color="primary" (click)="changeLearner(-1)">
-                Prethodni polaznik
+                Prethodni student
             </button>
             <button mat-raised-button color="primary" (click)="changeLearner(1)">
-                Sledeći polaznik
+                Sledeći student
             </button>
-            <button [disabled]="!selectedStepProgress" mat-raised-button color="primary" (click)="previousStep()">
+            <button mat-raised-button color="primary" (click)="changeStep(-1)">
                 Prethodni korak
             </button>
-            <button [disabled]="!selectedStepProgress" mat-raised-button color="primary" (click)="nextStep()">
+            <button mat-raised-button color="primary" (click)="changeStep(1)">
                 Sledeći korak
             </button>
         </div>

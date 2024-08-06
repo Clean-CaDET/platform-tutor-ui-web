@@ -1,3 +1,4 @@
+import { StepProgress } from "./step-progress";
 import { Standard } from "./strandard";
 import { SubmissionFormat } from "./submission-format";
 
@@ -9,4 +10,5 @@ export interface Step {
     name: string;
     submissionFormat: SubmissionFormat;
     standards?: Standard[];
+    progress?: StepProgress;
 }

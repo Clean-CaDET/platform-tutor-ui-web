@@ -2,8 +2,7 @@ import { StandardEvaluation } from "./standard-evaluation";
 
 export interface StepProgress {
     id: number;
-    order?: number;
-    name?: string;
+    taskProgressId: number;
     answer: string;
     status: string;
     stepId: number;
