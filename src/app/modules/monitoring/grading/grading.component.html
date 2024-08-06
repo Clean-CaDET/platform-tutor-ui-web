@@ -11,7 +11,7 @@
         <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
             <div *cdkVirtualFor="let taskProgress of taskProgresses">
                 <div [class.theme-highlight-primary]="selectedTaskProgress === taskProgress" style="padding: 10px;">
-                    <span>{{taskProgress.order}}. {{taskProgress.name}}</span>
+                    <small>{{taskProgress.order}}. {{taskProgress.name}}</small>
                 </div>
                 <div *ngFor="let stepProgress of taskProgress.stepProgresses">
                     <div class="flex-row theme-hover"
@@ -22,10 +22,11 @@
                         <small>
                             {{stepProgress.order}}. {{stepProgress.name}}
                         </small>
-                        <mat-icon *ngIf="!isAnswered(stepProgress) && !isGraded(stepProgress)">cancel</mat-icon>
-                        <mat-icon *ngIf="isGraded(stepProgress)" color="primary">check_circle</mat-icon>
-                        <mat-icon
-                            *ngIf="isAnswered(stepProgress) && !isGraded(stepProgress)">radio_button_unchecked</mat-icon>
+                        <span>
+                            <mat-icon *ngIf="!isAnswered(stepProgress) && !isGraded(stepProgress)">cancel</mat-icon>
+                            <mat-icon *ngIf="isAnswered(stepProgress) && !isGraded(stepProgress)">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="isGraded(stepProgress)" color="primary">check_circle</mat-icon>
+                        </span>
                     </div>
                 </div>
                 <mat-divider style="border-width: 2px;"></mat-divider>

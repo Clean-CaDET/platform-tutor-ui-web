@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TaskProgress } from '../model/task-progress';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,8 @@ export class GradingService {
     return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks');
   }
 
-  getTaskProgresses(unitId: number, learnerId: number): Observable<any> {
-    return this.http.get<any>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/learners/' + learnerId + '/progresses');
+  getTaskProgresses(unitId: number, learnerId: number): Observable<TaskProgress[]> {
+    return this.http.get<TaskProgress[]>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks/learners/' + learnerId + '/progresses');
   }
 
   submitGrade(unitId: number, progressId: number, stepProgress: any): Observable<any> {

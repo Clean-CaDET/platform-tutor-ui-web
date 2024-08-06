@@ -14,78 +14,75 @@ import { StepProgress } from '../model/step-progress';
   styleUrls: ['./grading.component.scss']
 })
 export class GradingComponent implements OnChanges {
-
   @Input() units: Unit[];
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
+  @Output() learnerChanged = new EventEmitter<number>();
   selectedUnitId = 0;
 
   tasks: LearningTask[] = [];
   selectedTask: LearningTask;
   selectedStep: Step;
+  
   taskProgresses: TaskProgress[] = [];
   selectedTaskProgress: TaskProgress;
   selectedStepProgress: StepProgress;
   
-  @Output() learnerChanged = new EventEmitter<number>();
   stepProgressForm: FormGroup;
 
   constructor(private gradingService: GradingService, private builder: FormBuilder) { }
 
   ngOnChanges() {
     if (this.selectedUnitId) {
-      this.selectedTaskProgress = null;
-      this.selectedStepProgress = null;
+      this.clearTaskProgress();
       this.getTaskProgresses();
     }
   }
 
+  private clearTaskProgress() {
+    this.taskProgresses = [];
+    this.selectedTaskProgress = null;
+    this.selectedStepProgress = null;
+  }
+
   public getTasks() {
-    this.gradingService.getTasks(this.selectedUnitId)
-      .subscribe((data) => {
-        this.tasks = data;
-        this.taskProgresses = [];
-        this.selectedTaskProgress = null;
-        this.selectedStepProgress = null;
-        if (this.tasks.length == 0)
-          return;
-        this.selectedTask = this.tasks[0];
-        this.selectedStep = this.selectedTask.steps[0];
-        this.getTaskProgresses();
-      });
+    this.clearTaskProgress();
+    this.gradingService.getTasks(this.selectedUnitId).subscribe(data => {
+      if (!data?.length) return;
+      this.tasks = data;
+      this.selectedTask = this.tasks[0];
+      this.selectedStep = this.selectedTask.steps[0];
+      this.getTaskProgresses();
+    });
   }
 
   private getTaskProgresses() {
-    this.gradingService.getTaskProgresses(this.selectedUnitId, this.selectedLearnerId)
-      .subscribe((data) => {
-        this.taskProgresses = data;
-        if (this.taskProgresses.length == 0) {
-          return;
-        }
-        this.mapTaskProgresses();
-        this.findNextStep();
-        if (this.selectedTaskProgress != null) {
-          this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
-          this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
-          this.createForm();
-          this.setValues();
-        }
-      });
+    this.gradingService.getTaskProgresses(this.selectedUnitId, this.selectedLearnerId).subscribe(data => {
+      if (!data?.length) return;
+      this.taskProgresses = data.filter(p => p.stepProgresses?.length);
+      this.addNameAndOrderToProgressObjects();
+      this.findNextStep();
+      if (this.selectedTaskProgress != null) {
+        this.selectedTask = this.tasks.find(t => t.id == this.selectedTaskProgress.learningTaskId);
+        this.selectedStep = this.selectedTask.steps.find(s => s.id == this.selectedStepProgress.stepId);
+        this.createForm();
+        this.setValues();
+      }
+    });
   }
 
-  private mapTaskProgresses() {
+  private addNameAndOrderToProgressObjects() {
     this.tasks.forEach(task => {
       let progress = this.taskProgresses.find(p => p.learningTaskId === task.id);
-      if (progress) {
-        progress.order = task.order;
-        progress.name = task.name;
-        task.steps.forEach(step => {
-          let stepProgress = progress.stepProgresses.find(s => s.stepId === step.id);
-          stepProgress.order = step.order;
-          stepProgress.name = step.name;
-        })
-        progress.stepProgresses.sort((a, b) => a.order > b.order ? 1 : -1);
-      }
+      if (!progress) return;
+      progress.order = task.order;
+      progress.name = task.name;
+      task.steps.filter(s => !s.parentId).forEach(step => {
+        let stepProgress = progress.stepProgresses.find(s => s.stepId === step.id);
+        stepProgress.order = step.order;
+        stepProgress.name = step.name;
+      })
+      progress.stepProgresses.sort((a, b) => a.order > b.order ? 1 : -1);
     });
     this.taskProgresses.sort((a, b) => a.order > b.order ? 1 : -1);
   }
@@ -199,7 +196,7 @@ export class GradingComponent implements OnChanges {
         let index = this.taskProgresses.indexOf(oldTaskProgress);
         this.taskProgresses.splice(index, 1, newTaskProgress);
         this.taskProgresses = [...this.taskProgresses]; // to update list because of *cdkVirtualFor
-        this.mapTaskProgresses();
+        this.addNameAndOrderToProgressObjects();
         this.selectedTaskProgress = this.taskProgresses.find(p => p.id === newTaskProgress.id);
         this.selectedStepProgress = this.selectedTaskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
         this.setValues();
