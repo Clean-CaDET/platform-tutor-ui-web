@@ -23,7 +23,7 @@ export class GradingComponent implements OnChanges {
   selectedTask: LearningTask;
   selectedStep: Step;
   
-  stepProgressForm: FormGroup;
+  gradingForm: FormGroup;
 
   constructor(private gradingService: GradingService, private builder: FormBuilder) { }
 
@@ -84,7 +84,7 @@ export class GradingComponent implements OnChanges {
   }
 
   private createForm() {
-    this.stepProgressForm = this.builder.group({
+    this.gradingForm = this.builder.group({
       stepId: this.selectedStep.id,
       evaluations: this.createEvaluations(),
       comment: new FormControl(this.selectedStep.progress?.comment ?? '')
@@ -106,11 +106,11 @@ export class GradingComponent implements OnChanges {
   }
 
   get evaluations(): FormArray {
-    return this.stepProgressForm.get('evaluations') as FormArray;
+    return this.gradingForm.get('evaluations') as FormArray;
   }
 
   public submit() {
-    this.gradingService.submitGrade(this.selectedUnitId, this.selectedStep.progress.taskProgressId, this.stepProgressForm.value)
+    this.gradingService.submitGrade(this.selectedUnitId, this.selectedStep.progress.taskProgressId, this.gradingForm.value)
       .subscribe(data => {
         this.selectedStep.progress = data.stepProgresses.find(stepProgress => stepProgress.stepId === this.selectedStep.id);
       });
@@ -129,6 +129,7 @@ export class GradingComponent implements OnChanges {
     if((direction === -1 && currentStepIndex > 0) ||
        (direction === 1 && currentStepIndex < this.selectedTask.steps.length - 1)) {
         this.selectedStep = this.selectedTask.steps[currentStepIndex + direction];
+        this.createForm();
         return;
     }
     this.changeTask(direction);
@@ -138,7 +139,7 @@ export class GradingComponent implements OnChanges {
     const currentTaskIndex = this.tasks.indexOf(this.selectedTask);
     const newIndex = (currentTaskIndex + direction + this.tasks.length) % this.tasks.length;
     this.selectedTask = this.tasks[newIndex];
-    this.selectedStep = direction === 1 ? this.selectedTask.steps[0] :
-      this.selectedTask.steps[this.selectedTask.steps.length-1]
+    this.selectedStep = direction === 1 ? this.selectedTask.steps[0] : this.selectedTask.steps[this.selectedTask.steps.length-1];
+    this.createForm();
   }
 }
