@@ -145,7 +145,7 @@ export class TaskComponent implements OnInit {
   }
 
   private createForm() {
-    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
+    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule, 's');
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });

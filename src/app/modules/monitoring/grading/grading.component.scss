@@ -10,3 +10,19 @@
 .unclickable {
     opacity: 0.5;
 }
+
+input[type='number'] {
+    padding-right: 12px;
+    box-sizing: border-box;
+}
+
+.input-suffix {
+    position: absolute;
+    top: 8px;
+    right: -8px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    opacity: 0.8;
+}

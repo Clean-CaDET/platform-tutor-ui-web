@@ -39,7 +39,7 @@ export class ActivityDetailsComponent implements OnChanges {
     if (!this.activity.parentId) {
       this.activityForm.addControl('submissionFormat', this.builder.group({
         type: new FormControl('Code', Validators.required),
-        validationRule: new FormControl('^.{300}$'),
+        validationRule: new FormControl('^.{1,500}$'),
         guidelines: new FormControl('Nalepi kompletan sadržaj programa koji si iskucao (u editor Ctrl+A da se sve odabere, Ctrl+C da se kopira i onda ovde Ctrl+V da se nalepi).', Validators.required)
       }));
       this.activityForm.addControl('standards', this.builder.array([]));
@@ -168,7 +168,7 @@ export class ActivityDetailsComponent implements OnChanges {
   private setValidationRule() {
     switch (this.activityForm.value.submissionFormat.type) {
       case "Text": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{300}$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{1,500}$");
         break;
       }
       case "Link": {
@@ -176,7 +176,7 @@ export class ActivityDetailsComponent implements OnChanges {
         break;
       }
       case "Code": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{300}$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{1,500}$");
         break;
       }
       case "GitPR": {
