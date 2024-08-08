@@ -51,6 +51,7 @@ export class GroupMonitoringComponent implements OnInit {
       .subscribe((data) => {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
+        this.selectedLearner = this.learners[0];
       });
   }
 
