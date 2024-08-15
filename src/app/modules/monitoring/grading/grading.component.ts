@@ -59,8 +59,12 @@ export class GradingComponent implements OnChanges {
   private addStepProgressToTasks(taskProgresses: TaskProgress[]) {
     this.tasks.forEach(task => {
       let progress = taskProgresses.find(p => p.learningTaskId === task.id);
-      task.steps.forEach(step =>
-        step.progress = progress?.stepProgresses?.find(s => s.stepId === step.id) ?? null);
+      task.steps.forEach(step => {
+        step.progress = progress?.stepProgresses?.find(s => s.stepId === step.id) ?? null;
+        if (step.progress) {
+          step.progress.taskProgressId = progress.id;
+        }
+      });
     });
   }
 
