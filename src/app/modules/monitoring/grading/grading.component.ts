@@ -114,9 +114,11 @@ export class GradingComponent implements OnChanges {
   }
 
   public submit() {
-    this.gradingService.submitGrade(this.selectedUnitId, this.selectedStep.progress.taskProgressId, this.gradingForm.value)
+    const taskProgessId = this.selectedStep.progress.taskProgressId;
+    this.gradingService.submitGrade(this.selectedUnitId, taskProgessId, this.gradingForm.value)
       .subscribe(data => {
         this.selectedStep.progress = data.stepProgresses.find(stepProgress => stepProgress.stepId === this.selectedStep.id);
+        this.selectedStep.progress.taskProgressId = taskProgessId;
       });
   }
 
