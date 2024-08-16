@@ -1,6 +1,6 @@
 <div class="flex-row" style="height: 100%;">
-  <div width="224px">
-    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+  <div style="width: 200px">
+    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 182px">
       <mat-label>Grupa</mat-label>
       <mat-select [(value)]="selectedGroupId" (selectionChange)="getLearners()">
           <mat-option *ngFor="let group of groups" [value]="group.id">
@@ -11,7 +11,9 @@
     <mat-divider></mat-divider>
     <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
         <div *cdkVirtualFor="let learner of learners">
-            <div [class.highlight]="selectedLearner?.id===learner.id" style="padding: 10px; cursor: pointer;" (click)="selectedLearner = learner">
+            <div [class.theme-highlight-primary]="selectedLearner?.id===learner.id"
+              class="theme-hover"
+              style="padding: 10px; cursor: pointer;" (click)="selectedLearner = learner">
                 <small style="font-size: 12px;">{{learner.index}}</small><br>
                 <span>{{learner.name}} {{learner.surname}}</span>
             </div>
@@ -25,7 +27,7 @@
         <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
       </div>
       <div *ngIf="selectedLearner && mode === 'grading'">
-        <cc-grading></cc-grading>
+        <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-grading>
       </div>
       <div *ngIf="selectedLearner && mode === 'progress'">
         <cc-progress></cc-progress>

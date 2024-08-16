@@ -1,1 +1,122 @@
-<p>grading works!</p>
+<div class="flex-row" style="height: 100vh;">
+    <div class="flex-col" style="width: 20%; max-width: 250px; height: 100%;">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+            <mat-label>Izaberi datum</mat-label>
+            <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+            <mat-label>Lekcija</mat-label>
+            <mat-select [(value)]="selectedUnitId" (selectionChange)="getTasks()">
+                <mat-option *ngFor="let unit of units" [value]="unit.id">
+                    {{unit.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
+            <div *cdkVirtualFor="let task of tasks">
+                <div [class.theme-highlight-primary]="selectedTask?.id === task.id" style="padding: 10px;">
+                    <small>{{task.order}}. {{task.name}}</small>
+                </div>
+                <div *ngFor="let step of task.steps">
+                    <div class="flex-row theme-hover"
+                        style="padding-left: 20px; align-items: center; justify-content: space-between;"
+                        [class.unclickable]="isUnanswered(step)"
+                        [class.theme-highlight-primary]="selectedStep?.id === step.id"
+                        (click)="select(task, step)">
+                        <small>
+                            {{step.order}}. {{step.name}}
+                        </small>
+                        <span>
+                            <mat-icon *ngIf="isUnanswered(step)">cancel</mat-icon>
+                            <mat-icon *ngIf="isAnswered(step)">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="isGraded(step)" color="primary">check_circle</mat-icon>
+                        </span>
+                    </div>
+                </div>
+                <mat-divider style="border-width: 2px;"></mat-divider>
+            </div>
+        </cdk-virtual-scroll-viewport>
+    </div>
+    <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
+    <div class="flex-col" style="height: 100%; flex-grow: 1;" *ngIf="selectedStep">
+        <div class="flex-col" style="flex: 1; overflow: hidden;" *ngIf="!isUnanswered(selectedStep)">
+            <div style="height: 30%; overflow-y: auto; padding: 10px;">
+                <markdown lineNumbers>{{ selectedTask?.description }}</markdown>
+                <h3>Uputstvo za formatiranje odgovora:</h3>
+                <div style="padding-bottom: 20px;">{{ selectedStep?.submissionFormat.guidelines }}</div>
+            </div>
+            <mat-divider style="border-width: 3px;"></mat-divider>
+            <div style="flex: 1; overflow-y: auto;">
+                <div style="max-height: 50%; padding: 10px; overflow: auto;">
+                    <div *ngIf="selectedStep?.submissionFormat.type === 'Text'">
+                        {{ selectedStep.progress?.answer }}
+                    </div>
+                    <markdown *ngIf="selectedStep?.submissionFormat.type === 'Code'" [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
+                    <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
+                        [href]="selectedStep.progress?.answer" target="_blank">{{ selectedStep.progress?.answer }}</a>
+                </div>
+                <mat-divider style="border-width: 3px;"></mat-divider>
+                <div [formGroup]="gradingForm" style="padding: 10px">
+                    <div>
+                        <div formArrayName="evaluations">
+                            <div *ngFor="let evaluation of evaluations.controls; let i = index"
+                                [formGroup]="evaluation">
+                                <div class="flex-col gap">
+                                    <div>
+                                        {{ selectedStep?.standards[i]?.name }}; {{ selectedStep?.standards[i]?.description }}
+                                    </div>
+                                    <div class="flex-row gap" style="align-items: center;">
+                                        <mat-form-field style="width: 72px" [appearance]="'fill'">
+                                            <mat-label>Bodovi</mat-label>
+                                            <input matInput type="number" formControlName="points" autofocus>
+                                            <span class="input-suffix">/ {{ selectedStep?.standards[i]?.maxPoints }}</span>
+                                        </mat-form-field>
+                                        <mat-form-field style="flex-grow: 1;" [appearance]="'fill'">
+                                            <mat-label>Komentar</mat-label>
+                                            <input matInput formControlName="comment">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-row gap" style="height: auto; align-items: center;">
+                        <mat-form-field style="flex-grow: 1;" appearance="fill">
+                            <mat-label>Dodatan komentar</mat-label>
+                            <input matInput formControlName="comment">
+                        </mat-form-field>
+                        <button mat-raised-button color="primary"
+                            [disabled]="gradingForm.invalid" (click)="submit()">
+                            Oceni
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="isUnanswered(selectedStep)" style="flex-grow: 1; padding: 10px;">
+            Student nije još uvek predao odgovor za ovaj korak.
+        </div>
+        <div *ngIf="selectedUnitId" class="flex-row gap" style="height: 48px; justify-content: flex-end; align-items: center;">
+            <button mat-icon-button (click)="changeLearner(-1)">
+                <span><mat-icon>arrow_back_ios_new</mat-icon></span>
+            </button>
+            <mat-icon matTooltip="Student">person</mat-icon>
+            <button mat-icon-button (click)="changeLearner(1)">
+                <span><mat-icon>arrow_forward_ios_new</mat-icon></span>
+            </button>
+            <span></span>
+            <button mat-icon-button (click)="changeStep(-1)">
+                <span><mat-icon>arrow_back_ios_new</mat-icon></span>
+            </button>
+            <mat-icon matTooltip="Korak zadatka">checklist_rtl</mat-icon>
+            <button mat-icon-button (click)="changeStep(1)">
+                <span><mat-icon>arrow_forward_ios_new</mat-icon></span>
+            </button>
+        </div>
+    </div>
+
+</div>
