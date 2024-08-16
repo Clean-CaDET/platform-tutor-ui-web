@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { TaskProgress } from '../model/task-progress';
 import { LearningTask } from '../model/learning-task';
 import { StepProgress } from '../model/step-progress';
+import { Unit } from '../model/unit.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,10 @@ import { StepProgress } from '../model/step-progress';
 export class GradingService {
 
   constructor(private http: HttpClient) { }
+
+  getUnits(courseid: number, learnerId: number, date: string): Observable<Unit[]> {
+    return this.http.get<Unit[]>(environment.apiHost + 'monitoring/units?courseId=' + courseid + '&learnerId=' + learnerId + '&date=' + date);
+  }
 
   getTasks(unitId: number): Observable<LearningTask[]> {
     return this.http.get<LearningTask[]>(environment.apiHost + 'monitoring/units/' + unitId + '/learning-tasks');

@@ -27,7 +27,7 @@
         <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
       </div>
       <div *ngIf="selectedLearner && mode === 'grading'">
-        <cc-grading [units]="units" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-grading>
+        <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-grading>
       </div>
       <div *ngIf="selectedLearner && mode === 'progress'">
         <cc-progress></cc-progress>

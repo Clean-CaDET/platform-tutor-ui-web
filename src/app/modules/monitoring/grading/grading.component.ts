@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
 import { Learner } from '../model/learner.model';
@@ -6,19 +6,22 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { LearningTask } from '../model/learning-task';
 import { Step } from '../model/step';
 import { TaskProgress } from '../model/task-progress';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'cc-grading',
   templateUrl: './grading.component.html',
   styleUrls: ['./grading.component.scss']
 })
-export class GradingComponent implements OnChanges {
-  @Input() units: Unit[];
+export class GradingComponent implements OnInit, OnChanges {
+  @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
   selectedUnitId = 0;
+  selectedDate: Date;
 
+  units: Unit[] = [];
   tasks: LearningTask[] = [];
   selectedTask: LearningTask;
   selectedStep: Step;
@@ -26,6 +29,11 @@ export class GradingComponent implements OnChanges {
   gradingForm: FormGroup;
 
   constructor(private gradingService: GradingService, private builder: FormBuilder) { }
+ 
+  ngOnInit() {
+      this.selectedDate = new Date();
+      this.getUnits();
+  }
 
   ngOnChanges() {
     if (this.selectedUnitId) {
@@ -33,7 +41,23 @@ export class GradingComponent implements OnChanges {
     }
   }
 
+  private getUnits() {
+    const date = `${this.selectedDate.getMonth() + 1}/${this.selectedDate.getDate()}/${this.selectedDate.getFullYear()}`;
+    this.gradingService.getUnits(this.courseId, this.selectedLearnerId, date).subscribe(units =>
+        this.units = units.sort((a, b) => a.order - b.order));
+  }
+
+  public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    this.selectedDate = event.value;
+    this.tasks = [];
+    this.selectedStep = null;
+    this.selectedUnitId = 0;
+    this.getUnits();
+  }
+
   public getTasks() {
+    this.tasks = [];
+    this.selectedStep = null;
     this.gradingService.getTasks(this.selectedUnitId).subscribe(data => {
       if (!data?.length) return;
       this.tasks = data.sort((a, b) => a.order > b.order ? 1 : -1);

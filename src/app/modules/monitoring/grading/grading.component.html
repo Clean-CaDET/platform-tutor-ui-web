@@ -1,6 +1,13 @@
 <div class="flex-row" style="height: 100vh;">
     <div class="flex-col" style="width: 20%; max-width: 250px; height: 100%;">
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+            <mat-label>Izaberi datum</mat-label>
+            <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
+            <mat-hint>MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
             <mat-label>Lekcija</mat-label>
             <mat-select [(value)]="selectedUnitId" (selectionChange)="getTasks()">
                 <mat-option *ngFor="let unit of units" [value]="unit.id">
