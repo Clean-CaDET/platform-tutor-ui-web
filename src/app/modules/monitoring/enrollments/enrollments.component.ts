@@ -40,8 +40,8 @@ export class EnrollmentsComponent implements OnChanges {
 
   private aggregateGroupEnrollment(unitEnrollments: Enrollment[]): Enrollment {
     if(!unitEnrollments.length) return { status: "InactiveAll"};
-    if(unitEnrollments.length < this.learners.length || unitEnrollments.some(e => e.status !== 'Active')) {
-      const firstActive = unitEnrollments.find(e => e.status === 'Active');
+    if(unitEnrollments.length < this.learners.length || unitEnrollments.some(e => e.status !== 'Active' && e.status !== 'Completed')) {
+      const firstActive = unitEnrollments.find(e => e.status === 'Active' ||  e.status !== 'Completed');
       if(firstActive) return { status: 'InactiveSome', availableFrom: firstActive.availableFrom, bestBefore: firstActive.bestBefore };
       return { status: "InactiveAll", availableFrom: unitEnrollments[0].availableFrom, bestBefore: unitEnrollments[0].bestBefore};
     }
