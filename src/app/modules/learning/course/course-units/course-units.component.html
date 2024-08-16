@@ -5,7 +5,10 @@
       <mat-icon mat-card-avatar>article</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
       <span style="flex-grow: 1;"></span>
-      <mat-icon *ngIf="isMastered(unit.id)" class="medal-icon" matTooltip="Lekcija uspešno savladana!" svgIcon="medal"></mat-icon>
+      <mat-icon *ngIf="unit.enrollmentStatus === 'Completed'" class="medal-icon" matTooltip="Lekcija uspešno savladana!" svgIcon="medal"></mat-icon>
+      <small *ngIf="unit.bestBefore && unit.enrollmentStatus !== 'Completed'" [ngClass]="{'theme-warn': unit.bestBefore < now}">
+        Najbolje završiti do: {{unit.bestBefore | date: 'dd.MM.'}}
+      </small>
     </mat-card-header>
     <mat-card-content>
       <p>
