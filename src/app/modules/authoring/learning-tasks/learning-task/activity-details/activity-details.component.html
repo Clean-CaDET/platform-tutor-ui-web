@@ -4,9 +4,7 @@
             <mat-form-field style="width: 100px;" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Kod</mat-label>
                 <input formControlName="code" matInput [readonly]="!editMode">
-                <mat-error *ngIf="activityForm.get('code').hasError('notUnique') && activityForm.get('code').touched">
-                    Mora biti jedinstven za zadatak
-                </mat-error>
+                <mat-error *ngIf="activityForm.get('code').hasError('notUnique') && activityForm.get('code').touched">Jedinstven za zadatak</mat-error>
             </mat-form-field>
             <mat-form-field style="flex-grow: 1;" [appearance]="editMode ? 'fill' : 'outline'">
                 <mat-label>Naziv</mat-label>
@@ -19,11 +17,11 @@
                     <mat-icon>edit</mat-icon>
                 </button>
                 <button mat-mini-fab *ngIf="editMode" color="primary" matTooltip="Sačuvaj"
-                    [disabled]="!activityForm.valid" (click)="submit()">
+                    [disabled]="!activityForm.valid || updateStatus === 1" (click)="submit()">
                     <mat-icon>check</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" color="warn"
-                    matTooltip="Odbaci" (click)="discardChanges()">
+                <button mat-mini-fab *ngIf="editMode" color="warn" matTooltip="Odbaci"
+                    [disabled]="updateStatus === 1" (click)="discardChanges()">
                     <mat-icon>clear</mat-icon>
                 </button>
             </section>

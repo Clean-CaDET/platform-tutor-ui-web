@@ -27,10 +27,10 @@
                             {{subactivity.order}}. {{subactivity.code}}: {{subactivity.name}}
                         </small>
                         <span class="flex-row">
-                            <button [disabled]="i === 0" mat-icon-button (click)="reorder(activity, i, true)">
+                            <button [disabled]="i === 0" mat-icon-button (click)="reorder(activity, i, true); $event.stopPropagation();">
                                 <mat-icon>keyboard_arrow_up</mat-icon>
                             </button>
-                            <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="reorder(activity, i, false)">
+                            <button [disabled]="i === activity.subactivities.length - 1" mat-icon-button (click)="reorder(activity, i, false); $event.stopPropagation();">
                                 <mat-icon>keyboard_arrow_down</mat-icon>
                             </button>
                         </span>
@@ -43,6 +43,6 @@
     <mat-divider vertical="true"></mat-divider>
     <div *ngIf="activeActivity" style="width: 70%;">
         <!-- Warning: There is a bug for client-side code uniquness validation as the component receives only the step subactivites (and not all task activities). -->
-        <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)" [activities]="activities"></cc-activity-details>
+        <cc-activity-details [activity]="activeActivity" (activitySaved)="save($event)" [activities]="activities" [updateStatus]="updateStatus"></cc-activity-details>
     </div>
 </div>
