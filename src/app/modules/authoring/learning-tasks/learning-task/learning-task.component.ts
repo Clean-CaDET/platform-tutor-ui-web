@@ -9,6 +9,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Title } from '@angular/platform-browser';
 import { MarkdownPanelComponent } from 'src/app/shared/markdown/markdown-panel/markdown-panel.component';
+import { RequestStatus } from 'src/app/shared/generics/model/request-status';
 
 @Component({
   selector: 'cc-learning-task',
@@ -20,6 +21,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   
   courseId: number;
   unitId: number;
+  updateStatus: RequestStatus = RequestStatus.None;
 
   task: LearningTask;
   mode: string = 'task';
@@ -70,6 +72,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private selectStep(step: Activity, mode: string) {
+    this.updateStatus = RequestStatus.None;
     this.selectedStep = step;
     this.mode = mode;
     if (this.mode === 'subactivities') {
@@ -181,17 +184,25 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   updateTask(task: LearningTask) {
+    this.updateStatus = RequestStatus.Started;
     this.taskService.update(this.unitId, task)
       .subscribe({
         next: updatedTask => {
+          this.updateStatus = RequestStatus.Completed;
           this.setupTaskAndActivities(updatedTask);
           if (this.selectedStep) {
             this.setParams(this.task.steps.find(s => s.id === this.selectedStep.id || s.code === this.selectedStep.code), this.mode);
           }
         },
         error: (error) => {
-          if (error.error.status === 409)
+          this.updateStatus = RequestStatus.Error;
+          if (error.error.status === 409) {
             this.errorsBar.open('Greška: Aktivnost sa datim kodom već postoji u zadatku. Izmeni kod.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
+          } else if(error.status === 0) {
+            this.errorsBar.open('Greška: Server nije prihvatio zahtev. Probaj da ponoviš operaciju.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
+          } else {
+            this.errorsBar.open('Greška: Zahtev nije obrađen. Kod greške je: ' + error.error.status + ' Probaj da ponoviš operaciju.', "OK", { horizontalPosition: 'right', verticalPosition: 'top' });
+          }
         }
       });
   }
