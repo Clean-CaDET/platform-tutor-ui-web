@@ -1,13 +1,13 @@
 <div class="flex-row" style="height: 100vh;">
     <div class="flex-col" style="width: 20%; max-width: 250px; height: 100%;">
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
-            <mat-label>Izaberi datum</mat-label>
+            <mat-label>Dan pred sastanak</mat-label>
             <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
             <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em" *ngIf="units?.length">
             <mat-label>Lekcija</mat-label>
             <mat-select [(value)]="selectedUnitId" (selectionChange)="getTasks()">
                 <mat-option *ngFor="let unit of units" [value]="unit.id">
@@ -15,6 +15,9 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <small *ngIf="!units?.length" style="padding: 10px;">
+            Studenti nisu imali nove lekcije u protekloj nedelji.
+        </small>
         <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
             <div *cdkVirtualFor="let task of tasks">
                 <div [class.theme-highlight-primary]="selectedTask?.id === task.id" style="padding: 10px;">
