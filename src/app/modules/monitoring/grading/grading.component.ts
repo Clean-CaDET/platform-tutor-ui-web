@@ -42,8 +42,7 @@ export class GradingComponent implements OnInit, OnChanges {
   }
 
   private getUnits() {
-    const date = `${this.selectedDate.getMonth() + 1}/${this.selectedDate.getDate()}/${this.selectedDate.getFullYear()}`;
-    this.gradingService.getUnits(this.courseId, this.selectedLearnerId, date).subscribe(units =>
+    this.gradingService.getUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units =>
         this.units = units.sort((a, b) => a.order - b.order));
   }
 

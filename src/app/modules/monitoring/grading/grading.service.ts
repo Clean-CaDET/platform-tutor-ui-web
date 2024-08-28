@@ -14,7 +14,8 @@ export class GradingService {
 
   constructor(private http: HttpClient) { }
 
-  getUnits(courseid: number, learnerId: number, date: string): Observable<Unit[]> {
+  getUnits(courseid: number, learnerId: number, selectedDate: Date): Observable<Unit[]> {
+    const date = `${selectedDate.getMonth() + 1}/${selectedDate.getDate()}/${selectedDate.getFullYear()}`;
     return this.http.get<Unit[]>(environment.apiHost + 'monitoring/units?courseId=' + courseid + '&learnerId=' + learnerId + '&date=' + date);
   }
 

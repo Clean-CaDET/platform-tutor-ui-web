@@ -1,1 +1,120 @@
-<p>progress works!</p>
+<div class="flex-col" style="height: 100vh;">
+    <div class="flex-row gap" style="align-items: center;">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+            <mat-label>Dan pred sastanak</mat-label>
+            <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <span style="flex-grow: 1;"></span>
+        <a mat-stroked-button color="warn">1</a>
+        <a mat-stroked-button color="accent">2</a>
+        <a mat-stroked-button color="primary">3</a>
+        <a mat-stroked-button color="accent">4</a>
+        <a mat-stroked-button color="primary">5</a>
+        <a mat-stroked-button color="primary">6</a>
+        <a mat-stroked-button class="theme-highlight-primary">7</a>
+        <span style="padding: 5px;"></span>
+    </div>
+    <mat-divider></mat-divider>
+    <div *ngIf="!units?.length" style="padding: 10px;">
+        Student nije imao nove lekcije u protekloj nedelji.
+    </div>
+    <div class="flex-row" style="height: calc(100% - 79px);" *ngIf="units?.length">
+        <div class="flex-col gap tutor-panel">
+            <mat-card appearance="outlined">
+                <mat-card-header class="theme-highlight-primary">
+                    <mat-card-title style="padding-bottom: 5px;">
+                        <mat-icon style="padding: 5px 5px 0 0;">record_voice_over</mat-icon>
+                        Prosečno zadovoljstvo nedeljnim napretkom
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <ul>
+                        <li>
+                        <span style="color: red;">
+                            <b>Student 1.5 / 5 (6 ocene)</b>; 
+                        </span>
+                        <span style="color: #ffa000;">
+                            Grupa 2.8 / 5 (30 ocene); 
+                        </span>
+                        <span>
+                            Sve grupe 3.6 / 5 (121 ocene)
+                        </span>
+                        </li>
+                    </ul>
+                </mat-card-content>
+            </mat-card>
+            <mat-card appearance="outlined" *ngFor="let unit of units">
+                <mat-card-header class="theme-highlight-primary">
+                    <mat-card-title style="padding-bottom: 5px;">
+                        <mat-icon style="padding: 5px 5px 0 0;">article</mat-icon>
+                        <span>{{unit.name}}</span>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="flex-col gap">
+                        <h3 class="mat-h2">Komponente znanja (Rešeno 5 / 5)</h3>
+                        <div>
+                            <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo jasnoćom gradiva i pitanja</b>
+                            <ul>
+                                <li><b>Student 4.0 / 5 (3 ocene)</b>; Sve grupe 4.1 / 5 (61 ocene)</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div>
+                                <b><mat-icon>library_books</mat-icon> Negativni šabloni interakcije sa gradivom</b>
+                                <ul>
+                                    <li>Kratko se zadržava na gradivu komponente TODO 1 (0.5 minuta)</li>
+                                    <li>Kratko se zadržava na gradivu komponente TODO 2 (1.1 minuta)</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <b><mat-icon>quiz</mat-icon> Negativni šabloni interakcije sa pitanjima</b>
+                                <ul>
+                                    <li>20% odgovara iz prve, 30% iz druge, a 50% iz 3+ pokušaja</li>
+                                    <li>70% pogrešnih prvih odgovora daje u 10 sekundi od otvaranja pitanja.</li>
+                                    <li>Nakon 70% pogrešnih odgovora daje nov pogrešan odgovor u 5 sekundi.</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <h3 class="mat-h2">Zadaci (<span style="color: #ffa000;">Rešeno 2 / 3</span>; <span style="color: #ffa000;">Osvojeno 40% (4 / 10)</span>)</h3>
+                        <div>
+                            <b>Z1. Računanje ukupnog računa</b>
+                            <ul>
+                                <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/2 poena</li>
+                                <li><mat-icon>record_voice_over</mat-icon> Zahtevan zadatak</li>
+                            </ul>
+                            <b>Z2. Računanje prosečnog računa</b>
+                            <ul>
+                                <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/4 poena</li>
+                                <li><mat-icon>record_voice_over</mat-icon> Veoma zahtevan zadatak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <mat-divider vertical="true"></mat-divider>
+        <div class="flex-col mentor-panel">
+            Varius nisl dolor viverra duis elementum quam sem aptent himenaeos. Etiam eros elementum lacinia at vivamus; phasellus praesent dignissim. Congue habitant morbi justo varius ipsum viverra. Mauris venenatis aliquet amet suscipit luctus; aliquam arcu sodales. Eget varius cras dolor tortor ullamcorper fringilla. Neque tellus adipiscing tristique litora mus diam vivamus magnis et? Pellentesque ullamcorper litora bibendum lobortis lectus malesuada habitant magnis.
+            
+            Primis penatibus phasellus suspendisse quam in ullamcorper fames. Asemper elit ultricies sapien fermentum hendrerit. Proin penatibus inceptos rhoncus, lectus tempus conubia. Consequat cras donec tortor iaculis, convallis ex tincidunt congue. Eu aliquet turpis habitant at hendrerit parturient aliquam sed. Maecenas tristique nostra facilisi maximus curabitur porta a laoreet blandit. Euismod vivamus suspendisse ad sollicitudin inceptos nulla nullam proin? Malesuada justo suscipit dictumst sed ipsum sit. Semper tristique conubia et ad fusce dapibus malesuada himenaeos.
+            
+            Auctor primis dictum vivamus habitant convallis nulla potenti eleifend? Sit ad nullam dapibus platea adipiscing gravida. Aenean primis class; montes sem quam arcu. Integer porta hac tristique primis non massa nascetur. Habitasse nam sit condimentum morbi arcu dapibus. Faucibus ac eleifend nulla tempus hendrerit, ligula nullam. Viverra metus integer mauris fermentum dictum, ad integer ac? Torquent morbi urna amet, potenti nisi integer justo.
+            
+            Quis phasellus penatibus nisl vel sollicitudin libero. Tristique himenaeos eleifend bibendum sagittis cras quam. Vestibulum egestas nec scelerisque porttitor massa conubia facilisis. Dolor viverra et hendrerit gravida nullam dui amet nascetur montes. Adipiscing augue faucibus sapien pulvinar neque nunc. Vehicula turpis auctor consectetur et risus fusce efficitur orci. Morbi neque hendrerit sed ultrices mi.
+            
+            Dui suscipit consectetur lectus turpis felis a ex; erat posuere. Quisque maximus etiam luctus; ut nullam eget etiam. Varius maecenas parturient vulputate felis vulputate; facilisis maximus ullamcorper. Nostra vestibulum cursus senectus felis, accumsan nam pharetra. Gravida fusce ridiculus nascetur massa feugiat vulputate commodo inceptos est. Orci ornare volutpat ridiculus magna sodales magna laoreet nostra.
+            
+            Pretium elementum vestibulum eu placerat, erat phasellus purus. Arcu nisl magnis nunc habitasse faucibus accumsan ligula. Condimentum dis sociosqu taciti, imperdiet nisl praesent fringilla. Quisque sed augue class orci luctus. Nisi mattis hendrerit purus nascetur magna vulputate diam. Mollis odio nascetur vel imperdiet eget ultricies tristique. Justo enim pulvinar inceptos amet cras sollicitudin. Efficitur lobortis nunc orci vel risus. Inceptos sollicitudin molestie ligula est quis nibh tempus.
+            
+            Auctor aliquet morbi tristique per eleifend sociosqu. Molestie eros parturient consequat porta condimentum litora. Varius lacinia sollicitudin fringilla eleifend cursus. Nisl ante tellus purus fermentum pretium porta auctor. Euismod ultricies mus arcu sem sem tristique. Integer suscipit pharetra morbi ultrices massa interdum condimentum. Imperdiet facilisis tristique nec convallis blandit pharetra. Quis scelerisque vehicula etiam feugiat ad convallis accumsan.
+            
+            Ad fusce maecenas maximus in posuere. Nascetur quis ornare viverra primis nam nostra; parturient fames. Lacinia proin habitasse tempus venenatis fames ullamcorper. Augue dictum tristique maecenas arcu; quam nunc primis iaculis tempus! Orci molestie efficitur libero ac mi. Quam risus cursus, congue primis odio at laoreet. Erat sit sapien, magnis tellus hendrerit rutrum. Sed inceptos aptent elementum netus finibus nostra? Habitasse orci potenti fames hendrerit porttitor semper.
+            
+            Vitae posuere dui tempor mi magna interdum tempus consectetur. Accumsan varius viverra sapien aliquam posuere tortor taciti. Quisque felis turpis hendrerit nec integer efficitur. Fusce ut laoreet ad mus et. Augue quisque iaculis eu non rutrum pharetra. Arcu lobortis ullamcorper pretium vitae sagittis ultricies cras.
+        </div>
+    </div>
+</div>

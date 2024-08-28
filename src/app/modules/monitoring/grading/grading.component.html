@@ -3,7 +3,6 @@
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
             <mat-label>Dan pred sastanak</mat-label>
             <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
-            <mat-hint>MM/DD/YYYY</mat-hint>
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -16,7 +15,7 @@
             </mat-select>
         </mat-form-field>
         <small *ngIf="!units?.length" style="padding: 10px;">
-            Studenti nisu imali nove lekcije u protekloj nedelji.
+            Student nije imao nove lekcije u protekloj nedelji.
         </small>
         <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
             <div *cdkVirtualFor="let task of tasks">
