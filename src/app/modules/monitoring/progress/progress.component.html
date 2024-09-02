@@ -1,5 +1,5 @@
 <div class="flex-col" style="height: 100vh;">
-    <div class="flex-row gap" style="align-items: center;">
+    <div class="flex-row" style="align-items: center; gap: 5px">
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
             <mat-label>Dan pred sastanak</mat-label>
             <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
@@ -23,13 +23,14 @@
     <div class="flex-row" style="height: calc(100% - 79px);" *ngIf="units?.length">
         <div class="flex-col gap tutor-panel">
             <mat-card appearance="outlined">
-                <mat-card-header class="theme-highlight-primary">
-                    <mat-card-title style="padding-bottom: 5px;">
-                        <mat-icon style="padding: 5px 5px 0 0;">record_voice_over</mat-icon>
-                        Prosečno zadovoljstvo nedeljnim napretkom
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
+                <div class="theme-highlight-primary">
+                    <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
+                        <mat-icon>bar_chart</mat-icon>
+                        Sumarni utisak
+                    </h2>
+                </div>
+                <div style="padding: 10px;">
+                    <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo nedeljnim napretkom</b>
                     <ul>
                         <li>
                         <span style="color: red;">
@@ -43,34 +44,41 @@
                         </span>
                         </li>
                     </ul>
-                </mat-card-content>
+                    <b><mat-icon>checklist_rtl</mat-icon> Osvojeno poena na nedeljnim zadacima</b>
+                    <ul>
+                        <li>
+                            <span style="color: #ffa000;">40% (4/10);</span>
+                            Prosek grupe 70% (7 / 10)
+                        </li>
+                    </ul>
+                </div>
             </mat-card>
             <mat-card appearance="outlined" *ngFor="let unit of units">
-                <mat-card-header class="theme-highlight-primary">
-                    <mat-card-title style="padding-bottom: 5px;">
-                        <mat-icon style="padding: 5px 5px 0 0;">article</mat-icon>
+                <div class="theme-highlight-primary">
+                    <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
+                        <mat-icon>article</mat-icon>
                         <span>{{unit.name}}</span>
-                    </mat-card-title>
-                </mat-card-header>
-                <mat-card-content>
-                    <div class="flex-col gap">
+                    </h2>
+                </div>
+                <div>
+                    <div class="flex-col gap" style="padding: 10px;">
                         <h3 class="mat-h2">Komponente znanja (Rešeno 5 / 5)</h3>
                         <div>
                             <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo jasnoćom gradiva i pitanja</b>
                             <ul>
-                                <li><b>Student 4.0 / 5 (3 ocene)</b>; Sve grupe 4.1 / 5 (61 ocene)</li>
+                                <li><b>Student 4.0 / 5 (3 ocene)</b>; Grupa 4.1 / 5 (17 ocene)</li>
                             </ul>
                         </div>
                         <div>
                             <div>
-                                <b><mat-icon>library_books</mat-icon> Negativni šabloni interakcije sa gradivom</b>
+                                <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije sa gradivom</b>
                                 <ul>
-                                    <li>Kratko se zadržava na gradivu komponente TODO 1 (0.5 minuta)</li>
-                                    <li>Kratko se zadržava na gradivu komponente TODO 2 (1.1 minuta)</li>
+                                    <li>Kratko prolazi gradivo TODO 1 (0.5 minuta)</li>
+                                    <li>Kratko prolazi gradivo TODO 2 (1.1 minuta)</li>
                                 </ul>
                             </div>
                             <div>
-                                <b><mat-icon>quiz</mat-icon> Negativni šabloni interakcije sa pitanjima</b>
+                                <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije sa pitanjima</b>
                                 <ul>
                                     <li>20% odgovara iz prve, 30% iz druge, a 50% iz 3+ pokušaja</li>
                                     <li>70% pogrešnih prvih odgovora daje u 10 sekundi od otvaranja pitanja.</li>
@@ -79,21 +87,35 @@
                             </div>
                         </div>
                         <mat-divider></mat-divider>
-                        <h3 class="mat-h2">Zadaci (<span style="color: #ffa000;">Rešeno 2 / 3</span>; <span style="color: #ffa000;">Osvojeno 40% (4 / 10)</span>)</h3>
+                        <h3 class="mat-h2">Zadaci (<span style="color: #ffa000;">Rešeno 2 / 3</span>)</h3>
+                        <b><mat-icon>checklist_rtl</mat-icon> <span style="color: #ffa000;">Osvojeno 40% (4/10) poena;</span> Prosek grupe 70% (7 / 10)</b>
                         <div>
-                            <b>Z1. Računanje ukupnog računa</b>
-                            <ul>
-                                <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/2 poena</li>
-                                <li><mat-icon>record_voice_over</mat-icon> Zahtevan zadatak</li>
-                            </ul>
-                            <b>Z2. Računanje prosečnog računa</b>
-                            <ul>
-                                <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/4 poena</li>
-                                <li><mat-icon>record_voice_over</mat-icon> Veoma zahtevan zadatak</li>
-                            </ul>
+                            <div>
+                                <div>
+                                    <b>Z1. Računanje ukupnog računa</b>
+                                </div>
+                                <ul>
+                                    <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/2 poena</li>
+                                    <li><mat-icon>record_voice_over</mat-icon> Zahtevan zadatak</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <b>Z2. Računanje prosečnog računa</b>
+                                <ul>
+                                    <li><mat-icon>checklist_rtl</mat-icon> Osvojeno 2/4 poena</li>
+                                    <li><mat-icon>record_voice_over</mat-icon> Nije ocenio zahtevnost</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije sa zadacima</b>
+                                <ul>
+                                    <li>Za 100% koraka je pogledao smernice u roku od 1 minut</li>
+                                    <li>Za 100% zadataka sa više koraka je prošao sve smernice pre nego što je ponudio odgovor na jedan korak</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </mat-card-content>
+                </div>
             </mat-card>
         </div>
         <mat-divider vertical="true"></mat-divider>
