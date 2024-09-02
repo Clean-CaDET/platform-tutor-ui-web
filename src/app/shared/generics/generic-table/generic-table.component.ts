@@ -70,7 +70,7 @@ export class GenericTableComponent implements OnChanges {
   }
 
   onCreate(): void {
-    const dialogRef = this.openDialog({}, "Dodavanje");
+    const dialogRef = this.openDialog({}, "### Dodavanje");
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
@@ -99,7 +99,7 @@ export class GenericTableComponent implements OnChanges {
   }
 
   onClone(id: number): void {
-    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "Kloniranje");
+    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "### Kloniranje");
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;
@@ -111,7 +111,7 @@ export class GenericTableComponent implements OnChanges {
   }
 
   onEdit(id: number): void {
-    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "Izmena");
+    const dialogRef = this.openDialog(this.dataSource.data.find(e => e['id'] === id), "### Izmena");
 
     dialogRef.afterClosed().subscribe(result => {
       if(!result) return;

@@ -58,7 +58,10 @@ export class EnrollmentsComponent implements OnChanges {
     }
 
     const dialogRef = this.dialog.open(GenericFormComponent, {
-      data: {entity: startingDates, fieldConfiguration: new Array(availableFromField, bestBeforeField)},
+      data: {
+        entity: startingDates,
+        fieldConfiguration: new Array(availableFromField, bestBeforeField),
+        label: "**Upozorenje**: Aktiviranjem pristupa se ograničava dalja izmena lekcije:\n\n- Nove KZ i pitanja neće biti dostupna studentima koji su bar jednom dobili pristup lekciji,\n- Postojeći materijali se mogu izmeniti (npr. za ispravku pravopisa, pogrešne opcije u pitanju).\n- Brisanje postojećih materijala će izazvati greške kod studenata koji su bar jednom dobili pristup.\n\nZbog navedenog, svo autorstvo van sitnih korekcija treba raditi pre početka lekcije."},
     });
 
     dialogRef.afterClosed().subscribe(result => {
