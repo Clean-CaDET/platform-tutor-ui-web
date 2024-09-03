@@ -49,9 +49,15 @@ export class ShortAnswerQuestionComponent implements LearningObjectComponent {
       reattemptCount: this.submissionReattemptCount
     };
     this.submissionIsProcessing = true;
-    this.submissionService.submit(this.learningObject.id, submission).subscribe(feedback => {
-      this.submissionReattemptCount++;
-      this.feedbackConnector.sendToFeedback(feedback);
+    this.submissionService.submit(this.learningObject.id, submission).subscribe({
+      next: feedback => {
+        this.submissionReattemptCount++;
+        this.feedbackConnector.sendToFeedback(feedback);
+      },
+      error: error => {
+        console.log(error);
+        this.feedbackConnector.sendToFeedback({type: feedbackTypes.error});
+      }
     });
   }
 }

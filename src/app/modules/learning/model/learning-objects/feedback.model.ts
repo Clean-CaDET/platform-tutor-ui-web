@@ -2,8 +2,8 @@ import { Evaluation } from "./evaluation.model";
 
 export interface Feedback {
     type: string;
-    hint: string;
-    evaluation: Evaluation;
+    hint?: string;
+    evaluation?: Evaluation;
 }
 
 export const feedbackTypes = {
@@ -11,4 +11,5 @@ export const feedbackTypes = {
     hint: 'Hint',
     correctness: 'Correctness',
     solution: 'Solution',
+    error: "Error"
 };

@@ -139,6 +139,15 @@ export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
         selectionStart,
         selectionStart + tagText.length
       );
+
+      // Scroll the textarea to make the selected text visible
+      const textarea = this.textArea.nativeElement;
+      const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight, 10);
+      const scrollHeight = textarea.scrollHeight;
+      const textBeforeSelection = textarea.value.slice(0, selectionStart);
+      const linesBeforeSelection = (textBeforeSelection.match(/\n/g) || []).length;
+      const scrollPosition = linesBeforeSelection * lineHeight;
+      textarea.scrollTop = Math.min(scrollPosition, scrollHeight - textarea.clientHeight);
     });
   }
 

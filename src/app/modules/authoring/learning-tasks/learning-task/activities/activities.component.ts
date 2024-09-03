@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { Activity } from '../../model/activity';
+import { isRequestStartedOrError, RequestStatus } from 'src/app/shared/generics/model/request-status';
 
 @Component({
   selector: 'cc-activities',
@@ -10,6 +11,7 @@ import { Activity } from '../../model/activity';
 })
 export class ActivitiesComponent implements OnChanges {
   @Input() activities: Activity[];
+  @Input() updateStatus: RequestStatus;
 
   activeActivity: Activity;
   
@@ -18,7 +20,8 @@ export class ActivitiesComponent implements OnChanges {
 
   constructor(private dialog: MatDialog) { }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(isRequestStartedOrError(changes.updateStatus)) return; // Triggers from parent when HTTP request starts
     if(this.activeActivity) {
       let correspondingActivity = this.activities.find(a => a.id === this.activeActivity.id || a.code === this.activeActivity.code);
       if(correspondingActivity) {
@@ -60,7 +63,6 @@ export class ActivitiesComponent implements OnChanges {
 
   save(activity: Activity) {
     this.activitySaved.emit(activity);
-    this.activeActivity = activity;
   }
 
   delete(activity: Activity) {

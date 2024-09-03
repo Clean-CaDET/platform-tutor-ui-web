@@ -21,11 +21,11 @@
                     matTooltip="Izmeni" [color]="task?.description ? '' : 'primary'">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid"
+                <button mat-mini-fab *ngIf="editMode" [disabled]="!taskForm.valid || updateStatus === 1"
                     (click)="submitForm()" color="primary" matTooltip="Sačuvaj">
                     <mat-icon>check</mat-icon>
                 </button>
-                <button mat-mini-fab *ngIf="editMode" matTooltip="Odbaci"
+                <button mat-mini-fab *ngIf="editMode" matTooltip="Odbaci" [disabled]="updateStatus === 1"
                     (click)="discardChanges()" color="warn">
                     <mat-icon>clear</mat-icon>
                 </button>
