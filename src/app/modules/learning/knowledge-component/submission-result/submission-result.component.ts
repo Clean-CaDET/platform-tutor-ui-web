@@ -4,7 +4,7 @@ import { Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { KnowledgeComponentService } from '../knowledge-component.service';
-import { Feedback } from '../../model/learning-objects/feedback.model';
+import { Feedback, feedbackTypes } from '../../model/learning-objects/feedback.model';
 import { KnowledgeComponentStatistics } from '../../model/knowledge-component-statistics.model';
 import { createResponse, welcomeMessage } from './instructional-feedback/feedback-message-creator';
 
@@ -48,6 +48,14 @@ export class SubmissionResultComponent implements OnInit, OnDestroy {
   getKnowledgeComponentStatistics(feedback: Feedback): void {
     this.feedbackProcessed = false;
     this.feedbackMessage = "";
+    if(feedback?.type === feedbackTypes.error) {
+      this.messageTimeout = setTimeout(() => {
+        this.feedbackMessage = "🤕 Nešto sam se pokvario i nisam uspeo da obradim tvoj odgovor.\nAko ti radi internet probaj ponovo.\nAko se problem nastavi javi se mentoru."
+        this.feedbackProcessed = true;
+        this.assessmentConnector.sendToAssessment(feedback);
+      }, 400);
+      return;
+    }
     this.kcService.getKnowledgeComponentStatistics(this.kcId).subscribe(result => {
       if(feedback) {
         let isFirstSatisfaction = this.statistics.isSatisfied !== result.isSatisfied

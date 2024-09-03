@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Activity } from '../../model/activity';
+import { isRequestStartedOrError, RequestStatus } from 'src/app/shared/generics/model/request-status';
 
 @Component({
   selector: 'cc-activity-details',
@@ -10,6 +11,7 @@ import { Activity } from '../../model/activity';
 export class ActivityDetailsComponent implements OnChanges {
   @Input() activity: Activity;
   @Input() activities: Activity[];
+  @Input() updateStatus: RequestStatus;
   @Output() activitySaved = new EventEmitter<Activity>();
 
   activityForm: FormGroup;
@@ -17,7 +19,8 @@ export class ActivityDetailsComponent implements OnChanges {
 
   constructor(private builder: FormBuilder) { }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(isRequestStartedOrError(changes.updateStatus)) return; // Triggers from parent when HTTP request starts
     this.createForm();
     if (this.activity.id || this.activity.name) {
       this.view();
@@ -146,7 +149,6 @@ export class ActivityDetailsComponent implements OnChanges {
       changedActivity.parentId = this.activity.parentId;
       changedActivity.order = this.activity.order;
       this.activitySaved.emit(changedActivity);
-      this.view();
     }
   }
 
