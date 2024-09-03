@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { LearningTask } from '../../model/learning-task';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { isRequestStartedOrError, RequestStatus } from 'src/app/shared/generics/model/request-status';
 
 @Component({
   selector: 'cc-task-details',
@@ -10,6 +11,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 export class TaskDetailsComponent implements OnChanges {
 
   @Input() task: LearningTask;
+  @Input() updateStatus: RequestStatus;
   @Output() taskSaved = new EventEmitter<LearningTask>();
 
   taskForm: FormGroup;
@@ -17,7 +19,8 @@ export class TaskDetailsComponent implements OnChanges {
 
   constructor(private builder: FormBuilder) { }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
+    if(isRequestStartedOrError(changes.updateStatus)) return; // Triggers from parent when HTTP request starts
     this.createForm();
     if (this.task) {
       this.setInitialValues(this.task);
@@ -43,7 +46,6 @@ export class TaskDetailsComponent implements OnChanges {
 
   submitForm() {
     if (this.taskForm.valid) {
-      this.editMode = false;
       this.task.name = this.taskForm.value.name;
       this.task.description = this.taskForm.value.description;
       this.task.isTemplate = this.taskForm.value.isTemplate;
