@@ -24,7 +24,7 @@
   <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
   <div style="overflow-y: auto; flex-grow: 1;">
       <div *ngIf="learners?.length > 0 && mode === 'enrollments'">
-        <cc-enrollments [units]="units" [learners]="learners"></cc-enrollments>
+        <cc-enrollments [courseId]="courseId" [learners]="learners"></cc-enrollments>
       </div>
       <div *ngIf="selectedLearner && mode === 'grading'">
         <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-grading>

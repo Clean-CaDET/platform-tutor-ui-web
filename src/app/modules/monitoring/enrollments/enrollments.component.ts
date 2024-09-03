@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Unit } from '../model/unit.model';
 import { Learner } from '../model/learner.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,17 +13,29 @@ import { GenericFormComponent } from 'src/app/shared/generics/generic-form/gener
   styleUrls: ['./enrollments.component.scss']
 })
 export class EnrollmentsComponent implements OnChanges {
+  @Input() learners: Learner[];
+  @Input() courseId: number;
+
+  units: Unit[];
   progressBarActive = false;
   selectedDate: Date = new Date();
 
-  @Input() learners: Learner[];
-  @Input() units: Unit[];
-
-
   constructor(private enrollmentsService: EnrollmentsService, private dialog: MatDialog) { }
 
-  ngOnChanges(): void {
-    this.getEnrollments();
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes?.courseId && changes.courseId.currentValue !== changes.courseId.previousValue) {
+      this.getCourse();
+    } else {
+      this.getEnrollments();
+    }
+  }
+
+  private getCourse(): void {
+    this.progressBarActive = true;
+    this.enrollmentsService.getUnits(this.courseId).subscribe(course => {
+      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order);
+      this.getEnrollments();
+    });
   }
 
   private getEnrollments(): void {
@@ -41,7 +53,7 @@ export class EnrollmentsComponent implements OnChanges {
   private aggregateGroupEnrollment(unitEnrollments: Enrollment[]): Enrollment {
     if(!unitEnrollments.length) return { status: "InactiveAll"};
     if(unitEnrollments.length < this.learners.length || unitEnrollments.some(e => e.status !== 'Active' && e.status !== 'Completed')) {
-      const firstActive = unitEnrollments.find(e => e.status === 'Active' ||  e.status !== 'Completed');
+      const firstActive = unitEnrollments.find(e => e.status === 'Active' ||  e.status === 'Completed');
       if(firstActive) return { status: 'InactiveSome', availableFrom: firstActive.availableFrom, bestBefore: firstActive.bestBefore };
       return { status: "InactiveAll", availableFrom: unitEnrollments[0].availableFrom, bestBefore: unitEnrollments[0].bestBefore};
     }

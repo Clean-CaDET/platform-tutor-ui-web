@@ -3,7 +3,6 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Group } from '../model/group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
 import { Learner } from '../model/learner.model';
-import { Unit } from '../model/unit.model';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -13,7 +12,6 @@ import { Unit } from '../model/unit.model';
 export class GroupMonitoringComponent implements OnInit {
   mode: string;
   courseId: number;
-  units: Unit[];
 
   groups: Group[];
   selectedGroupId = 0;
@@ -28,7 +26,6 @@ export class GroupMonitoringComponent implements OnInit {
       if (this.courseId === +params.courseId) return;
       this.courseId = +params.courseId;
       this.getLearnerGroups();
-      this.getCourse();
     });
   }
 
@@ -40,11 +37,6 @@ export class GroupMonitoringComponent implements OnInit {
       this.selectedGroupId = this.groups[0].id; // TODO
       if (this.selectedGroupId) this.getLearners();
     });
-  }
-
-  private getCourse(): void {
-    this.groupMonitoringService.getUnits(this.courseId).subscribe(course =>
-      this.units = course.knowledgeUnits.sort((a, b) => a.order - b.order));
   }
 
   public getLearners(): void {

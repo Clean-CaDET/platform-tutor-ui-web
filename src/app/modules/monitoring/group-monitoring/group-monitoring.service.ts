@@ -6,15 +6,10 @@ import {Group} from '../model/group.model';
 import {PagedResults} from '../../../shared/model/paged-results.model';
 import { Learner } from '../model/learner.model';
 import { KnowledgeComponentProgress } from '../model/knowledge-component-progress.model';
-import { Course } from '../model/course.model';
 
 @Injectable({providedIn: "root"})
 export class GroupMonitoringService {
   constructor(private http: HttpClient) {}
-
-  getUnits(courseId: number): Observable<Course> {
-    return this.http.get<Course>(environment.apiHost + 'owned-courses/' + courseId);
-  }
 
   getGroups(courseId: number): Observable<PagedResults<Group>> {
     return this.http.get<PagedResults<Group>>(environment.apiHost + `monitoring/${courseId}/groups`);
