@@ -47,6 +47,7 @@ export class GradingComponent implements OnInit, OnChanges {
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if(!event?.value) return;
     this.selectedDate = event.value;
     this.tasks = [];
     this.selectedStep = null;

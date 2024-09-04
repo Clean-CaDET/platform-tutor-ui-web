@@ -40,7 +40,7 @@ export class GroupMonitoringComponent implements OnInit {
   }
 
   public getLearners(): void {
-    this.groupMonitoringService.getLearners(1, 1, this.selectedGroupId, this.courseId)
+    this.groupMonitoringService.getLearners(this.selectedGroupId, this.courseId)
       .subscribe((data) => {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);

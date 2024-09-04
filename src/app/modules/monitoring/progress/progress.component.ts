@@ -42,6 +42,7 @@ export class ProgressComponent {
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if(!event?.value) return;
     this.selectedDate = event.value;
     this.selectedUnitId = 0;
     this.getUnits();
