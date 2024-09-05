@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UnitHeader } from './model/unit-header.model';
 import { UnitProgressRating } from './model/rating.model';
-import { UnitSummaryStatistics } from './model/unit-statistics.model';
+import { UnitProgressStatistics } from './model/progress-statistics.model';
 
 @Injectable({
   providedIn: 'root'
@@ -35,11 +35,11 @@ export class ProgressService {
     return this.http.get<UnitProgressRating[]>(this.baseUrl + "feedback/", baseParams);
   }
 
-  GetKcAndTaskProgressAndWarnings(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitSummaryStatistics[]> {
+  GetKcAndTaskProgressAndWarnings(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitProgressStatistics[]> {
     let queryParams = new HttpParams();
     unitIds.forEach(unitId => {
       queryParams = queryParams.append('unitIds', unitId.toString());
     });
-    return this.http.post<UnitSummaryStatistics[]>(this.baseUrl + learnerId + "/statistics", groupMemberIds, { params: queryParams });
+    return this.http.post<UnitProgressStatistics[]>(this.baseUrl + learnerId + "/statistics", groupMemberIds, { params: queryParams });
   }
 }

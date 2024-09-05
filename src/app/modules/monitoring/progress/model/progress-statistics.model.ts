@@ -1,11 +1,9 @@
-import { TaskHeader } from "./unit-header.model";
-
 export interface WeeklyGradeStatistics {
     learnerPoints: number;
     avgGroupPoints: number; // sum(totalCount*avgGroup) / sum(totalCount)
 }
 
-export interface KcSummaryStatistics {
+export interface KcProgressStatistics {
     totalCount: number;
     satisfiedCount: number;
 
@@ -13,7 +11,7 @@ export interface KcSummaryStatistics {
     negativeAssessmentPatterns: string[];
 }
 
-export interface TaskSummaryStatistics {
+export interface TaskProgressStatistics {
     totalCount: number;
     completedCount: number;
 
@@ -23,10 +21,10 @@ export interface TaskSummaryStatistics {
     negativePatterns: string[];
 }
 
-export interface UnitSummaryStatistics {
+export interface UnitProgressStatistics {
     unitId: number;
-    kcStatistics: KcSummaryStatistics;
-    taskStatistics: TaskSummaryStatistics;
+    kcStatistics: KcProgressStatistics;
+    taskStatistics: TaskProgressStatistics;
     taskPoints: {
         taskId: number,
         wonPoints: number

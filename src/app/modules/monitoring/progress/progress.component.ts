@@ -5,6 +5,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ProgressService } from './progress.service';
 import { initializeUnit, UnitHeader } from './model/unit-header.model';
 import { calculateUnitRatingStatistics, calculateWeeklySatisfactionStatistics, UnitProgressRating, WeeklyRatingStatistics } from './model/rating.model';
+import { WeeklyGradeStatistics } from './model/progress-statistics.model';
 
 @Component({
   selector: 'cc-progress',
@@ -22,6 +23,7 @@ export class ProgressComponent {
 
   units: UnitHeader[] = [];
   weeklyRatingStatistics: WeeklyRatingStatistics;
+  weeklyGradeStatistics: WeeklyGradeStatistics;
   
   feedbackForm: FormGroup;
 
@@ -67,7 +69,10 @@ export class ProgressComponent {
         });
       this.progressService.GetKcAndTaskProgressAndWarnings(
         this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
-        .subscribe(unitSummaries => this.LinkSummariesToUnits(unitSummaries));
+        .subscribe(unitSummaries => {
+          this.linkSummariesToUnits(unitSummaries);
+          this.calculateWeeklyGradeStatistics();
+        });
     });
     // TODO: Enable datepicker and hide progress bar
   }
@@ -100,7 +105,7 @@ export class ProgressComponent {
     });
   }
 
-  private LinkSummariesToUnits(unitSummaries: import("c:/Users/lubur/Desktop/Sandbox/platform-tutor-ui-web/src/app/modules/monitoring/progress/model/unit-statistics.model").UnitSummaryStatistics[]) {
+  private linkSummariesToUnits(unitSummaries: import("./model/progress-statistics.model").UnitProgressStatistics[]) {
     unitSummaries.forEach(summary => {
       const relatedUnit = this.units.find(u => u.id === summary.unitId);
       if (!relatedUnit) return;
@@ -111,5 +116,20 @@ export class ProgressComponent {
         relatedTask.learnerPoints = points.wonPoints;
       });
     });
+  }
+
+  private calculateWeeklyGradeStatistics() {
+    let totalLearnerPoints = 0;
+    let totalGroupPoints = 0;
+    let totalTaskCount = 0;
+    this.units.forEach(u => {
+      totalLearnerPoints += u.taskStatistics.learnerPoints;
+      totalGroupPoints += u.taskStatistics.avgGroupPoints * u.taskStatistics.totalCount;
+      totalGroupPoints += u.taskStatistics.totalCount;
+    });
+    this.weeklyGradeStatistics = {
+      learnerPoints: totalLearnerPoints,
+      avgGroupPoints: totalGroupPoints / totalTaskCount
+    };
   }
 }
