@@ -23,7 +23,7 @@ export class ProgressService {
     return this.http.get<UnitHeader[]>(this.baseUrl + learnerId, baseParams);
   }
 
-  getLearnerFeedback(unitIds: number[], weekEnd: Date): Observable<UnitProgressRating[]> {
+  getAllRatings(unitIds: number[], weekEnd: Date): Observable<UnitProgressRating[]> {
     let queryParams = new HttpParams()
       .append('weekEnd', `${weekEnd.getMonth() + 1}/${weekEnd.getDate()}/${weekEnd.getFullYear()}`);
     

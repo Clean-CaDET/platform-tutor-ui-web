@@ -1,23 +1,24 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ProgressService } from './progress.service';
 import { initializeUnit, UnitHeader } from './model/unit-header.model';
 import { calculateUnitRatingStatistics, calculateWeeklySatisfactionStatistics, UnitProgressRating, WeeklyRatingStatistics } from './model/rating.model';
-import { WeeklyGradeStatistics } from './model/progress-statistics.model';
+import { calculateWeeklyGradeStatistics, UnitProgressStatistics, WeeklyGradeStatistics } from './model/progress-statistics.model';
 
 @Component({
   selector: 'cc-progress',
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss']
 })
-export class ProgressComponent {
+export class ProgressComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
   groupMemberIds: Set<number>;
+  allRatings: UnitProgressRating[];
 
   selectedDate: Date;
 
@@ -27,21 +28,33 @@ export class ProgressComponent {
   
   feedbackForm: FormGroup;
 
-  constructor(private progressService: ProgressService, private builder: FormBuilder) { }
-
-  ngOnInit() {
+  constructor(private progressService: ProgressService, private builder: FormBuilder) {
     this.selectedDate = new Date("7/1/2024"); // TODO
-    this.getUnits();
   }
 
-  ngOnChanges() {
-    this.groupMemberIds = new Set(this.learners.map(l => l.id));
-      // TODO: Get statistics if selectedLearner changes
-      /*
-      1. GetWeeklyProgress (semaphore, instructorId, internal comment, external comment, totalTaskGrade, averageSatisfactionWithProgress)
-      2. If units
-        3. GetKcMasteriesAndTaskProgressByLearner
-      */
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes) return;
+    
+    if(this.changeOccured(changes.learners)) {
+      this.groupMemberIds = new Set(this.learners.map(l => l.id));
+      this.getUnits(true);
+    } else if(this.changeOccured(changes.selectedLearnerId)) {
+      // 1. GetWeeklyProgress (semaphore, instructorId, internal comment, external comment, totalTaskGrade, averageSatisfactionWithProgress)
+      // 2. If Units
+      //  !GetKcAndTaskProgress
+      //  2a. Weekly summary
+      //  Change avg student grade, count, comments
+      //  Change grades
+      
+      //  2b. Per unit
+      //  Change KC summary student
+      //  Change student task rating
+      //  Change grade
+    }
+  }
+
+  private changeOccured(changedField: { currentValue: any, previousValue: any }) {
+    return changedField && changedField.currentValue !== changedField.previousValue;
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
@@ -50,29 +63,22 @@ export class ProgressComponent {
     this.getUnits();
   }
 
-  private getUnits() {
+  private getUnits(invokedByGroupChange: boolean = false) {
     // TODO: Disable datepicker and show progress bar
     this.progressService.getWeeklyUnitsWithTasksAndKcs(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       units.sort((a, b) => a.order - b.order);
-      if(this.retrievedUnitsAlreadyLoaded(units)) return;
+      if(this.retrievedUnitsAlreadyLoaded(units)) {
+        if(invokedByGroupChange) this.calculateRatingStatistics(this.allRatings); // TODO: Refactor
+        return;
+      }
       
       this.units = units;
       if(!this.units?.length) return;
       this.units.forEach(u => initializeUnit(u));
 
-      this.progressService.getLearnerFeedback(
-        this.units.map(u => u.id), this.selectedDate)
-        .subscribe(allRatings => {
-          this.processRatingsAndLinkToUnits(allRatings);
-          this.weeklyRatingStatistics = calculateWeeklySatisfactionStatistics(allRatings, this.selectedLearnerId, this.groupMemberIds);
-          this.units.forEach(u => u.rating = calculateUnitRatingStatistics(u.rating.ratings, this.selectedLearnerId));
-        });
-      this.progressService.GetKcAndTaskProgressAndWarnings(
-        this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
-        .subscribe(unitSummaries => {
-          this.linkSummariesToUnits(unitSummaries);
-          this.calculateWeeklyGradeStatistics();
-        });
+      this.progressService.getAllRatings(this.units.map(u => u.id), this.selectedDate)
+        .subscribe(allRatings => this.calculateRatingStatistics(allRatings));
+      //this.getKcAndTaskProgressAndWarnings();
     });
     // TODO: Enable datepicker and hide progress bar
   }
@@ -82,30 +88,52 @@ export class ProgressComponent {
     if(newUnits.length !== this.units.length) return false;
     return this.units.every((unit, index) => unit.id === newUnits[index].id);
   }
-  
-  private processRatingsAndLinkToUnits(allRatings: UnitProgressRating[]) {
-    allRatings.forEach(rating => {
-      // Process rating
-      rating.feedback = JSON.parse(rating.feedback.toString());
 
+  private calculateRatingStatistics(allRatings: UnitProgressRating[]) {
+    this.allRatings = allRatings;
+    this.processRatingsAndLinkToUnits();
+    this.weeklyRatingStatistics = calculateWeeklySatisfactionStatistics(allRatings, this.selectedLearnerId, this.groupMemberIds);
+    this.units.forEach(u => u.rating = calculateUnitRatingStatistics(u.rating.ratings, this.selectedLearnerId));
+  }
+
+  private processRatingsAndLinkToUnits() {
+    this.allRatings.forEach(rating => {
+      // Process rating on retrieval from back-end
+      if(typeof rating.feedback === 'string') {
+        rating.feedback = JSON.parse(rating.feedback);
+      }
+
+      // Link ratings made by group members to unit
       if (this.groupMemberIds.has(rating.learnerId)) {
-        // Link to unit
         const relatedUnit = this.units.find(u => u.id === rating.knowledgeUnitId);
         if (!relatedUnit) return;
         relatedUnit.rating.ratings.push(rating);
 
-        // Link to task
-        if(isNaN(rating.feedback.taskChallenge)) return;
-        rating.completedTaskIds.forEach(taskId => {
-          const relatedTask = relatedUnit.tasks.find(t => t.id === taskId);
-          if(!relatedTask) return;
-          relatedTask.rating = rating;
-        });
+        this.linkLearnerTaskRating(rating, relatedUnit);
       }
     });
   }
 
-  private linkSummariesToUnits(unitSummaries: import("./model/progress-statistics.model").UnitProgressStatistics[]) {
+  private linkLearnerTaskRating(rating: UnitProgressRating, relatedUnit: UnitHeader) {
+    if(rating.learnerId !== this.selectedLearnerId) return;
+    if(isNaN(rating.feedback.taskChallenge)) return;
+    rating.completedTaskIds.forEach(taskId => {
+      const relatedTask = relatedUnit.tasks.find(t => t.id === taskId);
+      if(!relatedTask) return;
+      relatedTask.rating = rating;
+    });
+  }
+  
+  private getKcAndTaskProgressAndWarnings() {
+    this.progressService.GetKcAndTaskProgressAndWarnings(
+      this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
+      .subscribe(unitSummaries => {
+        this.linkSummariesToUnits(unitSummaries);
+        this.weeklyGradeStatistics = calculateWeeklyGradeStatistics(this.units);
+      });
+  }
+
+  private linkSummariesToUnits(unitSummaries: UnitProgressStatistics[]) {
     unitSummaries.forEach(summary => {
       const relatedUnit = this.units.find(u => u.id === summary.unitId);
       if (!relatedUnit) return;
@@ -116,20 +144,5 @@ export class ProgressComponent {
         relatedTask.learnerPoints = points.wonPoints;
       });
     });
-  }
-
-  private calculateWeeklyGradeStatistics() {
-    let totalLearnerPoints = 0;
-    let totalGroupPoints = 0;
-    let totalTaskCount = 0;
-    this.units.forEach(u => {
-      totalLearnerPoints += u.taskStatistics.learnerPoints;
-      totalGroupPoints += u.taskStatistics.avgGroupPoints * u.taskStatistics.totalCount;
-      totalGroupPoints += u.taskStatistics.totalCount;
-    });
-    this.weeklyGradeStatistics = {
-      learnerPoints: totalLearnerPoints,
-      avgGroupPoints: totalGroupPoints / totalTaskCount
-    };
   }
 }
