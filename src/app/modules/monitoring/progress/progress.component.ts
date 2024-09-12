@@ -3,8 +3,9 @@ import { Learner } from '../model/learner.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ProgressService } from './progress.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
-import { calculateWeeklySatisfactionStatistics, UnitProgressRating, WeeklyRatingStatistics } from './model/rating.model';
-import { calculateWeeklyProgressStatistics, UnitProgressStatistics, WeeklyProgressStatistics } from './model/progress-statistics.model';
+import { UnitProgressRating } from './model/unit-rating.model';
+import { UnitProgressStatistics } from './model/unit-statistics.model';
+import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisfactionStatistics, calculateWeeklyProgressStatistics } from './model/weekly-summary.model';
 
 @Component({
   selector: 'cc-progress',
@@ -36,17 +37,11 @@ export class ProgressComponent implements OnChanges {
       this.groupMemberIds = new Set(this.learners.map(l => l.id));
       this.getUnits(true);
     } else if(this.changeOccured(changes.selectedLearnerId)) {
-      // 1. GetWeeklyProgress (semaphore, instructorId, internal comment, external comment, totalTaskGrade, averageSatisfactionWithProgress)
-      // 2. If Units
-      //  !GetKcAndTaskProgress
-      //  2a. Weekly summary
-      //  Change avg student grade, count, comments
-      //  Change grades
+      // TODO: 1. GetWeeklyProgress (semaphore, instructorId, internal comment, external comment, totalTaskGrade, averageSatisfactionWithProgress)
       
-      //  2b. Per unit
-      //  Change KC summary student
-      //  Change student task rating
-      //  Change grade
+      if(!this.units?.length) return;
+      this.linkAndSummarizeRatings();
+      this.getKcAndTaskProgressAndWarnings();
     }
   }
 
@@ -85,7 +80,7 @@ export class ProgressComponent implements OnChanges {
           this.getKcAndTaskProgressAndWarnings();
         });
     });
-    // TODO: Enable datepicker and hide progress bar
+    // TODO: Enable datepicker and hide progress bar (consider all HTTP requests)
   }
 
   private retrievedUnitsAlreadyLoaded(newUnits: UnitHeader[]): boolean {

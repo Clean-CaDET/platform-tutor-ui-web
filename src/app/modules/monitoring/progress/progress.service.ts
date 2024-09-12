@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UnitHeader } from './model/unit-header.model';
-import { UnitProgressRating } from './model/rating.model';
-import { UnitProgressStatistics } from './model/progress-statistics.model';
+import { UnitProgressRating } from './model/unit-rating.model';
+import { UnitProgressStatistics } from './model/unit-statistics.model';
 
 @Injectable({
   providedIn: 'root'

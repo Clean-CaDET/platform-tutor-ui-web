@@ -1,5 +1,5 @@
-import { UnitProgressRating } from "./rating.model";
-import { KcProgressStatistics, KcStatistics, TaskProgressStatistics, TaskStatistics } from "./progress-statistics.model";
+import { UnitProgressRating } from "./unit-rating.model";
+import { KcProgressStatistics, KcStatistics, TaskProgressStatistics, TaskStatistics } from "./unit-statistics.model";
 
 export interface UnitHeader {
     id: number;

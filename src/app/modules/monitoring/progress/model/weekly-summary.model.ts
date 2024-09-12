@@ -1,27 +1,50 @@
-export interface WeeklyRatingStatistics {
-    avgLearnerSatisfaction: number;
-    avgGroupSatisfaction: number;
-    avgTotalSatisfaction: number;
-    learnerSatisfactionCount: number;
-    groupSatisfactionCount: number;
-    totalSatisfactionCount: number;
-    comments: string[];
+import { UnitHeader } from "./unit-header.model";
+import { UnitProgressRating } from "./unit-rating.model";
+
+export interface WeeklyProgressStatistics {
+  totalKcCount: number;
+  totalTaskCount: number;
+  learnerSatisfiedKcCount: number;
+  learnerGradedTaskCount: number;
+  totalLearnerPoints: number;
+  avgGroupPoints: number;
+}
+  
+export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyProgressStatistics {
+  let totalKcCount = 0;
+  let totalTaskCount = 0;
+  let learnerSatisfiedKcCount = 0;
+  let learnerGradedTaskCount = 0;
+  let totalLearnerPoints = 0;
+  let avgGroupPoints = 0;
+  
+  units.forEach(u => {
+    totalKcCount += u.kcStatistics.totalCount;
+    totalTaskCount += u.taskStatistics.totalCount;
+    learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
+    learnerGradedTaskCount += u.taskStatistics.completedCount;
+    totalLearnerPoints += u.taskStatistics.learnerPoints;
+    avgGroupPoints += u.taskStatistics.avgGroupPoints;
+  });
+  
+  return {
+    totalKcCount,
+    totalTaskCount,
+    learnerSatisfiedKcCount,
+    learnerGradedTaskCount,
+    totalLearnerPoints,
+    avgGroupPoints
+  };
 }
 
-export interface UnitProgressRating {
-    learnerId: number;
-    knowledgeUnitId: number;
-    completedKcIds: number[];
-    completedTaskIds: number[];
-    created?: Date;
-    feedback: {
-        learnerProgress: number | null;
-        instructionClarity: number | null;
-        assessmentClarity: number | null;
-        taskChallenge: number | null;
-        comment: string;
-    }
-    isLearnerInitiated: boolean;
+export interface WeeklyRatingStatistics {
+  avgLearnerSatisfaction: number;
+  avgGroupSatisfaction: number;
+  avgTotalSatisfaction: number;
+  learnerSatisfactionCount: number;
+  groupSatisfactionCount: number;
+  totalSatisfactionCount: number;
+  comments: string[];
 }
 
 // Calculations should be moved to the backend so that they can be testable.
