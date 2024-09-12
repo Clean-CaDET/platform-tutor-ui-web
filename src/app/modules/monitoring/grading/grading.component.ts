@@ -3,9 +3,9 @@ import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
 import { Learner } from '../model/learner.model';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { LearningTask } from '../model/learning-task';
-import { Step } from '../model/step';
-import { TaskProgress } from '../model/task-progress';
+import { LearningTask } from './model/learning-task';
+import { Step } from './model/step';
+import { TaskProgress } from './model/task-progress';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
@@ -42,12 +42,12 @@ export class GradingComponent implements OnInit, OnChanges {
   }
 
   private getUnits() {
-    const date = `${this.selectedDate.getMonth() + 1}/${this.selectedDate.getDate()}/${this.selectedDate.getFullYear()}`;
-    this.gradingService.getUnits(this.courseId, this.selectedLearnerId, date).subscribe(units =>
+    this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units =>
         this.units = units.sort((a, b) => a.order - b.order));
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if(!event?.value) return;
     this.selectedDate = event.value;
     this.tasks = [];
     this.selectedStep = null;

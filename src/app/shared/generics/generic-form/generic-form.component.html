@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <h3>{{label}}</h3>
+  <markdown>{{label}}</markdown>
   <form [formGroup]="formGroup" class="flex-col">
     <div *ngFor="let field of fieldConfiguration">
       <mat-form-field appearance="fill" *ngIf="field.type === 'email'" style="width: 100%;">
