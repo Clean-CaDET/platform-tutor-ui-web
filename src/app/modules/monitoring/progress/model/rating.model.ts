@@ -8,14 +8,6 @@ export interface WeeklyRatingStatistics {
     comments: string[];
 }
 
-export interface UnitRatingStatistics {
-    ratings: UnitProgressRating[];
-    avgKcSatisfaction: number;
-    avgKcGroupSatisfaction: number;
-    kcSatisfactionCount: number;
-    kcGroupSatisfactionCount: number;
-}
-
 export interface UnitProgressRating {
     learnerId: number;
     knowledgeUnitId: number;
@@ -68,25 +60,4 @@ export function calculateWeeklySatisfactionStatistics(ratings: UnitProgressRatin
 
 function calculateAverage(grades: number[]): number {
     return grades.length > 0 ? grades.reduce((acc, value) => acc + value, 0) / grades.length : 0;
-}
-
-export function calculateUnitRatingStatistics(unitRatings: UnitProgressRating[], selectedLearnerId: number): UnitRatingStatistics {
-    let selectedLearnerGrades: number[]  = [];
-    let groupGrades: number[]  = [];
-    unitRatings.forEach(rating => {
-      if (isNaN(rating.feedback.instructionClarity)) return;
-      const averageKcGrade = (rating.feedback.instructionClarity + rating.feedback.assessmentClarity) / 2;
-      groupGrades.push(averageKcGrade);
-      if (rating.learnerId === selectedLearnerId) {
-        selectedLearnerGrades.push(averageKcGrade);
-      }
-    });
-
-    return {
-        ratings: unitRatings,
-        avgKcSatisfaction: calculateAverage(selectedLearnerGrades),
-        avgKcGroupSatisfaction: calculateAverage(groupGrades),
-        kcSatisfactionCount: selectedLearnerGrades.length,
-        kcGroupSatisfactionCount: groupGrades.length
-    }
 }

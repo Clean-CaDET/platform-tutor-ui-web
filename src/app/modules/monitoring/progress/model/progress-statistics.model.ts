@@ -1,49 +1,75 @@
 import { UnitHeader } from "./unit-header.model";
 
-export interface WeeklyGradeStatistics {
-    learnerPoints: number;
-    avgGroupPoints: number; // sum(totalCount*avgGroup) / sum(totalCount)
+export interface UnitProgressStatistics {
+  unitId: number;
+  kcStatistics: KcProgressStatistics;
+  taskStatistics: TaskProgressStatistics;
 }
 
 export interface KcProgressStatistics {
-    totalCount: number;
-    satisfiedCount: number;
+  totalCount: number;
+  satisfiedCount: number;
+  satisfiedKcStatistics: KcStatistics[];
+}
 
-    negativeInstructionalPatterns: string[];
-    negativeAssessmentPatterns: string[];
+export interface KcStatistics {
+  kcId: number;
+  satisfactionTime: Date;
+  negativePatterns: string[];
 }
 
 export interface TaskProgressStatistics {
-    totalCount: number;
-    completedCount: number;
+  totalCount: number;
+  completedCount: number;
+  learnerPoints: number;
+  avgGroupPoints: number;
 
-    learnerPoints: number;
-    avgGroupPoints: number;
-
-    negativePatterns: string[];
+  gradedTaskStatistics: TaskStatistics[];
 }
 
-export interface UnitProgressStatistics {
-    unitId: number;
-    kcStatistics: KcProgressStatistics;
-    taskStatistics: TaskProgressStatistics;
-    taskPoints: {
-        taskId: number,
-        wonPoints: number
-    }[];
+export interface TaskStatistics {
+  taskId: number;
+  completionTime: Date;
+  wonPoints: number;
+  negativePatterns: string[];
 }
 
-export function calculateWeeklyGradeStatistics(units: UnitHeader[]): WeeklyGradeStatistics {
-  let totalLearnerPoints = 0;
-  let totalGroupPoints = 0;
+
+
+export interface WeeklyProgressStatistics {
+  totalKcCount: number;
+  totalTaskCount: number;
+  
+  learnerSatisfiedKcCount: number;
+  learnerGradedTaskCount: number;
+  
+  totalLearnerPoints: number;
+  avgGroupPoints: number;
+}
+
+export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyProgressStatistics {
+  let totalKcCount = 0;
   let totalTaskCount = 0;
+  let learnerSatisfiedKcCount = 0;
+  let learnerGradedTaskCount = 0;
+  let totalLearnerPoints = 0;
+  let avgGroupPoints = 0;
+
   units.forEach(u => {
+    totalKcCount += u.kcStatistics.totalCount;
+    totalTaskCount += u.taskStatistics.totalCount;
+    learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
+    learnerGradedTaskCount += u.taskStatistics.completedCount;
     totalLearnerPoints += u.taskStatistics.learnerPoints;
-    totalGroupPoints += u.taskStatistics.avgGroupPoints * u.taskStatistics.totalCount;
-    totalGroupPoints += u.taskStatistics.totalCount;
+    avgGroupPoints += u.taskStatistics.avgGroupPoints;
   });
+
   return {
-    learnerPoints: totalLearnerPoints,
-    avgGroupPoints: totalGroupPoints / totalTaskCount
+    totalKcCount,
+    totalTaskCount,
+    learnerSatisfiedKcCount,
+    learnerGradedTaskCount,
+    totalLearnerPoints,
+    avgGroupPoints
   };
 }
