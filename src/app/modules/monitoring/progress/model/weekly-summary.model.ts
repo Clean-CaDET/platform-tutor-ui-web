@@ -6,8 +6,14 @@ export interface WeeklyProgressStatistics {
   totalTaskCount: number;
   learnerSatisfiedKcCount: number;
   learnerGradedTaskCount: number;
+  totalMaxPoints: number;
   totalLearnerPoints: number;
   avgGroupPoints: number;
+
+  negativePatterns: {
+    name: string;
+    count: number;
+  }[];
 }
   
 export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyProgressStatistics {
@@ -15,16 +21,32 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
   let totalTaskCount = 0;
   let learnerSatisfiedKcCount = 0;
   let learnerGradedTaskCount = 0;
+  let totalMaxPoints = 0;
   let totalLearnerPoints = 0;
   let avgGroupPoints = 0;
+  let negativePatterns: {name: string, count: number}[] = [];
   
   units.forEach(u => {
-    totalKcCount += u.kcStatistics.totalCount;
-    totalTaskCount += u.taskStatistics.totalCount;
-    learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
-    learnerGradedTaskCount += u.taskStatistics.completedCount;
-    totalLearnerPoints += u.taskStatistics.learnerPoints;
-    avgGroupPoints += u.taskStatistics.avgGroupPoints;
+    if(u.kcStatistics) {
+      totalKcCount += u.kcStatistics.totalCount;
+      learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
+      const kcNegativePatterns = u.kcStatistics.satisfiedKcStatistics.flatMap(stats => stats.negativePatterns);
+      kcNegativePatterns.forEach(pattern => {
+        const matchingPattern = negativePatterns.find(p => p.name === pattern);
+        if(!matchingPattern) {
+          matchingPattern.count++;
+          return;
+        }
+        negativePatterns.push({name: pattern, count: 1});
+      })
+    }
+    if(u.taskStatistics) {
+      totalTaskCount += u.taskStatistics.totalCount;
+      learnerGradedTaskCount += u.taskStatistics.completedCount;
+      totalLearnerPoints += u.taskStatistics.learnerPoints;
+      avgGroupPoints += u.taskStatistics.avgGroupPoints;
+      totalMaxPoints += u.taskStatistics.totalMaxPoints
+    }
   });
   
   return {
@@ -32,8 +54,10 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
     totalTaskCount,
     learnerSatisfiedKcCount,
     learnerGradedTaskCount,
+    totalMaxPoints,
     totalLearnerPoints,
-    avgGroupPoints
+    avgGroupPoints,
+    negativePatterns
   };
 }
 

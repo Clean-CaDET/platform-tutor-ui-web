@@ -3,7 +3,7 @@ import { Learner } from '../model/learner.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { ProgressService } from './progress.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
-import { UnitProgressRating } from './model/unit-rating.model';
+import { getChallengeRatingLabel, UnitProgressRating } from './model/unit-rating.model';
 import { UnitProgressStatistics } from './model/unit-statistics.model';
 import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisfactionStatistics, calculateWeeklyProgressStatistics } from './model/weekly-summary.model';
 
@@ -23,11 +23,11 @@ export class ProgressComponent implements OnChanges {
   selectedDate: Date;
 
   units: UnitHeader[] = [];
-  weeklyRatingStatistics: WeeklyRatingStatistics;
-  weeklyProgressStatistics: WeeklyProgressStatistics;
+  weeklyRatings: WeeklyRatingStatistics;
+  weeklyResults: WeeklyProgressStatistics;
   
   constructor(private progressService: ProgressService) {
-    this.selectedDate = new Date("7/1/2024"); // TODO
+    this.selectedDate = new Date();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -46,7 +46,7 @@ export class ProgressComponent implements OnChanges {
   }
 
   private changeOccured(changedField: { currentValue: any, previousValue: any }) {
-    return changedField && changedField.currentValue !== changedField.previousValue;
+    return changedField && changedField.currentValue && changedField.currentValue !== changedField.previousValue;
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
@@ -94,10 +94,22 @@ export class ProgressComponent implements OnChanges {
     this.allRatings.forEach(rating => {
       if (rating.learnerId !== this.selectedLearnerId) return;
       const relatedUnit = this.units.find(u => u.id === rating.knowledgeUnitId);
-      relatedUnit?.ratings.push(rating);
+      if(!relatedUnit) return null;
+      
+      if(rating.completedKcIds?.length) {
+        rating.completedKcNames = [];
+        rating.completedKcIds.forEach(kcId => rating.completedKcNames.push(relatedUnit.knowledgeComponents.find(kc => kc.id === kcId).name));
+      }
+      if(rating.completedTaskIds?.length) {
+        rating.completedTaskNames = [];
+        rating.feedback.taskChallenge = getChallengeRatingLabel(rating.feedback.taskChallenge);
+        rating.completedTaskIds.forEach(tId => rating.completedKcNames.push(relatedUnit.tasks.find(t => t.id === tId).name))
+      };
+      
+      relatedUnit.ratings.push(rating);
     });
 
-    this.weeklyRatingStatistics = calculateWeeklySatisfactionStatistics(this.allRatings, this.selectedLearnerId, this.groupMemberIds);
+    this.weeklyRatings = calculateWeeklySatisfactionStatistics(this.allRatings, this.selectedLearnerId, this.groupMemberIds);
   }
 
   private getKcAndTaskProgressAndWarnings() {
@@ -107,7 +119,7 @@ export class ProgressComponent implements OnChanges {
       this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
       .subscribe(unitSummaries => {
         this.linkStatisticsToUnits(unitSummaries);
-        this.weeklyProgressStatistics = calculateWeeklyProgressStatistics(this.units);
+        this.weeklyResults = calculateWeeklyProgressStatistics(this.units);
       });
   }
 
@@ -117,8 +129,8 @@ export class ProgressComponent implements OnChanges {
       if (!relatedUnit) return;
       relatedUnit.kcStatistics = summary.kcStatistics;
       relatedUnit.taskStatistics = summary.taskStatistics;
-      relatedUnit.kcs.forEach(kc => kc.statistics = summary.kcStatistics.satisfiedKcStatistics.find(s => s.kcId === kc.id));
-      relatedUnit.tasks.forEach(t => t.statistics = summary.taskStatistics.gradedTaskStatistics.find(s => s.taskId === t.id));
+      relatedUnit.knowledgeComponents?.forEach(kc => kc.statistics = summary.kcStatistics.satisfiedKcStatistics.find(s => s.kcId === kc.id));
+      relatedUnit.tasks?.forEach(t => t.statistics = summary.taskStatistics.gradedTaskStatistics.find(s => s.taskId === t.id));
       updateTimelineItems(relatedUnit);
     });
   }

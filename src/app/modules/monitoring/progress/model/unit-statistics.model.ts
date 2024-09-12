@@ -21,7 +21,7 @@ export interface TaskProgressStatistics {
   completedCount: number;
   learnerPoints: number;
   avgGroupPoints: number;
-
+  totalMaxPoints: number;
   gradedTaskStatistics: TaskStatistics[];
 }
 
