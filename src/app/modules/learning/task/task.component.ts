@@ -20,7 +20,7 @@ import { StepProgress } from './model/step-progress';
 })
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
-  
+
   task: LearningTask;
   steps: Activity[];
   taskProgress: TaskProgress;
@@ -31,7 +31,7 @@ export class TaskComponent implements OnInit {
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
-  
+
   courseId: number;
   selectedTab = new FormControl(0);
 
@@ -48,18 +48,18 @@ export class TaskComponent implements OnInit {
   }
 
   public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    if(tabChangeEvent.index === 0) {
+    if(tabChangeEvent.tab.textLabel === "Submisija rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 1) {
+    } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 2) {
+    } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
     }
   }
-  
+
   public onVideoStatusChanged(event: any): void {
     if (event.data === 0) {
       this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
@@ -155,7 +155,7 @@ export class TaskComponent implements OnInit {
     this.answerForm.get('answer').setValue(this.selectedStepProgress.answer);
   }
 
-  isAnswered(step: any): boolean {
+  isAnswered(step: Activity): boolean {
     if (!this.taskProgress.stepProgresses) return false;
     let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
     return !!stepProgress.answer;
@@ -165,6 +165,12 @@ export class TaskComponent implements OnInit {
     this.selectedStepProgress.answer = this.answerForm.value.answer;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStepProgress)
       .subscribe(progress => this.taskProgress = progress);
+  }
+
+  isGraded(step: Activity) {
+    if (!this.taskProgress.stepProgresses) return false;
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
+    return !!stepProgress.answer;
   }
 
   getNextExample() {

@@ -1,6 +1,9 @@
 <mat-card *ngIf="task" class="flex-col container">
     <div class="flex-col task-definition">
-        <h3>{{ task.name }}</h3>
+        <div class="flex-row" style="justify-content: space-between;">
+            <h3>{{ task.name }}</h3>
+            <h3 *ngIf="taskProgress.status === 'Graded'"> Osvojeni bodovi: {{ taskProgress.totalScore }} </h3>
+        </div>
         <div class="text-alignment task-description">
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
         </div>
@@ -29,7 +32,7 @@
         <mat-tab-group (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
 
-            <mat-tab *ngIf="selectedStepProgress.status === 'Graded'" label="Rezultat">
+            <mat-tab label="Rezultat" *ngIf="isGraded(selectedStep)">
                 <div class="tabs">
                     <div>
                         <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
@@ -61,14 +64,15 @@
                         </div>
                         <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" [data]="selectedStep.submissionFormat.guidelines"></markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
-                            <mat-form-field appearance="fill" style="width: 100%;" [appearance]="selectedStepProgress.status === 'Graded' ? 'outline' : 'fill'">
+                            <span *ngIf="isGraded(selectedStep)" style="color: gray;">Nije moguće menjati ocenjeno rešenje.</span>
+                            <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;" [appearance]="isGraded(selectedStep) ? 'outline' : 'fill'">
                                 <mat-label>Rešenje</mat-label>
-                                <small><textarea formControlName="answer" matInput rows="10" [readonly]="selectedStepProgress.status === 'Graded'"></textarea></small>
+                                <small><textarea formControlName="answer" matInput rows="10" [readonly]="isGraded(selectedStep)"></textarea></small>
                             </mat-form-field>
                         </form>
                         <div class="flex-row gap" style="margin-bottom: 20px">
-                            <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
-                                [disabled]="answerForm.invalid || selectedStepProgress.status === 'Graded'" (click)="submitAnswer()">Sačuvaj</button>
+                            <button *ngIf="!isGraded(selectedStep)" mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
+                                [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
                             <button *ngIf="selectedStepIndex < steps.length - 1" mat-raised-button [color]="isAnswered(selectedStep) ? 'primary' : ''"
                                 (click)="viewStep(steps[selectedStepIndex+1])">Sledeći korak</button>
                         </div>
