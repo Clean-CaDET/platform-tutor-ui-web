@@ -28,6 +28,27 @@
         <mat-divider vertical="true"></mat-divider>
         <mat-tab-group (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
+
+            <mat-tab *ngIf="selectedStepProgress.status === 'Graded'" label="Rezultat">
+                <div class="tabs">
+                    <div>
+                        <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
+                            <b>Kako smo ocenili tvoje rešenje?</b>
+                            <div *ngFor="let standard of selectedStep.standards" style="margin-top: 10px;">
+                                <div class="flex-row gap">
+                                  <span style="flex-grow: 1;">{{ standard.name }}</span>
+                                  <span style="min-width: 70px;"> <b> {{ getPoints(standard.id) }} </b> / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
+                                </div>
+                                <div *ngIf="getComment(standard.id)"> <b>Komentar:</b> {{ getComment(standard.id) }} </div>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedStepProgress.comment" style="margin-top: 10px;">
+                            <b>Dodatan komentar:</b> {{ selectedStepProgress.comment }}
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
             <mat-tab label="Submisija rešenja">
                 <div class="tabs">
                     <div class="flex-col gap" style="justify-content: space-between;">
@@ -40,14 +61,14 @@
                         </div>
                         <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" [data]="selectedStep.submissionFormat.guidelines"></markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
-                            <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-form-field appearance="fill" style="width: 100%;" [appearance]="selectedStepProgress.status === 'Graded' ? 'outline' : 'fill'">
                                 <mat-label>Rešenje</mat-label>
-                                <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
+                                <small><textarea formControlName="answer" matInput rows="10" [readonly]="selectedStepProgress.status === 'Graded'"></textarea></small>
                             </mat-form-field>
                         </form>
                         <div class="flex-row gap" style="margin-bottom: 20px">
                             <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
-                                [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
+                                [disabled]="answerForm.invalid || selectedStepProgress.status === 'Graded'" (click)="submitAnswer()">Sačuvaj</button>
                             <button *ngIf="selectedStepIndex < steps.length - 1" mat-raised-button [color]="isAnswered(selectedStep) ? 'primary' : ''"
                                 (click)="viewStep(steps[selectedStepIndex+1])">Sledeći korak</button>
                         </div>

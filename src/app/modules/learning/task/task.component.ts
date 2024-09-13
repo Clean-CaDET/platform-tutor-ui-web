@@ -11,6 +11,7 @@ import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { StepProgress } from './model/step-progress';
 
 @Component({
   selector: 'cc-task',
@@ -26,6 +27,7 @@ export class TaskComponent implements OnInit {
 
   selectedStep: Activity;
   selectedStepIndex: number;
+  selectedStepProgress: StepProgress;
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
@@ -134,6 +136,7 @@ export class TaskComponent implements OnInit {
     this.selectedTab.setValue(0);
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
+    this.selectedStepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     if(this.selectedStep.examples?.length > 0) {
       this.selectedExample = this.selectedStep.examples[0];
@@ -149,8 +152,7 @@ export class TaskComponent implements OnInit {
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    this.answerForm.get('answer').setValue(stepProgress.answer);
+    this.answerForm.get('answer').setValue(this.selectedStepProgress.answer);
   }
 
   isAnswered(step: any): boolean {
@@ -160,9 +162,8 @@ export class TaskComponent implements OnInit {
   }
 
   submitAnswer() {
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    stepProgress.answer = this.answerForm.value.answer;
-    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, stepProgress)
+    this.selectedStepProgress.answer = this.answerForm.value.answer;
+    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStepProgress)
       .subscribe(progress => this.taskProgress = progress);
   }
 
@@ -174,5 +175,15 @@ export class TaskComponent implements OnInit {
       this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+  }
+
+  public getPoints(standardId: number): number {
+    let evaluation = this.selectedStepProgress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.points;
+  }
+
+  public getComment(standardId: number): string {
+    let evaluation = this.selectedStepProgress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.comment;
   }
 }
