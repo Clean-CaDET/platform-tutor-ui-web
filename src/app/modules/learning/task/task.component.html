@@ -1,16 +1,20 @@
 <mat-card *ngIf="task" class="flex-col container">
-    <div class="flex-col task-definition">
+    <div class="flex-col task-definition" [@expandCollapseDefinition]="isExpanded ? 'expanded' : 'collapsed'">
         <h3>{{ task.name }}</h3>
         <div class="text-alignment task-description">
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
         </div>
+        <div style="margin: 10px" *ngIf="!selectedStep">
+            <button mat-raised-button [color]="taskProgress.status !== 'Completed' && taskProgress.status !== 'Graded' ? 'primary' : ''"
+                    (click)="toggleExpansion()">Započni rešavanje</button>
+        </div>
         <mat-divider style="border-width: 4px;"></mat-divider>
     </div>
-    <div class="flex-row task-content">
+    <div class="flex-row task-content" [@expandCollapseContent]="isExpanded ? 'expanded' : 'collapsed'">
         <div class="steps flex-col" style="justify-content: space-between;">
-            <div>
+            <div *ngIf="isExpanded">
                 <div *ngFor="let step of steps; index as i" class="theme-hover">
-                    <div [class.theme-highlight-primary]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
+                    <div [class.theme-highlight-primary]="selectedStep?.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
                         <div style="padding: 0 5px 0 15px">
                             <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
                             <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
@@ -20,8 +24,8 @@
                     <mat-divider *ngIf="i < steps.length -1"></mat-divider>
                 </div>
             </div>
-            <div style="margin: 10px 10px 20px auto">
-                <button mat-raised-button [color]="taskProgress.status === 'Completed' ? 'primary' : ''"
+            <div style="margin: 10px auto 10px 10px">
+                <button mat-raised-button [color]="taskProgress.status === 'Completed' || taskProgress.status === 'Graded' ? 'primary' : ''"
                     [routerLink]="['/courses', courseId, 'units', task.unitId]">Lekcija</button>
             </div>
         </div>

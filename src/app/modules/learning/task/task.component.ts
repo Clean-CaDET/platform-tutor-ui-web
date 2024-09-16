@@ -11,14 +11,44 @@ import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { trigger, state, animate, style, transition } from '@angular/animations';
 
 @Component({
   selector: 'cc-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
+  animations: [
+    trigger('expandCollapseDefinition', [
+      state('collapsed', style({
+        height: '95%'
+      })),
+      state('expanded', style({
+        height: '35%'
+      })),
+      transition('collapsed <=> expanded', [
+        animate('0.7s ease-in-out')
+      ])
+    ]),
+    trigger('expandCollapseContent', [
+      state('collapsed', style({
+        height: '56px'
+      })),
+      state('expanded', style({
+        height: '65%'
+      })),
+      transition('collapsed <=> expanded', [
+        animate('0.7s ease-in-out')
+      ])
+    ])
+  ]
 })
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
+  isExpanded: boolean = false;
+  toggleExpansion() {
+    this.isExpanded = true;
+    setTimeout(() => this.viewStep(this.steps[0]), 700);
+  }
   
   task: LearningTask;
   steps: Activity[];
@@ -106,7 +136,11 @@ export class TaskComponent implements OnInit {
           this.title.setTitle("Tutor - " + task.name);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
-          if(this.steps.length) this.viewStep(this.findUnansweredStep() || this.steps[0]);
+          const suitableStep = this.selectSuitableStep();
+          if(suitableStep) {
+            this.isExpanded = true;
+            this.viewStep(suitableStep);
+          }
         });
     });
   }
@@ -123,14 +157,23 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  private findUnansweredStep(): Activity {
-    return this.steps.find(s => {
+  private selectSuitableStep(): Activity {
+    if(!this.steps.length) return null;
+    // If no steps were opened, focus the task description
+    if(this.taskProgress.stepProgresses.every(p => p.status === 'Initialized')) return null;
+
+    // If one step was viewed, focus first unanswered step
+    const firstUnansweredStep = this.steps.find(s => {
       const progress = this.taskProgress.stepProgresses.find(p => p.stepId === s.id);
       return !progress.answer;
     });
+    if(firstUnansweredStep) return firstUnansweredStep;
+
+    return this.steps[0];
   }
 
   viewStep(step: Activity) {
+    if(!step) return;
     this.selectedTab.setValue(0);
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
@@ -141,7 +184,10 @@ export class TaskComponent implements OnInit {
     }
     this.createForm();
     this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
-      .subscribe(progress => this.taskProgress = progress);
+      .subscribe(progress => {
+        this.taskProgress = progress;
+        this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id).subscribe();
+      });
   }
 
   private createForm() {
@@ -156,7 +202,7 @@ export class TaskComponent implements OnInit {
   isAnswered(step: any): boolean {
     if (!this.taskProgress.stepProgresses) return false;
     let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
-    return !!stepProgress.answer;
+    return !!stepProgress?.answer;
   }
 
   submitAnswer() {
