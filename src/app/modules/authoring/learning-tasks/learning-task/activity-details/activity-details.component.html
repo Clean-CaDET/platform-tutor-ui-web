@@ -28,7 +28,7 @@
         </div>
         <div class="flex-col">
             <b *ngIf="!editMode" class="theme-highlight-primary header">Smernice (parcijalna rešenja i preporuke za nesnađenog studenta)</b>
-            <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value"></markdown>
+            <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value" lineNumbers></markdown>
             <cc-markdown-editor *ngIf="editMode" [label]="'Smernice (parcijalna rešenja i preporuke za nesnađenog studenta) *'"
                 [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event)">
             </cc-markdown-editor>
@@ -76,7 +76,7 @@
             </section>
             <div>
                 <b *ngIf="!editMode">Uputstvo za formatiranje odgovora</b>
-                <markdown *ngIf="!editMode" [data]="activityForm.get('submissionFormat').get('guidelines').value"></markdown>
+                <markdown *ngIf="!editMode" [data]="activityForm.get('submissionFormat').get('guidelines').value" linenumbers></markdown>
                 <cc-markdown-editor *ngIf="editMode" [label]="'Uputstvo za formatiranje odgovora *'"
                     [text]="activityForm.get('submissionFormat').get('guidelines').value" (textChanged)="this.activityForm.get('submissionFormat').get('guidelines').setValue($event)">
                 </cc-markdown-editor>

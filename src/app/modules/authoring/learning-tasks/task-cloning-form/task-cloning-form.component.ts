@@ -22,7 +22,7 @@ export class TaskCloningFormComponent  {
     this.learningTaskForm = this.builder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl(this.template?.description || ''),
-      order: new FormControl(order),
+      order: new FormControl(order, Validators.required),
       isTemplate: new FormControl(false)
     });
   }

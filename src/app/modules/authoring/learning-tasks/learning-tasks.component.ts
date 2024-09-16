@@ -91,7 +91,7 @@ export class LearningTasksComponent {
   }
 
   getMainSteps(learningTask: LearningTask) {
-    return learningTask.steps.filter(s => !s.parentId);
+    return learningTask.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order);
   }
 
   shorten(text: string): string {
