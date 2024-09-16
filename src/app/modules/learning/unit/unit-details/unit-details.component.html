@@ -4,8 +4,10 @@
       <h1 class="mat-h1">{{unit.name}}</h1>
       <markdown *ngIf="unit.introduction">{{unit.introduction}}</markdown>
       <markdown *ngIf="unit.goals">**Cilj**: {{unit.goals}}</markdown>
-      <b>Smernice za postizanje cilja</b>:<br>
-      <markdown *ngIf="unit.guidelines">{{unit.guidelines}}</markdown>
+      <div *ngIf="unit.guidelines">
+        <b>Smernice za postizanje cilja</b>:<br>
+        <markdown>{{unit.guidelines}}</markdown>
+      </div>
       <div *ngIf="error" class="container">
         <b>{{error}} Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
       </div>
