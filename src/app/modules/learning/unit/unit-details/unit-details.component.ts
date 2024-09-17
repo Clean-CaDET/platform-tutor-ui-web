@@ -4,7 +4,6 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { Title, DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { Unit } from '../../model/unit.model';
-import { LearningTask } from '../../task/model/learning-task';
 import { TaskService } from '../../task/task.service';
 import { UnitService } from '../unit.service';
 import { forkJoin } from 'rxjs';
@@ -13,6 +12,7 @@ import { UnitItem } from '../../model/unit-item.model';
 import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
 import { UnitProgressRatingService } from '../unit-progress-rating/unit-progress-rating.service';
 import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
+import { Progress } from '../../model/progress';
 
 @Component({
   selector: 'cc-unit-details',
@@ -22,7 +22,7 @@ import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
 export class UnitDetailsComponent implements OnInit {
   courseId: number;
   unit: Unit;
-  
+
   unitItems: UnitItem[];
   percentMastered: number;
   error: string;
@@ -47,7 +47,7 @@ export class UnitDetailsComponent implements OnInit {
           this.unit = unit;
           this.title.setTitle("Tutor - " + unit.name);
           this.unitItems = [];
-          
+
           forkJoin([
             this.unitService.getKcsWithMasteries(+params.unitId),
             this.taskService.getByUnit(+params.unitId)
@@ -65,8 +65,8 @@ export class UnitDetailsComponent implements OnInit {
         });
     });
   }
-  
-  private createUnitItems(kcResults: KcWithMastery[], taskResults: LearningTask[]) {
+
+  private createUnitItems(kcResults: KcWithMastery[], taskResults: Progress[]) {
     kcResults.forEach(kcResult => {
       this.unitItems.push({
         id: kcResult.knowledgeComponent.id,
@@ -84,7 +84,7 @@ export class UnitDetailsComponent implements OnInit {
         order: taskResult.order,
         isKc: false,
         isNext: false,
-        isSatisfied: false,
+        isSatisfied: taskResult.status == 'Graded',
         task: taskResult
       });
     })

@@ -2,7 +2,7 @@
     <div class="flex-col task-definition">
         <div class="flex-row" style="justify-content: space-between;">
             <h3>{{ task.name }}</h3>
-            <h3 *ngIf="taskProgress.status === 'Graded'"> Osvojeni bodovi: {{ taskProgress.totalScore }} </h3>
+            <h3 *ngIf="taskProgress.status === 'Graded'"> Bodovi: {{ taskProgress.totalScore }} / {{task.maxPoints}} </h3>
         </div>
         <div class="text-alignment task-description">
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
