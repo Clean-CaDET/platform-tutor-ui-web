@@ -33,7 +33,7 @@ export class TaskDetailsComponent implements OnChanges {
       name: new FormControl('', Validators.required),
       description: new FormControl(''),
       isTemplate: new FormControl(false),
-      order: new FormControl(0),
+      order: new FormControl(0, Validators.required),
     });
   }
 
