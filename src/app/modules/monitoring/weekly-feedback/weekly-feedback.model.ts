@@ -1,14 +1,14 @@
 export interface WeeklyFeedback {
-    id: number;
-    courseId: number;
-    learnerId: number;
+    id?: number;
+    courseId?: number;
+    learnerId?: number;
 
-    instructorId: number;
+    instructorId?: number;
     instructorName?: string;
     selectedDate: Date;
-    semaphore: number;
+    semaphore?: number;
     semaphoreJustification?: string;
-    
+
     averageSatisfaction: number;
     achievedTaskPoints: number;
     maxTaskPoints: number;

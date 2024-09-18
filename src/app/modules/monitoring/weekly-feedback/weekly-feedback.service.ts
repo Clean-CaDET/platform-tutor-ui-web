@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { WeeklyFeedback } from '../weekly-progress/model/weekly-feedback.model';
+import { WeeklyFeedback } from './weekly-feedback.model';
 
 @Injectable({providedIn: "root"})
 export class WeeklyFeedbackService {

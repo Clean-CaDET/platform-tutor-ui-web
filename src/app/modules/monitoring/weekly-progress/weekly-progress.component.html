@@ -147,8 +147,9 @@
             </mat-card>
         </div>
     </div>
-    <mat-divider vertical="true"></mat-divider>
+    <mat-divider vertical="true" style="border-width: 2px;"></mat-divider>
     <div class="flex-col mentor-panel">
-        <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [date]="selectedDate"></cc-weekly-feedback>
+        <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [selectedDate]="selectedDate"
+            [rating]="weeklyRatings" [results]="weeklyResults"></cc-weekly-feedback>
     </div>
 </div>

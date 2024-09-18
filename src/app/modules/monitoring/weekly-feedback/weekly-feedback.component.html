@@ -1,1 +1,4 @@
-<p>weekly-feedback works!</p>
+<div class="flex-row gap" style="flex-wrap: wrap;">
+    <button mat-stroked-button *ngFor="let f of feedback; let i = index" [ngClass]="{'theme-highlight-primary': f.id === selectedFeedback.id}"
+        [color]="getColor(f)" [matTooltip]="f.selectedDate | date: 'dd.MM.y.'">{{ i+1 }}</button>
+</div>
