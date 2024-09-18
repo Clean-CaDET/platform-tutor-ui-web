@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ProgressService } from './progress.service';
+import { ProgressService } from './weekly-activity.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
 import { getChallengeRatingLabel, UnitProgressRating } from './model/unit-rating.model';
 import { UnitProgressStatistics } from './model/unit-statistics.model';
 import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisfactionStatistics, calculateWeeklyProgressStatistics } from './model/weekly-summary.model';
 
 @Component({
-  selector: 'cc-progress',
-  templateUrl: './progress.component.html',
-  styleUrls: ['./progress.component.scss']
+  selector: 'cc-weekly-progress',
+  templateUrl: './weekly-progress.component.html',
+  styleUrls: ['./weekly-progress.component.scss']
 })
-export class ProgressComponent implements OnChanges {
+export class WeeklyProgressComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];

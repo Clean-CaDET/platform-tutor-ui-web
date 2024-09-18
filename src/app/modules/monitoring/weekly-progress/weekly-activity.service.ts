@@ -32,7 +32,7 @@ export class ProgressService {
     });
     const baseParams = { params: queryParams };
     
-    return this.http.get<UnitProgressRating[]>(this.baseUrl + "feedback/", baseParams);
+    return this.http.get<UnitProgressRating[]>(this.baseUrl + "ratings/", baseParams);
   }
 
   GetKcAndTaskProgressAndWarnings(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitProgressStatistics[]> {
