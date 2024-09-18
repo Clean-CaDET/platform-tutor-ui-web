@@ -1,27 +1,15 @@
-<div class="flex-col" style="height: 100vh;">
-    <div class="flex-row" style="align-items: center; gap: 5px">
-        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
+<div class="flex-row" style="height: 100vh;">
+    <div class="flex-col" style="height: 100vh; width: 60%;">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 200px;">
             <mat-label>Dan pred sastanak</mat-label>
             <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <span style="flex-grow: 1;"></span>
-        <a mat-stroked-button color="warn">1</a>
-        <a mat-stroked-button color="accent">2</a>
-        <a mat-stroked-button color="primary">3</a>
-        <a mat-stroked-button color="accent">4</a>
-        <a mat-stroked-button color="primary">5</a>
-        <a mat-stroked-button color="primary">6</a>
-        <a mat-stroked-button class="theme-highlight-primary">7</a>
-        <span style="padding: 5px;"></span>
-    </div>
-    <mat-divider></mat-divider>
-    <div *ngIf="!units?.length" style="padding: 10px;">
-        Student nije imao nove lekcije u protekloj nedelji.
-    </div>
-    <div class="flex-row" style="height: calc(100% - 79px);" *ngIf="units?.length">
-        <div class="flex-col gap tutor-panel">
+        <div *ngIf="!units?.length" style="padding: 10px;">
+            Student nije imao nove lekcije u protekloj nedelji.
+        </div>
+        <div class="flex-col gap tutor-panel" *ngIf="units?.length">
             <mat-card appearance="outlined">
                 <div class="theme-highlight-primary">
                     <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
@@ -47,7 +35,7 @@
                             Napisao {{weeklyRatings.comments.length}} komentara
                             <small>
                             <ul>
-                               <li *ngFor="let c of weeklyRatings.comments">{{c}}</li>
+                            <li *ngFor="let c of weeklyRatings.comments">{{c}}</li>
                             </ul>
                             </small>
                         </li>
@@ -158,9 +146,9 @@
                 </div>
             </mat-card>
         </div>
-        <mat-divider vertical="true"></mat-divider>
-        <div class="flex-col mentor-panel">
-            TODO: Weekly progress mentor feedback form
-        </div>
+    </div>
+    <mat-divider vertical="true"></mat-divider>
+    <div class="flex-col mentor-panel">
+        <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [date]="selectedDate"></cc-weekly-feedback>
     </div>
 </div>

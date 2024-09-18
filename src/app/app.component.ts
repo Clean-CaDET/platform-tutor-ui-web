@@ -19,10 +19,10 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.checkIfUserExists();
     this.checkVersion().subscribe(_ => {
       this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
       this.applyThemeOnLayers();
-      this.checkIfUserExists();
       this.defineClientSessionId();
       this.initCompleted = true;
     });

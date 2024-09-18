@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { ProgressService } from './weekly-activity.service';
+import { WeeklyActivityService } from './weekly-activity.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
 import { getChallengeRatingLabel, UnitProgressRating } from './model/unit-rating.model';
 import { UnitProgressStatistics } from './model/unit-statistics.model';
@@ -26,7 +26,7 @@ export class WeeklyProgressComponent implements OnChanges {
   weeklyRatings: WeeklyRatingStatistics;
   weeklyResults: WeeklyProgressStatistics;
   
-  constructor(private progressService: ProgressService) {
+  constructor(private weeklyActivityService: WeeklyActivityService) {
     this.selectedDate = new Date();
   }
 
@@ -37,8 +37,6 @@ export class WeeklyProgressComponent implements OnChanges {
       this.groupMemberIds = new Set(this.learners.map(l => l.id));
       this.getUnits(true);
     } else if(this.changeOccured(changes.selectedLearnerId)) {
-      // TODO: 1. GetWeeklyProgress (semaphore, instructorId, internal comment, external comment, totalTaskGrade, averageSatisfactionWithProgress)
-      
       if(!this.units?.length) return;
       this.linkAndSummarizeRatings();
       this.getKcAndTaskProgressAndWarnings();
@@ -57,7 +55,7 @@ export class WeeklyProgressComponent implements OnChanges {
 
   private getUnits(invokedByGroupChange: boolean = false) {
     // TODO: Disable datepicker and show progress bar
-    this.progressService.getWeeklyUnitsWithTasksAndKcs(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
+    this.weeklyActivityService.getWeeklyUnitsWithTasksAndKcs(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       units.sort((a, b) => a.order - b.order);
       if(this.retrievedUnitsAlreadyLoaded(units)) {
         if(invokedByGroupChange && this.units.length) { // TODO: Refactor
@@ -70,7 +68,7 @@ export class WeeklyProgressComponent implements OnChanges {
       this.units = units;
       if(!this.units?.length) return;
 
-      this.progressService.getAllRatings(this.units.map(u => u.id), this.selectedDate)
+      this.weeklyActivityService.getAllRatings(this.units.map(u => u.id), this.selectedDate)
         .subscribe(allRatings => {
           this.allRatings = allRatings.map(rating => {
             rating.feedback = JSON.parse(rating.feedback.toString());
@@ -115,7 +113,7 @@ export class WeeklyProgressComponent implements OnChanges {
   private getKcAndTaskProgressAndWarnings() {
     if(!this.selectedLearnerId) return;
 
-    this.progressService.GetKcAndTaskProgressAndWarnings(
+    this.weeklyActivityService.GetKcAndTaskProgressAndWarnings(
       this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
       .subscribe(unitSummaries => {
         this.linkStatisticsToUnits(unitSummaries);

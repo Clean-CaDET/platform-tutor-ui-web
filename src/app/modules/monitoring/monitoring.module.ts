@@ -10,12 +10,14 @@ import { WeeklyProgressComponent } from './weekly-progress/weekly-progress.compo
 import { EnrollmentsComponent } from './enrollments/enrollments.component';
 import { TutorMarkdownModule } from "../../shared/markdown/markdown.module";
 import { MarkdownModule } from 'ngx-markdown';
+import { WeeklyFeedbackComponent } from './weekly-feedback/weekly-feedback.component';
 
 @NgModule({
   declarations: [
     GroupMonitoringComponent,
     GradingComponent,
     WeeklyProgressComponent,
+    WeeklyFeedbackComponent,
     EnrollmentsComponent,
   ],
   imports: [

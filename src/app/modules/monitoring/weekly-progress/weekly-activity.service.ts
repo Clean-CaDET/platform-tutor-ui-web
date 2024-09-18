@@ -9,7 +9,7 @@ import { UnitProgressStatistics } from './model/unit-statistics.model';
 @Injectable({
   providedIn: 'root'
 })
-export class ProgressService {
+export class WeeklyActivityService {
   baseUrl = environment.apiHost + `monitoring/learners/`;
 
   constructor(private http: HttpClient) { }
