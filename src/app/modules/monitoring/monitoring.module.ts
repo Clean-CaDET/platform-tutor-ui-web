@@ -6,16 +6,18 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { GradingComponent } from './grading/grading.component';
-import { ProgressComponent } from './progress/progress.component';
+import { WeeklyProgressComponent } from './weekly-progress/weekly-progress.component';
 import { EnrollmentsComponent } from './enrollments/enrollments.component';
 import { TutorMarkdownModule } from "../../shared/markdown/markdown.module";
 import { MarkdownModule } from 'ngx-markdown';
+import { WeeklyFeedbackComponent } from './weekly-feedback/weekly-feedback.component';
 
 @NgModule({
   declarations: [
     GroupMonitoringComponent,
     GradingComponent,
-    ProgressComponent,
+    WeeklyProgressComponent,
+    WeeklyFeedbackComponent,
     EnrollmentsComponent,
   ],
   imports: [

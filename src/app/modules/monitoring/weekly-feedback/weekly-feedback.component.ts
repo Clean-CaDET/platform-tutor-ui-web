@@ -1,0 +1,115 @@
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { WeeklyFeedbackService } from './weekly-feedback.service';
+import { WeeklyFeedback } from './weekly-feedback.model';
+import { WeeklyProgressStatistics, WeeklyRatingStatistics } from '../weekly-progress/model/weekly-summary.model';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
+@Component({
+  selector: 'cc-weekly-feedback',
+  templateUrl: './weekly-feedback.component.html',
+  styleUrl: './weekly-feedback.component.scss'
+})
+export class WeeklyFeedbackComponent implements OnChanges {
+  @Input() courseId: number;
+  @Input() learnerId: number;
+  @Input() selectedDate: Date;
+
+  @Input() rating: WeeklyRatingStatistics;
+  @Input() results: WeeklyProgressStatistics;
+  
+  feedback: WeeklyFeedback[];
+  selectedFeedback: WeeklyFeedback;
+  form: FormGroup;
+
+  constructor(private feedbackService: WeeklyFeedbackService, private builder: FormBuilder) {
+    this.form = this.builder.group({
+      semaphore: new FormControl('2'),
+      semaphoreJustification: new FormControl('')
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes?.courseId || changes?.learnerId) {
+      this.getFeedback();
+      return;
+    }
+    if(changes?.selectedDate && this.feedback?.length) {
+      this.selectedFeedback = this.findFeedbackForSelectedDate();
+      if(this.selectedFeedback) return;
+      this.feedback = this.feedback.filter(f => f.id);
+      this.createNewFeedback();
+    }
+  }
+  
+  getFeedback() {
+    this.feedbackService.getByCourseAndLearner(this.courseId, this.learnerId).subscribe(feedback => {
+      this.feedback = feedback;
+      this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
+      const selectedFeedback = this.findFeedbackForSelectedDate();
+      if(selectedFeedback) {
+        this.selectFeedback(selectedFeedback);
+        return;
+      }
+      this.createNewFeedback();
+    });
+  }
+
+  private findFeedbackForSelectedDate(): WeeklyFeedback {
+    return this.feedback.find(f => {
+      const startDate = new Date(f.weekEnd);
+      startDate.setDate(startDate.getDate() - 2);
+      const endDate = new Date(f.weekEnd);
+      endDate.setDate(endDate.getDate() + 2);
+  
+      return this.selectedDate >= startDate && this.selectedDate <= endDate;
+    });
+  }
+
+  private createNewFeedback(): void {
+    const selectedDate = new Date(this.selectedDate);
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    this.selectFeedback({
+      weekEnd: selectedDate,
+      semaphore: 2,
+      semaphoreJustification: '',
+      averageSatisfaction: this.rating?.avgLearnerSatisfaction,
+      achievedTaskPoints: this.results?.totalLearnerPoints,
+      maxTaskPoints: this.results?.totalMaxPoints,
+    });
+    this.feedback.push(this.selectedFeedback);
+    
+  }
+
+  selectFeedback(feedback: WeeklyFeedback): void {
+    this.selectedFeedback = feedback;
+    this.form.patchValue(this.selectedFeedback);
+  }
+
+  getColor(semaphore: number): string {
+    if(!semaphore) return '';
+    if(semaphore === 1) return 'warn';
+    if(semaphore === 2) return 'accent';
+    if(semaphore === 3) return 'primary';
+  }
+
+  onSubmit(): void {
+    this.selectedFeedback.semaphore = this.form.value.semaphore;
+    this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
+    if(this.selectedFeedback.id) {
+      this.updateFeedback();
+    } else {
+      this.feedbackService.create(this.courseId, this.learnerId, this.selectedFeedback)
+        .subscribe(newFeedback => this.selectedFeedback.id = newFeedback.id);
+    }
+  }
+
+  private updateFeedback() {
+    const feedbackForSelectedDate = this.findFeedbackForSelectedDate();
+    if (feedbackForSelectedDate.id === this.selectedFeedback.id) {
+      this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
+      this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
+    }
+    this.feedbackService.update(this.courseId, this.learnerId, this.selectedFeedback)
+      .subscribe();
+  }
+}
