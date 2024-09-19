@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { WeeklyFeedback } from './weekly-feedback.model';
 
@@ -13,7 +13,11 @@ export class WeeklyFeedbackService {
   constructor(private http: HttpClient) { }
 
   getByCourseAndLearner(courseId: number, learnerId: number): Observable<WeeklyFeedback[]> {
-    return this.http.get<WeeklyFeedback[]>(this.baseUrl(courseId, learnerId));
+    return this.http.get<WeeklyFeedback[]>(this.baseUrl(courseId, learnerId))
+      .pipe(map(results => {
+        results.forEach(r => r.weekEnd = new Date(r.weekEnd));
+        return results;
+      }));
   }
 
   create(courseId: number, learnerId: number, item: WeeklyFeedback): Observable<WeeklyFeedback> {

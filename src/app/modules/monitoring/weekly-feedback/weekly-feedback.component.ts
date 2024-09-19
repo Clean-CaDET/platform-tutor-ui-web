@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { WeeklyFeedbackService } from './weekly-feedback.service';
 import { WeeklyFeedback } from './weekly-feedback.model';
 import { WeeklyProgressStatistics, WeeklyRatingStatistics } from '../weekly-progress/model/weekly-summary.model';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'cc-weekly-feedback',
@@ -19,8 +19,14 @@ export class WeeklyFeedbackComponent implements OnChanges {
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
+  form: FormGroup;
 
-  constructor(private feedbackService: WeeklyFeedbackService, private builder: FormBuilder) {}
+  constructor(private feedbackService: WeeklyFeedbackService, private builder: FormBuilder) {
+    this.form = this.builder.group({
+      semaphore: new FormControl('2'),
+      semaphoreJustification: new FormControl('')
+    });
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes?.courseId || changes?.learnerId) {
@@ -38,200 +44,63 @@ export class WeeklyFeedbackComponent implements OnChanges {
   getFeedback() {
     this.feedbackService.getByCourseAndLearner(this.courseId, this.learnerId).subscribe(feedback => {
       this.feedback = feedback;
-      this.feedback.sort((a, b) => a.selectedDate.getTime() - b.selectedDate.getTime());
-      this.temp();
-      this.selectedFeedback = this.findFeedbackForSelectedDate();
-      if(this.selectedFeedback) return;
+      this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
+      const selectedFeedback = this.findFeedbackForSelectedDate();
+      if(selectedFeedback) {
+        this.selectFeedback(selectedFeedback);
+        return;
+      }
       this.createNewFeedback();
     });
   }
 
-  private createNewFeedback(): void {
-    this.selectedFeedback = {
-      selectedDate: this.selectedDate,
-      averageSatisfaction: this.rating?.avgLearnerSatisfaction,
-      achievedTaskPoints: this.results?.totalLearnerPoints,
-      maxTaskPoints: this.results?.totalMaxPoints,
-    };
-    this.feedback.push(this.selectedFeedback);
-  }
-
   private findFeedbackForSelectedDate(): WeeklyFeedback {
     return this.feedback.find(f => {
-      const startDate = new Date(f.selectedDate);
-      startDate.setDate(startDate.getDate() - 1);
-      const endDate = new Date(f.selectedDate);
-      endDate.setDate(f.selectedDate.getDate() + 1);
+      const startDate = new Date(f.weekEnd);
+      startDate.setDate(startDate.getDate() - 2);
+      const endDate = new Date(f.weekEnd);
+      endDate.setDate(endDate.getDate() + 2);
   
       return this.selectedDate >= startDate && this.selectedDate <= endDate;
     });
   }
 
-  getColor(feedback: WeeklyFeedback): string {
-    if(!feedback.semaphore) return '';
-    if(feedback.semaphore === 1) return 'warn';
-    if(feedback.semaphore === 2) return 'accent';
-    if(feedback.semaphore === 3) return 'primary';
+  private createNewFeedback(): void {
+    const selectedDate = new Date(this.selectedDate);
+    selectedDate.setDate(selectedDate.getDate() + 1);
+    this.selectFeedback({
+      weekEnd: selectedDate,
+      semaphore: 2,
+      semaphoreJustification: '',
+      averageSatisfaction: this.rating?.avgLearnerSatisfaction,
+      achievedTaskPoints: this.results?.totalLearnerPoints,
+      maxTaskPoints: this.results?.totalMaxPoints,
+    });
+    this.feedback.push(this.selectedFeedback);
+    
   }
 
-  temp() {
-    this.feedback = [
-      {
-        id: 1,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 301,
-        instructorName: "John Doe",
-        selectedDate: new Date('2024-09-10'),
-        semaphore: 1,
-        semaphoreJustification: "Excellent performance",
-        averageSatisfaction: 4.5,
-        achievedTaskPoints: 85,
-        maxTaskPoints: 100
-      },
-      {
-        id: 2,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 302,
-        instructorName: "Jane Smith",
-        selectedDate: new Date('2024-09-12'),
-        semaphore: 2,
-        semaphoreJustification: "Good, but room for improvement",
-        averageSatisfaction: 4.0,
-        achievedTaskPoints: 78,
-        maxTaskPoints: 100
-      },
-      {
-        id: 3,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 303,
-        instructorName: "Emily Johnson",
-        selectedDate: new Date('2024-09-15'),
-        semaphore: 3,
-        semaphoreJustification: "Needs attention",
-        averageSatisfaction: 3.5,
-        achievedTaskPoints: 70,
-        maxTaskPoints: 100
-      },
-      {
-        id: 1,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 301,
-        instructorName: "John Doe",
-        selectedDate: new Date('2024-09-10'),
-        semaphore: 1,
-        semaphoreJustification: "Excellent performance",
-        averageSatisfaction: 4.5,
-        achievedTaskPoints: 85,
-        maxTaskPoints: 100
-      },
-      {
-        id: 2,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 302,
-        instructorName: "Jane Smith",
-        selectedDate: new Date('2024-09-12'),
-        semaphore: 2,
-        semaphoreJustification: "Good, but room for improvement",
-        averageSatisfaction: 4.0,
-        achievedTaskPoints: 78,
-        maxTaskPoints: 100
-      },
-      {
-        id: 3,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 303,
-        instructorName: "Emily Johnson",
-        selectedDate: new Date('2024-09-15'),
-        semaphore: 3,
-        semaphoreJustification: "Needs attention",
-        averageSatisfaction: 3.5,
-        achievedTaskPoints: 70,
-        maxTaskPoints: 100
-      },
-      {
-        id: 1,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 301,
-        instructorName: "John Doe",
-        selectedDate: new Date('2024-09-10'),
-        semaphore: 1,
-        semaphoreJustification: "Excellent performance",
-        averageSatisfaction: 4.5,
-        achievedTaskPoints: 85,
-        maxTaskPoints: 100
-      },
-      {
-        id: 2,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 302,
-        instructorName: "Jane Smith",
-        selectedDate: new Date('2024-09-12'),
-        semaphore: 2,
-        semaphoreJustification: "Good, but room for improvement",
-        averageSatisfaction: 4.0,
-        achievedTaskPoints: 78,
-        maxTaskPoints: 100
-      },
-      {
-        id: 3,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 303,
-        instructorName: "Emily Johnson",
-        selectedDate: new Date('2024-09-15'),
-        semaphore: 3,
-        semaphoreJustification: "Needs attention",
-        averageSatisfaction: 3.5,
-        achievedTaskPoints: 70,
-        maxTaskPoints: 100
-      },
-      {
-        id: 1,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 301,
-        instructorName: "John Doe",
-        selectedDate: new Date('2024-09-10'),
-        semaphore: 1,
-        semaphoreJustification: "Excellent performance",
-        averageSatisfaction: 4.5,
-        achievedTaskPoints: 85,
-        maxTaskPoints: 100
-      },
-      {
-        id: 2,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 302,
-        instructorName: "Jane Smith",
-        selectedDate: new Date('2024-09-12'),
-        semaphore: 2,
-        semaphoreJustification: "Good, but room for improvement",
-        averageSatisfaction: 4.0,
-        achievedTaskPoints: 78,
-        maxTaskPoints: 100
-      },
-      {
-        id: 3,
-        courseId: 100,
-        learnerId: 200,
-        instructorId: 303,
-        instructorName: "Emily Johnson",
-        selectedDate: new Date('2024-09-15'),
-        semaphore: 3,
-        semaphoreJustification: "Needs attention",
-        averageSatisfaction: 3.5,
-        achievedTaskPoints: 70,
-        maxTaskPoints: 100
-      }
-    ]
+  selectFeedback(feedback: WeeklyFeedback): void {
+    this.selectedFeedback = feedback;
+    this.form.patchValue(this.selectedFeedback);
+  }
+
+  getColor(semaphore: number): string {
+    if(!semaphore) return '';
+    if(semaphore === 1) return 'warn';
+    if(semaphore === 2) return 'accent';
+    if(semaphore === 3) return 'primary';
+  }
+
+  onSubmit(): void {
+    this.selectedFeedback.semaphore = this.form.value.semaphore;
+    this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
+    if(this.selectedFeedback.id) {
+      this.feedbackService.update(this.courseId, this.learnerId, this.selectedFeedback)
+        .subscribe();
+    } else {
+      this.feedbackService.create(this.courseId, this.learnerId, this.selectedFeedback)
+        .subscribe(newFeedback => this.selectedFeedback.id = newFeedback.id);
+    }
   }
 }

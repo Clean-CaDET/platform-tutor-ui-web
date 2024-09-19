@@ -5,9 +5,9 @@ export interface WeeklyFeedback {
 
     instructorId?: number;
     instructorName?: string;
-    selectedDate: Date;
-    semaphore?: number;
-    semaphoreJustification?: string;
+    weekEnd: Date;
+    semaphore: number;
+    semaphoreJustification: string;
 
     averageSatisfaction: number;
     achievedTaskPoints: number;

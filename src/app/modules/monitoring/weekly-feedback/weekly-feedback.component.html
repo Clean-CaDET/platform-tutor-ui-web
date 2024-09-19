@@ -1,4 +1,32 @@
-<div class="flex-row gap" style="flex-wrap: wrap;">
-    <button mat-stroked-button *ngFor="let f of feedback; let i = index" [ngClass]="{'theme-highlight-primary': f.id === selectedFeedback.id}"
-        [color]="getColor(f)" [matTooltip]="f.selectedDate | date: 'dd.MM.y.'">{{ i+1 }}</button>
+<div class="flex-col" style="height: 100vh">
+    <div class="theme-highlight-primary" style="padding: 10px;">
+        <h3 class="mat-h3" style="margin: 0;">Procene snalaženja po nedelji, od početka kursa</h3>
+    </div>
+    <div class="flex-row gap" style="flex-wrap: wrap; padding: 10px;">
+        <button mat-stroked-button *ngFor="let f of feedback; let i = index" [ngClass]="{'theme-highlight-primary': f.id === selectedFeedback?.id}"
+        [color]="f.id && getColor(f.semaphore)" [matTooltip]="f.weekEnd | date: 'dd.MM.y.'" (click)="selectFeedback(f)">{{ i+1 }}</button>
+    </div>
+    <div class="flex-col" style="height: 100%;">
+        <div class="theme-highlight-primary" style="padding: 10px;">
+            <h3 class="mat-h3" style="margin: 0;">Koliko se dobro student snašao u nedelji zaključno sa <b>{{selectedFeedback?.weekEnd | date: 'dd.MM.y.'}}</b>?</h3>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex-col gap" style="padding: 10px;">
+            <section class="flex-col">
+                <div class="flex-row" style="justify-content: space-between; margin-bottom: -15px;">
+                    <small>Ne snalazi se</small>
+                    <small>Bori se, ali treba pratiti</small>
+                    <small>Dobro se snalazi</small>
+                </div>
+                <mat-slider [color]="getColor(form.get('semaphore')?.value) || 'accent'" style="width: calc(100% - 20px);"
+                    min="1" max="3" step="1" tickInterval="1">
+                    <input formControlName="semaphore" matSliderThumb>
+                </mat-slider>
+            </section>
+            <mat-form-field appearance="outline">
+                <mat-label>Na osnovu čega zaključuješ stepen snalaženja?</mat-label>
+                <textarea matInput formControlName="semaphoreJustification" rows="10"></textarea>
+            </mat-form-field>
+            <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+        </form>
+    </div>
 </div>
