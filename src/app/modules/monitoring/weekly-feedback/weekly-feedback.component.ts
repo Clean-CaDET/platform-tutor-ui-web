@@ -96,11 +96,20 @@ export class WeeklyFeedbackComponent implements OnChanges {
     this.selectedFeedback.semaphore = this.form.value.semaphore;
     this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
     if(this.selectedFeedback.id) {
-      this.feedbackService.update(this.courseId, this.learnerId, this.selectedFeedback)
-        .subscribe();
+      this.updateFeedback();
     } else {
       this.feedbackService.create(this.courseId, this.learnerId, this.selectedFeedback)
         .subscribe(newFeedback => this.selectedFeedback.id = newFeedback.id);
     }
+  }
+
+  private updateFeedback() {
+    const feedbackForSelectedDate = this.findFeedbackForSelectedDate();
+    if (feedbackForSelectedDate.id === this.selectedFeedback.id) {
+      this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
+      this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
+    }
+    this.feedbackService.update(this.courseId, this.learnerId, this.selectedFeedback)
+      .subscribe();
   }
 }
