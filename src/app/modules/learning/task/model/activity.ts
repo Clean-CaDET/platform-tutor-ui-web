@@ -1,5 +1,6 @@
 import { ActivityExample } from "./activity-example";
 import { Standard } from "./standard";
+import { StepProgress } from "./step-progress";
 import { SubmissionFormat } from "./submission-format";
 
 export interface Activity {
@@ -8,13 +9,14 @@ export interface Activity {
     order: number;
     code: string;
     name: string;
-    
+
     guidance: string;
     examples?: ActivityExample[];
-    
+
     submissionFormat: SubmissionFormat
     standards?: Standard[];
     maxPoints?: number;
 
     subactivities?: Activity[];
+    progress: StepProgress;
 }

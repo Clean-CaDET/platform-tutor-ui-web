@@ -12,7 +12,7 @@ import { UnitItem } from '../../model/unit-item.model';
 import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
 import { UnitProgressRatingService } from '../unit-progress-rating/unit-progress-rating.service';
 import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
-import { Progress } from '../../model/progress';
+import { TaskProgressSummary } from '../../model/task-progress-summary';
 
 @Component({
   selector: 'cc-unit-details',
@@ -66,7 +66,7 @@ export class UnitDetailsComponent implements OnInit {
     });
   }
 
-  private createUnitItems(kcResults: KcWithMastery[], taskResults: Progress[]) {
+  private createUnitItems(kcResults: KcWithMastery[], taskResults: TaskProgressSummary[]) {
     kcResults.forEach(kcResult => {
       this.unitItems.push({
         id: kcResult.knowledgeComponent.id,
@@ -84,7 +84,7 @@ export class UnitDetailsComponent implements OnInit {
         order: taskResult.order,
         isKc: false,
         isNext: false,
-        isSatisfied: taskResult.status == 'Graded',
+        isSatisfied: taskResult.status == 'Completed' || taskResult.status == 'Graded',
         task: taskResult
       });
     })

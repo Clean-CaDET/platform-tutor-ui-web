@@ -39,15 +39,23 @@
         <mat-icon matTooltip="Zadatak" style="margin-top: 4px; min-width: 24px;" [ngClass]="{ 'done': item.isSatisfied}">rebase_edit</mat-icon>
         <span style="flex-grow: 1;" [ngClass]="{ 'done': item.isSatisfied}">{{item.task.name}}</span>
         <span style="min-width: 48px; text-align: right;">
-          <mat-icon *ngIf="item.isSatisfied" color="primary" style="margin-top: 4px;" matTooltip="Ocenjeno!">check_circle</mat-icon>
+          <span *ngIf="item.task.status === 'Graded'">
+            {{item.task.totalScore}} / {{item.task.maxPoints}}
+          </span>
+          <mat-icon *ngIf="item.isSatisfied" color="primary" style="margin-top: 4px;" matTooltip="Svi koraci rešeni!">check_circle</mat-icon>
           <span *ngIf="!item.isSatisfied">
-            {{item.task.completedSteps/item.task.totalSteps * 100}}%
+            {{(item.task.completedSteps/item.task.totalSteps * 100).toFixed(0)}}%
           </span>
         </span>
       </div>
     </mat-card-title>
   <mat-card-actions style="padding: 10px">
     <button mat-flat-button [color]="item.isNext ? 'primary' : ''" [routerLink]="['tasks', item.task.id]">Pristupi</button>
+    <span style="flex-grow: 1;"></span>
+    <button *ngIf="item.isSatisfied" mat-flat-button (click)="rate()">
+      <mat-icon>star</mat-icon>
+      Oceni kvalitet
+    </button>
   </mat-card-actions>
 </mat-card>
 </div>

@@ -11,7 +11,6 @@ import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { StepProgress } from './model/step-progress';
 import { trigger, state, animate, style, transition } from '@angular/animations';
 
 @Component({
@@ -56,7 +55,6 @@ export class TaskComponent implements OnInit {
 
   selectedStep: Activity;
   selectedStepIndex: number;
-  selectedStepProgress: StepProgress;
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
@@ -137,6 +135,7 @@ export class TaskComponent implements OnInit {
           this.title.setTitle("Tutor - " + task.name);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
+          this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));
           const suitableStep = this.selectSuitableStep();
           if(suitableStep) {
             this.isExpanded = true;
@@ -178,7 +177,6 @@ export class TaskComponent implements OnInit {
     this.selectedTab.setValue(0);
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
-    this.selectedStepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
     if(this.selectedStep.examples?.length > 0) {
       this.selectedExample = this.selectedStep.examples[0];
@@ -197,7 +195,7 @@ export class TaskComponent implements OnInit {
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });
-    this.answerForm.get('answer').setValue(this.selectedStepProgress.answer);
+    this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
   }
 
   isAnswered(step: Activity): boolean {
@@ -207,8 +205,8 @@ export class TaskComponent implements OnInit {
   }
 
   submitAnswer() {
-    this.selectedStepProgress.answer = this.answerForm.value.answer;
-    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStepProgress)
+    this.selectedStep.progress.answer = this.answerForm.value.answer;
+    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
   }
 
@@ -229,12 +227,12 @@ export class TaskComponent implements OnInit {
   }
 
   public getPoints(standardId: number): number {
-    let evaluation = this.selectedStepProgress.evaluations.find(e => e.standardId == standardId);
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
     return evaluation.points;
   }
 
   public getComment(standardId: number): string {
-    let evaluation = this.selectedStepProgress.evaluations.find(e => e.standardId == standardId);
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
     return evaluation.comment;
   }
 }
