@@ -49,7 +49,6 @@ export class TaskComponent implements OnInit {
     this.isExpanded = true;
     setTimeout(() => this.viewStep(this.steps[0]), 700);
   }
-  
   task: LearningTask;
   steps: Activity[];
   taskProgress: TaskProgress;
@@ -59,7 +58,7 @@ export class TaskComponent implements OnInit {
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
-  
+
   courseId: number;
   selectedTab = new FormControl(0);
 
@@ -76,18 +75,18 @@ export class TaskComponent implements OnInit {
   }
 
   public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    if(tabChangeEvent.index === 0) {
+    if(tabChangeEvent.tab.textLabel === "Submisija rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 1) {
+    } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 2) {
+    } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
     }
   }
-  
+
   public onVideoStatusChanged(event: any): void {
     if (event.data === 0) {
       this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
@@ -136,6 +135,7 @@ export class TaskComponent implements OnInit {
           this.title.setTitle("Tutor - " + task.name);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
+          this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));
           const suitableStep = this.selectSuitableStep();
           if(suitableStep) {
             this.isExpanded = true;
@@ -195,21 +195,25 @@ export class TaskComponent implements OnInit {
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    this.answerForm.get('answer').setValue(stepProgress.answer);
+    this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
   }
 
-  isAnswered(step: any): boolean {
+  isAnswered(step: Activity): boolean {
     if (!this.taskProgress.stepProgresses) return false;
     let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
     return !!stepProgress?.answer;
   }
 
   submitAnswer() {
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    stepProgress.answer = this.answerForm.value.answer;
-    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, stepProgress)
+    this.selectedStep.progress.answer = this.answerForm.value.answer;
+    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
+  }
+
+  isGraded(step: Activity) {
+    if (!this.taskProgress.stepProgresses) return false;
+    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
+    return !!stepProgress.answer;
   }
 
   getNextExample() {
@@ -220,5 +224,15 @@ export class TaskComponent implements OnInit {
       this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+  }
+
+  public getPoints(standardId: number): number {
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.points;
+  }
+
+  public getComment(standardId: number): string {
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.comment;
   }
 }
