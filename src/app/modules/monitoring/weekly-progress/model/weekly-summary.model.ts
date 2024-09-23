@@ -32,12 +32,13 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
       learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
       const kcNegativePatterns = u.kcStatistics.satisfiedKcStatistics.flatMap(stats => stats.negativePatterns);
       kcNegativePatterns.forEach(pattern => {
-        const matchingPattern = negativePatterns.find(p => p.name === pattern);
-        if(!matchingPattern) {
-          matchingPattern.count++;
+        const patternCategory = pattern.split(':')[0];
+        const matchingPatternCategory = negativePatterns.find(p => p.name === patternCategory);
+        if(matchingPatternCategory) {
+          matchingPatternCategory.count++;
           return;
         }
-        negativePatterns.push({name: pattern, count: 1});
+        negativePatterns.push({name: patternCategory, count: 1});
       })
     }
     if(u.taskStatistics) {
@@ -45,7 +46,17 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
       learnerGradedTaskCount += u.taskStatistics.completedCount;
       totalLearnerPoints += u.taskStatistics.learnerPoints;
       avgGroupPoints += u.taskStatistics.avgGroupPoints;
-      totalMaxPoints += u.taskStatistics.totalMaxPoints
+      totalMaxPoints += u.taskStatistics.totalMaxPoints;
+      const taskNegativePatterns = u.taskStatistics.gradedTaskStatistics.flatMap(stats => stats.negativePatterns);
+      taskNegativePatterns.forEach(pattern => {
+        const patternCategory = pattern.split(':')[0];
+        const matchingPatternCategory = negativePatterns.find(p => p.name === patternCategory);
+        if(matchingPatternCategory) {
+          matchingPatternCategory.count++;
+          return;
+        }
+        negativePatterns.push({name: patternCategory, count: 1});
+      })
     }
   });
   
@@ -106,5 +117,10 @@ export function calculateWeeklySatisfactionStatistics(ratings: UnitProgressRatin
 }
 
 function calculateAverage(grades: number[]): number {
-    return grades.length > 0 ? grades.reduce((acc, value) => acc + value, 0) / grades.length : 0;
+  if(grades.length === 0) return 0;
+  let sum = 0;
+  grades.forEach(grade => {
+    sum += +grade;
+  });
+  return Math.round(sum * 10 / grades.length) / 10;
 }

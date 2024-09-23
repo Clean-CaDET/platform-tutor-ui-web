@@ -126,7 +126,7 @@ export class GradingComponent implements OnInit, OnChanges {
       const evaluation = this.selectedStep.progress?.evaluations?.find(e => e.standardId === standard.id);
       evaluationsArray.push(this.builder.group({
         standardId: standard.id,
-        points: new FormControl(evaluation?.points ?? 0, Validators.max(standard.maxPoints)),
+        points: new FormControl(evaluation?.points ?? 0, [Validators.max(standard.maxPoints), Validators.min(0)]),
         comment: new FormControl(evaluation?.comment ?? '')
       }));
     }

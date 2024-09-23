@@ -101,7 +101,7 @@ export class WeeklyProgressComponent implements OnChanges {
       if(rating.completedTaskIds?.length) {
         rating.completedTaskNames = [];
         rating.feedback.taskChallenge = getChallengeRatingLabel(rating.feedback.taskChallenge);
-        rating.completedTaskIds.forEach(tId => rating.completedKcNames.push(relatedUnit.tasks.find(t => t.id === tId).name))
+        rating.completedTaskIds.forEach(tId => rating.completedTaskNames.push(relatedUnit.tasks.find(t => t.id === tId).name))
       };
       
       relatedUnit.ratings.push(rating);

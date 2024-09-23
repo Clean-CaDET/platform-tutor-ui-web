@@ -58,10 +58,10 @@ export class UnitProgressRatingComponent {
     this.ratingForm = this.builder.group({
       comment: new FormControl('')
     });
-    if (!this.flags.isLearnerInitiated) this.ratingForm.addControl('learnerProgress', new FormControl('3'));
-    if (this.flags.kcFeedback) this.ratingForm.addControl('instructionClarity', new FormControl('3'));
-    if (this.flags.kcFeedback) this.ratingForm.addControl('assessmentClarity', new FormControl('3'));
-    if (this.flags.taskFeedback) this.ratingForm.addControl('taskChallenge', new FormControl('0'));
+    if (!this.flags.isLearnerInitiated) this.ratingForm.addControl('learnerProgress', new FormControl(3));
+    if (this.flags.kcFeedback) this.ratingForm.addControl('instructionClarity', new FormControl(3));
+    if (this.flags.kcFeedback) this.ratingForm.addControl('assessmentClarity', new FormControl(3));
+    if (this.flags.taskFeedback) this.ratingForm.addControl('taskChallenge', new FormControl(0));
   }
 
   submit() {

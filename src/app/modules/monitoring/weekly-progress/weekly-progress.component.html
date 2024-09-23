@@ -55,7 +55,7 @@
                     <div *ngIf="weeklyResults?.negativePatterns?.length">
                         <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
                         <ul>
-                            <li *ngFor="let p in weeklyResults.negativePatterns"><b>{{p.count}}x</b> {{p.name}}</li>
+                            <li *ngFor="let p of weeklyResults.negativePatterns"><b>{{p.count}}x</b> {{p.name}}</li>
                         </ul>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                         <div *ngIf="i.type === 'kc'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
-                                    <mat-icon matTooltip="Komponenta znanja">account_tree</mat-icon> {{i.item.order}} {{i.item.name}}
+                                    <mat-icon matTooltip="Komponenta znanja">account_tree</mat-icon> {{i.item.order}}. {{i.item.name}}
                                 </h3>
                                 <span style="flex-grow: 1;"></span>
                                 <small>Rešeno: {{i.time | date:'dd.MM. u HH:mm'}}</small>
@@ -87,7 +87,7 @@
                             <div *ngIf="i.item.statistics.negativePatterns?.length">
                                 <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
                                 <ul>
-                                    <li *ngFor="let p in i.item.statistics.negativePatterns">{{p}}</li>
+                                    <li *ngFor="let p of i.item.statistics.negativePatterns">{{p}}</li>
                                 </ul>
                             </div>
                         </div>
@@ -105,7 +105,7 @@
                             <div *ngIf="i.item.statistics.negativePatterns?.length">
                                 <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
                                 <ul>
-                                    <li *ngFor="let p in i.item.statistics.negativePatterns">{{p}}</li>
+                                    <li *ngFor="let p of i.item.statistics.negativePatterns">{{p}}</li>
                                 </ul>
                             </div>
                         </div>
