@@ -1,5 +1,5 @@
-<div class="flex-row" style="height: 100vh;">
-    <div class="flex-col" style="width: 20%; max-width: 250px; height: 100%;">
+<div class="flex-row" style="height: 100vh; overflow: hidden;">
+    <div class="flex-col" style="width: 20%; height: 100%;">
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
             <mat-label>Dan pred sastanak</mat-label>
             <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
@@ -43,7 +43,7 @@
         </cdk-virtual-scroll-viewport>
     </div>
     <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
-    <div class="flex-col" style="height: 100%; flex-grow: 1;" *ngIf="selectedStep">
+    <div class="flex-col" style="height: 100%; flex-grow: 1; width: 80%;" *ngIf="selectedStep">
         <div class="flex-col" style="flex: 1; overflow: hidden;" *ngIf="!isUnanswered(selectedStep)">
             <div style="height: 35%; overflow-y: auto; padding: 10px;">
                 <markdown lineNumbers [data]="selectedTask?.description"></markdown>
@@ -56,7 +56,7 @@
                     <div *ngIf="selectedStep?.submissionFormat.type === 'Text'">
                         {{ selectedStep.progress?.answer }}
                     </div>
-                    <markdown *ngIf="selectedStep?.submissionFormat.type === 'Code'" [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
+                    <markdown lineNumbers *ngIf="selectedStep?.submissionFormat.type === 'Code'" [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
                     <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
                         [href]="selectedStep.progress?.answer" target="_blank">{{ selectedStep.progress?.answer }}</a>
                 </div>
@@ -121,4 +121,4 @@
         </div>
     </div>
 
-</div>
+  </div>
