@@ -43,7 +43,7 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
     }
     if(u.taskStatistics) {
       totalTaskCount += u.taskStatistics.totalCount;
-      learnerGradedTaskCount += u.taskStatistics.completedCount;
+      learnerGradedTaskCount += u.taskStatistics.gradedCount;
       totalLearnerPoints += u.taskStatistics.learnerPoints;
       avgGroupPoints += u.taskStatistics.avgGroupPoints;
       totalMaxPoints += u.taskStatistics.totalMaxPoints;

@@ -18,7 +18,7 @@ export interface KcStatistics {
 
 export interface TaskProgressStatistics {
   totalCount: number;
-  completedCount: number;
+  gradedCount: number;
   learnerPoints: number;
   avgGroupPoints: number;
   totalMaxPoints: number;

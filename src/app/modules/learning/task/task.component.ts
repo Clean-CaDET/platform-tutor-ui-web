@@ -198,22 +198,10 @@ export class TaskComponent implements OnInit {
     this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
   }
 
-  isAnswered(step: Activity): boolean {
-    if (!this.taskProgress.stepProgresses) return false;
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
-    return !!stepProgress?.answer;
-  }
-
   submitAnswer() {
     this.selectedStep.progress.answer = this.answerForm.value.answer;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
-  }
-
-  isGraded(step: Activity) {
-    if (!this.taskProgress.stepProgresses) return false;
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
-    return !!stepProgress.answer;
   }
 
   getNextExample() {
