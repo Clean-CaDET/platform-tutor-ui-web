@@ -174,7 +174,7 @@ export class ActivityDetailsComponent implements OnChanges {
         break;
       }
       case "Link": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/commit\\/([a-fA-F0-9]{40})$");
         break;
       }
       case "Code": {
@@ -186,7 +186,7 @@ export class ActivityDetailsComponent implements OnChanges {
         break;
       }
       case "GitCommit": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/tree\\/([a-fA-F0-9]{40})$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/commit\\/([a-fA-F0-9]{40})$");
         break;
       }
       case "TrelloCard": {
