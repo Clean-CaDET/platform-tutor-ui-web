@@ -75,7 +75,7 @@ export class TaskComponent implements OnInit {
   }
 
   public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    if(tabChangeEvent.tab.textLabel === "Submisija rešenja") {
+    if(tabChangeEvent.tab.textLabel === "Slanje rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
     } else if(tabChangeEvent.tab.textLabel === "Smernice") {

@@ -68,7 +68,7 @@
                     </h2>
                     <small class="flex-row gap">
                         <span *ngIf="unit.kcStatistics">Rešeno znanje: {{unit.kcStatistics.satisfiedCount}}/{{unit.kcStatistics.totalCount}}</span>
-                        <span *ngIf="unit.taskStatistics">Ocenjeni zadaci: {{unit.taskStatistics.completedCount}}/{{unit.taskStatistics.totalCount}}</span>
+                        <span *ngIf="unit.taskStatistics">Ocenjeni zadaci: {{unit.taskStatistics.gradedCount}}/{{unit.taskStatistics.totalCount}}</span>
                         <span *ngIf="unit.taskStatistics">Osvojeni poeni: {{unit.taskStatistics.learnerPoints}}/{{unit.taskStatistics.totalMaxPoints}} (Prosek grupe: {{unit.taskStatistics.avgGroupPoints}}/{{unit.taskStatistics.totalMaxPoints}})</span>
                         <span style="flex-grow: 1;"></span>
                         <span>Najbolje do: {{unit.bestBefore | date:'dd.MM.yyyy.'}}</span>
