@@ -11,15 +11,44 @@ import { forkJoin } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { trigger, state, animate, style, transition } from '@angular/animations';
 
 @Component({
   selector: 'cc-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
+  animations: [
+    trigger('expandCollapseDefinition', [
+      state('collapsed', style({
+        height: '95%'
+      })),
+      state('expanded', style({
+        height: '35%'
+      })),
+      transition('collapsed <=> expanded', [
+        animate('0.7s ease-in-out')
+      ])
+    ]),
+    trigger('expandCollapseContent', [
+      state('collapsed', style({
+        height: '56px'
+      })),
+      state('expanded', style({
+        height: '65%'
+      })),
+      transition('collapsed <=> expanded', [
+        animate('0.7s ease-in-out')
+      ])
+    ])
+  ]
 })
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
-  
+  isExpanded: boolean = false;
+  toggleExpansion() {
+    this.isExpanded = true;
+    setTimeout(() => this.viewStep(this.steps[0]), 700);
+  }
   task: LearningTask;
   steps: Activity[];
   taskProgress: TaskProgress;
@@ -29,7 +58,7 @@ export class TaskComponent implements OnInit {
   answerForm: FormGroup;
   selectedExample: ActivityExample;
   videoUrl: string;
-  
+
   courseId: number;
   selectedTab = new FormControl(0);
 
@@ -46,18 +75,18 @@ export class TaskComponent implements OnInit {
   }
 
   public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
-    if(tabChangeEvent.index === 0) {
+    if(tabChangeEvent.tab.textLabel === "Slanje rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 1) {
+    } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    } else if(tabChangeEvent.index === 2) {
+    } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
     }
   }
-  
+
   public onVideoStatusChanged(event: any): void {
     if (event.data === 0) {
       this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
@@ -106,7 +135,12 @@ export class TaskComponent implements OnInit {
           this.title.setTitle("Tutor - " + task.name);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
-          if(this.steps.length) this.viewStep(this.findUnansweredStep() || this.steps[0]);
+          this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));
+          const suitableStep = this.selectSuitableStep();
+          if(suitableStep) {
+            this.isExpanded = true;
+            this.viewStep(suitableStep);
+          }
         });
     });
   }
@@ -123,14 +157,23 @@ export class TaskComponent implements OnInit {
     }
   }
 
-  private findUnansweredStep(): Activity {
-    return this.steps.find(s => {
+  private selectSuitableStep(): Activity {
+    if(!this.steps.length) return null;
+    // If no steps were opened, focus the task description
+    if(this.taskProgress.stepProgresses.every(p => p.status === 'Initialized')) return null;
+
+    // If one step was viewed, focus first unanswered step
+    const firstUnansweredStep = this.steps.find(s => {
       const progress = this.taskProgress.stepProgresses.find(p => p.stepId === s.id);
       return !progress.answer;
     });
+    if(firstUnansweredStep) return firstUnansweredStep;
+
+    return this.steps[0];
   }
 
   viewStep(step: Activity) {
+    if(!step) return;
     this.selectedTab.setValue(0);
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
@@ -141,28 +184,23 @@ export class TaskComponent implements OnInit {
     }
     this.createForm();
     this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
-      .subscribe(progress => this.taskProgress = progress);
+      .subscribe(progress => {
+        this.taskProgress = progress;
+        this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id).subscribe();
+      });
   }
 
   private createForm() {
-    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule);
+    const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule, 's');
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
     });
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    this.answerForm.get('answer').setValue(stepProgress.answer);
-  }
-
-  isAnswered(step: any): boolean {
-    if (!this.taskProgress.stepProgresses) return false;
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === step.id);
-    return !!stepProgress.answer;
+    this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
   }
 
   submitAnswer() {
-    let stepProgress = this.taskProgress.stepProgresses.find(s => s.stepId === this.selectedStep.id);
-    stepProgress.answer = this.answerForm.value.answer;
-    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, stepProgress)
+    this.selectedStep.progress.answer = this.answerForm.value.answer;
+    this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
   }
 
@@ -174,5 +212,15 @@ export class TaskComponent implements OnInit {
       this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+  }
+
+  public getPoints(standardId: number): number {
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.points;
+  }
+
+  public getComment(standardId: number): string {
+    let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
+    return evaluation.comment;
   }
 }

@@ -10,4 +10,7 @@ export interface Unit {
   guidelines?: string;
   order: number;
   knowledgeComponents?: KnowledgeComponent[];
+
+  bestBefore?: Date;
+  enrollmentStatus?: string;
 }

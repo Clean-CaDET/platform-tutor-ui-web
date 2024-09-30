@@ -9,7 +9,7 @@
         <div class="label-group">
           <small *ngFor="let label of options.learnerProgress" class="option-label">{{label}}</small>
         </div>
-        <mat-slider [min]="-2" [max]="2" [step]="1">
+        <mat-slider [min]="1" [max]="5" [step]="1">
           <input formControlName="learnerProgress" matSliderThumb>
         </mat-slider>
       </section>
@@ -20,7 +20,7 @@
         <div class="label-group">
           <small *ngFor="let label of options.instructionClarity" class="option-label">{{label}}</small>
         </div>
-        <mat-slider [min]="-2" [max]="2" [step]="1">
+        <mat-slider [min]="1" [max]="5" [step]="1">
           <input formControlName="instructionClarity" matSliderThumb>
         </mat-slider>
         <mat-label><b>
@@ -29,11 +29,11 @@
         <div class="label-group">
           <small *ngFor="let label of options.assessmentClarity" class="option-label">{{label}}</small>
         </div>
-        <mat-slider [min]="-2" [max]="2" [step]="1">
+        <mat-slider [min]="1" [max]="5" [step]="1">
           <input formControlName="assessmentClarity" matSliderThumb>
         </mat-slider>
       </section>
-      <section *ngIf="flags.taskFeedback" class="flex-col">rebase_edit
+      <section *ngIf="flags.taskFeedback" class="flex-col">
         <mat-label><b>
           <mat-icon>rebase_edit</mat-icon> {{ flags.isLearnerInitiated ? 'Koliko je odabran zadatak zahtevan za rešavanje?' : 'Koliko su zadaci bili zahtevni?' }}</b>
         </mat-label>

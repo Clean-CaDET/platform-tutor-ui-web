@@ -35,11 +35,11 @@ export class UnitProgressRatingComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) data: any, private dialogRef: MatDialogRef<UnitProgressRatingComponent>,
     private builder: FormBuilder, private service: UnitProgressRatingService) {
-    this.InitializeFields(data);
-    this.CreateForm();
+    this.initializeFields(data);
+    this.createForm();
   }
 
-  private InitializeFields(data: any) {
+  private initializeFields(data: any) {
     this.unitId = data.unitId;
     this.completedKcIds = data.completedKcIds;
     this.completedTaskIds = data.completedTaskIds;
@@ -48,7 +48,7 @@ export class UnitProgressRatingComponent {
     this.flags.taskFeedback = data.taskFeedback;
   }
 
-  private CreateForm() {
+  private createForm() {
     this.options = {
       learnerProgress: ['Slab', 'Umeren', 'Jak'],
       instructionClarity: ['Nije', 'Ok', 'Veoma'],
@@ -58,10 +58,10 @@ export class UnitProgressRatingComponent {
     this.ratingForm = this.builder.group({
       comment: new FormControl('')
     });
-    if (!this.flags.isLearnerInitiated) this.ratingForm.addControl('learnerProgress', new FormControl('0'));
-    if (this.flags.kcFeedback) this.ratingForm.addControl('instructionClarity', new FormControl('0'));
-    if (this.flags.kcFeedback) this.ratingForm.addControl('assessmentClarity', new FormControl('0'));
-    if (this.flags.taskFeedback) this.ratingForm.addControl('taskChallenge', new FormControl('0'));
+    if (!this.flags.isLearnerInitiated) this.ratingForm.addControl('learnerProgress', new FormControl(3));
+    if (this.flags.kcFeedback) this.ratingForm.addControl('instructionClarity', new FormControl(3));
+    if (this.flags.kcFeedback) this.ratingForm.addControl('assessmentClarity', new FormControl(3));
+    if (this.flags.taskFeedback) this.ratingForm.addControl('taskChallenge', new FormControl(0));
   }
 
   submit() {

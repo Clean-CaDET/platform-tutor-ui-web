@@ -1,34 +1,61 @@
 <mat-card *ngIf="task" class="flex-col container">
-    <div class="flex-col task-definition">
-        <h3>{{ task.name }}</h3>
+    <div class="flex-col task-definition" [@expandCollapseDefinition]="isExpanded ? 'expanded' : 'collapsed'">
+        <div class="flex-row" style="justify-content: space-between;">
+            <h3>{{ task.name }}</h3>
+            <h3 *ngIf="taskProgress.status === 'Graded'"> Bodovi: {{ taskProgress.totalScore }} / {{task.maxPoints}} </h3>
+        </div>
         <div class="text-alignment task-description">
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
         </div>
+        <div style="margin: 10px" *ngIf="!selectedStep">
+            <button mat-raised-button color="primary" (click)="toggleExpansion()">Započni rešavanje</button>
+        </div>
         <mat-divider style="border-width: 4px;"></mat-divider>
     </div>
-    <div class="flex-row task-content">
+    <div class="flex-row task-content" [@expandCollapseContent]="isExpanded ? 'expanded' : 'collapsed'">
         <div class="steps flex-col" style="justify-content: space-between;">
-            <div>
+            <div *ngIf="isExpanded">
                 <div *ngFor="let step of steps; index as i" class="theme-hover">
-                    <div [class.theme-highlight-primary]="selectedStep.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
+                    <div [class.theme-highlight-primary]="selectedStep?.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;">
                         <div style="padding: 0 5px 0 15px">
-                            <mat-icon *ngIf="isAnswered(step)" color="primary">check_circle</mat-icon>
-                            <mat-icon *ngIf="!isAnswered(step)">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="step.progress.answer" color="primary">check_circle</mat-icon>
+                            <mat-icon *ngIf="!step.progress.answer">radio_button_unchecked</mat-icon>
                         </div>
                         <span style="padding: 5px">{{ step.order }}. {{ step.name }}</span>
                     </div>
                     <mat-divider *ngIf="i < steps.length -1"></mat-divider>
                 </div>
             </div>
-            <div style="margin: 10px 10px 20px auto">
-                <button mat-raised-button [color]="taskProgress.status === 'Completed' ? 'primary' : ''"
+            <div style="margin: 10px auto 10px 10px">
+                <button mat-raised-button [color]="taskProgress.status === 'Completed' || taskProgress.status === 'Graded' ? 'primary' : ''"
                     [routerLink]="['/courses', courseId, 'units', task.unitId]">Lekcija</button>
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
         <mat-tab-group (focusChange)="onTabChanged($event)" *ngIf="selectedStep" style="width: 75%;" dynamicHeight animationDuration="0"
             [selectedIndex]="selectedTab.value" (selectedIndexChange)="selectedTab.setValue($event)">
-            <mat-tab label="Submisija rešenja">
+
+            <mat-tab label="Rezultat" *ngIf="selectedStep.progress.status === 'Graded'">
+                <div class="tabs">
+                    <div>
+                        <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
+                            <b>Kako smo ocenili tvoje rešenje?</b>
+                            <div *ngFor="let standard of selectedStep.standards" style="margin-top: 10px;">
+                                <div class="flex-row gap">
+                                  <span style="flex-grow: 1;">{{ standard.name }}</span>
+                                  <span style="min-width: 70px;"> <b> {{ getPoints(standard.id) }} </b> / {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
+                                </div>
+                                <div *ngIf="getComment(standard.id)"> <b>Komentar:</b> {{ getComment(standard.id) }} </div>
+                            </div>
+                        </div>
+                        <div *ngIf="selectedStep.progress.comment" style="margin-top: 10px;">
+                            <b>Dodatan komentar:</b> {{ selectedStep.progress.comment }}
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <mat-tab label="Slanje rešenja">
                 <div class="tabs">
                     <div class="flex-col gap" style="justify-content: space-between;">
                         <div *ngIf="selectedStep.standards && selectedStep.standards.length > 0">
@@ -38,17 +65,18 @@
                                 <span style="min-width: 70px;">/ {{ standard.maxPoints + (standard.maxPoints === 1 ? ' bod' : ' boda') }}</span>
                             </div>
                         </div>
-                        <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ selectedStep.submissionFormat.guidelines }}</markdown>
+                        <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" [data]="selectedStep.submissionFormat.guidelines"></markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
-                            <mat-form-field appearance="fill" style="width: 100%;">
+                            <span *ngIf="selectedStep.progress.status === 'Graded'" style="color: gray;">Nije moguće menjati ocenjeno rešenje.</span>
+                            <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;" [appearance]="selectedStep.progress.status === 'Graded' ? 'outline' : 'fill'">
                                 <mat-label>Rešenje</mat-label>
-                                <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
+                                <small><textarea formControlName="answer" matInput rows="10" [readonly]="selectedStep.progress.status === 'Graded'"></textarea></small>
                             </mat-form-field>
                         </form>
                         <div class="flex-row gap" style="margin-bottom: 20px">
-                            <button mat-raised-button [color]="isAnswered(selectedStep) ? '' : 'primary'"
+                            <button *ngIf="selectedStep.progress.status !== 'Graded'" mat-raised-button [color]="selectedStep.progress.answer ? '' : 'primary'"
                                 [disabled]="answerForm.invalid" (click)="submitAnswer()">Sačuvaj</button>
-                            <button *ngIf="selectedStepIndex < steps.length - 1" mat-raised-button [color]="isAnswered(selectedStep) ? 'primary' : ''"
+                            <button *ngIf="selectedStepIndex < steps.length - 1" mat-raised-button [color]="selectedStep.progress.answer ? 'primary' : ''"
                                 (click)="viewStep(steps[selectedStepIndex+1])">Sledeći korak</button>
                         </div>
                     </div>
