@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
 import { Learner } from '../model/learner.model';
@@ -18,6 +18,7 @@ export class GradingComponent implements OnInit, OnChanges {
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
+  @Output() unitsChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   selectedDate: Date;
 
@@ -35,15 +36,34 @@ export class GradingComponent implements OnInit, OnChanges {
       this.getUnits();
   }
 
-  ngOnChanges() {
-    if (this.selectedUnitId) {
-      this.getTaskProgresses();
+  ngOnChanges(changes: SimpleChanges): void {
+    if(!changes) return;
+
+    if(this.changeOccured(changes.learners)) {
+      this.getUnits();
+    }
+
+    if(this.changeOccured(changes.selectedLearnerId)) {
+      if (this.selectedUnitId) {
+        this.getTaskProgresses();
+      }
     }
   }
 
+  private changeOccured(changedField: { currentValue: any, previousValue: any }) {
+    return changedField && changedField.currentValue && changedField.currentValue !== changedField.previousValue;
+  }
+
   private getUnits() {
-    this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units =>
-        this.units = units.sort((a, b) => a.order - b.order));
+    if(!this.selectedDate) return;
+    this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
+      this.units = units.sort((a, b) => a.order - b.order);
+      if(this.selectedUnitId && !this.units.some(u => u.id === this.selectedUnitId)) this.selectedUnitId = 0;
+
+      this.gradingService.getGroupSummaries(units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
+        this.unitsChanged.emit(summaries);
+      });
+    });
   }
 
   public onDateChange(event: MatDatepickerInputEvent<Date>) {

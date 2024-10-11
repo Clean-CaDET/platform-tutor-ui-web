@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { Group } from '../model/group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
 import { Learner } from '../model/learner.model';
+import { TaskProgress } from '../grading/model/task-progress';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -52,4 +53,10 @@ export class GroupMonitoringComponent implements OnInit {
     this.selectedLearner = this.learners.find(learner => learner.id === learnerId);
   }
 
+  public getTaskSummaries(taskProgress: TaskProgress[]) {
+    this.learners.forEach(l => {
+      l.completedTaskCount = taskProgress.filter(p => p.learnerId === l.id && p.status === 'Completed').length;
+      l.completedStepCount = taskProgress.filter(p => p.learnerId === l.id).flatMap(p => p.stepProgresses).filter(p => p.status === 'Answered').length;
+    });
+  }
 }
