@@ -19,13 +19,13 @@
         </span>
         <span>
           <small>Status</small><br>
-          <mat-icon *ngIf="unit.groupEnrollment.status === 'Active'" matTooltip="Pristup je omogućen za sve studente">check_circle</mat-icon>
+          <mat-icon *ngIf="unit.groupEnrollment.status === 'Active' || unit.groupEnrollment.status === 'Completed'" matTooltip="Pristup je omogućen za sve studente">check_circle</mat-icon>
           <mat-icon *ngIf="unit.groupEnrollment.status === 'InactiveAll'" matTooltip="Nije omogućen pristup za sve studente">cancel</mat-icon>
           <mat-icon *ngIf="unit.groupEnrollment.status === 'InactiveSome'" color="warn" matTooltip="Deo studenata nema pristup. To se može desiti kada je student naknadno dodat u grupu i tada samo treba omogućiti pristup lekciji da rešiš problem. Ako ovo nije slučaj javi se administratoru.">cancel</mat-icon>
         </span>
         <span class="flex-row gap">
           <span></span>
-          <button [disabled]="unit.groupEnrollment.status === 'Active'" mat-mini-fab (click)="startEnrollment(unit)" [color]="unit.groupEnrollment.status === 'InactiveSome' ? 'warn' : ''" matTooltip="Omogući pristup lekciji">
+          <button [disabled]="unit.groupEnrollment.status === 'Active' || unit.groupEnrollment.status === 'Completed'" mat-mini-fab (click)="startEnrollment(unit)" [color]="unit.groupEnrollment.status === 'InactiveSome' ? 'warn' : ''" matTooltip="Omogući pristup lekciji">
             <mat-icon>refresh</mat-icon>
           </button>
           <button [disabled]="unit.groupEnrollment.status === 'InactiveAll'" mat-mini-fab (click)="groupUnenroll(unit)" color="" matTooltip="Blokiraj pristup lekciji">

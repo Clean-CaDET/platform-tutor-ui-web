@@ -84,7 +84,7 @@
             </mat-tab>
             <mat-tab label="Smernice">
                 <div class="tabs text-alignment">
-                    <markdown [data]="selectedStep.guidance" clipboard [clipboardButtonComponent]="clipboard"></markdown>
+                    <markdown lineNumbers [data]="selectedStep.guidance" clipboard [clipboardButtonComponent]="clipboard"></markdown>
                     <div *ngIf="selectedStep.subactivities">
                         <cc-subactivities (videoStatusChanged)="onSubStepVideoStatusChanged($event)" [selectedStep]="selectedStep" [order]="selectedStep.order"></cc-subactivities>
                     </div>
