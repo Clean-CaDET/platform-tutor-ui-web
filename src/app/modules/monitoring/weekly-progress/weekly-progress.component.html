@@ -151,5 +151,14 @@
     <div class="flex-col mentor-panel">
         <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [selectedDate]="selectedDate"
             [rating]="weeklyRatings" [results]="weeklyResults"></cc-weekly-feedback>
+        <div class="flex-row gap" style="height: 48px; justify-content: flex-end; align-items: center;">
+            <button mat-icon-button (click)="changeLearner(-1)">
+                <span><mat-icon>arrow_back_ios_new</mat-icon></span>
+            </button>
+            <mat-icon matTooltip="Student">person</mat-icon>
+            <button mat-icon-button (click)="changeLearner(1)">
+                <span><mat-icon>arrow_forward_ios_new</mat-icon></span>
+            </button>
+        </div>
     </div>
 </div>
