@@ -132,4 +132,12 @@ export class WeeklyProgressComponent implements OnChanges {
       updateTimelineItems(relatedUnit);
     });
   }
+
+  public changeLearner(direction: number) {
+    const currentLearner = this.learners.find(learner => learner.id == this.selectedLearnerId);
+    const currentIndex = this.learners.indexOf(currentLearner);
+    const newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
+    this.selectedLearnerId = this.learners[newIndex].id;
+    this.learnerChanged.emit(this.selectedLearnerId);
+  }
 }

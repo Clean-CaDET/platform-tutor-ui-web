@@ -93,9 +93,9 @@ export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
         tagText = 'Code';
         break;
       case 'link':
-          tagBegin = '<a href="';
-          tagEnd= '" target="_blank">Text</a>'
-          tagText = 'Url';
+          tagBegin = '<a href="URL" target="_blank">';
+          tagEnd= '</a>'
+          tagText = 'Text';
           break;
       case 'h1':
         tagBegin = '# ';

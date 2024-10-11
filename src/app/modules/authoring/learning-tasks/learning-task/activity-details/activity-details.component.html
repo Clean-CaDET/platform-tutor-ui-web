@@ -76,7 +76,7 @@
             </section>
             <div>
                 <b *ngIf="!editMode">Uputstvo za formatiranje odgovora</b>
-                <markdown *ngIf="!editMode" [data]="activityForm.get('submissionFormat').get('guidelines').value" linenumbers></markdown>
+                <markdown *ngIf="!editMode" [data]="activityForm.get('submissionFormat').get('guidelines').value" lineNumbers></markdown>
                 <cc-markdown-editor *ngIf="editMode" [label]="'Uputstvo za formatiranje odgovora *'"
                     [text]="activityForm.get('submissionFormat').get('guidelines').value" (textChanged)="this.activityForm.get('submissionFormat').get('guidelines').setValue($event)">
                 </cc-markdown-editor>

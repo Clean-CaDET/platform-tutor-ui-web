@@ -3,4 +3,8 @@ export interface Learner {
   index: string;
   name: string;
   surname: string;
+  
+  // Grading summaries
+  completedTaskCount: number;
+  completedStepCount: number;
 }

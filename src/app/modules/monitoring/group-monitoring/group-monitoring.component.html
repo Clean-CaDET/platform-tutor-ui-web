@@ -12,10 +12,16 @@
     <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
         <div *cdkVirtualFor="let learner of learners">
             <div [class.theme-highlight-primary]="selectedLearner?.id===learner.id"
-              class="theme-hover"
+              class="theme-hover flex-row"
               style="padding: 10px; cursor: pointer;" (click)="selectedLearner = learner">
+              <div style="flex-grow: 1;">
                 <small style="font-size: 12px;">{{learner.index}}</small><br>
                 <span>{{learner.name}} {{learner.surname}}</span>
+              </div>
+              <div *ngIf="learners?.length > 0 && mode === 'grading'" class="theme-warn">
+                <span *ngIf="learner.completedTaskCount" matTooltip="Broj urađenih i neocenjenih zadataka">{{learner.completedTaskCount}}</span><br>
+                <small *ngIf="learner.completedStepCount" matTooltip="Broj urađenih i neocenjenih koraka">{{learner.completedStepCount}}</small>
+              </div>
             </div>
             <mat-divider></mat-divider>
         </div>
@@ -27,7 +33,7 @@
         <cc-enrollments [courseId]="courseId" [learners]="learners"></cc-enrollments>
       </div>
       <div *ngIf="selectedLearner && mode === 'grading'">
-        <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-grading>
+        <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)" (unitsChanged)="getTaskSummaries($event)"></cc-grading>
       </div>
       <div *ngIf="selectedLearner && mode === 'progress'">
         <cc-weekly-progress [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-weekly-progress>

@@ -39,4 +39,8 @@ export class GradingService {
   submitGrade(unitId: number, progressId: number, stepProgress: StepProgress): Observable<TaskProgress> {
     return this.http.put<TaskProgress>(this.baseUrl + unitId + '/task-progress/' + progressId + '/steps', stepProgress);
   }
+
+  getGroupSummaries(unitIds: number[], learnerIds: number[]): Observable<TaskProgress[]> {
+    return this.http.post<TaskProgress[]>(this.baseUrl + "group-summaries", {unitIds, learnerIds});
+  }
 }
