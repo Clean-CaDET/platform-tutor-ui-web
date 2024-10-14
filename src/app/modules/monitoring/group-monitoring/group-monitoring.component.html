@@ -18,9 +18,13 @@
                 <small style="font-size: 12px;">{{learner.index}}</small><br>
                 <span>{{learner.name}} {{learner.surname}}</span>
               </div>
-              <div *ngIf="learners?.length > 0 && mode === 'grading'" class="theme-warn">
+              <div *ngIf="mode === 'grading'" class="theme-warn">
                 <span *ngIf="learner.completedTaskCount" matTooltip="Broj urađenih i neocenjenih zadataka">{{learner.completedTaskCount}}</span><br>
                 <small *ngIf="learner.completedStepCount" matTooltip="Broj urađenih i neocenjenih koraka">{{learner.completedStepCount}}</small>
+              </div>
+              <div *ngIf="mode === 'progress'">
+                <mat-icon *ngIf="learner.semaphore" [matTooltip]="learner.semaphoreJustification" [color]="learner.semaphore == 1 ? 'warn' : learner.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
+                <mat-icon *ngIf="!learner.semaphore" matTooltip="Nema povratne informacije o studentu za nedelju">radio_button_off</mat-icon>
               </div>
             </div>
             <mat-divider></mat-divider>
@@ -36,7 +40,7 @@
         <cc-grading [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)" (unitsChanged)="getTaskSummaries($event)"></cc-grading>
       </div>
       <div *ngIf="selectedLearner && mode === 'progress'">
-        <cc-weekly-progress [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)"></cc-weekly-progress>
+        <cc-weekly-progress [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)" (dateChanged)="getGroupFeedback($event)"></cc-weekly-progress>
       </div>
   </div>
 </div>
