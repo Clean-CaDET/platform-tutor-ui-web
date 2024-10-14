@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { WeeklyActivityService } from './weekly-activity.service';
@@ -12,15 +12,16 @@ import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisf
   templateUrl: './weekly-progress.component.html',
   styleUrls: ['./weekly-progress.component.scss']
 })
-export class WeeklyProgressComponent implements OnChanges {
+export class WeeklyProgressComponent implements OnInit, OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
   groupMemberIds: Set<number>;
   allRatings: UnitProgressRating[];
-
+  
   selectedDate: Date;
+  @Output() dateChanged = new EventEmitter<Date>();
 
   units: UnitHeader[] = [];
   weeklyRatings: WeeklyRatingStatistics;
@@ -28,6 +29,15 @@ export class WeeklyProgressComponent implements OnChanges {
   
   constructor(private weeklyActivityService: WeeklyActivityService) {
     this.selectedDate = new Date();
+  }
+
+  ngOnInit() {
+    if(!this.learners?.length) return;
+    this.loadGroupSemaphores();
+  }
+
+  public loadGroupSemaphores() {
+    this.dateChanged.emit(this.selectedDate);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -50,6 +60,7 @@ export class WeeklyProgressComponent implements OnChanges {
   public onDateChange(event: MatDatepickerInputEvent<Date>) {
     if(!event?.value) return;
     this.selectedDate = event.value;
+    this.loadGroupSemaphores();
     this.getUnits();
   }
 

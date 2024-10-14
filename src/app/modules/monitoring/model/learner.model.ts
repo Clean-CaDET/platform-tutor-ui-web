@@ -7,4 +7,8 @@ export interface Learner {
   // Grading summaries
   completedTaskCount: number;
   completedStepCount: number;
+
+  // Feedback summaries
+  semaphore: number;
+  semaphoreJustification: string;
 }
