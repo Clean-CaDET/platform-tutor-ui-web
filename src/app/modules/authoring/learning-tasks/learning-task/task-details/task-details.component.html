@@ -9,7 +9,7 @@
                 <mat-label>R. broj</mat-label>
                 <input type="number" formControlName="order" matInput [readonly]="!editMode">
             </mat-form-field>
-            <section matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Učenik vidi samo konkretne zadatke.">
+            <section matTooltip="Šablon definiše klasu sličnih zadataka. Nastavnik prvo definiše šablon zadatka, njegove korake i opšte smernice. Zatim klonira šablon da definiše konkretne zadatke i po potrebi menja (konkretizuje) korake i smernice. Student vidi samo konkretne zadatke.">
                 <mat-checkbox formControlName="isTemplate" [disabled]="!editMode" style="padding-top: 10px;">
                     Šablon
                     <mat-icon style="font-size: 16px;">help_outline</mat-icon>
