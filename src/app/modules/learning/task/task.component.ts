@@ -56,8 +56,12 @@ export class TaskComponent implements OnInit {
   selectedStep: Activity;
   selectedStepIndex: number;
   answerForm: FormGroup;
+  
   selectedExample: ActivityExample;
   videoUrl: string;
+  viewingVideo: boolean;
+  videoPlaybackStatus: number;
+  videoEventDelayerId: number;
 
   courseId: number;
   selectedTab = new FormControl(0);
@@ -78,50 +82,15 @@ export class TaskComponent implements OnInit {
     if(tabChangeEvent.tab.textLabel === "Slanje rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
+      this.viewingVideo = false;
     } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
+      this.viewingVideo = false;
     } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-    }
-  }
-
-  public onVideoStatusChanged(event: any): void {
-    if (event.data === 0) {
-      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        this.videoUrl
-      )
-      .subscribe()
-    } else if (event.data === 1) {
-      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        this.videoUrl
-      )
-      .subscribe()
-    } else if (event.data === 2) {
-      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        this.videoUrl
-      )
-      .subscribe()
-    }
-  }
-
-  public onSubStepVideoStatusChanged(event: any): void {
-    if (event.videoStatus === 0) {
-      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        event.videoUrl
-      )
-      .subscribe()
-    } else if (event.videoStatus === 1) {
-      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        event.videoUrl
-      )
-      .subscribe()
-    } else if (event.videoStatus === 2) {
-      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
-        event.videoUrl
-      )
-      .subscribe()
+      this.viewingVideo = true;
     }
   }
 
@@ -212,6 +181,34 @@ export class TaskComponent implements OnInit {
       this.selectedExample = this.selectedStep.examples[0];
     }
     this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+  }
+
+  onVideoStatusChanged(event: any): void {
+    window.clearTimeout(this.videoEventDelayerId);
+    this.videoEventDelayerId = window.setTimeout(() => this.sendVideoEvent(event), 300);
+  }
+
+  sendVideoEvent(event: any) {
+    if(event.data > 2) return;
+    if(event.data === this.videoPlaybackStatus) return;
+    this.videoPlaybackStatus = event.data;
+
+    if (event.data === 0) {
+      this.progressService.exampleVideoFinished(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl || this.videoUrl
+      )
+      .subscribe()
+    } else if (event.data === 1) {
+      this.progressService.exampleVideoPlayed(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl || this.videoUrl
+      )
+      .subscribe()
+    } else if (event.data === 2) {
+      this.progressService.exampleVideoPaused(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id,
+        event.videoUrl || this.videoUrl
+      )
+      .subscribe()
+    }
   }
 
   public getPoints(standardId: number): number {

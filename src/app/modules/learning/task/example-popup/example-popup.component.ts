@@ -33,21 +33,21 @@ export class ExamplePopupComponent {
     if (event.data === 0) {
       this.videoStatusChanged.emit(
         {
-          videoStatus: 0,
+          data: 0,
           videoUrl: this.videoUrl
         }
       )
     } else if (event.data === 1) {
       this.videoStatusChanged.emit(
         {
-          videoStatus: 1,
+          data: 1,
           videoUrl: this.videoUrl
         }
       )
     } else if (event.data === 2) {
       this.videoStatusChanged.emit(
         {
-          videoStatus: 2,
+          data: 2,
           videoUrl: this.videoUrl
         }
       )
