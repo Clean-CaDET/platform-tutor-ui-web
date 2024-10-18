@@ -1,6 +1,6 @@
 <mat-dialog-content>
   <div class="flex-col" *ngIf="!checkView">
-      <h3>Uvezivanje više učenika <mat-icon matTooltip="Jedno korisničko ime po redu.">help_outline</mat-icon></h3>
+      <h3>Uvezivanje više studenata <mat-icon matTooltip="Jedno korisničko ime po redu.">help_outline</mat-icon></h3>
       <form class="flex-col" [formGroup]="formGroup">
           <mat-form-field appearance="fill" style="width: 100%;">
               <textarea matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="Jedno korisničko ime po redu"></textarea>
@@ -12,7 +12,7 @@
       </form>
   </div>
   <div *ngIf="checkView" class="flex-col gap">
-    <h3>Učenici koji su pronađeni</h3>
+    <h3>Studenti koji su pronađeni</h3>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" *ngIf="learners.length > 0">
       <ng-container matColumnDef="num">
         <th mat-header-cell *matHeaderCellDef>#</th>
@@ -42,7 +42,7 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
     <div *ngIf="missingEntries.length > 0">
-      <h3>Učenici koji nisu pronađeni</h3>
+      <h3>Studenti koji nisu pronađeni</h3>
       <div *ngFor="let e of missingEntries">{{e}}</div>
     </div>
     <div class="flex-row gap">

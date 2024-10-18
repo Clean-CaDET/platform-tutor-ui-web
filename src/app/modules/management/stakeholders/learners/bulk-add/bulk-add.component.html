@@ -1,8 +1,8 @@
-<mat-dialog-content style="height: 100%;">
+<mat-dialog-content>
   <div class="flex-col" *ngIf="!checkView">
-  <h3>Unos više učenika <mat-icon matTooltip="Jedna stavka po redu. Podaci se razdvajaju zarezom. Podaci su: korisničko ime, lozinka, ime, prezime, email.">help_outline</mat-icon></h3>
+  <h3>Unos više studenata <mat-icon matTooltip="Jedna stavka po redu. Podaci se razdvajaju zarezom. Podaci su: korisničko ime, lozinka, ime, prezime, email.">help_outline</mat-icon></h3>
   <form class="flex-col" [formGroup]="formGroup">
-    <mat-label class="required">Tip učenika</mat-label>
+    <mat-label class="required">Tip studenta</mat-label>
     <mat-radio-group formControlName="learnersType" class="flex-row gap">
       <mat-radio-button *ngFor="let type of learnerTypes" [value]="type.value">
         {{type.label}}
@@ -10,7 +10,7 @@
     </mat-radio-group>
     <mat-error *ngIf="formGroup.controls['learnersType'].invalid && formGroup.controls['learnersType'].touched">{{getErrorMessage("learnersType")}}</mat-error>
     <mat-form-field appearance="fill" style="width: 100%;">
-      <textarea matInput style="height: 500px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
+      <textarea matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="korisničko ime, lozinka, ime, prezime, email"></textarea>
     </mat-form-field>
     <div class="flex-row gap">
       <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()">Proveri</button>
