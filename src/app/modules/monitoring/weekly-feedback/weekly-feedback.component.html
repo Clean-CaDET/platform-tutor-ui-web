@@ -26,7 +26,11 @@
                 <mat-label>Na osnovu čega zaključuješ stepen snalaženja?</mat-label>
                 <textarea matInput formControlName="semaphoreJustification" rows="10"></textarea>
             </mat-form-field>
-            <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+            <div class="flex-row">
+                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+                <span style="flex-grow: 1;"></span>
+                <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)">Obriši</button>
+            </div>
         </form>
     </div>
 </div>
