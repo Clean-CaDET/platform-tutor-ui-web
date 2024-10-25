@@ -21,7 +21,7 @@ export class GradingComponent implements OnInit, OnChanges {
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
-  @Output() unitsChanged = new EventEmitter<TaskProgress[]>();
+  @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   selectedDate: Date;
 
@@ -32,7 +32,6 @@ export class GradingComponent implements OnInit, OnChanges {
   
   gradingForm: FormGroup;
   structuredFormShown: boolean;
-
   systemPrompt: string = gradingInstruction;
 
   constructor(private gradingService: GradingService, private builder: FormBuilder, private clipboard: Clipboard, private snackBar: MatSnackBar) { }
@@ -63,10 +62,13 @@ export class GradingComponent implements OnInit, OnChanges {
     this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       this.units = units.sort((a, b) => a.order - b.order);
       if(this.selectedUnitId && !this.units.some(u => u.id === this.selectedUnitId)) this.selectedUnitId = 0;
+      this.updateGradeSummaries();
+    });
+  }
 
-      this.gradingService.getGroupSummaries(units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
-        this.unitsChanged.emit(summaries);
-      });
+  private updateGradeSummaries() {
+    this.gradingService.getGroupSummaries(this.units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
+      this.gradesChanged.emit(summaries);
     });
   }
 
@@ -163,6 +165,7 @@ export class GradingComponent implements OnInit, OnChanges {
       .subscribe(data => {
         this.selectedStep.progress = data.stepProgresses.find(stepProgress => stepProgress.stepId === this.selectedStep.id);
         this.selectedStep.progress.taskProgressId = taskProgessId;
+        this.updateGradeSummaries();
       });
   }
 
