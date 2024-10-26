@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
 import { Learner } from '../model/learner.model';
@@ -7,6 +8,8 @@ import { LearningTask } from './model/learning-task';
 import { Step } from './model/step';
 import { TaskProgress } from './model/task-progress';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { gradingInstruction } from './model/grading.constants';
 
 @Component({
   selector: 'cc-grading',
@@ -18,7 +21,7 @@ export class GradingComponent implements OnInit, OnChanges {
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
-  @Output() unitsChanged = new EventEmitter<TaskProgress[]>();
+  @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   selectedDate: Date;
 
@@ -28,8 +31,10 @@ export class GradingComponent implements OnInit, OnChanges {
   selectedStep: Step;
   
   gradingForm: FormGroup;
+  structuredFormShown: boolean;
+  systemPrompt: string = gradingInstruction;
 
-  constructor(private gradingService: GradingService, private builder: FormBuilder) { }
+  constructor(private gradingService: GradingService, private builder: FormBuilder, private clipboard: Clipboard, private snackBar: MatSnackBar) { }
  
   ngOnInit() {
       this.selectedDate = new Date();
@@ -38,11 +43,9 @@ export class GradingComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes) return;
-
     if(this.changeOccured(changes.learners)) {
       this.getUnits();
     }
-
     if(this.changeOccured(changes.selectedLearnerId)) {
       if (this.selectedUnitId) {
         this.getTaskProgresses();
@@ -59,10 +62,13 @@ export class GradingComponent implements OnInit, OnChanges {
     this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       this.units = units.sort((a, b) => a.order - b.order);
       if(this.selectedUnitId && !this.units.some(u => u.id === this.selectedUnitId)) this.selectedUnitId = 0;
+      this.updateGradeSummaries();
+    });
+  }
 
-      this.gradingService.getGroupSummaries(units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
-        this.unitsChanged.emit(summaries);
-      });
+  private updateGradeSummaries() {
+    this.gradingService.getGroupSummaries(this.units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
+      this.gradesChanged.emit(summaries);
     });
   }
 
@@ -114,15 +120,7 @@ export class GradingComponent implements OnInit, OnChanges {
 
   public isUnanswered(step: Step): boolean {
     if(!step.progress) return true;
-    return !this.isAnswered(step) && !this.isGraded(step);
-  }
-
-  public isAnswered(step: Step): boolean {
-    return step.progress?.status === 'Answered';
-  }
-
-  public isGraded(step: Step): boolean {
-    return step.progress?.status === 'Graded';
+    return step.progress.status !== 'Answered' && step.progress.status !== 'Graded';
   }
 
   public select(task: LearningTask, step: Step) {
@@ -132,10 +130,12 @@ export class GradingComponent implements OnInit, OnChanges {
   }
 
   private createForm() {
+    this.structuredFormShown = true;
     this.gradingForm = this.builder.group({
       stepId: this.selectedStep.id,
       evaluations: this.createEvaluations(),
-      comment: new FormControl(this.selectedStep.progress?.comment ?? '')
+      comment: new FormControl(this.selectedStep.progress?.comment ?? ''),
+      rawEvaluation: new FormControl(''),
     });
   }
 
@@ -159,11 +159,56 @@ export class GradingComponent implements OnInit, OnChanges {
 
   public submit() {
     const taskProgessId = this.selectedStep.progress.taskProgressId;
-    this.gradingService.submitGrade(this.selectedUnitId, taskProgessId, this.gradingForm.value)
+    const grade = this.gradingForm.value;
+    delete grade.rawEvaluation;
+    this.gradingService.submitGrade(this.selectedUnitId, taskProgessId, grade)
       .subscribe(data => {
         this.selectedStep.progress = data.stepProgresses.find(stepProgress => stepProgress.stepId === this.selectedStep.id);
         this.selectedStep.progress.taskProgressId = taskProgessId;
+        this.updateGradeSummaries();
       });
+  }
+
+  public copyPrompt() {
+    if(this.structuredFormShown) {
+      this.structuredFormShown = false;
+      this.gradingForm.get('rawEvaluation').setValue('');
+    }
+    let standards = '';
+    this.selectedStep.standards.forEach(s => {
+      standards += `ID: ${s.id}; Name: ${s.name}; Guidelines: ${s.description}; Max points: ${s.maxPoints}\n`;
+    });
+    let prompt = this.createTag('instruction', this.systemPrompt);
+    prompt += this.createTag('task',
+      this.createTag('description', this.selectedTask.description + '\n' + this.selectedStep.submissionFormat.guidelines) +
+      this.createTag('learner-submission', this.selectedStep.progress?.answer) +
+      this.createTag('standards', standards)
+    );
+    this.clipboard.copy(prompt);
+    this.snackBar.open('Kopiran sadržaj za ChatGPT. Odgovor stavi u "Sirova evaluacija" i klikni "Zameni formu".', "OK", { horizontalPosition: 'right', verticalPosition: 'bottom', duration: 3000 });
+  }
+
+  private createTag(tag: string, content: string): string {
+    return `<${tag}>\n${content}\n</${tag}>\n`;
+  }
+
+  public showStructuredForm() {
+    if(this.structuredFormShown) {
+      this.gradingForm.get('rawEvaluation').setValue(JSON.stringify(this.evaluations.value, null, 2));
+    } else {
+      try {
+        const rawEvaluation: any[] = JSON.parse(this.gradingForm.get('rawEvaluation').value);
+        this.evaluations.controls.forEach(c => {
+          const standardId = c.value.standardId;
+          const relatedEvaluation = rawEvaluation.find(e => e['standardId'] === standardId);
+          if(!relatedEvaluation) return;
+          c.setValue(relatedEvaluation);
+        })
+      } catch(e) {
+        console.log(e);
+      }
+    }
+    this.structuredFormShown = !this.structuredFormShown;
   }
 
   public changeLearner(direction: number) {
