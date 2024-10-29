@@ -107,7 +107,7 @@ export class BulkAddComponent implements OnInit {
 
   getErrorMessage(controlName: string): string {
     if(this.formGroup.controls[controlName].hasError('required')) {
-      return 'Unos je obavezan.';
+      return 'Obavezno odaberi.';
     }
   }
 }
