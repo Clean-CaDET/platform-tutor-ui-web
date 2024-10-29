@@ -53,7 +53,7 @@
             <mat-divider style="border-width: 3px;"></mat-divider>
             <div style="flex: 1; overflow-y: auto;">
                 <div style="max-height: 50%; padding: 10px; overflow: auto;">
-                    <markdown *ngIf="selectedStep?.submissionFormat.type === 'Text'" [data]="'```\n'+selectedStep.progress?.answer"></markdown>
+                    <pre *ngIf="selectedStep?.submissionFormat.type === 'Text'">{{ selectedStep.progress?.answer }}</pre>
                     <markdown lineNumbers *ngIf="selectedStep?.submissionFormat.type === 'Code'" [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
                     <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
                         [href]="selectedStep.progress?.answer" target="_blank">{{ selectedStep.progress?.answer }}</a>
