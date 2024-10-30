@@ -1,0 +1,46 @@
+<div class="flex-col" style="height: 100vh; overflow: hidden;">
+    <div class="flex-row gap" style="width: 100%;">
+        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em" *ngIf="courses?.length">
+            <mat-label>Posmatran kurs</mat-label>
+            <mat-select [(value)]="selectedCourseId" (selectionChange)="getGroups()">
+                <mat-option *ngFor="let c of courses" [value]="c.id">
+                    {{c.code}} - {{c.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <mat-divider></mat-divider>
+    <div class="flex-col gap course-overview" style="padding: 10px;" *ngIf="groups?.length">
+        <div *ngFor="let g of groups">
+            <h3>{{g.name}}</h3>
+            <div class="flex-row gap" style="flex-wrap: wrap;">
+            <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px;">
+                <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small><br>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td><mat-icon matTooltip="Mišljenje mentora o progresu">traffic</mat-icon></td>
+                        <td><mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon></td>
+                        <td><mat-icon matTooltip="Osvojeni poeni na zadacima">checklist_rtl</mat-icon></td>
+                    </tr>
+                    <tr *ngFor="let f of l.recentFeedback">
+                        <td>{{f.weekEnd | date:'dd.MM.'}}</td>
+                        <td>
+                            <mat-icon [matTooltip]="f.semaphoreJustification"
+                            [color]="f.semaphore == 1 ? 'warn' : f.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon [matTooltip]="f.averageSatisfaction"
+                            [color]="f.averageSatisfaction < 2.33 ? 'warn' : f.averageSatisfaction > 3.67 ? 'primary' : 'accent'">circle</mat-icon>
+                        </td>
+                        <td>
+                            <mat-icon [matTooltip]="f.achievedPercentage+'%'"
+                            [color]="f.achievedPercentage < 33 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
+                        </td>
+                    </tr>
+                </table>
+            </mat-card>
+            </div>
+        </div>
+    </div>
+</div>

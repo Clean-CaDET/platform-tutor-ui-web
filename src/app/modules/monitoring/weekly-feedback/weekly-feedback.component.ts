@@ -77,7 +77,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       learnerId: this.learnerId,
       averageSatisfaction: this.rating?.avgLearnerSatisfaction,
       achievedTaskPoints: this.results?.totalLearnerPoints,
-      maxTaskPoints: this.results?.totalMaxPoints,
+      maxTaskPoints: this.results?.totalMaxPoints
     });
     this.feedback.push(this.selectedFeedback);
     this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());

@@ -19,6 +19,7 @@ import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learn
 import { TaskComponent } from '../modules/learning/task/task.component';
 import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit-details.component';
 import { ConfirmExitGuard } from './confirm-leave.guard';
+import { CourseMonitoringComponent } from '../modules/monitoring/course-monitoring/course-monitoring.component';
 
 // Generic titles are defined here. Title service is used in components for data-based titles.
 const routes: Routes = [
@@ -122,6 +123,13 @@ const routes: Routes = [
     path: 'management/courses',
     title: 'Tutor - Kursevi',
     component: CoursesComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['administrator'] },
+  },
+  {
+    path: 'monitoring/overview',
+    title: 'Tutor - Aktivna nastava',
+    component: CourseMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },

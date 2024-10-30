@@ -12,4 +12,6 @@ export interface WeeklyFeedback {
     averageSatisfaction: number;
     achievedTaskPoints: number;
     maxTaskPoints: number;
+    
+    achievedPercentage?: number;
 }

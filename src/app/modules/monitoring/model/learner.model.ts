@@ -1,3 +1,5 @@
+import { WeeklyFeedback } from "../weekly-feedback/weekly-feedback.model";
+
 export interface Learner {
   id: number;
   index: string;
@@ -11,4 +13,8 @@ export interface Learner {
   // Feedback summaries
   semaphore: number;
   semaphoreJustification: string;
+
+  // Course overview
+  recentFeedback?: WeeklyFeedback[];
+  feedback?: WeeklyFeedback[];
 }
