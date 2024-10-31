@@ -111,6 +111,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
     if (feedbackForSelectedDate.id === this.selectedFeedback.id) {
       this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
       this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
+      this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }
     this.feedbackService.update(this.courseId, this.selectedFeedback)
       .subscribe();

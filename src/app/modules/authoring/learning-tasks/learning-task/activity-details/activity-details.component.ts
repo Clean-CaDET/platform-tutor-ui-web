@@ -134,7 +134,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.standards.push(this.builder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      maxPoints: new FormControl('', Validators.required)
+      maxPoints: new FormControl('1', Validators.required)
     }));
   }
 
