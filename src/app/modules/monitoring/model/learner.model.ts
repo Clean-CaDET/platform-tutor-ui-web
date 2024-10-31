@@ -16,5 +16,5 @@ export interface Learner {
 
   // Course overview
   recentFeedback?: WeeklyFeedback[];
-  feedback?: WeeklyFeedback[];
+  weeklyFeedback?: WeeklyFeedback[];
 }

@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class CourseMonitoringService {
-  baseUrl: string = `${environment.apiHost}/monitoring/overview/`;
+  baseUrl: string = `${environment.apiHost}monitoring/overview`;
 
   constructor(private http: HttpClient) { }
 
@@ -18,6 +18,6 @@ export class CourseMonitoringService {
   }
 
   GetCourseGroups(courseId: number): Observable<Group[]> {
-    return this.http.get<Group[]>(this.baseUrl + courseId);
+    return this.http.get<Group[]>(this.baseUrl + '/' + courseId);
   }
 }

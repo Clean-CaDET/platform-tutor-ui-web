@@ -16,7 +16,8 @@
             <div class="flex-row gap" style="flex-wrap: wrap;">
             <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px;">
                 <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small><br>
-                <table>
+                <small *ngIf="!l.recentFeedback?.length">Mentor nije još ocenio.</small><br>
+                <table *ngIf="l.recentFeedback?.length">
                     <tr>
                         <td></td>
                         <td><mat-icon matTooltip="Mišljenje mentora o progresu">traffic</mat-icon></td>
@@ -30,12 +31,14 @@
                             [color]="f.semaphore == 1 ? 'warn' : f.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
                         </td>
                         <td>
-                            <mat-icon [matTooltip]="f.averageSatisfaction"
+                            <mat-icon *ngIf="f.averageSatisfaction" [matTooltip]="f.averageSatisfaction"
                             [color]="f.averageSatisfaction < 2.33 ? 'warn' : f.averageSatisfaction > 3.67 ? 'primary' : 'accent'">circle</mat-icon>
+                            <mat-icon *ngIf="!f.averageSatisfaction">radio_button_unchecked</mat-icon>
                         </td>
                         <td>
-                            <mat-icon [matTooltip]="f.achievedPercentage+'%'"
+                            <mat-icon *ngIf="f.achievedPercentage != -1" [matTooltip]="f.achievedPercentage+'%'"
                             [color]="f.achievedPercentage < 33 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
+                            <mat-icon *ngIf="f.achievedPercentage == -1">radio_button_unchecked</mat-icon>
                         </td>
                     </tr>
                 </table>
