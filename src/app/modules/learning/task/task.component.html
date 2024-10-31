@@ -82,7 +82,7 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Smernice">
+            <mat-tab label="Smernice" *ngIf="selectedStep.guidance">
                 <div class="tabs text-alignment">
                     <markdown lineNumbers [data]="selectedStep.guidance" clipboard [clipboardButtonComponent]="clipboard"></markdown>
                     <div *ngIf="selectedStep.subactivities">

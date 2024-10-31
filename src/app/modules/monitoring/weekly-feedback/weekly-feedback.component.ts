@@ -77,7 +77,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       learnerId: this.learnerId,
       averageSatisfaction: this.rating?.avgLearnerSatisfaction,
       achievedTaskPoints: this.results?.totalLearnerPoints,
-      maxTaskPoints: this.results?.totalMaxPoints,
+      maxTaskPoints: this.results?.totalMaxPoints
     });
     this.feedback.push(this.selectedFeedback);
     this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
@@ -111,6 +111,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
     if (feedbackForSelectedDate.id === this.selectedFeedback.id) {
       this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
       this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
+      this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }
     this.feedbackService.update(this.courseId, this.selectedFeedback)
       .subscribe();

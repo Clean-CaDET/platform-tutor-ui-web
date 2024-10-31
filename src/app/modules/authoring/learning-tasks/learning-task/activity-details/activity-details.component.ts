@@ -35,7 +35,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm = this.builder.group({
       code: new FormControl('', [Validators.required, this.uniqueCode(this.activities)]),
       name: new FormControl('', Validators.required),
-      guidance: new FormControl('', Validators.required),
+      guidance: new FormControl(''),
       examples: this.builder.array([]),
     });
 
@@ -134,7 +134,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.standards.push(this.builder.group({
       name: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
-      maxPoints: new FormControl('', Validators.required)
+      maxPoints: new FormControl('1', Validators.required)
     }));
   }
 
@@ -170,15 +170,15 @@ export class ActivityDetailsComponent implements OnChanges {
   private setValidationRule() {
     switch (this.activityForm.value.submissionFormat.type) {
       case "Text": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{1,500}$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{1,1000}$");
         break;
       }
       case "Link": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/commit\\/([a-fA-F0-9]{40})$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("");
         break;
       }
       case "Code": {
-        this.activityForm.get('submissionFormat').get('validationRule').setValue("^.{1,500}$");
+        this.activityForm.get('submissionFormat').get('validationRule').setValue("");
         break;
       }
       case "GitPR": {

@@ -1,17 +1,17 @@
+<h3 mat-dialog-title>Uvezivanje više studenata</h3>
 <mat-dialog-content>
   <div class="flex-col" *ngIf="!checkView">
-      <h3>Uvezivanje više studenata <mat-icon matTooltip="Jedno korisničko ime po redu.">help_outline</mat-icon></h3>
       <form class="flex-col" [formGroup]="formGroup">
           <mat-form-field appearance="fill" style="width: 100%;">
               <textarea matInput style="height: 380px;" formControlName="learners" autocomplete="off" placeholder="Jedno korisničko ime po redu"></textarea>
           </mat-form-field>
-          <div class="flex-row gap">
-            <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()">Proveri</button>
-            <button mat-raised-button (click)="onClose()">Zatvori</button>
-          </div>
       </form>
   </div>
   <div *ngIf="checkView" class="flex-col gap">
+    <div *ngIf="missingEntries.length > 0">
+      <h3>Studenti koji nisu pronađeni</h3>
+      <div *ngFor="let e of missingEntries">{{e}}</div>
+    </div>
     <h3>Studenti koji su pronađeni</h3>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z2" *ngIf="learners.length > 0">
       <ng-container matColumnDef="num">
@@ -41,14 +41,16 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <div *ngIf="missingEntries.length > 0">
-      <h3>Studenti koji nisu pronađeni</h3>
-      <div *ngFor="let e of missingEntries">{{e}}</div>
-    </div>
-    <div class="flex-row gap">
-      <button mat-raised-button color="primary" (click)="onSubmit()">Sačuvaj</button>
-      <button mat-raised-button (click)="onBack()">Nazad</button>
-      <button mat-raised-button (click)="onClose()">Zatvori</button>
-    </div>
   </div>
 </mat-dialog-content>
+<mat-dialog-actions style="padding-left: 24px; padding-bottom: 16px;">
+  <div class="flex-row gap" *ngIf="!checkView">
+    <button mat-raised-button color="primary" [disabled]="formGroup.invalid" (click)="onCheck()">Proveri</button>
+    <button mat-raised-button (click)="onClose()">Zatvori</button>
+  </div>
+  <div class="flex-row gap" *ngIf="checkView">
+    <button mat-raised-button color="primary" (click)="onSubmit()">Sačuvaj</button>
+    <button mat-raised-button (click)="onBack()">Nazad</button>
+    <button mat-raised-button (click)="onClose()">Zatvori</button>
+  </div>
+</mat-dialog-actions>
