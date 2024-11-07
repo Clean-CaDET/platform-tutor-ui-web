@@ -32,12 +32,12 @@
                         </td>
                         <td>
                             <mat-icon *ngIf="f.averageSatisfaction" [matTooltip]="f.averageSatisfaction"
-                            [color]="f.averageSatisfaction < 2.33 ? 'warn' : f.averageSatisfaction > 3.67 ? 'primary' : 'accent'">circle</mat-icon>
+                            [color]="f.averageSatisfaction < 2 ? 'warn' : f.averageSatisfaction >= 2.6 ? 'primary' : 'accent'">circle</mat-icon>
                             <mat-icon *ngIf="!f.averageSatisfaction">radio_button_unchecked</mat-icon>
                         </td>
                         <td>
                             <mat-icon *ngIf="f.achievedPercentage != -1" [matTooltip]="f.achievedPercentage+'%'"
-                            [color]="f.achievedPercentage < 33 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
+                            [color]="f.achievedPercentage < 34 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
                             <mat-icon *ngIf="f.achievedPercentage == -1">radio_button_unchecked</mat-icon>
                         </td>
                     </tr>
