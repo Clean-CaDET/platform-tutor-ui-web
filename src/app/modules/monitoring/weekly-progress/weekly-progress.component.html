@@ -25,13 +25,13 @@
                     <ul *ngIf="weeklyRatings">
                         <li>
                             <span>
-                                <b>Student: {{weeklyRatings.avgLearnerSatisfaction}} / 5 ({{weeklyRatings.learnerSatisfactionCount}} ocena)</b>;
+                                <b>Student: {{weeklyRatings.avgLearnerSatisfaction}} / 4 ({{weeklyRatings.learnerSatisfactionCount}} ocena)</b>;
                             </span>
                             <span>
-                                Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 5 ({{weeklyRatings.groupSatisfactionCount}} ocena);
+                                Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 4 ({{weeklyRatings.groupSatisfactionCount}} ocena);
                             </span>
                             <span>
-                                Sve grupe: {{weeklyRatings.avgTotalSatisfaction}} / 5 ({{weeklyRatings.totalSatisfactionCount}} ocena)
+                                Sve grupe: {{weeklyRatings.avgTotalSatisfaction}} / 4 ({{weeklyRatings.totalSatisfactionCount}} ocena)
                             </span>
                         </li>
                         <li *ngIf="weeklyRatings.comments?.length">
@@ -121,14 +121,14 @@
                                 <small>Kreirano: {{i.time | date:'dd.MM. u HH:mm'}}</small>
                             </div>
                             <div *ngIf="i.item.feedback.learnerProgress">
-                                Ističe {{i.item.feedback.learnerProgress}} / 5 zadovoljstvo svojim napretkom. 
+                                Ističe {{i.item.feedback.learnerProgress}} / 4 zadovoljstvo svojim napretkom. 
                             </div>
                             <div *ngIf="i.item.completedKcNames?.length">
                                 Za komponente znanja:
                                 <ul>
                                     <li *ngFor="let name of i.item.completedKcNames">{{name}}</li>
                                 </ul>
-                                Ističe {{i.item.feedback.instructionClarity}} / 5 jasnoću gradiva i {{i.item.feedback.assessmentClarity}} / 5 jasnoću pitanja. 
+                                Ističe {{i.item.feedback.instructionClarity}} / 4 jasnoću gradiva i {{i.item.feedback.assessmentClarity}} / 4 jasnoću pitanja. 
                             </div>
                             <div *ngIf="i.item.completedTaskNames?.length">
                                 Za zadatke:

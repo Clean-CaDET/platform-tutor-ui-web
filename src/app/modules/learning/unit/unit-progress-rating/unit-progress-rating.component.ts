@@ -50,9 +50,9 @@ export class UnitProgressRatingComponent {
 
   private createForm() {
     this.options = {
-      learnerProgress: ['Slab', 'Umeren', 'Jak'],
-      instructionClarity: ['Nije', 'Ok', 'Veoma'],
-      assessmentClarity: ['Nisu', 'Ok', 'Veoma'],
+      learnerProgress: ['Nikakav', 'Slab', 'Korektan', 'Jak'],
+      instructionClarity: ['Nimalo', 'Slabo', 'Korektno', 'Veoma'],
+      assessmentClarity: ['Nimalo', 'Slabo', 'Korektno', 'Veoma'],
       taskChallenge: ['Teški su', 'Taman', 'Laki su']
     };
     this.ratingForm = this.builder.group({
