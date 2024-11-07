@@ -8,6 +8,7 @@ export interface WeeklyProgressStatistics {
   learnerGradedTaskCount: number;
   totalMaxPoints: number;
   totalLearnerPoints: number;
+  percentPoints: number;
   avgGroupPoints: number;
 
   negativePatterns: {
@@ -67,6 +68,7 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
     learnerGradedTaskCount,
     totalMaxPoints,
     totalLearnerPoints,
+    percentPoints: +(100 * totalLearnerPoints / totalMaxPoints).toFixed(0), // Course monitoring doubles this calculation and it should be centralized on the backend
     avgGroupPoints,
     negativePatterns
   };
@@ -111,7 +113,7 @@ export function calculateWeeklySatisfactionStatistics(ratings: UnitProgressRatin
       avgTotalSatisfaction: calculateAverage(totalSatisfactionGrades),
       learnerSatisfactionCount: learnerSatisfactionGrades.length,
       groupSatisfactionCount: groupSatisfactionGrades.length,
-      totalSatisfactionCount: groupSatisfactionGrades.length,
+      totalSatisfactionCount: totalSatisfactionGrades.length,
       comments: comments
     };
 }

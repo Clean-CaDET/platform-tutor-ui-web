@@ -13,25 +13,25 @@
             Student nije imao nove lekcije u protekloj nedelji.
         </div>
         <div class="flex-col gap tutor-panel" *ngIf="units?.length">
-            <mat-card appearance="outlined">
+            <mat-card appearance="outlined" style="margin-bottom: 20px;">
                 <div class="theme-highlight-primary">
                     <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
                         <mat-icon>bar_chart</mat-icon>
                         Sumarni utisak za nedelju
                     </h2>
                 </div>
-                <div style="padding: 10px;">
+                <div style="padding: 10px;" class="flex-col gap">
                     <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo napretkom</b>
                     <ul *ngIf="weeklyRatings">
-                        <li>
-                            <span>
-                                <b>Student: {{weeklyRatings.avgLearnerSatisfaction}} / 5 ({{weeklyRatings.learnerSatisfactionCount}} ocena)</b>;
+                        <li *ngIf="weeklyRatings.learnerSatisfactionCount">
+                            <span [ngClass]="{ 'theme-warn': weeklyRatings.avgLearnerSatisfaction < 2, 'theme-accent': weeklyRatings.avgLearnerSatisfaction >= 2 && weeklyRatings.avgLearnerSatisfaction < 2.6}">
+                                <b>Student: {{weeklyRatings.avgLearnerSatisfaction}} / 4 ({{weeklyRatings.learnerSatisfactionCount}} ocena)</b>;
                             </span>
                             <span>
-                                Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 5 ({{weeklyRatings.groupSatisfactionCount}} ocena);
+                                Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 4 ({{weeklyRatings.groupSatisfactionCount}} ocena);
                             </span>
                             <span>
-                                Sve grupe: {{weeklyRatings.avgTotalSatisfaction}} / 5 ({{weeklyRatings.totalSatisfactionCount}} ocena)
+                                Svi: {{weeklyRatings.avgTotalSatisfaction}} / 4 ({{weeklyRatings.totalSatisfactionCount}} ocena)
                             </span>
                         </li>
                         <li *ngIf="weeklyRatings.comments?.length">
@@ -45,18 +45,20 @@
                     </ul>
                     <b><mat-icon>checklist_rtl</mat-icon>Postignuti rezultati</b>
                     <ul *ngIf="weeklyResults">
-                        <li>
+                        <li *ngIf="weeklyResults.totalKcCount"
+                            [ngClass]="{ 'theme-warn': weeklyResults.totalKcCount - weeklyResults.learnerSatisfiedKcCount > 0}">
                             {{weeklyResults.learnerSatisfiedKcCount}} / {{weeklyResults.totalKcCount}} savladanih komponenti znanja
                         </li>
-                        <li>
+                        <li *ngIf="weeklyResults.totalTaskCount">
                             {{weeklyResults.learnerGradedTaskCount}} / {{weeklyResults.totalTaskCount}} ocenjenih zadataka
                         </li>
-                        <li>
-                            <b>{{weeklyResults.totalLearnerPoints}} / {{weeklyResults.totalMaxPoints}} osvojenih poena (prosek grupe {{weeklyResults.avgGroupPoints}} / {{weeklyResults.totalMaxPoints}})</b>
+                        <li *ngIf="weeklyResults.totalMaxPoints"
+                            [ngClass]="{ 'theme-warn': weeklyResults.percentPoints < 34, 'theme-accent': weeklyResults.percentPoints >= 34 && weeklyResults.percentPoints < 67}">
+                            <b>{{weeklyResults.percentPoints}}% osvojenih poena (prosek grupe {{(100*weeklyResults.avgGroupPoints / weeklyResults.totalMaxPoints).toFixed(0)}}%)</b>
                         </li>
                     </ul>
                     <div *ngIf="weeklyResults?.negativePatterns?.length">
-                        <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
+                        <b><mat-icon color="warn">warning</mat-icon> Sumirani negativni šabloni interakcije</b>
                         <ul>
                             <li *ngFor="let p of weeklyResults.negativePatterns"><b>{{p.count}}x</b> {{p.name}}</li>
                         </ul>
@@ -77,7 +79,7 @@
                         <span>Najbolje do: {{unit.bestBefore | date:'dd.MM.yyyy.'}}</span>
                     </small>
                 </div>
-                <div class="flex-col" style="padding: 10px; gap: 10px">
+                <div class="flex-col gap" style="padding: 10px">
                     <div *ngFor="let i of unit.timelineItems">
                         <div *ngIf="i.type === 'kc'" class="flex-col gap">
                             <div class="flex-row">
@@ -88,7 +90,7 @@
                                 <small>Rešeno: {{i.time | date:'dd.MM. u HH:mm'}}</small>
                             </div>
                             <div *ngIf="i.item.statistics.negativePatterns?.length">
-                                <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
+                                <b><mat-icon>warning</mat-icon> Negativni šabloni interakcije</b>
                                 <ul>
                                     <li *ngFor="let p of i.item.statistics.negativePatterns">{{p}}</li>
                                 </ul>
@@ -106,7 +108,7 @@
                                 <mat-icon>checklist_rtl</mat-icon> Osvojeno {{i.item.statistics.wonPoints}} / {{i.item.maxPoints}} poena
                             </div>
                             <div *ngIf="i.item.statistics.negativePatterns?.length">
-                                <b><mat-icon color="warn">warning</mat-icon> Negativni šabloni interakcije</b>
+                                <b><mat-icon>warning</mat-icon> Negativni šabloni interakcije</b>
                                 <ul>
                                     <li *ngFor="let p of i.item.statistics.negativePatterns">{{p}}</li>
                                 </ul>
@@ -121,14 +123,14 @@
                                 <small>Kreirano: {{i.time | date:'dd.MM. u HH:mm'}}</small>
                             </div>
                             <div *ngIf="i.item.feedback.learnerProgress">
-                                Ističe {{i.item.feedback.learnerProgress}} / 5 zadovoljstvo svojim napretkom. 
+                                Ističe {{i.item.feedback.learnerProgress}} / 4 zadovoljstvo svojim napretkom. 
                             </div>
                             <div *ngIf="i.item.completedKcNames?.length">
                                 Za komponente znanja:
                                 <ul>
                                     <li *ngFor="let name of i.item.completedKcNames">{{name}}</li>
                                 </ul>
-                                Ističe {{i.item.feedback.instructionClarity}} / 5 jasnoću gradiva i {{i.item.feedback.assessmentClarity}} / 5 jasnoću pitanja. 
+                                Ističe {{i.item.feedback.instructionClarity}} / 4 jasnoću gradiva i {{i.item.feedback.assessmentClarity}} / 4 jasnoću pitanja. 
                             </div>
                             <div *ngIf="i.item.completedTaskNames?.length">
                                 Za zadatke:
@@ -144,7 +146,7 @@
                                 </ul></small>
                             </div>
                         </div>
-                        <mat-divider></mat-divider>
+                        <mat-divider style="border-width: 2px; margin: 0 -10px;"></mat-divider>
                     </div>
                 </div>
             </mat-card>
