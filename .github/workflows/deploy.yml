@@ -44,3 +44,25 @@ jobs:
             docker service update \
               --image ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-web:${{steps.get-tag.outputs.tag}} \
               --force clean_cadet_public_dev_gateway
+      - name: Build and push ftnInf
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./docker/Dockerfile
+          target: gatewayWithFront
+          build-args: SMART_TUTOR_API_URL=https://tutor.ftninformatika.com/smart-tutor/api/
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-ftninf:${{steps.get-tag.outputs.tag}}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-ftninf:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-ftninf:buildcache,mode=max
+      - name: Deploy service ftnInf
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.FTN_INF_SSH_HOST }}
+          username: ${{ secrets.FTN_INF_SSH_USERNAME }}
+          key: ${{ secrets.FTN_INF_SSH_KEY }}
+          port: ${{ secrets.FTN_INF_SSH_PORT }}
+          script: |
+            docker service update \
+              --image ${{ secrets.DOCKER_HUB_USERNAME }}/tutor-ui-ftninf:${{steps.get-tag.outputs.tag}} \
+              --force clean_cadet_public_dev_gateway
