@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Course } from '../model/course.model';
-import { AuthenticationService } from '../../../infrastructure/auth/auth.service';
-import { User } from '../../../infrastructure/auth/user.model';
 import { CourseService } from './course.service';
 import { Title } from '@angular/platform-browser';
 
@@ -13,20 +11,15 @@ import { Title } from '@angular/platform-browser';
 })
 export class CourseComponent implements OnInit {
   course: Course;
-  user: User;
 
   constructor(
     private route: ActivatedRoute,
     private title: Title,
-    private courseService: CourseService,
-    private authService: AuthenticationService
+    private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
-      this.authService.user$.subscribe((user) => {
-        this.user = user;
-      });
       this.courseService
         .getCourse(+params.courseId)
         .subscribe(course => {
