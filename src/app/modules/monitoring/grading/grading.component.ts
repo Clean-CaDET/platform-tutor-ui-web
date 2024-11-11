@@ -157,6 +157,16 @@ export class GradingComponent implements OnInit, OnChanges {
     return this.gradingForm.get('evaluations') as FormArray;
   }
 
+  public setAllMin() {
+    this.evaluations.controls.forEach(c => c.get('points').setValue(0));
+  }
+
+  public setAllMax() {
+    this.evaluations.controls.forEach((c, i) => {
+      c.get('points').setValue(this.selectedStep.standards[i].maxPoints);
+    });
+  }
+
   public submit() {
     const taskProgessId = this.selectedStep.progress.taskProgressId;
     const grade = this.gradingForm.value;

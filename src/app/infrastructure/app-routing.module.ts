@@ -121,7 +121,7 @@ const routes: Routes = [
   },
   {
     path: 'management/courses',
-    title: 'Tutor - Kursevi',
+    title: 'Tutor - Moduli',
     component: CoursesComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },

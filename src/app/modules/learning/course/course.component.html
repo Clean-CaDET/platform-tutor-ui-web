@@ -1,6 +1,5 @@
-<div *ngIf="course" style="padding: 20px">
+<div *ngIf="course" class="container">
   <h1 class="mat-h1">{{ course.name }}</h1>
-  <markdown>{{ course.description }}</markdown>
-  <cc-course-units *ngIf="user?.role.includes('learner')"
-    [course]="course"></cc-course-units>
+  <markdown [data]="course.description"></markdown>
+  <cc-course-units [course]="course"></cc-course-units>
 </div>
