@@ -8,6 +8,13 @@
   width: calc(100% - 40px);
   margin: 0 auto;
   padding: 20px;
+  text-align: justify;
+}
+
+@media (max-width: 520px) {
+  .container {
+    text-align: left;
+  }
 }
 
 h1 {
