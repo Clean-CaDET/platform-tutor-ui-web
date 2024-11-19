@@ -1,6 +1,6 @@
 <div class="flex-col" style="height: calc(100vh - 48px); overflow-y: auto;">
     <div class="theme-highlight-primary" style="padding: 10px;">
-        <h3 class="mat-h3" style="margin: 0;">Procene snalaženja po nedelji, od početka kursa</h3>
+        <h3 class="mat-h3" style="margin: 0;">Procene snalaženja po nedelji, od početka modula</h3>
     </div>
     <div class="flex-row gap" style="flex-wrap: wrap; padding: 10px;">
         <button mat-stroked-button *ngFor="let f of feedback; let i = index" [ngClass]="{'theme-highlight-primary': f.id === selectedFeedback?.id}"

@@ -114,7 +114,7 @@ const routes: Routes = [
   },
   {
     path: 'management/stakeholders/instructors',
-    title: 'Tutor - Predavači',
+    title: 'Tutor - Mentori',
     component: InstructorsComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
