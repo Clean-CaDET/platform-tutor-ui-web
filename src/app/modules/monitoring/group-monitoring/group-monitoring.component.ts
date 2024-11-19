@@ -5,6 +5,7 @@ import { GroupMonitoringService } from './group-monitoring.service';
 import { Learner } from '../model/learner.model';
 import { TaskProgress } from '../grading/model/task-progress';
 import { WeeklyFeedbackService } from '../weekly-feedback/weekly-feedback.service';
+import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -20,17 +21,28 @@ export class GroupMonitoringComponent implements OnInit {
   learners: Learner[] = [];
   selectedLearner: Learner;
 
-  feedbackDate: Date;
+  selectedDate: Date;
 
   constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService, private feedbackService: WeeklyFeedbackService) { }
 
   ngOnInit(): void {
+    this.selectedDate = new Date();
     this.route.params.subscribe((params: Params) => {
       this.mode = params.mode;
-      if (this.courseId === +params.courseId) return;
+      if (this.courseId === +params.courseId) {
+        this.getGroupFeedback();
+        return;
+      }
       this.courseId = +params.courseId;
       this.getLearnerGroups();
     });
+    this.feedbackService.weeklyFeedbackObserver.subscribe(_ => this.getGroupFeedback());
+  }
+
+  public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if(!event?.value) return;
+    this.selectedDate = event.value;
+    this.getGroupFeedback();
   }
 
   private getLearnerGroups(): void {
@@ -49,7 +61,7 @@ export class GroupMonitoringComponent implements OnInit {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
         this.selectedLearner = this.learners[0];
-        if(this.feedbackDate && this.mode === 'progress') this.getGroupFeedback(this.feedbackDate);
+        this.getGroupFeedback();
       });
   }
 
@@ -64,9 +76,10 @@ export class GroupMonitoringComponent implements OnInit {
     });
   }
 
-  public getGroupFeedback(date: Date) {
-    this.feedbackDate = date;
-    this.feedbackService.getByGroup(this.courseId, this.learners.map(l => l.id), date)
+  public getGroupFeedback() {
+    if(!this.selectedDate || this.mode !== 'progress') return;
+
+    this.feedbackService.getByGroup(this.courseId, this.learners.map(l => l.id), this.selectedDate)
       .subscribe(feedback => this.learners.forEach(l => {
         const relatedFeedback = feedback.find(f => f.learnerId === l.id);
         if(!relatedFeedback) {

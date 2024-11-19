@@ -1,19 +1,10 @@
 <div class="flex-row" style="height: 100vh;">
     <div class="flex-col" style="height: 100vh; width: 60%;">
-        <div>
-        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 250px;">
-            <mat-label>Dan pred sastanak sa mentorom</mat-label>
-            <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-        <button mat-icon-button matTooltip="Osveži semafore grupe" (click)="loadGroupSemaphores()"><mat-icon>traffic</mat-icon></button>
-        </div>
-        <div *ngIf="!units?.length" style="padding: 10px;">
+        <small *ngIf="!units?.length" style="padding: 10px;">
             Student nije imao nove lekcije u protekloj nedelji.
-        </div>
+        </small>
         <div class="flex-col gap tutor-panel" *ngIf="units?.length">
-            <mat-card appearance="outlined" style="margin-bottom: 20px;">
+            <mat-card appearance="outlined" style="margin: 10px 0 20px 0;">
                 <div class="theme-highlight-primary">
                     <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
                         <mat-icon>bar_chart</mat-icon>
@@ -80,7 +71,7 @@
                     </small>
                 </div>
                 <div class="flex-col gap" style="padding: 10px">
-                    <div *ngFor="let i of unit.timelineItems">
+                    <div *ngFor="let i of unit.timelineItems; index as ix">
                         <div *ngIf="i.type === 'kc'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
@@ -146,7 +137,7 @@
                                 </ul></small>
                             </div>
                         </div>
-                        <mat-divider style="border-width: 2px; margin: 0 -10px;"></mat-divider>
+                        <mat-divider style="border-width: 2px; margin: 0 -10px;" *ngIf="ix !== (unit.timelineItems.length - 1)"></mat-divider>
                     </div>
                 </div>
             </mat-card>

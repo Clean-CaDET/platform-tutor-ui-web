@@ -1,11 +1,5 @@
 <div class="flex-row" style="height: 100vh; overflow: hidden;">
     <div class="flex-col" style="width: 20%; height: 100%;">
-        <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em">
-            <mat-label>Dan pred sastanak</mat-label>
-            <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
         <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em" *ngIf="units?.length">
             <mat-label>Lekcija</mat-label>
             <mat-select [(value)]="selectedUnitId" (selectionChange)="getTasks()">
@@ -42,7 +36,7 @@
             </div>
         </cdk-virtual-scroll-viewport>
     </div>
-    <mat-divider vertical="true" style="border-width: 3px;"></mat-divider>
+    <mat-divider vertical="true" style="border-width: 3px;" *ngIf="units?.length"></mat-divider>
     <div class="flex-col" style="height: 100%; flex-grow: 1; width: 80%;" *ngIf="selectedStep">
         <div class="flex-col" style="flex: 1; overflow: hidden;" *ngIf="!isUnanswered(selectedStep)">
             <div style="height: 35%; overflow-y: auto; padding: 10px;">

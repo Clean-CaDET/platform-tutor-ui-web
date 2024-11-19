@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { Unit } from '../model/unit.model';
 import { GradingService } from './grading.service';
@@ -7,7 +7,6 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { LearningTask } from './model/learning-task';
 import { Step } from './model/step';
 import { TaskProgress } from './model/task-progress';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { gradingInstruction } from './model/grading.constants';
 
@@ -16,14 +15,14 @@ import { gradingInstruction } from './model/grading.constants';
   templateUrl: './grading.component.html',
   styleUrls: ['./grading.component.scss']
 })
-export class GradingComponent implements OnInit, OnChanges {
+export class GradingComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
   @Output() learnerChanged = new EventEmitter<number>();
   @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
-  selectedDate: Date;
+  @Input() selectedDate: Date;
 
   units: Unit[] = [];
   tasks: LearningTask[] = [];
@@ -36,14 +35,9 @@ export class GradingComponent implements OnInit, OnChanges {
 
   constructor(private gradingService: GradingService, private builder: FormBuilder, private clipboard: Clipboard, private snackBar: MatSnackBar) { }
  
-  ngOnInit() {
-      this.selectedDate = new Date();
-      this.getUnits();
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes) return;
-    if(this.changeOccured(changes.learners)) {
+    if(this.changeOccured(changes.learners) || this.changeOccured(changes.selectedDate)) {
       this.getUnits();
     }
     if(this.changeOccured(changes.selectedLearnerId)) {
@@ -61,7 +55,11 @@ export class GradingComponent implements OnInit, OnChanges {
     if(!this.selectedDate) return;
     this.gradingService.getWeeklyUnits(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       this.units = units.sort((a, b) => a.order - b.order);
-      if(this.selectedUnitId && !this.units.some(u => u.id === this.selectedUnitId)) this.selectedUnitId = 0;
+      if(this.selectedUnitId && !this.units.some(u => u.id === this.selectedUnitId)) {
+        this.selectedUnitId = 0;
+        this.tasks = [];
+        this.selectedStep = null;
+      }
       this.updateGradeSummaries();
     });
   }
@@ -70,15 +68,6 @@ export class GradingComponent implements OnInit, OnChanges {
     this.gradingService.getGroupSummaries(this.units.map(u => u.id), this.learners.map(l => l.id)).subscribe(summaries => {
       this.gradesChanged.emit(summaries);
     });
-  }
-
-  public onDateChange(event: MatDatepickerInputEvent<Date>) {
-    if(!event?.value) return;
-    this.selectedDate = event.value;
-    this.tasks = [];
-    this.selectedStep = null;
-    this.selectedUnitId = 0;
-    this.getUnits();
   }
 
   public getTasks() {
