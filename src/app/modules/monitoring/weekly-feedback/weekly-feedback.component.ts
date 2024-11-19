@@ -37,8 +37,11 @@ export class WeeklyFeedbackComponent implements OnChanges {
     }
     if(changes?.selectedDate && this.feedback?.length) {
       this.feedback = this.feedback.filter(f => f.id);
-      this.selectedFeedback = this.findFeedbackForSelectedDate();
-      if(this.selectedFeedback) return;
+      const selectedFeedback = this.findFeedbackForSelectedDate();
+      if(selectedFeedback) {
+        this.selectFeedback(selectedFeedback);
+        return;
+      }
       this.createNewFeedback();
     }
   }
@@ -68,6 +71,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
   }
 
   private createNewFeedback(): void {
+    this.feedback = [...this.feedback.filter(i => !i.id)];
     const selectedDate = new Date(this.selectedDate);
     selectedDate.setDate(selectedDate.getDate() + 1);
     this.selectFeedback({
@@ -102,7 +106,10 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.updateFeedback();
     } else {
       this.feedbackService.create(this.courseId, this.selectedFeedback)
-        .subscribe(newFeedback => this.selectedFeedback.id = newFeedback.id);
+        .subscribe(newFeedback => {
+          this.selectedFeedback.id = newFeedback.id;
+          this.feedbackService.notify();
+        });
     }
   }
 
@@ -114,7 +121,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }
     this.feedbackService.update(this.courseId, this.selectedFeedback)
-      .subscribe();
+      .subscribe(_ => this.feedbackService.notify());
   }
 
   public onDelete(id: number) {
@@ -126,6 +133,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.feedbackService.delete(this.courseId, id).subscribe(() => {
         this.feedback = [...this.feedback.filter(i => i.id !== id)];
         this.createNewFeedback();
+        this.feedbackService.notify();
       });
     });
   }

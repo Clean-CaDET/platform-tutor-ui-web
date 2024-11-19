@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { WeeklyActivityService } from './weekly-activity.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
 import { getChallengeRatingLabel, UnitProgressRating } from './model/unit-rating.model';
@@ -12,7 +11,7 @@ import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisf
   templateUrl: './weekly-progress.component.html',
   styleUrls: ['./weekly-progress.component.scss']
 })
-export class WeeklyProgressComponent implements OnInit, OnChanges {
+export class WeeklyProgressComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
@@ -20,25 +19,13 @@ export class WeeklyProgressComponent implements OnInit, OnChanges {
   groupMemberIds: Set<number>;
   allRatings: UnitProgressRating[];
   
-  selectedDate: Date;
-  @Output() dateChanged = new EventEmitter<Date>();
+  @Input() selectedDate: Date;
 
   units: UnitHeader[] = [];
   weeklyRatings: WeeklyRatingStatistics;
   weeklyResults: WeeklyProgressStatistics;
   
-  constructor(private weeklyActivityService: WeeklyActivityService) {
-    this.selectedDate = new Date();
-  }
-
-  ngOnInit() {
-    if(!this.learners?.length) return;
-    this.loadGroupSemaphores();
-  }
-
-  public loadGroupSemaphores() {
-    this.dateChanged.emit(this.selectedDate);
-  }
+  constructor(private weeklyActivityService: WeeklyActivityService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes) return;
@@ -50,18 +37,13 @@ export class WeeklyProgressComponent implements OnInit, OnChanges {
       if(!this.units?.length) return;
       this.linkAndSummarizeRatings();
       this.getKcAndTaskProgressAndWarnings();
+    } else if(this.changeOccured(changes.selectedDate)) {
+      this.getUnits();
     }
   }
 
   private changeOccured(changedField: { currentValue: any, previousValue: any }) {
     return changedField && changedField.currentValue && changedField.currentValue !== changedField.previousValue;
-  }
-
-  public onDateChange(event: MatDatepickerInputEvent<Date>) {
-    if(!event?.value) return;
-    this.selectedDate = event.value;
-    this.loadGroupSemaphores();
-    this.getUnits();
   }
 
   private getUnits(invokedByGroupChange: boolean = false) {
