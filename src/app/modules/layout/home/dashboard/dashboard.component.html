@@ -7,7 +7,7 @@
     </cc-course-card>
 </div>
 <div class="flex-col" *ngIf="user.role === 'administrator'" style="text-align: left; gap: 20px">
-    <mat-card appearance="outlined" style="height: 100%;" class="theme-hover">
+    <mat-card appearance="outlined" style="height: 100%;" class="theme-hover" routerLink="/monitoring/overview">
         <mat-card-header>
             <mat-card-title>
                 <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">troubleshooting</mat-icon>
@@ -22,7 +22,7 @@
         </mat-card-content>
     </mat-card>
     <div class="flex-row" style="align-items: stretch; gap: 20px">
-        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;">
+        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;" routerLink="/management/courses">
             <mat-card-header>
                 <mat-card-title>
                     <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">collections_bookmark</mat-icon>
@@ -33,7 +33,7 @@
                 <p>Kontrole za kreiranje, kloniranje i arhiviranje modula, kao i za kreiranje grupa i uvezivanje mentora i studenata.</p>
             </mat-card-content>
         </mat-card>
-        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;">
+        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;" routerLink="/management/stakeholders/learners">
             <mat-card-header>
                 <mat-card-title>
                     <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">group</mat-icon>
@@ -44,7 +44,7 @@
                 <p>Kontrole za kreiranje i uklanjanje naloga za studente.</p>
             </mat-card-content>
         </mat-card>
-        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;">
+        <mat-card appearance="outlined" class="theme-hover" style="flex: 1 1 0;" routerLink="/management/stakeholders/instructors">
             <mat-card-header>
                 <mat-card-title>
                     <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">school</mat-icon>

@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { AuthenticationService } from './infrastructure/auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'cc-root',
@@ -14,31 +11,16 @@ export class AppComponent implements OnInit {
   initCompleted: boolean = false;
   isDarkTheme: boolean = true;
 
-  constructor(
-    private http: HttpClient, private authService: AuthenticationService, private overlayContainer: OverlayContainer
-  ) {}
+  constructor(private authService: AuthenticationService, private overlayContainer: OverlayContainer) {}
 
   ngOnInit(): void {
     this.checkIfUserExists();
-    this.checkVersion().subscribe(_ => {
-      this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
-      this.applyThemeOnLayers();
-      this.defineClientSessionId();
-      this.initCompleted = true;
-    });
+    this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
+    this.applyThemeOnLayers();
+    this.defineClientSessionId();
+    this.initCompleted = true;
   }
 
-  checkVersion(): Observable<string> {
-    return this.http.get<string>(environment.apiHost + 'version', { responseType: 'text' as 'json' }).pipe(tap(serverVersion => {
-      if(serverVersion !== localStorage.getItem('version')) {
-        localStorage.setItem('version', serverVersion);
-        const url = new URL(window.location.href);
-        url.searchParams.set('v', serverVersion);
-        window.location.href = url.toString();
-      }
-    }));
-  }
-  
   changeTheme(): void {
     this.isDarkTheme = !this.isDarkTheme;
     this.applyThemeOnLayers();
