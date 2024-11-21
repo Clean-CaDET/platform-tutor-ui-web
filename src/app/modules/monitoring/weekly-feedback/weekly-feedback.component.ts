@@ -71,7 +71,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
   }
 
   private createNewFeedback(): void {
-    this.feedback = [...this.feedback.filter(i => !i.id)];
+    this.feedback = [...this.feedback.filter(i => i.id)];
     const selectedDate = new Date(this.selectedDate);
     selectedDate.setDate(selectedDate.getDate() + 1);
     this.selectFeedback({
