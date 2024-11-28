@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Course } from '../../management/model/course.model';
 import { Group } from '../model/group.model';
 import { CourseMonitoringService } from './course-monitoring.service';
+import { AuthenticationService } from 'src/app/infrastructure/auth/auth.service';
 
 @Component({
   selector: 'cc-course-monitoring',
@@ -12,15 +13,18 @@ export class CourseMonitoringComponent implements OnInit {
   courses: Course[];
   selectedCourseId: 0;
   groups: Group[];
+  isInstructor: boolean;
 
-  constructor(private monitoringService: CourseMonitoringService) {}
+  constructor(private monitoringService: CourseMonitoringService, private authService: AuthenticationService) {}
   
   ngOnInit(): void {
-    this.monitoringService.GetActiveCourses().subscribe(courses => this.courses = courses);
+    const user = this.authService.user$.value;
+    this.isInstructor = user.role === 'instructor';
+    this.monitoringService.GetActiveCourses(this.isInstructor).subscribe(courses => this.courses = courses);
   }
 
   getGroups(): void {
-    this.monitoringService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
+    this.monitoringService.GetCourseGroups(this.selectedCourseId, this.isInstructor).subscribe(groups => {
       this.groups = groups;
       this.groups.forEach(g => {
         g.learners.sort((l1, l2) => l1.name > l2.name ? 1 : -1);

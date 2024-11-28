@@ -39,6 +39,12 @@
         Napredak
       </div>
     </a>
+    <button class="navbar-button" mat-button routerLink="/monitoring/overview" routerLinkActive="mat-accent">
+      <div>
+        <mat-icon>troubleshooting</mat-icon>
+        Pregled
+      </div>
+    </button>
     <mat-divider></mat-divider>
     <a class="navbar-button" mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-accent">
       <div>

@@ -131,7 +131,7 @@ const routes: Routes = [
     title: 'Tutor - Aktivna nastava',
     component: CourseMonitoringComponent,
     canActivate: [AuthGuard],
-    data: { role: ['administrator'] },
+    data: { role: ['administrator', 'instructor'] },
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/home', pathMatch: 'full'}

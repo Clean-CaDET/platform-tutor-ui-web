@@ -12,7 +12,6 @@ import {LayoutService} from '../../layout.service';
 export class InstructorControlsComponent implements OnInit {
   selectedCourse: Course;
   courses: Course[];
-  selectedControl: string;
 
   constructor(
     private layoutService: LayoutService,
@@ -35,7 +34,6 @@ export class InstructorControlsComponent implements OnInit {
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
-        map((e) => this.getActiveUrl(e)),
         map((e) => this.getParams(this.route))
       )
       .subscribe((params) => {
@@ -66,18 +64,5 @@ export class InstructorControlsComponent implements OnInit {
       };
     });
     return params;
-  }
-
-  private getActiveUrl(e: any) {
-    if (e.url.includes('monitoring')) {
-      this.selectedControl = 'groups';
-    }
-    if (e.url.includes('authoring')) {
-      this.selectedControl = 'authoring';
-    }
-    if (e.url.includes('analytics')) {
-      this.selectedControl = 'analytics';
-    }
-    return e;
   }
 }
