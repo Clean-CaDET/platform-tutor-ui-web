@@ -29,7 +29,7 @@
                             Napisao {{weeklyRatings.comments.length}} komentara
                             <small>
                             <ul>
-                            <li *ngFor="let c of weeklyRatings.comments">{{c}}</li>
+                            <li *ngFor="let c of weeklyRatings.comments">({{c.created | date:'d.M. HH:mm'}}) {{c.text}}</li>
                             </ul>
                             </small>
                         </li>

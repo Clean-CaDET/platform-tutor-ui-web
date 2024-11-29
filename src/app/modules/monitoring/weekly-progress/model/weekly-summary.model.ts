@@ -81,7 +81,12 @@ export interface WeeklyRatingStatistics {
   learnerSatisfactionCount: number;
   groupSatisfactionCount: number;
   totalSatisfactionCount: number;
-  comments: string[];
+  comments: RatingComment[];
+}
+
+export interface RatingComment {
+  text: string;
+  created: Date;
 }
 
 // Calculations should be moved to the backend so that they can be testable.
@@ -91,13 +96,16 @@ export function calculateWeeklySatisfactionStatistics(ratings: UnitProgressRatin
     let learnerSatisfactionGrades: number[] = [];
     let groupSatisfactionGrades: number[] = [];
     let totalSatisfactionGrades: number[] = [];
-    let comments: string[] = [];
+    let comments: RatingComment[] = [];
 
     ratings.forEach(rating => {
       if (isNaN(rating.feedback.learnerProgress)) return;
       totalSatisfactionGrades.push(rating.feedback.learnerProgress);
       if (rating.learnerId === selectedLearnerId) {
-        if(rating.feedback.comment.trim()) comments.push(rating.feedback.comment);
+        if(rating.feedback.comment.trim()) comments.push({
+          text: rating.feedback.comment,
+          created: rating.created
+        });
         learnerSatisfactionGrades.push(rating.feedback.learnerProgress);
         groupSatisfactionGrades.push(rating.feedback.learnerProgress);
         return;
@@ -114,7 +122,7 @@ export function calculateWeeklySatisfactionStatistics(ratings: UnitProgressRatin
       learnerSatisfactionCount: learnerSatisfactionGrades.length,
       groupSatisfactionCount: groupSatisfactionGrades.length,
       totalSatisfactionCount: totalSatisfactionGrades.length,
-      comments: comments
+      comments: comments.sort((a, b) => new Date(a.created).getTime() - new Date(b.created).getTime())
     };
 }
 
