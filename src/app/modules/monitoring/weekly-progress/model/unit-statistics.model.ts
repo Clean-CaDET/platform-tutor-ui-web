@@ -19,15 +19,17 @@ export interface KcStatistics {
 export interface TaskProgressStatistics {
   totalCount: number;
   gradedCount: number;
+  completedCount: number;
   learnerPoints: number;
   avgGroupPoints: number;
   totalMaxPoints: number;
-  gradedTaskStatistics: TaskStatistics[];
+  taskStatistics: TaskStatistics[];
 }
 
 export interface TaskStatistics {
   taskId: number;
   completionTime: Date;
+  isGraded: boolean;
   wonPoints: number;
   negativePatterns: string[];
 }

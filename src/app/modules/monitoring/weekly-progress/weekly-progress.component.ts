@@ -47,7 +47,6 @@ export class WeeklyProgressComponent implements OnChanges {
   }
 
   private getUnits(invokedByGroupChange: boolean = false) {
-    // TODO: Disable datepicker and show progress bar
     this.weeklyActivityService.getWeeklyUnitsWithTasksAndKcs(this.courseId, this.selectedLearnerId, this.selectedDate).subscribe(units => {
       units.sort((a, b) => a.order - b.order);
       if(this.retrievedUnitsAlreadyLoaded(units)) {
@@ -71,7 +70,6 @@ export class WeeklyProgressComponent implements OnChanges {
           this.getKcAndTaskProgressAndWarnings();
         });
     });
-    // TODO: Enable datepicker and hide progress bar (consider all HTTP requests)
   }
 
   private retrievedUnitsAlreadyLoaded(newUnits: UnitHeader[]): boolean {
@@ -121,7 +119,7 @@ export class WeeklyProgressComponent implements OnChanges {
       relatedUnit.kcStatistics = summary.kcStatistics;
       relatedUnit.taskStatistics = summary.taskStatistics;
       relatedUnit.knowledgeComponents?.forEach(kc => kc.statistics = summary.kcStatistics.satisfiedKcStatistics.find(s => s.kcId === kc.id));
-      relatedUnit.tasks?.forEach(t => t.statistics = summary.taskStatistics.gradedTaskStatistics.find(s => s.taskId === t.id));
+      relatedUnit.tasks?.forEach(t => t.statistics = summary.taskStatistics.taskStatistics.find(s => s.taskId === t.id));
       updateTimelineItems(relatedUnit);
     });
   }
