@@ -29,7 +29,7 @@
                             Napisao {{weeklyRatings.comments.length}} komentara
                             <small>
                             <ul>
-                            <li *ngFor="let c of weeklyRatings.comments">{{c}}</li>
+                            <li *ngFor="let c of weeklyRatings.comments">({{c.created | date:'d.M. HH:mm'}}) {{c.text}}</li>
                             </ul>
                             </small>
                         </li>
@@ -42,6 +42,9 @@
                         </li>
                         <li *ngIf="weeklyResults.totalTaskCount">
                             {{weeklyResults.learnerGradedTaskCount}} / {{weeklyResults.totalTaskCount}} ocenjenih zadataka
+                        </li>
+                        <li *ngIf="weeklyResults.learnerCompletedTaskCount" class="theme-warn">
+                            <b>Student ima rešenih zadataka koji nisu ocenjeni.</b>
                         </li>
                         <li *ngIf="weeklyResults.totalMaxPoints"
                             [ngClass]="{ 'theme-warn': weeklyResults.percentPoints < 34, 'theme-accent': weeklyResults.percentPoints >= 34 && weeklyResults.percentPoints < 67}">
@@ -95,7 +98,10 @@
                                 <span style="flex-grow: 1;"></span>
                                 <small>Rešeno: {{i.time | date:'dd.MM. u HH:mm'}}</small>
                             </div>
-                            <div>
+                            <div *ngIf="!i.item.statistics.isGraded" class="theme-warn">
+                                <b>Student je rešio zadatak, ali ga mentor nije ocenio do kraja.</b>
+                            </div>
+                            <div *ngIf="i.item.statistics.isGraded">
                                 <mat-icon>checklist_rtl</mat-icon> Osvojeno {{i.item.statistics.wonPoints}} / {{i.item.maxPoints}} poena
                             </div>
                             <div *ngIf="i.item.statistics.negativePatterns?.length">
