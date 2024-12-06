@@ -10,7 +10,7 @@
         <div class="theme-highlight-primary" style="padding: 10px;">
             <h3 class="mat-h3" style="margin: 0;">Koliko se dobro student snašao u nedelji zaključno sa <b>{{selectedFeedback?.weekEnd | date: 'dd.MM.y.'}}</b>?</h3>
         </div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex-col gap" style="padding: 10px;">
+        <form [formGroup]="form" class="flex-col gap" style="padding: 10px;">
             <section class="flex-col">
                 <div class="flex-row" style="justify-content: space-between; margin-bottom: -15px;">
                     <small>Ne snalazi se</small>
@@ -27,10 +27,11 @@
                 <textarea matInput formControlName="semaphoreJustification" rows="10"></textarea>
             </mat-form-field>
             <div class="flex-row">
-                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;" (click)="onSubmit()">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
                 <span style="flex-grow: 1;"></span>
                 <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)">Obriši</button>
             </div>
+            <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
         </form>
     </div>
 </div>

@@ -88,12 +88,13 @@
                                 <button mat-raised-button (click)="setAllMax()">
                                     Maks.
                                 </button>
-                                <button mat-raised-button color="primary"
+                                <button mat-raised-button [color]="selectedStep.progress.status === 'Answered' || gradingForm.dirty ? 'primary' : ''"
                                 [disabled]="gradingForm.invalid" (click)="submit()">
                                     Oceni
                                 </button>
                             </div>
                         </div>
+                        <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
                     </div>
                     <mat-form-field style="width: 100%;" appearance="fill" *ngIf="!structuredFormShown">
                         <mat-label>Sirova evaluacija</mat-label>
