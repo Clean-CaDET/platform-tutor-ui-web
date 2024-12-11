@@ -22,6 +22,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
   form: FormGroup;
+  progressBarActive: boolean;
 
   constructor(private feedbackService: WeeklyFeedbackService, private builder: FormBuilder, private dialog: MatDialog) {
     this.form = this.builder.group({
@@ -100,6 +101,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
   }
 
   onSubmit(): void {
+    this.progressBarActive = true;
     this.selectedFeedback.semaphore = this.form.value.semaphore;
     this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
     if(this.selectedFeedback.id) {
@@ -109,6 +111,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
         .subscribe(newFeedback => {
           this.selectedFeedback.id = newFeedback.id;
           this.feedbackService.notify();
+          this.progressBarActive = false;
         });
     }
   }
@@ -121,7 +124,10 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }
     this.feedbackService.update(this.courseId, this.selectedFeedback)
-      .subscribe(_ => this.feedbackService.notify());
+      .subscribe(_ => {
+        this.feedbackService.notify();
+        this.progressBarActive = false;
+      });
   }
 
   public onDelete(id: number) {
@@ -129,11 +135,12 @@ export class WeeklyFeedbackComponent implements OnChanges {
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
-
+      this.progressBarActive = true;
       this.feedbackService.delete(this.courseId, id).subscribe(() => {
         this.feedback = [...this.feedback.filter(i => i.id !== id)];
         this.createNewFeedback();
         this.feedbackService.notify();
+        this.progressBarActive = false;
       });
     });
   }
