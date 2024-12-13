@@ -30,7 +30,12 @@
             <h3>{{g.name}}</h3>
             <div class="flex-row gap" style="flex-wrap: wrap;">
             <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px;">
-                <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small><br>
+                <div class="flex-row" style="align-items: center;">
+                    <small style="flex-grow: 1;">{{l.name}} {{l.surname}} <br>{{l.index}}</small>
+                    <mat-icon style="scale: 1.5;" *ngIf="l.summarySemaphore != -1"
+                        [color]="l.summarySemaphore == 1 ? 'warn' : l.summarySemaphore == 2 ? 'accent' : 'primary'"
+                        [matTooltip]="l.summarySemaphore == 1 ? 'Kontaktiraj studenta' : l.summarySemaphore == 2 ? 'Proveri sa mentorom' : 'Sve ok'">circle</mat-icon>
+                </div>
                 <small *ngIf="!l.recentFeedback?.length">Mentor nije još ocenio.</small><br>
                 <table *ngIf="l.recentFeedback?.length">
                     <tr>
@@ -48,12 +53,12 @@
                         <td>
                             <mat-icon *ngIf="f.averageSatisfaction" [matTooltip]="f.averageSatisfaction"
                             [color]="f.averageSatisfaction < 2 ? 'warn' : f.averageSatisfaction >= 2.6 ? 'primary' : 'accent'">circle</mat-icon>
-                            <mat-icon *ngIf="!f.averageSatisfaction">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="!f.averageSatisfaction" matTooltip="Nije iskomunicirao zadovoljstvo u ovom periodu.">radio_button_unchecked</mat-icon>
                         </td>
                         <td>
                             <mat-icon *ngIf="f.achievedPercentage != -1" [matTooltip]="f.achievedPercentage+'%'"
                             [color]="f.achievedPercentage < 34 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
-                            <mat-icon *ngIf="f.achievedPercentage == -1">radio_button_unchecked</mat-icon>
+                            <mat-icon *ngIf="f.achievedPercentage == -1" matTooltip="Nema zadataka za ocenjivanje u ovom periodu.">radio_button_unchecked</mat-icon>
                         </td>
                     </tr>
                 </table>
