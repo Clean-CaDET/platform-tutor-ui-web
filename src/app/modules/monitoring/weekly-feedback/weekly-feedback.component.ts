@@ -118,7 +118,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
 
   private updateFeedback() {
     const feedbackForSelectedDate = this.findFeedbackForSelectedDate();
-    if (feedbackForSelectedDate.id === this.selectedFeedback.id) {
+    if (feedbackForSelectedDate.id === this.selectedFeedback.id) { // Updates feedback stats only if displayed statistics relate to the feedback being updated
       this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
       this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;

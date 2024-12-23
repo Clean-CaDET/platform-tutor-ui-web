@@ -1,6 +1,6 @@
 import { Feedback, feedbackTypes } from "../../../model/learning-objects/feedback.model";
 
-export const welcomeMessage = "Zamisli se nad tekstom pitanja i formiraj svoj odgovor.";
+export const welcomeMessage = "Zamisli se nad pitanjem i formiraj svoj odgovor.";
 
 export function createResponse(feedback: Feedback): string {
     if(feedback.type === feedbackTypes.pump) return createPump();
@@ -29,11 +29,16 @@ function createCorrectness(feedback: Feedback): string {
 function createSolution(feedback: Feedback): string {
     if(feedback.evaluation.correct) {
         let rnd = getRandomNumber(10);
-        if (rnd <= 2) return feedbackStore.solution.basicCorrect1;
-        if (rnd <= 4) return feedbackStore.solution.basicCorrect2;
-        if (rnd <= 6) return feedbackStore.solution.basicCorrect3;
-        if (rnd <= 8) return feedbackStore.solution.basicCorrect4;
-        return feedbackStore.solution.basicCorrect5;
+        if (rnd == 1) return feedbackStore.solution.basicCorrect1;
+        if (rnd == 2) return feedbackStore.solution.basicCorrect2;
+        if (rnd == 3) return feedbackStore.solution.basicCorrect3;
+        if (rnd == 4) return feedbackStore.solution.basicCorrect4;
+        if (rnd == 5) return feedbackStore.solution.basicCorrect5;
+        if (rnd == 6) return feedbackStore.solution.basicCorrect6;
+        if (rnd == 7) return feedbackStore.solution.basicCorrect7;
+        if (rnd == 8) return feedbackStore.solution.basicCorrect8;
+        if (rnd == 9) return feedbackStore.solution.basicCorrect9;
+        return feedbackStore.solution.basicCorrect10;
     }
     return feedbackStore.solution.basicIncorrect(feedback.evaluation.correctnessLevel);
 }
@@ -43,7 +48,7 @@ function getRandomNumber(max: number) {
 }
 
 const incorrectAnswer = "🤔 Odgovor nije skroz tačan. ";
-const alternative = "\nMožeš i da nastaviš, pa ćeš kasnije vratiti na ovu pitanje.";
+const alternative = "\nMožeš i da nastaviš, pa ćeš se vratiti na ovo pitanje.";
 // There is a deep structure to this conversation that AutoTutor has already explored. We are creating a basic version for now.
 const feedbackStore = {
     pump: {
@@ -64,11 +69,17 @@ const feedbackStore = {
         }
     },
     solution: {
-        basicCorrect1: "😎 Najs, rešeno pitanje.\nIznad ću diskutovati rešenje, pa prođi moje teze pre nego što nastavimo dalje.",
-        basicCorrect2: "😊 Odgovor je tačan, sjajno.\nIznad ću istaći rešenje, pa analiziraj moje teze pre nego što idemo dalje.",
-        basicCorrect3: "🤗 Još jedan rešen, ekstra.\nIznad ću staviti rešenje, pa pročitaj moje teze pre nego što nastavimo.",
-        basicCorrect4: "😁 Tačno.\nIznad je rešenje, pa ga istumači ako treba, a onda idemo u nove poduhvate!",
-        basicCorrect5: "😸 Odgovor je tačan, super.\nIznad ću postaviti rešenje, pa pogledaj moje teze pre nego što odemo dalje.",
+        basicCorrect1: "😎 Najs, rešeno.\nIznad je rešenje, al' što se mene tiče možemo odmah da idemo dalje.",
+        basicCorrect2: "😊 Odgovor je tačan, sjajno.\nPogledaj iznad ako te interesuje moje obrazloženje odgovora, pa idemo dalje.",
+        basicCorrect3: "🤗 Rešeno, svaka čast.\nIznad ću staviti rešenje, pa pročitaj moje teze pre nego što nastavimo.",
+        basicCorrect4: "😁 Tačno.\nHajdemo na sledeći izazov!",
+        basicCorrect5: "😸 Perrrfektno, tačan odgovor.\nIznad ću ćušnuti rešenje, pa protrči kroz tekst pre nego što skočimo dalje.",
+        basicCorrect6: "😀 Sjajno, tačno rešenje!\nIznad sam postavio objašnjenje, pa baci pogled pre nego što nastavimo.",
+        basicCorrect7: "😅 Rešeno.\nMožemo da nastavimo kad ti odgovara.",
+        basicCorrect8: "😌 Bravo, tačno je!\nEno ga i obrazloženje pa nastavljamo kad ti odgovara.",
+        basicCorrect9: "🤓 Super, tačan odgovor!\nProstudiraj povratnu informaciju iznad pre nego što nastavimo.",
+        basicCorrect10: "😄 Sjajan rad!\nIdemo dalje!",
+
         basicIncorrect: function(correctness: number) {
             return incorrectAnswer + "Postignuta tačnost je " + (correctness * 100).toFixed(0) + "%. \nIznad ću diskutovati rešenje pa savetujem da temeljno analiziraš moje teze pre nego što nastavimo.";
         }
