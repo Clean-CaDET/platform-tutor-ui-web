@@ -49,7 +49,8 @@
                             </div>
                         </div>
                         <div *ngIf="selectedStep.progress.comment" style="margin-top: 10px;">
-                            <b>Dodatan komentar:</b> {{ selectedStep.progress.comment }}
+                            <b>Dodatan komentar:</b><br>
+                            <markdown lineNumbers [data]="selectedStep.progress.comment"></markdown>
                         </div>
                     </div>
                 </div>
