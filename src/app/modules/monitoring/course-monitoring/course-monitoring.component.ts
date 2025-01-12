@@ -65,7 +65,7 @@ export class CourseMonitoringComponent implements OnInit {
   }
 
   calculateSemaphoreWithKeyMetrics(semaphore: number, satisfaction: number, score: number): number {
-    if(satisfaction == -1 || score == -1) return -1;
+    if(score == -1) return -1;
     if(semaphore < 1.67 || satisfaction < 2 || score < 34) return 1;
     
     let blueCount = 0;

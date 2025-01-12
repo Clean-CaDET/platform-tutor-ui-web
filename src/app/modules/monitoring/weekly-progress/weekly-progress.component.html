@@ -3,7 +3,8 @@
         <small *ngIf="!units?.length" style="padding: 10px;">
             Student nije imao nove lekcije u protekloj nedelji.
         </small>
-        <div class="flex-col gap tutor-panel" *ngIf="units?.length">
+        <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="!readyForFeedback"></mat-progress-bar>
+        <div class="flex-col gap tutor-panel" *ngIf="units?.length && readyForFeedback">
             <mat-card appearance="outlined" style="margin: 10px 0 20px 0;">
                 <div class="theme-highlight-primary">
                     <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
@@ -152,7 +153,7 @@
     <mat-divider vertical="true" style="border-width: 2px;"></mat-divider>
     <div class="flex-col mentor-panel">
         <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [selectedDate]="selectedDate"
-            [rating]="weeklyRatings" [results]="weeklyResults"></cc-weekly-feedback>
+            [rating]="weeklyRatings" [results]="weeklyResults" [loaded]="readyForFeedback"></cc-weekly-feedback>
         <div class="flex-row gap" style="height: 48px; justify-content: flex-end; align-items: center;">
             <button mat-icon-button (click)="changeLearner(-1)">
                 <span><mat-icon>arrow_back_ios_new</mat-icon></span>

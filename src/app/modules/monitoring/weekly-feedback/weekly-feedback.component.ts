@@ -18,6 +18,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
 
   @Input() rating: WeeklyRatingStatistics;
   @Input() results: WeeklyProgressStatistics;
+  @Input() loaded: boolean;
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;

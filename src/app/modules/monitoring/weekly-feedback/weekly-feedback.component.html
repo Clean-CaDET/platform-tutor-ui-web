@@ -27,9 +27,9 @@
                 <textarea matInput formControlName="semaphoreJustification" rows="10"></textarea>
             </mat-form-field>
             <div class="flex-row">
-                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;" (click)="onSubmit()">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;" (click)="onSubmit()" [disabled]="progressBarActive || !loaded">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
                 <span style="flex-grow: 1;"></span>
-                <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)">Obriši</button>
+                <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)" [disabled]="progressBarActive || !loaded">Obriši</button>
             </div>
             <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
         </form>
