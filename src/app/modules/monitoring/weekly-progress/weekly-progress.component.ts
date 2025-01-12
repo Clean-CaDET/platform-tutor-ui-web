@@ -18,7 +18,7 @@ export class WeeklyProgressComponent implements OnChanges {
   @Output() learnerChanged = new EventEmitter<number>();
   groupMemberIds: Set<number>;
   allRatings: UnitProgressRating[];
-  
+  readyForFeedback = false;
   @Input() selectedDate: Date;
 
   units: UnitHeader[] = [];
@@ -103,12 +103,13 @@ export class WeeklyProgressComponent implements OnChanges {
 
   private getKcAndTaskProgressAndWarnings() {
     if(!this.selectedLearnerId) return;
-
+    this.readyForFeedback = false;
     this.weeklyActivityService.GetKcAndTaskProgressAndWarnings(
       this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
       .subscribe(unitSummaries => {
         this.linkStatisticsToUnits(unitSummaries);
         this.weeklyResults = calculateWeeklyProgressStatistics(this.units);
+        this.readyForFeedback = true;
       });
   }
 
