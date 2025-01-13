@@ -9,9 +9,9 @@ export interface WeeklyFeedback {
     semaphore: number;
     semaphoreJustification: string;
 
-    averageSatisfaction: number;
-    achievedTaskPoints: number;
-    maxTaskPoints: number;
+    averageSatisfaction?: number;
+    achievedTaskPoints?: number;
+    maxTaskPoints?: number;
     
     achievedPercentage?: number;
 }
