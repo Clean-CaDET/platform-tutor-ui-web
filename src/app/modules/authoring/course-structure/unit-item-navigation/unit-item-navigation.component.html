@@ -1,0 +1,42 @@
+<div class="flex-col" style="height: 100vh;">
+    <mat-card appearance="outlined" *ngIf="selectedItem" style="padding: 10px;">
+        <span class="flex-row gap">
+            <span class="flex-col">
+                <span><b>{{selectedItem.name}}</b></span>
+                <small>Redosled: {{selectedItem.order}}</small>
+            </span>
+            <span style="flex-grow: 1"></span>
+            <span class="flex-row" style="gap: 30px">
+                <span class="flex-row gap" *ngIf="selectedItem.type === 1">
+                    <a mat-stroked-button matTooltip="Gradivo" 
+                        [routerLink]="['/authoring/course', courseId, 'unit', selectedItem.unitId, 'knowledge-component', selectedItem.id, 'instruction']"
+                        routerLinkActive="mat-accent">
+                        <span><mat-icon>library_books</mat-icon></span>
+                    </a>
+                    <a mat-stroked-button matTooltip="Pitanja"
+                        [routerLink]="['/authoring/course', courseId, 'unit', selectedItem.unitId, 'knowledge-component', selectedItem.id, 'assessments']"
+                        routerLinkActive="mat-accent">
+                        <span><mat-icon>quiz</mat-icon></span>
+                    </a>
+                </span>
+                <span class="flex-row gap">
+                    <a mat-stroked-button matTooltip="Stavke lekcije" [routerLink]="['/authoring/course', courseId]"
+                        [queryParams]="{unit: selectedItem.unitId, mode: selectedItem.type === 1 ? 'kc' : 'lt'}">
+                        <span><mat-icon>format_list_bulleted</mat-icon></span>
+                    </a>
+                    <a mat-stroked-button [disabled]="!prevItem" [matTooltip]="prevItem ? prevItem.name : 'Nema prethodne stavke'"
+                        [routerLink]="prevItem ? [prevLink] : null">
+                        <span><mat-icon>navigate_before</mat-icon></span>
+                    </a>
+                    <a mat-stroked-button [disabled]="!nextItem" [matTooltip]="nextItem ? nextItem.name : 'Nema sledeće stavke'"
+                        [routerLink]="nextItem ? [nextLink] : null">
+                        <span><mat-icon>navigate_next</mat-icon></span>
+                    </a>
+                </span>
+            </span>
+        </span>
+    </mat-card>
+    <div style="overflow-y: auto; padding: 20px" id="scroller">
+        <router-outlet></router-outlet>
+    </div>
+</div>

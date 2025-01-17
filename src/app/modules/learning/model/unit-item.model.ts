@@ -1,4 +1,3 @@
-import { LearningTask } from "../task/model/learning-task";
 import { KCMastery } from "./knowledge-component-mastery.model";
 import { KnowledgeComponent } from "./knowledge-component.model";
 import { TaskProgressSummary } from "./task-progress-summary";
