@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { UnitItem } from './unit-item.model';
+import { UnitItem, UnitItemType } from './unit-item.model';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,31 @@ import { Observable } from 'rxjs';
 export class UnitItemService {
   constructor(private http: HttpClient) { }
 
-  getByUnit(courseId: number, unitId: number): Observable<UnitItem[]> {
-    return this.http.get<UnitItem[]>(`${environment.apiHost}/authoring/courses/${courseId}/units/${unitId}`);
+  getKcs(unitId: number): Observable<UnitItem[]> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('unitId', unitId);
+    return this.http
+      .get<any[]>(environment.apiHost + 'authoring/knowledge-components', { params: queryParams })
+      .pipe(map(kcs => kcs.map(kc => ({
+        id: kc.id,
+        unitId: kc.knowledgeUnitId,
+        order: kc.order,
+        name: kc.name,
+        type: UnitItemType.Kc
+      }))));
+  }
+
+  getTasks(unitId: number): Observable<UnitItem[]> {
+    let queryParams = new HttpParams();
+    queryParams = queryParams.append('unitId', unitId);
+    return this.http
+      .get<any[]>(`${environment.apiHost}/authoring/units/${unitId}/learning-tasks`)
+      .pipe(map(tasks => tasks.map(t => ({
+        id: t.id,
+        unitId: t.unitId,
+        order: t.order,
+        name: t.name,
+        type: UnitItemType.Task
+      }))));
   }
 }
