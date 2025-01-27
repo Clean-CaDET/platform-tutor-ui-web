@@ -20,10 +20,10 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   animations: [
     trigger('expandCollapseDefinition', [
       state('collapsed', style({
-        height: '95%'
+        height: '100%'
       })),
       state('expanded', style({
-        height: '35%'
+        height: '50%'
       })),
       transition('collapsed <=> expanded', [
         animate('0.7s ease-in-out')
@@ -31,10 +31,10 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
     ]),
     trigger('expandCollapseContent', [
       state('collapsed', style({
-        height: '56px'
+        height: '0px'
       })),
       state('expanded', style({
-        height: '65%'
+        height: '50%'
       })),
       transition('collapsed <=> expanded', [
         animate('0.7s ease-in-out')
@@ -59,7 +59,7 @@ export class TaskComponent implements OnInit {
   
   selectedExample: ActivityExample;
   videoUrl: string;
-  viewingVideo: boolean;
+  viewingTab: string;
   videoPlaybackStatus: number;
   videoEventDelayerId: number;
 
@@ -82,16 +82,19 @@ export class TaskComponent implements OnInit {
     if(tabChangeEvent.tab.textLabel === "Slanje rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = false;
+      this.viewingTab = "Submission";
     } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = false;
+      this.viewingTab = "Guidelines";
     } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = true;
+      this.viewingTab = "Examples";
+    } else if(tabChangeEvent.tab.textLabel === "Results") {
+      this.viewingTab = "Results";
     }
+    
   }
 
   setTask() {
@@ -144,6 +147,7 @@ export class TaskComponent implements OnInit {
   viewStep(step: Activity) {
     if(!step) return;
     this.selectedTab.setValue(0);
+    this.viewingTab = "Submission";
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
