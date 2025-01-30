@@ -38,26 +38,25 @@
     </div>
     <mat-divider vertical="true" style="border-width: 3px;" *ngIf="units?.length"></mat-divider>
     <div class="flex-col" style="height: 100%; flex-grow: 1; width: 80%;" *ngIf="selectedStep">
-        <div class="flex-col" style="flex: 1; overflow: hidden;" *ngIf="!isUnanswered(selectedStep)">
-            <div style="height: 35%; overflow-y: auto; padding: 10px;">
+        <div class="flex-col" style="flex: 1; overflow-y: auto;" *ngIf="!isUnanswered(selectedStep)">
+            <div style="padding: 10px;" id="text">
                 <markdown lineNumbers [data]="selectedTask?.description"></markdown>
                 <h3>Uputstvo za formatiranje odgovora:</h3>
                 <div style="padding-bottom: 20px;"><markdown lineNumbers [data]="selectedStep?.submissionFormat.guidelines"></markdown></div>
             </div>
-            <mat-divider style="border-width: 3px;"></mat-divider>
-            <div style="flex: 1; overflow-y: auto;">
-                <div style="max-height: 50%; padding: 10px; overflow: auto;">
+            <mat-divider style="border-width: 5px;"></mat-divider>
+            <div style="flex: 1">
+                <div style="padding: 10px" id="submission">
                     <pre *ngIf="selectedStep?.submissionFormat.type === 'Text'">{{ selectedStep.progress?.answer }}</pre>
                     <markdown lineNumbers *ngIf="selectedStep?.submissionFormat.type === 'Code'" [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
                     <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
                         [href]="selectedStep.progress?.answer" target="_blank">{{ selectedStep.progress?.answer }}</a>
                 </div>
-                <mat-divider style="border-width: 3px;"></mat-divider>
-                <div [formGroup]="gradingForm" style="padding: 10px">
+                <mat-divider style="border-width: 5px;"></mat-divider>
+                <div [formGroup]="gradingForm" style="padding: 10px" id="evaluation">
                     <div *ngIf="structuredFormShown">
                         <div formArrayName="evaluations">
-                            <div *ngFor="let evaluation of evaluations.controls; let i = index"
-                                [formGroup]="evaluation">
+                            <div *ngFor="let evaluation of evaluations.controls; let i = index" [formGroup]="evaluation">
                                 <div class="flex-col gap">
                                     <div>
                                         {{ selectedStep?.standards[i]?.name }}; {{ selectedStep?.standards[i]?.description }}
@@ -115,6 +114,18 @@
                 </button>
             </span>
             <span style="flex-grow: 1;"></span>
+            <span class="flex-row gap" *ngIf="!isUnanswered(selectedStep)">
+                <button mat-icon-button (click)="scrollTo('text')" matTooltip="Skoči na opis">
+                    <span><mat-icon>description</mat-icon></span>
+                </button>
+                <button mat-icon-button (click)="scrollTo('submission')" matTooltip="Skoči na rešenje">
+                    <span><mat-icon>code</mat-icon></span>
+                </button>
+                <button mat-icon-button (click)="scrollTo('evaluation')" matTooltip="Skoči na bodove">
+                    <span><mat-icon>checklist</mat-icon></span>
+                </button>
+            </span>
+            <mat-divider vertical="true" style="height: 40px;"></mat-divider>
             <button mat-icon-button (click)="changeLearner(-1)">
                 <span><mat-icon>arrow_back_ios_new</mat-icon></span>
             </button>

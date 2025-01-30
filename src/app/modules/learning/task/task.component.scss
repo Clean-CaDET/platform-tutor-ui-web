@@ -1,12 +1,12 @@
 .container {
-    height: 100vh;
+    height: calc(100vh - 58px);
     width: 95%;
     max-width: 940px;
     margin: 0 auto;
 }
 
 .task-definition {
-    height: 35%;
+    height: 50%;
 
     h3 {
         margin: 10px 0 0 0;
@@ -21,11 +21,11 @@
 }
 
 .task-content {
-    height: 65%;
+    height: 50%;
 
     .steps {
         height: 100%;
-        width: 25%;
+        min-width: 70px;
         overflow-y: auto;
     }
     
@@ -40,8 +40,19 @@
     text-align: justify;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 600px) {
     .text-alignment {
         text-align: left;
     }
+}
+
+.panel {
+    margin: 0 auto;
+    padding: 10px;
+    width: calc(100vw - 130px);
+    max-width: 940px;
+  
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }

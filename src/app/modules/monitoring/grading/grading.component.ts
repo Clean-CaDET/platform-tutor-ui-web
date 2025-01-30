@@ -116,6 +116,7 @@ export class GradingComponent implements OnChanges {
     this.selectedTask = task;
     this.selectedStep = step;
     this.createForm();
+    this.scrollTo('text');
   }
 
   private createForm() {
@@ -225,6 +226,7 @@ export class GradingComponent implements OnChanges {
        (direction === 1 && currentStepIndex < this.selectedTask.steps.length - 1)) {
         this.selectedStep = this.selectedTask.steps[currentStepIndex + direction];
         this.createForm();
+        this.scrollTo('text');
         return;
     }
     this.changeTask(direction);
@@ -236,5 +238,10 @@ export class GradingComponent implements OnChanges {
     this.selectedTask = this.tasks[newIndex];
     this.selectedStep = direction === 1 ? this.selectedTask.steps[0] : this.selectedTask.steps[this.selectedTask.steps.length-1];
     this.createForm();
+    this.scrollTo('text');
+  }
+
+  scrollTo(item: string) {
+    setTimeout(() => { document.querySelector('#'+item).scrollIntoView({behavior: 'smooth', block:'start'}) }, 0);
   }
 }
