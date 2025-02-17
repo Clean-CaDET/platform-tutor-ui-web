@@ -1,19 +1,28 @@
 <mat-card *ngIf="task" class="flex-col container">
-    <div class="flex-col task-definition" [@expandCollapseDefinition]="isExpanded ? 'expanded' : 'collapsed'">
-        <div class="flex-row" style="justify-content: space-between;">
-            <h3>{{ task.name }}</h3>
-            <h3 *ngIf="taskProgress.status === 'Graded'"> Bodovi: {{ taskProgress.totalScore }} / {{task.maxPoints}} </h3>
-        </div>
+    <div class="flex-col task-definition" [@expandCollapseDefinition]="'state' + sliderPosition">
         <div class="text-alignment task-description">
+            <div class="flex-row" style="justify-content: space-between;">
+                <h2>{{ task.name }}</h2>
+                <h2 *ngIf="taskProgress.status === 'Graded'"> Bodovi: {{ taskProgress.totalScore }} / {{task.maxPoints}} </h2>
+            </div>
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
         </div>
-        <div style="margin: 10px" *ngIf="!selectedStep">
-            <button mat-raised-button color="primary" (click)="toggleExpansion()">Započni rešavanje</button>
+        <div class="flex-row gap" style="align-items: center;" *ngIf="sliderPosition !== 0">
+            <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
+            <button mat-icon-button (click)="sliderPosition = 1" [disabled]="sliderPosition === 1" class="inline-button">
+                <mat-icon>arrow_upward</mat-icon>
+            </button>
+            <button mat-icon-button (click)="sliderPosition = 2" [disabled]="sliderPosition === 2" class="inline-button">
+                =
+            </button>
+            <button mat-icon-button (click)="sliderPosition = 3" [disabled]="sliderPosition === 3" class="inline-button">
+                <mat-icon>arrow_downward</mat-icon>
+            </button>
+            <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
         </div>
-        <mat-divider style="border-width: 5px;"></mat-divider>
     </div>
-    <div class="flex-row task-content" [@expandCollapseContent]="isExpanded ? 'expanded' : 'collapsed'">
-        <div class="steps flex-col" *ngIf="isExpanded && steps?.length > 1">
+    <div class="flex-row task-content" [@expandCollapseContent]="'state' + sliderPosition">
+        <div class="steps flex-col" *ngIf="sliderPosition !== 0 && steps?.length > 1">
             <div *ngFor="let step of steps; index as i" class="theme-hover">
                 <div [class.theme-highlight-primary]="selectedStep?.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;"
                     [matTooltip]="step.name">
@@ -95,6 +104,9 @@
 </mat-card>
 <mat-card appearance="outlined">
     <div class="panel">
+        <div *ngIf="!selectedStep">
+            <button mat-raised-button color="primary" (click)="start()">Započni rešavanje</button>
+        </div>
         <span style="flex-grow: 1;"></span>
         <button *ngIf="selectedStep?.progress?.status !== 'Graded' && viewingTab === 'Submission'" mat-raised-button [color]="selectedStep?.progress.answer ? '' : 'primary'"
             [disabled]="answerForm.invalid" (click)="submitAnswer()">

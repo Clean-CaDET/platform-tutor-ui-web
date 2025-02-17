@@ -17,37 +17,29 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   selector: 'cc-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
-  animations: [
+  animations: [ // bilo je collapsed (100 - 0) i expanded (50-50)
     trigger('expandCollapseDefinition', [
-      state('collapsed', style({
-        height: '100%'
-      })),
-      state('expanded', style({
-        height: '50%'
-      })),
-      transition('collapsed <=> expanded', [
-        animate('0.7s ease-in-out')
-      ])
+      state('state0', style({ height: '100%' })),
+      state('state1', style({ height: '20%' })),
+      state('state2', style({ height: '50%' })),
+      state('state3', style({ height: '80%' })),
+      transition('* <=> *', animate('0.3s ease-in-out'))
     ]),
     trigger('expandCollapseContent', [
-      state('collapsed', style({
-        height: '0px'
-      })),
-      state('expanded', style({
-        height: '50%'
-      })),
-      transition('collapsed <=> expanded', [
-        animate('0.7s ease-in-out')
-      ])
+      state('state0', style({ height: '0px' })),
+      state('state1', style({ height: '80%' })),
+      state('state2', style({ height: '50%' })),
+      state('state3', style({ height: '20%' })),
+      transition('* <=> *', animate('0.3s ease-in-out'))
     ])
   ]
 })
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
-  isExpanded: boolean = false;
-  toggleExpansion() {
-    this.isExpanded = true;
-    setTimeout(() => this.viewStep(this.steps[0]), 700);
+  sliderPosition: number = 0;
+  start() {
+    this.sliderPosition = 2;
+    setTimeout(() => this.viewStep(this.steps[0]), 300);
   }
   task: LearningTask;
   steps: Activity[];
@@ -110,7 +102,7 @@ export class TaskComponent implements OnInit {
           this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));
           const suitableStep = this.selectSuitableStep();
           if(suitableStep) {
-            this.isExpanded = true;
+            this.sliderPosition = 2;
             this.viewStep(suitableStep);
           }
         });
