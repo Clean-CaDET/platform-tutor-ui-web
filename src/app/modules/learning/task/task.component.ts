@@ -17,7 +17,7 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   selector: 'cc-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
-  animations: [ // bilo je collapsed (100 - 0) i expanded (50-50)
+  animations: [
     trigger('expandCollapseDefinition', [
       state('state0', style({ height: '100%' })),
       state('state1', style({ height: '20%' })),
