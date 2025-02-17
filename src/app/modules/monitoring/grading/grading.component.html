@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="flex-row gap" style="height: auto; align-items: flex-start;">
-                            <cc-markdown-editor style="width:calc(100% - 88px);" [label]="'Dodatan komentar'" [livePreview]="false"
+                            <cc-markdown-editor style="width:calc(100% - 88px);" [label]="'Dodatan komentar'" [livePreview]="false" [authoring]="false"
                                 [text]="gradingForm.get('comment').value" (textChanged)="this.gradingForm.get('comment').setValue($event)">
                             </cc-markdown-editor>
                             <div class="flex-col gap">
