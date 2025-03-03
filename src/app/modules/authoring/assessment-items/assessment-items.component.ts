@@ -7,6 +7,8 @@ import { AssessmentItemsService } from './assessment-items.service';
 import { AssessmentItem } from './model/assessment-item.model';
 import { SubmissionStatisticsComponent } from '../../knowledge-analytics/submission-statistics/submission-statistics.component';
 import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
+import { AuthoringPromptsService } from '../authoring-prompts.service';
+import { prepareForPrompt } from './prompt.utility';
 
 @Component({
   selector: 'cc-assessment-items',
@@ -20,7 +22,7 @@ export class AssessmentItemsComponent implements OnInit, CanComponentDeactivate 
   clone: boolean = false;
   selectedAi: number;
 
-  constructor(private assessmentService: AssessmentItemsService,
+  constructor(private assessmentService: AssessmentItemsService, private promptService: AuthoringPromptsService,
     private route: ActivatedRoute, private dialog: MatDialog, private clipboard: Clipboard) { }
   
   canDeactivate(): boolean {
@@ -146,5 +148,15 @@ export class AssessmentItemsComponent implements OnInit, CanComponentDeactivate 
     this.selectedAi = aiId;
     const baseUrl = window.location.href.split('?')[0];
     this.clipboard.copy(baseUrl + "?aiId=" + aiId);
+  }
+
+  copyPrompt(ai: AssessmentItem) {
+    this.promptService.getAll('authoring').subscribe(prompts => {
+      const assessmentPrompt = prompts.find(p => p.code === 'questions');
+      if(!assessmentPrompt) return;
+      
+      this.selectedAi = ai.id;
+      this.clipboard.copy(assessmentPrompt.content + prepareForPrompt(ai));
+    });
   }
 }

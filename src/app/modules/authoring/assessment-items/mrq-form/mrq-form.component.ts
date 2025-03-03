@@ -11,6 +11,7 @@ export class MrqFormComponent implements OnInit {
   @Input() item: MultipleReponseQuestion;
   workingItem: MultipleReponseQuestion;
   @Output() saveChanges = new EventEmitter<MultipleReponseQuestion>();
+  @Output() requestPrompt = new EventEmitter<MultipleReponseQuestion>();
 
   form: FormGroup
 
@@ -69,9 +70,18 @@ export class MrqFormComponent implements OnInit {
   }
 
   save(): void {
+    this.getFormData();
+    this.saveChanges.emit(this.workingItem);
+  }
+
+  private getFormData() {
     this.workingItem.items = this.form.value['options'];
     this.workingItem.hints = this.form.value['hints'].map((o: any) => o['text']);
-    this.saveChanges.emit(this.workingItem);
+  }
+
+  copyPrompt() {
+    this.getFormData();
+    this.requestPrompt.emit(this.workingItem);
   }
 
   cancel(): void {

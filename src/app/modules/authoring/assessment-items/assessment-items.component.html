@@ -16,6 +16,9 @@
                     <button mat-icon-button (click)="viewCommonWrongAnswers(item.id)" matTooltip="Najčešći pogrešni odgovori">
                         <mat-icon>bar_chart</mat-icon>
                     </button>
+                    <button mat-icon-button (click)="copyPrompt(item)" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
+                        <mat-icon>memory</mat-icon>
+                    </button>
                     <button mat-icon-button (click)="copyLink(item.id)" matTooltip="Kopiraj link do pitanja">
                         <mat-icon>link</mat-icon>
                     </button>
@@ -101,13 +104,13 @@
         </div>
         <div *ngIf="editMap[item.id]">
             <div *ngIf="item.$type === 'multiChoiceQuestion'">
-                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mcq-form>
+                <cc-mcq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)" (requestPrompt)="copyPrompt($event)"></cc-mcq-form>
             </div>
             <div *ngIf="item.$type === 'multiResponseQuestion'">
-                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-mrq-form>
+                <cc-mrq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)" (requestPrompt)="copyPrompt($event)"></cc-mrq-form>
             </div>
             <div *ngIf="item.$type === 'shortAnswerQuestion'">
-                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)"></cc-saq-form>
+                <cc-saq-form [item]="item" (saveChanges)="onCloseForm($event, item.id)" (requestPrompt)="copyPrompt($event)"></cc-saq-form>
             </div>
         </div>
     </mat-card>
@@ -125,13 +128,13 @@
             </button>
         </span>
         <div *ngIf="editMap[0]?.$type === 'multiChoiceQuestion'">
-            <cc-mcq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)"></cc-mcq-form>
+            <cc-mcq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)"></cc-mcq-form>
         </div>
         <div *ngIf="editMap[0]?.$type === 'multiResponseQuestion'">
-            <cc-mrq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)"></cc-mrq-form>
+            <cc-mrq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)"></cc-mrq-form>
         </div>
         <div *ngIf="editMap[0]?.$type === 'shortAnswerQuestion'">
-            <cc-saq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)"></cc-saq-form>
+            <cc-saq-form [item]="editMap[0]" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)"></cc-saq-form>
         </div>
     </mat-card>
 </div>

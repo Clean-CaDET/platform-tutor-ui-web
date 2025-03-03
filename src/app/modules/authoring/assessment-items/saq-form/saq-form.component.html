@@ -1,7 +1,11 @@
 <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
-    <small class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;">
+    <small class="flex-row" style="align-items: center; padding-left: 10px;">
         <b>Tip:</b>&nbsp;Otvoreno pitanje sa kratkim odgovorom
     </small>
+    <button mat-icon-button (click)="copyPrompt()" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
+        <mat-icon>memory</mat-icon>
+    </button>
+    <span style="flex-grow: 1"></span>
     <span class="flex-row gap">
         <button mat-mini-fab color="primary" [disabled]="form.invalid || workingItem.text=='' || options.length == 0" (click)="save()">
           <mat-icon>check</mat-icon>
