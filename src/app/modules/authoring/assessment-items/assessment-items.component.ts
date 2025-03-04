@@ -150,13 +150,18 @@ export class AssessmentItemsComponent implements OnInit, CanComponentDeactivate 
     this.clipboard.copy(baseUrl + "?aiId=" + aiId);
   }
 
-  copyPrompt(ai: AssessmentItem) {
+  copyPrompt(ai?: AssessmentItem) {
     this.promptService.getAll('authoring').subscribe(prompts => {
       const assessmentPrompt = prompts.find(p => p.code === 'questions');
       if(!assessmentPrompt) return;
       
-      this.selectedAi = ai.id;
-      this.clipboard.copy(assessmentPrompt.content + prepareForPrompt(ai));
+      if(ai) {
+        this.selectedAi = ai.id;
+        this.clipboard.copy(assessmentPrompt.content + prepareForPrompt(ai));
+      } else {
+        const allQuestions = this.assessmentItems.map(a => prepareForPrompt(a)).join("\n");
+        this.clipboard.copy(`${assessmentPrompt.content}\n<questions>${allQuestions}</questions>`);
+      }
     });
   }
 }

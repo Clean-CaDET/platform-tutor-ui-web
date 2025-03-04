@@ -1,7 +1,10 @@
 <div class="flex-col gap">
-    <small class="flex-row">
+    <small class="flex-row" style="align-items: center;">
+        <button mat-icon-button (click)="copyPrompt()" matTooltip="Kopiraj prompt za AI evaluaciju svih pitanja" color="primary">
+            <mat-icon>memory</mat-icon>
+        </button>
         <span style="flex-grow: 1;">
-            <b>Preporuke</b>: Sortiraj pitanja po težini; Izbegavaj reprodukciju činjenica i fokusiraj se na analizu primera; Definiši 1 hint za netrivijalna pitanja.
+            <b>Preporuke</b>: Sortiraj pitanja po težini; Izbegavaj reprodukciju činjenica i fokusiraj se na analizu primera; Definiši 1 hint za teža pitanja.
         </span>
         <span>
             <b>Broj pitanja</b>: {{ assessmentItems?.length }}
