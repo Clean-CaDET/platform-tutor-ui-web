@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Text } from 'src/app/modules/learning/knowledge-component/learning-objects/instructional-items/text/text.model';
@@ -7,6 +8,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { LearningObject } from '../../../learning/knowledge-component/learning-objects/learning-object.model';
 import { InstructionalItemsService } from './instructional-items.service';
 import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
+import { AuthoringPromptsService } from '../../authoring-prompts.service';
 
 @Component({
   selector: 'cc-instructional-items',
@@ -18,7 +20,8 @@ export class InstructionalItemsComponent implements OnInit, CanComponentDeactiva
   instructionalItems: LearningObject[];
   editMap: any = {};
 
-  constructor(private instructionService: InstructionalItemsService, private route: ActivatedRoute, private dialog: MatDialog) { }
+  constructor(private instructionService: InstructionalItemsService, private promptService: AuthoringPromptsService,
+    private route: ActivatedRoute, private dialog: MatDialog, private clipboard: Clipboard) { }
 
   canDeactivate(): boolean {
     if (Object.values(this.editMap).some(value => value)) {
@@ -124,5 +127,23 @@ export class InstructionalItemsComponent implements OnInit, CanComponentDeactiva
       this.editMap[0] = false;
       this.instructionalItems.push(item);
     });
+  }
+
+  copyPrompt(promptCode: string) {
+    this.promptService.getAll('authoring').subscribe(prompts => {
+      const systemPrompt = prompts.find(p => p.code === promptCode);
+      if(!systemPrompt) return;
+      
+      const allItems = this.instructionalItems.map(i => this.prepareForPrompt(i)).join("\n");
+      this.clipboard.copy(`${systemPrompt.content}\n<instructional-items>${allItems}</instructional-items>`);
+    });
+  }
+
+  prepareForPrompt(item: LearningObject): string {
+    switch(item.$type) {
+      case 'text': return `${(item as Text).content}`;
+      case 'video': return `Video koji razmatra: ${(item as Video).caption}`;
+    }
+    return "";
   }
 }
