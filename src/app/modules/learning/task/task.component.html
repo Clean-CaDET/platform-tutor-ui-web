@@ -5,7 +5,7 @@
                 <h2>{{ task.name }}</h2>
                 <h2 *ngIf="taskProgress.status === 'Graded'"> Bodovi: {{ taskProgress.totalScore }} / {{task.maxPoints}} </h2>
             </div>
-            <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard">{{ task.description }}</markdown>
+            <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" modal-images>{{ task.description }}</markdown>
         </div>
         <div class="flex-row gap" style="align-items: center;" *ngIf="sliderPosition !== 0">
             <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
