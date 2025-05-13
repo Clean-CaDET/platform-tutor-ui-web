@@ -6,6 +6,7 @@ import { Learner } from '../model/learner.model';
 import { TaskProgress } from '../grading/model/task-progress';
 import { WeeklyFeedbackService } from '../weekly-feedback/weekly-feedback.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
+import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -13,10 +14,10 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   styleUrls: ['./group-monitoring.component.scss'],
 })
 export class GroupMonitoringComponent implements OnInit {
-  mode: string;
+  mode: 'enrollments'|'grading'|'progress';
   courseId: number;
 
-  groups: Group[];
+  groups: Group[] = [];
   selectedGroupId = 0;
   learners: Learner[] = [];
   selectedLearner: Learner;
@@ -36,13 +37,9 @@ export class GroupMonitoringComponent implements OnInit {
       this.courseId = +params.courseId;
       this.getLearnerGroups();
     });
-    this.feedbackService.weeklyFeedbackObserver.subscribe(_ => this.getGroupFeedback());
-  }
-
-  public onDateChange(event: MatDatepickerInputEvent<Date>) {
-    if(!event?.value) return;
-    this.selectedDate = event.value;
-    this.getGroupFeedback();
+    this.feedbackService.weeklyFeedbackObserver.subscribe(feedback => {
+      this.setSemaphore(this.selectedLearner, feedback);
+    });
   }
 
   private getLearnerGroups(): void {
@@ -50,7 +47,7 @@ export class GroupMonitoringComponent implements OnInit {
     this.learners = null;
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
       this.groups = groupsPage.results;
-      this.selectedGroupId = this.groups[0].id; // TODO
+      this.selectedGroupId = this.groups[0].id;
       if (this.selectedGroupId) this.getLearners();
     });
   }
@@ -60,13 +57,29 @@ export class GroupMonitoringComponent implements OnInit {
       .subscribe((data) => {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
-        this.selectedLearner = this.learners[0];
+        this.changeLearner(this.learners[0]);
         this.getGroupFeedback();
       });
   }
 
-  public changeLearner(learnerId: number) {
-    this.selectedLearner = this.learners.find(learner => learner.id === learnerId);
+  public getGroupFeedback() {
+    if(!this.selectedDate || this.mode !== 'progress') return;
+
+    this.feedbackService.getByGroup(this.courseId, this.learners.map(l => l.id), this.selectedDate)
+      .subscribe(feedback => this.learners.forEach(l => {
+        const relatedFeedback = feedback.find(f => f.learnerId === l.id);
+        this.setSemaphore(l, relatedFeedback);
+      }));
+  }
+
+  private setSemaphore(learner: Learner, feedback: WeeklyFeedback) {
+    if(!feedback) {
+      learner.semaphore = 0;
+      learner.semaphoreJustification = '';
+      return;
+    }
+    learner.semaphore = feedback.semaphore;
+    learner.semaphoreJustification = feedback.semaphoreJustification;
   }
 
   public getTaskSummaries(taskProgress: TaskProgress[]) {
@@ -76,19 +89,13 @@ export class GroupMonitoringComponent implements OnInit {
     });
   }
 
-  public getGroupFeedback() {
-    if(!this.selectedDate || this.mode !== 'progress') return;
+  public onDateChange(event: MatDatepickerInputEvent<Date>) {
+    if(!event?.value) return;
+    this.selectedDate = event.value;
+    this.getGroupFeedback();
+  }
 
-    this.feedbackService.getByGroup(this.courseId, this.learners.map(l => l.id), this.selectedDate)
-      .subscribe(feedback => this.learners.forEach(l => {
-        const relatedFeedback = feedback.find(f => f.learnerId === l.id);
-        if(!relatedFeedback) {
-          l.semaphore = 0;
-          l.semaphoreJustification = '';
-          return;
-        }
-        l.semaphore = relatedFeedback.semaphore;
-        l.semaphoreJustification = relatedFeedback.semaphoreJustification;
-      }));
+  public changeLearner(learner: Learner) {
+    this.selectedLearner = learner;
   }
 }

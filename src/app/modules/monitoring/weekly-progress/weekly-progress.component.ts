@@ -15,7 +15,7 @@ export class WeeklyProgressComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
-  @Output() learnerChanged = new EventEmitter<number>();
+  @Output() learnerChanged = new EventEmitter<Learner>();
   groupMemberIds: Set<number>;
   allRatings: UnitProgressRating[];
   readyForFeedback = false;
@@ -130,6 +130,6 @@ export class WeeklyProgressComponent implements OnChanges {
     const currentIndex = this.learners.indexOf(currentLearner);
     const newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
     this.selectedLearnerId = this.learners[newIndex].id;
-    this.learnerChanged.emit(this.selectedLearnerId);
+    this.learnerChanged.emit(this.learners[newIndex]);
   }
 }

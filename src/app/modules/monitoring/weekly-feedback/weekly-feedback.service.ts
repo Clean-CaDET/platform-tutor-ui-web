@@ -6,10 +6,10 @@ import { WeeklyFeedback } from './weekly-feedback.model';
 
 @Injectable({providedIn: "root"})
 export class WeeklyFeedbackService {
-  weeklyFeedbackObserver: Subject<boolean> = new Subject();
+  weeklyFeedbackObserver: Subject<WeeklyFeedback> = new Subject();
 
-  notify(): void {
-    this.weeklyFeedbackObserver.next(true);
+  notify(feedback: WeeklyFeedback): void {
+    this.weeklyFeedbackObserver.next(feedback);
   }
 
   constructor(private http: HttpClient) { }
