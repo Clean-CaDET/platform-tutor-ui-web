@@ -158,13 +158,16 @@ export class TaskComponent implements OnInit {
   private createForm() {
     const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule, 's');
     this.answerForm = this.builder.group({
-      answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
+      answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)]),
+      commentForMentor: new FormControl('', [])
     });
     this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
+    this.answerForm.get('commentForMentor').setValue(this.selectedStep.progress.commentForMentor);
   }
 
   submitAnswer() {
     this.selectedStep.progress.answer = this.answerForm.value.answer;
+    this.selectedStep.progress.commentForMentor = this.answerForm.value.commentForMentor;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
   }
