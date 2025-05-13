@@ -111,7 +111,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.feedbackService.create(this.courseId, this.selectedFeedback)
         .subscribe(newFeedback => {
           this.selectedFeedback.id = newFeedback.id;
-          this.feedbackService.notify();
+          this.feedbackService.notify(newFeedback);
           this.progressBarActive = false;
         });
     }
@@ -125,8 +125,8 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }
     this.feedbackService.update(this.courseId, this.selectedFeedback)
-      .subscribe(_ => {
-        this.feedbackService.notify();
+      .subscribe(feedback => {
+        this.feedbackService.notify(feedback);
         this.progressBarActive = false;
       });
   }
@@ -140,7 +140,7 @@ export class WeeklyFeedbackComponent implements OnChanges {
       this.feedbackService.delete(this.courseId, id).subscribe(() => {
         this.feedback = [...this.feedback.filter(i => i.id !== id)];
         this.createNewFeedback();
-        this.feedbackService.notify();
+        this.feedbackService.notify(null);
         this.progressBarActive = false;
       });
     });
