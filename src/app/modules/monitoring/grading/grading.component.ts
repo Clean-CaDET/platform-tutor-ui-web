@@ -116,6 +116,7 @@ export class GradingComponent implements OnChanges {
   }
 
   public select(task: LearningTask, step: Step) {
+    if(this.isUnanswered(step)) return;
     this.selectedTask = task;
     this.selectedStep = step;
     this.createForm();

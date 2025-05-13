@@ -17,9 +17,8 @@
                     <small>{{task.order}}. {{task.name}}</small>
                 </div>
                 <div *ngFor="let step of task.steps">
-                    <div class="flex-row theme-hover"
-                        style="padding-left: 20px; align-items: center; justify-content: space-between;"
-                        [class.unclickable]="isUnanswered(step)"
+                    <div class="flex-row" style="padding-left: 20px; align-items: center; justify-content: space-between;"
+                        [class.unclickable]="isUnanswered(step)" [class.theme-hover]="!isUnanswered(step)"
                         [class.theme-highlight-primary]="selectedStep?.id === step.id"
                         (click)="select(task, step)">
                         <small>
