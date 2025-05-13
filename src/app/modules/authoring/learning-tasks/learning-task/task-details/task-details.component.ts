@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from
 import { LearningTask } from '../../model/learning-task';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { isRequestStartedOrError, RequestStatus } from 'src/app/shared/generics/model/request-status';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-task-details',
@@ -9,6 +10,7 @@ import { isRequestStartedOrError, RequestStatus } from 'src/app/shared/generics/
   styleUrls: ['./task-details.component.scss']
 })
 export class TaskDetailsComponent implements OnChanges {
+  readonly clipboard = ClipboardButtonComponent;
 
   @Input() task: LearningTask;
   @Input() updateStatus: RequestStatus;

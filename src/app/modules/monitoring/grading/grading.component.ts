@@ -9,6 +9,7 @@ import { Step } from './model/step';
 import { TaskProgress } from './model/task-progress';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { gradingInstruction } from './model/grading.constants';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-grading',
@@ -16,6 +17,8 @@ import { gradingInstruction } from './model/grading.constants';
   styleUrls: ['./grading.component.scss']
 })
 export class GradingComponent implements OnChanges {
+  readonly clipboardComponent = ClipboardButtonComponent;
+  
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];

@@ -32,7 +32,8 @@
             </section>
         </section>
         <div class="flex-col">
-            <markdown *ngIf="!editMode" [data]="taskForm.get('description').value" lineNumbers></markdown>
+            <markdown *ngIf="!editMode" [data]="taskForm.get('description').value" lineNumbers
+                clipboard [clipboardButtonComponent]="clipboard"></markdown>
             <cc-markdown-editor *ngIf="editMode" [label]="'Opis'" [text]="taskForm.get('description').value"
                 (textChanged)="this.taskForm.get('description').setValue($event)">
             </cc-markdown-editor>
