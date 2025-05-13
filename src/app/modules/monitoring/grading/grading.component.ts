@@ -22,7 +22,7 @@ export class GradingComponent implements OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
-  @Output() learnerChanged = new EventEmitter<number>();
+  @Output() learnerChanged = new EventEmitter<Learner>();
   @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   @Input() selectedDate: Date;
@@ -220,7 +220,7 @@ export class GradingComponent implements OnChanges {
     const currentIndex = this.learners.indexOf(currentLearner);
     const newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
     this.selectedLearnerId = this.learners[newIndex].id;
-    this.learnerChanged.emit(this.selectedLearnerId);
+    this.learnerChanged.emit(this.learners[newIndex]);
   }
 
   public changeStep(direction: number) {

@@ -47,7 +47,7 @@ export class GroupMonitoringComponent implements OnInit {
     this.learners = null;
     this.groupMonitoringService.getGroups(this.courseId).subscribe((groupsPage) => {
       this.groups = groupsPage.results;
-      this.selectedGroupId = this.groups[0].id; // TODO
+      this.selectedGroupId = this.groups[0].id;
       if (this.selectedGroupId) this.getLearners();
     });
   }
@@ -57,7 +57,7 @@ export class GroupMonitoringComponent implements OnInit {
       .subscribe((data) => {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
-        this.selectedLearner = this.learners[0];
+        this.changeLearner(this.learners[0]);
         this.getGroupFeedback();
       });
   }
@@ -95,7 +95,7 @@ export class GroupMonitoringComponent implements OnInit {
     this.getGroupFeedback();
   }
 
-  public changeLearner(learnerId: number) {
-    this.selectedLearner = this.learners.find(learner => learner.id === learnerId);
+  public changeLearner(learner: Learner) {
+    this.selectedLearner = learner;
   }
 }
