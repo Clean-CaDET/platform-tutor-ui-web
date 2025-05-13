@@ -52,6 +52,10 @@
                         [data]="'```csharp\n'+selectedStep.progress?.answer"></markdown>
                     <a *ngIf="selectedStep?.submissionFormat.type !== 'Text' && selectedStep?.submissionFormat.type !== 'Code'"
                         [href]="selectedStep.progress?.answer" target="_blank">{{ selectedStep.progress?.answer }}</a>
+                    <div *ngIf="selectedStep.progress?.commentForMentor">
+                        <h3>Studentov komentar na rešenje</h3>
+                        <pre>{{ selectedStep.progress?.commentForMentor }}</pre>
+                    </div>
                 </div>
                 <mat-divider style="border-width: 5px;"></mat-divider>
                 <div [formGroup]="gradingForm" style="padding: 10px" id="evaluation">
