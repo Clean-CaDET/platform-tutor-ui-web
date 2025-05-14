@@ -4,3 +4,14 @@ button.mat-mdc-outlined-button {
   min-width: 48px !important;
   height: 48px !important;
 }
+
+.slider-labels {
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: -15px;
+  text-align: center;
+  font-size: 12px;
+  small {
+    width: 70px;
+  }
+}

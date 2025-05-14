@@ -1,17 +1,18 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { WeeklyFeedbackService } from './weekly-feedback.service';
 import { WeeklyFeedback } from './weekly-feedback.model';
 import { WeeklyProgressStatistics, WeeklyRatingStatistics } from '../weekly-progress/model/weekly-summary.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { QuestionGroup, QuestionOptions, WeeklyFeedbackQuestion, WeeklyFeedbackQuestionsService } from './weekly-feedback-questions.service';
 
 @Component({
   selector: 'cc-weekly-feedback',
   templateUrl: './weekly-feedback.component.html',
   styleUrl: './weekly-feedback.component.scss'
 })
-export class WeeklyFeedbackComponent implements OnChanges {
+export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   @Input() courseId: number;
   @Input() learnerId: number;
   @Input() selectedDate: Date;
@@ -22,17 +23,36 @@ export class WeeklyFeedbackComponent implements OnChanges {
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
+  questionGroups: QuestionGroup[];
   form: FormGroup;
   progressBarActive: boolean;
 
-  constructor(private feedbackService: WeeklyFeedbackService, private builder: FormBuilder, private dialog: MatDialog) {
-    this.form = this.builder.group({
-      semaphore: new FormControl('2'),
-      semaphoreJustification: new FormControl('')
+  constructor(private builder: FormBuilder, private feedbackService: WeeklyFeedbackService,
+    private questionService: WeeklyFeedbackQuestionsService, private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    this.questionService.getAll().subscribe(qs => {
+      this.questionGroups = qs;
+      this.createForm();
     });
   }
 
+  private createForm() {
+    const groupControls: Record<string, FormControl> = {};
+    for (let group of this.questionGroups) {
+      for (let question of group.questions) {
+        const defaultOption = question.options.find(o => o.isDefault);
+        groupControls[question.code] = new FormControl(defaultOption?.value);
+      }
+    }
+    groupControls['semaphore'] = new FormControl('2');
+    groupControls['semaphoreJustification'] = new FormControl('');
+
+    this.form = this.builder.group(groupControls);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    if(!this.form) return;
     if(changes?.courseId || changes?.learnerId) {
       this.getFeedback();
       return;
@@ -91,11 +111,20 @@ export class WeeklyFeedbackComponent implements OnChanges {
     this.form.patchValue(this.selectedFeedback);
   }
 
-  getColor(semaphore: number): string {
-    if(!semaphore) return '';
-    if(semaphore === 1) return 'warn';
-    if(semaphore === 2) return 'accent';
-    if(semaphore === 3) return 'primary';
+  getColor(formControlName: string, options?: QuestionOptions[]): string {
+    const controlValue = this.form.get(formControlName)?.value;
+    if(!options) {
+      return this.getStandardColors(controlValue);
+    }
+    const selectedOption = options.find(o => o.value === controlValue);
+    return selectedOption?.color;
+  }
+
+  getStandardColors(value: number) {
+    if(value === 1) return 'warn';
+    if(value === 2) return 'accent';
+    if(value === 3) return 'primary';
+    return 'accent';
   }
 
   onSubmit(): void {
