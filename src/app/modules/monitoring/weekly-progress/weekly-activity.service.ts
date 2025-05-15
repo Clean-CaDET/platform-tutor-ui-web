@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UnitHeader } from './model/unit-header.model';
 import { UnitProgressRating } from './model/unit-rating.model';
@@ -32,7 +32,8 @@ export class WeeklyActivityService {
     });
     const baseParams = { params: queryParams };
     
-    return this.http.get<UnitProgressRating[]>(this.baseUrl + "ratings/", baseParams);
+    return this.http.get<UnitProgressRating[]>(this.baseUrl + "ratings/", baseParams)
+      .pipe(tap(ratings => ratings.forEach(r => r.feedback = JSON.parse(r.feedback.toString()))));
   }
 
   GetKcAndTaskProgressAndWarnings(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitProgressStatistics[]> {

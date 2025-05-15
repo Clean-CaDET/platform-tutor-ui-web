@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { WeeklyFeedbackService } from './weekly-feedback.service';
 import { WeeklyFeedback } from './weekly-feedback.model';
-import { WeeklyProgressStatistics, WeeklyRatingStatistics } from '../weekly-progress/model/weekly-summary.model';
+import { WeeklyProgressStatistics } from '../weekly-progress/model/weekly-summary.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
-import { QuestionGroup, QuestionOptions, WeeklyFeedbackQuestion, WeeklyFeedbackQuestionsService } from './weekly-feedback-questions.service';
+import { QuestionGroup, QuestionOptions } from './weekly-feedback-questions.service';
 
 @Component({
   selector: 'cc-weekly-feedback',
@@ -17,24 +17,20 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   @Input() learnerId: number;
   @Input() selectedDate: Date;
 
-  @Input() rating: WeeklyRatingStatistics;
+  @Input() avgLearnerSatisfaction: number;
   @Input() results: WeeklyProgressStatistics;
   @Input() loaded: boolean;
+  @Input() questionGroups: QuestionGroup[];
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
-  questionGroups: QuestionGroup[];
   form: FormGroup;
   progressBarActive: boolean;
 
-  constructor(private builder: FormBuilder, private feedbackService: WeeklyFeedbackService,
-    private questionService: WeeklyFeedbackQuestionsService, private dialog: MatDialog) {}
+  constructor(private builder: FormBuilder, private dialog: MatDialog, private feedbackService: WeeklyFeedbackService) {}
 
   ngOnInit(): void {
-    this.questionService.getAll().subscribe(qs => {
-      this.questionGroups = qs;
-      this.createForm();
-    });
+    this.createForm();
   }
 
   private createForm() {
@@ -42,7 +38,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     for (let group of this.questionGroups) {
       for (let question of group.questions) {
         const defaultOption = question.options.find(o => o.isDefault);
-        groupControls[question.code] = new FormControl(defaultOption?.value);
+        groupControls[question.code] = new FormControl(defaultOption?.value ?? question.options[0].value);
       }
     }
     groupControls['semaphore'] = new FormControl('2');
@@ -52,13 +48,12 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.form) return;
     if(changes?.courseId || changes?.learnerId) {
       this.getFeedback();
       return;
     }
     if(changes?.selectedDate && this.feedback?.length) {
-      this.feedback = this.feedback.filter(f => f.id);
+      this.feedback = this.feedback.filter(f => f.id); // Removes uncommited feedback
       const selectedFeedback = this.findFeedbackForSelectedDate();
       if(selectedFeedback) {
         this.selectFeedback(selectedFeedback);
@@ -70,8 +65,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   
   getFeedback() {
     this.feedbackService.getByCourseAndLearner(this.courseId, this.learnerId).subscribe(feedback => {
-      this.feedback = feedback;
-      this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
+      this.feedback = feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
       const selectedFeedback = this.findFeedbackForSelectedDate();
       if(selectedFeedback) {
         this.selectFeedback(selectedFeedback);
@@ -134,7 +128,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     if(this.selectedFeedback.id) {
       this.updateFeedback();
     } else {
-      this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
+      this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
       this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
       this.feedbackService.create(this.courseId, this.selectedFeedback)
@@ -149,7 +143,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   private updateFeedback() {
     const feedbackForSelectedDate = this.findFeedbackForSelectedDate();
     if (feedbackForSelectedDate.id === this.selectedFeedback.id) { // Updates feedback stats only if displayed statistics relate to the feedback being updated
-      this.selectedFeedback.averageSatisfaction = this.rating?.avgLearnerSatisfaction;
+      this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
       this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
       this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
     }

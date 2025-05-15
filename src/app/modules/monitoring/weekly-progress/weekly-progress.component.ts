@@ -1,17 +1,18 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Learner } from '../model/learner.model';
 import { WeeklyActivityService } from './weekly-activity.service';
 import { UnitHeader, updateTimelineItems } from './model/unit-header.model';
 import { getChallengeRatingLabel, UnitProgressRating } from './model/unit-rating.model';
 import { UnitProgressStatistics } from './model/unit-statistics.model';
 import { WeeklyRatingStatistics, WeeklyProgressStatistics, calculateWeeklySatisfactionStatistics, calculateWeeklyProgressStatistics } from './model/weekly-summary.model';
+import { QuestionGroup, WeeklyFeedbackQuestionsService } from '../weekly-feedback/weekly-feedback-questions.service';
 
 @Component({
   selector: 'cc-weekly-progress',
   templateUrl: './weekly-progress.component.html',
   styleUrls: ['./weekly-progress.component.scss']
 })
-export class WeeklyProgressComponent implements OnChanges {
+export class WeeklyProgressComponent implements OnInit, OnChanges {
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
@@ -24,8 +25,13 @@ export class WeeklyProgressComponent implements OnChanges {
   units: UnitHeader[] = [];
   weeklyRatings: WeeklyRatingStatistics;
   weeklyResults: WeeklyProgressStatistics;
+  questionGroups: QuestionGroup[];
   
-  constructor(private weeklyActivityService: WeeklyActivityService) {}
+  constructor(private weeklyActivityService: WeeklyActivityService, private questionService: WeeklyFeedbackQuestionsService) {}
+
+  ngOnInit(): void {
+    this.questionService.getAll().subscribe(groups => this.questionGroups = groups);
+  }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(!changes) return;
@@ -62,10 +68,7 @@ export class WeeklyProgressComponent implements OnChanges {
 
       this.weeklyActivityService.getAllRatings(this.units.map(u => u.id), this.selectedDate)
         .subscribe(allRatings => {
-          this.allRatings = allRatings.map(rating => {
-            rating.feedback = JSON.parse(rating.feedback.toString());
-            return rating;
-          });
+          this.allRatings = allRatings;
           this.linkAndSummarizeRatings();
           this.getKcAndTaskProgressAndWarnings();
         });
@@ -107,13 +110,12 @@ export class WeeklyProgressComponent implements OnChanges {
     this.weeklyActivityService.GetKcAndTaskProgressAndWarnings(
       this.units.map(u => u.id), this.selectedLearnerId, [...this.groupMemberIds])
       .subscribe(unitSummaries => {
-        this.linkStatisticsToUnits(unitSummaries);
-        this.weeklyResults = calculateWeeklyProgressStatistics(this.units);
+        this.linkAndSummarizeStatistics(unitSummaries);
         this.readyForFeedback = true;
       });
   }
 
-  private linkStatisticsToUnits(unitSummaries: UnitProgressStatistics[]) {
+  private linkAndSummarizeStatistics(unitSummaries: UnitProgressStatistics[]) {
     unitSummaries.forEach(summary => {
       const relatedUnit = this.units.find(u => u.id === summary.unitId);
       if (!relatedUnit) return;
@@ -123,6 +125,8 @@ export class WeeklyProgressComponent implements OnChanges {
       relatedUnit.tasks?.forEach(t => t.statistics = summary.taskStatistics.taskStatistics.find(s => s.taskId === t.id));
       updateTimelineItems(relatedUnit);
     });
+
+    this.weeklyResults = calculateWeeklyProgressStatistics(this.units);
   }
 
   public changeLearner(direction: number) {
