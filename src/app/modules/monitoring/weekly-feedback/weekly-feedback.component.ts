@@ -16,11 +16,11 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   @Input() courseId: number;
   @Input() learnerId: number;
   @Input() selectedDate: Date;
+  @Input() questionGroups: QuestionGroup[];
 
   @Input() avgLearnerSatisfaction: number;
   @Input() results: WeeklyProgressStatistics;
   @Input() loaded: boolean;
-  @Input() questionGroups: QuestionGroup[];
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
@@ -30,36 +30,29 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   constructor(private builder: FormBuilder, private dialog: MatDialog, private feedbackService: WeeklyFeedbackService) {}
 
   ngOnInit(): void {
-    this.createForm();
-  }
-
-  private createForm() {
-    const groupControls: Record<string, FormControl> = {};
+    const formControls: Record<string, FormControl> = {};
     for (let group of this.questionGroups) {
       for (let question of group.questions) {
         const defaultOption = question.options.find(o => o.isDefault);
-        groupControls[question.code] = new FormControl(defaultOption?.value ?? question.options[0].value);
+        formControls[question.code] = new FormControl(defaultOption?.value ?? question.options[0].value);
       }
     }
-    groupControls['semaphore'] = new FormControl('2');
-    groupControls['semaphoreJustification'] = new FormControl('');
-
-    this.form = this.builder.group(groupControls);
+    formControls['semaphore'] = new FormControl('2');
+    formControls['semaphoreJustification'] = new FormControl('');
+    this.form = this.builder.group(formControls);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes?.courseId || changes?.learnerId) {
-      this.getFeedback();
+      this.feedbackService.getByCourseAndLearner(this.courseId, this.learnerId).subscribe(feedback => {
+        this.feedback = feedback;
+        this.selectOrInitializeFeedback();
+      });
       return;
     }
     if(changes?.selectedDate && this.feedback?.length) {
       this.feedback = this.feedback.filter(f => f.id); // Removes uncommited feedback
-      const selectedFeedback = this.findFeedbackForSelectedDate();
-      if(selectedFeedback) {
-        this.selectFeedback(selectedFeedback);
-        return;
-      }
-      this.createNewFeedback();
+      this.selectOrInitializeFeedback();
     }
     if(changes?.results) {
       if(this.selectedFeedback?.id) return;
@@ -67,19 +60,16 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
       opinions?.forEach(o => this.form.get(o.code)?.setValue(o.value));
     }
   }
-  
-  getFeedback() {
-    this.feedbackService.getByCourseAndLearner(this.courseId, this.learnerId).subscribe(feedback => {
-      this.feedback = feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
-      const selectedFeedback = this.findFeedbackForSelectedDate();
-      if(selectedFeedback) {
-        this.selectFeedback(selectedFeedback);
-        return;
-      }
-      this.createNewFeedback();
-    });
-  }
 
+  private selectOrInitializeFeedback() {
+    const selectedFeedback = this.findFeedbackForSelectedDate();
+    if(selectedFeedback) {
+      this.selectFeedback(selectedFeedback);
+      return;
+    }
+    this.createNewFeedback();
+  }
+  
   private findFeedbackForSelectedDate(): WeeklyFeedback {
     return this.feedback.find(f => {
       const startDate = new Date(f.weekEnd);
@@ -138,7 +128,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     this.progressBarActive = true;
     this.selectedFeedback.semaphore = this.form.value.semaphore;
     this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
-    this.defineOptions();
+    this.populateOpinions();
     this.embedStatistics();
     if(this.selectedFeedback.id) {
       this.feedbackService.update(this.courseId, this.selectedFeedback)
@@ -156,7 +146,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     }
   }
 
-  private defineOptions() {
+  private populateOpinions() {
     if (this.selectedFeedback.id && !this.selectedFeedback.opinions) return; // Support legacy feedback
       
     this.selectedFeedback.opinions = [];

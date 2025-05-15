@@ -27,6 +27,7 @@ export class WeeklyFeedbackService {
           r.weekEnd = new Date(r.weekEnd);
           if(r.opinions) r.opinions = JSON.parse(r.opinions.toString());
         });
+        results.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
         return results;
       }));
   }

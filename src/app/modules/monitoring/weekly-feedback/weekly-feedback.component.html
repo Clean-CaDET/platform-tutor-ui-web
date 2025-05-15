@@ -35,7 +35,7 @@
                 </div>
             </div>
             <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
-                <h3 class="mat-h3" style="margin: 0;">Sumarni utisak</h3>
+                <h3 class="mat-h3" style="margin: 0;"><b>Sumarni utisak</b></h3>
             </div>
             <section class="flex-col" style="align-items: center;">
                 <div class="flex-row gap slider-labels">
@@ -50,7 +50,7 @@
             </section>
             <mat-form-field appearance="outline">
                 <mat-label>Da li imaš dodatna zapažanja?</mat-label>
-                <textarea matInput formControlName="semaphoreJustification" rows="5"></textarea>
+                <textarea matInput formControlName="semaphoreJustification" rows="4"></textarea>
             </mat-form-field>
             <div class="flex-row">
                 <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;" (click)="onSubmit()" [disabled]="progressBarActive || !loaded">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
