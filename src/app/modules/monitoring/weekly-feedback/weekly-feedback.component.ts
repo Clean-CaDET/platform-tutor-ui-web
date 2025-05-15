@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { WeeklyFeedbackService } from './weekly-feedback.service';
-import { WeeklyFeedback } from './weekly-feedback.model';
+import { createOpinions, WeeklyFeedback } from './weekly-feedback.model';
 import { WeeklyProgressStatistics } from '../weekly-progress/model/weekly-summary.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -61,6 +61,11 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
       }
       this.createNewFeedback();
     }
+    if(changes?.results) {
+      if(this.selectedFeedback?.id) return;
+      const opinions = createOpinions(changes.results.currentValue);
+      opinions?.forEach(o => this.form.get(o.code)?.setValue(o.value));
+    }
   }
   
   getFeedback() {
@@ -87,7 +92,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   }
 
   private createNewFeedback(): void {
-    this.feedback = [...this.feedback.filter(i => i.id)];
+    this.feedback = this.feedback.filter(i => i.id);
     const selectedDate = new Date(this.selectedDate);
     selectedDate.setDate(selectedDate.getDate() + 1);
     this.selectFeedback({
@@ -96,6 +101,13 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
       semaphoreJustification: '',
       learnerId: this.learnerId
     });
+    for (let group of this.questionGroups) {
+      for (let question of group.questions) {
+        const defaultOption = question.options.find(o => o.isDefault);
+        if(!defaultOption) continue;
+        this.form.get(question.code).setValue(defaultOption.value);
+      }
+    }
     this.feedback.push(this.selectedFeedback);
     this.feedback.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
   }
@@ -103,6 +115,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   selectFeedback(feedback: WeeklyFeedback): void {
     this.selectedFeedback = feedback;
     this.form.patchValue(this.selectedFeedback);
+    feedback.opinions?.forEach(o => this.form.get(o.code)?.setValue(o.value));
   }
 
   getColor(formControlName: string, options?: QuestionOptions[]): string {
@@ -125,12 +138,15 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     this.progressBarActive = true;
     this.selectedFeedback.semaphore = this.form.value.semaphore;
     this.selectedFeedback.semaphoreJustification = this.form.value.semaphoreJustification;
+    this.defineOptions();
+    this.embedStatistics();
     if(this.selectedFeedback.id) {
-      this.updateFeedback();
+      this.feedbackService.update(this.courseId, this.selectedFeedback)
+        .subscribe(feedback => {
+          this.feedbackService.notify(feedback);
+          this.progressBarActive = false;
+        });
     } else {
-      this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
-      this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
-      this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
       this.feedbackService.create(this.courseId, this.selectedFeedback)
         .subscribe(newFeedback => {
           this.selectedFeedback.id = newFeedback.id;
@@ -140,18 +156,26 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     }
   }
 
-  private updateFeedback() {
+  private defineOptions() {
+    if (this.selectedFeedback.id && !this.selectedFeedback.opinions) return; // Support legacy feedback
+      
+    this.selectedFeedback.opinions = [];
+    const questions = this.questionGroups.flatMap(g => g.questions);
+    questions.forEach(q => {
+      const value = this.form.get(q.code)?.value;
+      const label = q.options.find(o => o.value === value).label;
+      this.selectedFeedback.opinions.push({ code: q.code, label, value });
+    });
+  }
+
+  private embedStatistics() {
     const feedbackForSelectedDate = this.findFeedbackForSelectedDate();
-    if (feedbackForSelectedDate.id === this.selectedFeedback.id) { // Updates feedback stats only if displayed statistics relate to the feedback being updated
-      this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
-      this.selectedFeedback.achievedTaskPoints = this.results?.totalLearnerPoints;
-      this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
-    }
-    this.feedbackService.update(this.courseId, this.selectedFeedback)
-      .subscribe(feedback => {
-        this.feedbackService.notify(feedback);
-        this.progressBarActive = false;
-      });
+    if(this.selectedFeedback.id && feedbackForSelectedDate.id !== this.selectedFeedback.id) return;
+    
+    // Embeds stats if new feedback or displayed statistics relate to updated feedback
+    this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
+    this.selectedFeedback.achievedTaskPoints = this.results?.achievedPoints;
+    this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
   }
 
   public onDelete(id: number) {
@@ -161,8 +185,10 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
       if(!result) return;
       this.progressBarActive = true;
       this.feedbackService.delete(this.courseId, id).subscribe(() => {
-        this.feedback = [...this.feedback.filter(i => i.id !== id)];
+        this.feedback = this.feedback.filter(i => i.id !== id);
         this.createNewFeedback();
+        const opinions = createOpinions(this.results);
+        opinions?.forEach(o => this.form.get(o.code)?.setValue(o.value));
         this.feedbackService.notify(null);
         this.progressBarActive = false;
       });

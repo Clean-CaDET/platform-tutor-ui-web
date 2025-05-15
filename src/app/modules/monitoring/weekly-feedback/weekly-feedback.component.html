@@ -11,26 +11,28 @@
             <h3 class="mat-h3" style="margin: 0;">Koliko se dobro student snašao u nedelji zaključno sa <b>{{selectedFeedback?.weekEnd | date: 'dd.MM.y.'}}</b>?</h3>
         </div>
         <form *ngIf="form" [formGroup]="form" class="flex-col gap" style="padding: 0 10px">
-            <div *ngFor="let group of questionGroups" class="question-group">
-                <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
-                    <h3 class="mat-h3" style="margin: 0;">{{group.name}}</h3>
-                </div>
-                <section *ngFor="let q of group.questions" class="flex-col" style="align-items: center;">
-                    <mat-label>
-                        {{ q.question }}
-                        <mat-icon *ngIf="q.guidance" [matTooltip]="q.guidance" matTooltipPosition="above">help_outline</mat-icon>
-                    </mat-label>
-                    <div class="flex-row slider-labels">
-                        <small *ngFor="let o of q.options">
-                            {{ o.label }}
-                        </small>
+            <div *ngIf="!selectedFeedback?.id || selectedFeedback?.opinions" class="flex-col gap">
+                <div *ngFor="let group of questionGroups" class="question-group">
+                    <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
+                        <h3 class="mat-h3" style="margin: 0;">{{group.name}}</h3>
                     </div>
+                    <section *ngFor="let q of group.questions" class="flex-col" style="align-items: center;">
+                        <mat-label>
+                            {{ q.question }}
+                            <mat-icon *ngIf="q.guidance" [matTooltip]="q.guidance" matTooltipPosition="above">help_outline</mat-icon>
+                        </mat-label>
+                        <div class="flex-row slider-labels">
+                            <small *ngFor="let o of q.options">
+                                {{ o.label }}
+                            </small>
+                        </div>
 
-                    <mat-slider style="width: calc(100% - 60px);" [color]="getColor(q.code, q.options)"
-                        [min]="q.minValue" [max]="q.maxValue" [step]="1">
-                        <input matSliderThumb formControlName="{{q.code}}"/>
-                    </mat-slider>
-                </section>
+                        <mat-slider style="width: calc(100% - 60px);" [color]="getColor(q.code, q.options)"
+                            [min]="q.minValue" [max]="q.maxValue" [step]="1">
+                            <input matSliderThumb formControlName="{{q.code}}"/>
+                        </mat-slider>
+                    </section>
+                </div>
             </div>
             <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
                 <h3 class="mat-h3" style="margin: 0;">Sumarni utisak</h3>

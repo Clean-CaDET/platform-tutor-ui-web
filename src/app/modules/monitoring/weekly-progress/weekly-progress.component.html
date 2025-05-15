@@ -38,13 +38,13 @@
                     <b><mat-icon>checklist_rtl</mat-icon>Postignuti rezultati</b>
                     <ul *ngIf="weeklyResults">
                         <li *ngIf="weeklyResults.totalKcCount"
-                            [ngClass]="{ 'theme-warn': weeklyResults.totalKcCount - weeklyResults.learnerSatisfiedKcCount > 0}">
-                            {{weeklyResults.learnerSatisfiedKcCount}} / {{weeklyResults.totalKcCount}} savladanih komponenti znanja
+                            [ngClass]="{ 'theme-warn': weeklyResults.totalKcCount - weeklyResults.satisfiedKcCount > 0}">
+                            {{weeklyResults.satisfiedKcCount}} / {{weeklyResults.totalKcCount}} savladanih komponenti znanja
                         </li>
                         <li *ngIf="weeklyResults.totalTaskCount">
-                            {{weeklyResults.learnerGradedTaskCount}} / {{weeklyResults.totalTaskCount}} ocenjenih zadataka
+                            {{weeklyResults.gradedTaskCount}} / {{weeklyResults.totalTaskCount}} ocenjenih zadataka
                         </li>
-                        <li *ngIf="weeklyResults.learnerCompletedTaskCount" class="theme-warn">
+                        <li *ngIf="weeklyResults.completedTaskCount" class="theme-warn">
                             <b>Student ima rešenih zadataka koji nisu ocenjeni.</b>
                         </li>
                         <li *ngIf="weeklyResults.totalMaxPoints"

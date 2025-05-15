@@ -4,11 +4,11 @@ import { UnitProgressRating } from "./unit-rating.model";
 export interface WeeklyProgressStatistics {
   totalKcCount: number;
   totalTaskCount: number;
-  learnerSatisfiedKcCount: number;
-  learnerGradedTaskCount: number;
-  learnerCompletedTaskCount: number;
+  satisfiedKcCount: number;
+  gradedTaskCount: number;
+  completedTaskCount: number;
+  achievedPoints: number;
   totalMaxPoints: number;
-  totalLearnerPoints: number;
   percentPoints: number;
   avgGroupPoints: number;
 
@@ -21,18 +21,18 @@ export interface WeeklyProgressStatistics {
 export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyProgressStatistics {
   let totalKcCount = 0;
   let totalTaskCount = 0;
-  let learnerSatisfiedKcCount = 0;
-  let learnerGradedTaskCount = 0;
-  let learnerCompletedTaskCount = 0;
+  let satisfiedKcCount = 0;
+  let gradedTaskCount = 0;
+  let completedTaskCount = 0;
+  let achievedPoints = 0;
   let totalMaxPoints = 0;
-  let totalLearnerPoints = 0;
   let avgGroupPoints = 0;
   let negativePatterns: {name: string, count: number}[] = [];
   
   units.forEach(u => {
     if(u.kcStatistics) {
       totalKcCount += u.kcStatistics.totalCount;
-      learnerSatisfiedKcCount += u.kcStatistics.satisfiedCount;
+      satisfiedKcCount += u.kcStatistics.satisfiedCount;
       const kcNegativePatterns = u.kcStatistics.satisfiedKcStatistics.flatMap(stats => stats.negativePatterns);
       kcNegativePatterns.forEach(pattern => {
         const patternCategory = pattern.split(':')[0];
@@ -46,9 +46,9 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
     }
     if(u.taskStatistics) {
       totalTaskCount += u.taskStatistics.totalCount;
-      learnerGradedTaskCount += u.taskStatistics.gradedCount;
-      learnerCompletedTaskCount += u.taskStatistics.completedCount;
-      totalLearnerPoints += u.taskStatistics.learnerPoints;
+      gradedTaskCount += u.taskStatistics.gradedCount;
+      completedTaskCount += u.taskStatistics.completedCount;
+      achievedPoints += u.taskStatistics.learnerPoints;
       avgGroupPoints += u.taskStatistics.avgGroupPoints;
       totalMaxPoints += u.taskStatistics.totalMaxPoints;
       const taskNegativePatterns = u.taskStatistics.taskStatistics.flatMap(stats => stats.negativePatterns);
@@ -67,12 +67,12 @@ export function calculateWeeklyProgressStatistics(units: UnitHeader[]): WeeklyPr
   return {
     totalKcCount,
     totalTaskCount,
-    learnerSatisfiedKcCount,
-    learnerGradedTaskCount,
-    learnerCompletedTaskCount,
+    satisfiedKcCount,
+    gradedTaskCount,
+    completedTaskCount,
     totalMaxPoints,
-    totalLearnerPoints,
-    percentPoints: +(100 * totalLearnerPoints / totalMaxPoints).toFixed(0), // Course monitoring doubles this calculation and it should be centralized on the backend
+    achievedPoints,
+    percentPoints: +(100 * achievedPoints / totalMaxPoints).toFixed(0), // Course monitoring doubles this calculation and it should be centralized on the backend
     avgGroupPoints,
     negativePatterns
   };
