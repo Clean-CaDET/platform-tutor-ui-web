@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Group } from '../model/group.model';
 import { GroupMonitoringService } from './group-monitoring.service';
@@ -7,13 +7,15 @@ import { TaskProgress } from '../grading/model/task-progress';
 import { WeeklyFeedbackService } from '../weekly-feedback/weekly-feedback.service';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'cc-group-monitoring',
   templateUrl: './group-monitoring.component.html',
   styleUrls: ['./group-monitoring.component.scss'],
 })
-export class GroupMonitoringComponent implements OnInit {
+export class GroupMonitoringComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   mode: 'enrollments'|'grading'|'progress';
   courseId: number;
 
@@ -25,7 +27,7 @@ export class GroupMonitoringComponent implements OnInit {
   selectedDate: Date;
 
   constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService, private feedbackService: WeeklyFeedbackService) { }
-
+  
   ngOnInit(): void {
     this.selectedDate = new Date();
     this.route.params.subscribe((params: Params) => {
@@ -37,9 +39,16 @@ export class GroupMonitoringComponent implements OnInit {
       this.courseId = +params.courseId;
       this.getLearnerGroups();
     });
-    this.feedbackService.weeklyFeedbackObserver.subscribe(feedback => {
-      this.setSemaphore(this.selectedLearner, feedback);
-    });
+    this.feedbackService.weeklyFeedbackObserver
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(feedback => {
+        this.setSemaphore(this.selectedLearner, feedback);
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   private getLearnerGroups(): void {

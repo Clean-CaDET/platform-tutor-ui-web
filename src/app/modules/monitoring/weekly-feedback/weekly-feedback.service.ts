@@ -23,21 +23,27 @@ export class WeeklyFeedbackService {
     
     return this.http.get<WeeklyFeedback[]>(this.baseLearnerUrl(courseId), { params })
       .pipe(map(results => {
-        results.forEach(r => r.weekEnd = new Date(r.weekEnd));
+        results.forEach(r => {
+          r.weekEnd = new Date(r.weekEnd);
+          if(r.opinions) r.opinions = JSON.parse(r.opinions.toString());
+        });
+        results.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
         return results;
       }));
   }
 
-  getByGroup(courseId: number, learnerIds: number[], weekEnd: Date): Observable<WeeklyFeedback[]> {
+  getByGroup(courseId: number, learnerIds: number[], weekEnd: Date): Observable<WeeklyFeedback[]> { // POST because of many Ids
     return this.http.post<WeeklyFeedback[]>(`${environment.apiHost}monitoring/${courseId}/feedback/group`, {learnerIds, weekEnd});
   }
 
   create(courseId: number, item: WeeklyFeedback): Observable<WeeklyFeedback> {
-    return this.http.post<WeeklyFeedback>(this.baseLearnerUrl(courseId), item);
+    const payload = { ...item, opinions: item.opinions ? JSON.stringify(item.opinions) : null };
+    return this.http.post<WeeklyFeedback>(this.baseLearnerUrl(courseId), payload);
   }
 
   update(courseId: number, item: WeeklyFeedback): Observable<WeeklyFeedback> {
-    return this.http.put<WeeklyFeedback>(this.baseLearnerUrl(courseId)+item.id, item);
+    const payload = { ...item, opinions: item.opinions ? JSON.stringify(item.opinions) : null };
+    return this.http.put<WeeklyFeedback>(this.baseLearnerUrl(courseId)+item.id, payload);
   }
 
   delete(courseId: number, itemId: number): Observable<WeeklyFeedback> {
