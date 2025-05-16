@@ -122,7 +122,7 @@ export class KcTreeComponent implements OnChanges {
   }
 
   deleteKc(id: number) {
-    let diagRef = this.dialog.open(DeleteFormComponent);
+    let diagRef = this.dialog.open(DeleteFormComponent, {data: {secureDelete: true}});
 
     diagRef.afterClosed().subscribe(result => {
       if(!result) return;
