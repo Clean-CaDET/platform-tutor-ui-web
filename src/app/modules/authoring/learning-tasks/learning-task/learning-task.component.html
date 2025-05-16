@@ -12,7 +12,7 @@
                 </button>
                 <span style="flex-grow: 1;"></span>
                 <a mat-stroked-button matTooltip="Pregled zadataka lekcije"
-                    [routerLink]="['/authoring/course', courseId]" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
+                    [routerLink]="['/authoring', courseId, 'units']" [queryParams]="{unit: task?.unitId, mode: 'lt'}">
                     <span><mat-icon>rebase_edit</mat-icon></span>
                 </a>
             </div>

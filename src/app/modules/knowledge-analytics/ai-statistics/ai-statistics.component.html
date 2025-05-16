@@ -7,7 +7,7 @@
             Broj rešenih: {{a.totalPassed}}
             <span fxFlex></span>
             <button mat-raised-button color="primary" (click)="exportEvents(a.aiId)">Događaji</button>
-            <button mat-raised-button [routerLink]="['/authoring/course', courseId, 'unit', unitId, 'knowledge-component', a.kcId, 'assessments']"
+            <button mat-raised-button [routerLink]="['/authoring', courseId, 'units', unitId, 'knowledge-components', a.kcId, 'assessments']"
                 [queryParams]="{ aiId: a.aiId }">
                 Autorstvo pitanja
             </button>
