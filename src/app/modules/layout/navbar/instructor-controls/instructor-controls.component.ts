@@ -22,6 +22,7 @@ export class InstructorControlsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.deriveSelectedControls(window.location.href);
     this.layoutService.getInstructorCourses().subscribe((courses) => {
       this.courses = courses;
       let params = this.getParams(this.route);
@@ -36,11 +37,10 @@ export class InstructorControlsComponent implements OnInit {
     this.router.events
       .pipe(
         filter((e) => e instanceof NavigationEnd),
-        map((e) => this.getActiveUrl(e)),
-        map((e) => this.getParams(this.route))
+        map(_ => this.getParams(this.route))
       )
       .subscribe((params) => {
-        const route = this.route.snapshot;
+        this.deriveSelectedControls(window.location.href);
         if (!params.courseId) {
           this.selectedCourse = null;
           return;
@@ -70,22 +70,22 @@ export class InstructorControlsComponent implements OnInit {
     return params;
   }
 
-  private getActiveUrl(e: any) {
-    if (e.url.includes('monitoring')) {
+  private deriveSelectedControls(url: string) {
+    if (url.includes('monitoring')) {
       this.selectedControl = 'monitoring';
-      if (e.url.includes('enrollments')) {
+      if (url.includes('enrollments')) {
         this.selectedSubcontrol = 'enrollments';
-      } else if (e.url.includes('grading')) {
+      } else if (url.includes('grading')) {
         this.selectedSubcontrol = 'grading';
       } else {
         this.selectedSubcontrol = 'progress';
       }
     }
-    else if (e.url.includes('authoring')) {
+    else if (url.includes('authoring')) {
       this.selectedControl = 'authoring';
       this.selectedSubcontrol = 'units';
     }
-    else if (e.url.includes('analytics')) {
+    else if (url.includes('analytics')) {
       this.selectedControl = 'analytics';
       this.selectedSubcontrol = 'statistics';
     }
@@ -93,6 +93,5 @@ export class InstructorControlsComponent implements OnInit {
       this.selectedControl = 'monitoring';
       this.selectedSubcontrol = 'progress';
     }
-    return e;
   }
 }
