@@ -3,6 +3,8 @@ import { Course } from '../../management/model/course.model';
 import { Group } from '../model/group.model';
 import { CourseMonitoringService } from './course-monitoring.service';
 import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
+import { Learner } from '../model/learner.model';
+import { WeeklyFeedbackQuestion } from '../weekly-feedback/weekly-feedback-questions.service';
 
 @Component({
   selector: 'cc-course-monitoring',
@@ -13,22 +15,27 @@ export class CourseMonitoringComponent implements OnInit {
   courses: Course[];
   selectedCourseId: 0;
   groups: Group[];
+  selectedLearner: Learner;
+  feedbackQuestions: WeeklyFeedbackQuestion[];
 
   constructor(private monitoringService: CourseMonitoringService) {}
   
   ngOnInit(): void {
     this.monitoringService.GetActiveCourses().subscribe(courses => this.courses = courses);
+    this.monitoringService.GetFeedbackQuestions().subscribe(qs => this.feedbackQuestions = qs);
   }
 
   getGroups(): void {
+    this.selectedLearner = null;
     this.monitoringService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
       this.groups = groups;
       this.groups.forEach(g => {
         g.learners.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
         g.learners.forEach(l => {
           if(l.index.indexOf('@') > 0) l.index = l.index.split('@')[0];
-          l.recentFeedback = l.weeklyFeedback?.slice(-3) ?? [];
+          l.recentFeedback = l.weeklyFeedback?.slice(0, 3) ?? [];
           l.recentFeedback.forEach(f => {
+            if(f.opinions) f.opinions = JSON.parse(f.opinions.toString());
             if(!f.maxTaskPoints) {
               f.achievedPercentage = -1;
               return;
@@ -60,8 +67,8 @@ export class CourseMonitoringComponent implements OnInit {
   weighValues(numbers: number[]): number {
     if(numbers.length == 0) return -1;
     if(numbers.length == 1) return numbers[0];
-    if(numbers.length == 2) return 0.6 * numbers[1] + 0.4 * numbers[0];
-    return 0.5 * numbers[2] + 0.33 * numbers[1] + 0.17 * numbers[0];
+    if(numbers.length == 2) return 0.6 * numbers[0] + 0.4 * numbers[1];
+    return 0.5 * numbers[0] + 0.33 * numbers[1] + 0.17 * numbers[2];
   }
 
   calculateSemaphoreWithKeyMetrics(semaphore: number, satisfaction: number, score: number): number {
@@ -73,5 +80,9 @@ export class CourseMonitoringComponent implements OnInit {
     if(satisfaction >= 2.6) blueCount++;
     if(semaphore > 2.3) blueCount++;
     return blueCount < 2 ? 2 : 3;
+  }
+
+  getQuestion(code: string): string {
+    return this.feedbackQuestions.find(q => q.code === code).question ?? "";
   }
 }

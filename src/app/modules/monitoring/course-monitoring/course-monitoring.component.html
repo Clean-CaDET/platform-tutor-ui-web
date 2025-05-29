@@ -1,7 +1,7 @@
 <div class="flex-col" style="height: 100vh; overflow: hidden;">
     <div class="flex-row gap" style="width: calc(100% - 20px); padding: 10px;">
         <span *ngIf="!courses?.length">Nema aktivih modula.</span>
-        <mat-form-field appearance="fill" style="margin-bottom: -1em" *ngIf="courses?.length">
+        <mat-form-field appearance="fill" style="margin-bottom: -1em; flex-grow: 1;" *ngIf="courses?.length">
             <mat-label>Posmatran modul</mat-label>
             <mat-select [(value)]="selectedCourseId" (selectionChange)="getGroups()">
                 <mat-option *ngFor="let c of courses" [value]="c.id">
@@ -9,68 +9,78 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <span style="flex-grow: 1;"></span>
-        <span>
-            <b>Legenda</b>
-        </span>
-        <small>
-            <mat-icon>traffic</mat-icon> Mišljenje mentora o napretku<br>
-            <mat-icon color="primary">circle</mat-icon> Snalazi se<br>
-            <mat-icon color="accent">circle</mat-icon> Bori se, ali paziti<br>
-            <mat-icon color="warn">circle</mat-icon> Ne snalazi se
-        </small>
-        <small>
-            <mat-icon>record_voice_over</mat-icon> Mišljenje studenta o napretku<br>
-            <mat-icon color="primary">circle</mat-icon> Zadovoljan tempom<br>
-            <mat-icon color="accent">circle</mat-icon> Negde između<br>
-            <mat-icon color="warn">circle</mat-icon> Nije zadovoljan
-        </small>
-        <small>
-            <mat-icon>checklist_rtl</mat-icon> Osvojeni poeni na zadacima<br>
-            <mat-icon color="primary">circle</mat-icon> Preko 65%<br>
-            <mat-icon color="accent">circle</mat-icon> Od 35% do 65%<br>
-            <mat-icon color="warn">circle</mat-icon> Ispod 35%
-        </small>
     </div>
     <mat-divider></mat-divider>
-    <div class="flex-col gap course-overview" style="padding: 10px;" *ngIf="groups?.length">
-        <div *ngFor="let g of groups">
-            <h3>{{g.name}}</h3>
-            <div class="flex-row gap" style="flex-wrap: wrap;">
-            <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px; width: 200px;">
-                <div class="flex-row" style="align-items: center;">
-                    <small style="flex-grow: 1;">{{l.name}} {{l.surname}} <br>{{l.index}}</small>
-                    <mat-icon style="scale: 1.8" *ngIf="l.summarySemaphore != -1"
-                        [matTooltip]="l.summarySemaphore == 1 ? 'Kontaktiraj studenta' : l.summarySemaphore == 2 ? 'Proveri sa mentorom' : 'Sve ok'"
-                        [color]="l.summarySemaphore == 1 ? 'warn' : l.summarySemaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
+    <div class="flex-row" style="height: calc(100% - 103px)" *ngIf="groups?.length">
+        <div class="flex-col gap course-overview" style="padding: 10px; width: 60%;">
+            <div *ngFor="let g of groups">
+                <h3>{{g.name}}</h3>
+                <div class="flex-row gap" style="flex-wrap: wrap;">
+                <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px; width: 200px;"
+                    class="theme-hover" (click)="selectedLearner = l" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
+                    <div class="flex-row" style="align-items: center;">
+                        <small style="flex-grow: 1;">{{l.name}} {{l.surname}} <br>{{l.index}}</small>
+                        <mat-icon style="scale: 1.8" *ngIf="l.summarySemaphore != -1"
+                            [matTooltip]="l.summarySemaphore == 1 ? 'Kontaktiraj studenta' : l.summarySemaphore == 2 ? 'Proveri sa mentorom' : 'Sve ok'"
+                            [color]="l.summarySemaphore == 1 ? 'warn' : l.summarySemaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
+                    </div>
+                    <small *ngIf="!l.recentFeedback?.length">Mentor nije još ocenio.</small>
+                </mat-card>
                 </div>
-                <small *ngIf="!l.recentFeedback?.length">Mentor nije još ocenio.</small><br>
-                <table *ngIf="l.recentFeedback?.length">
-                    <tr>
-                        <td></td>
-                        <td><mat-icon matTooltip="Mišljenje mentora o progresu">traffic</mat-icon></td>
-                        <td><mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon></td>
-                        <td><mat-icon matTooltip="Osvojeni poeni na zadacima">checklist_rtl</mat-icon></td>
-                    </tr>
-                    <tr *ngFor="let f of l.recentFeedback">
-                        <td>{{f.weekEnd | date:'dd.MM.'}}</td>
-                        <td>
-                            <mat-icon [matTooltip]="f.semaphoreJustification"
-                            [color]="f.semaphore == 1 ? 'warn' : f.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
-                        </td>
-                        <td>
-                            <mat-icon *ngIf="f.averageSatisfaction" [matTooltip]="f.averageSatisfaction"
-                            [color]="f.averageSatisfaction < 2 ? 'warn' : f.averageSatisfaction >= 2.6 ? 'primary' : 'accent'">circle</mat-icon>
-                            <mat-icon *ngIf="!f.averageSatisfaction" matTooltip="Nije iskomunicirao zadovoljstvo u ovom periodu.">radio_button_unchecked</mat-icon>
-                        </td>
-                        <td>
-                            <mat-icon *ngIf="f.achievedPercentage != -1" [matTooltip]="f.achievedPercentage+'%'"
-                            [color]="f.achievedPercentage < 34 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
+            </div>
+        </div>
+        <mat-divider vertical="true"></mat-divider>
+        <div class="course-overview" style="width: 40%; padding: 10px;">
+            <div *ngIf="!selectedLearner">Klikni na studenta da vidiš detalje</div>
+            <div *ngIf="selectedLearner" class="flex-col">
+                <h3>{{selectedLearner.name}} {{selectedLearner.surname}}</h3>
+                <div class="flex-col gap">
+                    <mat-card appearance="outlined" *ngFor="let f of selectedLearner.recentFeedback">
+                        <b class="theme-highlight-primary" style="padding: 10px;">{{f.weekEnd | date:'dd.MM.'}}</b>
+                        <div class="flex-row" style="padding: 5px; gap: 5px">
+                            <mat-icon matTooltip="Poeni sa zadataka koje mentor ocenjuje">checklist_rtl</mat-icon>
+                            <span style="flex-grow: 1;">Poeni kažu:</span>
+                            {{ f.achievedPercentage+'%' }}
+                            <mat-icon *ngIf="f.achievedPercentage != -1" [color]="f.achievedPercentage < 34 ? 'warn' : f.achievedPercentage > 67 ? 'primary' : 'accent'">circle</mat-icon>
                             <mat-icon *ngIf="f.achievedPercentage == -1" matTooltip="Nema zadataka za ocenjivanje u ovom periodu.">radio_button_unchecked</mat-icon>
-                        </td>
-                    </tr>
-                </table>
-            </mat-card>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div class="flex-row" style="padding: 5px; gap: 5px">
+                            <mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon>
+                            <span style="flex-grow: 1;">Student kaže:</span>
+                            <span *ngIf="f.averageSatisfaction">
+                                {{ f.averageSatisfaction < 2 ? 'Nezadovoljan' : f.averageSatisfaction >= 2.6 ? 'Zadovoljan' : 'Između' }}
+                                <mat-icon [matTooltip]="f.averageSatisfaction + ' / 4'"
+                                    [color]="f.averageSatisfaction < 2 ? 'warn' : f.averageSatisfaction >= 2.6 ? 'primary' : 'accent'">circle</mat-icon>
+                            </span>
+                            <span *ngIf="!f.averageSatisfaction">
+                                Ništa
+                                <mat-icon matTooltip="Nije iskomunicirao zadovoljstvo u ovom periodu.">radio_button_unchecked</mat-icon>
+                            </span>
+                        </div>
+                        <mat-divider></mat-divider>
+                        <div>
+                            <div class="flex-row" style="padding: 5px; gap: 5px">
+                                <mat-icon matTooltip="Mišljenje mentora o progresu">traffic</mat-icon>
+                                <span style="flex-grow: 1;">Mentor kaže:</span>
+                                {{ f.semaphore == 1 ? 'Ne snalazi se ' : f.semaphore == 2 ? 'Bori se, ali paziti ' : 'Snalazi se ' }}
+                                <mat-icon [color]="f.semaphore == 1 ? 'warn' : f.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
+                            </div>
+                            <div class="flex-col gap" style="padding: 5px">
+                                <div *ngFor="let o of f.opinions">
+                                    <b>{{getQuestion(o.code) + ": "}}</b>
+                                    <br>
+                                    {{o.label}}
+                                </div>
+                                <div *ngIf="f.semaphoreJustification">
+                                    <b>Komentar:</b><br>
+                                    {{f.semaphoreJustification}}
+                                </div>
+                            </div>
+                        </div>
+
+                    </mat-card>
+                </div>
             </div>
         </div>
     </div>
