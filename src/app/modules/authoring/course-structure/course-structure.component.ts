@@ -5,8 +5,7 @@ import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-
 import { Course } from '../../learning/model/course.model';
 import { Unit } from '../../learning/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
-import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
-import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring.service';
+import { UnitItem } from '../unit-items/unit-item.model';
 
 @Component({
   selector: 'cc-course-structure',
@@ -16,13 +15,11 @@ import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring
 export class CourseStructureComponent implements OnInit {
   course: Course
   selectedUnit: Unit;
-  showUnitDetails: boolean;
-  showKnowledgeComponents: boolean;
-  showLearningTasks: boolean;
-  learningTasks: any[];
+  displayDetails: boolean;
+  displayItems: boolean;
+  items: UnitItem[];
 
-  constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private taskService: LearningTasksService,
-    private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
+  constructor(private courseService: CourseStructureService, private route: ActivatedRoute, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
@@ -35,15 +32,7 @@ export class CourseStructureComponent implements OnInit {
           let unit = this.course.knowledgeUnits.find(u => u.id == unitId);
           if(!unit) return;
           let mode = this.route.snapshot.queryParams['mode'];
-          if(mode == 'kc') {
-            this.showKcs(unit);
-            return;
-          }
-          if(mode == 'lt') {
-            this.showTasks(unit);
-            return;
-          }
-          this.showDetails(unit);
+          mode == 'items' ? this.showItems(unit) : this.showDetails(unit);
         }
       });
     });
@@ -58,9 +47,8 @@ export class CourseStructureComponent implements OnInit {
 
   createUnit() {
     this.selectedUnit = { code: '', name: '', goals: '', order: this.getMaxOrder() + 10 };
-    this.showUnitDetails = true;
-    this.showKnowledgeComponents = false;
-    this.showLearningTasks = false;
+    this.displayDetails = true;
+    this.displayItems = false;
   }
 
   getMaxOrder(): number {
@@ -70,9 +58,8 @@ export class CourseStructureComponent implements OnInit {
 
   showDetails(unit: Unit) {
     this.selectedUnit = unit;
-    this.showKnowledgeComponents = false;
-    this.showLearningTasks = false;
-    this.showUnitDetails = true;
+    this.displayDetails = true;
+    this.displayItems = false;
 
     this.router.navigate([], {
       queryParams: { unit: unit.id, mode: '' },
@@ -80,38 +67,13 @@ export class CourseStructureComponent implements OnInit {
     });
   }
 
-  showKcs(unit: Unit) {
-    this.kcService.getByUnit(unit.id).subscribe(kcs => {
-      this.selectedUnit = unit;
-      this.selectedUnit.knowledgeComponents = kcs;
-      this.showKnowledgeComponents = true;
-      this.showUnitDetails = false;
-      this.showLearningTasks = false;
-    });
+  showItems(unit: Unit) {
+    this.selectedUnit = unit;
+    this.displayDetails = false;
+    this.displayItems = true;
 
     this.router.navigate([], {
-      queryParams: { unit: unit.id, mode: 'kc' },
-      queryParamsHandling: 'merge'
-    });
-  }
-
-  showTasks(unit: Unit) {
-    this.taskService.getByUnit(unit.id).subscribe(learningTasks => {
-      this.selectedUnit = unit;
-      this.learningTasks = learningTasks;
-      this.learningTasks.sort((a, b) => {
-        if (a.isTemplate !== b.isTemplate) {
-            return a.isTemplate ? -1 : 1;
-        }
-        return a.order - b.order;
-      });
-      this.showKnowledgeComponents = false;
-      this.showUnitDetails = false;
-      this.showLearningTasks = true;
-    });
-
-    this.router.navigate([], {
-      queryParams: { unit: unit.id, mode: 'lt' },
+      queryParams: { unit: unit.id, mode: 'items' },
       queryParamsHandling: 'merge'
     });
   }

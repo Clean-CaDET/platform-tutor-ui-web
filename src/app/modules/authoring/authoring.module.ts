@@ -26,7 +26,8 @@ import { ActivitiesComponent } from './learning-tasks/learning-task/activities/a
 import { ActivityDetailsComponent } from './learning-tasks/learning-task/activity-details/activity-details.component';
 import { TaskDetailsComponent } from './learning-tasks/learning-task/task-details/task-details.component';
 import { TaskMovingFormComponent } from './learning-tasks/task-moving-form/task-moving-form.component'
-import { UnitItemNavigationComponent } from './course-structure/unit-item-navigation/unit-item-navigation.component';
+import { UnitItemNavigationComponent } from './unit-item-navigation/unit-item-navigation.component';
+import { UnitItemsComponent } from './unit-items/unit-items.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { UnitItemNavigationComponent } from './course-structure/unit-item-naviga
     LearningTaskComponent,
     TaskDetailsComponent,
     TaskMovingFormComponent,
-    UnitItemNavigationComponent
+    UnitItemNavigationComponent,
+    UnitItemsComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,9 @@
+<div class="flex-col">
+    <div *ngFor="let item of items">
+        <mat-card appearance="outlined" class="flex-col" style="margin: 10px" >
+            <div class="flex-row gap theme-highlight-primary" style="align-items: center; padding: 5px 0">
+                {{item | json}}
+            </div>
+        </mat-card>
+    </div>
+</div>

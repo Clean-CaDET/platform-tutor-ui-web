@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
-import { UnitItem, UnitItemType } from './unit-item.model';
-import { UnitItemService } from './unit-item.service';
-import { forkJoin } from 'rxjs';
+import { UnitItem, UnitItemType } from '../unit-items/unit-item.model';
+import { UnitItemService } from '../unit-items/unit-item.service';
 
 @Component({
   selector: 'cc-unit-item-navigation',
@@ -28,13 +27,9 @@ export class UnitItemNavigationComponent implements OnInit, OnDestroy {
     this.routeSubscription = this.route.params.subscribe((params: Params) => {
       if(!this.allItems?.length) {
         this.courseId = +params.courseId;
-        forkJoin([
-          this.itemService.getKcs(+params.unitId),
-          this.itemService.getTasks(+params.unitId)
-        ]).subscribe({
-          next: ([kcResults, taskResults]) => {
-            kcResults.push(...taskResults);
-            this.allItems = kcResults.sort((a, b) => a.order - b.order);
+        this.itemService.getUnitItems(+params.unitId).subscribe({
+          next: items => {
+            this.allItems = items;
             this.setItems(+params.itemId);
           },
           error: error => {

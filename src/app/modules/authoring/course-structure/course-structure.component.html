@@ -18,16 +18,12 @@
                         <span><b>{{unit.code}}</b>: {{unit.name}}</span>
                         <span class="flex-row">
                             <button mat-icon-button (click)="showDetails(unit)" matTooltip="Cilj i smernice"
-                                [color]="selectedUnit?.id===unit.id && showUnitDetails ? 'accent' : ''">
+                                [color]="selectedUnit?.id===unit.id && displayDetails ? 'accent' : ''">
                                 <mat-icon>sports_score</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="showKcs(unit)" matTooltip="Komponente znanja"
-                                [color]="selectedUnit?.id===unit.id && showKnowledgeComponents ? 'accent' : ''">
-                                <mat-icon>account_tree</mat-icon>
-                            </button>
-                            <button mat-icon-button (click)="showTasks(unit)" matTooltip="Zadaci"
-                                [color]="selectedUnit?.id===unit.id && showLearningTasks ? 'accent' : ''">
-                                <mat-icon>rebase_edit</mat-icon>
+                            <button mat-icon-button (click)="showItems(unit)" matTooltip="Stavke"
+                                [color]="selectedUnit?.id===unit.id && displayItems ? 'accent' : ''">
+                                <mat-icon>format_list_numbered</mat-icon>
                             </button>
                             <span style="flex-grow: 1;"></span>
                             <button mat-icon-button (click)="deleteUnit(unit.id)" matTooltip="Obriši">
@@ -41,14 +37,11 @@
         </div>
         <mat-divider vertical="true"></mat-divider>
         <div class="content">
-            <div *ngIf="selectedUnit && showUnitDetails">
+            <div *ngIf="selectedUnit && displayDetails">
                 <cc-unit-details [unit]="selectedUnit" (unitSaved)="saveOrUpdateUnit($event)"></cc-unit-details>
             </div>
-            <div *ngIf="selectedUnit && showKnowledgeComponents">
-                <cc-kc-tree [unit]="selectedUnit"></cc-kc-tree>
-            </div>
-            <div *ngIf="selectedUnit && showLearningTasks">
-                <cc-learning-tasks [learningTasks]="learningTasks" [units]="course.knowledgeUnits"></cc-learning-tasks>
+            <div *ngIf="selectedUnit && displayItems">
+                <cc-unit-items [unitId]="selectedUnit.id"></cc-unit-items>
             </div>
         </div>
     </div>

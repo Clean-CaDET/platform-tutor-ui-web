@@ -1,7 +1,8 @@
 export interface UnitItem {
   id: number;
   unitId: number;
-  name: number;
+  name: string;
+  description: string;
   order: number;
   type: UnitItemType;
 }
