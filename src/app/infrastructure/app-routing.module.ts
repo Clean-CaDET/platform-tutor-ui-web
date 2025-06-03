@@ -73,20 +73,20 @@ const routes: Routes = [
     data: { role: ['instructor'] }
   },
   {
-    path: 'authoring/course/:courseId',
+    path: 'authoring/:courseId/units',
     title: 'Tutor - Autorstvo',
     component: CourseStructureComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
   },
   {
-    path: 'authoring/course/:courseId/unit/:unitId/learning-task/:ltId',
+    path: 'authoring/:courseId/units/:unitId/learning-tasks/:ltId',
     component: LearningTaskComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
   },
   {
-    path: 'authoring/course/:courseId/unit/:unitId/knowledge-component/:kcId',
+    path: 'authoring/:courseId/units/:unitId/knowledge-components/:kcId',
     component: KnowledgeComponentAuthoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },

@@ -47,7 +47,7 @@
             <button *ngIf="field.crud.archive && element.isArchived" mat-icon-button matTooltip="Dearhiviraj" (click)="onArchive(element.id, false); $event.stopPropagation()">
               <mat-icon>unarchive</mat-icon>
             </button>
-            <button *ngIf="field.crud.delete" mat-icon-button matTooltip="Obriši" (click)="onDelete(element.id); $event.stopPropagation()">
+            <button *ngIf="field.crud.delete || field.crud.secureDelete" mat-icon-button matTooltip="Obriši" (click)="onDelete(element.id, field.crud.secureDelete); $event.stopPropagation()">
               <mat-icon>delete</mat-icon>
             </button>
           </span>

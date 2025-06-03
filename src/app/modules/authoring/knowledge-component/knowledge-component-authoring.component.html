@@ -8,27 +8,27 @@
             <span style="flex-grow: 1"></span>
             <span class="flex-row" style="gap: 30px">
                 <span class="flex-row gap">
-                    <a mat-stroked-button matTooltip="Komponente znanja" [routerLink]="['/authoring/course', courseId]"
+                    <a mat-stroked-button matTooltip="Komponente znanja" [routerLink]="['/authoring', courseId, 'units']"
                         [queryParams]="{unit: kc.knowledgeUnitId, mode: 'kc'}">
                         <span><mat-icon>account_tree</mat-icon></span>
                     </a>
                     <a mat-stroked-button [disabled]="!prevKc" [matTooltip]="prevKc ? 'Komponenta: ' + prevKc.name : 'Nema prethodne komponente'"
-                        [routerLink]="prevKc ? ['/authoring/course', courseId, 'unit', prevKc.knowledgeUnitId, 'knowledge-component', prevKc.id, 'instruction'] : null">
+                        [routerLink]="prevKc ? ['/authoring', courseId, 'units', prevKc.knowledgeUnitId, 'knowledge-components', prevKc.id, 'instruction'] : null">
                         <span><mat-icon>navigate_before</mat-icon></span>
                     </a>
                     <a mat-stroked-button [disabled]="!nextKc" [matTooltip]="nextKc ? 'Komponenta: ' + nextKc.name : 'Nema sledeće komponente'"
-                        [routerLink]="nextKc ? ['/authoring/course', courseId, 'unit', nextKc.knowledgeUnitId, 'knowledge-component', nextKc.id, 'instruction'] : null">
+                        [routerLink]="nextKc ? ['/authoring', courseId, 'units', nextKc.knowledgeUnitId, 'knowledge-components', nextKc.id, 'instruction'] : null">
                         <span><mat-icon>navigate_next</mat-icon></span>
                     </a>
                 </span>
                 <span class="flex-row gap">
                     <a mat-stroked-button matTooltip="Gradivo" 
-                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'instruction']"
+                        [routerLink]="['/authoring', courseId, 'units', kc.knowledgeUnitId, 'knowledge-components', kc.id, 'instruction']"
                         routerLinkActive="mat-accent">
                         <span><mat-icon>library_books</mat-icon></span>
                     </a>
                     <a mat-stroked-button matTooltip="Pitanja"
-                        [routerLink]="['/authoring/course', courseId, 'unit', kc.knowledgeUnitId, 'knowledge-component', kc.id, 'assessments']"
+                        [routerLink]="['/authoring', courseId, 'units', kc.knowledgeUnitId, 'knowledge-components', kc.id, 'assessments']"
                         routerLinkActive="mat-accent">
                         <span><mat-icon>quiz</mat-icon></span>
                     </a>

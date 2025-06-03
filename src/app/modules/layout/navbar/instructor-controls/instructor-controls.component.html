@@ -6,14 +6,14 @@
     </div>
   </button>
   <mat-menu #course="matMenu">
-    <button [routerLink]="['/monitoring', course.id, 'progress']" *ngFor="let course of courses" mat-menu-item>
+    <a [routerLink]="['/', selectedControl, course.id, selectedSubcontrol]" *ngFor="let course of courses" mat-menu-item style="text-align: center;">
       <div [ngClass]="{'theme-highlight-accent': course.id === selectedCourse?.id}">{{course.code}}</div>
-    </button>
+    </a>
   </mat-menu>
   <div *ngIf="selectedCourse" class="flex-col">
     <small>{{selectedCourse.code}}</small>
     <mat-divider></mat-divider>
-    <a class="navbar-button" mat-button [routerLink]="['/authoring/course', selectedCourse.id]" routerLinkActive="mat-accent">
+    <a class="navbar-button" mat-button [routerLink]="['/authoring', selectedCourse.id, 'units']" routerLinkActive="mat-accent">
       <div>
         <mat-icon>edit</mat-icon><br>
         Autorstvo

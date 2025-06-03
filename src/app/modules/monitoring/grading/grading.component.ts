@@ -9,6 +9,7 @@ import { Step } from './model/step';
 import { TaskProgress } from './model/task-progress';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { gradingInstruction } from './model/grading.constants';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-grading',
@@ -16,10 +17,12 @@ import { gradingInstruction } from './model/grading.constants';
   styleUrls: ['./grading.component.scss']
 })
 export class GradingComponent implements OnChanges {
+  readonly clipboardComponent = ClipboardButtonComponent;
+  
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
-  @Output() learnerChanged = new EventEmitter<number>();
+  @Output() learnerChanged = new EventEmitter<Learner>();
   @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   @Input() selectedDate: Date;
@@ -113,9 +116,11 @@ export class GradingComponent implements OnChanges {
   }
 
   public select(task: LearningTask, step: Step) {
+    if(this.isUnanswered(step)) return;
     this.selectedTask = task;
     this.selectedStep = step;
     this.createForm();
+    this.scrollTo('text');
   }
 
   private createForm() {
@@ -216,7 +221,7 @@ export class GradingComponent implements OnChanges {
     const currentIndex = this.learners.indexOf(currentLearner);
     const newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
     this.selectedLearnerId = this.learners[newIndex].id;
-    this.learnerChanged.emit(this.selectedLearnerId);
+    this.learnerChanged.emit(this.learners[newIndex]);
   }
 
   public changeStep(direction: number) {
@@ -225,6 +230,7 @@ export class GradingComponent implements OnChanges {
        (direction === 1 && currentStepIndex < this.selectedTask.steps.length - 1)) {
         this.selectedStep = this.selectedTask.steps[currentStepIndex + direction];
         this.createForm();
+        this.scrollTo('text');
         return;
     }
     this.changeTask(direction);
@@ -236,5 +242,10 @@ export class GradingComponent implements OnChanges {
     this.selectedTask = this.tasks[newIndex];
     this.selectedStep = direction === 1 ? this.selectedTask.steps[0] : this.selectedTask.steps[this.selectedTask.steps.length-1];
     this.createForm();
+    this.scrollTo('text');
+  }
+
+  scrollTo(item: string) {
+    setTimeout(() => { document.querySelector('#'+item).scrollIntoView({behavior: 'smooth', block:'start'}) }, 0);
   }
 }

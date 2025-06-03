@@ -1,4 +1,13 @@
 <div class="flex-col gap">
+    <small class="flex-row" style="align-items: center;">
+        <button mat-icon-button (click)="copyPrompt('instruction-pedagogy')" *ngIf="instructionalItems?.length > 0" matTooltip="Kopiraj prompt za AI pedagošku evaluaciju gradiva. Koristi više puta dok praviš gradivo." color="primary">
+            <mat-icon>memory</mat-icon>
+        </button>
+        <button mat-icon-button (click)="copyPrompt('instruction-errors')" *ngIf="instructionalItems?.length > 0" matTooltip="Kopiraj prompt za AI evaluaciju pravopisa i grešaka u kodu. Koristi pred kraj kada je gradivo ispeglano." color="primary">
+            <mat-icon>spellcheck</mat-icon>
+        </button>
+        AI evaluacije nemoj slepo slušati jer nekad nude pogrešne predloge (false positive).<br>Takođe može da ne pronađe problem (false negative), zbog čega je korisno pokrenuti ih više puta u odvojenom četu.
+    </small>
     <mat-card appearance="outlined" *ngFor="let instructionalItem of instructionalItems; let i = index">
         <div *ngIf="!editMap[instructionalItem.id]">
             <div class="flex-row theme-highlight-primary">
