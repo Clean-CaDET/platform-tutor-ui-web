@@ -12,7 +12,7 @@
         <b>{{error}} Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
       </div>
       <div *ngIf="unitItems.length">
-          <cc-unit-item *ngFor="let item of unitItems" [item]="item" (rateItem)="rateProgress({requestKcFeedback: item.isKc, requestTaskFeedback: !item.isKc}, true, item.id)"></cc-unit-item>
+          <cc-unit-item *ngFor="let item of unitItems" [item]="item" (rateItem)="rateProgress({requestKcFeedback: item.type === 1, requestTaskFeedback: item.type === 2}, true, item.id)"></cc-unit-item>
       </div>
     </div>
   </div>

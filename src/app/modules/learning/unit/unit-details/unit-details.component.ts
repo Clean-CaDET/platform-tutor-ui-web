@@ -8,11 +8,13 @@ import { TaskService } from '../../task/task.service';
 import { UnitService } from '../unit.service';
 import { forkJoin } from 'rxjs';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
-import { UnitItem } from '../../model/unit-item.model';
+import { UnitItem, UnitItemType } from '../../model/unit-item.model';
 import { UnitProgressRatingComponent } from '../unit-progress-rating/unit-progress-rating.component';
 import { UnitProgressRatingService } from '../unit-progress-rating/unit-progress-rating.service';
 import { UnitFeedbackRequest } from '../../model/unit-feedback-request.model';
 import { TaskProgressSummary } from '../../model/task-progress-summary';
+import { ReflectionService } from '../../reflection/reflection.service';
+import { Reflection } from '../../reflection/reflection.model';
 
 @Component({
   selector: 'cc-unit-details',
@@ -28,8 +30,8 @@ export class UnitDetailsComponent implements OnInit {
   error: string;
 
   constructor(
-    private route: ActivatedRoute, private title: Title,
-    private unitService: UnitService, private taskService: TaskService, private ratingService: UnitProgressRatingService,
+    private route: ActivatedRoute, private title: Title, private unitService: UnitService,
+    private taskService: TaskService, private reflectionService: ReflectionService, private ratingService: UnitProgressRatingService,
     private dialog: MatDialog, iconRegistry: MatIconRegistry, sanitizer: DomSanitizer
   ) {
     iconRegistry.addSvgIcon(
@@ -50,10 +52,11 @@ export class UnitDetailsComponent implements OnInit {
 
           forkJoin([
             this.unitService.getKcsWithMasteries(+params.unitId),
-            this.taskService.getByUnit(+params.unitId)
+            this.taskService.getByUnit(+params.unitId),
+            this.reflectionService.getByUnit(+params.unitId)
           ]).subscribe({
-            next: ([kcResults, taskResults]) => {
-              this.createUnitItems(kcResults, taskResults);
+            next: ([kcResults, taskResults, reflections]) => {
+              this.createUnitItems(kcResults, taskResults, reflections);
               this.checkErrors();
               this.checkFeedbackCollection();
             },
@@ -66,12 +69,13 @@ export class UnitDetailsComponent implements OnInit {
     });
   }
 
-  private createUnitItems(kcResults: KcWithMastery[], taskResults: TaskProgressSummary[]) {
+  private createUnitItems(kcResults: KcWithMastery[], taskResults: TaskProgressSummary[], reflections: Reflection[]) {
     kcResults.forEach(kcResult => {
       this.unitItems.push({
         id: kcResult.knowledgeComponent.id,
         order: kcResult.knowledgeComponent.order,
-        isKc: true,
+        name: kcResult.knowledgeComponent.name,
+        type: UnitItemType.Kc,
         isSatisfied: kcResult.mastery.isSatisfied,
         isNext: false,
         kc: kcResult.knowledgeComponent,
@@ -82,12 +86,23 @@ export class UnitDetailsComponent implements OnInit {
       this.unitItems.push({
         id: taskResult.id,
         order: taskResult.order,
-        isKc: false,
+        name: taskResult.name,
+        type: UnitItemType.Task,
         isNext: false,
         isSatisfied: taskResult.status == 'Completed' || taskResult.status == 'Graded',
         task: taskResult
       });
-    })
+    });
+    reflections.forEach(reflection => {
+      this.unitItems.push({
+        id: reflection.id,
+        order: reflection.order,
+        name: reflection.name,
+        type: UnitItemType.Reflection,
+        isNext: false,
+        isSatisfied: reflection.submissions?.length > 0
+      });
+    });
 
     this.unitItems.sort((a, b) => a.order - b.order);
     const firstUnsatisfied = this.unitItems.find(i => !i.isSatisfied);
@@ -131,8 +146,8 @@ export class UnitDetailsComponent implements OnInit {
     }
     return {
       unitId: this.unit.id,
-      completedKcIds: this.unitItems.filter(i => i.isKc && i.isSatisfied).map(i => i.kc.id),
-      completedTaskIds: this.unitItems.filter(i => !i.isKc && i.isSatisfied).map(i => i.task.id),
+      completedKcIds: this.unitItems.filter(i => i.type === UnitItemType.Kc && i.isSatisfied).map(i => i.kc.id),
+      completedTaskIds: this.unitItems.filter(i => i.type === UnitItemType.Task && i.isSatisfied).map(i => i.task.id),
       kcFeedback: feedbackRequested.requestKcFeedback,
       taskFeedback: feedbackRequested.requestTaskFeedback,
       isLearnerInitiated: false

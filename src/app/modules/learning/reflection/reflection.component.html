@@ -1,0 +1,40 @@
+<div *ngIf="form" class="flex-col" style="height: 100%;">
+  <div style="overflow-y: auto; flex-grow: 1;">
+    <form [formGroup]="form" class="panel">
+      <div *ngFor="let q of reflection.questions">
+        <span style="text-align: justify;">
+          <markdown>{{q.text}}</markdown>
+        </span>
+        <ng-container [ngSwitch]="q.type">
+          <div *ngSwitchCase="1">
+            <mat-form-field appearance="fill" style="width: 100%;">
+              <mat-label>Svaka tvoja reč nam znači</mat-label>
+              <textarea formControlName="{{q.id}}" matInput rows="6"></textarea>
+            </mat-form-field>
+          </div>
+          <div *ngSwitchCase="2" class="flex-col">
+            <div class="label-group">
+              <small *ngFor="let label of q.labels" class="option-label">{{ label }}</small>
+            </div>
+            <mat-slider [min]="1" [max]="4" [step]="1" style="width: calc(100% - 100px); margin-left:50px">
+              <input formControlName="{{q.id}}" matSliderThumb>
+            </mat-slider>
+          </div>
+        </ng-container>
+      </div>
+    </form>
+  </div>
+  <mat-card appearance="outlined">
+    <div class="panel flex-row gap">
+      <span style="flex-grow: 1;"></span>
+      <button mat-raised-button [color]="!isSatisfied ? 'primary' : ''" (click)="onSubmit()">
+        <mat-icon>check_circle</mat-icon>
+        Zaključi refleksiju
+      </button>
+      <button mat-raised-button [color]="isSatisfied ? 'primary' : ''" [routerLink]="['/courses', courseId, 'units', unitId]">
+        <mat-icon>article</mat-icon>
+        Lekcija
+      </button>
+    </div>
+  </mat-card>
+</div>

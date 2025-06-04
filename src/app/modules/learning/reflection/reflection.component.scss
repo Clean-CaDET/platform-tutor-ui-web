@@ -1,0 +1,22 @@
+.panel {
+  margin: 0 auto;
+  padding: 10px;
+  max-width: 680px;
+  width: calc(100vw - 130px);
+}
+
+.label-group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: -15px;
+}
+
+.option-label {
+  width: 100px;
+  text-align: center;
+}
+
+mat-slider {
+  margin-bottom: 20px;
+}

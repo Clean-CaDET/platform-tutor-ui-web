@@ -20,6 +20,7 @@ import { TaskComponent } from '../modules/learning/task/task.component';
 import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit-details.component';
 import { ConfirmExitGuard } from './confirm-leave.guard';
 import { CourseMonitoringComponent } from '../modules/monitoring/course-monitoring/course-monitoring.component';
+import { ReflectionComponent } from '../modules/learning/reflection/reflection.component';
 
 // Generic titles are defined here. Title service is used in components for data-based titles.
 const routes: Routes = [
@@ -45,15 +46,19 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: UnitDetailsComponent,
+        component: UnitDetailsComponent
       },
       {
         path: 'kcs/:kcId',
-        component: KnowledgeComponentComponent,
+        component: KnowledgeComponentComponent
       },
       {
         path: 'tasks/:ltId',
-        component: TaskComponent,
+        component: TaskComponent
+      },
+      {
+        path: 'reflections/:rId',
+        component: ReflectionComponent
       }
     ]
   },
