@@ -6,11 +6,12 @@ export interface Reflection {
   submissions?: ReflectionAnswer[];
 }
 
-interface ReflectionQuestion {
+export interface ReflectionQuestion {
   id: number;
   order: number;
   text: string;
-  category: ReflectionQuestionCategory;
+  categoryId: number;
+  categoryName?: string;
   type: ReflectionQuestionType;
   labels?: string[];
 
@@ -19,10 +20,10 @@ interface ReflectionQuestion {
 
 export enum ReflectionQuestionType {
   OpenEnded = 1,
-  Slider4
+  Slider
 }
 
-interface ReflectionQuestionCategory {
+export interface ReflectionQuestionCategory {
   id: number;
   code: string;
   name: string;

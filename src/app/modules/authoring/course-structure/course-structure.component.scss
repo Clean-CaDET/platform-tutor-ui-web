@@ -1,10 +1,11 @@
 .viewport {
-    height: calc(100% - 61px);
+    height: calc(100% - 69px);
     width: 100%;
 }
 
 .content {
-  flex: 1;
+  width: 75%;
+  height: 100%;
   overflow-y: auto;
 }
 

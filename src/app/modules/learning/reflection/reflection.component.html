@@ -16,7 +16,7 @@
             <div class="label-group">
               <small *ngFor="let label of q.labels" class="option-label">{{ label }}</small>
             </div>
-            <mat-slider [min]="1" [max]="4" [step]="1" style="width: calc(100% - 100px); margin-left:50px">
+            <mat-slider [min]="1" [max]="q.labels?.length ?? 1" [step]="1" style="width: calc(100% - 100px); margin-left:50px">
               <input formControlName="{{q.id}}" matSliderThumb>
             </mat-slider>
           </div>
@@ -25,11 +25,12 @@
     </form>
   </div>
   <mat-card appearance="outlined">
-    <div class="panel flex-row gap">
+    <div class="panel flex-row gap" style="align-items: center;">
       <span style="flex-grow: 1;"></span>
       <button mat-raised-button [color]="!isSatisfied ? 'primary' : ''" (click)="onSubmit()">
         <mat-icon>check_circle</mat-icon>
-        Zaključi refleksiju
+        <span *ngIf="!isSatisfied">Zaključi refleksiju</span>
+        <span *ngIf="isSatisfied">Ažuriraj refleksiju</span>
       </button>
       <button mat-raised-button [color]="isSatisfied ? 'primary' : ''" [routerLink]="['/courses', courseId, 'units', unitId]">
         <mat-icon>article</mat-icon>

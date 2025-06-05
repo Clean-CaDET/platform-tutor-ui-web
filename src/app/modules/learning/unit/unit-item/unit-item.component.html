@@ -18,7 +18,7 @@
           Pristupi
         </span>
       </button>
-      <span *ngIf="!item.kc.parentId && !item.isNext && !item.isSatisfied" matTooltip="Reši prethodne komponente znanja">
+      <span *ngIf="!item.kc.parentId && !item.isNext && !item.isSatisfied" matTooltip="Reši prethodne stavke">
         <button disabled mat-flat-button [color]="item.isNext ? 'primary' : ''" matTooltip="Test" style="width: 90px;">
           <span>
             <mat-icon>lock</mat-icon>

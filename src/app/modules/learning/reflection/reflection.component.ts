@@ -42,8 +42,9 @@ export class ReflectionComponent {
       const existingAnswer = this.findAnswer(q.id);
       if (q.type === ReflectionQuestionType.OpenEnded) {
         group[q.id] = [existingAnswer || ''];
-      } else if (q.type === ReflectionQuestionType.Slider4) {
-        group[q.id] = [+existingAnswer || 3]; // Podrazumevano za slider
+      } else if (q.type === ReflectionQuestionType.Slider) {
+        const value = +existingAnswer || Math.ceil((1 + q.labels?.length) / 2);
+        group[q.id] = [value]; // Podrazumevano za slider
       }
     });
     this.form = this.fb.group(group);
