@@ -24,18 +24,23 @@ export class ReflectionsComponent implements OnInit, OnChanges {
   constructor(private fb: FormBuilder, private dialog: MatDialog, private authoringService: ReflectionAuthoringService) {}
 
   ngOnInit(): void {
-    this.authoringService.getCategories(this.selectedUnitId)
-      .subscribe(categories => this.categories = categories);
+    this.authoringService.getCategories(this.selectedUnitId).subscribe(categories => {
+      this.categories = categories;
+      this.populateCategoryNames();
+    });
   }
 
   ngOnChanges(): void {
     this.authoringService.getByUnit(this.selectedUnitId).subscribe(reflections => {
         this.reflections = reflections;
-        this.reflections.forEach(r => 
-          r.questions.forEach(q => 
-            q.categoryName = this.categories?.find(c => c.id === q.categoryId)?.name));
+        this.populateCategoryNames();
         this.isEditing = false;
     });
+  }
+
+  private populateCategoryNames() {
+    if(!this.reflections || !this.categories) return;
+    this.reflections.forEach(r => r.questions.forEach(q => q.categoryName = this.categories?.find(c => c.id === q.categoryId)?.name));
   }
 
   add(): void {
