@@ -3,6 +3,8 @@ import { Reflection, ReflectionQuestion, ReflectionQuestionCategory } from '../.
 import { ReflectionAuthoringService } from './reflection-authoring.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { getDefaultQuestions } from './reflection.utility';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'cc-reflections',
@@ -19,7 +21,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
   editId: number;
   workingItem: Reflection;
 
-  constructor(private fb: FormBuilder, private authoringService: ReflectionAuthoringService) {}
+  constructor(private fb: FormBuilder, private dialog: MatDialog, private authoringService: ReflectionAuthoringService) {}
 
   ngOnInit(): void {
     this.authoringService.getCategories(this.selectedUnitId)
@@ -31,7 +33,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
         this.reflections = reflections;
         this.reflections.forEach(r => 
           r.questions.forEach(q => 
-            q.categoryName = this.categories.find(c => c.id === q.categoryId).name));
+            q.categoryName = this.categories?.find(c => c.id === q.categoryId)?.name));
         this.isEditing = false;
     });
   }
@@ -44,7 +46,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
       questions: getDefaultQuestions(this.categories)
     };
 
-    this.reflections = [newReflection, ...this.reflections];
+    this.reflections.push(newReflection);
     this.initForm(newReflection);
   }
 
@@ -140,38 +142,39 @@ export class ReflectionsComponent implements OnInit, OnChanges {
   }
 
   delete(id: number): void {
-    this.authoringService.delete(this.selectedUnitId, id).subscribe(() => {
-      this.reflections = this.reflections.filter(r => r.id !== id);
+    let diagRef = this.dialog.open(DeleteFormComponent, {data: {secureDelete: true}});
+
+    diagRef.afterClosed().subscribe(result => {
+      if (!result) return;
+      this.authoringService.delete(this.selectedUnitId, id).subscribe(() => {
+        this.reflections = this.reflections.filter(r => r.id !== id);
+      });
     });
   }
 
   saveOrUpdate(): void {
     if (this.form.invalid) return;
 
-    const finalReflection: Reflection = this.getFormData();
+    const formReflection: Reflection = this.getFormData();
 
-    if (finalReflection.id === 0) {
-      this.authoringService.create(this.selectedUnitId, finalReflection).subscribe(
-        newReflection => {
-          const idx = this.reflections.findIndex((r) => r.id === 0);
-          if (idx !== -1) this.reflections[idx] = newReflection;
-          this.isEditing = false;
-        },
-        err => {
-          console.error(err);
+    if (formReflection.id === 0) {
+      this.authoringService.create(this.selectedUnitId, formReflection).subscribe(newReflection => {
+        const idx = this.reflections.findIndex((r) => r.id === 0);
+        if (idx !== -1) {
+          newReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.categoryId)?.name);
+          this.reflections[idx] = newReflection;
         }
-      );
+        this.isEditing = false;
+      });
     } else {
-      this.authoringService.update(this.selectedUnitId, finalReflection).subscribe(
-        updatedReflection => {
-          const idx = this.reflections.findIndex((r) => r.id === updatedReflection.id);
-          if (idx !== -1) this.reflections[idx] = updatedReflection;
-          this.isEditing = false;
-        },
-        err => {
-          console.error('Greška prilikom ažuriranja refleksije:', err);
+      this.authoringService.update(this.selectedUnitId, formReflection).subscribe(updatedReflection => {
+        const idx = this.reflections.findIndex((r) => r.id === updatedReflection.id);
+        if (idx !== -1) {
+          updatedReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.categoryId)?.name);
+          this.reflections[idx] = updatedReflection;
         }
-      );
+        this.isEditing = false;
+      });
     }
   }
 

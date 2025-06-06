@@ -1,5 +1,5 @@
 <div class="flex-col">
-    <div style="margin: 10px;">
+    <div style="margin: 10px;" *ngIf="!isEditing">
         <button mat-icon-button (click)="add()"
             [color]="!reflections?.length ? 'primary' : ''">
             <mat-icon>add</mat-icon>
@@ -27,16 +27,17 @@
             <div>
                 <table style="width: 100%; padding: 10px;">
                     <ng-container *ngFor="let q of item.questions; let i = index;">
+                    <tr><td rowspan="3">{{i+1}}.&nbsp;&nbsp;</td></tr>
                     <tr>
-                        <td colspan="3">{{i+1}}. {{q.text}}</td>
+                        <td colspan="3"><markdown>{{q.text}}</markdown></td>
                     </tr>
                     <tr style="border-bottom: 1px;">
                         <td><small><b>Kategorija</b>: {{ q.categoryName }}</small></td>
-                        <td><small><b>Tip</b>: {{ q.type === 1 ? 'Otvoreno pitanje' : 'Odabir opcije' }}</small></td>
+                        <td><small><b>Tip</b>: {{ q.type === 1 ? 'Tekst' : 'Slider' }}</small></td>
                         <td *ngIf="q.labels?.length"><small><b>Opcije</b>: {{ q.labels | json }}</small></td>
                     </tr>
                     <tr *ngIf="i != item.questions.length - 1">
-                        <td colspan="3"><mat-divider></mat-divider></td>
+                        <td colspan="4"><mat-divider style="border-width: 3px;"></mat-divider></td>
                     </tr>
                     </ng-container>
                 </table>
