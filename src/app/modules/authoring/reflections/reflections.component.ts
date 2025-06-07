@@ -37,7 +37,7 @@ export class ReflectionsComponent implements OnChanges {
     const newReflection: Reflection = {
       id: 0,
       order: Math.max(...this.reflections.map(i => i.order), 0) + 1,
-      name: '',
+      name: 'Osvrt na razvijena znanja i veštine',
       questions: getDefaultQuestions()
     };
 
@@ -123,16 +123,6 @@ export class ReflectionsComponent implements OnChanges {
     this.questions.controls.forEach((ctrl, idx) => {
       ctrl.get('order')?.setValue(idx + 1);
     });
-  }
-
-
-  clone(item: Reflection): void {
-    const cloned: Reflection = JSON.parse(JSON.stringify(item));
-    cloned.id = 0;
-    cloned.order = Math.max(...this.reflections.map(i => i.order), 0) + 1;
-    cloned.questions.forEach(q => q.id = 0);
-    this.reflections.push(cloned);
-    this.initForm(cloned);
   }
 
   delete(id: number): void {

@@ -12,14 +12,9 @@
                 <div class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;">
                     <b>{{ item.order }}.&nbsp;&nbsp;{{ item.name }}</b>
                 </div>
-                <div class="flex-row">
-                    <button *ngIf="!isEditing" mat-icon-button (click)="edit(item)" matTooltip="Ažuriraj">
-                        <mat-icon>edit</mat-icon>
-                    </button>
-                    <button *ngIf="!isEditing" mat-icon-button (click)="clone(item)" matTooltip="Kloniraj">
-                        <mat-icon>content_copy</mat-icon>
-                    </button>
-                </div>
+                <button *ngIf="!isEditing" mat-icon-button (click)="edit(item)" matTooltip="Ažuriraj">
+                    <mat-icon>edit</mat-icon>
+                </button>
                 <button mat-icon-button (click)="delete(item.id)" matTooltip="Obriši">
                     <mat-icon>delete</mat-icon>
                 </button>

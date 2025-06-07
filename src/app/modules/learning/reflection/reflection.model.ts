@@ -4,6 +4,7 @@ export interface Reflection {
   name: string;
   questions: ReflectionQuestion[];
   submissions?: ReflectionAnswer[];
+  selectedLearnerSubmission?: ReflectionAnswer;
 }
 
 export interface ReflectionQuestion {
@@ -27,7 +28,7 @@ export interface ReflectionAnswer {
   id?: number;
   learnerId?: number;
   reflectionId?: number;
-  created?: string;
+  created?: Date;
   answers: ReflectionQuestionAnswer[];
 }
 
