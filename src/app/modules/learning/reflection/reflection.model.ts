@@ -10,7 +10,7 @@ export interface ReflectionQuestion {
   id: number;
   order: number;
   text: string;
-  categoryId: number;
+  category: number;
   categoryName?: string;
   type: ReflectionQuestionType;
   labels?: string[];
@@ -21,12 +21,6 @@ export interface ReflectionQuestion {
 export enum ReflectionQuestionType {
   OpenEnded = 1,
   Slider
-}
-
-export interface ReflectionQuestionCategory {
-  id: number;
-  code: string;
-  name: string;
 }
 
 export interface ReflectionAnswer {

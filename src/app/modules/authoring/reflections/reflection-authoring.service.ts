@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Reflection, ReflectionQuestionCategory } from '../../learning/reflection/reflection.model';
+import { Reflection } from '../../learning/reflection/reflection.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,6 @@ export class ReflectionAuthoringService {
 
   getByUnit(unitId: number): Observable<Reflection[]> {
     return this.http.get<Reflection[]>(this.baseUrl + unitId + '/reflections');
-  }
-
-  getCategories(unitId: number): Observable<ReflectionQuestionCategory[]> {
-    return this.http.get<ReflectionQuestionCategory[]>(this.baseUrl + unitId + '/reflections/categories');
   }
 
   create(unitId: number, reflection: Reflection) {

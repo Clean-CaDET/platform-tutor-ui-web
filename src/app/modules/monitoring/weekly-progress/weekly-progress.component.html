@@ -22,9 +22,6 @@
                             <span>
                                 Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 4 ({{weeklyRatings.groupSatisfactionCount}} ocena);
                             </span>
-                            <span>
-                                Svi: {{weeklyRatings.avgTotalSatisfaction}} / 4 ({{weeklyRatings.totalSatisfactionCount}} ocena)
-                            </span>
                         </li>
                         <li *ngIf="weeklyRatings.comments?.length">
                             Napisao {{weeklyRatings.comments.length}} komentara
@@ -94,7 +91,7 @@
                         <div *ngIf="i.type === 'task'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
-                                    <mat-icon matTooltip="Zadatak">rebase_edit</mat-icon> {{i.item.order}} {{i.item.name}}
+                                    <mat-icon matTooltip="Zadatak">rebase_edit</mat-icon> {{i.item.order}}. {{i.item.name}}
                                 </h3>
                                 <span style="flex-grow: 1;"></span>
                                 <small>Rešeno: {{i.time | date:'dd.MM. u HH:mm'}}</small>

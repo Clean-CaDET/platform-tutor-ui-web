@@ -1,8 +1,8 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { Reflection, ReflectionQuestion, ReflectionQuestionCategory } from '../../learning/reflection/reflection.model';
+import { Component, Input, OnChanges } from '@angular/core';
+import { Reflection, ReflectionQuestion } from '../../learning/reflection/reflection.model';
 import { ReflectionAuthoringService } from './reflection-authoring.service';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { getDefaultQuestions } from './reflection.utility';
+import { getCategories, getDefaultQuestions } from './reflection.utility';
 import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -11,10 +11,10 @@ import { MatDialog } from '@angular/material/dialog';
   templateUrl: './reflections.component.html',
   styleUrl: './reflections.component.scss'
 })
-export class ReflectionsComponent implements OnInit, OnChanges {
+export class ReflectionsComponent implements OnChanges {
   @Input() selectedUnitId: number;
   reflections: Reflection[];
-  categories: ReflectionQuestionCategory[];
+  categories = getCategories();
 
   form: FormGroup;
   isEditing: boolean = false;
@@ -23,24 +23,14 @@ export class ReflectionsComponent implements OnInit, OnChanges {
 
   constructor(private fb: FormBuilder, private dialog: MatDialog, private authoringService: ReflectionAuthoringService) {}
 
-  ngOnInit(): void {
-    this.authoringService.getCategories(this.selectedUnitId).subscribe(categories => {
-      this.categories = categories;
-      this.populateCategoryNames();
-    });
-  }
-
   ngOnChanges(): void {
     this.authoringService.getByUnit(this.selectedUnitId).subscribe(reflections => {
         this.reflections = reflections;
-        this.populateCategoryNames();
+        this.reflections.forEach(r => 
+          r.questions.forEach(q => q.categoryName = this.categories
+            .find(c => c.id === q.category)?.name));
         this.isEditing = false;
     });
-  }
-
-  private populateCategoryNames() {
-    if(!this.reflections || !this.categories) return;
-    this.reflections.forEach(r => r.questions.forEach(q => q.categoryName = this.categories?.find(c => c.id === q.categoryId)?.name));
   }
 
   add(): void {
@@ -48,7 +38,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
       id: 0,
       order: Math.max(...this.reflections.map(i => i.order), 0) + 1,
       name: '',
-      questions: getDefaultQuestions(this.categories)
+      questions: getDefaultQuestions()
     };
 
     this.reflections.push(newReflection);
@@ -83,7 +73,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
       id: [q.id],
       order: [q.order],
       text: [q.text, [Validators.required]],
-      category: [q.categoryId, [Validators.required]],
+      category: [q.category, [Validators.required]],
       type: [q.type, [Validators.required]],
 
       labelsText: [
@@ -98,13 +88,12 @@ export class ReflectionsComponent implements OnInit, OnChanges {
 
   addQuestion(): void {
     const newIdx = this.questions.length + 1;
-    const defaultCategory = this.categories.length ? this.categories[0]?.id : 0;
 
     const newQuestion: ReflectionQuestion = {
       id: 0,
       order: newIdx,
       text: '',
-      categoryId: defaultCategory,
+      category: 0,
       type: 2,
       labels: []
     };
@@ -166,7 +155,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
       this.authoringService.create(this.selectedUnitId, formReflection).subscribe(newReflection => {
         const idx = this.reflections.findIndex((r) => r.id === 0);
         if (idx !== -1) {
-          newReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.categoryId)?.name);
+          newReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.category)?.name);
           this.reflections[idx] = newReflection;
         }
         this.isEditing = false;
@@ -175,7 +164,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
       this.authoringService.update(this.selectedUnitId, formReflection).subscribe(updatedReflection => {
         const idx = this.reflections.findIndex((r) => r.id === updatedReflection.id);
         if (idx !== -1) {
-          updatedReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.categoryId)?.name);
+          updatedReflection.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.category)?.name);
           this.reflections[idx] = updatedReflection;
         }
         this.isEditing = false;
@@ -210,7 +199,7 @@ export class ReflectionsComponent implements OnInit, OnChanges {
         id: q.id,
         order: q.order,
         text: q.text,
-        categoryId: q.category,
+        category: q.category,
         type: q.type,
         labels: labelsArray
       };
