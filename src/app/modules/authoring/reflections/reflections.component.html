@@ -1,0 +1,113 @@
+<div class="flex-col">
+    <div style="margin: 10px;" *ngIf="!isEditing">
+        <button mat-icon-button (click)="add()"
+            [color]="!reflections?.length ? 'primary' : ''">
+            <mat-icon>add</mat-icon>
+        </button>
+        <span>&nbsp;&nbsp;Kroz refleksiju student ocenuje materijal ili sistem i komunicira svoje (ne)zadovoljstvo i iskustvo.</span>
+    </div>
+    <mat-card appearance="outlined" style="margin: 10px;" *ngFor="let item of reflections">
+        <div *ngIf="!isEditing || editId !== item.id">
+            <div class="flex-row gap theme-highlight-primary">
+                <div class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;">
+                    <b>{{ item.order }}.&nbsp;&nbsp;{{ item.name }}</b>
+                </div>
+                <button *ngIf="!isEditing" mat-icon-button (click)="edit(item)" matTooltip="Ažuriraj">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button (click)="delete(item.id)" matTooltip="Obriši">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+            <div>
+                <table style="width: 100%; padding: 10px;">
+                    <ng-container *ngFor="let q of item.questions; let i = index;">
+                    <tr><td rowspan="3">{{i+1}}.&nbsp;&nbsp;</td></tr>
+                    <tr>
+                        <td colspan="3"><markdown>{{q.text}}</markdown></td>
+                    </tr>
+                    <tr style="border-bottom: 1px;">
+                        <td><small><b>Kategorija</b>: {{ q.categoryName }}</small></td>
+                        <td><small><b>Tip</b>: {{ q.type === 1 ? 'Tekst' : 'Slider' }}</small></td>
+                        <td *ngIf="q.labels?.length"><small><b>Opcije</b>: {{ q.labels | json }}</small></td>
+                    </tr>
+                    <tr *ngIf="i != item.questions.length - 1">
+                        <td colspan="4"><mat-divider style="border-width: 3px;"></mat-divider></td>
+                    </tr>
+                    </ng-container>
+                </table>
+            </div>
+        </div>
+        <div *ngIf="isEditing && editId === item.id">
+            <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
+                <span style="flex-grow: 1"></span>
+                <span class="flex-row gap">
+                    <button mat-mini-fab color="primary" [disabled]="form.invalid || form.get('name')?.value === '' || questions.length == 0" (click)="saveOrUpdate()"><mat-icon>check</mat-icon></button>
+                    <button mat-mini-fab color="warn" (click)="cancel()"><mat-icon>clear</mat-icon></button>
+                </span>
+            </div>
+            <form [formGroup]="form" class="flex-col gap" style="padding: 10px">
+                <input type="hidden" formControlName="id" />
+                <div class="flex-row gap">
+                    <mat-form-field appearance="fill" style="width: 80px;">
+                        <mat-label>R.br.</mat-label>
+                        <input matInput type="number" formControlName="order" />
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" style="flex-grow: 1;">
+                        <mat-label>Naziv</mat-label>
+                        <input matInput formControlName="name" />
+                    </mat-form-field>
+                </div>
+                <b>Pitanja:</b>
+                <div formArrayName="questions" class="flex-col gap">
+                    <div *ngFor="let qControl of questions.controls; let i = index">
+                        <div [formGroup]="qControl" class="flex-col gap">
+                            <input type="hidden" formControlName="id" />
+                            <input type="hidden" formControlName="order" />
+
+                            <div class="flex-row gap" style="align-items: stretch">
+                                <div class="flex-col gap" style="flex-grow: 1;">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Pitanje</mat-label>
+                                        <textarea matInput formControlName="text" rows="2"></textarea>
+                                    </mat-form-field>
+                                    <div class="flex-row gap">
+                                        <mat-form-field appearance="fill" style="width: 200px;">
+                                        <mat-label>Kategorija</mat-label>
+                                        <mat-select formControlName="category">
+                                            <mat-option *ngFor="let cat of categories" [value]="cat.id">
+                                            {{ cat.name }}
+                                            </mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
+                                        <mat-form-field appearance="fill" style="width: 100px;">
+                                        <mat-label>Tip</mat-label>
+                                        <mat-select formControlName="type">
+                                            <mat-option [value]="2">Slider</mat-option>
+                                            <mat-option [value]="1">Tekst</mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
+                                        <div class="flex-row" *ngIf="qControl.get('type')?.value === 2" style="flex-grow: 1;">
+                                            <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-label>Opcije (razdvojene zarezom)</mat-label>
+                                            <input matInput formControlName="labelsText" />
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex-col gap">
+                                    <button mat-icon-button *ngIf="i !== 0" (click)="swapOrder(i, i - 1)" matTooltip="Rotiraj sa gornjim"><mat-icon>arrow_upward</mat-icon></button>
+                                    <button mat-icon-button *ngIf="i !== questions.length - 1" (click)="swapOrder(i, i + 1)" matTooltip="Rotiraj sa donjim"><mat-icon>arrow_downward</mat-icon></button>
+                                    <span style="flex-grow: 1;"></span>
+                                    <button mat-icon-button (click)="removeQuestion(i)" matTooltip="Obriši"><mat-icon>delete</mat-icon></button>
+                                </div>
+                            </div>
+                            <mat-divider *ngIf="i != questions.length - 1"></mat-divider>
+                        </div>
+                    </div>
+                    <button mat-mini-fab color="primary" (click)="addQuestion()" matTooltip="Dodaj pitanje"><mat-icon>add</mat-icon></button>
+                </div>
+            </form>
+        </div>
+    </mat-card>
+</div>

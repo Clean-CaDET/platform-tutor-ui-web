@@ -1,4 +1,3 @@
-import { LearningTask } from "../task/model/learning-task";
 import { KCMastery } from "./knowledge-component-mastery.model";
 import { KnowledgeComponent } from "./knowledge-component.model";
 import { TaskProgressSummary } from "./task-progress-summary";
@@ -6,7 +5,8 @@ import { TaskProgressSummary } from "./task-progress-summary";
 export interface UnitItem {
   id: number;
   order: number;
-  isKc: boolean;
+  name: string;
+  type: UnitItemType;
   isSatisfied: boolean;
   isNext: boolean;
 
@@ -14,4 +14,10 @@ export interface UnitItem {
   kcMastery?: KCMastery;
 
   task?: TaskProgressSummary;
+}
+
+export enum UnitItemType {
+  Kc = 1,
+  Task,
+  Reflection
 }

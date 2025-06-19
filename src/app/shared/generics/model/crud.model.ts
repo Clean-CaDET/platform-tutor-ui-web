@@ -3,7 +3,8 @@ export interface Crud {
   clone?: boolean;
   update?: boolean;
   archive?: boolean;
-  delete: boolean;
+  delete?: boolean;
+  secureDelete?: boolean;
   filter?: boolean;
   bulkCreate?: boolean;
   bulkCreateDialogComponent?: any;

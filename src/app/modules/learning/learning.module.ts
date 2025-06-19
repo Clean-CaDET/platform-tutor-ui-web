@@ -31,6 +31,7 @@ import { UnitDetailsComponent } from './unit/unit-details/unit-details.component
 import { UnitItemComponent } from "./unit/unit-item/unit-item.component";
 import { AssessmentItemListComponent } from './knowledge-component/assessment-item-list/assessment-item-list.component';
 import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
+import { ReflectionComponent } from './reflection/reflection.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
     ExamplePopupComponent,
     UnitDetailsComponent,
     UnitItemComponent,
-    AssessmentItemListComponent
+    AssessmentItemListComponent,
+    ReflectionComponent
   ],
   imports: [
     CommonModule,

@@ -134,8 +134,8 @@ export class GenericTableComponent implements OnChanges {
     })
   }
 
-  onDelete(id: number): void {
-    let diagRef = this.dialog.open(DeleteFormComponent);
+  onDelete(id: number, secureDelete: boolean): void {
+    let diagRef = this.dialog.open(DeleteFormComponent, { data: { secureDelete } });
 
     diagRef.afterClosed().subscribe(result => {
       if(result) this.httpService.delete(this.baseUrl, id).subscribe(() => {

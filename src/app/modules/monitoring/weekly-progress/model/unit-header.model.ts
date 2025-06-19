@@ -1,4 +1,4 @@
-import { UnitProgressRating } from "./unit-rating.model";
+import { Reflection } from "src/app/modules/learning/reflection/reflection.model";
 import { KcProgressStatistics, KcStatistics, TaskProgressStatistics, TaskStatistics } from "./unit-statistics.model";
 
 export interface UnitHeader {
@@ -8,9 +8,8 @@ export interface UnitHeader {
     bestBefore: Date;
     knowledgeComponents: KcHeader[];
     tasks: TaskHeader[];
+    reflections: Reflection[];
     
-    ratings?: UnitProgressRating[];
-
     kcStatistics?: KcProgressStatistics;
     taskStatistics?: TaskProgressStatistics;
 
@@ -36,7 +35,7 @@ export interface KcHeader {
 
 export interface TimelineItem {
     type: string;
-    item: KcHeader | TaskHeader | UnitProgressRating;
+    item: KcHeader | TaskHeader | Reflection;
     time: Date;
 }
 
@@ -50,8 +49,9 @@ export function updateTimelineItems(unit: UnitHeader) {
         if(!t.statistics?.completionTime) return;
         unit.timelineItems.push({ type:"task", item: t, time: new Date(t.statistics.completionTime) });
     });
-    unit.ratings?.forEach(r => {
-        unit.timelineItems.push({ type:"rating", item: r, time: new Date(r.created) });
+    unit.reflections?.forEach(r => {
+        if(!r.selectedLearnerSubmission) return;
+        unit.timelineItems.push({ type:"reflection", item: r, time: new Date(r.selectedLearnerSubmission.created) });
     });
     unit.timelineItems.sort((a, b) => a.time.getTime() - b.time.getTime());
 }

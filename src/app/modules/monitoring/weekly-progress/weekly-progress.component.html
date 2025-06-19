@@ -6,36 +6,30 @@
         <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="!readyForFeedback"></mat-progress-bar>
         <div class="flex-col gap tutor-panel" *ngIf="units?.length && readyForFeedback">
             <mat-card appearance="outlined" style="margin: 10px 0 20px 0;">
-                <div class="theme-highlight-primary">
+                <div class="theme-highlight-primary flex-row">
                     <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
                         <mat-icon>bar_chart</mat-icon>
                         Sumarni utisak za nedelju
                     </h2>
+                    <span style="flex-grow: 1"></span>
+                    <div *ngIf="weeklyResults.avgSatisfaction">
+                        <small>Prikaži samo refleksije?</small>
+                        <mat-checkbox [(ngModel)]="filterReflections"></mat-checkbox>
+                    </div>
                 </div>
                 <div style="padding: 10px;" class="flex-col gap">
                     <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo napretkom</b>
-                    <ul *ngIf="weeklyRatings">
-                        <li *ngIf="weeklyRatings.learnerSatisfactionCount">
-                            <span [ngClass]="{ 'theme-warn': weeklyRatings.avgLearnerSatisfaction < 2, 'theme-accent': weeklyRatings.avgLearnerSatisfaction >= 2 && weeklyRatings.avgLearnerSatisfaction < 2.6}">
-                                <b>Student: {{weeklyRatings.avgLearnerSatisfaction}} / 4 ({{weeklyRatings.learnerSatisfactionCount}} ocena)</b>;
-                            </span>
-                            <span>
-                                Grupa: {{weeklyRatings.avgGroupSatisfaction}} / 4 ({{weeklyRatings.groupSatisfactionCount}} ocena);
-                            </span>
-                            <span>
-                                Svi: {{weeklyRatings.avgTotalSatisfaction}} / 4 ({{weeklyRatings.totalSatisfactionCount}} ocena)
+                    <ul>
+                        <li *ngIf="weeklyResults?.satisfactionCount">
+                            <span [ngClass]="{ 'theme-warn': weeklyResults.avgSatisfaction < 2, 'theme-accent': weeklyResults.avgSatisfaction >= 2 && weeklyResults.avgSatisfaction < 2.6}">
+                                <b>{{weeklyResults.avgSatisfaction}} / 4 ({{weeklyResults.satisfactionCount}} ocena)</b>
                             </span>
                         </li>
-                        <li *ngIf="weeklyRatings.comments?.length">
-                            Napisao {{weeklyRatings.comments.length}} komentara
-                            <small>
-                            <ul>
-                            <li *ngFor="let c of weeklyRatings.comments">({{c.created | date:'d.M. HH:mm'}}) {{c.text}}</li>
-                            </ul>
-                            </small>
+                        <li *ngIf="!weeklyResults?.satisfactionCount" class="theme-warn">
+                            Student nije odgovorio ni na jednu refleksiju ove nedelje.
                         </li>
                     </ul>
-                    <b><mat-icon>checklist_rtl</mat-icon>Postignuti rezultati</b>
+                    <b><mat-icon>checklist_rtl</mat-icon> Postignuti rezultati</b>
                     <ul *ngIf="weeklyResults">
                         <li *ngIf="weeklyResults.totalKcCount"
                             [ngClass]="{ 'theme-warn': weeklyResults.totalKcCount - weeklyResults.satisfiedKcCount > 0}">
@@ -75,7 +69,7 @@
                     </small>
                 </div>
                 <div class="flex-col gap" style="padding: 10px">
-                    <div *ngFor="let i of unit.timelineItems; index as ix">
+                    <div *ngFor="let i of filterItems(unit.timelineItems); index as ix">
                         <div *ngIf="i.type === 'kc'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
@@ -94,7 +88,7 @@
                         <div *ngIf="i.type === 'task'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
-                                    <mat-icon matTooltip="Zadatak">rebase_edit</mat-icon> {{i.item.order}} {{i.item.name}}
+                                    <mat-icon matTooltip="Zadatak">rebase_edit</mat-icon> {{i.item.order}}. {{i.item.name}}
                                 </h3>
                                 <span style="flex-grow: 1;"></span>
                                 <small>Rešeno: {{i.time | date:'dd.MM. u HH:mm'}}</small>
@@ -112,36 +106,24 @@
                                 </ul>
                             </div>
                         </div>
-                        <div *ngIf="i.type === 'rating'" class="flex-col gap">
+                        <div *ngIf="i.type === 'reflection'" class="flex-col gap">
                             <div class="flex-row">
                                 <h3 class="mat-h3">
-                                    <mat-icon matTooltip="Zadatak">record_voice_over</mat-icon> Povratna informacija
+                                    <mat-icon matTooltip="Refleksija">record_voice_over</mat-icon> {{i.item.order}}. {{i.item.name}}
                                 </h3>
                                 <span style="flex-grow: 1;"></span>
                                 <small>Kreirano: {{i.time | date:'dd.MM. u HH:mm'}}</small>
                             </div>
-                            <div *ngIf="i.item.feedback.learnerProgress">
-                                Ističe {{i.item.feedback.learnerProgress}} / 4 zadovoljstvo svojim napretkom. 
-                            </div>
-                            <div *ngIf="i.item.completedKcNames?.length">
-                                Za komponente znanja:
-                                <ul>
-                                    <li *ngFor="let name of i.item.completedKcNames">{{name}}</li>
-                                </ul>
-                                Ističe {{i.item.feedback.instructionClarity}} / 4 jasnoću gradiva i {{i.item.feedback.assessmentClarity}} / 4 jasnoću pitanja. 
-                            </div>
-                            <div *ngIf="i.item.completedTaskNames?.length">
-                                Za zadatke:
-                                <ul>
-                                    <li *ngFor="let name of i.item.completedTaskNames">{{name}}</li>
-                                </ul>
-                                Ističe da su zadaci: {{i.item.feedback.taskChallenge}}. 
-                            </div>
-                            <div *ngIf="i.item.feedback?.comments?.length">
-                                Dodatni komentari:
-                                <small><ul>
-                                    <li *ngFor="let comment of i.item.feedback.comments">{{comment}}</li>
-                                </ul></small>
+                            <div *ngFor="let q of i.item.questions">
+                                <div>{{q.text}}</div>
+                                <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
+                                <p *ngIf="q.answer"><b>Odgovor</b>:
+                                {{
+                                    q.type === 1
+                                        ? q.answer
+                                        : q.labels[q.answer - 1] + ' (' + q.answer + ' / ' + q.labels.length + ')'
+                                }}
+                                </p>
                             </div>
                         </div>
                         <mat-divider style="border-width: 2px; margin: 0 -10px;" *ngIf="ix !== (unit.timelineItems.length - 1)"></mat-divider>
@@ -153,7 +135,7 @@
     <mat-divider vertical="true" style="border-width: 2px;"></mat-divider>
     <div class="flex-col mentor-panel" *ngIf="questionGroups">
         <cc-weekly-feedback [courseId]="courseId" [learnerId]="selectedLearnerId" [selectedDate]="selectedDate" [questionGroups]="questionGroups"
-            [avgLearnerSatisfaction]="weeklyRatings?.avgLearnerSatisfaction" [results]="weeklyResults" [loaded]="readyForFeedback"></cc-weekly-feedback>
+            [avgLearnerSatisfaction]="weeklyResults?.avgSatisfaction" [results]="weeklyResults" [loaded]="readyForFeedback"></cc-weekly-feedback>
         <div class="flex-row gap" style="height: 48px; justify-content: flex-end; align-items: center;">
             <button mat-icon-button (click)="changeLearner(-1)">
                 <span><mat-icon>arrow_back_ios_new</mat-icon></span>
