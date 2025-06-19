@@ -58,7 +58,6 @@ export class UnitDetailsComponent implements OnInit {
             next: ([kcResults, taskResults, reflections]) => {
               this.createUnitItems(kcResults, taskResults, reflections);
               this.checkErrors();
-              this.checkFeedbackCollection();
             },
             error: (error) => {
               this.error = "Sadržaj nije ispravno dobavljen.";
@@ -115,13 +114,6 @@ export class UnitDetailsComponent implements OnInit {
     if(this.unitItems?.length === 0) {
       this.error = "Lekcija nema sadržaj.";
     }
-  }
-
-  private checkFeedbackCollection() {
-    this.ratingService.shouldRequestFeedback(this.unit.id).subscribe(feedbackRequest => {
-      if(!feedbackRequest.requestKcFeedback && !feedbackRequest.requestTaskFeedback) return;
-      this.rateProgress(feedbackRequest, false);
-    });
   }
 
   rateProgress(feedbackRequested: UnitFeedbackRequest, isLearnerInitiated: boolean, itemId: number = 0): void {

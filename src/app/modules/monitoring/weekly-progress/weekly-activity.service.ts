@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UnitHeader } from './model/unit-header.model';
-import { UnitProgressRating } from './model/unit-rating.model';
 import { UnitProgressStatistics } from './model/unit-statistics.model';
 
 @Injectable({
@@ -14,7 +13,7 @@ export class WeeklyActivityService {
 
   constructor(private http: HttpClient) { }
 
-  getWeeklyUnitsWithTasksAndKcs(courseId: number, learnerId: number, weekEnd: Date): Observable<UnitHeader[]> {
+  getWeeklyUnitsWithItems(courseId: number, learnerId: number, weekEnd: Date): Observable<UnitHeader[]> {
     let queryParams = new HttpParams()
       .append('courseId', courseId)
       .append('weekEnd', `${weekEnd.getMonth() + 1}/${weekEnd.getDate()}/${weekEnd.getFullYear()}`);
@@ -23,20 +22,7 @@ export class WeeklyActivityService {
     return this.http.get<UnitHeader[]>(this.baseUrl + learnerId, baseParams);
   }
 
-  getAllRatings(unitIds: number[], weekEnd: Date): Observable<UnitProgressRating[]> {
-    let queryParams = new HttpParams()
-      .append('weekEnd', `${weekEnd.getMonth() + 1}/${weekEnd.getDate()}/${weekEnd.getFullYear()}`);
-    
-    unitIds.forEach(unitId => {
-      queryParams = queryParams.append('unitIds', unitId.toString());
-    });
-    const baseParams = { params: queryParams };
-    
-    return this.http.get<UnitProgressRating[]>(this.baseUrl + "ratings/", baseParams)
-      .pipe(tap(ratings => ratings.forEach(r => r.feedback = JSON.parse(r.feedback.toString()))));
-  }
-
-  GetKcAndTaskProgressAndWarnings(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitProgressStatistics[]> {
+  GetTaskAndKcStatistics(unitIds: number[], learnerId: number, groupMemberIds: number[]): Observable<UnitProgressStatistics[]> {
     let queryParams = new HttpParams();
     unitIds.forEach(unitId => {
       queryParams = queryParams.append('unitIds', unitId.toString());

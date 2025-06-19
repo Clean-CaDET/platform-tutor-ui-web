@@ -1,6 +1,7 @@
 <div *ngIf="form" class="flex-col" style="height: 100%;">
   <div style="overflow-y: auto; flex-grow: 1;">
     <form [formGroup]="form" class="panel">
+      <h1 class="mat-h1">{{reflection.name}}</h1>
       <div *ngFor="let q of reflection.questions">
         <span style="text-align: justify;">
           <markdown>{{q.text}}</markdown>
