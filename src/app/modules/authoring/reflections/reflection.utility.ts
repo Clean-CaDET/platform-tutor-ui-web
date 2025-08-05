@@ -15,7 +15,7 @@ export function getDefaultQuestions(): ReflectionQuestion[] {
     {
       id: 0,
       order: 1,
-      text: 'Koliko je gradivo bilo jasno izloženo?',
+      text: 'Koliko je gradivo jasno izloženo?',
       category: 2,
       type: 2,
       labels: ['Nimalo', 'Slabo', 'Korektno', 'Veoma']
@@ -23,7 +23,7 @@ export function getDefaultQuestions(): ReflectionQuestion[] {
     {
       id: 0,
       order: 2,
-      text: 'Koliko su pitanja bila jasno formulisana?',
+      text: 'Koliko su pitanja jasno formulisana?',
       category: 2,
       type: 2,
       labels: ['Nimalo', 'Slabo', 'Korektno', 'Veoma']
@@ -31,7 +31,7 @@ export function getDefaultQuestions(): ReflectionQuestion[] {
     {
       id: 0,
       order: 3,
-      text: 'Koliko su zadaci bili zahtevni?',
+      text: 'Koliko su zadaci zahtevni?',
       category: 2,
       type: 2,
       labels: ['Ne mogu da krenem', 'Teški su', 'Taman', 'Laki su']
@@ -39,17 +39,17 @@ export function getDefaultQuestions(): ReflectionQuestion[] {
     {
       id: 0,
       order: 4,
-      text: 'Kada se sve sabere, koliki napredak vidiš kod sebe u prethodnom periodu?',
-      category: 1,
-      type: 2,
-      labels: ['Nikakav', 'Slab', 'Korektan', 'Jak']
+      text: 'Da li treba nešto posebno da unapredimo? Da ponudimo dodatno pojašnjenje ili primer?',
+      category: 2,
+      type: 1
     },
     {
       id: 0,
       order: 5,
-      text: 'Da li treba negde posebno da obratimo pažnju?',
-      category: 0,
-      type: 1
+      text: 'Koliki napredak vidite kod sebe u prethodnom periodu?',
+      category: 1,
+      type: 2,
+      labels: ['Nikakav', 'Slab', 'Korektan', 'Jak']
     }
   ];
 }
