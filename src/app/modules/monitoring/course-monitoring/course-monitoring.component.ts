@@ -5,6 +5,7 @@ import { CourseMonitoringService } from './course-monitoring.service';
 import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
 import { Learner } from '../model/learner.model';
 import { WeeklyFeedbackQuestion } from '../weekly-feedback/weekly-feedback-questions.service';
+import { Reflection } from '../../learning/reflection/reflection.model';
 
 @Component({
   selector: 'cc-course-monitoring',
@@ -17,6 +18,8 @@ export class CourseMonitoringComponent implements OnInit {
   groups: Group[];
   selectedLearner: Learner;
   feedbackQuestions: WeeklyFeedbackQuestion[];
+  loadedReflections: Reflection[];
+  selectedFeedback: WeeklyFeedback;
 
   constructor(private monitoringService: CourseMonitoringService) {}
   
@@ -26,7 +29,7 @@ export class CourseMonitoringComponent implements OnInit {
   }
 
   getGroups(): void {
-    this.selectedLearner = null;
+    this.selectLearner(null);
     this.monitoringService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
       this.groups = groups;
       this.groups.forEach(g => {
@@ -84,5 +87,24 @@ export class CourseMonitoringComponent implements OnInit {
 
   getQuestion(code: string): string {
     return this.feedbackQuestions.find(q => q.code === code).question ?? "";
+  }
+
+  selectLearner(learner: Learner): void {
+    this.selectedLearner = learner;
+    this.loadedReflections = null;
+    this.selectedFeedback = null;
+  }
+
+  showReflections(feedback: WeeklyFeedback): void {
+    if (!feedback.learnerId || !feedback.reflectionIds?.length) return;
+    
+    this.selectedFeedback = feedback;
+    this.monitoringService.GetReflections(feedback.learnerId, feedback.reflectionIds).subscribe(reflections => {
+      reflections.forEach(r => {
+        r.selectedLearnerSubmission = r.submissions.find(s => s.learnerId === feedback.learnerId);
+        r.questions.forEach(q => q.answer = r.selectedLearnerSubmission?.answers.find(a => a.questionId === q.id)?.answer);
+      });
+      this.loadedReflections = reflections;
+    });
   }
 }
