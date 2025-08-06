@@ -102,6 +102,7 @@ export class CourseMonitoringComponent implements OnInit {
     this.monitoringService.GetReflections(feedback.learnerId, feedback.reflectionIds).subscribe(reflections => {
       reflections.forEach(r => {
         r.selectedLearnerSubmission = r.submissions.find(s => s.learnerId === feedback.learnerId);
+        r.questions = r.questions.filter(q => q.category != 2); // Ignore reflections on materials
         r.questions.forEach(q => q.answer = r.selectedLearnerSubmission?.answers.find(a => a.questionId === q.id)?.answer);
       });
       this.loadedReflections = reflections;

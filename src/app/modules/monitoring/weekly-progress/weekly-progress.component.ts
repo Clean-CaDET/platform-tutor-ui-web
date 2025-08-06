@@ -24,6 +24,7 @@ export class WeeklyProgressComponent implements OnInit, OnChanges {
   weeklyResults: WeeklyProgressStatistics;
   filterReflections: boolean = false;
   questionGroups: QuestionGroup[];
+  reflectionIds: number[] = [];
   
   constructor(private weeklyActivityService: WeeklyActivityService, private questionService: WeeklyFeedbackQuestionsService) {}
 
@@ -103,6 +104,14 @@ export class WeeklyProgressComponent implements OnInit, OnChanges {
     });
 
     this.weeklyResults = calculateWeeklyProgressStatistics(this.units);
+    this.collectReflectionIds();
+  }
+
+  private collectReflectionIds() {
+    this.reflectionIds = this.units
+      .flatMap(unit => unit.reflections || [])
+      .map(reflection => reflection.id)
+      .filter(id => id != null);
   }
 
   public changeLearner(direction: number) {

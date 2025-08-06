@@ -46,12 +46,12 @@
                             <mat-icon *ngIf="f.achievedPercentage == -1" matTooltip="Nema zadataka za ocenjivanje u ovom periodu.">radio_button_unchecked</mat-icon>
                         </div>
                         <mat-divider></mat-divider>
-                        <div class="flex-row" style="padding: 5px; gap: 5px">
+                        <div class="flex-row" style="padding: 5px; gap: 5px; align-items: center;">
                             <mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon>
                             <span style="flex-grow: 1;">Student kaže:</span>
-                            <button mat-raised-button color="primary" 
+                            <button mat-raised-button [color]="selectedFeedback === f ? '' : 'primary'"
                                 [disabled]="!f.averageSatisfaction" 
-                                (click)="showReflections(f)">Vidi refleksije</button>
+                                (click)="showReflections(f)">Refleksije</button>
                             <span *ngIf="f.averageSatisfaction">
                                 {{ f.averageSatisfaction < 2 ? 'Nezadovoljan' : f.averageSatisfaction >= 2.6 ? 'Zadovoljan' : 'Između' }}
                                 <mat-icon [matTooltip]="f.averageSatisfaction + ' / 4'"
@@ -88,12 +88,13 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <div class="course-overview" style="width: 33.33%; padding: 10px;">
+        <div class="course-overview" style="width: 33.33%; padding: 10px;" *ngIf="selectedLearner">
             <div *ngIf="!loadedReflections">
-                Klikni 'Vidi refleksije' da učitaš komentare studenata za nedelju.
+                Klikni 'Refleksije' da učitaš komentare studenta za nedelju.
             </div>
             <div *ngIf="loadedReflections" class="flex-col gap">
-                <mat-card *ngFor="let reflection of loadedReflections; let index = index" appearance="outlined">
+                <h3>Refleksije studenta</h3>
+                <mat-card *ngFor="let reflection of loadedReflections; let index = index" appearance="outlined" style="padding: 5px;">
                     <div class="flex-row">
                         <h3 class="mat-h3">
                             <mat-icon>record_voice_over</mat-icon> {{index + 1}}. {{reflection.name}}
