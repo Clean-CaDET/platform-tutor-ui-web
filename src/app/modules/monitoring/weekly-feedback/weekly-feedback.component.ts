@@ -21,6 +21,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
   @Input() avgLearnerSatisfaction: number;
   @Input() results: WeeklyProgressStatistics;
   @Input() loaded: boolean;
+  @Input() reflectionIds: number[];
   
   feedback: WeeklyFeedback[];
   selectedFeedback: WeeklyFeedback;
@@ -166,6 +167,7 @@ export class WeeklyFeedbackComponent implements OnInit, OnChanges {
     this.selectedFeedback.averageSatisfaction = this.avgLearnerSatisfaction;
     this.selectedFeedback.achievedTaskPoints = this.results?.achievedPoints;
     this.selectedFeedback.maxTaskPoints = this.results?.totalMaxPoints;
+    this.selectedFeedback.reflectionIds = this.reflectionIds;
   }
 
   public onDelete(id: number) {

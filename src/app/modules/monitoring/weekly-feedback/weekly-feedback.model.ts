@@ -13,6 +13,7 @@ export interface WeeklyFeedback {
     opinions?: FeedbackOpinion[];
 
     averageSatisfaction?: number;
+    reflectionIds?: number[];
     achievedTaskPoints?: number;
     maxTaskPoints?: number;
     
