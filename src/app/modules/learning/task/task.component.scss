@@ -61,3 +61,22 @@
     height: 24px !important;
     padding: 0 !important;
 }
+
+.from-learner {
+    padding: 10px;
+    max-width: 60%;
+    border-radius: 15px;
+}
+
+.consultation-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 5px 15px;
+}
+
+.messages-container {
+    height: 100%;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}

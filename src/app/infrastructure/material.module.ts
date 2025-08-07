@@ -28,6 +28,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
   showDelay: 300,
@@ -68,7 +69,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     ScrollingModule,
     MatChipsModule,
     CdkAccordionModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -101,7 +103,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     ScrollingModule,
     MatChipsModule,
     CdkAccordionModule,
-    MatSliderModule
+    MatSliderModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: myCustomTooltipDefaults }

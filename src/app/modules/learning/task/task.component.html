@@ -105,6 +105,46 @@
                     </button>
                 </div>
             </mat-tab>
+
+            <mat-tab label="Konsultacije" *ngIf="selectedStep.hasLlmSupport && selectedStep.progress.status !== 'Graded'" color="primary">
+                <ng-template mat-tab-label>
+                    <span class="theme-warn">Konsultacije</span>
+                </ng-template>
+                <div class="consultation-container">
+                    <div class="messages-container">
+                        <b>{{ selectedStep.name }}</b><br>
+                        <small><i>
+                            Prodiskutuj zadatak sa veštačkom inteligencijom. Diskusija je delotvornija ako uneseš svoje rešenje za ovaj i prethodne korake.<br>
+                            Nije potrebno unositi tekst zadatka. Rezultati mogu biti netačni.
+                        </i></small>
+                        <div *ngFor="let msg of messages" style="padding: 10px">
+                            <div *ngIf="msg.isLearner" class="flex-row" style="justify-content: right">
+                                <small class="theme-highlight-primary from-learner">
+                                    {{ msg.text }}
+                                </small>
+                            </div>
+                            <div *ngIf="!msg.isLearner">
+                                {{ msg.text }}
+                            </div>
+                        </div>
+                    </div>
+                    <span style="flex-grow: 1;"></span>
+                    <mat-spinner *ngIf="showSpinner" diameter="20"></mat-spinner>
+                    <form [formGroup]="llmConversationForm">
+                        <div class="flex-row gap" style="margin-top: 5px;">
+                            <mat-form-field appearance="fill" style="flex: 1;" appearance="fill">
+                                <small><textarea #learnerMessageInput formControlName="learnerMessage" matInput placeholder="Zatraži pomoć za tumačenje zadatka ili produkciju rešenja" 
+                                       (keydown.enter)="llmConversationForm.get('learnerMessage')?.value?.trim() && sendMessage()" rows="2"></textarea></small>
+                            </mat-form-field>
+                            <button mat-icon-button color="primary" type="button" 
+                                    [disabled]="!llmConversationForm.get('learnerMessage')?.value?.trim() || showSpinner" 
+                                    (click)="sendMessage()">
+                                <mat-icon>send</mat-icon>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </mat-card>

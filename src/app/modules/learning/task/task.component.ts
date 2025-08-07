@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
@@ -58,6 +58,12 @@ export class TaskComponent implements OnInit {
   courseId: number;
   selectedTab = new FormControl(0);
 
+  llmConversationForm: FormGroup;
+  messages: any[] = [];
+  showSpinner = false;
+
+  @ViewChild('learnerMessageInput') learnerMessageInput!: ElementRef<HTMLTextAreaElement>;
+
   constructor(
     private route: ActivatedRoute,
     private title: Title,
@@ -83,10 +89,13 @@ export class TaskComponent implements OnInit {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
       this.viewingTab = "Examples";
-    } else if(tabChangeEvent.tab.textLabel === "Results") {
-      this.viewingTab = "Results";
+    } else if(tabChangeEvent.tab.textLabel === "Konsultacije") {
+      this.viewingTab = "Konsultacije";
+      setTimeout(() => {
+        this.scrollToBottom();
+        this.focusLearnerInput();
+      }, 0);
     }
-    
   }
 
   setTask() {
@@ -163,6 +172,9 @@ export class TaskComponent implements OnInit {
     });
     this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
     this.answerForm.get('commentForMentor').setValue(this.selectedStep.progress.commentForMentor);
+    this.llmConversationForm = this.builder.group({
+      learnerMessage: new FormControl('', Validators.required)
+    })
   }
 
   submitAnswer() {
@@ -218,5 +230,51 @@ export class TaskComponent implements OnInit {
   public getComment(standardId: number): string {
     let evaluation = this.selectedStep.progress.evaluations.find(e => e.standardId == standardId);
     return evaluation.comment;
+  }
+
+  sendMessage() {
+    const messageText = this.llmConversationForm.get('learnerMessage')?.value?.trim();
+    if (!messageText) return;
+
+    this.llmConversationForm.get('learnerMessage')?.setValue('');
+    this.llmConversationForm.get('learnerMessage')?.disable();
+    this.showSpinner = true;
+
+    this.messages.push({
+      text: messageText,
+      isLearner: true,
+      time: new Date().toISOString()
+    });
+    setTimeout(() => this.scrollToBottom(), 0);
+
+
+    // TODO: HTTP request
+    setTimeout(() => {
+      this.llmConversationForm.get('learnerMessage')?.enable();
+      this.showSpinner = false;
+
+      this.messages.push({
+        text: 'Hello world',
+        isLearner: false,
+        time: new Date().toISOString()
+      });
+      setTimeout(() => {
+        this.scrollToBottom();
+        this.focusLearnerInput();
+      }, 0);
+    }, 2000);
+  }
+
+  private focusLearnerInput(): void {
+    if (this.learnerMessageInput?.nativeElement) {
+      this.learnerMessageInput.nativeElement.focus();
+    }
+  }
+
+  private scrollToBottom() {
+    const messagesContainer = document.querySelector('.messages-container');
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
   }
 }
