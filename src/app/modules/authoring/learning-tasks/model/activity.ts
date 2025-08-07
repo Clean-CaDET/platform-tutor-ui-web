@@ -11,8 +11,10 @@ export interface Activity {
     
     guidance: string;
     examples?: ActivityExample[];
+    hasLlmSupport?: boolean;
     
     submissionFormat: SubmissionFormat
+    shouldBeGraded?: boolean;
     standards?: Standard[];
     maxPoints?: number;
 

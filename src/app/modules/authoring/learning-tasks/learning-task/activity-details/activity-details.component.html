@@ -10,6 +10,9 @@
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
+            <mat-checkbox formControlName="hasLlmSupport" style="margin-top: 8px;">
+                LLM podrška
+            </mat-checkbox>
             <section class="flex-row gap" style="width: 100px;">
                 <span style="flex-grow: 1;"></span>
                 <button mat-icon-button *ngIf="!editMode"
@@ -83,7 +86,13 @@
             </div>
         </div>
         <div *ngIf="!activity.parentId && (standards.controls?.length !== 0 || editMode)" class="flex-col gap"><!-- Standards -->
-            <b class="theme-highlight-primary header">Standardi (sortirani po nazivu)</b>
+            <div class="theme-highlight-primary header flex-row">
+                <b>Standardi (sortirani po nazivu)</b>
+                <span style="flex-grow: 1"></span>
+                <mat-checkbox formControlName="shouldBeGraded">
+                    Treba oceniti
+                </mat-checkbox>
+            </div>
             <div formArrayName="standards" class="flex-col">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
                     <div [formGroup]="standardForm" class="flex-row gap">

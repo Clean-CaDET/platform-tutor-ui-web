@@ -37,6 +37,7 @@ export class ActivityDetailsComponent implements OnChanges {
       name: new FormControl('', Validators.required),
       guidance: new FormControl(''),
       examples: this.builder.array([]),
+      hasLlmSupport: new FormControl({ value: false, disabled: true }),
     });
 
     if (!this.activity.parentId) {
@@ -46,6 +47,7 @@ export class ActivityDetailsComponent implements OnChanges {
         guidelines: new FormControl('Nalepi kompletan sadržaj programa koji si iskucao (u editor Ctrl+A da se sve odabere, Ctrl+C da se kopira i onda ovde Ctrl+V da se nalepi).', Validators.required)
       }));
       this.activityForm.addControl('standards', this.builder.array([]));
+      this.activityForm.addControl('shouldBeGraded', new FormControl({ value: true, disabled: true }));
     }
   }
 
@@ -65,6 +67,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm.get('code').setValue(activity.code);
     this.activityForm.get('name').setValue(activity.name);
     this.activityForm.get('guidance').setValue(activity.guidance);
+    this.activityForm.get('hasLlmSupport').setValue(activity.hasLlmSupport || false);
     const examplesArray = this.setExamples(activity);
     this.activityForm.setControl('examples', examplesArray);
     if (!this.activity.parentId) {
@@ -73,17 +76,22 @@ export class ActivityDetailsComponent implements OnChanges {
       this.activityForm.get('submissionFormat').get('type').setValue(activity.submissionFormat.type);
       this.activityForm.get('submissionFormat').get('validationRule').setValue(activity.submissionFormat.validationRule);
       this.activityForm.get('submissionFormat').get('guidelines').setValue(activity.submissionFormat.guidelines);
+      this.activityForm.get('shouldBeGraded').setValue(activity.shouldBeGraded !== undefined ? activity.shouldBeGraded : true);
     }
   }
 
   edit() {
     this.editMode = true;
     this.activityForm.get('submissionFormat')?.get('type').enable();
+    this.activityForm.get('hasLlmSupport')?.enable();
+    this.activityForm.get('shouldBeGraded')?.enable();
   }
 
   view() {
     this.editMode = false;
     this.activityForm.get('submissionFormat')?.get('type').disable();
+    this.activityForm.get('hasLlmSupport')?.disable();
+    this.activityForm.get('shouldBeGraded')?.disable();
   }
   
   get examples(): FormArray {
