@@ -10,9 +10,6 @@
                 <mat-label>Naziv</mat-label>
                 <input formControlName="name" matInput [readonly]="!editMode">
             </mat-form-field>
-            <mat-checkbox formControlName="hasLlmSupport" style="margin-top: 8px;">
-                LLM podrška
-            </mat-checkbox>
             <section class="flex-row gap" style="width: 100px;">
                 <span style="flex-grow: 1;"></span>
                 <button mat-icon-button *ngIf="!editMode"
@@ -30,11 +27,23 @@
             </section>
         </div>
         <div class="flex-col">
-            <b *ngIf="!editMode" class="theme-highlight-primary header">Smernice (parcijalna rešenja i preporuke za nesnađenog studenta)</b>
+            <b class="theme-highlight-primary header">Podrška studentu za rešavanje zadatka</b>
             <markdown *ngIf="!editMode" [data]="activityForm.get('guidance').value" lineNumbers></markdown>
             <cc-markdown-editor *ngIf="editMode" [label]="'Smernice (parcijalna rešenja i preporuke za nesnađenog studenta)'"
                 [text]="activityForm.get('guidance').value" (textChanged)="this.activityForm.get('guidance').setValue($event.trim())">
             </cc-markdown-editor>
+        </div>
+        <mat-divider *ngIf="activityForm.get('guidance').value"></mat-divider>
+        <mat-checkbox formControlName="hasLlmSupport">
+            Uključi LLM podršku
+        </mat-checkbox>
+        <div class="flex-col" *ngIf="activityForm.get('llmAdditionalInstructions').value || editMode">
+            <b *ngIf="!editMode" class="theme-highlight-primary header">LLM dodatne instrukcije</b>
+            <div *ngIf="!editMode" style="white-space: pre-wrap;">{{ activityForm.get('llmAdditionalInstructions').value }}</div>
+            <mat-form-field *ngIf="editMode && activityForm.get('hasLlmSupport').value" [appearance]="'fill'">
+                <mat-label>Opcione dodatne instrukcije za LLM</mat-label>
+                <textarea formControlName="llmAdditionalInstructions" matInput rows="6" placeholder="Unesite dodatne instrukcije za LLM za podršku ovog koraka"></textarea>
+            </mat-form-field>
         </div>
         <div class="flex-col gap" *ngIf="examples.controls?.length !== 0 || editMode"><!-- Examples -->
             <b class="theme-highlight-primary header">Video primeri rešavanja koraka</b>
@@ -86,13 +95,10 @@
             </div>
         </div>
         <div *ngIf="!activity.parentId && (standards.controls?.length !== 0 || editMode)" class="flex-col gap"><!-- Standards -->
-            <div class="theme-highlight-primary header flex-row">
-                <b>Standardi (sortirani po nazivu)</b>
-                <span style="flex-grow: 1"></span>
-                <mat-checkbox formControlName="shouldBeGraded">
-                    Treba oceniti
-                </mat-checkbox>
-            </div>
+            <b class="theme-highlight-primary header">Standardi (sortirani po nazivu)</b>
+            <mat-checkbox formControlName="shouldBeGraded">
+                Mentor ocenjuje korak
+            </mat-checkbox>
             <div formArrayName="standards" class="flex-col">
                 <div *ngFor="let standardForm of standards.controls; let i = index">
                     <div [formGroup]="standardForm" class="flex-row gap">

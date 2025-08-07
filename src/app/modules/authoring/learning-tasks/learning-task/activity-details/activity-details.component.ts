@@ -38,6 +38,7 @@ export class ActivityDetailsComponent implements OnChanges {
       guidance: new FormControl(''),
       examples: this.builder.array([]),
       hasLlmSupport: new FormControl({ value: false, disabled: true }),
+      llmAdditionalInstructions: new FormControl(''),
     });
 
     if (!this.activity.parentId) {
@@ -68,6 +69,7 @@ export class ActivityDetailsComponent implements OnChanges {
     this.activityForm.get('name').setValue(activity.name);
     this.activityForm.get('guidance').setValue(activity.guidance);
     this.activityForm.get('hasLlmSupport').setValue(activity.hasLlmSupport || false);
+    this.activityForm.get('llmAdditionalInstructions').setValue(activity.llmAdditionalInstructions || '');
     const examplesArray = this.setExamples(activity);
     this.activityForm.setControl('examples', examplesArray);
     if (!this.activity.parentId) {

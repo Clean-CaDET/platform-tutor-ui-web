@@ -12,6 +12,7 @@ export interface Activity {
     guidance: string;
     examples?: ActivityExample[];
     hasLlmSupport?: boolean;
+    llmAdditionalInstructions?: string;
     
     submissionFormat: SubmissionFormat
     shouldBeGraded?: boolean;

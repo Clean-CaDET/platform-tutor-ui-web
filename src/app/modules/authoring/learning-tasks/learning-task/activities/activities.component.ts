@@ -44,7 +44,8 @@ export class ActivitiesComponent implements OnChanges {
       name: '',
       guidance: '',
       submissionFormat: null,
-      examples: []
+      examples: [],
+      llmAdditionalInstructions: ''
     };
   }
 
