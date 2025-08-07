@@ -10,6 +10,7 @@ export interface Activity {
     code: string;
     name: string;
 
+    hasLlmSupport: boolean;
     guidance: string;
     examples?: ActivityExample[];
 
