@@ -5,6 +5,7 @@ import { Course } from '../../management/model/course.model';
 import { Group } from '../model/group.model';
 import { environment } from 'src/environments/environment';
 import { WeeklyFeedbackQuestion } from '../weekly-feedback/weekly-feedback-questions.service';
+import { Reflection } from '../../learning/reflection/reflection.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,10 @@ export class CourseMonitoringService {
 
   GetFeedbackQuestions(): Observable<WeeklyFeedbackQuestion[]> {
     return this.http.get<WeeklyFeedbackQuestion[]>(this.baseUrl + 'feedback-questions');
+  }
+
+  GetReflections(learnerId: number, reflectionIds: number[]): Observable<Reflection[]> {
+    const params = reflectionIds.map(id => `reflectionIds=${id}`).join('&');
+    return this.http.get<Reflection[]>(`${environment.apiHost}monitoring/overview/reflections/${learnerId}?${params}`);
   }
 }

@@ -12,12 +12,12 @@
     </div>
     <mat-divider></mat-divider>
     <div class="flex-row" style="height: calc(100% - 103px)" *ngIf="groups?.length">
-        <div class="flex-col gap course-overview" style="padding: 10px; width: 60%;">
+        <div class="flex-col gap course-overview" style="padding: 10px; width: 33.33%;">
             <div *ngFor="let g of groups">
                 <h3>{{g.name}}</h3>
                 <div class="flex-row gap" style="flex-wrap: wrap;">
                 <mat-card *ngFor="let l of g.learners" appearance="outline" style="padding: 10px; width: 200px;"
-                    class="theme-hover" (click)="selectedLearner = l" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
+                    class="theme-hover" (click)="selectLearner(l)" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
                     <div class="flex-row" style="align-items: center;">
                         <small style="flex-grow: 1;">{{l.name}} {{l.surname}} <br>{{l.index}}</small>
                         <mat-icon style="scale: 1.8" *ngIf="l.summarySemaphore != -1"
@@ -30,12 +30,13 @@
             </div>
         </div>
         <mat-divider vertical="true"></mat-divider>
-        <div class="course-overview" style="width: 40%; padding: 10px;">
+        <div class="course-overview" style="width: 33.33%; padding: 10px;">
             <div *ngIf="!selectedLearner">Klikni na studenta da vidiš detalje</div>
             <div *ngIf="selectedLearner" class="flex-col">
                 <h3>{{selectedLearner.name}} {{selectedLearner.surname}}</h3>
                 <div class="flex-col gap">
-                    <mat-card appearance="outlined" *ngFor="let f of selectedLearner.recentFeedback">
+                    <mat-card appearance="outlined" *ngFor="let f of selectedLearner.recentFeedback" 
+                        [ngClass]="{'theme-highlight-primary': selectedFeedback === f}">
                         <b class="theme-highlight-primary" style="padding: 10px;">{{f.weekEnd | date:'dd.MM.'}}</b>
                         <div class="flex-row" style="padding: 5px; gap: 5px">
                             <mat-icon matTooltip="Poeni sa zadataka koje mentor ocenjuje">checklist_rtl</mat-icon>
@@ -45,9 +46,12 @@
                             <mat-icon *ngIf="f.achievedPercentage == -1" matTooltip="Nema zadataka za ocenjivanje u ovom periodu.">radio_button_unchecked</mat-icon>
                         </div>
                         <mat-divider></mat-divider>
-                        <div class="flex-row" style="padding: 5px; gap: 5px">
+                        <div class="flex-row" style="padding: 5px; gap: 5px; align-items: center;">
                             <mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon>
                             <span style="flex-grow: 1;">Student kaže:</span>
+                            <button mat-raised-button [color]="selectedFeedback === f ? '' : 'primary'"
+                                [disabled]="!f.averageSatisfaction" 
+                                (click)="showReflections(f)">Refleksije</button>
                             <span *ngIf="f.averageSatisfaction">
                                 {{ f.averageSatisfaction < 2 ? 'Nezadovoljan' : f.averageSatisfaction >= 2.6 ? 'Zadovoljan' : 'Između' }}
                                 <mat-icon [matTooltip]="f.averageSatisfaction + ' / 4'"
@@ -81,6 +85,35 @@
 
                     </mat-card>
                 </div>
+            </div>
+        </div>
+        <mat-divider vertical="true"></mat-divider>
+        <div class="course-overview" style="width: 33.33%; padding: 10px;" *ngIf="selectedLearner">
+            <div *ngIf="!loadedReflections">
+                Klikni 'Refleksije' da učitaš komentare studenta za nedelju.
+            </div>
+            <div *ngIf="loadedReflections" class="flex-col gap">
+                <h3>Refleksije studenta</h3>
+                <mat-card *ngFor="let reflection of loadedReflections; let index = index" appearance="outlined" style="padding: 5px;">
+                    <div class="flex-row">
+                        <h3 class="mat-h3">
+                            <mat-icon>record_voice_over</mat-icon> {{index + 1}}. {{reflection.name}}
+                        </h3>
+                        <span style="flex-grow: 1;"></span>
+                        <small>Kreirano: {{reflection.selectedLearnerSubmission.created | date:'dd.MM. u HH:mm'}}</small>
+                    </div>
+                    <div *ngFor="let q of reflection.questions">
+                        <div>{{q.text}}</div>
+                        <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
+                        <p *ngIf="q.answer"><b>Odgovor</b>:
+                        {{
+                            q.type === 1
+                                ? q.answer
+                                : q.labels[q.answer - 1] + ' (' + q.answer + ' / ' + q.labels.length + ')'
+                        }}
+                        </p>
+                    </div>
+                </mat-card>
             </div>
         </div>
     </div>
