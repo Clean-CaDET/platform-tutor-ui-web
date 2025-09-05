@@ -100,18 +100,23 @@
                             <mat-icon>record_voice_over</mat-icon> {{index + 1}}. {{reflection.name}}
                         </h3>
                         <span style="flex-grow: 1;"></span>
-                        <small>Kreirano: {{reflection.selectedLearnerSubmission.created | date:'dd.MM. u HH:mm'}}</small>
+                        <small *ngIf="reflection.selectedLearnerSubmission">Kreirano: {{reflection.selectedLearnerSubmission.created | date:'dd.MM. u HH:mm'}}</small>
                     </div>
-                    <div *ngFor="let q of reflection.questions">
-                        <div>{{q.text}}</div>
-                        <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
-                        <p *ngIf="q.answer"><b>Odgovor</b>:
-                        {{
-                            q.type === 1
-                                ? q.answer
-                                : q.labels[q.answer - 1] + ' (' + q.answer + ' / ' + q.labels.length + ')'
-                        }}
-                        </p>
+                    <div *ngIf="!reflection.selectedLearnerSubmission">
+                        <b>Student nije popunio ovu refleksiju.</b>
+                    </div>
+                    <div *ngIf="reflection.selectedLearnerSubmission">
+                        <div *ngFor="let q of reflection.questions">
+                            <div>{{q.text}}</div>
+                            <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
+                            <p *ngIf="q.answer"><b>Odgovor</b>:
+                            {{
+                                q.type === 1
+                                    ? q.answer
+                                    : q.labels[q.answer - 1] + ' (' + q.answer + ' / ' + q.labels.length + ')'
+                            }}
+                            </p>
+                        </div>
                     </div>
                 </mat-card>
             </div>
