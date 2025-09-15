@@ -3,4 +3,6 @@ export interface Note {
   unitId: number;
   id?: number;
   mode?: string;
+  courseId?: number;
+  order?: number;
 }
