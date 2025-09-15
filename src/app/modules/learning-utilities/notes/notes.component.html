@@ -28,11 +28,11 @@
       <div style="flex-grow: 1;">
         <div class="flex-row gap" *ngIf="note.mode === 'edit'">
           <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Sačuvaj</button>
-          <button mat-flat-button (click)="note.mode = 'preview'">Otkaži</button>
+          <button mat-flat-button (click)="onCancelEditNote(note)">Otkaži</button>
         </div>
       </div>
       <div class="flex-row gap" *ngIf="note.mode !== 'edit'">
-        <mat-icon class="pointer" (click)="note.mode = 'edit'">edit</mat-icon>
+        <mat-icon class="pointer" (click)="onEditNote(note)">edit</mat-icon>
         <mat-icon class="pointer" (click)="onDelete(note.id)">delete</mat-icon>
       </div>
     </div>

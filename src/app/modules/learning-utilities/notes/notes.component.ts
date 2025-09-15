@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from '../model/note.model';
+import { Note } from './note.model';
 import { NotesService } from './notes-service';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -13,6 +13,7 @@ export class NotesComponent implements OnInit {
   notes: Note[];
   edit = false;
   unitId: number;
+  originalText: string = '';
 
   constructor(private noteService: NotesService, private route: ActivatedRoute) {
     this.notes = [];
@@ -50,6 +51,17 @@ export class NotesComponent implements OnInit {
     this.noteService.deleteNote(this.unitId, noteId).subscribe(() => {
       this.notes = this.notes.filter(n => n.id !== noteId);
     });
+  }
+
+  onEditNote(note: Note): void {
+    this.originalText = note.text;
+    note.mode = 'edit';
+  }
+
+  onCancelEditNote(note: Note): void {
+    note.text = this.originalText;
+    note.mode = 'preview';
+    this.originalText = '';
   }
 
   onExport(): void {
