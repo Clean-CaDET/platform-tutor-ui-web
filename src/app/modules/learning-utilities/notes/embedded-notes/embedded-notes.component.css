@@ -1,7 +1,9 @@
 .embedded-notes-container {
   padding: 16px;
-  background-color: #fafafa;
   border-radius: 4px;
+  max-height: 50vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .notes-header {

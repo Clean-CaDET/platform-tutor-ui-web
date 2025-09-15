@@ -12,6 +12,7 @@
   <mat-card appearance="outlined" *ngIf="edit" class="note-width">
     <cc-markdown-editor [label]="'Beleška'" (textChanged)="text = $event" [authoring]="false"></cc-markdown-editor>
     <div class="flex-row gap">
+      <span style="flex-grow: 1;"></span>
       <button mat-flat-button color="primary" (click)="onSave()" [disabled]="!text">Sačuvaj</button>
       <button mat-flat-button (click)="onCancel()">Otkaži</button>
     </div>

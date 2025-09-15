@@ -13,8 +13,7 @@
   <mat-card appearance="outlined" *ngIf="addingNote" class="note-card">
     <cc-markdown-editor [label]="'Nova beleška'" 
                         (textChanged)="newNoteText = $event" 
-                        [authoring]="false" 
-                        [sidePreview]="true">
+                        [authoring]="false">
     </cc-markdown-editor>
     <div class="flex-row gap">
       <span style="flex-grow: 1;"></span>
@@ -33,8 +32,7 @@
                         [text]="note.text" 
                         [label]="'Beleška'"
                         (textChanged)="note.text = $event" 
-                        [authoring]="false" 
-                        [sidePreview]="true">
+                        [authoring]="false">
     </cc-markdown-editor>
     <p *ngIf="note.mode === 'preview'" markdown>{{note.text}}</p>
     <div class="flex-row">
