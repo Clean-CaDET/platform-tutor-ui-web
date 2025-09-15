@@ -11,6 +11,7 @@ export class SaqFormComponent implements OnInit {
   @Input() item: ShortAnswerQuestion;
   workingItem: ShortAnswerQuestion;
   @Output() saveChanges = new EventEmitter<ShortAnswerQuestion>();
+  @Output() requestPrompt = new EventEmitter<ShortAnswerQuestion>();
 
   form: FormGroup
 
@@ -69,11 +70,20 @@ export class SaqFormComponent implements OnInit {
   }
 
   save(): void {
+    this.getFormData();
+    this.saveChanges.emit(this.workingItem);
+  }
+
+  private getFormData() {
     this.workingItem.feedback = this.form.value['feedback'];
     this.workingItem.tolerance = this.form.value['tolerance'];
     this.workingItem.acceptableAnswers = this.form.value['options'].map((o: any) => o['text']);
     this.workingItem.hints = this.form.value['hints'].map((o: any) => o['text']);
-    this.saveChanges.emit(this.workingItem);
+  }
+
+  copyPrompt() {
+    this.getFormData();
+    this.requestPrompt.emit(this.workingItem);
   }
 
   cancel(): void {

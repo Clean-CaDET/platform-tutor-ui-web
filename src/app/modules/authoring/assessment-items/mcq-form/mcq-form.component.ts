@@ -11,6 +11,7 @@ export class McqFormComponent implements OnInit {
   @Input() item: MultipleChoiceQuestion;
   workingItem: MultipleChoiceQuestion;
   @Output() saveChanges = new EventEmitter<MultipleChoiceQuestion>();
+  @Output() requestPrompt = new EventEmitter<MultipleChoiceQuestion>();
 
   form: FormGroup
 
@@ -70,12 +71,21 @@ export class McqFormComponent implements OnInit {
   }
 
   save(): void {
+    this.getFormData();
+    this.saveChanges.emit(this.workingItem);
+  }
+
+  private getFormData() {
     this.workingItem.correctAnswer = this.form.value['correctAnswer'];
     this.workingItem.feedback = this.form.value['feedback'];
     this.workingItem.possibleAnswers = this.form.value['options'].map((o: any) => o['text']);
     this.workingItem.possibleAnswers.unshift(this.form.value['correctAnswer']);
     this.workingItem.hints = this.form.value['hints'].map((o: any) => o['text']);
-    this.saveChanges.emit(this.workingItem);
+  }
+
+  copyPrompt() {
+    this.getFormData();
+    this.requestPrompt.emit(this.workingItem);
   }
 
   cancel(): void {

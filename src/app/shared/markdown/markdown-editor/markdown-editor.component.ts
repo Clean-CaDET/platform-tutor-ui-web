@@ -8,14 +8,16 @@ import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, 
 export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
   @Input() label = "";
   @Input() text = "";
-  @Input() sidePreview = false;
-  synchEnabled = false;
+
+  @Input() authoring = true;
   @Input() submitCtrls = false;
   @Input() indextab = 50;
   @Output() submit = new EventEmitter<string>();
   @Output() textChanged = new EventEmitter<string>();
-
+  
   @Input() livePreview = true;
+  @Input() sidePreview = false;
+  synchEnabled = false;
   selection: any;
   @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
   @ViewChild('markdownContainerElement') markdownContainer: ElementRef<HTMLElement>;
@@ -80,23 +82,21 @@ export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
         tagBegin = tagEnd = '_';
         tagText = 'Italic Text';
         break;
-      case 'bulleted':
-        tagBegin = '- ';
-        tagText = 'List Item';
-        break;
-      case 'numbered':
-        tagBegin = '1. ';
-        tagText = 'List Item';
-        break;
       case 'code':
-        tagBegin = tagEnd = '```';
+        tagBegin = '```\n';
+        tagEnd = '\n```';
         tagText = 'Code';
         break;
       case 'link':
-          tagBegin = '<a href="URL" target="_blank">';
-          tagEnd= '</a>'
-          tagText = 'Text';
-          break;
+        tagBegin = '<a href="URL" target="_blank">';
+        tagEnd= '</a>'
+        tagText = 'Text';
+        break;
+      case 'hidden':
+        tagBegin = '\n<hr></hr>\n<details>\n<summary><b>Kliknite da vidite rešenje</b></summary>\n\n';
+        tagEnd= '\n\n</details>\n<hr></hr>\n'
+        tagText = 'Hidden until clicked';
+        break;
       case 'h1':
         tagBegin = '# ';
         tagText = 'Heading 1';

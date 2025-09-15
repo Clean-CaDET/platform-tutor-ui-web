@@ -15,7 +15,7 @@
     <span style="flex-grow: 1;"></span>
     <mat-card-actions *ngIf="user.role === 'instructor'" class="flex-row gap">
         <span style="flex-grow: 1;"></span>
-        <a mat-stroked-button [routerLink]="['/authoring/course', course.id]" matTooltip="Autorstvo">
+        <a mat-stroked-button [routerLink]="['/authoring', course.id, 'units']" matTooltip="Autorstvo">
             <div><mat-icon>edit</mat-icon></div>
         </a>
         <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']" matTooltip="Analitike">

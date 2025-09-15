@@ -17,4 +17,5 @@ export interface Learner {
   // Course overview
   recentFeedback?: WeeklyFeedback[];
   weeklyFeedback?: WeeklyFeedback[];
+  summarySemaphore: number;
 }

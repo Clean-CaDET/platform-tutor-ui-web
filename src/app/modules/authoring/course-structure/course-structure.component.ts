@@ -8,6 +8,13 @@ import { CourseStructureService } from './course-structure.service';
 import { KnowledgeComponentService } from '../knowledge-component/knowledge-component-authoring.service';
 import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring.service';
 
+enum DisplayType {
+  Details = 1,
+  Kcs,
+  Tasks,
+  Reflections
+}
+
 @Component({
   selector: 'cc-course-structure',
   templateUrl: './course-structure.component.html',
@@ -16,9 +23,8 @@ import { LearningTasksService } from '../learning-tasks/learning-tasks-authoring
 export class CourseStructureComponent implements OnInit {
   course: Course
   selectedUnit: Unit;
-  showUnitDetails: boolean;
-  showKnowledgeComponents: boolean;
-  showLearningTasks: boolean;
+  display: DisplayType;
+  
   learningTasks: any[];
 
   constructor(private courseService: CourseStructureService, private kcService: KnowledgeComponentService, private taskService: LearningTasksService,
@@ -43,6 +49,10 @@ export class CourseStructureComponent implements OnInit {
             this.showTasks(unit);
             return;
           }
+          if(mode == 'ref') {
+            this.showReflections(unit);
+            return;
+          }
           this.showDetails(unit);
         }
       });
@@ -58,9 +68,7 @@ export class CourseStructureComponent implements OnInit {
 
   createUnit() {
     this.selectedUnit = { code: '', name: '', goals: '', order: this.getMaxOrder() + 10 };
-    this.showUnitDetails = true;
-    this.showKnowledgeComponents = false;
-    this.showLearningTasks = false;
+    this.display = DisplayType.Details;
   }
 
   getMaxOrder(): number {
@@ -70,9 +78,7 @@ export class CourseStructureComponent implements OnInit {
 
   showDetails(unit: Unit) {
     this.selectedUnit = unit;
-    this.showKnowledgeComponents = false;
-    this.showLearningTasks = false;
-    this.showUnitDetails = true;
+    this.display = DisplayType.Details;
 
     this.router.navigate([], {
       queryParams: { unit: unit.id, mode: '' },
@@ -84,9 +90,7 @@ export class CourseStructureComponent implements OnInit {
     this.kcService.getByUnit(unit.id).subscribe(kcs => {
       this.selectedUnit = unit;
       this.selectedUnit.knowledgeComponents = kcs;
-      this.showKnowledgeComponents = true;
-      this.showUnitDetails = false;
-      this.showLearningTasks = false;
+      this.display = DisplayType.Kcs;
     });
 
     this.router.navigate([], {
@@ -105,13 +109,21 @@ export class CourseStructureComponent implements OnInit {
         }
         return a.order - b.order;
       });
-      this.showKnowledgeComponents = false;
-      this.showUnitDetails = false;
-      this.showLearningTasks = true;
+      this.display = DisplayType.Tasks;
     });
 
     this.router.navigate([], {
       queryParams: { unit: unit.id, mode: 'lt' },
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  showReflections(unit: Unit) {
+    this.selectedUnit = unit;
+    this.display = DisplayType.Reflections;
+    
+    this.router.navigate([], {
+      queryParams: { unit: unit.id, mode: 'ref' },
       queryParamsHandling: 'merge'
     });
   }

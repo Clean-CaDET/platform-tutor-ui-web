@@ -1,10 +1,10 @@
 <div style="flex-grow: 1">
   <div class="flex-row">
     <div class="flex-row">
-      <button mat-icon-button (click)="insertElement('bold')">
+      <button mat-icon-button (click)="insertElement('bold')" matTooltip="Dodaj bold">
         <mat-icon>format_bold</mat-icon>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="headings">
+      <button mat-icon-button [matMenuTriggerFor]="headings" matTooltip="Dodaj zaglavlje">
         <mat-icon>title</mat-icon>
       </button>
       <mat-menu #headings="matMenu">
@@ -13,18 +13,14 @@
         <div (click)="insertElement('h3')" mat-menu-item>h3</div>
       </mat-menu>
       <mat-divider vertical="true"></mat-divider>
-      <button mat-icon-button (click)="insertElement('bulleted')">
-        <mat-icon>format_list_bulleted</mat-icon>
+      <button mat-icon-button (click)="insertElement('link')" *ngIf="authoring" matTooltip="Dodaj link">
+        <mat-icon>link</mat-icon>
       </button>
-      <button mat-icon-button (click)="insertElement('numbered')">
-        <mat-icon>format_list_numbered</mat-icon>
-      </button>
-      <mat-divider vertical="true"></mat-divider>
-      <button mat-icon-button (click)="insertElement('code')">
+      <button mat-icon-button (click)="insertElement('code')" matTooltip="Dodaj blok koda">
         <mat-icon>code</mat-icon>
       </button>
-      <button mat-icon-button (click)="insertElement('link')">
-        <mat-icon>link</mat-icon>
+      <button mat-icon-button (click)="insertElement('hidden')" *ngIf="authoring" matTooltip="Dodaj skriveni segment">
+        <mat-icon>expand</mat-icon>
       </button>
     </div>
     <span style="flex-grow: 1;"></span>

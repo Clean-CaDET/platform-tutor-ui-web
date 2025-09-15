@@ -4,33 +4,60 @@
     </div>
     <div class="flex-row gap" style="flex-wrap: wrap; padding: 10px;">
         <button mat-stroked-button *ngFor="let f of feedback; let i = index" [ngClass]="{'theme-highlight-primary': f.id === selectedFeedback?.id}"
-        [color]="f.id && getColor(f.semaphore)" [matTooltip]="f.weekEnd | date: 'dd.MM.y.'" (click)="selectFeedback(f)">{{ i+1 }}</button>
+        [color]="f.id && getStandardColors(f.semaphore)" [matTooltip]="f.weekEnd | date: 'dd.MM.y.'" (click)="selectFeedback(f)">{{ i+1 }}</button>
     </div>
     <div class="flex-col" style="height: 100%;">
         <div class="theme-highlight-primary" style="padding: 10px;">
             <h3 class="mat-h3" style="margin: 0;">Koliko se dobro student snašao u nedelji zaključno sa <b>{{selectedFeedback?.weekEnd | date: 'dd.MM.y.'}}</b>?</h3>
         </div>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex-col gap" style="padding: 10px;">
-            <section class="flex-col">
-                <div class="flex-row" style="justify-content: space-between; margin-bottom: -15px;">
+        <form *ngIf="form" [formGroup]="form" class="flex-col gap" style="padding: 0 10px">
+            <div *ngIf="!selectedFeedback?.id || selectedFeedback?.opinions" class="flex-col gap">
+                <div *ngFor="let group of questionGroups" class="question-group">
+                    <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
+                        <h3 class="mat-h3" style="margin: 0;">{{group.name}}</h3>
+                    </div>
+                    <section *ngFor="let q of group.questions" class="flex-col" style="align-items: center;">
+                        <mat-label>
+                            {{ q.question }}
+                            <mat-icon *ngIf="q.guidance" [matTooltip]="q.guidance" matTooltipPosition="above">help_outline</mat-icon>
+                        </mat-label>
+                        <div class="flex-row slider-labels">
+                            <small *ngFor="let o of q.options">
+                                {{ o.label }}
+                            </small>
+                        </div>
+
+                        <mat-slider style="width: calc(100% - 60px);" [color]="getColor(q.code, q.options)"
+                            [min]="q.minValue" [max]="q.maxValue" [step]="1">
+                            <input matSliderThumb formControlName="{{q.code}}"/>
+                        </mat-slider>
+                    </section>
+                </div>
+            </div>
+            <div class="theme-highlight-primary" style="padding: 0 10px; margin: 0 -10px">
+                <h3 class="mat-h3" style="margin: 0;"><b>Sumarni utisak</b></h3>
+            </div>
+            <section class="flex-col" style="align-items: center;">
+                <div class="flex-row gap slider-labels">
                     <small>Ne snalazi se</small>
                     <small>Bori se, ali treba pratiti</small>
                     <small>Dobro se snalazi</small>
                 </div>
-                <mat-slider [color]="getColor(form.get('semaphore')?.value) || 'accent'" style="width: calc(100% - 20px);"
+                <mat-slider [color]="getColor('semaphore')" style="width: calc(100% - 60px);"
                     min="1" max="3" step="1" tickInterval="1">
                     <input formControlName="semaphore" matSliderThumb>
                 </mat-slider>
             </section>
             <mat-form-field appearance="outline">
-                <mat-label>Na osnovu čega zaključuješ stepen snalaženja?</mat-label>
-                <textarea matInput formControlName="semaphoreJustification" rows="10"></textarea>
+                <mat-label>Nešto još pozitivno/negativno za istaći?<br>Opravdanje za rezultate?</mat-label>
+                <textarea matInput formControlName="semaphoreJustification" rows="4"></textarea>
             </mat-form-field>
             <div class="flex-row">
-                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
+                <button mat-raised-button [color]="selectedFeedback?.id ? '' : 'primary'" type="submit" style="width: 100px;" (click)="onSubmit()" [disabled]="progressBarActive || !loaded">{{selectedFeedback?.id ? 'Ažuriraj' : 'Sačuvaj'}}</button>
                 <span style="flex-grow: 1;"></span>
-                <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)">Obriši</button>
+                <button *ngIf="selectedFeedback?.id" mat-raised-button color="warn" style="width: 100px;" (click)="onDelete(selectedFeedback.id)" [disabled]="progressBarActive || !loaded">Obriši</button>
             </div>
+            <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" *ngIf="progressBarActive"></mat-progress-bar>
         </form>
     </div>
 </div>

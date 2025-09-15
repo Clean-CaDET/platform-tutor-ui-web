@@ -9,6 +9,7 @@ import { Step } from './model/step';
 import { TaskProgress } from './model/task-progress';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { gradingInstruction } from './model/grading.constants';
+import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 
 @Component({
   selector: 'cc-grading',
@@ -16,10 +17,12 @@ import { gradingInstruction } from './model/grading.constants';
   styleUrls: ['./grading.component.scss']
 })
 export class GradingComponent implements OnChanges {
+  readonly clipboardComponent = ClipboardButtonComponent;
+  
   @Input() courseId: number;
   @Input() selectedLearnerId: number;
   @Input() learners: Learner[];
-  @Output() learnerChanged = new EventEmitter<number>();
+  @Output() learnerChanged = new EventEmitter<Learner>();
   @Output() gradesChanged = new EventEmitter<TaskProgress[]>();
   selectedUnitId = 0;
   @Input() selectedDate: Date;
@@ -31,7 +34,7 @@ export class GradingComponent implements OnChanges {
   
   gradingForm: FormGroup;
   structuredFormShown: boolean;
-  systemPrompt: string = gradingInstruction;
+  progressBarActive: boolean;
 
   constructor(private gradingService: GradingService, private builder: FormBuilder, private clipboard: Clipboard, private snackBar: MatSnackBar) { }
  
@@ -113,9 +116,11 @@ export class GradingComponent implements OnChanges {
   }
 
   public select(task: LearningTask, step: Step) {
+    if(this.isUnanswered(step)) return;
     this.selectedTask = task;
     this.selectedStep = step;
     this.createForm();
+    this.scrollTo('text');
   }
 
   private createForm() {
@@ -157,6 +162,7 @@ export class GradingComponent implements OnChanges {
   }
 
   public submit() {
+    this.progressBarActive = true;
     const taskProgessId = this.selectedStep.progress.taskProgressId;
     const grade = this.gradingForm.value;
     delete grade.rawEvaluation;
@@ -164,6 +170,8 @@ export class GradingComponent implements OnChanges {
       .subscribe(data => {
         this.selectedStep.progress = data.stepProgresses.find(stepProgress => stepProgress.stepId === this.selectedStep.id);
         this.selectedStep.progress.taskProgressId = taskProgessId;
+        this.gradingForm.markAsPristine();
+        this.progressBarActive = false;
         this.updateGradeSummaries();
       });
   }
@@ -177,14 +185,14 @@ export class GradingComponent implements OnChanges {
     this.selectedStep.standards.forEach(s => {
       standards += `ID: ${s.id}; Name: ${s.name}; Guidelines: ${s.description}; Max points: ${s.maxPoints}\n`;
     });
-    let prompt = this.createTag('instruction', this.systemPrompt);
+    let prompt = this.createTag('instruction', gradingInstruction);
     prompt += this.createTag('task',
       this.createTag('description', this.selectedTask.description + '\n' + this.selectedStep.submissionFormat.guidelines) +
       this.createTag('learner-submission', this.selectedStep.progress?.answer) +
       this.createTag('standards', standards)
     );
     this.clipboard.copy(prompt);
-    this.snackBar.open('Kopiran sadržaj za ChatGPT. Odgovor stavi u "Sirova evaluacija" i klikni "Zameni formu".', "OK", { horizontalPosition: 'right', verticalPosition: 'bottom', duration: 3000 });
+    this.snackBar.open('Kopirano. Odgovor ChatGPTa stavi u "Sirova evaluacija" i klikni "Zameni formu".', "OK", { horizontalPosition: 'right', verticalPosition: 'bottom', duration: 3000 });
   }
 
   private createTag(tag: string, content: string): string {
@@ -192,20 +200,18 @@ export class GradingComponent implements OnChanges {
   }
 
   public showStructuredForm() {
-    if(this.structuredFormShown) {
-      this.gradingForm.get('rawEvaluation').setValue(JSON.stringify(this.evaluations.value, null, 2));
-    } else {
-      try {
-        const rawEvaluation: any[] = JSON.parse(this.gradingForm.get('rawEvaluation').value);
-        this.evaluations.controls.forEach(c => {
-          const standardId = c.value.standardId;
-          const relatedEvaluation = rawEvaluation.find(e => e['standardId'] === standardId);
-          if(!relatedEvaluation) return;
-          c.setValue(relatedEvaluation);
-        })
-      } catch(e) {
-        console.log(e);
-      }
+    try {
+      const rawEvaluation: any[] = JSON.parse(this.gradingForm.get('rawEvaluation').value);
+      this.evaluations.controls.forEach(c => {
+        const standardId = c.value.standardId;
+        const relatedEvaluation = rawEvaluation.find(e => e['standardId'] === standardId);
+        if(!relatedEvaluation) return;
+        c.setValue(relatedEvaluation);
+      });
+      const additionalComment = rawEvaluation.find(e => e['standardId'] === 0);
+      if(additionalComment) this.gradingForm.get('comment').setValue(additionalComment['comment']);
+    } catch(e) {
+      console.log(e);
     }
     this.structuredFormShown = !this.structuredFormShown;
   }
@@ -215,7 +221,7 @@ export class GradingComponent implements OnChanges {
     const currentIndex = this.learners.indexOf(currentLearner);
     const newIndex = (currentIndex + direction + this.learners.length) % this.learners.length;
     this.selectedLearnerId = this.learners[newIndex].id;
-    this.learnerChanged.emit(this.selectedLearnerId);
+    this.learnerChanged.emit(this.learners[newIndex]);
   }
 
   public changeStep(direction: number) {
@@ -224,6 +230,7 @@ export class GradingComponent implements OnChanges {
        (direction === 1 && currentStepIndex < this.selectedTask.steps.length - 1)) {
         this.selectedStep = this.selectedTask.steps[currentStepIndex + direction];
         this.createForm();
+        this.scrollTo('text');
         return;
     }
     this.changeTask(direction);
@@ -235,5 +242,10 @@ export class GradingComponent implements OnChanges {
     this.selectedTask = this.tasks[newIndex];
     this.selectedStep = direction === 1 ? this.selectedTask.steps[0] : this.selectedTask.steps[this.selectedTask.steps.length-1];
     this.createForm();
+    this.scrollTo('text');
+  }
+
+  scrollTo(item: string) {
+    setTimeout(() => { document.querySelector('#'+item).scrollIntoView({behavior: 'smooth', block:'start'}) }, 0);
   }
 }

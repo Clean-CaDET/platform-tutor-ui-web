@@ -19,35 +19,27 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   styleUrls: ['./task.component.scss'],
   animations: [
     trigger('expandCollapseDefinition', [
-      state('collapsed', style({
-        height: '95%'
-      })),
-      state('expanded', style({
-        height: '35%'
-      })),
-      transition('collapsed <=> expanded', [
-        animate('0.7s ease-in-out')
-      ])
+      state('state0', style({ height: '100%' })),
+      state('state1', style({ height: '20%' })),
+      state('state2', style({ height: '50%' })),
+      state('state3', style({ height: '80%' })),
+      transition('* <=> *', animate('0.3s ease-in-out'))
     ]),
     trigger('expandCollapseContent', [
-      state('collapsed', style({
-        height: '56px'
-      })),
-      state('expanded', style({
-        height: '65%'
-      })),
-      transition('collapsed <=> expanded', [
-        animate('0.7s ease-in-out')
-      ])
+      state('state0', style({ height: '0px' })),
+      state('state1', style({ height: '80%' })),
+      state('state2', style({ height: '50%' })),
+      state('state3', style({ height: '20%' })),
+      transition('* <=> *', animate('0.3s ease-in-out'))
     ])
   ]
 })
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
-  isExpanded: boolean = false;
-  toggleExpansion() {
-    this.isExpanded = true;
-    setTimeout(() => this.viewStep(this.steps[0]), 700);
+  sliderPosition: number = 0;
+  start() {
+    this.sliderPosition = 2;
+    setTimeout(() => this.viewStep(this.steps[0]), 300);
   }
   task: LearningTask;
   steps: Activity[];
@@ -59,7 +51,7 @@ export class TaskComponent implements OnInit {
   
   selectedExample: ActivityExample;
   videoUrl: string;
-  viewingVideo: boolean;
+  viewingTab: string;
   videoPlaybackStatus: number;
   videoEventDelayerId: number;
 
@@ -82,16 +74,19 @@ export class TaskComponent implements OnInit {
     if(tabChangeEvent.tab.textLabel === "Slanje rešenja") {
       this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = false;
+      this.viewingTab = "Submission";
     } else if(tabChangeEvent.tab.textLabel === "Smernice") {
       this.progressService.guidanceOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = false;
+      this.viewingTab = "Guidelines";
     } else if(tabChangeEvent.tab.textLabel === "Primeri") {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
-      this.viewingVideo = true;
+      this.viewingTab = "Examples";
+    } else if(tabChangeEvent.tab.textLabel === "Results") {
+      this.viewingTab = "Results";
     }
+    
   }
 
   setTask() {
@@ -107,7 +102,7 @@ export class TaskComponent implements OnInit {
           this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));
           const suitableStep = this.selectSuitableStep();
           if(suitableStep) {
-            this.isExpanded = true;
+            this.sliderPosition = 2;
             this.viewStep(suitableStep);
           }
         });
@@ -144,6 +139,7 @@ export class TaskComponent implements OnInit {
   viewStep(step: Activity) {
     if(!step) return;
     this.selectedTab.setValue(0);
+    this.viewingTab = "Submission";
     this.selectedStep = step;
     this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
     this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
@@ -162,13 +158,16 @@ export class TaskComponent implements OnInit {
   private createForm() {
     const regexPattern: RegExp = new RegExp(this.selectedStep.submissionFormat.validationRule, 's');
     this.answerForm = this.builder.group({
-      answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)])
+      answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)]),
+      commentForMentor: new FormControl('', [])
     });
     this.answerForm.get('answer').setValue(this.selectedStep.progress.answer);
+    this.answerForm.get('commentForMentor').setValue(this.selectedStep.progress.commentForMentor);
   }
 
   submitAnswer() {
     this.selectedStep.progress.answer = this.answerForm.value.answer;
+    this.selectedStep.progress.commentForMentor = this.answerForm.value.commentForMentor;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
   }
