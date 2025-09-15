@@ -9,9 +9,13 @@ import { map } from 'rxjs/operators';
 export class NotesService {
   constructor(private http: HttpClient) {}
 
+  private getBaseUrl(unitId: number): string {
+    return `${environment.apiHost}learning/unit/${unitId}/notes`
+  }
+
   save(note: Note): Observable<Note> {
     return this.http
-      .post<Note>(`${environment.apiHost}learning/unit/${note.unitId}/notes`, note)
+      .post<Note>(this.getBaseUrl(note.unitId), note)
       .pipe(map((data) => {
         data.mode = 'preview';
         return data;
@@ -19,16 +23,15 @@ export class NotesService {
   }
 
   update(note: Note): Observable<void> {
-    return this.http.put<void>(`${environment.apiHost}learning/unit/${note.unitId}/notes/${note.id}`, note);
+    return this.http.put<void>(`${this.getBaseUrl(note.unitId)}/${note.id}`, note);
   }
 
   delete(unitId: number, id: number): Observable<any> {
-    return this.http.delete(`${environment.apiHost}learning/unit/${unitId}/notes/${id}`);
+    return this.http.delete(`${this.getBaseUrl(unitId)}/${id}`);
   }
 
   getAll(unitId: number): Observable<Note[]> {
-    return this.http
-      .get<Note[]>(environment.apiHost + 'learning/unit/' + unitId + '/notes')
+    return this.http.get<Note[]>(this.getBaseUrl(unitId))
       .pipe(map(this.mapNotes));
   }
 
@@ -40,6 +43,6 @@ export class NotesService {
   }
 
   export(unitId: number): Observable<any> {
-    return this.http.get(`${environment.apiHost}learning/unit/${unitId}/notes/export`, {responseType: 'blob' as 'json'});
+    return this.http.get(`${this.getBaseUrl(unitId)}/export`, {responseType: 'blob' as 'json'});
   }
 }

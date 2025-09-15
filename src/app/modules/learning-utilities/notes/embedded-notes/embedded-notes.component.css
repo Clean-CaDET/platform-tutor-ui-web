@@ -1,0 +1,44 @@
+.embedded-notes-container {
+  padding: 16px;
+  background-color: #fafafa;
+  border-radius: 4px;
+}
+
+.notes-header {
+  margin-bottom: 16px;
+}
+
+.note-card {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.no-notes-message {
+  color: #666;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+.mat-mdc-card {
+  padding: 10px;
+  margin-top: 10px;
+  word-break: break-all;
+}
+
+mat-form-field {
+  margin-bottom: 20px;
+}
+
+.pointer:hover {
+  cursor: pointer;
+}
+
+.pointer.disabled {
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+.pointer.disabled:hover {
+  cursor: not-allowed;
+}

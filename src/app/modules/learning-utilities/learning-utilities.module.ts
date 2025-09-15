@@ -4,11 +4,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MarkdownModule } from 'ngx-markdown';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { UnitNotesComponent } from './notes/unit-notes/unit-notes.component';
-import { CourseNotesComponent } from './notes/course-notes/course-notes.component';
+import { EmbeddedNotesComponent } from './notes/embedded-notes/embedded-notes.component';
 import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
 
 @NgModule({
-  declarations: [UnitNotesComponent, CourseNotesComponent],
+  declarations: [UnitNotesComponent, EmbeddedNotesComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -17,6 +17,6 @@ import { TutorMarkdownModule } from 'src/app/shared/markdown/markdown.module';
     ReactiveFormsModule,
     TutorMarkdownModule
   ],
-  exports: [UnitNotesComponent, CourseNotesComponent],
+  exports: [UnitNotesComponent, EmbeddedNotesComponent],
 })
 export class LearningUtilitiesModule {}

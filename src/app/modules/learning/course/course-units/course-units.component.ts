@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { trigger, state, style, transition, animate } from '@angular/animations';
 import { Course } from '../../model/course.model';
 import { CourseService } from '../course.service';
 
@@ -8,10 +9,20 @@ import { CourseService } from '../course.service';
   selector: 'cc-course-units',
   templateUrl: './course-units.component.html',
   styleUrls: ['./course-units.component.scss'],
+  animations: [
+    trigger('slideInOut', [
+      state('in', style({ height: '*', opacity: 1, overflow: 'hidden' })),
+      state('out', style({ height: '0', opacity: 0, overflow: 'hidden' })),
+      transition('in => out', [ animate('300ms ease-in-out') ]),
+      transition('out => in', [ animate('300ms ease-in-out') ])
+    ])
+  ]
 })
 export class CourseUnitsComponent implements OnChanges {
   @Input() course: Course;
   now: Date;
+  showNotes: boolean[] = [];
+  notesLoaded: boolean[] = []; // Track which units have had their notes loaded
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private courseService: CourseService) {
     iconRegistry.addSvgIcon(
@@ -22,6 +33,9 @@ export class CourseUnitsComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.now = new Date();
+    this.showNotes = new Array(this.course.knowledgeUnits.length).fill(false);
+    this.notesLoaded = new Array(this.course.knowledgeUnits.length).fill(false);
+    
     const unitIds: number[] = [];
     this.course.knowledgeUnits.forEach(unit => {
       unit.bestBefore = new Date(unit.bestBefore); // Transform ISO 8601 string to date for comparison.
@@ -33,5 +47,13 @@ export class CourseUnitsComponent implements OnChanges {
         const unit = this.course.knowledgeUnits.find(u => u.id === id);
         unit.enrollmentStatus = "Completed";
       }));
+  }
+
+  toggleNotes(index: number): void {
+    this.showNotes[index] = !this.showNotes[index];
+    
+    if (this.showNotes[index] && !this.notesLoaded[index]) {
+      this.notesLoaded[index] = true;
+    }
   }
 }
