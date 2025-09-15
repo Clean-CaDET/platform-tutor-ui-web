@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { Note } from './note.model';
-import { NotesService } from './notes-service';
+import { Note } from '../note.model';
+import { NotesService } from '../notes-service';
 import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
-  selector: 'cc-notes',
-  templateUrl: './notes.component.html',
-  styleUrls: ['./notes.component.css'],
+  selector: 'cc-unit-notes',
+  templateUrl: './unit-notes.component.html',
+  styleUrls: ['./unit-notes.component.css'],
 })
-export class NotesComponent implements OnInit {
+export class UnitNotesComponent implements OnInit {
   text = '';
   notes: Note[];
   edit = false;
