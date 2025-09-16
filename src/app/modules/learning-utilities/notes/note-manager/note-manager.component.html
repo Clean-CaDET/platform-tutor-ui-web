@@ -1,4 +1,4 @@
-<div class="embedded-notes-container">
+<div class="notes-container" [ngClass]="{'embedded-container': embedded}">
   <div class="flex-row gap notes-header">
     <small>Beleške za lekciju</small>
     <span style="flex-grow: 1;"></span>
@@ -6,7 +6,14 @@
         class="pointer"
         (click)="addingNote = true" 
         matTooltip="Dodaj belešku">
-    add</mat-icon>
+      add
+    </mat-icon>
+    <mat-icon *ngIf="!addingNote"
+        class="pointer"
+        (click)="onExport()" 
+        matTooltip="Preuzmi beleške">
+      file_download
+    </mat-icon>
   </div>
 
   <!-- Add note form -->
@@ -24,7 +31,7 @@
 
   <!-- Display existing notes -->
   <div *ngIf="notes.length === 0 && !addingNote" class="no-notes-message">
-    Nema beleški za ovu lekciju.
+    {{ emptyStateText }}
   </div>
 
   <mat-card appearance="outlined" class="note-card" *ngFor="let note of notes; let i = index; trackBy: trackByNoteId">

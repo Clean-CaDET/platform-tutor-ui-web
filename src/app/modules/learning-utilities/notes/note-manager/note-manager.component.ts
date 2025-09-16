@@ -1,23 +1,24 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { Note } from '../note.model';
 import { NotesService } from '../notes-service';
 
 @Component({
-  selector: 'cc-embedded-notes',
-  templateUrl: './embedded-notes.component.html',
-  styleUrls: ['./embedded-notes.component.css'],
+  selector: 'cc-note-manager',
+  templateUrl: './note-manager.component.html',
+  styleUrls: ['./note-manager.component.css']
 })
-export class EmbeddedNotesComponent implements OnInit, OnChanges {
-  @Input() courseId: number;
+export class NoteManagerComponent implements OnInit, OnChanges {
   @Input() unitId: number;
+  @Input() courseId: number;
+  @Input() embedded: boolean = false;
+  @Input() emptyStateText: string = 'Nema beleški za ovu lekciju.';
   
   notes: Note[] = [];
-  originalText: string = '';
   addingNote = false;
   newNoteText = '';
+  originalText: string = '';
 
-  constructor(private noteService: NotesService) {
-  }
+  constructor(private noteService: NotesService) {}
 
   ngOnInit(): void {
     if (this.unitId) {
@@ -36,10 +37,6 @@ export class EmbeddedNotesComponent implements OnInit, OnChanges {
       this.notes = notes;
       this.sortNotes();
     });
-  }
-
-  private sortNotes(): void {
-    this.notes.sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 
   onCancelAddNote(): void {
@@ -90,12 +87,12 @@ export class EmbeddedNotesComponent implements OnInit, OnChanges {
     this.originalText = '';
   }
 
-  trackByNoteId(index: number, item: Note): number {
-    return item.id!;
+  sortNotes(): void {
+    this.notes.sort((a, b) => (a.order || 0) - (b.order || 0));
   }
 
   moveNoteUp(noteIndex: number): void {
-    if (noteIndex == 0) return;
+    if (noteIndex === 0) return;
 
     const currentNote = this.notes[noteIndex];
     const previousNote = this.notes[noteIndex - 1];
@@ -124,5 +121,21 @@ export class EmbeddedNotesComponent implements OnInit, OnChanges {
     this.noteService.update(nextNote).subscribe();
     
     this.sortNotes();
+  }
+
+  onExport(): void {
+    this.noteService
+      .export(this.unitId)
+      .subscribe((data) => {
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = "BeleskeIzOblasti" + this.unitId + ".md";
+        link.click();
+      });
+  }
+
+  trackByNoteId(index: number, item: Note): number {
+    return item.id!;
   }
 }

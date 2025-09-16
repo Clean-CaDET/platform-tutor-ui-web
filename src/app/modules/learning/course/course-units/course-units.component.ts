@@ -22,7 +22,6 @@ export class CourseUnitsComponent implements OnChanges {
   @Input() course: Course;
   now: Date;
   showNotes: boolean[] = [];
-  notesLoaded: boolean[] = []; // Track which units have had their notes loaded
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private courseService: CourseService) {
     iconRegistry.addSvgIcon(
@@ -34,7 +33,6 @@ export class CourseUnitsComponent implements OnChanges {
   ngOnChanges(): void {
     this.now = new Date();
     this.showNotes = new Array(this.course.knowledgeUnits.length).fill(false);
-    this.notesLoaded = new Array(this.course.knowledgeUnits.length).fill(false);
     
     const unitIds: number[] = [];
     this.course.knowledgeUnits.forEach(unit => {
@@ -51,9 +49,5 @@ export class CourseUnitsComponent implements OnChanges {
 
   toggleNotes(index: number): void {
     this.showNotes[index] = !this.showNotes[index];
-    
-    if (this.showNotes[index] && !this.notesLoaded[index]) {
-      this.notesLoaded[index] = true;
-    }
   }
 }

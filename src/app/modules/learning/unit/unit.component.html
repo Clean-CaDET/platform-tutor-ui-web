@@ -13,7 +13,13 @@
   </div>
   <mat-sidenav-container hasBackdrop="false" style="height: 100%;">
     <mat-sidenav mode="over" [opened]="sidenavOpened" (closed)="sidenavOpened = false">
-        <cc-unit-notes></cc-unit-notes>
+      <div class="flex-col note-container">
+        <cc-note-manager
+          [unitId]="unitId"
+          [courseId]="courseId"
+          emptyStateText="Prostor za pitanja, ideje, nejasnoće i ostale beleške.">
+        </cc-note-manager>
+      </div>
     </mat-sidenav>
     <mat-sidenav-content>
         <router-outlet></router-outlet>

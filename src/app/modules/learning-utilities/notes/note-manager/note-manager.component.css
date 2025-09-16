@@ -1,18 +1,19 @@
-.embedded-notes-container {
-  padding: 16px;
-  border-radius: 4px;
-  max-height: 50vh;
+.notes-container {
+  padding: 10px;
+}
+
+.embedded-container {
+  height: 50vh;
   overflow-y: auto;
-  scrollbar-width: thin;
 }
 
 .notes-header {
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .note-card {
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .no-notes-message {
@@ -25,7 +26,6 @@
 .mat-mdc-card {
   padding: 10px;
   margin-top: 10px;
-  word-break: break-all;
 }
 
 mat-form-field {
@@ -37,7 +37,7 @@ mat-form-field {
 }
 
 .pointer.disabled {
-  color: #ccc;
+  color: #999;
   cursor: not-allowed;
 }
 
