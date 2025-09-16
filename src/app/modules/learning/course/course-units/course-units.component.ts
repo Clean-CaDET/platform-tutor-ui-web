@@ -11,17 +11,23 @@ import { CourseService } from '../course.service';
   styleUrls: ['./course-units.component.scss'],
   animations: [
     trigger('slideInOut', [
-      state('in', style({ height: '*', opacity: 1, overflow: 'hidden' })),
-      state('out', style({ height: '0', opacity: 0, overflow: 'hidden' })),
-      transition('in => out', [ animate('300ms ease-in-out') ]),
-      transition('out => in', [ animate('300ms ease-in-out') ])
+      state('in', style({ height: '*', opacity: 1, overflow: 'hidden', visibility: 'visible' })),
+      state('out', style({ height: '0', opacity: 0, overflow: 'hidden', visibility: 'hidden' })),
+      transition('void => out', style({ height: '0', opacity: 0, overflow: 'hidden', visibility: 'hidden' })), // Initial state
+      transition('void => in', [
+        style({ height: '0', opacity: 0, overflow: 'hidden', visibility: 'hidden' }),
+        animate('300ms ease-in-out', style({ height: '*', opacity: 1, visibility: 'visible' }))
+      ]),
+      transition('in => out', animate('300ms ease-in-out')),
+      transition('out => in', animate('300ms ease-in-out'))
     ])
   ]
 })
 export class CourseUnitsComponent implements OnChanges {
   @Input() course: Course;
   now: Date;
-  showNotes: boolean[] = [];
+  showNotes: boolean[] = []; // Controls visibility/animation
+  notesLoaded: boolean[] = []; // Controls if component should be created (*ngIf)
 
   constructor(iconRegistry: MatIconRegistry, sanitizer: DomSanitizer, private courseService: CourseService) {
     iconRegistry.addSvgIcon(
@@ -33,6 +39,7 @@ export class CourseUnitsComponent implements OnChanges {
   ngOnChanges(): void {
     this.now = new Date();
     this.showNotes = new Array(this.course.knowledgeUnits.length).fill(false);
+    this.notesLoaded = new Array(this.course.knowledgeUnits.length).fill(false);
     
     const unitIds: number[] = [];
     this.course.knowledgeUnits.forEach(unit => {
@@ -48,6 +55,13 @@ export class CourseUnitsComponent implements OnChanges {
   }
 
   toggleNotes(index: number): void {
-    this.showNotes[index] = !this.showNotes[index];
+    // Create component on first click (this triggers initial load)
+    if (!this.notesLoaded[index]) {
+      this.notesLoaded[index] = true;
+      this.showNotes[index] = true;
+    } else {
+      // Toggle visibility for subsequent clicks
+      this.showNotes[index] = !this.showNotes[index];
+    }
   }
 }

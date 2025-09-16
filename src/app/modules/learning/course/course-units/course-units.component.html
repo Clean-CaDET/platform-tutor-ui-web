@@ -28,9 +28,8 @@
     </mat-card-actions>
     
     <!-- Embedded notes section with animation -->
-    <div class="notes-container" [@slideInOut]="showNotes[i] ? 'in' : 'out'">
+    <div class="notes-container" [@slideInOut]="showNotes[i] ? 'in' : 'out'" *ngIf="notesLoaded[i]">
       <cc-note-manager 
-        *ngIf="showNotes[i]" 
         [unitId]="unit.id" 
         [courseId]="unit.courseId"
         [embedded]="true">

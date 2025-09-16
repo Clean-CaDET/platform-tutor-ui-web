@@ -1,6 +1,8 @@
 import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Note } from '../note.model';
 import { NotesService } from '../notes-service';
+import { DeleteFormComponent } from 'src/app/shared/generics/delete-form/delete-form.component';
 
 @Component({
   selector: 'cc-note-manager',
@@ -18,7 +20,7 @@ export class NoteManagerComponent implements OnInit, OnChanges {
   newNoteText = '';
   originalText: string = '';
 
-  constructor(private noteService: NotesService) {}
+  constructor(private noteService: NotesService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.unitId) {
@@ -71,8 +73,14 @@ export class NoteManagerComponent implements OnInit, OnChanges {
   }
 
   onDelete(noteId: number): void {
-    this.noteService.delete(this.unitId, noteId).subscribe(() => {
-      this.notes = this.notes.filter(n => n.id !== noteId);
+    let diagRef = this.dialog.open(DeleteFormComponent);
+
+    diagRef.afterClosed().subscribe(result => {
+      if(!result) return;
+
+      this.noteService.delete(this.unitId, noteId).subscribe(() => {
+        this.notes = this.notes.filter(n => n.id !== noteId);
+      });
     });
   }
 
