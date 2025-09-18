@@ -50,7 +50,6 @@
                             <mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon>
                             <span style="flex-grow: 1;">Student kaže:</span>
                             <button mat-raised-button [color]="selectedFeedback === f ? '' : 'primary'"
-                                [disabled]="!f.averageSatisfaction" 
                                 (click)="showReflections(f)">Refleksije</button>
                             <span *ngIf="f.averageSatisfaction">
                                 {{ f.averageSatisfaction < 2 ? 'Nezadovoljan' : f.averageSatisfaction >= 2.6 ? 'Zadovoljan' : 'Između' }}
@@ -58,8 +57,8 @@
                                     [color]="f.averageSatisfaction < 2 ? 'warn' : f.averageSatisfaction >= 2.6 ? 'primary' : 'accent'">circle</mat-icon>
                             </span>
                             <span *ngIf="!f.averageSatisfaction">
-                                Ništa
-                                <mat-icon matTooltip="Nije iskomunicirao zadovoljstvo u ovom periodu.">radio_button_unchecked</mat-icon>
+                                Nije stigao
+                                <mat-icon matTooltip="Nije iskomunicirao zadovoljstvo do momenta formiranja mišljenja.">radio_button_unchecked</mat-icon>
                             </span>
                         </div>
                         <mat-divider></mat-divider>
