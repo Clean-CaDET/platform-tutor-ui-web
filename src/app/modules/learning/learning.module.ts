@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { MarkdownModule } from 'ngx-markdown';
@@ -62,6 +63,7 @@ import { ReflectionComponent } from './reflection/reflection.component';
   imports: [
     CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     MarkdownModule.forChild(),
     YouTubePlayerModule,
     RouterModule,

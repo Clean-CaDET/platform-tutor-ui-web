@@ -1,6 +1,5 @@
 <div class="flex-col dashboard">
-  <mat-card appearance="outlined" class="theme-hover"
-    *ngFor="let unit of course.knowledgeUnits" [routerLink]="'units/' + unit.id">
+  <mat-card appearance="outlined" *ngFor="let unit of course.knowledgeUnits; let i = index">
     <mat-card-header>
       <mat-icon mat-card-avatar>article</mat-icon>
       <mat-card-title style="text-align: left">{{ unit.name }}</mat-card-title>
@@ -15,5 +14,26 @@
         <markdown>{{ unit.goals }}</markdown>
       </p>
     </mat-card-content>
+    <mat-card-actions class="mat-row gap">
+      <button mat-flat-button 
+        [color]="unit.enrollmentStatus !== 'Completed' ? 'primary' : ''" 
+        [routerLink]="'units/' + unit.id">
+        Pristupi
+      </button>
+      <span style="flex-grow: 1;"></span>
+      <button mat-flat-button (click)="toggleNotes(i)">
+        <span *ngIf="!showNotes[i]">Prikaži <mat-icon>assignment</mat-icon></span>
+        <span *ngIf="showNotes[i]">Sakrij <mat-icon>assignment</mat-icon></span>
+      </button>
+    </mat-card-actions>
+    
+    <!-- Embedded notes section with animation -->
+    <div class="notes-container" [@slideInOut]="showNotes[i] ? 'in' : 'out'" *ngIf="notesLoaded[i]">
+      <cc-note-manager 
+        [unitId]="unit.id" 
+        [courseId]="unit.courseId"
+        [embedded]="true">
+      </cc-note-manager>
+    </div>
   </mat-card>
 </div>
