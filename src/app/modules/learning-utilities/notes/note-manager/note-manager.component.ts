@@ -18,7 +18,6 @@ export class NoteManagerComponent implements OnInit, OnChanges {
   notes: Note[] = [];
   addingNote = false;
   newNoteText = '';
-  originalText: string = '';
 
   constructor(private noteService: NotesService, private dialog: MatDialog) {}
 
@@ -85,14 +84,13 @@ export class NoteManagerComponent implements OnInit, OnChanges {
   }
 
   onEditNote(note: Note): void {
-    this.originalText = note.text;
+    note.originalText = note.text;
     note.mode = 'edit';
   }
 
   onCancelEditNote(note: Note): void {
-    note.text = this.originalText;
+    note.text = note.originalText;
     note.mode = 'preview';
-    this.originalText = '';
   }
 
   sortNotes(): void {

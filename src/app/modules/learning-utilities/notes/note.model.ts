@@ -2,7 +2,9 @@ export interface Note {
   text: string;
   unitId: number;
   id?: number;
-  mode?: string;
   courseId?: number;
   order?: number;
+  
+  mode?: string;
+  originalText?: string;
 }
