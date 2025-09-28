@@ -83,7 +83,7 @@ export class TaskComponent implements OnInit {
       this.progressService.exampleOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id)
       .subscribe();
       this.viewingTab = "Examples";
-    } else if(tabChangeEvent.tab.textLabel === "Results") {
+    } else if(tabChangeEvent.tab.textLabel === "Rezultat") {
       this.viewingTab = "Results";
     }
     
@@ -138,21 +138,29 @@ export class TaskComponent implements OnInit {
 
   viewStep(step: Activity) {
     if(!step) return;
-    this.selectedTab.setValue(0);
-    this.viewingTab = "Submission";
-    this.selectedStep = step;
-    this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
-    this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
-    if(this.selectedStep.examples?.length > 0) {
-      this.selectedExample = this.selectedStep.examples[0];
-      this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+    this.prepareStepView(step);
+    if(step.progress.status === 'Graded') {
+      this.viewingTab = "Rezultat";
+      return;
     }
-    this.createForm();
+    this.viewingTab = "Submission";
     this.progressService.viewStep(this.task.unitId, this.task.id, this.taskProgress.id, step.id)
       .subscribe(progress => {
         this.taskProgress = progress;
         this.progressService.submissionOpened(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.id).subscribe();
       });
+  }
+
+  private prepareStepView(step: Activity) {
+    this.selectedStep = step;
+    this.selectedTab.setValue(0);
+    this.selectedStepIndex = this.steps.findIndex(s => s.code === step.code);
+    this.selectedStep.standards?.sort((a, b) => a.name > b.name ? 1 : -1);
+    if (this.selectedStep.examples?.length > 0) {
+      this.selectedExample = this.selectedStep.examples[0];
+      this.videoUrl = this.selectedExample.url.split('/').pop().slice(-11);
+    }
+    this.createForm();
   }
 
   private createForm() {
