@@ -72,15 +72,14 @@
                         </div>
                         <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" [data]="selectedStep.submissionFormat.guidelines"></markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
-                            <span *ngIf="selectedStep.progress.status === 'Graded'" style="color: gray;">Nije moguće menjati ocenjeno rešenje.</span>
                             <div class="flex-row gap" style="margin-top: 5px;">
-                                <mat-form-field appearance="fill" style="width: 50%" [appearance]="selectedStep.progress.status === 'Graded' ? 'outline' : 'fill'">
+                                <mat-form-field appearance="fill" style="width: 50%">
                                     <mat-label>Rešenje</mat-label>
-                                    <small><textarea formControlName="answer" matInput rows="10" [readonly]="selectedStep.progress.status === 'Graded'"></textarea></small>
+                                    <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
                                 </mat-form-field>
-                                <mat-form-field appearance="fill" style="width: 50%" [appearance]="selectedStep.progress.status === 'Graded' ? 'outline' : 'fill'">
+                                <mat-form-field appearance="fill" style="width: 50%">
                                     <mat-label>Napomene za mentora</mat-label>
-                                    <small><textarea formControlName="commentForMentor" matInput rows="10" [readonly]="selectedStep.progress.status === 'Graded'" placeholder="Istaknite pitanja, nejasnoće ili objašnjenja zašto neki segment niste uradili ili sa čime ste imali problem."></textarea></small>
+                                    <small><textarea formControlName="commentForMentor" matInput rows="10" placeholder="Istaknite pitanja, nejasnoće ili objašnjenja zašto neki segment niste uradili ili sa čime ste imali problem."></textarea></small>
                                 </mat-form-field>
                             </div>
                         </form>
@@ -113,13 +112,17 @@
         <div *ngIf="!selectedStep">
             <button mat-raised-button color="primary" (click)="start()">Započni rešavanje</button>
         </div>
+        <i *ngIf="selectedStep?.progress?.status === 'Graded' && viewingTab === 'Submission'" style="font-size: 0.75em;">
+            Mentor je već dao ocenu, što je istaknuto u tabu "Rezultat".<br>
+            Možete sačuvati novo rešenje i zamoliti da pogleda, ali će to uraditi ako ima vremena.
+        </i>
         <span style="flex-grow: 1;"></span>
-        <button *ngIf="selectedStep?.progress?.status !== 'Graded' && viewingTab === 'Submission'" mat-raised-button [color]="selectedStep?.progress.answer ? '' : 'primary'"
+        <button *ngIf="viewingTab === 'Submission'" mat-raised-button [color]="selectedStep?.progress.answer ? '' : 'primary'"
             [disabled]="answerForm.invalid" (click)="submitAnswer()">
             <mat-icon>save</mat-icon>
             Sačuvaj
         </button>
-        <button *ngIf="selectedStepIndex < steps?.length - 1" mat-raised-button [color]="selectedStep?.progress.answer ? 'primary' : ''"
+        <button *ngIf="selectedStepIndex < steps?.length - 1" mat-raised-button [color]="selectedStep?.progress.answer && taskProgress?.status !== 'Graded' ? 'primary' : ''"
             (click)="viewStep(steps[selectedStepIndex+1])">
             <mat-icon>arrow_forward</mat-icon>
             Sledeći korak
