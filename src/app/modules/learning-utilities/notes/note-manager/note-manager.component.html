@@ -1,0 +1,74 @@
+<div class="notes-container" [ngClass]="{'embedded-container': embedded}">
+  <div class="flex-row gap notes-header">
+    <small>Beleške za lekciju</small>
+    <span style="flex-grow: 1;"></span>
+    <mat-icon *ngIf="!addingNote"
+        class="pointer"
+        (click)="addingNote = true" 
+        matTooltip="Dodaj belešku">
+      add
+    </mat-icon>
+    <mat-icon *ngIf="!addingNote"
+        class="pointer"
+        (click)="onExport()" 
+        matTooltip="Preuzmi beleške">
+      file_download
+    </mat-icon>
+  </div>
+
+  <!-- Add note form -->
+  <mat-card appearance="outlined" *ngIf="addingNote" class="note-card">
+    <cc-markdown-editor [label]="'Nova beleška'" 
+                        (textChanged)="newNoteText = $event" 
+                        [authoring]="false">
+    </cc-markdown-editor>
+    <div class="flex-row gap">
+      <span style="flex-grow: 1;"></span>
+      <button mat-flat-button color="primary" (click)="onSaveNote()" [disabled]="!newNoteText">Sačuvaj</button>
+      <button mat-flat-button (click)="onCancelAddNote()">Otkaži</button>
+    </div>
+  </mat-card>
+
+  <!-- Display existing notes -->
+  <div *ngIf="notes.length === 0 && !addingNote" class="no-notes-message">
+    {{ emptyStateText }}
+  </div>
+
+  <mat-card appearance="outlined" class="note-card" *ngFor="let note of notes; let i = index; trackBy: trackByNoteId">
+    <cc-markdown-editor *ngIf="note.mode === 'edit'" 
+                        [text]="note.text" 
+                        [label]="'Beleška'"
+                        (textChanged)="note.text = $event" 
+                        [authoring]="false">
+    </cc-markdown-editor>
+    <p *ngIf="note.mode === 'preview'" markdown>{{note.text}}</p>
+    <div class="flex-row">
+      <div class="flex-row" style="flex-grow: 1;" *ngIf="note.mode === 'edit'">
+        <span style="flex-grow: 1;"></span>
+        <div class="flex-row gap">
+          <button mat-flat-button color="primary" (click)="onUpdate(note)" [disabled]="!note.text">Sačuvaj</button>
+          <button mat-flat-button (click)="onCancelEditNote(note)">Otkaži</button>
+        </div>
+      </div>
+      <div class="flex-row gap" style="flex-grow: 1;" *ngIf="note.mode !== 'edit'">
+        <mat-icon 
+          class="pointer" 
+          [class.disabled]="i == 0"
+          (click)="moveNoteUp(i)"
+          matTooltip="Pomeri gore">
+          keyboard_arrow_up
+        </mat-icon>
+        <mat-icon 
+          class="pointer" 
+          [class.disabled]="i == notes.length - 1"
+          (click)="moveNoteDown(i)"
+          matTooltip="Pomeri dole">
+          keyboard_arrow_down
+        </mat-icon>
+        <span style="flex-grow: 1;"></span>
+        <mat-icon class="pointer" (click)="onEditNote(note)">edit</mat-icon>
+        <mat-icon class="pointer" (click)="onDelete(note.id)">delete</mat-icon>
+      </div>
+    </div>
+  </mat-card>
+</div>
