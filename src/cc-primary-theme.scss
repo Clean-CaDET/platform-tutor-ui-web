@@ -116,6 +116,10 @@ $cc-theme: mat.m2-define-light-theme(
   textarea {
     caret-color: #fff !important;
   }
+
+  .mat-mdc-form-field .mat-mdc-form-field-focus-overlay {
+    background-color: rgba(76, 126, 167, 0.35) !important;
+  }
 }
 
 .light-theme-mode {
