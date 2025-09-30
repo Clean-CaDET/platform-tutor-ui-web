@@ -112,6 +112,10 @@ $cc-theme: mat.m2-define-light-theme(
 .dark-theme-mode {
   @include mat.all-component-themes($cc-dark-theme);
   @include theme-hover-effect($cc-dark-theme);
+
+  textarea {
+    caret-color: #fff !important;
+  }
 }
 
 .light-theme-mode {
