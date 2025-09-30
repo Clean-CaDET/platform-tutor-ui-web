@@ -73,11 +73,11 @@
                         <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" [data]="selectedStep.submissionFormat.guidelines"></markdown>
                         <form [formGroup]="answerForm" *ngIf="selectedStep.submissionFormat">
                             <div class="flex-row gap" style="margin-top: 5px;">
-                                <mat-form-field appearance="fill" style="width: 50%">
+                                <mat-form-field appearance="fill" style="width: 65%">
                                     <mat-label>Rešenje</mat-label>
                                     <small><textarea formControlName="answer" matInput rows="10"></textarea></small>
                                 </mat-form-field>
-                                <mat-form-field appearance="fill" style="width: 50%">
+                                <mat-form-field appearance="fill" style="width: 35%">
                                     <mat-label>Napomene za mentora</mat-label>
                                     <small><textarea formControlName="commentForMentor" matInput rows="10" placeholder="Istaknite pitanja, nejasnoće ili objašnjenja zašto neki segment niste uradili ili sa čime ste imali problem."></textarea></small>
                                 </mat-form-field>
