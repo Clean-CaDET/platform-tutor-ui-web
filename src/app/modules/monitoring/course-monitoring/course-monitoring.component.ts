@@ -55,16 +55,16 @@ export class CourseMonitoringComponent implements OnInit {
     if(recentFeedback.length < 2) return -1;
 
     let semaphores: number[] = [];
-    let satisfactions: number[] = [];
-    let scores: number[] = [];
 
     recentFeedback.forEach(feedback => {
       semaphores.push(feedback.semaphore);
-      if(feedback.averageSatisfaction) satisfactions.push(feedback.averageSatisfaction);
-      if(feedback.achievedPercentage != -1) scores.push(feedback.achievedPercentage);
     });
 
-    return this.calculateSemaphoreWithKeyMetrics(this.weighValues(semaphores), this.weighValues(satisfactions), this.weighValues(scores));
+    let summarySemaphore: number = this.weighValues(semaphores);
+    
+    if(summarySemaphore == -1) return -1;
+    if(summarySemaphore < 1.67) return 1;
+    return summarySemaphore < 2.3 ? 2 : 3;
   }
 
   weighValues(numbers: number[]): number {
@@ -72,17 +72,6 @@ export class CourseMonitoringComponent implements OnInit {
     if(numbers.length == 1) return numbers[0];
     if(numbers.length == 2) return 0.6 * numbers[0] + 0.4 * numbers[1];
     return 0.5 * numbers[0] + 0.33 * numbers[1] + 0.17 * numbers[2];
-  }
-
-  calculateSemaphoreWithKeyMetrics(semaphore: number, satisfaction: number, score: number): number {
-    if(score == -1) return -1;
-    if(semaphore < 1.67 || satisfaction < 2 || score < 34) return 1;
-    
-    let blueCount = 0;
-    if(score > 67) blueCount++;
-    if(satisfaction >= 2.6) blueCount++;
-    if(semaphore > 2.3) blueCount++;
-    return blueCount < 2 ? 2 : 3;
   }
 
   getQuestion(code: string): string {
