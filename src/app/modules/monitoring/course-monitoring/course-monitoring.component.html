@@ -106,7 +106,7 @@
                     </div>
                     <div *ngIf="reflection.selectedLearnerSubmission">
                         <div *ngFor="let q of reflection.questions">
-                            <div>{{q.text}}</div>
+                            <div><markdown>{{q.text}}</markdown></div>
                             <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
                             <p *ngIf="q.answer"><b>Odgovor</b>:
                             {{
