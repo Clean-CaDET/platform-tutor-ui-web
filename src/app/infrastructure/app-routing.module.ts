@@ -132,8 +132,15 @@ const routes: Routes = [
     data: { role: ['administrator'] },
   },
   {
-    path: 'monitoring/overview',
+    path: 'supervision/active',
     title: 'Tutor - Aktivna nastava',
+    component: CourseMonitoringComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['administrator'] },
+  },
+  {
+    path: 'supervision/reports',
+    title: 'Tutor - Izveštaji o modulima',
     component: CourseMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
