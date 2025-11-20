@@ -66,7 +66,7 @@ const routes: Routes = [
   
   {
     path: 'analytics/:courseId/statistics',
-    title: 'Tutor - Analitike',
+    title: 'Analitike - Tutor',
     component: UnitAnalyticsComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
@@ -79,7 +79,7 @@ const routes: Routes = [
   },
   {
     path: 'authoring/:courseId/units',
-    title: 'Tutor - Autorstvo',
+    title: 'Autorstvo - Tutor',
     component: CourseStructureComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
@@ -112,35 +112,35 @@ const routes: Routes = [
   
   {
     path: 'management/stakeholders/learners',
-    title: 'Tutor - Studenti',
+    title: 'Studenti - Tutor',
     component: LearnersComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'management/stakeholders/instructors',
-    title: 'Tutor - Mentori',
+    title: 'Mentori - Tutor',
     component: InstructorsComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'management/courses',
-    title: 'Tutor - Moduli',
+    title: 'Moduli - Tutor',
     component: CoursesComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'supervision/active',
-    title: 'Tutor - Aktivna nastava',
+    title: 'Aktivna nastava - Tutor',
     component: CourseMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'supervision/reports',
-    title: 'Tutor - Izveštaji o modulima',
+    title: 'Izveštaji o modulima - Tutor',
     component: CourseMonitoringComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },

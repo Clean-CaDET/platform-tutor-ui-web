@@ -47,7 +47,7 @@ export class UnitDetailsComponent implements OnInit {
         unit => {
           this.error = null;
           this.unit = unit;
-          this.title.setTitle("Tutor - " + unit.name);
+          this.title.setTitle(`${unit.name} - Tutor`);
           this.unitItems = [];
 
           forkJoin([

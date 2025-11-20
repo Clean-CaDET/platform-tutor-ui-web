@@ -25,7 +25,7 @@ export class CourseComponent implements OnInit {
         .subscribe(course => {
           this.course = course;
           this.course.knowledgeUnits = this.course.knowledgeUnits.sort((a, b) => a.order - b.order);
-          this.title.setTitle("Tutor - " + course.name);
+          this.title.setTitle(`${course.name} - Tutor`);
         });
     });
   }

@@ -64,7 +64,7 @@ export class KnowledgeComponentComponent implements OnInit, OnDestroy {
       .getKnowledgeComponent(kcId)
       .subscribe((kc) => {
         this.knowledgeComponent = kc;
-        this.title.setTitle("Tutor - " + kc.name);
+        this.title.setTitle(`${kc.name} - Tutor`);
         this.onInstructionalItemsClicked();
       });
   }
