@@ -1,16 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Course } from '../../management/model/course.model';
-import { Group } from '../model/group.model';
+import { Course } from '../management/model/course.model';
+import { Group } from '../monitoring/model/group.model';
 import { environment } from 'src/environments/environment';
-import { WeeklyFeedbackQuestion } from '../weekly-feedback/weekly-feedback-questions.service';
-import { Reflection } from '../../learning/reflection/reflection.model';
+import { WeeklyFeedbackQuestion } from '../monitoring/weekly-feedback/weekly-feedback-questions.service';
+import { Reflection } from '../learning/reflection/reflection.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CourseMonitoringService {
+export class SupervisionService {
   baseUrl: string = `${environment.apiHost}monitoring/`;
 
   constructor(private http: HttpClient) { }
