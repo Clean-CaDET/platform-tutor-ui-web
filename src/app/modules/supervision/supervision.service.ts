@@ -11,24 +11,24 @@ import { Reflection } from '../learning/reflection/reflection.model';
   providedIn: 'root'
 })
 export class SupervisionService {
-  baseUrl: string = `${environment.apiHost}monitoring/`;
+  baseUrl: string = `${environment.apiHost}supervision/`;
 
   constructor(private http: HttpClient) { }
 
   GetActiveCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(this.baseUrl + 'overview');
+    return this.http.get<Course[]>(this.baseUrl + 'active');
   }
 
   GetCourseGroups(courseId: number): Observable<Group[]> {
-    return this.http.get<Group[]>(this.baseUrl + 'overview/' + courseId);
+    return this.http.get<Group[]>(this.baseUrl + 'active/' + courseId);
   }
 
   GetFeedbackQuestions(): Observable<WeeklyFeedbackQuestion[]> {
-    return this.http.get<WeeklyFeedbackQuestion[]>(this.baseUrl + 'feedback-questions');
+    return this.http.get<WeeklyFeedbackQuestion[]>(`${environment.apiHost}monitoring/feedback-questions`);
   }
 
   GetReflections(learnerId: number, reflectionIds: number[]): Observable<Reflection[]> {
     const params = reflectionIds.map(id => `reflectionIds=${id}`).join('&');
-    return this.http.get<Reflection[]>(`${environment.apiHost}monitoring/overview/reflections/${learnerId}?${params}`);
+    return this.http.get<Reflection[]>(`${this.baseUrl}active/reflections/${learnerId}?${params}`);
   }
 }
