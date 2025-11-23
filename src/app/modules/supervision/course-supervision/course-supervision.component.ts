@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../../learning/model/course.model';
+import { Course } from '../model/course.model';
 import { Group } from '../model/group.model';
-import { SupervisionService } from '../supervision.service';
+import { ActiveSupervisionService } from './active-supervision.service';
 import { WeeklyFeedback } from '../../monitoring/weekly-feedback/weekly-feedback.model';
 import { Learner } from '../model/learner.model';
 import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-feedback-questions.service';
@@ -21,7 +21,7 @@ export class CourseSupervisionComponent implements OnInit {
   loadedReflections: Reflection[];
   selectedFeedback: WeeklyFeedback;
 
-  constructor(private supervisionService: SupervisionService) {}
+  constructor(private supervisionService: ActiveSupervisionService) {}
   
   ngOnInit(): void {
     this.supervisionService.GetActiveCourses().subscribe(courses => this.courses = courses);
