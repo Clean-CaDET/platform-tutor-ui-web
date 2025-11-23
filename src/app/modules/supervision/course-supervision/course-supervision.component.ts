@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../../management/model/course.model';
-import { Group } from '../../monitoring/model/group.model';
+import { Course } from '../../learning/model/course.model';
+import { Group } from '../model/group.model';
 import { SupervisionService } from '../supervision.service';
 import { WeeklyFeedback } from '../../monitoring/weekly-feedback/weekly-feedback.model';
-import { Learner } from '../../monitoring/model/learner.model';
+import { Learner } from '../model/learner.model';
 import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-feedback-questions.service';
 import { Reflection } from '../../learning/reflection/reflection.model';
 

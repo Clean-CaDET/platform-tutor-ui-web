@@ -1,29 +1,14 @@
-<div class="flex-col" style="height: 100vh">
+<div class="flex-row" style="height: 100vh">
     <div class="flow-row gap learner-selector">
         <span *ngIf="!courses?.length">Nema aktivih modula.</span>
-        <mat-form-field appearance="fill" style="margin-bottom: -1em; flex-grow: 1;" *ngIf="courses?.length">
+        <mat-form-field appearance="fill" style="margin-bottom: -1em; flex-grow: 1; padding: 5px;" *ngIf="courses?.length">
             <mat-label>Posmatran modul</mat-label>
-            <mat-select [(value)]="selectedCourseId" (selectionChange)="getGroups()">
-                <mat-option *ngFor="let c of courses" [value]="c.id">
+            <mat-select [(value)]="selectedCourse" (selectionChange)="getGroups()">
+                <mat-option *ngFor="let c of courses" [value]="c">
                     {{c.code}} - {{c.name}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-        <!-- <div class="flex-col gap grouped-learners" *ngIf="groups?.length">
-            <div *ngFor="let g of groups">
-                <h3 style="padding: 0 10px;">{{g.name}}</h3>
-                <div class="flex-col">
-                    <div *ngFor="let l of g.learners"
-                        class="theme-hover" (click)="selectLearner(l)" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
-                        <mat-divider></mat-divider>
-                        <div style="flex-grow: 1; padding: 10px;">
-                            <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
-
         <div class="flex-col gap grouped-learners" *ngIf="groups?.length">
             <mat-accordion>
                 <mat-expansion-panel *ngFor="let g of groups">
@@ -32,7 +17,7 @@
                     </mat-expansion-panel-header>
                     <div class="flex-col">
                         <div *ngFor="let l of g.learners"
-                            class="theme-hover" (click)="selectLearner(l)" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
+                            class="theme-hover" (click)="selectedLearner = l" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
                             <mat-divider></mat-divider>
                             <div style="flex-grow: 1; padding: 10px;">
                                 <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small>
@@ -42,5 +27,12 @@
                 </mat-expansion-panel>
             </mat-accordion>
         </div>
+    </div>
+    <mat-divider vertical="true"></mat-divider>
+    <div *ngIf="selectedLearner">
+        <cc-course-summary-report [learner]="selectedLearner" [course]="selectedCourse"></cc-course-summary-report>
+    </div>
+    <div *ngIf="!selectedLearner" style="padding: 10px;">
+        Klikni na studenta za detalje.
     </div>
 </div>

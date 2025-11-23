@@ -13,9 +13,4 @@ export interface Learner {
   // Feedback summaries
   semaphore: number;
   semaphoreJustification: string;
-
-  // Course overview
-  recentFeedback?: WeeklyFeedback[];
-  weeklyFeedback?: WeeklyFeedback[];
-  summarySemaphore: number;
 }

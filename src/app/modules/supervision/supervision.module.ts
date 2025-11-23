@@ -6,11 +6,13 @@ import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { MarkdownModule } from 'ngx-markdown';
 import { CourseSupervisionComponent } from './course-supervision/course-supervision.component';
 import { ReportingComponent } from './reporting/reporting.component';
+import { CourseSummaryReportComponent } from './reporting/course-summary-report/course-summary-report.component';
 
 @NgModule({
   declarations: [
     CourseSupervisionComponent,
-    ReportingComponent
+    ReportingComponent,
+    CourseSummaryReportComponent
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../../management/model/course.model';
-import { Group } from '../../monitoring/model/group.model';
+import { Course } from '../../learning/model/course.model';
+import { Group } from '../model/group.model';
 import { SupervisionService } from '../supervision.service';
-import { Learner } from '../../monitoring/model/learner.model';
+import { Learner } from '../model/learner.model';
 import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-feedback-questions.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-
 })
 export class ReportingComponent implements OnInit {
   courses: Course[];
-  selectedCourseId: 0;
+  selectedCourse: Course;
   groups: Group[];
   selectedLearner: Learner;
   feedbackQuestions: WeeklyFeedbackQuestion[];
@@ -26,7 +26,7 @@ export class ReportingComponent implements OnInit {
 
   getGroups(): void {
     this.selectedLearner = null;
-    this.supervisionService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
+    this.supervisionService.GetCourseGroups(this.selectedCourse.id).subscribe(groups => {
       this.groups = groups;
       this.groups.forEach(g => {
         g.learners.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
