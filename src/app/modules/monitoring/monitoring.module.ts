@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GroupMonitoringComponent } from './group-monitoring/group-monitoring.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { GradingComponent } from './grading/grading.component';
@@ -25,7 +24,6 @@ import { WeeklyFeedbackComponent } from './weekly-feedback/weekly-feedback.compo
     MaterialModule,
     BrowserAnimationsModule,
     FormsModule,
-    MatExpansionModule,
     ReactiveFormsModule,
     MarkdownModule.forChild(),
     TutorMarkdownModule

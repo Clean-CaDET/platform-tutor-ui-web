@@ -21,6 +21,7 @@ import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit
 import { ConfirmExitGuard } from './confirm-leave.guard';
 import { CourseSupervisionComponent } from '../modules/supervision/course-supervision/course-supervision.component';
 import { ReflectionComponent } from '../modules/learning/reflection/reflection.component';
+import { ReportingComponent } from '../modules/supervision/reporting/reporting.component';
 
 // Generic titles are defined here. Title service is used in components for data-based titles.
 const routes: Routes = [
@@ -141,7 +142,7 @@ const routes: Routes = [
   {
     path: 'supervision/reports',
     title: 'Izveštaji o modulima - Tutor',
-    component: CourseSupervisionComponent,
+    component: ReportingComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
