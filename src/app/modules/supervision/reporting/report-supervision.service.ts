@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Course } from '../model/course.model';
-import { CourseAchievements } from '../model/course-achievements.model';
+import { CourseReport } from '../model/course-report.model';
+import { Group } from '../model/group.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,11 +18,11 @@ export class ReportSupervisionService {
     return this.http.get<Course[]>(this.baseUrl);
   }
 
-  GetCourseWithGroupsAndUnits(courseId: number): Observable<Course> {
-    return this.http.get<Course>(this.baseUrl + courseId);
+  GetGroupedLearners(courseId: number): Observable<Group[]> {
+    return this.http.get<Group[]>(this.baseUrl + courseId);
   }
 
-  GetAchievements(courseId: number, learnerId: number): Observable<CourseAchievements> {
-    return this.http.get<CourseAchievements>(`${this.baseUrl}${courseId}/achievements/${learnerId}`);
+  GetAchievements(courseId: number, learnerId: number): Observable<CourseReport> {
+    return this.http.get<CourseReport>(`${this.baseUrl}${courseId}/generate/${learnerId}`);
   }
 }

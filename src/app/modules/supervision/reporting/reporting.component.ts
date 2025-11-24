@@ -23,9 +23,8 @@ export class ReportingComponent implements OnInit {
 
   getGroups(): void {
     this.selectedLearner = null;
-    this.supervisionService.GetCourseWithGroupsAndUnits(this.selectedCourse.id).subscribe(course => {
-      this.selectedCourse = course;
-      this.groups = course.groups;
+    this.supervisionService.GetGroupedLearners(this.selectedCourse.id).subscribe(groups => {
+      this.groups = groups;
       this.groups.forEach(g => {
         g.learners.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
         g.learners.forEach(l => {

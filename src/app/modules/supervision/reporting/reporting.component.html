@@ -30,7 +30,7 @@
     </div>
     <mat-divider vertical="true"></mat-divider>
     <div *ngIf="selectedLearner">
-        <cc-course-summary-report [learnerId]="selectedLearner.id" [course]="selectedCourse"></cc-course-summary-report>
+        <cc-course-summary-report [learnerId]="selectedLearner.id" [courseId]="selectedCourse.id"></cc-course-summary-report>
     </div>
     <div *ngIf="!selectedLearner" style="padding: 10px;">
         Klikni na studenta za detalje.

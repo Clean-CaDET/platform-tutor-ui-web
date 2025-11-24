@@ -1,5 +1,4 @@
 import { Group } from "./group.model";
-import { Unit } from "./unit.model";
 
 export interface Course {
   id?: number;
@@ -7,6 +6,5 @@ export interface Course {
   name: string;
   startDate: Date;
 
-  knowledgeUnits?: Unit[];
   groups?: Group[];
 }
