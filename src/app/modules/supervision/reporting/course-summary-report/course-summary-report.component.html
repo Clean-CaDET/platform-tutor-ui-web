@@ -1,15 +1,15 @@
 <div *ngIf="report" class="flex-col" style="height: 100vh;">
   <div class="flex-row">
     <div class="summary theme-highlight-primary">
-      <h2>Pregled postignuća</h2>
-      <div style="padding-top: 20px;" class="theme-warn"
+      <h2>Konačna postignuća</h2>
+      <div class="theme-warn"
         [ngClass]="{'theme-accent': report.satisfiedUnitPercent > 60 && report.satisfiedUnitPercent < 85, 'theme-primary': report.satisfiedUnitPercent >= 85}">
         <div>% rešenih lekcija</div>
         <h1>{{report.satisfiedUnitPercent}}%</h1>
       </div>
       <div class="theme-warn"
         [ngClass]="{'theme-accent': report.meaningfulReflectionAnswerPercent > 25 && report.meaningfulReflectionAnswerPercent < 50, 'theme-primary': report.meaningfulReflectionAnswerPercent >= 50}">
-        <div>% kvalitetnih refleksija</div>
+        <div>% dužih refleksija</div>
         <h1>{{report.meaningfulReflectionAnswerPercent}}%</h1>
       </div>
     </div>
@@ -19,18 +19,18 @@
         <mat-card-title>{{unit.unitName}}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <div>
-          <small>Rešeno?</small>
+        <span>
+          <small style="width: 90px;">Rešeno?</small>
           <mat-icon [color]="unit.isSatisfied ? 'primary' : ''">
             {{unit.isSatisfied ? 'check' : 'close'}}
           </mat-icon>
-        </div>
-        <div>
-          <small>Dobre refleksije?</small>
+        </span>
+        <span>
+          <small style="width: 90px;">Duže refleksije?</small>
           <mat-icon [color]="unit.containsMeaningfulAnswer ? 'primary' : ''">
             {{unit.containsMeaningfulAnswer ? 'check' : 'close'}}
           </mat-icon>
-        </div>
+        </span>
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button (click)="openReflectionsDialog(unit)" [disabled]="!unit.meaningfulReflections?.length">
@@ -41,8 +41,20 @@
     </div>
   </div>
 
-  <div class="row">
-    <h3>Dodatni podaci - deo 2</h3>
+  <div class="flex-row feedback-row">
+    <mat-card *ngFor="let group of groupedFeedbackItems" class="feedback-group-card">
+      <mat-card-header>
+        <mat-card-title>{{group.title}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="flex-col" style="flex-wrap: wrap;">
+            <div *ngFor="let item of group.items" class="feedback-item"
+                [ngClass]="{'theme-primary': getValue(item)[0] === 'V', 'theme-accent': getValue(item)[0] === 'U', 'theme-warn': getValue(item).startsWith('Ni') }">
+                <span>{{getLabel(item.code)}}: <b>{{getValue(item)}}</b></span>
+            </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
   </div>
 
   <div class="row">

@@ -15,6 +15,9 @@
 .summary {
   min-width: 250px;
   text-align: center;
+  h1 {
+    margin: 5px 0 15px 0;
+  }
 }
 
 mat-card {
@@ -35,15 +38,46 @@ mat-card {
     justify-content: flex-end;
     gap: 12px;
 
-    > div {
+    > span {
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: center;
       align-items: center;
       
-      small { font-size: 0.8rem; color: #666; margin-bottom: 4px; }
+      small { font-size: 0.8rem; }
       mat-icon { font-size: 28px; width: 28px; height: 28px; }
     }
   }
   
   mat-card-actions button { width: 100%; }
+}
+
+.feedback-row {
+  gap: 16px;
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.feedback-group-card {
+  flex: 1;
+  min-width: 300px;
+  max-width: none;
+  
+  mat-card-content {
+    padding-top: 16px;
+  }
+}
+
+.feedback-item {
+  margin-bottom: 20px;
+  
+  strong {
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
 }
