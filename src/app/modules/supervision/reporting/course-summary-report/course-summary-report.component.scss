@@ -1,5 +1,8 @@
 .row-scroll {
   padding: 20px;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
   overflow-x: auto;
 }
 
@@ -11,13 +14,7 @@
 
 .summary {
   min-width: 250px;
-  align-items: center;
-  
-  mat-card-title { 
-    font-size: 1.1rem;
-    line-height: 1rem;
-    text-align: center;
-  }
+  text-align: center;
 }
 
 mat-card {
