@@ -38,7 +38,6 @@ export class CourseSupervisionComponent implements OnInit {
           if(l.index.indexOf('@') > 0) l.index = l.index.split('@')[0];
           l.recentFeedback = l.weeklyFeedback?.slice(0, 3) ?? [];
           l.recentFeedback.forEach(f => {
-            if(f.opinions) f.opinions = JSON.parse(f.opinions.toString());
             if(!f.maxTaskPoints) {
               f.achievedPercentage = -1;
               return;
