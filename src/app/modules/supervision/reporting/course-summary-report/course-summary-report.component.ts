@@ -1,6 +1,8 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ReportSupervisionService } from '../report-supervision.service';
-import { CourseReport } from '../../model/course-report.model';
+import { CourseReport, UnitReport } from '../../model/course-report.model';
+import { ReflectionsDialogComponent } from './reflections-dialog/reflections-dialog.component';
 
 @Component({
   selector: 'cc-course-summary-report',
@@ -12,13 +14,27 @@ export class CourseSummaryReportComponent implements OnChanges {
   @Input() learnerId: number;
   report: CourseReport;
 
-  constructor(private supervisionService: ReportSupervisionService) {}
+  constructor(
+    private supervisionService: ReportSupervisionService,
+    private dialog: MatDialog
+  ) {}
 
   ngOnChanges(): void {
     if (!this.courseId || !this.learnerId) return;
     this.report = null;
     this.supervisionService.GetAchievements(this.courseId, this.learnerId).subscribe(data => {
       this.report = data;
+      if (this.report.unitReports) {
+        this.report.unitReports.sort((a, b) => a.order - b.order);
+      }
+    });
+  }
+
+  openReflectionsDialog(unit: UnitReport): void {
+    this.dialog.open(ReflectionsDialogComponent, {
+      data: unit,
+      width: '700px',
+      maxHeight: '80vh'
     });
   }
 }

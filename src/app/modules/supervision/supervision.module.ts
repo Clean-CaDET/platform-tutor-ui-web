@@ -7,12 +7,14 @@ import { MarkdownModule } from 'ngx-markdown';
 import { CourseSupervisionComponent } from './course-supervision/course-supervision.component';
 import { ReportingComponent } from './reporting/reporting.component';
 import { CourseSummaryReportComponent } from './reporting/course-summary-report/course-summary-report.component';
+import { ReflectionsDialogComponent } from './reporting/course-summary-report/reflections-dialog/reflections-dialog.component';
 
 @NgModule({
   declarations: [
     CourseSupervisionComponent,
     ReportingComponent,
-    CourseSummaryReportComponent
+    CourseSummaryReportComponent,
+    ReflectionsDialogComponent
   ],
   imports: [
     CommonModule,

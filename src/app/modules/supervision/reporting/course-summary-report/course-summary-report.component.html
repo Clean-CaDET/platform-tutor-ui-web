@@ -1,0 +1,54 @@
+<div *ngIf="report" class="flex-col" style="height: 100vh;">
+  <div class="flex-row gap row-scroll">
+    <mat-card class="summary">
+      <mat-card-header>
+        <mat-card-title>Pregled postignuća</mat-card-title>
+      </mat-card-header>
+      <mat-card-content style="padding-top: 40px;">
+        <div>
+          <div>% rešenih lekcija</div>
+          <h2>{{report.satisfiedUnitPercent}}%</h2>
+          <div>% kvalitetnih refleksija</div>
+          <h2>{{report.meaningfulReflectionAnswerPercent}}%</h2>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngFor="let unit of report.unitReports">
+      <mat-card-header>
+        <mat-card-title>{{unit.unitName}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div>
+          <small>Rešeno?</small>
+          <mat-icon [color]="unit.isSatisfied ? 'primary' : ''">
+            {{unit.isSatisfied ? 'check' : 'close'}}
+          </mat-icon>
+        </div>
+        <div>
+          <small>Dobre refleksije?</small>
+          <mat-icon [color]="unit.containsMeaningfulAnswer ? 'primary' : ''">
+            {{unit.containsMeaningfulAnswer ? 'check' : 'close'}}
+          </mat-icon>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button (click)="openReflectionsDialog(unit)" [disabled]="!unit.meaningfulReflections?.length">
+          Refleksije ({{unit.meaningfulReflections.length}})
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
+  <div class="row">
+    <h3>Dodatni podaci - deo 2</h3>
+  </div>
+
+  <div class="row">
+    <h3>Dodatni podaci - deo 3</h3>
+  </div>
+</div>
+
+<div *ngIf="!report" style="padding: 20px;">
+  Učitavanje izveštaja...
+</div>

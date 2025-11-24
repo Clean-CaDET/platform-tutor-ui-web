@@ -28,8 +28,8 @@
             </mat-accordion>
         </div>
     </div>
-    <mat-divider vertical="true"></mat-divider>
-    <div *ngIf="selectedLearner">
+    <mat-divider vertical="true" style="border-width: 4px;"></mat-divider>
+    <div *ngIf="selectedLearner" style="width: calc(100% - 224px);">
         <cc-course-summary-report [learnerId]="selectedLearner.id" [courseId]="selectedCourse.id"></cc-course-summary-report>
     </div>
     <div *ngIf="!selectedLearner" style="padding: 10px;">
