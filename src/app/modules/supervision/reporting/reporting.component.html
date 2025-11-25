@@ -2,7 +2,7 @@
     <div class="flow-row gap learner-selector">
         <span *ngIf="!courses?.length">Nema aktivih modula.</span>
         <mat-form-field appearance="fill" style="margin-bottom: -1em; flex-grow: 1; padding: 5px;" *ngIf="courses?.length">
-            <mat-label>Posmatran modul</mat-label>
+            <mat-label>Odaberi modul</mat-label>
             <mat-select [(value)]="selectedCourse" (selectionChange)="getGroups()">
                 <mat-option *ngFor="let c of courses" [value]="c">
                     {{c.code}} - {{c.name}}
@@ -10,7 +10,7 @@
             </mat-select>
         </mat-form-field>
         <div class="flex-col gap grouped-learners" *ngIf="groups?.length">
-            <mat-accordion>
+            <mat-accordion multi="true">
                 <mat-expansion-panel *ngFor="let g of groups">
                     <mat-expansion-panel-header>
                         <mat-panel-title> {{g.name}} </mat-panel-title>

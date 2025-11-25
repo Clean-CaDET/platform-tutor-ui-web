@@ -1,9 +1,8 @@
 .row-scroll {
   padding: 20px;
-  display: flex;
-  flex-direction: row;
   gap: 20px;
-  overflow-x: auto;
+  overflow-y: auto;
+  width: 205px;
 }
 
 .row {
@@ -13,8 +12,10 @@
 }
 
 .summary {
-  min-width: 250px;
   text-align: center;
+  h2 {
+    margin-top: 0;
+  }
   h1 {
     margin: 5px 0 15px 0;
   }
@@ -53,15 +54,16 @@ mat-card {
 }
 
 .feedback-row {
-  gap: 16px;
-  padding: 16px;
-  overflow-x: auto;
+  gap: 20px;
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .feedback-group-card {
   flex: 1;
-  min-width: 300px;
-  max-width: none;
+  min-width: 360px;
+  max-width: 360px;
   
   mat-card-content {
     padding-top: 16px;
