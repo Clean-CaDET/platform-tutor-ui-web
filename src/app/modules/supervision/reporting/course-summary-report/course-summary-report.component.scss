@@ -1,14 +1,86 @@
-.row-scroll {
+.left-column {
+  width: 50%;
+  height: 100%;
+  gap: 0;
+}
+
+.units-section {
+  height: 50%;
   padding: 20px;
-  gap: 20px;
   overflow-y: auto;
-  width: 205px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.feedback-section {
+  height: 50%;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.units-table {
+  width: 100%;
+  
+  th {
+    font-weight: 600;
+  }
+  
+  td, th {
+    padding: 12px 16px;
+  }
+  
+  td:nth-child(2), td:nth-child(3) {
+    text-align: center;
+  }
+  
+  th:nth-child(2), th:nth-child(3) {
+    text-align: center;
+  }
+  
+  mat-icon {
+    vertical-align: middle;
+  }
+  
+  button {
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
+
+.feedback-table {
+  width: 100%;
+  
+  th {
+    font-weight: 600;
+  }
+  
+  td, th {
+    padding: 12px 16px;
+  }
+  
+  td:nth-child(2), td:nth-child(3), td:nth-child(4) {
+    text-align: center;
+    font-weight: 600;
+  }
+  
+  th:nth-child(2), th:nth-child(3), th:nth-child(4) {
+    text-align: center;
+  }
 }
 
 .row {
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  display: flex;
+  justify-content: center;
 }
 
 .summary {
@@ -19,6 +91,38 @@
   h1 {
     margin: 5px 0 15px 0;
   }
+}
+
+mat-card {
+  min-width: 200px;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+
+  mat-card-title { 
+    font-size: 0.9rem;
+    line-height: 1rem;
+  }
+  
+  mat-card-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 12px;
+
+    > span {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      
+      small { font-size: 0.8rem; }
+      mat-icon { font-size: 28px; width: 28px; height: 28px; }
+    }
+  }
+  
+  mat-card-actions button { width: 100%; }
 }
 
 mat-card {

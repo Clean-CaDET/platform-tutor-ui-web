@@ -15,6 +15,7 @@ export class CourseSummaryReportComponent implements OnChanges {
   @Input() learnerId: number;
   report: CourseReport;
   groupedFeedbackItems: { title: string; items: FeedbackItemAggregate[] }[] = [];
+  feedbackTableData: { label: string; code: string; beginning: string; middle: string; end: string }[] = [];
 
   constructor(
     private supervisionService: ReportSupervisionService,
@@ -62,6 +63,32 @@ export class CourseSummaryReportComponent implements OnChanges {
       title: GROUP_TITLES[index] || `Grupa ${index + 1}`,
       items: this.sortItemsByCode(group[1])
     }));
+
+    this.prepareFeedbackTableData();
+  }
+
+  prepareFeedbackTableData(): void {
+    const feedbackByCode = new Map<string, FeedbackItemAggregate[]>();
+    
+    this.report.feedbackItemAggregates.forEach(item => {
+      if (!feedbackByCode.has(item.code)) {
+        feedbackByCode.set(item.code, []);
+      }
+      feedbackByCode.get(item.code).push(item);
+    });
+
+    this.feedbackTableData = FEEDBACK_ITEM_CONFIGS.map(config => {
+      const items = feedbackByCode.get(config.code) || [];
+      items.sort((a, b) => Math.min(...a.weeks) - Math.min(...b.weeks));
+      
+      return {
+        label: config.label,
+        code: config.code,
+        beginning: items[0] ? this.getValue(items[0]) : '-',
+        middle: items[1] ? this.getValue(items[1]) : '-',
+        end: items[2] ? this.getValue(items[2]) : '-'
+      };
+    });
   }
 
   sortItemsByCode(items: FeedbackItemAggregate[]): FeedbackItemAggregate[] {
