@@ -1,4 +1,5 @@
 export interface CourseReport {
+  id: number;
   courseId: number;
   learnerId: number;
   report: string;

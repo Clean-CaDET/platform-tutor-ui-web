@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ReportSupervisionService } from '../report-supervision.service';
 import { CourseReport, UnitReport, FeedbackItemAggregate } from '../../model/course-report.model';
 import { ReflectionsDialogComponent } from './reflections-dialog/reflections-dialog.component';
@@ -14,19 +16,28 @@ export class CourseSummaryReportComponent implements OnChanges {
   @Input() courseId: number;
   @Input() learnerId: number;
   report: CourseReport;
+  originalReport: string;
+  reportForm: FormGroup;
   groupedFeedbackItems: { title: string; items: FeedbackItemAggregate[] }[] = [];
   feedbackTableData: { label: string; code: string; beginning: string; middle: string; end: string }[] = [];
 
   constructor(
     private supervisionService: ReportSupervisionService,
-    private dialog: MatDialog
-  ) {}
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {
+    this.reportForm = new FormGroup({
+      reportText: new FormControl('')
+    });
+  }
 
   ngOnChanges(): void {
     if (!this.courseId || !this.learnerId) return;
     this.report = null;
-    this.supervisionService.GetAchievements(this.courseId, this.learnerId).subscribe(data => {
+    this.supervisionService.GetReport(this.courseId, this.learnerId).subscribe(data => {
       this.report = data;
+      this.originalReport = data.report || '';
+      this.reportForm.patchValue({ reportText: this.originalReport });
       if (this.report.unitReports) {
         this.report.unitReports.sort((a, b) => a.order - b.order);
       }
@@ -115,5 +126,56 @@ export class CourseSummaryReportComponent implements OnChanges {
     } else {
       return config.labels.low;
     }
+  }
+
+  copyToClipboard(): void {
+    const results = `## Procenat pređenih lekcija: ${this.report.satisfiedUnitPercent}\n## Procenat značajnih refleksija ${this.report.meaningfulReflectionAnswerPercent}\n`;
+    const feedbackJson = JSON.stringify(this.feedbackTableData, null, 2);
+    navigator.clipboard.writeText(results + feedbackJson);
+  }
+
+  saveReport(): void {
+    const updatedReport: CourseReport = {
+      ...this.report,
+      report: this.reportForm.get('reportText').value
+    };
+    
+    this.supervisionService.SaveOrUpdateReport(updatedReport).subscribe({
+      next: (result) => {
+        this.report = result;
+        this.originalReport = result.report;
+        this.snackBar.open('Izveštaj sačuvan!', 'Zatvori', {
+          duration: 3000,
+          horizontalPosition:'right'
+        });
+      },
+      error: (err) => {
+        this.snackBar.open('Greška pri čuvanju.', 'Zatvori', {
+          duration: 3000,
+          horizontalPosition:'right'
+        });
+      }
+    });
+  }
+
+  resetReport(): void {
+    this.reportForm.patchValue({ reportText: this.originalReport });
+    this.snackBar.open('Izveštaj vraćen na prethodnu verziju', 'Zatvori', {
+      duration: 2000,
+      horizontalPosition:'right'
+    });
+  }
+
+  reloadStats(): void {
+    this.supervisionService.GetAchievements(this.courseId, this.learnerId).subscribe(data => {
+      data.report = this.reportForm.get('reportText').value;
+      this.report = data;
+      if (this.report.unitReports) {
+        this.report.unitReports.sort((a, b) => a.order - b.order);
+      }
+      if (this.report.feedbackItemAggregates) {
+        this.groupFeedbackItems();
+      }
+    });
   }
 }

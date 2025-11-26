@@ -72,7 +72,7 @@
     </div>
   </div>
   <mat-divider vertical="true"></mat-divider>
-  <div class="row">
+  <div class="flex-col row">
     <div class="summary">
       <h2>Konačna postignuća</h2>
       <div class="flex-row" style="justify-content: center; gap: 40px;">
@@ -87,6 +87,34 @@
           <h1>{{report.meaningfulReflectionAnswerPercent}}%</h1>
         </div>
       </div>
+    </div>
+    <div class="report-editor">
+      <form [formGroup]="reportForm" class="flex-col" style="flex-grow: 1;">
+        <mat-form-field appearance="fill" style="width: 100%">
+          <mat-label for="reportText">Sumarni izveštaj</mat-label>
+          <textarea matInput formControlName="reportText" rows="25">
+          </textarea>
+        </mat-form-field>
+        <span style="flex-grow: 1"></span>
+        <div class="button-row">
+          <div class="flex-row gap">
+            <button mat-mini-fab type="button" (click)="copyToClipboard()" title="Kopiraj za AI" color="">
+              <mat-icon>psychology</mat-icon>
+            </button>
+            <button mat-mini-fab type="button" (click)="reloadStats()" title="Učitaj nove statistike">
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+          <div class="right-buttons">
+            <button mat-mini-fab color="primary" type="button" (click)="saveReport()" title="Sačuvaj">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button mat-mini-fab type="button" (click)="resetReport()" title="Resetuj" color="">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

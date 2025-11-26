@@ -25,4 +25,15 @@ export class ReportSupervisionService {
   GetAchievements(courseId: number, learnerId: number): Observable<CourseReport> {
     return this.http.get<CourseReport>(`${this.baseUrl}${courseId}/generate/${learnerId}`);
   }
+
+  GetReport(courseId: number, learnerId: number): Observable<CourseReport> {
+    return this.http.get<CourseReport>(`${this.baseUrl}${courseId}/report/${learnerId}`);
+  }
+
+  SaveOrUpdateReport(report: CourseReport): Observable<CourseReport> {
+    if (report.id) {
+      return this.http.put<CourseReport>(`${this.baseUrl}${report.courseId}/report/${report.learnerId}`, report);
+    }
+    return this.http.post<CourseReport>(`${this.baseUrl}${report.courseId}/report/${report.learnerId}`, report);
+  }
 }
