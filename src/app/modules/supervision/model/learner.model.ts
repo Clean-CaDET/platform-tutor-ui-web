@@ -1,4 +1,5 @@
 import { WeeklyFeedback } from "../../monitoring/weekly-feedback/weekly-feedback.model";
+import { CourseReport } from "./course-report.model";
 
 export interface Learner {
   id: number;
@@ -9,4 +10,6 @@ export interface Learner {
   recentFeedback?: WeeklyFeedback[];
   weeklyFeedback?: WeeklyFeedback[];
   summarySemaphore: number;
+  
+  reports?: CourseReport[];
 }

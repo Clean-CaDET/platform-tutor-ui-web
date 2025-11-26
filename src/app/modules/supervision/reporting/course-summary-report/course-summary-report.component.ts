@@ -47,6 +47,11 @@ export class CourseSummaryReportComponent implements OnChanges {
     });
   }
 
+  get hasReportChanged(): boolean {
+    const currentReport = this.reportForm.get('reportText')?.value || '';
+    return currentReport !== this.originalReport;
+  }
+
   openReflectionsDialog(unit: UnitReport): void {
     this.dialog.open(ReflectionsDialogComponent, {
       data: unit,
@@ -169,6 +174,7 @@ export class CourseSummaryReportComponent implements OnChanges {
   reloadStats(): void {
     this.supervisionService.GetAchievements(this.courseId, this.learnerId).subscribe(data => {
       data.report = this.reportForm.get('reportText').value;
+      data.id = this.report.id;
       this.report = data;
       if (this.report.unitReports) {
         this.report.unitReports.sort((a, b) => a.order - b.order);

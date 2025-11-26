@@ -106,10 +106,10 @@
             </button>
           </div>
           <div class="right-buttons">
-            <button mat-mini-fab color="primary" type="button" (click)="saveReport()" title="Sačuvaj">
+            <button mat-mini-fab color="primary" type="button" (click)="saveReport()" title="Sačuvaj" [disabled]="!hasReportChanged">
               <mat-icon>check</mat-icon>
             </button>
-            <button mat-mini-fab type="button" (click)="resetReport()" title="Resetuj" color="">
+            <button mat-mini-fab type="button" (click)="resetReport()" title="Resetuj" color="" [disabled]="!hasReportChanged">
               <mat-icon>close</mat-icon>
             </button>
           </div>
