@@ -1,4 +1,4 @@
-<div *ngIf="report" class="flex-row" style="height: 100vh;">
+<div *ngIf="report" class="flex-row" style="height:100%; width: 100%;">
   <div class="flex-col left-column">
     <div class="units-section">
       <h2 style="margin: 0; text-align: center;">Rešenost lekcija</h2>
@@ -33,7 +33,7 @@
         <tr mat-row *matRowDef="let row; columns: ['unitName', 'isSatisfied', 'reflections'];"></tr>
       </table>
     </div>
-    <mat-divider></mat-divider>
+    <mat-divider style="border-width: 2px;"></mat-divider>
     <div class="feedback-section">
       <h2 style="margin: 0; text-align: center;">Sumarni utisci mentora</h2>
       <table mat-table [dataSource]="feedbackTableData" class="feedback-table">
@@ -92,11 +92,10 @@
       <form [formGroup]="reportForm" class="flex-col" style="flex-grow: 1;">
         <mat-form-field appearance="fill" style="width: 100%">
           <mat-label for="reportText">Sumarni izveštaj</mat-label>
-          <textarea matInput formControlName="reportText" rows="25">
-          </textarea>
+          <textarea matInput formControlName="reportText" rows="20" [readonly]="readOnly"></textarea>
         </mat-form-field>
         <span style="flex-grow: 1"></span>
-        <div class="button-row">
+        <div class="button-row" *ngIf="!readOnly">
           <div class="flex-row gap">
             <button mat-mini-fab type="button" (click)="copyToClipboard()" title="Kopiraj za AI" color="">
               <mat-icon>psychology</mat-icon>

@@ -19,8 +19,17 @@
                         <div *ngFor="let l of g.learners"
                             class="theme-hover" (click)="selectedLearner = l" [ngClass]="{'theme-highlight-primary': selectedLearner?.index === l.index}">
                             <mat-divider></mat-divider>
-                            <div style="flex-grow: 1; padding: 10px;">
-                                <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small>
+                            <div class="flex-row" style="align-items: center; padding: 10px; gap: 8px;">
+                                <div style="flex-grow: 1;">
+                                    <small>{{l.name}} {{l.surname}} <br>{{l.index}}</small>
+                                </div>
+                                <button mat-icon-button 
+                                        *ngIf="hasReportFromOtherCourse(l)"
+                                        (click)="openOtherCourseReport(l, $event)"
+                                        matTooltip="Pogledaj izveštaj sa drugog modula"
+                                        color="primary">
+                                    <mat-icon>assignment</mat-icon>
+                                </button>
                             </div>
                         </div>
                     </div>

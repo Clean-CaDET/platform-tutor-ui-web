@@ -8,13 +8,15 @@ import { CourseSupervisionComponent } from './course-supervision/course-supervis
 import { ReportingComponent } from './reporting/reporting.component';
 import { CourseSummaryReportComponent } from './reporting/course-summary-report/course-summary-report.component';
 import { ReflectionsDialogComponent } from './reporting/course-summary-report/reflections-dialog/reflections-dialog.component';
+import { CourseReportDialogComponent } from './reporting/course-summary-report/course-report-dialog/course-report-dialog.component';
 
 @NgModule({
   declarations: [
     CourseSupervisionComponent,
     ReportingComponent,
     CourseSummaryReportComponent,
-    ReflectionsDialogComponent
+    ReflectionsDialogComponent,
+    CourseReportDialogComponent
   ],
   imports: [
     CommonModule,

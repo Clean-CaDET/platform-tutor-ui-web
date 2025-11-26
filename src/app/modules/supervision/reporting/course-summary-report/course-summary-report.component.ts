@@ -15,6 +15,8 @@ import { FEEDBACK_ITEM_CONFIGS, GROUP_TITLES } from './feedback-config';
 export class CourseSummaryReportComponent implements OnChanges {
   @Input() courseId: number;
   @Input() learnerId: number;
+  @Input() courseReport: CourseReport;
+  @Input() readOnly: boolean = false;
   report: CourseReport;
   originalReport: string;
   reportForm: FormGroup;
@@ -32,11 +34,10 @@ export class CourseSummaryReportComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if (!this.courseId || !this.learnerId) return;
-    this.report = null;
-    this.supervisionService.GetReport(this.courseId, this.learnerId).subscribe(data => {
-      this.report = data;
-      this.originalReport = data.report || '';
+    if (this.courseReport) {
+      // Read-only mode: use provided report
+      this.report = this.courseReport;
+      this.originalReport = this.courseReport.report || '';
       this.reportForm.patchValue({ reportText: this.originalReport });
       if (this.report.unitReports) {
         this.report.unitReports.sort((a, b) => a.order - b.order);
@@ -44,7 +45,21 @@ export class CourseSummaryReportComponent implements OnChanges {
       if (this.report.feedbackItemAggregates) {
         this.groupFeedbackItems();
       }
-    });
+    } else if (this.courseId && this.learnerId) {
+      // Normal mode: fetch report
+      this.report = null;
+      this.supervisionService.GetReport(this.courseId, this.learnerId).subscribe(data => {
+        this.report = data;
+        this.originalReport = data.report || '';
+        this.reportForm.patchValue({ reportText: this.originalReport });
+        if (this.report.unitReports) {
+          this.report.unitReports.sort((a, b) => a.order - b.order);
+        }
+        if (this.report.feedbackItemAggregates) {
+          this.groupFeedbackItems();
+        }
+      });
+    }
   }
 
   get hasReportChanged(): boolean {

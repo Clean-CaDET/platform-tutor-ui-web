@@ -7,6 +7,8 @@ export interface CourseReport {
   meaningfulReflectionAnswerPercent: number;
   unitReports?: UnitReport[];
   feedbackItemAggregates?: FeedbackItemAggregate[];
+  courseCode?: string;
+  courseName?: string;
 }
 
 export interface UnitReport {
