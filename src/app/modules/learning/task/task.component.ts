@@ -96,7 +96,7 @@ export class TaskComponent implements OnInit {
         .subscribe(([task, progress]) => {
           this.mapSubactivities(task.steps);
           this.task = task;
-          this.title.setTitle("Tutor - " + task.name);
+          this.title.setTitle(`${task.name} - Tutor`);
           this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a.order - b.order); // Check if we need steps
           this.taskProgress = progress;
           this.steps.forEach(step => step.progress = this.taskProgress.stepProgresses.find(p => p.stepId === step.id));

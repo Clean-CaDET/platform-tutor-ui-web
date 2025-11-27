@@ -8,6 +8,9 @@ import { WeeklyFeedbackService } from '../weekly-feedback/weekly-feedback.servic
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
 import { Subject, takeUntil } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ReportService } from 'src/app/shared/reports/course-summary-report/report.service';
+import { CourseReportDialogComponent } from 'src/app/shared/reports/course-report-dialog/course-report-dialog.component';
 
 @Component({
   selector: 'cc-group-monitoring',
@@ -16,7 +19,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class GroupMonitoringComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  mode: 'enrollments'|'grading'|'progress';
+  mode: 'enrollments'|'grading'|'progress'|'report';
   courseId: number;
 
   groups: Group[] = [];
@@ -26,7 +29,13 @@ export class GroupMonitoringComponent implements OnInit, OnDestroy {
 
   selectedDate: Date;
 
-  constructor(private route: ActivatedRoute, private groupMonitoringService: GroupMonitoringService, private feedbackService: WeeklyFeedbackService) { }
+  constructor(
+    private route: ActivatedRoute,
+    private groupMonitoringService: GroupMonitoringService,
+    private feedbackService: WeeklyFeedbackService,
+    private reportService: ReportService,
+    private dialog: MatDialog
+  ) { }
   
   ngOnInit(): void {
     this.selectedDate = new Date();
@@ -68,6 +77,7 @@ export class GroupMonitoringComponent implements OnInit, OnDestroy {
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
         this.changeLearner(this.learners[0]);
         this.getGroupFeedback();
+        this.getLearnerReports();
       });
   }
 
@@ -106,5 +116,44 @@ export class GroupMonitoringComponent implements OnInit, OnDestroy {
 
   public changeLearner(learner: Learner) {
     this.selectedLearner = learner;
+  }
+
+  private getLearnerReports(): void {
+    if(this.mode !== 'report') return;
+    if(!this.learners || this.learners.length === 0) return;
+    
+    const learnerIds = this.learners.map(l => l.id);
+    this.reportService.getMany(learnerIds).subscribe(reports => {
+      this.learners.forEach(learner => {
+        learner.reports = reports.filter(r => r.learnerId === learner.id);
+      });
+    });
+  }
+
+  public hasReportFromOtherCourse(learner: Learner): boolean {
+    if (!learner.reports || !this.courseId) return false;
+    return learner.reports.some(report => report.courseId !== this.courseId);
+  }
+
+  public openOtherCourseReport(learner: Learner, event: Event): void {
+    event.stopPropagation();
+    
+    if (!learner.reports || !this.courseId) return;
+    
+    // Get all reports from other courses
+    const otherCourseReports = learner.reports.filter(report => report.courseId !== this.courseId);
+    
+    if (otherCourseReports.length > 0) {
+      this.dialog.open(CourseReportDialogComponent, {
+        data: {
+          reports: otherCourseReports,
+          currentIndex: 0
+        },
+        width: '90vw',
+        maxWidth: '1400px',
+        height: '90vh',
+        maxHeight: '900px'
+      });
+    }
   }
 }

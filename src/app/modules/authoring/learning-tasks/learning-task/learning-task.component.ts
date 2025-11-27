@@ -52,7 +52,7 @@ export class LearningTaskComponent implements OnInit, OnDestroy {
   }
 
   private setupTaskAndActivities(task: LearningTask) {
-    this.title.setTitle("Tutor - Zadatak - " + task.name);
+    this.title.setTitle(`Zadatak - ${task.name} - Tutor`);
     this.task = this.linkSubactivities(task);
     this.steps = task.steps.filter(s => !s.parentId).sort((a, b) => a['order'] > b['order'] ? 1 : -1);
   }

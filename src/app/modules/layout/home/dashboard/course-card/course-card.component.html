@@ -18,11 +18,20 @@
         <a mat-stroked-button [routerLink]="['/authoring', course.id, 'units']" matTooltip="Autorstvo">
             <div><mat-icon>edit</mat-icon></div>
         </a>
-        <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']" matTooltip="Analitike">
+        <a mat-stroked-button [routerLink]="['/analytics', course.id, 'statistics']" matTooltip="Analitike" style="margin-right: 30px;">
             <div><mat-icon>bar_chart</mat-icon></div>
         </a>
-        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']" matTooltip="Grupe">
-            <div><mat-icon>groups</mat-icon></div>
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'enrollments']" matTooltip="Kontrola pristupa">
+            <div><mat-icon>lock_open</mat-icon></div>
+        </a>
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'grading']" matTooltip="Ocenjivanje zadataka">
+            <div><mat-icon>checklist_rtl</mat-icon></div>
+        </a>
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'progress']" matTooltip="Nedeljni napredak" style="margin-right: 30px;">
+            <div><mat-icon>calendar_month</mat-icon></div>
+        </a>
+        <a mat-stroked-button [routerLink]="['/monitoring', course.id, 'report']" matTooltip="Sumarni izveštaj modula">
+            <div><mat-icon>assignment</mat-icon></div>
         </a>
     </mat-card-actions>
 </mat-card>

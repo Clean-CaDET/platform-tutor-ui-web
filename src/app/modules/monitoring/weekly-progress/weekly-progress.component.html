@@ -116,8 +116,8 @@
                             </div>
                             <div *ngFor="let q of i.item.questions">
                                 <markdown>{{q.text}}</markdown>
-                                <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
-                                <p *ngIf="q.answer"><b>Odgovor</b>:
+                                <p *ngIf="!q.answer" style="padding-left: 20px;"><b>Nije odgovorio.</b></p>
+                                <p *ngIf="q.answer" style="padding-left: 20px;"><b>Odgovor</b>:
                                 {{
                                     q.type === 1
                                         ? q.answer

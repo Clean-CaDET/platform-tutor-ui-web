@@ -16,6 +16,7 @@ import { ManagementModule } from './modules/management/management.module';
 import { KnowledgeAnalyticsModule } from './modules/knowledge-analytics/knowledge-analytics.module';
 import { GenericsModule } from './shared/generics/generics.module';
 import { AuthoringModule } from './modules/authoring/authoring.module';
+import { SupervisionModule } from './modules/supervision/supervision.module';
 
 export function markdownConfiguration(): MarkedOptions {
   const renderer = new MarkedRenderer();
@@ -55,6 +56,7 @@ export function markdownConfiguration(): MarkedOptions {
     MonitoringModule,
     KnowledgeAnalyticsModule,
     ManagementModule,
+    SupervisionModule,
     AuthoringModule
   ],
   providers: [

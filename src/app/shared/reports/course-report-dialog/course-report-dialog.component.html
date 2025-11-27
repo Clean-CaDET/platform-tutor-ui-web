@@ -1,0 +1,27 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <div class="header-content">
+      <h2>Izveštaj: {{currentReport.courseCode}} - {{currentReport.courseName}}</h2>
+    </div>
+    <div class="flex-row">
+      <div class="navigation-buttons" *ngIf="hasMultipleReports">
+        <button mat-icon-button (click)="previous()" [disabled]="!hasPrevious" matTooltip="Prethodni izveštaj">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="report-counter">{{currentIndex + 1}} / {{reports.length}}</span>
+        <button mat-icon-button (click)="next()" [disabled]="!hasNext" matTooltip="Sledeći izveštaj">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+      <button mat-icon-button (click)="close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="dialog-content">
+    <cc-course-summary-report 
+      [courseReport]="currentReport" 
+      [readOnly]="true">
+    </cc-course-summary-report>
+  </div>
+</div>

@@ -29,7 +29,7 @@ export class ReflectionComponent {
           this.reflection = reflection;
           this.isSatisfied = reflection.submissions?.length > 0;
           this.reflection.questions.sort((a, b) => a.order - b.order);
-          this.title.setTitle(`Tutor - ${this.reflection.name}`);
+          this.title.setTitle(`${this.reflection.name} - Tutor`);
           this.createForm();
         });
       }
