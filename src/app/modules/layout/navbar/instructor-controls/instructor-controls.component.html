@@ -39,6 +39,12 @@
         Napredak
       </div>
     </a>
+    <a class="navbar-button" mat-button [routerLink]="['/monitoring', selectedCourse.id, 'report']" routerLinkActive="mat-accent">
+      <div>
+        <mat-icon>assignment</mat-icon><br>
+        Izveštaj
+      </div>
+    </a>
     <mat-divider></mat-divider>
     <a class="navbar-button" mat-button [routerLink]="['/analytics', selectedCourse.id, 'statistics']" routerLinkActive="mat-accent">
       <div>
