@@ -36,7 +36,7 @@
     <mat-divider style="border-width: 2px;"></mat-divider>
     <div class="feedback-section">
       <h2 style="margin: 0; text-align: center;">Sumarni utisci mentora</h2>
-      <table mat-table [dataSource]="feedbackTableData" class="feedback-table">
+      <table mat-table [dataSource]="feedbackTableData" class="feedback-table" *ngIf="report.feedbackItemAggregates?.length">
         <ng-container matColumnDef="label">
           <th mat-header-cell *matHeaderCellDef>Stavka</th>
           <td mat-cell *matCellDef="let row">{{row.label}}</td>
@@ -69,6 +69,7 @@
         <tr mat-header-row *matHeaderRowDef="['label', 'beginning', 'middle', 'end']"></tr>
         <tr mat-row *matRowDef="let row; columns: ['label', 'beginning', 'middle', 'end'];"></tr>
       </table>
+      <div *ngIf="!report.feedbackItemAggregates?.length">Nema dovoljno nedeljnih utisaka za agregaciju.</div>
     </div>
   </div>
   <mat-divider vertical="true"></mat-divider>

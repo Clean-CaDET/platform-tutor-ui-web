@@ -42,7 +42,7 @@ export class CourseSummaryReportComponent implements OnChanges {
       if (this.report.unitReports) {
         this.report.unitReports.sort((a, b) => a.order - b.order);
       }
-      if (this.report.feedbackItemAggregates) {
+      if (this.report.feedbackItemAggregates?.length) {
         this.groupFeedbackItems();
       }
     } else if (this.courseId && this.learnerId) {
@@ -55,7 +55,7 @@ export class CourseSummaryReportComponent implements OnChanges {
         if (this.report.unitReports) {
           this.report.unitReports.sort((a, b) => a.order - b.order);
         }
-        if (this.report.feedbackItemAggregates) {
+        if (this.report.feedbackItemAggregates?.length) {
           this.groupFeedbackItems();
         }
       });
@@ -194,7 +194,7 @@ export class CourseSummaryReportComponent implements OnChanges {
       if (this.report.unitReports) {
         this.report.unitReports.sort((a, b) => a.order - b.order);
       }
-      if (this.report.feedbackItemAggregates) {
+      if (this.report.feedbackItemAggregates?.length) {
         this.groupFeedbackItems();
       }
     });
