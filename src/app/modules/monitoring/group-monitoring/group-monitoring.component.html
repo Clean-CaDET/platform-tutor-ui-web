@@ -20,7 +20,7 @@
         <div *cdkVirtualFor="let learner of learners">
             <div [class.theme-highlight-primary]="selectedLearner?.id===learner.id"
               class="theme-hover flex-row"
-              style="padding: 10px; cursor: pointer;" (click)="changeLearner(learner)">
+              style="padding: 10px; cursor: pointer; align-items: center;" (click)="changeLearner(learner)">
               <div style="flex-grow: 1;">
                 <small style="font-size: 12px;">{{learner.index}}</small><br>
                 <span>{{learner.name}} {{learner.surname}}</span>
@@ -32,6 +32,15 @@
               <div *ngIf="mode === 'progress'">
                 <mat-icon *ngIf="learner.semaphore" [matTooltip]="learner.semaphoreJustification" [color]="learner.semaphore == 1 ? 'warn' : learner.semaphore == 2 ? 'accent' : 'primary'">circle</mat-icon>
                 <mat-icon *ngIf="!learner.semaphore" matTooltip="Nema povratne informacije o studentu za nedelju">radio_button_off</mat-icon>
+              </div>
+              <div *ngIf="mode === 'report'">
+                <button mat-icon-button 
+                  *ngIf="hasReportFromOtherCourse(learner)"
+                  (click)="openOtherCourseReport(learner, $event)"
+                  matTooltip="Izveštaji sa drugih modula"
+                  color="primary">
+                  <mat-icon>assignment</mat-icon>
+                </button>
               </div>
             </div>
             <mat-divider></mat-divider>

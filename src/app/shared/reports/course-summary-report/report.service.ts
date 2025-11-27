@@ -13,7 +13,7 @@ export class ReportService {
   constructor(private http: HttpClient) { }
 
   getMany(learnerIds: number[]): Observable<CourseReport[]> {
-    return this.http.post<CourseReport[]>(this.baseUrl, learnerIds);
+    return this.http.post<CourseReport[]>(this.baseUrl + 'query', learnerIds);
   }
 
   get(courseId: number, learnerId: number): Observable<CourseReport> {
