@@ -1,7 +1,7 @@
 <div class="flex-row" style="height: 100%;">
   <div style="width: 200px;">
     <div style="height: 58px; padding: 10px" *ngIf="mode === 'enrollments'"><small>Izaberi grupu studenata da im otključiš pristup lekcijama.</small></div>
-    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 182px" *ngIf="mode !== 'enrollments'">
+    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 182px" *ngIf="mode !== 'enrollments' && mode !== 'report'">
       <mat-label>Dan pred sink (po kalendaru)</mat-label>
       <input matInput [matDatepicker]="picker" [value]="selectedDate" (dateChange)="onDateChange($event)">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -48,6 +48,9 @@
       </div>
       <div *ngIf="selectedLearner && mode === 'progress'">
         <cc-weekly-progress [courseId]="courseId" [selectedLearnerId]="selectedLearner.id" [learners]="learners" (learnerChanged)="changeLearner($event)" [selectedDate]="selectedDate"></cc-weekly-progress>
+      </div>
+      <div *ngIf="selectedLearner && mode === 'report'" style="height: 100vh">
+        <cc-course-summary-report [courseId]="courseId" [learnerId]="selectedLearner.id"></cc-course-summary-report>
       </div>
   </div>
 </div>

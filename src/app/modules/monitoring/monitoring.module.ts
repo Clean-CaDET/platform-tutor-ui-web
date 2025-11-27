@@ -10,6 +10,7 @@ import { EnrollmentsComponent } from './enrollments/enrollments.component';
 import { TutorMarkdownModule } from "../../shared/markdown/markdown.module";
 import { MarkdownModule } from 'ngx-markdown';
 import { WeeklyFeedbackComponent } from './weekly-feedback/weekly-feedback.component';
+import { ReportsModule } from 'src/app/shared/reports/reports.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { WeeklyFeedbackComponent } from './weekly-feedback/weekly-feedback.compo
     FormsModule,
     ReactiveFormsModule,
     MarkdownModule.forChild(),
-    TutorMarkdownModule
+    TutorMarkdownModule,
+    ReportsModule
 ],
 })
 export class MonitoringModule {}

@@ -2,10 +2,10 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ReportSupervisionService } from '../report-supervision.service';
-import { CourseReport, UnitReport, FeedbackItemAggregate } from '../../model/course-report.model';
-import { ReflectionsDialogComponent } from './reflections-dialog/reflections-dialog.component';
+import { CourseReport, UnitReport, FeedbackItemAggregate } from '../course-report.model';
+import { ReflectionsDialogComponent } from '../reflections-dialog/reflections-dialog.component';
 import { FEEDBACK_ITEM_CONFIGS, GROUP_TITLES } from './feedback-config';
+import { ReportService } from './report.service';
 
 @Component({
   selector: 'cc-course-summary-report',
@@ -24,7 +24,7 @@ export class CourseSummaryReportComponent implements OnChanges {
   feedbackTableData: { label: string; code: string; beginning: string; middle: string; end: string }[] = [];
 
   constructor(
-    private supervisionService: ReportSupervisionService,
+    private reportService: ReportService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar
   ) {
@@ -48,7 +48,7 @@ export class CourseSummaryReportComponent implements OnChanges {
     } else if (this.courseId && this.learnerId) {
       // Normal mode: fetch report
       this.report = null;
-      this.supervisionService.GetReport(this.courseId, this.learnerId).subscribe(data => {
+      this.reportService.get(this.courseId, this.learnerId).subscribe(data => {
         this.report = data;
         this.originalReport = data.report || '';
         this.reportForm.patchValue({ reportText: this.originalReport });
@@ -160,7 +160,7 @@ export class CourseSummaryReportComponent implements OnChanges {
       report: this.reportForm.get('reportText').value
     };
     
-    this.supervisionService.SaveOrUpdateReport(updatedReport).subscribe({
+    this.reportService.saveOrUpdate(updatedReport).subscribe({
       next: (result) => {
         this.report = result;
         this.originalReport = result.report;
@@ -187,7 +187,7 @@ export class CourseSummaryReportComponent implements OnChanges {
   }
 
   reloadStats(): void {
-    this.supervisionService.GetAchievements(this.courseId, this.learnerId).subscribe(data => {
+    this.reportService.getAchievements(this.courseId, this.learnerId).subscribe(data => {
       data.report = this.reportForm.get('reportText').value;
       data.id = this.report.id;
       this.report = data;

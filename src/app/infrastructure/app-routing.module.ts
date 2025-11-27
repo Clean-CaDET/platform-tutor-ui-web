@@ -19,7 +19,7 @@ import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learn
 import { TaskComponent } from '../modules/learning/task/task.component';
 import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit-details.component';
 import { ConfirmExitGuard } from './confirm-leave.guard';
-import { CourseSupervisionComponent } from '../modules/supervision/course-supervision/course-supervision.component';
+import { ActiveSupervisionComponent } from '../modules/supervision/active-supervision/active-supervision.component';
 import { ReflectionComponent } from '../modules/learning/reflection/reflection.component';
 import { ReportingComponent } from '../modules/supervision/reporting/reporting.component';
 
@@ -135,7 +135,7 @@ const routes: Routes = [
   {
     path: 'supervision/active',
     title: 'Aktivna nastava - Tutor',
-    component: CourseSupervisionComponent,
+    component: ActiveSupervisionComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },

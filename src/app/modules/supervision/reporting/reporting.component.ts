@@ -4,7 +4,7 @@ import { Course } from '../model/course.model';
 import { Group } from '../model/group.model';
 import { ReportSupervisionService } from './report-supervision.service';
 import { Learner } from '../model/learner.model';
-import { CourseReportDialogComponent } from './course-summary-report/course-report-dialog/course-report-dialog.component';
+import { CourseReportDialogComponent } from 'src/app/shared/reports/course-report-dialog/course-report-dialog.component';
 
 @Component({
   selector: 'cc-reporting',

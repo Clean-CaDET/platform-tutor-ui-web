@@ -8,11 +8,11 @@ import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-
 import { Reflection } from '../../learning/reflection/reflection.model';
 
 @Component({
-  selector: 'cc-course-supervision',
-  templateUrl: './course-supervision.component.html',
-  styleUrl: './course-supervision.component.scss'
+  selector: 'cc-active-supervision',
+  templateUrl: './active-supervision.component.html',
+  styleUrl: './active-supervision.component.scss'
 })
-export class CourseSupervisionComponent implements OnInit {
+export class ActiveSupervisionComponent implements OnInit {
   courses: Course[];
   selectedCourseId: 0;
   groups: Group[];

@@ -16,7 +16,7 @@ import { Subject, takeUntil } from 'rxjs';
 })
 export class GroupMonitoringComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  mode: 'enrollments'|'grading'|'progress';
+  mode: 'enrollments'|'grading'|'progress'|'report';
   courseId: number;
 
   groups: Group[] = [];

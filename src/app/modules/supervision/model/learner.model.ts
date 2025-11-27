@@ -1,5 +1,5 @@
 import { WeeklyFeedback } from "../../monitoring/weekly-feedback/weekly-feedback.model";
-import { CourseReport } from "./course-report.model";
+import { CourseReport } from "../../../shared/reports/course-report.model";
 
 export interface Learner {
   id: number;

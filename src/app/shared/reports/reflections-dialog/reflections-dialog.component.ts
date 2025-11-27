@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { UnitReport } from '../../../model/course-report.model';
+import { UnitReport } from '../course-report.model';
 
 @Component({
   selector: 'cc-reflections-dialog',

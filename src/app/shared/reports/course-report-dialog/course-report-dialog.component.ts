@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CourseReport } from '../../../model/course-report.model';
+import { CourseReport } from '../course-report.model';
 
 interface DialogData {
   reports: CourseReport[];

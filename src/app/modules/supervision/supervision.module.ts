@@ -4,26 +4,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/infrastructure/material.module';
 import { MarkdownModule } from 'ngx-markdown';
-import { CourseSupervisionComponent } from './course-supervision/course-supervision.component';
+import { ActiveSupervisionComponent } from './active-supervision/active-supervision.component';
 import { ReportingComponent } from './reporting/reporting.component';
-import { CourseSummaryReportComponent } from './reporting/course-summary-report/course-summary-report.component';
-import { ReflectionsDialogComponent } from './reporting/course-summary-report/reflections-dialog/reflections-dialog.component';
-import { CourseReportDialogComponent } from './reporting/course-summary-report/course-report-dialog/course-report-dialog.component';
+import { ReportsModule } from 'src/app/shared/reports/reports.module';
 
 @NgModule({
   declarations: [
-    CourseSupervisionComponent,
-    ReportingComponent,
-    CourseSummaryReportComponent,
-    ReflectionsDialogComponent,
-    CourseReportDialogComponent
+    ActiveSupervisionComponent,
+    ReportingComponent
   ],
   imports: [
     CommonModule,
     MaterialModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    MarkdownModule.forChild()
-],
+    MarkdownModule.forChild(),
+    ReportsModule
+  ]
 })
 export class SupervisionModule {}
