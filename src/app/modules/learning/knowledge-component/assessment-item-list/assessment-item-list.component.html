@@ -25,7 +25,8 @@
                         <span>{{option}}</span>
                     </p>
                     <div *ngIf="showAnswer[item.id]">
-                        <b>Povratna informacija</b>: {{item.feedback}}
+                        <b>Povratna informacija</b>:
+                        <markdown>{{item.feedback}}</markdown>
                     </div>
                 </div>
                 <div *ngIf="item.$type === 'multiResponseQuestion'">

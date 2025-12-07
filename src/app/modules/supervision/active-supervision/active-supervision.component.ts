@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { Course } from '../../management/model/course.model';
+import { Course } from '../model/course.model';
 import { Group } from '../model/group.model';
-import { CourseMonitoringService } from './course-monitoring.service';
-import { WeeklyFeedback } from '../weekly-feedback/weekly-feedback.model';
+import { ActiveSupervisionService } from './active-supervision.service';
+import { WeeklyFeedback } from '../../monitoring/weekly-feedback/weekly-feedback.model';
 import { Learner } from '../model/learner.model';
-import { WeeklyFeedbackQuestion } from '../weekly-feedback/weekly-feedback-questions.service';
+import { WeeklyFeedbackQuestion } from '../../monitoring/weekly-feedback/weekly-feedback-questions.service';
 import { Reflection } from '../../learning/reflection/reflection.model';
 
 @Component({
-  selector: 'cc-course-monitoring',
-  templateUrl: './course-monitoring.component.html',
-  styleUrl: './course-monitoring.component.scss'
+  selector: 'cc-active-supervision',
+  templateUrl: './active-supervision.component.html',
+  styleUrl: './active-supervision.component.scss'
 })
-export class CourseMonitoringComponent implements OnInit {
+export class ActiveSupervisionComponent implements OnInit {
   courses: Course[];
   selectedCourseId: 0;
   groups: Group[];
@@ -21,16 +21,16 @@ export class CourseMonitoringComponent implements OnInit {
   loadedReflections: Reflection[];
   selectedFeedback: WeeklyFeedback;
 
-  constructor(private monitoringService: CourseMonitoringService) {}
+  constructor(private supervisionService: ActiveSupervisionService) {}
   
   ngOnInit(): void {
-    this.monitoringService.GetActiveCourses().subscribe(courses => this.courses = courses);
-    this.monitoringService.GetFeedbackQuestions().subscribe(qs => this.feedbackQuestions = qs);
+    this.supervisionService.GetActiveCourses().subscribe(courses => this.courses = courses);
+    this.supervisionService.GetFeedbackQuestions().subscribe(qs => this.feedbackQuestions = qs);
   }
 
   getGroups(): void {
     this.selectLearner(null);
-    this.monitoringService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
+    this.supervisionService.GetCourseGroups(this.selectedCourseId).subscribe(groups => {
       this.groups = groups;
       this.groups.forEach(g => {
         g.learners.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
@@ -38,7 +38,6 @@ export class CourseMonitoringComponent implements OnInit {
           if(l.index.indexOf('@') > 0) l.index = l.index.split('@')[0];
           l.recentFeedback = l.weeklyFeedback?.slice(0, 3) ?? [];
           l.recentFeedback.forEach(f => {
-            if(f.opinions) f.opinions = JSON.parse(f.opinions.toString());
             if(!f.maxTaskPoints) {
               f.achievedPercentage = -1;
               return;
@@ -88,7 +87,7 @@ export class CourseMonitoringComponent implements OnInit {
     if (!feedback.learnerId || !feedback.reflectionIds?.length) return;
     
     this.selectedFeedback = feedback;
-    this.monitoringService.GetReflections(feedback.learnerId, feedback.reflectionIds).subscribe(reflections => {
+    this.supervisionService.GetReflections(feedback.learnerId, feedback.reflectionIds).subscribe(reflections => {
       reflections.forEach(r => {
         r.selectedLearnerSubmission = r.submissions.find(s => s.learnerId === feedback.learnerId);
         r.questions = r.questions.filter(q => q.category != 2); // Ignore reflections on materials

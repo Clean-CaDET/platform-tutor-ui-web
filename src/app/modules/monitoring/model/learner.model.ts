@@ -1,4 +1,4 @@
-import { WeeklyFeedback } from "../weekly-feedback/weekly-feedback.model";
+import { CourseReport } from "src/app/shared/reports/course-report.model";
 
 export interface Learner {
   id: number;
@@ -14,8 +14,5 @@ export interface Learner {
   semaphore: number;
   semaphoreJustification: string;
 
-  // Course overview
-  recentFeedback?: WeeklyFeedback[];
-  weeklyFeedback?: WeeklyFeedback[];
-  summarySemaphore: number;
+  reports?: CourseReport[];
 }

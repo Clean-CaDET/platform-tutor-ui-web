@@ -40,7 +40,7 @@ export class KnowledgeComponentAuthoringComponent implements OnInit, OnDestroy {
     const index = this.allKcs.findIndex(kc => kc.id == activeKcId);
     this.prevKc = index != 0 ? this.allKcs[index-1] : null;
     this.nextKc = index != this.allKcs.length - 1 ? this.allKcs[index+1] : null;
-    this.title.setTitle("Tutor - Znanje - " + this.kc.name);
+    this.title.setTitle(`Znanje - ${this.kc.name} - Tutor`);
     this.scrollToTop();
   }
   

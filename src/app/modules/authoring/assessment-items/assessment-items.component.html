@@ -63,8 +63,9 @@
                             <span>{{option}}</span>
                         </p>
                         <div>
-                            <b>Povratna informacija</b>: {{item.feedback}}
+                            <b>Povratna informacija</b>:
                         </div>
+                        <markdown>{{item.feedback}}</markdown>
                     </div>
                     <div *ngIf="item.$type === 'multiResponseQuestion'">
                         <b>Ponuđeni odgovori:</b>

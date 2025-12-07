@@ -1,4 +1,17 @@
 <div class="flex-col">
+  <button class="navbar-button" mat-button routerLink="/supervision/active" routerLinkActive="mat-accent">
+    <div>
+      <mat-icon>troubleshooting</mat-icon>
+      Aktivno
+    </div>
+  </button>
+  <button class="navbar-button" mat-button routerLink="/supervision/reports" routerLinkActive="mat-accent">
+    <div>
+      <mat-icon>analytics</mat-icon>
+      Izveštaji
+    </div>
+  </button>
+  <mat-divider></mat-divider>
   <button class="navbar-button" mat-button routerLink="/management/courses" routerLinkActive="mat-accent">
     <div>
       <mat-icon>collections_bookmark</mat-icon>
@@ -15,13 +28,6 @@
     <div>
       <mat-icon>school</mat-icon>
       Mentori
-    </div>
-  </button>
-  <mat-divider></mat-divider>
-  <button class="navbar-button" mat-button routerLink="/monitoring/overview" routerLinkActive="mat-accent">
-    <div>
-      <mat-icon>troubleshooting</mat-icon>
-      Aktivno
     </div>
   </button>
 </div>

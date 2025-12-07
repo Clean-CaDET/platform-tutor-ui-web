@@ -31,7 +31,7 @@
         </div>
         <mat-divider vertical="true"></mat-divider>
         <div class="course-overview" style="width: 33.33%; padding: 10px;">
-            <div *ngIf="!selectedLearner">Klikni na studenta da vidiš detalje</div>
+            <div *ngIf="!selectedLearner">Klikni na studenta za detalje.</div>
             <div *ngIf="selectedLearner" class="flex-col">
                 <h3>{{selectedLearner.name}} {{selectedLearner.surname}}</h3>
                 <div class="flex-col gap">
@@ -107,8 +107,8 @@
                     <div *ngIf="reflection.selectedLearnerSubmission">
                         <div *ngFor="let q of reflection.questions">
                             <div><markdown>{{q.text}}</markdown></div>
-                            <p *ngIf="!q.answer"><b>Nije odgovorio.</b></p>
-                            <p *ngIf="q.answer"><b>Odgovor</b>:
+                            <p *ngIf="!q.answer" style="padding-left: 30px;"><b>Nije odgovorio.</b></p>
+                            <p *ngIf="q.answer" style="padding-left: 30px;"><b>Odgovor</b>:
                             {{
                                 q.type === 1
                                     ? q.answer

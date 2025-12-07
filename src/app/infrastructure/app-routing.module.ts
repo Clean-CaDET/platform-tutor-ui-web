@@ -19,8 +19,9 @@ import { LearningTaskComponent } from '../modules/authoring/learning-tasks/learn
 import { TaskComponent } from '../modules/learning/task/task.component';
 import { UnitDetailsComponent } from '../modules/learning/unit/unit-details/unit-details.component';
 import { ConfirmExitGuard } from './confirm-leave.guard';
-import { CourseMonitoringComponent } from '../modules/monitoring/course-monitoring/course-monitoring.component';
+import { ActiveSupervisionComponent } from '../modules/supervision/active-supervision/active-supervision.component';
 import { ReflectionComponent } from '../modules/learning/reflection/reflection.component';
+import { ReportingComponent } from '../modules/supervision/reporting/reporting.component';
 
 // Generic titles are defined here. Title service is used in components for data-based titles.
 const routes: Routes = [
@@ -66,7 +67,7 @@ const routes: Routes = [
   
   {
     path: 'analytics/:courseId/statistics',
-    title: 'Tutor - Analitike',
+    title: 'Analitike - Tutor',
     component: UnitAnalyticsComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
@@ -79,7 +80,7 @@ const routes: Routes = [
   },
   {
     path: 'authoring/:courseId/units',
-    title: 'Tutor - Autorstvo',
+    title: 'Autorstvo - Tutor',
     component: CourseStructureComponent,
     canActivate: [AuthGuard],
     data: { role: ['instructor'] },
@@ -112,29 +113,36 @@ const routes: Routes = [
   
   {
     path: 'management/stakeholders/learners',
-    title: 'Tutor - Studenti',
+    title: 'Studenti - Tutor',
     component: LearnersComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'management/stakeholders/instructors',
-    title: 'Tutor - Mentori',
+    title: 'Mentori - Tutor',
     component: InstructorsComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
     path: 'management/courses',
-    title: 'Tutor - Moduli',
+    title: 'Moduli - Tutor',
     component: CoursesComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },
   {
-    path: 'monitoring/overview',
-    title: 'Tutor - Aktivna nastava',
-    component: CourseMonitoringComponent,
+    path: 'supervision/active',
+    title: 'Aktivna nastava - Tutor',
+    component: ActiveSupervisionComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['administrator'] },
+  },
+  {
+    path: 'supervision/reports',
+    title: 'Izveštaji o modulima - Tutor',
+    component: ReportingComponent,
     canActivate: [AuthGuard],
     data: { role: ['administrator'] },
   },

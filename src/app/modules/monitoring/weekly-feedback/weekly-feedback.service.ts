@@ -25,7 +25,6 @@ export class WeeklyFeedbackService {
       .pipe(map(results => {
         results.forEach(r => {
           r.weekEnd = new Date(r.weekEnd);
-          if(r.opinions) r.opinions = JSON.parse(r.opinions.toString());
         });
         results.sort((a, b) => a.weekEnd.getTime() - b.weekEnd.getTime());
         return results;
@@ -37,12 +36,12 @@ export class WeeklyFeedbackService {
   }
 
   create(courseId: number, item: WeeklyFeedback): Observable<WeeklyFeedback> {
-    const payload = { ...item, opinions: item.opinions ? JSON.stringify(item.opinions) : null };
+    const payload = { ...item, opinions: item.opinions };
     return this.http.post<WeeklyFeedback>(this.baseLearnerUrl(courseId), payload);
   }
 
   update(courseId: number, item: WeeklyFeedback): Observable<WeeklyFeedback> {
-    const payload = { ...item, opinions: item.opinions ? JSON.stringify(item.opinions) : null };
+    const payload = { ...item, opinions: item.opinions };
     return this.http.put<WeeklyFeedback>(this.baseLearnerUrl(courseId)+item.id, payload);
   }
 
