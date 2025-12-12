@@ -12,6 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { trigger, state, animate, style, transition } from '@angular/animations';
+import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
 
 @Component({
   selector: 'cc-task',
@@ -34,7 +35,7 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
     ])
   ]
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, CanComponentDeactivate {
   readonly clipboard = ClipboardButtonComponent;
   sliderPosition: number = 0;
   isWideScreen: boolean = false;
@@ -71,6 +72,13 @@ export class TaskComponent implements OnInit {
     private taskService: TaskService,
     private progressService: TaskProgressService,
   ) { }
+
+  canDeactivate(): boolean {
+    if (this.hasUnsavedChanges()) {
+      return confirm('Niste sačuvali izmenu odgovora ili napomene mentoru.\nDa li odustajete od izmene?');
+    }
+    return true;
+  }
 
   ngOnInit() {
     this.isWideScreen = window.innerWidth >= 1820;
@@ -145,6 +153,10 @@ export class TaskComponent implements OnInit {
 
   viewStep(step: Activity) {
     if(!step) return;
+    if(this.hasUnsavedChanges()) {
+      const confirmChange = confirm('Niste sačuvali izmenu odgovora ili napomene mentoru.\nDa li odustajete od izmene?');
+      if(!confirmChange) return;
+    }
     this.prepareStepView(step);
     if(step.progress.status === 'Graded') {
       this.viewingTab = "Rezultat";
@@ -185,6 +197,15 @@ export class TaskComponent implements OnInit {
     this.selectedStep.progress.commentForMentor = this.answerForm.value.commentForMentor;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
+  }
+
+  private hasUnsavedChanges(): boolean {
+    if (!this.answerForm || !this.selectedStep) return false;
+    const currentAnswer = this.answerForm.get('answer').value || '';
+    const currentComment = this.answerForm.get('commentForMentor').value || '';
+    const savedAnswer = this.selectedStep.progress.answer || '';
+    const savedComment = this.selectedStep.progress.commentForMentor || '';
+    return currentAnswer !== savedAnswer || currentComment !== savedComment;
   }
 
   getNextExample() {

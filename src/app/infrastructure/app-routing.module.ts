@@ -55,7 +55,8 @@ const routes: Routes = [
       },
       {
         path: 'tasks/:ltId',
-        component: TaskComponent
+        component: TaskComponent,
+        canDeactivate: [ConfirmExitGuard]
       },
       {
         path: 'reflections/:rId',
