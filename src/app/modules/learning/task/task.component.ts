@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
@@ -20,16 +20,16 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   animations: [
     trigger('expandCollapseDefinition', [
       state('state0', style({ height: '100%' })),
-      state('state1', style({ height: '20%' })),
+      state('state1', style({ height: '70px' })),
       state('state2', style({ height: '50%' })),
-      state('state3', style({ height: '80%' })),
+      state('state3', style({ height: 'calc(100% - 70px)' })),
       transition('* <=> *', animate('0.3s ease-in-out'))
     ]),
     trigger('expandCollapseContent', [
       state('state0', style({ height: '0px' })),
-      state('state1', style({ height: '80%' })),
+      state('state1', style({ height: 'calc(100% - 70px)' })),
       state('state2', style({ height: '50%' })),
-      state('state3', style({ height: '20%' })),
+      state('state3', style({ height: '70px' })),
       transition('* <=> *', animate('0.3s ease-in-out'))
     ])
   ]
@@ -37,6 +37,12 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
 export class TaskComponent implements OnInit {
   readonly clipboard = ClipboardButtonComponent;
   sliderPosition: number = 0;
+  isWideScreen: boolean = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isWideScreen = window.innerWidth >= 1820;
+  }
   start() {
     this.sliderPosition = 2;
     setTimeout(() => this.viewStep(this.steps[0]), 300);
@@ -67,6 +73,7 @@ export class TaskComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.isWideScreen = window.innerWidth >= 1820;
     this.setTask();
   }
 
