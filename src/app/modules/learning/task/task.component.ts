@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { TaskService } from './task.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TaskProgressService } from './task-progress.service';
@@ -12,6 +12,7 @@ import { Title } from '@angular/platform-browser';
 import { ClipboardButtonComponent } from 'src/app/shared/markdown/clipboard-button/clipboard-button.component';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { trigger, state, animate, style, transition } from '@angular/animations';
+import { CanComponentDeactivate } from 'src/app/infrastructure/confirm-leave.guard';
 
 @Component({
   selector: 'cc-task',
@@ -20,23 +21,29 @@ import { trigger, state, animate, style, transition } from '@angular/animations'
   animations: [
     trigger('expandCollapseDefinition', [
       state('state0', style({ height: '100%' })),
-      state('state1', style({ height: '20%' })),
+      state('state1', style({ height: '70px' })),
       state('state2', style({ height: '50%' })),
-      state('state3', style({ height: '80%' })),
+      state('state3', style({ height: 'calc(100% - 70px)' })),
       transition('* <=> *', animate('0.3s ease-in-out'))
     ]),
     trigger('expandCollapseContent', [
       state('state0', style({ height: '0px' })),
-      state('state1', style({ height: '80%' })),
+      state('state1', style({ height: 'calc(100% - 70px)' })),
       state('state2', style({ height: '50%' })),
-      state('state3', style({ height: '20%' })),
+      state('state3', style({ height: '70px' })),
       transition('* <=> *', animate('0.3s ease-in-out'))
     ])
   ]
 })
-export class TaskComponent implements OnInit {
+export class TaskComponent implements OnInit, CanComponentDeactivate {
   readonly clipboard = ClipboardButtonComponent;
   sliderPosition: number = 0;
+  isWideScreen: boolean = false;
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.isWideScreen = window.innerWidth >= 1820;
+  }
   start() {
     this.sliderPosition = 2;
     setTimeout(() => this.viewStep(this.steps[0]), 300);
@@ -66,7 +73,15 @@ export class TaskComponent implements OnInit {
     private progressService: TaskProgressService,
   ) { }
 
+  canDeactivate(): boolean {
+    if (this.hasUnsavedChanges()) {
+      return confirm('Niste sačuvali izmenu odgovora ili napomene mentoru.\nDa li odustajete od izmene?');
+    }
+    return true;
+  }
+
   ngOnInit() {
+    this.isWideScreen = window.innerWidth >= 1820;
     this.setTask();
   }
 
@@ -138,6 +153,10 @@ export class TaskComponent implements OnInit {
 
   viewStep(step: Activity) {
     if(!step) return;
+    if(this.hasUnsavedChanges()) {
+      const confirmChange = confirm('Niste sačuvali izmenu odgovora ili napomene mentoru.\nDa li odustajete od izmene?');
+      if(!confirmChange) return;
+    }
     this.prepareStepView(step);
     if(step.progress.status === 'Graded') {
       this.viewingTab = "Rezultat";
@@ -178,6 +197,15 @@ export class TaskComponent implements OnInit {
     this.selectedStep.progress.commentForMentor = this.answerForm.value.commentForMentor;
     this.progressService.submitAnswer(this.task.unitId, this.task.id, this.taskProgress.id, this.selectedStep.progress)
       .subscribe(progress => this.taskProgress = progress);
+  }
+
+  private hasUnsavedChanges(): boolean {
+    if (!this.answerForm || !this.selectedStep) return false;
+    const currentAnswer = this.answerForm.get('answer').value || '';
+    const currentComment = this.answerForm.get('commentForMentor').value || '';
+    const savedAnswer = this.selectedStep.progress.answer || '';
+    const savedComment = this.selectedStep.progress.commentForMentor || '';
+    return currentAnswer !== savedAnswer || currentComment !== savedComment;
   }
 
   getNextExample() {

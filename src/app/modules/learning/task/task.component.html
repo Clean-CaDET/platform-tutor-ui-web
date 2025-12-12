@@ -1,5 +1,5 @@
-<mat-card *ngIf="task" class="flex-col container">
-    <div class="flex-col task-definition" [@expandCollapseDefinition]="'state' + sliderPosition">
+<mat-card *ngIf="task" class="flex-col container" [class.wide-screen]="isWideScreen">
+    <div class="flex-col task-definition" [@expandCollapseDefinition]="isWideScreen ? 'disabled' : 'state' + sliderPosition">
         <div class="text-alignment task-description">
             <div class="flex-row" style="justify-content: space-between;">
                 <h2>{{ task.name }}</h2>
@@ -7,7 +7,7 @@
             </div>
             <markdown lineNumbers clipboard [clipboardButtonComponent]="clipboard" modal-images>{{ task.description }}</markdown>
         </div>
-        <div class="flex-row gap" style="align-items: center;" *ngIf="sliderPosition !== 0">
+        <div class="flex-row gap" style="align-items: center;" *ngIf="sliderPosition !== 0 && !isWideScreen">
             <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
             <button mat-icon-button (click)="sliderPosition = 1" [disabled]="sliderPosition === 1" class="inline-button">
                 <mat-icon>arrow_upward</mat-icon>
@@ -21,7 +21,8 @@
             <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
         </div>
     </div>
-    <div class="flex-row task-content" [@expandCollapseContent]="'state' + sliderPosition">
+    <mat-divider vertical="true" style="border-width: 6px" *ngIf="isWideScreen"></mat-divider>
+    <div class="flex-row task-content" [@expandCollapseContent]="isWideScreen ? 'disabled' : 'state' + sliderPosition">
         <div class="steps flex-col" *ngIf="sliderPosition !== 0 && steps?.length > 1">
             <div *ngFor="let step of steps; index as i" class="theme-hover">
                 <div [class.theme-highlight-primary]="selectedStep?.id===step.id" (click)="viewStep(step)" class="flex-row" style="align-items: center;"
