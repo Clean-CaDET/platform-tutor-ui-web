@@ -42,7 +42,7 @@ export class TaskComponent implements OnInit, CanComponentDeactivate {
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this.isWideScreen = window.innerWidth >= 1820;
+    this.isWideScreen = window.innerWidth >= 1600;
   }
   start() {
     this.sliderPosition = 2;
@@ -81,7 +81,7 @@ export class TaskComponent implements OnInit, CanComponentDeactivate {
   }
 
   ngOnInit() {
-    this.isWideScreen = window.innerWidth >= 1820;
+    this.isWideScreen = window.innerWidth >= 1600;
     this.setTask();
   }
 

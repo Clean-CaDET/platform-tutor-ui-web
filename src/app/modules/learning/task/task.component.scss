@@ -63,19 +63,20 @@
     padding: 0 !important;
 }
 
-@media (min-width: 1820px) {
+@media (min-width: 1600px) {
     .container.wide-screen {
         flex-direction: row;
-        max-width: 1800px;
+        max-width: 1880px;
     }
     
     .task-definition, .task-content {
-        width: 900px;
+        width: 50%;
+        max-width: 940px;
         height: 100% !important;
     }
 
     .panel {
         width: calc(100vw - 180px);
-        max-width: 1800px;
+        max-width: 1880px;
     }
 }
