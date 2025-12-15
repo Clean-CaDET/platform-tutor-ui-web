@@ -75,6 +75,9 @@ export class GroupMonitoringComponent implements OnInit, OnDestroy {
       .subscribe((data) => {
         this.selectedLearner = null;
         this.learners = data.results.sort((l1, l2) => l1.name > l2.name ? 1 : -1);
+        this.learners.forEach(l => {
+          if(l.index.indexOf('@') > 0) l.index = l.index.split('@')[0];
+        });
         this.changeLearner(this.learners[0]);
         this.getGroupFeedback();
         this.getLearnerReports();
