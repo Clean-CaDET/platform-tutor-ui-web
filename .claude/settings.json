@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(done)",
+      "Bash(wc:./*)",
+      "Bash(cd:./*)",
+      "Bash(grep:./*)",
+      "Bash(find:./*)"
+    ]
+  }
+}
