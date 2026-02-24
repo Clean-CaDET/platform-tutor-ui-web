@@ -5,14 +5,14 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 import { Course } from '../../../../shared/model/course.model';
 import { User } from '../../../../core/auth/model/user.model';
 
 @Component({
   selector: 'cc-course-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule, MarkdownComponent],
+  imports: [RouterLink, DatePipe, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule, CcMarkdownComponent],
   templateUrl: './course-card.component.html',
   styleUrl: './course-card.component.scss',
 })

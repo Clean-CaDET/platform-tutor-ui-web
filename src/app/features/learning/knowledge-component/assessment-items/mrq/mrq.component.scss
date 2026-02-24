@@ -1,0 +1,30 @@
+.items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.mrq-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.color-correct {
+  color: var(--mat-sys-primary);
+  font-size: 0.9em;
+  padding-left: 32px;
+}
+
+.color-wrong {
+  color: var(--mat-sys-error);
+  font-size: 0.9em;
+  padding-left: 32px;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

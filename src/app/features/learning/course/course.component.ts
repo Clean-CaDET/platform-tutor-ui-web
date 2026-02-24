@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
 import { Course } from '../../../shared/model/course.model';
 import { CourseService } from './course.service';
 import { CourseUnitsComponent } from './course-units/course-units.component';
@@ -10,12 +10,12 @@ import { onNavigationEnd } from '../../../core/route.util';
 @Component({
   selector: 'cc-course',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MarkdownComponent, CourseUnitsComponent],
+  imports: [CcMarkdownComponent, CourseUnitsComponent],
   template: `
     @if (course(); as course) {
       <div class="container">
         <h1>{{ course.name }}</h1>
-        <markdown [data]="course.description" />
+        <cc-markdown [data]="course.description" />
         <cc-course-units [course]="course" />
       </div>
     }

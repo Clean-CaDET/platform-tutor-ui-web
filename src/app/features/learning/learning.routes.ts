@@ -16,6 +16,11 @@ export const LEARNING_ROUTES: Routes = [
         loadComponent: () =>
           import('./unit/unit-details/unit-details.component').then(m => m.UnitDetailsComponent),
       },
+      {
+        path: 'kcs/:kcId',
+        loadComponent: () =>
+          import('./knowledge-component/knowledge-component.component').then(m => m.KnowledgeComponentComponent),
+      },
     ],
   },
 ];

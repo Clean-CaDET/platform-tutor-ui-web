@@ -36,6 +36,7 @@
     "clipboard": "~2.0.11",
     "marked": "^17.0.3",
     "ngx-markdown": "^21.1.0",
+    "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

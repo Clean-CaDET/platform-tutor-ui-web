@@ -14,11 +14,10 @@
         }
       </mat-card-header>
       <mat-card-content>
-        <p><markdown>{{ unit.goals }}</markdown></p>
+        <p><cc-markdown>{{ unit.goals }}</cc-markdown></p>
       </mat-card-content>
       <mat-card-actions class="flex-row gap">
-        <a matButton="filled"
-          [class.theme-primary-button]="!unit.isCompleted"
+        <a [matButton]="!unit.isCompleted ? 'filled' : 'outlined'"
           [routerLink]="'units/' + unit.id">
           Pristupi
         </a>

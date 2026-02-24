@@ -26,7 +26,7 @@
           </mat-card-title>
           <mat-card-actions class="item-actions">
             @if (item.kc.parentId || item.isNext || item.isSatisfied) {
-              <a matButton="filled" [class.theme-primary-button]="item.isNext" [routerLink]="['kcs', item.id]">
+              <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['kcs', item.id]">
                 Pristupi
               </a>
             } @else {
@@ -60,7 +60,7 @@
             </div>
           </mat-card-title>
           <mat-card-actions class="item-actions">
-            <a matButton="filled" [class.theme-primary-button]="item.isNext" [routerLink]="['tasks', item.id]">
+            <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['tasks', item.id]">
               Pristupi
             </a>
           </mat-card-actions>
@@ -84,7 +84,7 @@
             </div>
           </mat-card-title>
           <mat-card-actions class="item-actions">
-            <a matButton="filled" [class.theme-primary-button]="item.isNext" [routerLink]="['reflections', item.id]">
+            <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['reflections', item.id]">
               Pristupi
             </a>
           </mat-card-actions>

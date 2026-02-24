@@ -10,8 +10,8 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     </div>
   `,
   styles: `
-    .modal-container { text-align: center; padding: 1rem; }
-    .full-image { max-width: 100%; max-height: 100%; }
+    .modal-container { text-align: center; margin: 10px }
+    .full-image { max-width: 90%; max-height: 90%; }
   `,
 })
 export class MarkdownImageEnhancerComponent {

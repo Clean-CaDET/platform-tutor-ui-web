@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 import { Course } from '../../../../shared/model/course.model';
 import { Unit } from '../../../../shared/model/unit.model';
 import { CourseService } from '../course.service';
@@ -21,7 +21,7 @@ interface EnrichedUnit extends Unit {
 @Component({
   selector: 'cc-course-units',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, DatePipe, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule, MarkdownComponent],
+  imports: [RouterLink, DatePipe, MatCardModule, MatIconModule, MatButtonModule, MatTooltipModule, CcMarkdownComponent],
   templateUrl: './course-units.component.html',
   styleUrl: './course-units.component.scss',
 })

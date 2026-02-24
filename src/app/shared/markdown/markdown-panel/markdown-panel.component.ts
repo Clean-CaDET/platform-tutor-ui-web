@@ -1,14 +1,14 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogContent } from '@angular/material/dialog';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../cc-markdown.component';
 
 @Component({
   selector: 'cc-markdown-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatDialogContent, MarkdownComponent],
+  imports: [MatDialogContent, CcMarkdownComponent],
   template: `
     <mat-dialog-content style="overflow-y: auto; padding: 5px">
-      <markdown lineNumbers>{{ markdown }}</markdown>
+      <cc-markdown [lineNumbers]="true">{{ markdown }}</cc-markdown>
     </mat-dialog-content>
   `,
 })

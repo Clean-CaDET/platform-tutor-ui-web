@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../../markdown/cc-markdown.component';
 import { Field } from '../model/field.model';
 
 @Component({
@@ -15,7 +15,7 @@ import { Field } from '../model/field.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule, MatDialogContent, MatFormFieldModule, MatInputModule,
-    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatRadioModule, MarkdownComponent,
+    MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatRadioModule, CcMarkdownComponent,
   ],
   templateUrl: './generic-form.component.html',
   styleUrl: './generic-form.component.scss',

@@ -1,0 +1,73 @@
+<div class="flex-col full-height">
+  <div id="kc-scroller" class="scroller">
+    <div class="learning-viewport">
+      @if (kc(); as kc) {
+        <h1>{{ kc.name }}</h1>
+      }
+
+      @switch (mode()) {
+        @case ('instruction') {
+          @for (lo of learningObjects(); track lo.id) {
+            <cc-learning-object-container [item]="lo" />
+          }
+        }
+        @case ('assessment') {
+          @for (lo of learningObjects(); track lo.id) {
+            <cc-learning-object-container [item]="lo" />
+          }
+        }
+        @case ('review') {
+          <cc-assessment-item-list [items]="assessmentItems()" />
+        }
+      }
+    </div>
+  </div>
+
+  @if (mode() === 'assessment') {
+    <cc-submission-result [kcId]="kcId" [courseId]="courseId" [unitId]="unitId" (changePage)="onChangePage($event)" />
+  }
+
+  @if (mode() === 'instruction') {
+    <div>
+      <mat-divider></mat-divider>
+      <div class="panel">
+        <span class="spacer"></span>
+        @if (isSatisfied()) {
+          <button matButton="elevated" (click)="onReviewAssessmentsClicked()">
+            <mat-icon>quiz</mat-icon>
+            Pregledaj pitanja
+          </button>
+        }
+        <button [matButton]="!isSatisfied() ? 'filled' : 'elevated'" (click)="onAssessmentItemClicked()">
+          <mat-icon>help_center</mat-icon>
+          Reši pitanja
+        </button>
+        <a [matButton]="isSatisfied() ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId, 'units', unitId]">
+          <mat-icon>article</mat-icon>
+          Lekcija
+        </a>
+      </div>
+    </div>
+  }
+
+  @if (mode() === 'review') {
+    <div>
+      <mat-divider></mat-divider>
+      <div class="panel">
+        <span class="spacer"></span>
+        <button matButton="elevated" (click)="onInstructionalItemsClicked()">
+          <mat-icon>library_books</mat-icon>
+          Pregledaj gradivo
+        </button>
+        <button matButton="elevated" (click)="onAssessmentItemClicked()">
+          <mat-icon>help_center</mat-icon>
+          Reši pitanja
+        </button>
+        <a [matButton]="isSatisfied() ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId, 'units', unitId]">
+          <mat-icon>article</mat-icon>
+          Lekcija
+        </a>
+      </div>
+    </div>
+  }
+</div>

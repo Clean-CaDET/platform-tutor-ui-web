@@ -4,15 +4,15 @@
       <div class="container">
         <h1>{{ unit.name }}</h1>
         @if (unit.introduction) {
-          <markdown>{{ unit.introduction }}</markdown>
+          <cc-markdown>{{ unit.introduction }}</cc-markdown>
         }
         @if (unit.goals) {
-          <markdown>**Cilj**: {{ unit.goals }}</markdown>
+          <cc-markdown>**Cilj**: {{ unit.goals }}</cc-markdown>
         }
         @if (unit.guidelines) {
           <div>
             <b>Smernice za postizanje cilja</b>:<br>
-            <markdown>{{ unit.guidelines }}</markdown>
+            <cc-markdown>{{ unit.guidelines }}</cc-markdown>
           </div>
         }
         @if (error(); as err) {

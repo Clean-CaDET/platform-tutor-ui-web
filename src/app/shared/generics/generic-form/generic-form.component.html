@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <markdown>{{ label }}</markdown>
+  <cc-markdown>{{ label }}</cc-markdown>
   <form [formGroup]="formGroup" class="flex-col">
     @for (field of fieldConfiguration; track field.code) {
       @if (field.type === 'email') {

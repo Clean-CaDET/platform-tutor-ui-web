@@ -7,7 +7,7 @@
         <div class="reflection-date">{{ reflection.created | date:'dd.MM.yyyy HH:mm' }}</div>
         <div class="reflection-question">
           <strong>Pitanje:</strong>
-          <markdown [data]="reflection.question"></markdown>
+          <cc-markdown [data]="reflection.question" />
         </div>
         <div class="reflection-answer">
           <strong>Odgovor:</strong> {{ reflection.answer }}

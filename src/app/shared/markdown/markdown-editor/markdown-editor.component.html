@@ -59,7 +59,7 @@
       </mat-form-field>
       @if (livePreview()) {
         <small>
-          <markdown [data]="text()" lineNumbers></markdown>
+          <cc-markdown [data]="text()" [lineNumbers]="true" [modalImages]="false" />
         </small>
       }
     </div>
@@ -72,7 +72,7 @@
       </mat-form-field>
       @if (livePreview()) {
         <small #markdownContainerElement style="width: 50%; overflow-y: auto;">
-          <markdown [data]="text()" lineNumbers></markdown>
+          <cc-markdown [data]="text()" [lineNumbers]="true" [modalImages]="false" />
         </small>
       }
     </div>

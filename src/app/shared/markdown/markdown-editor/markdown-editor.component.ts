@@ -8,14 +8,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../cc-markdown.component';
 
 @Component({
   selector: 'cc-markdown-editor',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule,
-    MatButtonModule, MatMenuModule, MatDividerModule, MatTooltipModule, MarkdownComponent,
+    MatButtonModule, MatMenuModule, MatDividerModule, MatTooltipModule, CcMarkdownComponent,
   ],
   templateUrl: './markdown-editor.component.html',
   styleUrl: './markdown-editor.component.scss',

@@ -1,0 +1,31 @@
+@if (item(); as q) {
+  <div class="question-wrapper">
+    <cc-markdown>{{ q.text }}</cc-markdown>
+
+    <mat-form-field class="full-width">
+      <mat-label>Odgovor</mat-label>
+      <input matInput [ngModel]="answer()" (ngModelChange)="answer.set($event)" [disabled]="!!evaluation()" />
+    </mat-form-field>
+
+    @if (evaluation(); as eval) {
+      <div class="evaluation-section">
+        @if (eval.acceptableAnswers.length) {
+          <p><b>Prihvatljivi odgovori:</b> {{ eval.acceptableAnswers.join(', ') }}</p>
+        }
+        @if (eval.feedback) {
+          <cc-markdown>{{ eval.feedback }}</cc-markdown>
+        }
+      </div>
+    }
+
+    <div class="actions">
+      @if (isProcessing()) {
+        <mat-spinner diameter="36" />
+      } @else {
+        <button matButton="filled" [disabled]="!answer() || !!evaluation()" (click)="onSubmit()">
+          Odgovori
+        </button>
+      }
+    </div>
+  </div>
+}

@@ -1,0 +1,73 @@
+.panel {
+  margin: 0 auto;
+  padding: 10px 10px 5px 10px;
+  display: flex;
+  flex-direction: column;
+  width: calc(100vw - 130px);
+  max-width: 680px;
+  height: 108px;
+  transition: height 1s ease-in-out;
+}
+
+.expand {
+  height: 280px;
+}
+
+@media (min-width: 810px) {
+  .panel {
+    width: 680px;
+  }
+}
+
+pre {
+  font-size: 16px;
+  margin: 0;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .controls {
+    flex-direction: row;
+  }
+}
+
+.small-text {
+  font-size: 10px;
+  text-align: center;
+}
+
+.small-icon {
+  font-size: 16px !important;
+  width: 16px;
+  height: 16px;
+}
+
+.accent-text {
+  font-size: 20px;
+  text-align: center;
+}
+
+.feedback-container {
+  flex-grow: 1;
+  padding-right: 5px;
+  text-align: left;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y proximity;
+}
+
+.feedback-container > pre:last-child {
+  scroll-snap-align: end;
+}
+
+.theme-primary-button {
+  --mat-elevated-button-container-color: var(--mat-sys-primary);
+  --mat-elevated-button-label-text-color: var(--mat-sys-on-primary);
+}

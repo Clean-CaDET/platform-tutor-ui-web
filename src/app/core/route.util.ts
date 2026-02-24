@@ -16,6 +16,21 @@ export function getRouteParams(route: ActivatedRoute): Params {
 }
 
 /**
+ * Collects route params from the current route and all its ancestors.
+ * Useful for child components that need params defined on parent routes
+ * (e.g., a KC component needing `courseId` and `unitId` from the parent unit route).
+ */
+export function getAllRouteParams(route: ActivatedRoute): Params {
+  let params: Params = {};
+  let current: ActivatedRoute | null = route;
+  while (current) {
+    params = { ...current.snapshot.params, ...params };
+    current = current.parent;
+  }
+  return params;
+}
+
+/**
  * Subscribes to NavigationEnd events with automatic cleanup via takeUntilDestroyed().
  * Must be called in an injection context (constructor or field initializer).
  *

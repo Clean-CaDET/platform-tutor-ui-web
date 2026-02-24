@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MarkdownComponent } from 'ngx-markdown';
+import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 import { Unit } from '../../../../shared/model/unit.model';
 import { UnitItem, UnitItemType, KcUnitItem } from '../../model/unit-item.model';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
@@ -20,7 +20,7 @@ import { onNavigationEnd } from '../../../../core/route.util';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink, MatCardModule, MatIconModule, MatButtonModule,
-    MatProgressBarModule, MatTooltipModule, MarkdownComponent, UnitItemComponent,
+    MatProgressBarModule, MatTooltipModule, CcMarkdownComponent, UnitItemComponent,
   ],
   templateUrl: './unit-details.component.html',
   styleUrl: './unit-details.component.scss',

@@ -1,0 +1,30 @@
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.color-correct {
+  color: var(--mat-sys-primary);
+}
+
+.color-wrong {
+  color: var(--mat-sys-error);
+}
+
+.evaluation-section {
+  margin-top: 16px;
+  padding: 12px;
+  border-left: 3px solid var(--mat-sys-primary);
+}
+
+.correct-answer {
+  margin-bottom: 8px;
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}
