@@ -1,13 +1,14 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { AuthService } from '../../core/auth/auth.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'cc-home',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
-    <div style="padding: 24px;">
-      <h1>Home</h1>
-      <p>Welcome to Clean CaDET Tutor. Dashboard coming in Phase 2.</p>
-    </div>
-  `,
+  imports: [DashboardComponent],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.scss',
 })
-export class HomeComponent {}
+export class HomeComponent {
+  readonly user = inject(AuthService).user;
+}

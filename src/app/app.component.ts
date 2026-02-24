@@ -1,24 +1,52 @@
 import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './core/auth/auth.service';
+import { NavbarComponent } from './core/layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-root',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NavbarComponent],
   template: `
-    <router-outlet />
+    @if (user()) {
+      <div class="shell">
+        <div class="sidenav">
+          <cc-navbar [isDarkMode]="isDarkMode()" (themeToggled)="toggleTheme()" />
+        </div>
+        <div class="content">
+          <router-outlet />
+        </div>
+      </div>
+    } @else {
+      <router-outlet />
+    }
   `,
   styles: `
     :host {
       display: block;
       height: 100vh;
     }
+    .shell {
+      height: 100vh;
+      display: flex;
+      flex-direction: row;
+    }
+    .sidenav {
+      height: 100vh;
+      flex: 0 0 85px;
+      overflow: hidden;
+    }
+    .content {
+      overflow-y: auto;
+      height: 100%;
+      width: 100%;
+    }
   `,
 })
 export class AppComponent {
   private readonly authService = inject(AuthService);
 
+  readonly user = this.authService.user;
   readonly isDarkMode = signal(localStorage.getItem('theme') === 'Dark');
 
   constructor() {
