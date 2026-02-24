@@ -1,0 +1,28 @@
+<div class="flex-col dashboard">
+  @for (unit of units(); track unit.id) {
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-icon matCardAvatar>article</mat-icon>
+        <mat-card-title class="unit-title">{{ unit.name }}</mat-card-title>
+        <span class="spacer"></span>
+        @if (unit.isCompleted) {
+          <mat-icon class="medal-icon" matTooltip="Lekcija uspešno savladana!">emoji_events</mat-icon>
+        } @else if (unit.bestBefore) {
+          <small [class.theme-warn]="unit.isOverdue">
+            Najbolje završiti do: {{ unit.bestBefore | date:'dd.MM.' }}
+          </small>
+        }
+      </mat-card-header>
+      <mat-card-content>
+        <p><markdown>{{ unit.goals }}</markdown></p>
+      </mat-card-content>
+      <mat-card-actions class="flex-row gap">
+        <a matButton="filled"
+          [class.theme-primary-button]="!unit.isCompleted"
+          [routerLink]="'units/' + unit.id">
+          Pristupi
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  }
+</div>

@@ -10,7 +10,7 @@ import { filter } from 'rxjs';
 export function getRouteParams(route: ActivatedRoute): Params {
   let params = route.snapshot.params;
   route.children?.forEach((c) => {
-    params = { ...getRouteParams(c), ...params };
+    params = { ...params, ...getRouteParams(c) };
   });
   return params;
 }

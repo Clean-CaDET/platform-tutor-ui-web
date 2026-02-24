@@ -13,6 +13,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/home/home.component').then((m) => m.HomeComponent),
   },
+  {
+    path: 'courses',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/learning/learning.routes').then((m) => m.LEARNING_ROUTES),
+  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 ];
