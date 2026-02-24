@@ -1,0 +1,79 @@
+import { Injectable, signal, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Observable, map, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { TokenStorage } from './token.storage';
+import { AuthenticationResponse } from './model/authentication-response.model';
+import { User } from './model/user.model';
+import { Login } from './model/login.model';
+import { decodeJwt, isTokenExpired } from './jwt.util';
+
+const ROLE_CLAIM = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private readonly http = inject(HttpClient);
+  private readonly tokenStorage = inject(TokenStorage);
+  private readonly router = inject(Router);
+
+  readonly user = signal<User | null>(null);
+  readonly clientId = signal<string>('');
+
+  login(login: Login): Observable<AuthenticationResponse> {
+    return this.http
+      .post<AuthenticationResponse>(environment.apiHost + 'users/login', login)
+      .pipe(
+        tap((response) => {
+          this.tokenStorage.saveAccessToken(response.accessToken);
+          this.tokenStorage.saveRefreshToken(response.refreshToken);
+          this.setUser();
+        })
+      );
+  }
+
+  logout(): void {
+    this.tokenStorage.clear();
+    this.user.set(null);
+    this.router.navigate(['/login']);
+  }
+
+  checkIfUserExists(): void {
+    const accessToken = this.tokenStorage.getAccessToken();
+    if (accessToken === null) {
+      return;
+    }
+    if (isTokenExpired(accessToken)) {
+      this.tokenStorage.clear();
+      return;
+    }
+    this.setUser();
+  }
+
+  setUser(): void {
+    const accessToken = this.tokenStorage.getAccessToken();
+    if (!accessToken) return;
+    const decoded = decodeJwt<Record<string, string>>(accessToken);
+    this.user.set({
+      id: +decoded['id'],
+      username: decoded['username'],
+      role: decoded[ROLE_CLAIM],
+    });
+  }
+
+  refreshToken(): Observable<AuthenticationResponse> {
+    const data = {
+      accessToken: this.tokenStorage.getAccessToken(),
+      refreshToken: this.tokenStorage.getRefreshToken(),
+    };
+    return this.http
+      .post<AuthenticationResponse>(environment.apiHost + 'users/refresh', data)
+      .pipe(
+        map((response) => {
+          this.tokenStorage.saveAccessToken(response.accessToken);
+          this.tokenStorage.saveRefreshToken(response.refreshToken);
+          return response;
+        })
+      );
+  }
+}

@@ -1,0 +1,18 @@
+<div class="container">
+  <form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="off">
+    <mat-form-field>
+      <mat-label>Korisničko ime</mat-label>
+      <input matInput type="text" name="username" formControlName="username" autofocus>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Lozinka</mat-label>
+      <input matInput type="password" name="password" formControlName="password">
+    </mat-form-field>
+    <div>
+      <button style="width: 80px;" [disabled]="isSubmitting() || loginForm.invalid" type="submit" matButton="elevated">Prijava</button>
+      @if (hasError()) {
+        <mat-error><small>Korisničko ime ili lozinka nisu ispravni.</small></mat-error>
+      }
+    </div>
+  </form>
+</div>

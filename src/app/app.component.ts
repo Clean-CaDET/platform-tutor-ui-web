@@ -1,57 +1,44 @@
-import { Component, OnInit } from '@angular/core';
-import { OverlayContainer } from '@angular/cdk/overlay';
-import { AuthenticationService } from './infrastructure/auth/auth.service';
+import { Component, ChangeDetectionStrategy, inject, signal, effect } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { AuthService } from './core/auth/auth.service';
 
 @Component({
-  selector: 'cc-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  selector: 'app-root',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet],
+  template: `
+    <router-outlet />
+  `,
+  styles: `
+    :host {
+      display: block;
+      height: 100vh;
+    }
+  `,
 })
-export class AppComponent implements OnInit {
-  initCompleted: boolean = false;
-  isDarkTheme: boolean = true;
+export class AppComponent {
+  private readonly authService = inject(AuthService);
 
-  constructor(private authService: AuthenticationService, private overlayContainer: OverlayContainer) {}
+  readonly isDarkMode = signal(localStorage.getItem('theme') === 'Dark');
 
-  ngOnInit(): void {
-    this.checkIfUserExists();
-    this.isDarkTheme = localStorage.getItem('theme') === 'Dark';
-    this.applyThemeOnLayers();
-    this.defineClientSessionId();
-    this.initCompleted = true;
-  }
-
-  changeTheme(): void {
-    this.isDarkTheme = !this.isDarkTheme;
-    this.applyThemeOnLayers();
-    this.storeThemeSelection();
-  }
-
-  private applyThemeOnLayers(): void {
-    const themeToAdd = this.isDarkTheme
-      ? 'dark-theme-mode'
-      : 'light-theme-mode';
-    const themeToRemove = !this.isDarkTheme
-      ? 'dark-theme-mode'
-      : 'light-theme-mode';
-    const overlayContainerClasses =
-      this.overlayContainer.getContainerElement().classList;
-    overlayContainerClasses.remove(themeToRemove);
-    overlayContainerClasses.add(themeToAdd);
-  }
-
-  private storeThemeSelection(): void {
-    localStorage.setItem('theme', this.isDarkTheme ? 'Dark' : 'Light');
-  }
-
-  private checkIfUserExists(): void {
+  constructor() {
     this.authService.checkIfUserExists();
+    this.defineClientSessionId();
+
+    effect(() => {
+      document.documentElement.style.colorScheme = this.isDarkMode() ? 'dark' : 'light';
+    });
   }
 
-  private defineClientSessionId() {
-    const mobileClientRegex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
-    let prefix = mobileClientRegex.test(navigator.userAgent) ? 'M' : 'D';
-    let randomSufix = Math.random().toString(36).slice(-6);
-    this.authService.clientId$.next(prefix + randomSufix);
+  toggleTheme(): void {
+    this.isDarkMode.update((dark) => !dark);
+    localStorage.setItem('theme', this.isDarkMode() ? 'Dark' : 'Light');
+  }
+
+  private defineClientSessionId(): void {
+    const mobileRegex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+    const prefix = mobileRegex.test(navigator.userAgent) ? 'M' : 'D';
+    const suffix = Math.random().toString(36).slice(-6);
+    this.authService.clientId.set(prefix + suffix);
   }
 }

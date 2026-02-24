@@ -2,10 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(done)",
-      "Bash(wc:./*)",
-      "Bash(cd:./*)",
-      "Bash(grep:./*)",
-      "Bash(find:./*)"
+      "Bash(wc:*)",
+      "Bash(cd:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(head:*)",
+      "Bash(tail:*)",
+      "Bash(cat:*)",
+      "Bash(sort:*)"
     ]
   }
 }
