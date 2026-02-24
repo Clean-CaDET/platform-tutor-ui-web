@@ -1,0 +1,74 @@
+<mat-dialog-content>
+  <markdown>{{ label }}</markdown>
+  <form [formGroup]="formGroup" class="flex-col">
+    @for (field of fieldConfiguration; track field.code) {
+      @if (field.type === 'email') {
+        <mat-form-field style="width: 100%;">
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput placeholder="pera@gmail.com" [formControlName]="field.code" [readonly]="field.readOnly" autocomplete="off">
+          @if (formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched) {
+            <mat-error>{{ getErrorMessage(field.code) }}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @if (field.type === 'password' && !entity['id']) {
+        <mat-form-field style="width: 100%;">
+          <mat-label>{{ field.label }}</mat-label>
+          <input type="password" matInput [formControlName]="field.code" [readonly]="field.readOnly" autocomplete="off">
+          @if (formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched) {
+            <mat-error>{{ getErrorMessage(field.code) }}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @if (field.type === 'boolean' || field.type === 'archive') {
+        <section style="width: 100%; margin-bottom: 20px; gap: 10px">
+          <mat-checkbox [formControlName]="field.code"></mat-checkbox>
+          <mat-label>{{ field.label }}</mat-label>
+        </section>
+      }
+      @if (field.type === 'string') {
+        <mat-form-field style="width: 100%;">
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [formControlName]="field.code" [readonly]="field.readOnly" autocomplete="off">
+          @if (formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched) {
+            <mat-error>{{ getErrorMessage(field.code) }}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @if (field.type === 'date') {
+        <mat-form-field style="width: 100%;" class="flex-row">
+          <mat-label>{{ field.label }}</mat-label>
+          <input matInput [matDatepicker]="picker" [formControlName]="field.code" [readonly]="field.readOnly" autocomplete="off">
+          <span style="width: 100%;"></span>
+          <mat-datepicker-toggle matIconSuffix [for]="picker" [disabled]="field.readOnly ?? false"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          @if (formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched) {
+            <mat-error>{{ getErrorMessage(field.code) }}</mat-error>
+          }
+        </mat-form-field>
+      }
+      @if (field.type === 'radio') {
+        <div class="margin-bottom">
+          <mat-label [class.required]="field.required">{{ field.label }}</mat-label>
+          <mat-radio-group [formControlName]="field.code" class="flex-row gap">
+            @for (option of field.options; track option.value) {
+              <mat-radio-button [value]="option.value"
+                [checked]="entity[field.code] === option.value"
+                [disabled]="entity[field.code] ? entity[field.code] !== option.value : false">
+                {{ option.label }}
+              </mat-radio-button>
+            }
+          </mat-radio-group>
+          @if (formGroup.controls[field.code].invalid && formGroup.controls[field.code].touched) {
+            <mat-error>{{ getErrorMessage(field.code) }}</mat-error>
+          }
+        </div>
+      }
+    }
+    <div class="flex-row gap">
+      <button matButton="filled" [disabled]="formGroup.invalid" (click)="onSubmit()">Sačuvaj</button>
+      <button matButton="outlined" (click)="onReset()">Osveži</button>
+      <button matButton="outlined" (click)="onClose()">Zatvori</button>
+    </div>
+  </form>
+</mat-dialog-content>
