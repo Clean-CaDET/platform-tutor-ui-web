@@ -1,0 +1,66 @@
+@if (form) {
+  <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
+    <small class="flex-row" style="align-items: center; padding-left: 10px;">
+      <b>Tip:</b>&nbsp;Otvoreno pitanje sa kratkim odgovorom
+    </small>
+    <button matIconButton (click)="copyPrompt()" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
+      <mat-icon>memory</mat-icon>
+    </button>
+    <span style="flex-grow: 1"></span>
+    <span class="flex-row gap">
+      <button matMiniFab [disabled]="form.invalid || workingItem.text === '' || options.length === 0" (click)="save()">
+        <mat-icon>check</mat-icon>
+      </button>
+      <button matMiniFab (click)="cancel()">
+        <mat-icon>clear</mat-icon>
+      </button>
+    </span>
+  </div>
+  <mat-divider />
+  <div class="flex-col gap">
+    <cc-markdown-editor [label]="'Tekst pitanja'" [sidePreview]="true"
+      [text]="workingItem.text" (textChange)="updateText($event)" />
+    <div [formGroup]="form" class="flex-col gap" style="padding: 0 10px 10px 10px;">
+      <b>Dozvoljeni odgovori:</b>
+      <div formArrayName="options" class="flex-col">
+        @for (optionForm of options.controls; track $index; let i = $index) {
+          <div [formGroup]="asFormGroup(optionForm)" class="flex-row">
+            <mat-form-field style="flex-grow: 1;">
+              <mat-label>Tražene reči/fraze (ako je nabrajanje razdvojiti zarezom)</mat-label>
+              <input matInput formControlName="text">
+            </mat-form-field>
+            <button matIconButton (click)="removeOption(i)"><mat-icon>delete_forever</mat-icon></button>
+          </div>
+        }
+        <button matMiniFab (click)="addOption('')">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <div class="flex-row gap">
+        <mat-form-field style="flex-grow: 1;">
+          <mat-label>Povratna informacija</mat-label>
+          <textarea matInput formControlName="feedback"></textarea>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Tolerancija (broj slovnih grešaka)</mat-label>
+          <input type="number" min="0" matInput formControlName="tolerance">
+        </mat-form-field>
+      </div>
+      <b>Dodatne smernice (hints):</b>
+      <div formArrayName="hints" class="flex-col">
+        @for (hintForm of hints.controls; track $index; let i = $index) {
+          <div [formGroup]="asFormGroup(hintForm)" class="flex-row">
+            <mat-form-field style="flex-grow: 1;">
+              <mat-label>Tekst smernice</mat-label>
+              <textarea matInput formControlName="text"></textarea>
+            </mat-form-field>
+            <button matIconButton (click)="removeHint(i)"><mat-icon>delete_forever</mat-icon></button>
+          </div>
+        }
+      </div>
+      <button matMiniFab (click)="addHint('')">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+  </div>
+}

@@ -1,0 +1,76 @@
+<div class="flex-col gap">
+  <small class="flex-row" style="align-items: center;">
+    @if (instructionalItems().length > 0) {
+      <button matIconButton (click)="copyPrompt('instruction-pedagogy')" matTooltip="Kopiraj prompt za AI pedagošku evaluaciju gradiva. Koristi više puta dok praviš gradivo.">
+        <mat-icon>memory</mat-icon>
+      </button>
+      <button matIconButton (click)="copyPrompt('instruction-errors')" matTooltip="Kopiraj prompt za AI evaluaciju pravopisa i grešaka u kodu. Koristi pred kraj kada je gradivo ispeglano.">
+        <mat-icon>spellcheck</mat-icon>
+      </button>
+    }
+    AI evaluacije nemoj slepo slušati jer nekad nude pogrešne predloge (false positive).<br>Takođe može da ne pronađe problem (false negative), zbog čega je korisno pokrenuti ih više puta u odvojenom četu.
+  </small>
+  @for (instructionalItem of instructionalItems(); track instructionalItem.id; let i = $index) {
+    <mat-card appearance="outlined">
+      @if (!editMap()[instructionalItem.id]) {
+        <div>
+          <div class="flex-row theme-highlight-primary">
+            <span style="flex-grow: 1"></span>
+            @if (i !== 0) {
+              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i - 1])">
+                <mat-icon>arrow_upward</mat-icon>
+              </button>
+            }
+            @if (i !== instructionalItems().length - 1) {
+              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i + 1])">
+                <mat-icon>arrow_downward</mat-icon>
+              </button>
+            }
+            <button matIconButton (click)="setEditing(instructionalItem.id, true)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button matIconButton (click)="deleteItem(instructionalItem.id)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider />
+          <div style="padding: 0 10px; justify-content: center;">
+            <cc-learning-object-container [item]="instructionalItem" />
+          </div>
+        </div>
+      } @else {
+        @switch (instructionalItem.$type) {
+          @case ('text') {
+            <cc-markdown-editor style="flex-grow: 1" [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
+              [text]="asText(instructionalItem).content" (submit)="updateMarkdownItem($event, asText(instructionalItem))" />
+          }
+          @case ('video') {
+            <cc-video-authoring [video]="asVideo(instructionalItem)" (videoCreated)="updateVideoItem($event, instructionalItem.id)" />
+          }
+        }
+      }
+    </mat-card>
+  }
+  <mat-card appearance="outlined">
+    @if (!editMap()[0]) {
+      <span class="flex-row gap" style="padding: 10px; align-items: center;">
+        <b>Gradivo</b>
+        <button style="width: 90px" matButton="filled" (click)="setEditing(0, 'markdown')">
+          + Text
+        </button>
+        <button style="width: 90px" matButton="filled" (click)="setEditing(0, 'video')">
+          + Video
+        </button>
+      </span>
+    }
+    @if (editMap()[0] === 'markdown') {
+      <cc-markdown-editor style="flex-grow: 1" [label]="'Markdown'" [submitCtrls]="true" [sidePreview]="true"
+        [text]="''" (submit)="createMarkdown($event)" />
+    }
+    @if (emptyVideo(); as video) {
+      <div style="padding: 0 10px;">
+        <cc-video-authoring [video]="video" (videoCreated)="createVideoItem($event)" />
+      </div>
+    }
+  </mat-card>
+</div>

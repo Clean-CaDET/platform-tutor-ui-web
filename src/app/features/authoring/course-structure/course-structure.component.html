@@ -55,8 +55,7 @@
               <cc-unit-details [unit]="unit" (unitSaved)="saveOrUpdateUnit($event)" />
             }
             @case (DisplayType.Kcs) {
-              <!-- Phase 8: cc-kc-tree will be added here -->
-              <div style="padding: 16px;">Komponente znanja (Phase 8)</div>
+              <cc-kc-tree [unit]="unit" (unitChanged)="onUnitKcsChanged($event)" />
             }
             @case (DisplayType.Tasks) {
               <!-- Phase 9: cc-learning-tasks will be added here -->

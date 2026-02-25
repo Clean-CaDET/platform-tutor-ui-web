@@ -12,6 +12,7 @@ import { Unit } from '../../../shared/model/unit.model';
 import { CourseStructureService } from './course-structure.service';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { UnitDetailsComponent } from './unit-details/unit-details.component';
+import { KcTreeComponent } from '../knowledge-component/kc-tree/kc-tree.component';
 import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 
 enum DisplayType {
@@ -26,7 +27,7 @@ enum DisplayType {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule,
-    ScrollingModule, CourseDetailsComponent, UnitDetailsComponent,
+    ScrollingModule, CourseDetailsComponent, UnitDetailsComponent, KcTreeComponent,
   ],
   templateUrl: './course-structure.component.html',
   styleUrl: './course-structure.component.scss',
@@ -135,6 +136,15 @@ export class CourseStructureComponent {
         this.course.set({ ...course, knowledgeUnits: units });
       });
     }
+  }
+
+  onUnitKcsChanged(updatedUnit: Unit): void {
+    const course = this.course()!;
+    const units = course.knowledgeUnits!.map(u =>
+      u.id === updatedUnit.id ? updatedUnit : u
+    );
+    this.course.set({ ...course, knowledgeUnits: units });
+    this.selectedUnit.set(updatedUnit);
   }
 
   deleteUnit(unitId: number): void {
