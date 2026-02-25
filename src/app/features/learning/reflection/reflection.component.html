@@ -1,0 +1,59 @@
+@if (form(); as form) {
+  @if (reflection(); as r) {
+  <div class="flex-col" style="height: 100%;">
+    <div style="overflow-y: auto; flex-grow: 1;">
+      <form [formGroup]="form" class="panel">
+        <h1>{{ r.name }}</h1>
+        @for (q of r.questions; track q.id) {
+          <div>
+            <span style="text-align: justify;">
+              <cc-markdown>{{ q.text }}</cc-markdown>
+            </span>
+            @switch (q.type) {
+              @case (ReflectionQuestionType.OpenEnded) {
+                <div>
+                  <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-label>Svaka tvoja reč nam znači</mat-label>
+                    <textarea [formControlName]="'' + q.id" matInput rows="6"></textarea>
+                  </mat-form-field>
+                </div>
+              }
+              @case (ReflectionQuestionType.Slider) {
+                <div class="flex-col">
+                  <div class="label-group">
+                    @for (label of q.labels; track label) {
+                      <small class="option-label">{{ label }}</small>
+                    }
+                  </div>
+                  <mat-slider [min]="1" [max]="q.labels?.length ?? 1" [step]="1"
+                    style="width: calc(100% - 100px); margin-left: 50px">
+                    <input [formControlName]="'' + q.id" matSliderThumb>
+                  </mat-slider>
+                </div>
+              }
+            }
+          </div>
+        }
+      </form>
+    </div>
+    <div class="secondary-nav">
+      <mat-divider></mat-divider>
+      <div class="panel flex-row gap" style="align-items: center;">
+        <span style="flex-grow: 1;"></span>
+        <button [matButton]="isSatisfied() ? (form.dirty ? 'filled' : 'elevated') : 'filled'" (click)="onSubmit()">
+          <mat-icon>check_circle</mat-icon>
+          @if (!isSatisfied()) {
+            <span>Zaključi refleksiju</span>
+          } @else {
+            <span>Ažuriraj refleksiju</span>
+          }
+        </button>
+        <button [matButton]="isSatisfied() && !form.dirty ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId, 'units', unitId]">
+          <mat-icon>article</mat-icon>
+          Lekcija
+        </button>
+      </div>
+    </div>
+  </div>
+  }
+}

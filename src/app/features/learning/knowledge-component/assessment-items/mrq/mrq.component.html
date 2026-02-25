@@ -1,33 +1,31 @@
 @if (item(); as q) {
-  <div class="question-wrapper">
-    <cc-markdown>{{ q.text }}</cc-markdown>
+  <cc-markdown>{{ q.text }}</cc-markdown>
 
-    <div class="items-list">
-      @for (mrqItem of items(); track mrqItem.text; let i = $index) {
-        <div class="mrq-item">
-          <mat-checkbox
-            [checked]="checked()[i]"
-            [disabled]="!!evaluation()"
-            (change)="toggleItem(i)">
-            {{ mrqItem.text }}
-          </mat-checkbox>
-          @if (getAnswerResult(mrqItem.text); as result) {
-            <span [class]="result.submissionWasCorrect ? 'color-correct' : 'color-wrong'">
-              {{ result.feedback }}
-            </span>
-          }
-        </div>
-      }
-    </div>
+  <div class="items-list">
+    @for (mrqItem of items(); track mrqItem.text; let i = $index) {
+      <div class="mrq-item">
+        <mat-checkbox
+          [checked]="checked()[i]"
+          [disabled]="!!evaluation()"
+          (change)="toggleItem(i)">
+          {{ mrqItem.text }}
+        </mat-checkbox>
+        @if (getAnswerResult(mrqItem.text); as result) {
+          <span [class]="result.submissionWasCorrect ? 'color-correct' : 'color-wrong'">
+            {{ result.feedback }}
+          </span>
+        }
+      </div>
+    }
+  </div>
 
-    <div class="actions">
-      @if (isProcessing()) {
-        <mat-spinner diameter="36" />
-      } @else {
-        <button matButton="filled" [disabled]="!hasCheckedAnswers() || !!evaluation()" (click)="onSubmit()">
-          Odgovori
-        </button>
-      }
-    </div>
+  <div class="actions">
+    @if (isProcessing()) {
+      <mat-spinner diameter="36" />
+    } @else {
+      <button matButton="filled" [disabled]="!hasCheckedAnswers() || !!evaluation()" (click)="onSubmit()">
+        Odgovori
+      </button>
+    }
   </div>
 }

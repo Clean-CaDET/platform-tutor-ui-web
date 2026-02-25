@@ -1,0 +1,196 @@
+@if (task(); as task) {
+  <div class="flex-col container" [class.wide-screen]="isWideScreen()">
+    <div class="flex-col task-definition"
+      [@expandCollapseDefinition]="isWideScreen() ? 'disabled' : 'state' + sliderPosition()">
+      <div class="text-alignment task-description">
+        <div class="flex-row gap" style="justify-content: space-between;">
+          <h2 style="text-align: left;">{{ task.name }}</h2>
+          @if (taskProgress()?.status === 'Graded') {
+            <h2>Bodovi: {{ taskProgress()!.totalScore }} / {{ task.maxPoints }}</h2>
+          }
+        </div>
+        <cc-markdown [clipboard]="true" [lineNumbers]="true">{{ task.description }}</cc-markdown>
+      </div>
+      @if (sliderPosition() !== 0 && !isWideScreen()) {
+        <div class="flex-row gap" style="align-items: center;">
+          <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
+          <button matIconButton (click)="sliderPosition.set(1)" [disabled]="sliderPosition() === 1" class="inline-button">
+            <mat-icon>arrow_upward</mat-icon>
+          </button>
+          <button matIconButton (click)="sliderPosition.set(2)" [disabled]="sliderPosition() === 2" class="inline-button">
+            =
+          </button>
+          <button matIconButton (click)="sliderPosition.set(3)" [disabled]="sliderPosition() === 3" class="inline-button">
+            <mat-icon>arrow_downward</mat-icon>
+          </button>
+          <mat-divider style="border-width: 5px; flex-grow: 1;"></mat-divider>
+        </div>
+      }
+    </div>
+    @if (isWideScreen()) {
+      <mat-divider vertical style="border-width: 6px"></mat-divider>
+    }
+    <div class="flex-row task-content"
+      [@expandCollapseContent]="isWideScreen() ? 'disabled' : 'state' + sliderPosition()">
+      @if (sliderPosition() !== 0 && steps().length > 1) {
+        <div class="steps flex-col">
+          @for (step of steps(); track step.id; let i = $index) {
+            <div class="theme-hover">
+              <div [class.theme-highlight-primary]="selectedStep()?.id === step.id"
+                (click)="viewStep(step)" class="flex-row" style="align-items: center;"
+                [matTooltip]="step.name">
+                <span style="padding: 10px">{{ step.order }}.</span>
+                <div>
+                  @if (step.progress.answer) {
+                    <mat-icon class="step-done-icon">check_circle</mat-icon>
+                  } @else {
+                    <mat-icon>radio_button_unchecked</mat-icon>
+                  }
+                </div>
+              </div>
+              @if (i < steps().length - 1) {
+                <mat-divider></mat-divider>
+              }
+            </div>
+          }
+        </div>
+        <mat-divider vertical></mat-divider>
+      }
+      @if (selectedStep(); as step) {
+        <mat-tab-group (focusChange)="onTabChanged($event)"
+          [style.width]="steps().length > 1 ? 'calc(100% - 70px)' : '100%'"
+          dynamicHeight animationDuration="0"
+          [selectedIndex]="selectedTab.value!" (selectedIndexChange)="selectedTab.setValue($event)">
+
+          @if (step.progress.status === 'Graded') {
+            <mat-tab label="Rezultat">
+              <div class="tabs">
+                <div>
+                  @if (step.standards?.length) {
+                    <b>Kako smo ocenili tvoje rešenje?</b>
+                    @for (standard of step.standards; track standard.id) {
+                      <div style="margin-top: 10px;">
+                        <div class="flex-row gap">
+                          <span style="flex-grow: 1;">{{ standard.name }}</span>
+                          <span style="min-width: 70px;">
+                            <b>{{ getPoints(standard.id!) }}</b> / {{ standard.maxPoints }}{{ standard.maxPoints === 1 ? ' bod' : ' boda' }}
+                          </span>
+                        </div>
+                        @if (getComment(standard.id!)) {
+                          <div><b>Komentar:</b> {{ getComment(standard.id!) }}</div>
+                        }
+                      </div>
+                    }
+                  }
+                  @if (step.progress.comment) {
+                    <div style="margin-top: 10px;">
+                      <b>Dodatan komentar:</b><br>
+                      <cc-markdown [data]="step.progress.comment" [lineNumbers]="true"></cc-markdown>
+                    </div>
+                  }
+                </div>
+              </div>
+            </mat-tab>
+          }
+
+          <mat-tab label="Slanje rešenja">
+            <div class="tabs">
+              <div class="flex-col gap" style="justify-content: space-between;">
+                @if (step.standards?.length) {
+                  <div>
+                    <b>Šta tražimo u tvom rešenju?</b>
+                    @for (standard of step.standards; track standard.id) {
+                      <div class="flex-row gap">
+                        <span style="flex-grow: 1;">{{ standard.name }}</span>
+                        <span style="min-width: 70px;">/ {{ standard.maxPoints }}{{ standard.maxPoints === 1 ? ' bod' : ' boda' }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+                <cc-markdown [data]="step.submissionFormat.guidelines" [lineNumbers]="true" [clipboard]="true"></cc-markdown>
+                @if (step.submissionFormat) {
+                  <form [formGroup]="answerForm">
+                    <div class="flex-row gap" style="margin-top: 5px;">
+                      <mat-form-field appearance="fill" style="width: 65%">
+                        <mat-label>Rešenje</mat-label>
+                        <textarea formControlName="answer" matInput rows="10"></textarea>
+                      </mat-form-field>
+                      <mat-form-field appearance="fill" style="width: 35%">
+                        <mat-label>Napomene za mentora</mat-label>
+                        <textarea formControlName="commentForMentor" matInput rows="10"
+                          placeholder="Istaknite pitanja, nejasnoće ili objašnjenja zašto neki segment niste uradili ili sa čime ste imali problem."></textarea>
+                      </mat-form-field>
+                    </div>
+                  </form>
+                }
+              </div>
+            </div>
+          </mat-tab>
+
+          @if (step.guidance) {
+            <mat-tab label="Smernice">
+              <div class="tabs text-alignment">
+                <cc-markdown [data]="step.guidance" [lineNumbers]="true" [clipboard]="true"></cc-markdown>
+                @if (step.subactivities?.length) {
+                  <cc-subactivities (videoStatusChanged)="onVideoStatusChanged($event)"
+                    [selectedStep]="step" [order]="'' + step.order"></cc-subactivities>
+                }
+                <br>
+              </div>
+            </mat-tab>
+          }
+
+          @if (step.examples?.length) {
+            <mat-tab label="Primeri">
+              <div class="tabs" style="display: flex; flex-direction: column; align-items: center;">
+                @if (videoUrl() && viewingTab() === 'Examples') {
+                  <youtube-player (stateChange)="onVideoStatusChanged($event)"
+                    [width]="630" [height]="353" [videoId]="videoUrl()"></youtube-player>
+                }
+                @if (step.examples!.length !== 1) {
+                  <button matButton="filled" style="margin-top: 10px;" (click)="getNextExample()">
+                    <mat-icon>image</mat-icon> Nov primer
+                  </button>
+                }
+              </div>
+            </mat-tab>
+          }
+        </mat-tab-group>
+      }
+    </div>
+  </div>
+  <div class="secondary-nav">
+    <mat-divider></mat-divider>
+    <div class="panel">
+      @if (!selectedStep()) {
+        <button matButton="elevated" (click)="start()">Započni rešavanje</button>
+      }
+      @if (selectedStep()?.progress?.status === 'Graded' && viewingTab() === 'Submission') {
+        <i style="font-size: 0.75em;">
+          Mentor je već dao ocenu, što je istaknuto u tabu "Rezultat".<br>
+          Možete sačuvati novo rešenje i zamoliti da pogleda, ali će to uraditi ako ima vremena.
+        </i>
+      }
+      <span style="flex-grow: 1;"></span>
+      @if (viewingTab() === 'Submission') {
+        <button [matButton]="!selectedStep()!.progress.answer || hasUnsavedChanges() ? 'filled' : 'elevated'"
+          [disabled]="answerForm.invalid" (click)="submitAnswer()">
+          <mat-icon>save</mat-icon>
+          Sačuvaj
+        </button>
+      }
+      @if (selectedStepIndex() < steps().length - 1) {
+        <button [matButton]="selectedStep()!.progress.answer && !hasUnsavedChanges() && !steps()[selectedStepIndex() + 1]?.progress?.answer ? 'filled' : 'elevated'"
+          (click)="viewStep(steps()[selectedStepIndex() + 1])">
+          <mat-icon>arrow_forward</mat-icon>
+          Sledeći korak
+        </button>
+      }
+      <button [matButton]="(taskProgress()?.status === 'Graded' || taskProgress()?.status === 'Completed') && !hasUnsavedChanges() ? 'filled' : 'elevated'"
+        [routerLink]="['/courses', courseId, 'units', task.unitId]">
+        <mat-icon>article</mat-icon>
+        Lekcija
+      </button>
+    </div>
+  </div>
+}

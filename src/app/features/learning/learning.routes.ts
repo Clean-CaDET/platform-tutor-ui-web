@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { confirmExitGuard } from '../../core/confirm-exit.guard';
 
 export const LEARNING_ROUTES: Routes = [
   {
@@ -20,6 +21,17 @@ export const LEARNING_ROUTES: Routes = [
         path: 'kcs/:kcId',
         loadComponent: () =>
           import('./knowledge-component/knowledge-component.component').then(m => m.KnowledgeComponentComponent),
+      },
+      {
+        path: 'tasks/:taskId',
+        loadComponent: () =>
+          import('./task/task.component').then(m => m.TaskComponent),
+        canDeactivate: [confirmExitGuard],
+      },
+      {
+        path: 'reflections/:reflectionId',
+        loadComponent: () =>
+          import('./reflection/reflection.component').then(m => m.ReflectionComponent),
       },
     ],
   },

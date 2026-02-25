@@ -1,34 +1,32 @@
 @if (item(); as q) {
-  <div class="question-wrapper">
-    <cc-markdown>{{ q.text }}</cc-markdown>
+  <cc-markdown>{{ q.text }}</cc-markdown>
 
-    <mat-radio-group [value]="checked()" (change)="checked.set($event.value)">
-      @for (answer of answers(); track answer) {
-        <mat-radio-button [value]="answer" [disabled]="!!evaluation()" [class]="getItemClass(answer)">
-          {{ answer }}
-        </mat-radio-button>
-      }
-    </mat-radio-group>
-
-    @if (evaluation(); as eval) {
-      <div class="evaluation-section">
-        @if (eval.correctAnswer) {
-          <p class="correct-answer"><b>Tačan odgovor:</b> {{ eval.correctAnswer }}</p>
-        }
-        @if (eval.feedback) {
-          <cc-markdown>{{ eval.feedback }}</cc-markdown>
-        }
-      </div>
+  <mat-radio-group [value]="checked()" (change)="checked.set($event.value)">
+    @for (answer of answers(); track answer) {
+      <mat-radio-button [value]="answer" [disabled]="!!evaluation()" [class]="getItemClass(answer)">
+        {{ answer }}
+      </mat-radio-button>
     }
+  </mat-radio-group>
 
-    <div class="actions">
-      @if (isProcessing()) {
-        <mat-spinner diameter="36" />
-      } @else {
-        <button matButton="filled" [disabled]="!checked() || !!evaluation()" (click)="onSubmit()">
-          Odgovori
-        </button>
+  @if (evaluation(); as eval) {
+    <div class="evaluation-section">
+      @if (eval.correctAnswer) {
+        <p class="correct-answer"><b>Tačan odgovor:</b> {{ eval.correctAnswer }}</p>
+      }
+      @if (eval.feedback) {
+        <cc-markdown>{{ eval.feedback }}</cc-markdown>
       }
     </div>
+  }
+
+  <div class="actions">
+    @if (isProcessing()) {
+      <mat-spinner diameter="36" />
+    } @else {
+      <button matButton="filled" [disabled]="!checked() || !!evaluation()" (click)="onSubmit()">
+        Odgovori
+      </button>
+    }
   </div>
 }

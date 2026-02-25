@@ -12,7 +12,7 @@ export class TypingAnimatorDirective implements OnDestroy {
   private readonly el = inject(ElementRef);
 
   readonly sentences = input<string[]>([], { alias: 'ccTypingAnimator' });
-  readonly typeSpeed = input(50);
+  readonly typeSpeed = input(20);
 
   private typingSub?: Subscription;
 

@@ -48,7 +48,7 @@
         </mat-form-field>
       }
       @if (field.type === 'radio') {
-        <div class="margin-bottom">
+        <div style="margin-bottom: 20px;">
           <mat-label [class.required]="field.required">{{ field.label }}</mat-label>
           <mat-radio-group [formControlName]="field.code" class="flex-row gap">
             @for (option of field.options; track option.value) {

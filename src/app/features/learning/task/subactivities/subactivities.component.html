@@ -1,0 +1,30 @@
+<cdk-accordion class="container">
+  @for (subactivity of selectedStep().subactivities; track subactivity.id; let index = $index) {
+    <cdk-accordion-item #accordionItem="cdkAccordionItem" class="item" role="button" tabindex="0"
+      [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
+      [attr.aria-controls]="'accordion-body-' + index">
+      <div class="theme-hover item-header" (click)="accordionItem.toggle()"
+        [class.theme-highlight-primary]="accordionItem.expanded">
+        <span>
+          {{ order() }}.{{ subactivity.order }}. {{ subactivity.name }}
+        </span>
+        @if (subactivity.examples?.length) {
+          <button matButton="elevated" (click)="showExample($event, subactivity)">
+            <mat-icon>photo_library</mat-icon> Primeri
+          </button>
+        }
+      </div>
+      <div role="region" [style.display]="accordionItem.expanded ? '' : 'none'"
+        [attr.id]="'accordion-body-' + index" [attr.aria-labelledby]="'accordion-header-' + index">
+        <cc-markdown [lineNumbers]="true" [clipboard]="true">{{ subactivity.guidance }}</cc-markdown>
+        @if (subactivity.subactivities?.length) {
+          <cc-subactivities
+            (videoStatusChanged)="videoStatusChanged.emit($event)"
+            [selectedStep]="subactivity"
+            [order]="order() + '.' + subactivity.order">
+          </cc-subactivities>
+        }
+      </div>
+    </cdk-accordion-item>
+  }
+</cdk-accordion>

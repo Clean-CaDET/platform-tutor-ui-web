@@ -66,6 +66,15 @@ mat-icon {
   color: var(--mat-sys-on-surface) !important;
 }
 
+.nav-active {
+  color: var(--mat-sys-primary) !important;
+  background-color: var(--mat-sys-surface) !important;
+}
+
+.secondary-nav {
+  background-color: var(--mat-sys-surface-container);
+}
+
 .markdown-clipboard-toolbar {
   top: 0px !important;
   right: 0px !important;

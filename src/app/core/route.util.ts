@@ -4,28 +4,15 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { filter } from 'rxjs';
 
 /**
- * Recursively collects route params from a route and all its children.
- * Useful for reading params like `courseId` from deeply nested routes.
+ * Collects all route params from the entire active route tree (root → deepest child).
+ * Works identically regardless of where the calling component sits in the hierarchy.
  */
 export function getRouteParams(route: ActivatedRoute): Params {
-  let params = route.snapshot.params;
-  route.children?.forEach((c) => {
-    params = { ...params, ...getRouteParams(c) };
-  });
-  return params;
-}
-
-/**
- * Collects route params from the current route and all its ancestors.
- * Useful for child components that need params defined on parent routes
- * (e.g., a KC component needing `courseId` and `unitId` from the parent unit route).
- */
-export function getAllRouteParams(route: ActivatedRoute): Params {
   let params: Params = {};
-  let current: ActivatedRoute | null = route;
+  let current: ActivatedRoute | null = route.root;
   while (current) {
-    params = { ...current.snapshot.params, ...params };
-    current = current.parent;
+    params = { ...params, ...current.snapshot.params };
+    current = current.firstChild;
   }
   return params;
 }

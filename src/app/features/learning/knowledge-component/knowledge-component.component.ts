@@ -9,7 +9,7 @@ import { SessionPauseService } from './session-pause.service';
 import { LearningObjectContainerComponent } from './learning-object-container/learning-object-container.component';
 import { SubmissionResultComponent } from './submission-result/submission-result.component';
 import { AssessmentItemListComponent } from './assessment-item-list/assessment-item-list.component';
-import { getAllRouteParams } from '../../../core/route.util';
+import { getRouteParams } from '../../../core/route.util';
 import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
@@ -38,7 +38,7 @@ export class KnowledgeComponentComponent implements OnDestroy {
   readonly courseId: number;
 
   constructor() {
-    const params = getAllRouteParams(this.route);
+    const params = getRouteParams(this.route);
     this.kcId = +params['kcId'];
     this.unitId = +params['unitId'];
     this.courseId = +params['courseId'];
