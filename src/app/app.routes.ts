@@ -19,6 +19,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/learning/learning.routes').then((m) => m.LEARNING_ROUTES),
   },
+  {
+    path: 'authoring',
+    canActivate: [authGuard],
+    loadChildren: () =>
+      import('./features/authoring/authoring.routes').then((m) => m.AUTHORING_ROUTES),
+  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 ];

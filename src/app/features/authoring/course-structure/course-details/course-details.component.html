@@ -1,0 +1,42 @@
+<mat-card appearance="outlined" style="padding: 10px 10px 0 10px">
+  <form class="flex-col" [formGroup]="courseForm">
+    <section class="flex-row gap">
+      <mat-form-field style="width: 15%" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Kod</mat-label>
+        <input formControlName="code" matInput [readonly]="!editMode()">
+      </mat-form-field>
+      <mat-form-field style="width: 65%" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Naziv</mat-label>
+        <input formControlName="name" matInput [readonly]="!editMode()">
+      </mat-form-field>
+      <span style="flex-grow: 1"></span>
+      <section class="flex-col" style="width: auto;">
+        <span class="flex-row gap">
+          @if (!editMode()) {
+            <button matIconButton (click)="editMode.set(true)" matTooltip="Izmeni">
+              <mat-icon>edit</mat-icon>
+            </button>
+          }
+          @if (editMode()) {
+            <button matMiniFab matTooltip="Sacuvaj"
+              (click)="saveChanges()" [disabled]="courseForm.invalid">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button matMiniFab class="danger-button" matTooltip="Odbaci"
+              (click)="discardChanges()">
+              <mat-icon>clear</mat-icon>
+            </button>
+          }
+        </span>
+      </section>
+    </section>
+    @if (editMode()) {
+      <section>
+        <mat-form-field [appearance]="editMode() ? 'fill' : 'outline'" style="width: 100%;">
+          <mat-label>Opis</mat-label>
+          <textarea formControlName="description" matInput [readonly]="!editMode()" rows="6"></textarea>
+        </mat-form-field>
+      </section>
+    }
+  </form>
+</mat-card>

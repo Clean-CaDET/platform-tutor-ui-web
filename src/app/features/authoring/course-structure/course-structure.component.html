@@ -1,0 +1,74 @@
+@if (course(); as course) {
+  <div class="flex-col" style="height: 100vh;">
+    <div>
+      <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)" />
+    </div>
+    <div style="height: calc(100% - 90px);" class="flex-row">
+      <div style="width: 25%">
+        <div [class.theme-highlight-primary]="selectedUnit()?.code === ''"
+             class="flex-row unit-row" style="justify-content: space-between; align-items: center;">
+          <b>Lekcije</b>
+          <button matIconButton (click)="createUnit()" matTooltip="Dodaj">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <mat-divider />
+        <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+          @for (unit of course.knowledgeUnits; track unit.id ?? $index) {
+            <div>
+              <div [class.theme-highlight-primary]="selectedUnit()?.id === unit.id"
+                   class="unit-row" [id]="'u' + unit.id">
+                <span><b>{{ unit.code }}</b>: {{ unit.name }}</span>
+                <span class="flex-row">
+                  <button matIconButton (click)="showDetails(unit)" matTooltip="Cilj i smernice"
+                    [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Details">
+                    <mat-icon>sports_score</mat-icon>
+                  </button>
+                  <button matIconButton (click)="showKcs(unit)" matTooltip="Komponente znanja"
+                    [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Kcs">
+                    <mat-icon>account_tree</mat-icon>
+                  </button>
+                  <button matIconButton (click)="showTasks(unit)" matTooltip="Zadaci"
+                    [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Tasks">
+                    <mat-icon>rebase_edit</mat-icon>
+                  </button>
+                  <button matIconButton (click)="showReflections(unit)" matTooltip="Refleksije"
+                    [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Reflections">
+                    <mat-icon>record_voice_over</mat-icon>
+                  </button>
+                  <span style="flex-grow: 1;"></span>
+                  <button matIconButton (click)="deleteUnit(unit.id!)" matTooltip="Obrisi">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                </span>
+              </div>
+              <mat-divider />
+            </div>
+          }
+        </cdk-virtual-scroll-viewport>
+      </div>
+      <mat-divider vertical />
+      @if (selectedUnit(); as unit) {
+        <div class="content">
+          @switch (display()) {
+            @case (DisplayType.Details) {
+              <cc-unit-details [unit]="unit" (unitSaved)="saveOrUpdateUnit($event)" />
+            }
+            @case (DisplayType.Kcs) {
+              <!-- Phase 8: cc-kc-tree will be added here -->
+              <div style="padding: 16px;">Komponente znanja (Phase 8)</div>
+            }
+            @case (DisplayType.Tasks) {
+              <!-- Phase 9: cc-learning-tasks will be added here -->
+              <div style="padding: 16px;">Zadaci (Phase 9)</div>
+            }
+            @case (DisplayType.Reflections) {
+              <!-- Phase 9: cc-reflections will be added here -->
+              <div style="padding: 16px;">Refleksije (Phase 9)</div>
+            }
+          }
+        </div>
+      }
+    </div>
+  </div>
+}

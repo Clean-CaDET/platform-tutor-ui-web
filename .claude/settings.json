@@ -10,7 +10,8 @@
       "Bash(tail:*)",
       "Bash(cat:*)",
       "Bash(sort:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(mkdir:*)"
     ]
   }
 }
