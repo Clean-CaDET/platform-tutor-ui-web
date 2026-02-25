@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Unit } from '../../../shared/model/unit.model';
+import { Unit } from '../model/unit.model';
 import { KcWithMastery } from '../model/kc-with-mastery.model';
 
 @Injectable({ providedIn: 'root' })

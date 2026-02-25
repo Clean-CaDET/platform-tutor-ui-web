@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, signal, OnDestroy, HostList
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { KnowledgeComponent } from '../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { LearningObject, AssessmentItem } from '../model/learning-object.model';
 import { KnowledgeComponentService } from './knowledge-component.service';
 import { SessionPauseService } from './session-pause.service';

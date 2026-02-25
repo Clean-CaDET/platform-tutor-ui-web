@@ -1,0 +1,9 @@
+.viewport {
+  height: calc(100vh - 210px);
+  width: 100%;
+}
+
+mat-progress-bar {
+  --mat-linear-progress-track-height: 5px;
+  --mat-linear-progress-active-indicator-height: 5px;
+}

@@ -10,3 +10,8 @@
 .note-container {
   width: 340px;
 }
+
+mat-sidenav {
+  border-right: 1px solid var(--mat-sys-outline-variant);
+  border-radius: 0;
+}

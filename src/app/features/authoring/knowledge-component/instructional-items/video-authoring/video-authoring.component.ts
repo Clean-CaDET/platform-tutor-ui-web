@@ -13,10 +13,10 @@ import { VideoLearningObject } from '../../../../learning/model/learning-object.
   template: `
     <div class="flex-row">
       <span style="flex-grow: 1;"></span>
-      <button matIconButton (click)="submit(false)">
+      <button matIconButton (click)="submit(false)" style="color: var(--mat-sys-primary)">
         <mat-icon>check</mat-icon>
       </button>
-      <button matIconButton (click)="submit(true)">
+      <button matIconButton (click)="submit(true)" style="color: var(--mat-sys-error)">
         <mat-icon>clear</mat-icon>
       </button>
     </div>

@@ -15,5 +15,9 @@ export interface Activity {
   standards?: Standard[];
   maxPoints?: number;
   subactivities?: Activity[];
+  progress?: StepProgress;
+}
+
+export interface ActivityWithProgress extends Activity {
   progress: StepProgress;
 }

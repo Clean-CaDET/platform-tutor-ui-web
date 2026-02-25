@@ -19,7 +19,7 @@ import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 import { TaskService } from './task.service';
 import { TaskProgressService } from './task-progress.service';
 import { LearningTask } from './model/learning-task.model';
-import { Activity } from './model/activity.model';
+import { Activity, ActivityWithProgress } from './model/activity.model';
 import { ActivityExample } from './model/activity-example.model';
 import { TaskProgress } from './model/task-progress.model';
 import { SubactivitiesComponent } from './subactivities/subactivities.component';
@@ -63,9 +63,9 @@ export class TaskComponent implements CanComponentDeactivate {
   private readonly progressService = inject(TaskProgressService);
 
   readonly task = signal<LearningTask | null>(null);
-  readonly steps = signal<Activity[]>([]);
+  readonly steps = signal<ActivityWithProgress[]>([]);
   readonly taskProgress = signal<TaskProgress | null>(null);
-  readonly selectedStep = signal<Activity | null>(null);
+  readonly selectedStep = signal<ActivityWithProgress | null>(null);
   readonly selectedStepIndex = computed(() => {
     const step = this.selectedStep();
     return step ? this.steps().findIndex(s => s.code === step.code) : 0;
@@ -118,7 +118,7 @@ export class TaskComponent implements CanComponentDeactivate {
     }
   }
 
-  viewStep(step: Activity): void {
+  viewStep(step: ActivityWithProgress): void {
     if (!step) return;
     if (this.hasUnsavedChanges()) {
       if (!confirm('Niste sačuvali izmenu odgovora ili napomene mentoru.\nDa li odustajete od izmene?')) return;
@@ -237,7 +237,7 @@ export class TaskComponent implements CanComponentDeactivate {
     }
   }
 
-  private selectSuitableStep(steps: Activity[], progress: TaskProgress): Activity | null {
+  private selectSuitableStep(steps: ActivityWithProgress[], progress: TaskProgress): ActivityWithProgress | null {
     if (!steps.length) return null;
     if (progress.stepProgresses!.every(p => p.status === 'Initialized')) return null;
 
@@ -248,7 +248,7 @@ export class TaskComponent implements CanComponentDeactivate {
     return firstUnanswered ?? steps[0];
   }
 
-  private prepareStepView(step: Activity): void {
+  private prepareStepView(step: ActivityWithProgress): void {
     if (step.standards) {
       step = { ...step, standards: [...step.standards].sort((a, b) => a.name > b.name ? 1 : -1) };
     }
@@ -261,7 +261,7 @@ export class TaskComponent implements CanComponentDeactivate {
     this.createForm(step);
   }
 
-  private createForm(step: Activity): void {
+  private createForm(step: ActivityWithProgress): void {
     const regexPattern = new RegExp(step.submissionFormat.validationRule || '.*', 's');
     this.answerForm = this.builder.group({
       answer: new FormControl('', [Validators.required, Validators.pattern(regexPattern)]),

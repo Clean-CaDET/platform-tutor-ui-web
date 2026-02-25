@@ -173,14 +173,14 @@
       }
       <span style="flex-grow: 1;"></span>
       @if (viewingTab() === 'Submission') {
-        <button [matButton]="!selectedStep()!.progress.answer || hasUnsavedChanges() ? 'filled' : 'elevated'"
+        <button [matButton]="!selectedStep()!.progress!.answer || hasUnsavedChanges() ? 'filled' : 'elevated'"
           [disabled]="answerForm.invalid" (click)="submitAnswer()">
           <mat-icon>save</mat-icon>
           Sačuvaj
         </button>
       }
       @if (selectedStepIndex() < steps().length - 1) {
-        <button [matButton]="selectedStep()!.progress.answer && !hasUnsavedChanges() && !steps()[selectedStepIndex() + 1]?.progress?.answer ? 'filled' : 'elevated'"
+        <button [matButton]="selectedStep()!.progress!.answer && !hasUnsavedChanges() && !steps()[selectedStepIndex() + 1]?.progress?.answer ? 'filled' : 'elevated'"
           (click)="viewStep(steps()[selectedStepIndex() + 1])">
           <mat-icon>arrow_forward</mat-icon>
           Sledeći korak

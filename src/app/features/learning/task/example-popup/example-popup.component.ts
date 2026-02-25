@@ -21,7 +21,7 @@ import { ActivityExample } from '../model/activity-example.model';
             <mat-icon>image</mat-icon> Nov primer
           </button>
         }
-        <button matButton="filled" (click)="dialogRef.close()">
+        <button matButton (click)="dialogRef.close()">
           Zatvori
         </button>
       </div>

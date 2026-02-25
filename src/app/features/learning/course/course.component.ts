@@ -2,7 +2,7 @@ import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/cor
 import { ActivatedRoute } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
-import { Course } from '../../../shared/model/course.model';
+import { Course } from '../model/course.model';
 import { CourseService } from './course.service';
 import { CourseUnitsComponent } from './course-units/course-units.component';
 import { onNavigationEnd } from '../../../core/route.util';

@@ -21,7 +21,22 @@
           [routerLink]="'units/' + unit.id">
           Pristupi
         </a>
+        <span class="spacer"></span>
+        <button matButton (click)="toggleNotes($index)" style="color: var(--mat-sys-on-surface)">
+          @if (!notesVisible()[$index]) {
+            <span>Prikaži <mat-icon>assignment</mat-icon></span>
+          } @else {
+            <span>Sakrij <mat-icon>assignment</mat-icon></span>
+          }
+        </button>
       </mat-card-actions>
+
+      @if (notesLoaded()[$index]) {
+        <div class="notes-container" [@slideInOut]="notesVisible()[$index] ? 'in' : 'out'">
+          <mat-divider style="margin: 0 -20px"></mat-divider>
+          <cc-note-manager [unitId]="unit.id!" [courseId]="course().id!" [embedded]="true" />
+        </div>
+      }
     </mat-card>
   }
 </div>

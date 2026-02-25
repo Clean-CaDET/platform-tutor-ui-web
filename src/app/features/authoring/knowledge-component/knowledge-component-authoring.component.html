@@ -1,6 +1,6 @@
 <div class="flex-col" style="height: 100vh;">
   @if (kc(); as kc) {
-    <mat-card appearance="outlined" style="padding: 10px;">
+    <div class="secondary-nav" style="padding: 10px;">
       <span class="flex-row gap">
         <span class="flex-col">
           <span><b>{{ kc.code }}</b>: {{ kc.name }}</span>
@@ -49,7 +49,8 @@
           </span>
         </span>
       </span>
-    </mat-card>
+    </div>
+    <mat-divider></mat-divider>
   }
   <div style="overflow-y: auto; padding: 20px" #scroller>
     <router-outlet />

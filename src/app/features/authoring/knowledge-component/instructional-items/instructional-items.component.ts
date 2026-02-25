@@ -159,6 +159,7 @@ export class InstructionalItemsComponent implements CanComponentDeactivate {
   createVideoItem(newItem: VideoLearningObject | null): void {
     if (!newItem) {
       this.setEditing(0, false);
+      this.emptyVideo.set(null);
       return;
     }
     this.instructionService.create(this.kcId, newItem).subscribe(item => {

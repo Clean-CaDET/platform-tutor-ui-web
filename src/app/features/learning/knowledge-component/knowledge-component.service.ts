@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { KnowledgeComponent } from '../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { LearningObject, AssessmentItem } from '../model/learning-object.model';
 import { KcStatistics } from '../model/kc-statistics.model';
 

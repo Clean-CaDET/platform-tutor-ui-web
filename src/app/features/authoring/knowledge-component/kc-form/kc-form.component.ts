@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { map, startWith } from 'rxjs';
-import { KnowledgeComponent } from '../../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from '../../model/knowledge-component.model';
 
 export enum FormMode {
   AddFirst,
@@ -30,7 +30,7 @@ export interface KcFormDialogData {
     ReactiveFormsModule, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatAutocompleteModule,
   ],
-  templateUrl: './kc-form.component.html',
+  templateUrl: './kc-form.component.html'
 })
 export class KcFormComponent {
   private readonly dialogRef = inject(MatDialogRef<KcFormComponent>);

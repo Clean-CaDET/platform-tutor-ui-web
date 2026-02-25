@@ -29,10 +29,10 @@
           </div>
           <div class="flex-row" style="gap: 30px">
             <span class="flex-row gap" style="align-items: center;">
-              <a matButton="outlined" [routerLink]="[unit().id, 'knowledge-components', node.id, 'instruction']" matTooltip="Gradivo">
+              <a matButton="outlined" [routerLink]="[unitId(), 'knowledge-components', node.id, 'instruction']" matTooltip="Gradivo">
                 <span><mat-icon>library_books</mat-icon></span>
               </a>
-              <a matButton="outlined" [routerLink]="[unit().id, 'knowledge-components', node.id, 'assessments']" matTooltip="Pitanja">
+              <a matButton="outlined" [routerLink]="[unitId(), 'knowledge-components', node.id, 'assessments']" matTooltip="Pitanja">
                 <span><mat-icon>quiz</mat-icon></span>
               </a>
             </span>

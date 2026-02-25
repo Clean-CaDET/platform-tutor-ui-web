@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Course } from '../../../shared/model/course.model';
-import { Unit } from '../../../shared/model/unit.model';
+import { Course } from '../model/course.model';
+import { Unit } from '../model/unit.model';
 
 @Injectable({ providedIn: 'root' })
 export class CourseStructureService {

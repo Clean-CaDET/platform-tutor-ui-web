@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" style="padding: 10px 10px 0 10px">
+<div style="padding: 10px 10px 0 10px">
   <form class="flex-col" [formGroup]="courseForm">
     <section class="flex-row gap">
       <mat-form-field style="width: 15%" [appearance]="editMode() ? 'fill' : 'outline'">
@@ -22,7 +22,7 @@
               (click)="saveChanges()" [disabled]="courseForm.invalid">
               <mat-icon>check</mat-icon>
             </button>
-            <button matMiniFab class="danger-button" matTooltip="Odbaci"
+            <button matMiniFab class="warn-fab" matTooltip="Odbaci"
               (click)="discardChanges()">
               <mat-icon>clear</mat-icon>
             </button>
@@ -39,4 +39,5 @@
       </section>
     }
   </form>
-</mat-card>
+  <mat-divider style="margin: 0 -10px;"></mat-divider>
+</div>

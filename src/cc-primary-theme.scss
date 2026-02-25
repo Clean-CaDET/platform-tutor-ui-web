@@ -20,13 +20,19 @@ a {
 
 .theme-hover {
   &:hover {
-    background-color: light-dark(#eee, #555);
+    background-color: var(--mat-sys-secondary-container);
     cursor: pointer;
   }
 }
 
 .theme-highlight-primary {
-  background-color: light-dark(#e6e6e6, #122536);
+  background-color: var(--mat-sys-secondary-container);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+
+.theme-highlight-flat {
+  background-color: var(--mat-sys-secondary-container);
 }
 
 .theme-highlight-accent {
@@ -48,4 +54,9 @@ a {
 .danger-button {
   --mat-filled-button-container-color: var(--mat-sys-error);
   --mat-filled-button-label-text-color: var(--mat-sys-on-error);
+}
+
+.warn-fab {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
 }

@@ -25,7 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
     <mat-dialog-actions align="center" class="flex-row gap">
       <button matButton="filled" class="danger-button" (click)="onClose(true)"
         [disabled]="secureDelete && userCode !== confirmationCode">Potvrdi</button>
-      <button matButton="outlined" (click)="onClose(false)">Odustani</button>
+      <button matButton (click)="onClose(false)">Odustani</button>
     </mat-dialog-actions>
   `,
 })

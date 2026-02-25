@@ -1,4 +1,4 @@
-import { KnowledgeComponent } from '../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from './knowledge-component.model';
 import { KcMastery } from './kc-mastery.model';
 import { TaskProgressSummary } from './task-progress-summary.model';
 

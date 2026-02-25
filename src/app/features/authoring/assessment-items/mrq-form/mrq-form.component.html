@@ -11,7 +11,7 @@
       <button matMiniFab [disabled]="form.invalid || workingItem.text === '' || options.length === 0" (click)="save()">
         <mat-icon>check</mat-icon>
       </button>
-      <button matMiniFab (click)="cancel()">
+      <button matMiniFab class="warn-fab" (click)="cancel()">
         <mat-icon>clear</mat-icon>
       </button>
     </span>

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal, ElementRef, viewChild, afterNextRender } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
@@ -81,7 +81,7 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
       const aiId = +this.route.snapshot.queryParams['aiId'];
       if (aiId) {
         this.selectedAi.set(aiId);
-        this.scrollAfterRender(aiId.toString());
+        this.scrollDeferred(aiId.toString());
       }
     });
   }
@@ -92,8 +92,8 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
       .querySelector('#a' + elem)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  private scrollAfterRender(elem: string): void {
-    afterNextRender(() => this.scroll(elem));
+  private scrollDeferred(elem: string): void {
+    setTimeout(() => this.scroll(elem), 100);
   }
 
   getTypeLabel(type: string): string {
@@ -114,7 +114,7 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
     this.assessmentService.updateOrdering(this.kcId, [swappedFirst, swappedSecond]).subscribe(items => {
       const remaining = this.assessmentItems().filter(i => i.id !== items[0].id && i.id !== items[1].id);
       this.assessmentItems.set([...remaining, ...items].sort((a, b) => a.order - b.order));
-      this.scrollAfterRender((firstItem.id ?? '').toString());
+      this.scrollDeferred((firstItem.id ?? '').toString());
     });
   }
 
@@ -158,7 +158,7 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
     delete (cloned as unknown as Record<string, unknown>)['id'];
     cloned.order = this.getMaxOrder() + 1;
     this.setEditing(0, cloned);
-    this.scrollAfterRender('form');
+    this.scrollDeferred('form');
   }
 
   createEmptyItem(type: 'multiChoiceQuestion' | 'multiResponseQuestion' | 'shortAnswerQuestion'): void {

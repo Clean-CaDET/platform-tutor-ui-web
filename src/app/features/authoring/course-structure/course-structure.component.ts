@@ -7,12 +7,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
-import { Course } from '../../../shared/model/course.model';
-import { Unit } from '../../../shared/model/unit.model';
+import { Course } from '../model/course.model';
+import { Unit } from '../model/unit.model';
+import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { CourseStructureService } from './course-structure.service';
 import { CourseDetailsComponent } from './course-details/course-details.component';
 import { UnitDetailsComponent } from './unit-details/unit-details.component';
 import { KcTreeComponent } from '../knowledge-component/kc-tree/kc-tree.component';
+import { LearningTasksComponent } from '../learning-tasks/learning-tasks.component';
+import { ReflectionsComponent } from '../reflections/reflections.component';
 import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 
 enum DisplayType {
@@ -28,6 +31,7 @@ enum DisplayType {
   imports: [
     MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule,
     ScrollingModule, CourseDetailsComponent, UnitDetailsComponent, KcTreeComponent,
+    LearningTasksComponent, ReflectionsComponent,
   ],
   templateUrl: './course-structure.component.html',
   styleUrl: './course-structure.component.scss',
@@ -43,6 +47,7 @@ export class CourseStructureComponent {
   display = signal<DisplayType>(DisplayType.Details);
 
   readonly DisplayType = DisplayType;
+  private loadedCourseId = 0;
 
   constructor() {
     const params = getRouteParams(this.route);
@@ -50,11 +55,12 @@ export class CourseStructureComponent {
 
     onNavigationEnd((_url, p) => {
       const id = +p['courseId'];
-      if (id) this.loadCourse(id);
+      if (id && id !== this.loadedCourseId) this.loadCourse(id);
     });
   }
 
   private loadCourse(courseId: number): void {
+    this.loadedCourseId = courseId;
     this.courseService.getCourse(courseId).subscribe(course => {
       course.knowledgeUnits = (course.knowledgeUnits ?? []).sort((u1, u2) => u1.order - u2.order);
       this.course.set(course);
@@ -138,10 +144,12 @@ export class CourseStructureComponent {
     }
   }
 
-  onUnitKcsChanged(updatedUnit: Unit): void {
+  onUnitKcsChanged(kcs: KnowledgeComponent[]): void {
     const course = this.course()!;
+    const unit = this.selectedUnit()!;
+    const updatedUnit = { ...unit, knowledgeComponents: kcs };
     const units = course.knowledgeUnits!.map(u =>
-      u.id === updatedUnit.id ? updatedUnit : u
+      u.id === unit.id ? updatedUnit : u
     );
     this.course.set({ ...course, knowledgeUnits: units });
     this.selectedUnit.set(updatedUnit);

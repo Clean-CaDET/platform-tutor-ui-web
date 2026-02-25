@@ -1,0 +1,45 @@
+<div class="overflow">
+  <form [formGroup]="form" class="flex-col">
+    <section class="flex-row gap">
+      <mat-form-field style="flex-grow: 1;" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Naziv</mat-label>
+        <input formControlName="name" matInput [readonly]="!editMode()">
+      </mat-form-field>
+      <mat-form-field style="width: 70px;" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>R. broj</mat-label>
+        <input type="number" formControlName="order" matInput [readonly]="!editMode()">
+      </mat-form-field>
+      <section matTooltip="Šablon definiše klasu sličnih zadataka čije instance imaju isti raspored koraka.">
+        <mat-checkbox formControlName="isTemplate" style="padding-top: 10px;">
+          Šablon
+          <mat-icon style="font-size: 16px;">help_outline</mat-icon>
+        </mat-checkbox>
+      </section>
+      <section class="flex-row gap" style="width: 100px;">
+        <span style="flex-grow: 1;"></span>
+        @if (!editMode()) {
+          <button matIconButton (click)="editMode.set(true)"
+            matTooltip="Izmeni" [class.active-tab]="!task().description">
+            <mat-icon>edit</mat-icon>
+          </button>
+        } @else {
+          <button matMiniFab [disabled]="!form.valid || updateStatus() === RequestStatus.Started"
+            (click)="submit()" matTooltip="Sačuvaj">
+            <mat-icon>check</mat-icon>
+          </button>
+          <button matMiniFab matTooltip="Odbaci" [disabled]="updateStatus() === RequestStatus.Started"
+            (click)="discardChanges()" class="warn-fab">
+            <mat-icon>clear</mat-icon>
+          </button>
+        }
+      </section>
+    </section>
+    <div class="flex-col">
+      @if (!editMode()) {
+        <cc-markdown [data]="description()" [lineNumbers]="true" [clipboard]="true" />
+      } @else {
+        <cc-markdown-editor label="Opis" [(text)]="description" />
+      }
+    </div>
+  </form>
+</div>

@@ -1,0 +1,54 @@
+<div class="flex-col">
+  <div style="margin: 10px;">
+    <button matIconButton (click)="add(null)"
+      [class.active-tab]="!learningTasks().length">
+      <mat-icon>add</mat-icon>
+    </button>
+    <span>&nbsp;&nbsp;Inicijalizuj novi zadatak za razvoj veština koje su ishod lekcije.</span>
+  </div>
+
+  @for (task of learningTasks(); track task.id) {
+    <mat-card appearance="outlined" class="flex-col" style="margin: 10px">
+      <div class="flex-row gap theme-highlight-primary" style="align-items: center; padding: 5px 0">
+        <div style="flex-grow: 1; padding-left: 10px;">
+          @if (task.isTemplate) { <span>[šablon] </span> }
+          @else { <span><b>{{ task.order }}. </b></span> }
+          <b>{{ task.name }}</b>
+        </div>
+        <div class="flex-row" style="align-items: center; gap: 20px">
+          <a matButton="outlined" matTooltip="Opis i koraci"
+            [routerLink]="[unitId(), 'learning-tasks', task.id]">
+            <span><mat-icon>view_quilt</mat-icon></span>
+          </a>
+          <span class="flex-row">
+            <button matIconButton (click)="add(task)" matTooltip="Kloniraj">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+            <button matIconButton (click)="move(task)" matTooltip="Premesti u drugu lekciju">
+              <mat-icon>drive_file_move_outline</mat-icon>
+            </button>
+          </span>
+          <button matIconButton (click)="delete(task.id!)" matTooltip="Obriši">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="flex-col" style="padding: 0 10px 10px 10px;">
+        <small><cc-markdown>{{ shorten(task.description) }}</cc-markdown></small>
+        <small class="flex-row" style="align-items: end;">
+          <span style="flex-grow: 1;">
+            <b>Koraci</b>
+            <ol>
+              @for (step of getMainSteps(task); track step.name) {
+                <li>{{ step.name }} ({{ step.maxPoints }} p.)</li>
+              }
+            </ol>
+          </span>
+          <span>
+            <b>Broj poena</b>: {{ task.maxPoints }}
+          </span>
+        </small>
+      </div>
+    </mat-card>
+  }
+</div>

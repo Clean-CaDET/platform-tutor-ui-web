@@ -1,5 +1,3 @@
-import { Unit } from './unit.model';
-
 export interface Course {
   id?: number;
   code: string;
@@ -7,5 +5,4 @@ export interface Course {
   isArchived?: boolean;
   description: string;
   startDate: Date;
-  knowledgeUnits?: Unit[];
 }

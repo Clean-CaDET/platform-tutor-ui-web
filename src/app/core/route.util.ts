@@ -11,7 +11,9 @@ export function getRouteParams(route: ActivatedRoute): Params {
   let params: Params = {};
   let current: ActivatedRoute | null = route.root;
   while (current) {
-    params = { ...params, ...current.snapshot.params };
+    if (current.snapshot) {
+      params = { ...params, ...current.snapshot.params };
+    }
     current = current.firstChild;
   }
   return params;

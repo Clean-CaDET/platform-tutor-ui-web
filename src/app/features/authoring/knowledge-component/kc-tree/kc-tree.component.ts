@@ -7,8 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { filter, switchMap } from 'rxjs';
-import { Unit } from '../../../../shared/model/unit.model';
-import { KnowledgeComponent } from '../../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from '../../model/knowledge-component.model';
 import { DeleteFormComponent } from '../../../../shared/generics/delete-form/delete-form.component';
 import { KnowledgeComponentAuthoringService } from '../knowledge-component-authoring.service';
 import { KcFormComponent, FormMode } from '../kc-form/kc-form.component';
@@ -34,18 +33,23 @@ export class KcTreeComponent {
   private readonly dialog = inject(MatDialog);
   private readonly kcService = inject(KnowledgeComponentAuthoringService);
 
-  readonly unit = input.required<Unit>();
-  readonly unitChanged = output<Unit>();
+  readonly unitId = input.required<number>();
+  readonly kcsChanged = output<KnowledgeComponent[]>();
   readonly nodes = signal<TreeNode[]>([]);
+
+  private kcs = signal<KnowledgeComponent[]>([]);
 
   constructor() {
     effect(() => {
-      const unit = this.unit();
-      if (unit?.knowledgeComponents?.length) {
-        this.buildTree(unit.knowledgeComponents);
-      } else {
-        this.nodes.set([]);
-      }
+      const unitId = this.unitId();
+      this.loadKcs(unitId);
+    });
+  }
+
+  private loadKcs(unitId: number): void {
+    this.kcService.getByUnit(unitId).subscribe(kcs => {
+      this.kcs.set(kcs);
+      this.buildTree(kcs);
     });
   }
 
@@ -86,19 +90,20 @@ export class KcTreeComponent {
     };
   }
 
-  private emitUpdatedUnit(kcs: KnowledgeComponent[]): void {
-    const unit = this.unit();
-    this.unitChanged.emit({ ...unit, knowledgeComponents: kcs });
+  private emitKcsChanged(kcs: KnowledgeComponent[]): void {
+    this.kcs.set(kcs);
+    this.buildTree(kcs);
+    this.kcsChanged.emit(kcs);
   }
 
   addKc(parentId?: number): void {
-    const unit = this.unit();
-    const kcs = unit.knowledgeComponents ?? [];
+    const kcs = this.kcs();
     const dialogRef = this.dialog.open(KcFormComponent, {
+      minWidth: '900px',
       data: {
         knowledgeComponent: {
           parentId: parentId,
-          knowledgeUnitId: unit.id,
+          knowledgeUnitId: this.unitId(),
           order: parentId ? this.getMaxChildOrder(parentId, kcs) + 1 : 10,
         },
         allKcs: kcs,
@@ -117,22 +122,22 @@ export class KcTreeComponent {
           order: result.order,
           expectedDurationInMinutes: result.expectedDurationInMinutes,
           parentId: result.parentId,
-          knowledgeUnitId: unit.id!,
+          knowledgeUnitId: this.unitId(),
         };
         return this.kcService.create(kc);
       }),
     ).subscribe(newKc => {
-      this.emitUpdatedUnit([...kcs, newKc]);
+      this.emitKcsChanged([...kcs, newKc]);
     });
   }
 
   editKc(id: number): void {
-    const unit = this.unit();
-    const kcs = unit.knowledgeComponents ?? [];
+    const kcs = this.kcs();
     const kc = kcs.find(k => k.id === id);
     if (!kc) return;
 
     const dialogRef = this.dialog.open(KcFormComponent, {
+      minWidth: '900px',
       data: {
         knowledgeComponent: kc,
         allKcs: kcs,
@@ -146,7 +151,7 @@ export class KcTreeComponent {
       switchMap(result => this.kcService.update(result)),
     ).subscribe(updatedKc => {
       const updatedKcs = kcs.map(k => k.id === updatedKc.id ? updatedKc : k);
-      this.emitUpdatedUnit(updatedKcs);
+      this.emitKcsChanged(updatedKcs);
     });
   }
 
@@ -155,8 +160,8 @@ export class KcTreeComponent {
       filter(Boolean),
       switchMap(() => this.kcService.delete(id)),
     ).subscribe(() => {
-      const kcs = (this.unit().knowledgeComponents ?? []).filter(kc => kc.id !== id);
-      this.emitUpdatedUnit(kcs);
+      const kcs = this.kcs().filter(kc => kc.id !== id);
+      this.emitKcsChanged(kcs);
     });
   }
 

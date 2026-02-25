@@ -4,14 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Course } from '../../../../shared/model/course.model';
+import { Course } from '../../model/course.model';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-course-details',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCardModule, MatTooltipModule],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule],
   templateUrl: './course-details.component.html',
 })
 export class CourseDetailsComponent {

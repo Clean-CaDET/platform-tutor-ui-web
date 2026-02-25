@@ -9,7 +9,7 @@
       <input matInput type="password" name="password" formControlName="password">
     </mat-form-field>
     <div>
-      <button style="width: 80px;" [disabled]="isSubmitting() || loginForm.invalid" type="submit" matButton="elevated">Prijava</button>
+      <button style="width: 80px;" [disabled]="isSubmitting() || loginForm.invalid" type="submit" matButton="filled">Prijava</button>
       @if (hasError()) {
         <mat-error><small>Korisničko ime ili lozinka nisu ispravni.</small></mat-error>
       }

@@ -21,6 +21,10 @@ import { MarkdownImageEnhancerComponent } from './markdown-image-enhancer/markdo
     :host.modal-images ::ng-deep img {
       cursor: zoom-in;
     }
+    :host ::ng-deep li {
+      text-align: left;
+      padding-bottom: 5px;
+    }
   `,
   host: {
     '[class.modal-images]': 'modalImages()',

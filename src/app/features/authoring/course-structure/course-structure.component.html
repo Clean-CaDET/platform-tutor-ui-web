@@ -3,9 +3,9 @@
     <div>
       <cc-course-details [course]="course" (courseUpdated)="updateCourse($event)" />
     </div>
-    <div style="height: calc(100% - 90px);" class="flex-row">
+    <div style="height: calc(100% - 87px);" class="flex-row">
       <div style="width: 25%">
-        <div [class.theme-highlight-primary]="selectedUnit()?.code === ''"
+        <div [class.theme-highlight-flat]="selectedUnit()?.code === ''"
              class="flex-row unit-row" style="justify-content: space-between; align-items: center;">
           <b>Lekcije</b>
           <button matIconButton (click)="createUnit()" matTooltip="Dodaj">
@@ -16,7 +16,7 @@
         <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
           @for (unit of course.knowledgeUnits; track unit.id ?? $index) {
             <div>
-              <div [class.theme-highlight-primary]="selectedUnit()?.id === unit.id"
+              <div [class.theme-highlight-flat]="selectedUnit()?.id === unit.id"
                    class="unit-row" [id]="'u' + unit.id">
                 <span><b>{{ unit.code }}</b>: {{ unit.name }}</span>
                 <span class="flex-row">
@@ -55,15 +55,13 @@
               <cc-unit-details [unit]="unit" (unitSaved)="saveOrUpdateUnit($event)" />
             }
             @case (DisplayType.Kcs) {
-              <cc-kc-tree [unit]="unit" (unitChanged)="onUnitKcsChanged($event)" />
+              <cc-kc-tree [unitId]="unit.id!" (kcsChanged)="onUnitKcsChanged($event)" />
             }
             @case (DisplayType.Tasks) {
-              <!-- Phase 9: cc-learning-tasks will be added here -->
-              <div style="padding: 16px;">Zadaci (Phase 9)</div>
+              <cc-learning-tasks [unitId]="unit.id!" [units]="course.knowledgeUnits!" />
             }
             @case (DisplayType.Reflections) {
-              <!-- Phase 9: cc-reflections will be added here -->
-              <div style="padding: 16px;">Refleksije (Phase 9)</div>
+              <cc-reflections [unitId]="unit.id!" />
             }
           }
         </div>

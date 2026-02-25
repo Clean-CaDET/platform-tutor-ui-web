@@ -8,7 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
-import { Unit } from '../../../../shared/model/unit.model';
+import { Unit } from '../../model/unit.model';
 import { UnitItem, UnitItemType, KcUnitItem, TaskUnitItem, ReflectionUnitItem } from '../../model/unit-item.model';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
 import { TaskProgressSummary } from '../../model/task-progress-summary.model';

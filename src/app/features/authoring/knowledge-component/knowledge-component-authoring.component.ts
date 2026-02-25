@@ -1,23 +1,22 @@
-import { Component, ChangeDetectionStrategy, inject, signal, viewChild, ElementRef, afterNextRender } from '@angular/core';
-import { ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Component, ChangeDetectionStrategy, inject, signal, viewChild, ElementRef, afterNextRender, Injector } from '@angular/core';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { Title } from '@angular/platform-browser';
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { KnowledgeComponent } from '../../../shared/model/knowledge-component.model';
+import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { KnowledgeComponentAuthoringService } from './knowledge-component-authoring.service';
-import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
+import { onNavigationEnd } from '../../../core/route.util';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-knowledge-component-authoring',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatCardModule, MatButtonModule, MatIconModule, MatTooltipModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatDividerModule, MatButtonModule, MatIconModule, MatTooltipModule],
   templateUrl: './knowledge-component-authoring.component.html',
 })
 export class KnowledgeComponentAuthoringComponent {
   private readonly kcService = inject(KnowledgeComponentAuthoringService);
-  private readonly route = inject(ActivatedRoute);
   private readonly title = inject(Title);
 
   readonly courseId = signal(0);
@@ -25,15 +24,12 @@ export class KnowledgeComponentAuthoringComponent {
   readonly prevKc = signal<KnowledgeComponent | null>(null);
   readonly nextKc = signal<KnowledgeComponent | null>(null);
 
+  private readonly injector = inject(Injector);
   private readonly scrollerRef = viewChild<ElementRef>('scroller');
 
   private allKcs: KnowledgeComponent[] = [];
 
   constructor() {
-    const params = getRouteParams(this.route);
-    this.courseId.set(+params['courseId']);
-    this.loadKcs(+params['unitId'], +params['kcId']);
-
     onNavigationEnd((_url, p) => {
       const unitId = +p['unitId'];
       const kcId = +p['kcId'];
@@ -65,6 +61,6 @@ export class KnowledgeComponentAuthoringComponent {
 
     afterNextRender(() => {
       this.scrollerRef()?.nativeElement?.scroll({ top: 0 });
-    });
+    }, { injector: this.injector });
   }
 }

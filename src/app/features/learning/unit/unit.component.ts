@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { NoteManagerComponent } from '../notes/note-manager.component';
 import { onNavigationEnd } from '../../../core/route.util';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-unit',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, MatSidenavModule, MatIconModule, MatButtonModule, NoteManagerComponent],
+  imports: [RouterOutlet, MatSidenavModule, MatIconModule, MatButtonModule, MatDividerModule, NoteManagerComponent],
   templateUrl: './unit.component.html',
   styleUrl: './unit.component.scss',
 })
