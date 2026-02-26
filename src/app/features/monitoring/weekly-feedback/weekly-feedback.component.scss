@@ -1,0 +1,35 @@
+.week-button {
+  border-radius: 50%;
+  padding: 0px;
+  min-width: 48px;
+  height: 48px;
+  font-weight: 800;
+  &.theme-highlight-flat {
+    background-color: var(--mat-sys-secondary-container);
+  }
+}
+
+mat-slider {
+  --mat-slider-handle-color: var(--cc-color);
+  --mat-slider-active-track-color: var(--cc-color);
+  --mat-slider-focus-handle-color: var(--cc-color);
+  --mat-slider-hover-handle-color: var(--cc-color);
+  --mat-slider-focus-state-layer-color: color-mix(in srgb, var(--cc-color) 12%, transparent);
+  --mat-slider-hover-state-layer-color: color-mix(in srgb, var(--cc-color) 8%, transparent);
+}
+
+.warn-button {
+  --mat-elevated-button-container-color: var(--mat-sys-error-container);
+  --mat-elevated-button-label-text-color: var(--mat-sys-on-error-container);
+}
+
+.slider-labels {
+  width: 100%;
+  justify-content: space-between;
+  margin-bottom: -15px;
+  text-align: center;
+  font-size: 12px;
+  small {
+    width: 70px;
+  }
+}

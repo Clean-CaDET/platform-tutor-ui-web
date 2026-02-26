@@ -25,6 +25,13 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/authoring/authoring.routes').then((m) => m.AUTHORING_ROUTES),
   },
+  {
+    path: 'monitoring',
+    canActivate: [authGuard],
+    data: { role: ['instructor'] },
+    loadChildren: () =>
+      import('./features/monitoring/monitoring.routes').then((m) => m.MONITORING_ROUTES),
+  },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: 'home' },
 ];

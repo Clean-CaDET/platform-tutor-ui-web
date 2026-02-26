@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { CcMarkdownComponent } from '../../markdown/cc-markdown.component';
 import { Field } from '../model/field.model';
@@ -13,6 +14,7 @@ import { Field } from '../model/field.model';
 @Component({
   selector: 'cc-generic-form',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [provideNativeDateAdapter()],
   imports: [
     ReactiveFormsModule, MatDialogContent, MatFormFieldModule, MatInputModule,
     MatButtonModule, MatCheckboxModule, MatDatepickerModule, MatRadioModule, CcMarkdownComponent,

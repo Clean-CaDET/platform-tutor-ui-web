@@ -1,0 +1,196 @@
+<div class="flex-row" style="height: 100vh;">
+  <div class="flex-col" style="height: 100vh; width: calc(60% - 6px)">
+    @if (!units().length) {
+      <small style="padding: 10px;">Student nije imao nove lekcije u protekloj nedelji.</small>
+    }
+    @if (!readyForFeedback()) {
+      <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" />
+    }
+    @if (units().length && readyForFeedback()) {
+      <div class="flex-col gap tutor-panel">
+        <mat-card appearance="outlined" style="margin: 10px 0 20px 0;">
+          <div class="theme-highlight-primary flex-row">
+            <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center; padding: 5px;">
+              <mat-icon>bar_chart</mat-icon>
+              Sumarni utisak za nedelju
+            </h2>
+            <span style="flex-grow: 1"></span>
+            @if (weeklyResults().avgSatisfaction) {
+              <div>
+                <small>Prikaži samo refleksije?</small>
+                <mat-checkbox [checked]="filterReflections()" (change)="filterReflections.set($event.checked)" />
+              </div>
+            }
+          </div>
+          <div style="padding: 10px;" class="flex-col gap">
+            <b><mat-icon>record_voice_over</mat-icon> Prosečno zadovoljstvo napretkom</b>
+            <ul>
+              @if (weeklyResults().satisfactionCount) {
+                <li [class.theme-warn]="weeklyResults()!.avgSatisfaction < 2"
+                    [class.theme-accent]="weeklyResults()!.avgSatisfaction >= 2 && weeklyResults()!.avgSatisfaction < 2.6">
+                  <b>{{ weeklyResults()!.avgSatisfaction }} / 4 ({{ weeklyResults()!.satisfactionCount }} ocena)</b>
+                </li>
+              } @else {
+                <li class="theme-warn">Student nije odgovorio ni na jednu refleksiju ove nedelje.</li>
+              }
+            </ul>
+            <b><mat-icon>checklist_rtl</mat-icon> Postignuti rezultati</b>
+            @if (weeklyResults(); as wr) {
+              <ul>
+                @if (wr.totalKcCount) {
+                  <li [class.theme-warn]="wr.totalKcCount - wr.satisfiedKcCount > 0">
+                    {{ wr.satisfiedKcCount }} / {{ wr.totalKcCount }} savladanih komponenti znanja
+                  </li>
+                }
+                @if (wr.totalTaskCount) {
+                  <li>{{ wr.gradedTaskCount }} / {{ wr.totalTaskCount }} ocenjenih zadataka</li>
+                }
+                @if (wr.completedTaskCount) {
+                  <li class="theme-warn"><b>Student ima rešenih zadataka koji nisu ocenjeni.</b></li>
+                }
+                @if (wr.totalMaxPoints) {
+                  <li [class.theme-warn]="wr.percentPoints < 34"
+                      [class.theme-accent]="wr.percentPoints >= 34 && wr.percentPoints < 67">
+                    <b>{{ wr.percentPoints }}% osvojenih poena (prosek grupe {{ (100 * wr.avgGroupPoints / wr.totalMaxPoints).toFixed(0) }}%)</b>
+                  </li>
+                }
+              </ul>
+            }
+            @if (weeklyResults().negativePatterns.length) {
+              <div>
+                <b><mat-icon class="theme-warn">warning</mat-icon> Sumirani negativni šabloni interakcije</b>
+                <ul>
+                  @for (p of weeklyResults()!.negativePatterns; track p.name) {
+                    <li><b>{{ p.count }}x</b> {{ p.name }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </mat-card>
+        @for (unit of units(); track unit.id) {
+          <mat-card appearance="outlined">
+            <div class="theme-highlight-primary flex-col" style="padding: 5px;">
+              <h2 class="mat-h2 flex-row gap" style="margin: 0px; align-items: center;">
+                <mat-icon>article</mat-icon>
+                <span>{{ unit.name }}</span>
+              </h2>
+              <small class="flex-row gap">
+                @if (unit.kcStatistics) {
+                  <span>Rešeno znanje: {{ unit.kcStatistics.satisfiedCount }}/{{ unit.kcStatistics.totalCount }}</span>
+                }
+                @if (unit.taskStatistics) {
+                  <span>Ocenjeni zadaci: {{ unit.taskStatistics.gradedCount }}/{{ unit.taskStatistics.totalCount }}</span>
+                  <span>Osvojeni poeni: {{ unit.taskStatistics.learnerPoints }}/{{ unit.taskStatistics.totalMaxPoints }} (Prosek grupe: {{ unit.taskStatistics.avgGroupPoints }}/{{ unit.taskStatistics.totalMaxPoints }})</span>
+                }
+                <span style="flex-grow: 1;"></span>
+                <span>Najbolje do: {{ unit.bestBefore | date:'dd.MM.yyyy.' }}</span>
+              </small>
+            </div>
+            <div class="flex-col gap" style="padding: 10px">
+              @for (i of filterItems(unit.timelineItems); track i.item.id; let ix = $index) {
+                @switch (i.type) {
+                  @case ('kc') {
+                    <div class="flex-col gap">
+                      <div class="flex-row">
+                        <h3 class="mat-h3">
+                          <mat-icon matTooltip="Komponenta znanja">account_tree</mat-icon> {{ i.item.order }}. {{ i.item.name }}
+                        </h3>
+                        <span style="flex-grow: 1;"></span>
+                        <small>Rešeno: {{ i.time | date:'dd.MM. u HH:mm' }}</small>
+                      </div>
+                      @if (asKc(i).statistics?.negativePatterns?.length) {
+                        <div>
+                          <b><mat-icon>warning</mat-icon> Negativni šabloni interakcije</b>
+                          <ul>
+                            @for (p of asKc(i).statistics!.negativePatterns; track $index) {
+                              <li>{{ p }}</li>
+                            }
+                          </ul>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @case ('task') {
+                    <div class="flex-col gap">
+                      <div class="flex-row">
+                        <h3 class="mat-h3">
+                          <mat-icon matTooltip="Zadatak">rebase_edit</mat-icon> {{ i.item.order }}. {{ i.item.name }}
+                        </h3>
+                        <span style="flex-grow: 1;"></span>
+                        <small>Rešeno: {{ i.time | date:'dd.MM. u HH:mm' }}</small>
+                      </div>
+                      @if (!asTask(i).statistics?.isGraded) {
+                        <div class="theme-warn">
+                          <b>Student je rešio zadatak, ali ga mentor nije ocenio do kraja.</b>
+                        </div>
+                      }
+                      @if (asTask(i).statistics?.isGraded) {
+                        <div>
+                          <mat-icon>checklist_rtl</mat-icon> Osvojeno {{ asTask(i).statistics!.wonPoints }} / {{ asTask(i).maxPoints }} poena
+                        </div>
+                      }
+                      @if (asTask(i).statistics?.negativePatterns?.length) {
+                        <div>
+                          <b><mat-icon>warning</mat-icon> Negativni šabloni interakcije</b>
+                          <ul>
+                            @for (p of asTask(i).statistics!.negativePatterns; track $index) {
+                              <li>{{ p }}</li>
+                            }
+                          </ul>
+                        </div>
+                      }
+                    </div>
+                  }
+                  @case ('reflection') {
+                    <div class="flex-col gap">
+                      <div class="flex-row">
+                        <h3 class="mat-h3">
+                          <mat-icon matTooltip="Refleksija">record_voice_over</mat-icon> {{ i.item.order }}. {{ i.item.name }}
+                        </h3>
+                        <span style="flex-grow: 1;"></span>
+                        <small>Kreirano: {{ i.time | date:'dd.MM. u HH:mm' }}</small>
+                      </div>
+                      @for (q of asReflection(i).questions; track q.id) {
+                        <div>
+                          <cc-markdown>{{ q.text }}</cc-markdown>
+                          @if (!q.answer) {
+                            <p style="padding-left: 20px;"><b>Nije odgovorio.</b></p>
+                          } @else {
+                            <p style="padding-left: 20px;"><b>Odgovor</b>:
+                              {{ q.type === 1 ? q.answer : q.labels![+q.answer! - 1] + ' (' + q.answer + ' / ' + q.labels!.length + ')' }}
+                            </p>
+                          }
+                        </div>
+                      }
+                    </div>
+                  }
+                }
+                @if (ix !== (unit.timelineItems.length - 1)) {
+                  <mat-divider style="border-width: 2px; margin: 0 -10px;" />
+                }
+              }
+            </div>
+          </mat-card>
+        }
+      </div>
+    }
+  </div>
+  <mat-divider vertical="true" style="border-width: 2px;" />
+  @if (questionGroups().length) {
+    <div class="flex-col mentor-panel">
+      <cc-weekly-feedback [courseId]="courseId()" [learnerId]="selectedLearnerId()" [selectedDate]="selectedDate()"
+        [questionGroups]="questionGroups()" [avgLearnerSatisfaction]="weeklyResults().avgSatisfaction"
+        [results]="weeklyResults()" [loaded]="readyForFeedback()" [reflectionIds]="reflectionIds()" />
+      <div class="flex-row gap" style="height: 48px; justify-content: flex-end; align-items: center;">
+        <button matIconButton (click)="changeLearner(-1)">
+          <mat-icon>arrow_back_ios_new</mat-icon>
+        </button>
+        <mat-icon matTooltip="Student">person</mat-icon>
+        <button matIconButton (click)="changeLearner(1)">
+          <mat-icon>arrow_forward_ios</mat-icon>
+        </button>
+      </div>
+    </div>
+  }
+</div>

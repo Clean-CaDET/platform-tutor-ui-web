@@ -35,10 +35,6 @@ a {
   background-color: var(--mat-sys-secondary-container);
 }
 
-.theme-highlight-accent {
-  color: var(--mat-sys-tertiary);
-}
-
 .theme-primary {
   color: var(--mat-sys-primary) !important;
 }
@@ -48,12 +44,7 @@ a {
 }
 
 .theme-accent {
-  color: var(--mat-sys-tertiary);
-}
-
-.danger-button {
-  --mat-filled-button-container-color: var(--mat-sys-error);
-  --mat-filled-button-label-text-color: var(--mat-sys-on-error);
+  color: light-dark(#7c6f00, #e6d44a);
 }
 
 .warn-fab {

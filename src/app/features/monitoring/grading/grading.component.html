@@ -1,0 +1,178 @@
+<div class="flex-row grading-container">
+  <div class="flex-col sidebar">
+    @if (units().length) {
+      <mat-form-field appearance="fill" class="unit-select">
+        <mat-label>Lekcija</mat-label>
+        <mat-select [value]="selectedUnitId()" (selectionChange)="selectedUnitId.set($event.value); getTasks()">
+          @for (unit of units(); track unit.id) {
+            <mat-option [value]="unit.id">{{ unit.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    } @else {
+      <small style="padding: 10px;">Student nije imao nove lekcije u protekloj nedelji.</small>
+    }
+    <cdk-virtual-scroll-viewport itemSize="20" class="viewport">
+      @for (task of tasks(); track task.id) {
+        <div [class.theme-highlight-flat]="selectedTask()?.id === task.id" style="padding: 10px;">
+          <small>{{ task.order }}. {{ task.name }}</small>
+        </div>
+        @for (step of task.steps; track step.id) {
+          <div class="flex-row step-row"
+            [class.unclickable]="isUnanswered(step)" [class.theme-hover]="!isUnanswered(step)"
+            [class.theme-highlight-flat]="selectedStep()?.id === step.id"
+            (click)="select(task, step)">
+            <small>{{ step.order }}. {{ step.name }}</small>
+            <span>
+              @if (isUnanswered(step)) {
+                <mat-icon>cancel</mat-icon>
+              } @else if (step.progress?.status === 'Answered') {
+                <mat-icon>radio_button_unchecked</mat-icon>
+              } @else if (step.progress?.status === 'Graded') {
+                <mat-icon class="theme-primary">check_circle</mat-icon>
+              }
+            </span>
+          </div>
+        }
+        <mat-divider style="border-width: 2px;" />
+      }
+    </cdk-virtual-scroll-viewport>
+  </div>
+  @if (units().length) {
+    <mat-divider vertical="true" style="border-width: 3px;" />
+  }
+  @if (selectedStep(); as step) {
+    <div class="flex-col main-panel">
+      @if (!isUnanswered(step)) {
+        <div class="flex-col scrollable-content">
+          <div style="padding: 10px;" id="text">
+            <cc-markdown [data]="selectedTask()?.description ?? ''" [lineNumbers]="true" [modalImages]="false" />
+            <h3>Uputstvo za formatiranje odgovora:</h3>
+            <div style="padding-bottom: 20px;">
+              <cc-markdown [data]="step.submissionFormat.guidelines" [lineNumbers]="true" [modalImages]="false" />
+            </div>
+          </div>
+          <mat-divider style="border-width: 5px;" />
+          <div style="flex: 1">
+            <div style="padding: 10px" id="submission">
+              @if (step.submissionFormat.type === 'Text') {
+                <pre>{{ step.progress?.answer }}</pre>
+              } @else if (step.submissionFormat.type === 'Code') {
+                <cc-markdown [data]="'```csharp\n' + step.progress?.answer" [lineNumbers]="true" [clipboard]="true" [modalImages]="false" />
+              } @else {
+                <a [href]="step.progress?.answer" target="_blank">{{ step.progress?.answer }}</a>
+              }
+              @if (step.progress?.commentForMentor) {
+                <h3>Studentov komentar na rešenje</h3>
+                <pre>{{ step.progress?.commentForMentor }}</pre>
+              }
+            </div>
+            <mat-divider style="border-width: 5px;" />
+            @if (gradingForm) {
+            <div [formGroup]="gradingForm" style="padding: 10px" id="evaluation">
+              @if (structuredFormShown()) {
+                <div formArrayName="evaluations">
+                  @for (evaluation of typedEvaluations; track $index; let i = $index) {
+                    <div [formGroup]="evaluation">
+                      <div class="flex-col gap">
+                        <div>
+                          {{ sortedStandards()![i]?.name }}; {{ sortedStandards()![i]?.description }}
+                        </div>
+                        <div class="flex-row gap" style="align-items: center;">
+                          <mat-form-field style="width: 80px" appearance="fill">
+                            <mat-label>Bodovi</mat-label>
+                            <input min="0" [max]="sortedStandards()![i].maxPoints" matInput type="number" formControlName="points">
+                            <span class="input-suffix">/ {{ sortedStandards()![i]?.maxPoints }}</span>
+                          </mat-form-field>
+                          <mat-form-field style="flex-grow: 1;" appearance="fill">
+                            <mat-label>Komentar</mat-label>
+                            <input matInput formControlName="comment">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                </div>
+                <div class="flex-row gap action-row">
+                  <cc-markdown-editor style="width:calc(100% - 72px);" [label]="'Dodatan komentar'" [authoring]="false"
+                    [text]="gradingForm!.controls['comment'].value"
+                    (textChange)="gradingForm!.get('comment')!.setValue($event)" />
+                  <div class="flex-col gap">
+                    <button matButton="elevated" (click)="setAllMin()">Min.</button>
+                    <button matButton="elevated" (click)="setAllMax()">Maks.</button>
+                    <button matButton="elevated"
+                      [class.theme-primary-bg]="step.progress!.status === 'Answered' || gradingForm!.dirty"
+                      [disabled]="gradingForm!.invalid" (click)="submit()">
+                      Oceni
+                    </button>
+                  </div>
+                </div>
+                @if (progressBarActive()) {
+                  <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" />
+                }
+              }
+              @if (!structuredFormShown()) {
+                <mat-form-field style="width: 100%;" appearance="fill">
+                  <mat-label>Sirova evaluacija</mat-label>
+                  <textarea matInput formControlName="rawEvaluation" rows="8"></textarea>
+                </mat-form-field>
+              }
+            </div>
+            }
+          </div>
+        </div>
+      } @else {
+        <div class="unanswered-placeholder">
+          Student nije još uvek predao odgovor za ovaj korak.
+        </div>
+      }
+      @if (selectedUnitId()) {
+        <div class="flex-row gap bottom-bar">
+          @if (!isUnanswered(step) && (step.submissionFormat.type === 'Code' || step.submissionFormat.type === 'Text')) {
+            <span class="flex-row gap">
+              <button matIconButton (click)="copyPrompt()" matTooltip="Kopiraj za ChatGPT"
+                [class.theme-primary]="structuredFormShown()">
+                <mat-icon>psychology</mat-icon>
+              </button>
+              @if (!structuredFormShown()) {
+                <button matIconButton (click)="showStructuredForm()" class="theme-primary" matTooltip="Zameni prikaz forme">
+                  <mat-icon>swap_vert_circle</mat-icon>
+                </button>
+              }
+            </span>
+          }
+          <span style="flex-grow: 1;"></span>
+          @if (!isUnanswered(step)) {
+            <span class="flex-row gap">
+              <button matIconButton (click)="scrollTo('text')" matTooltip="Skoči na opis">
+                <mat-icon>description</mat-icon>
+              </button>
+              <button matIconButton (click)="scrollTo('submission')" matTooltip="Skoči na rešenje">
+                <mat-icon>code</mat-icon>
+              </button>
+              <button matIconButton (click)="scrollTo('evaluation')" matTooltip="Skoči na bodove">
+                <mat-icon>checklist</mat-icon>
+              </button>
+            </span>
+          }
+          <mat-divider vertical="true" style="height: 40px;" />
+          <button matIconButton (click)="changeLearner(-1)">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+          </button>
+          <mat-icon matTooltip="Student">person</mat-icon>
+          <button matIconButton (click)="changeLearner(1)">
+            <mat-icon>arrow_forward_ios</mat-icon>
+          </button>
+          <span></span>
+          <button matIconButton (click)="changeStep(-1)">
+            <mat-icon>arrow_back_ios_new</mat-icon>
+          </button>
+          <mat-icon matTooltip="Korak zadatka">checklist_rtl</mat-icon>
+          <button matIconButton (click)="changeStep(1)">
+            <mat-icon>arrow_forward_ios</mat-icon>
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

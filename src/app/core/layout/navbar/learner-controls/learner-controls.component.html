@@ -8,7 +8,7 @@
   <mat-menu #courseMenu="matMenu">
     @for (course of courses(); track course.id) {
       <button [routerLink]="['courses', course.id]" mat-menu-item>
-        <div [class.theme-highlight-accent]="course.id === selectedCourse()?.id">{{ course.name }}</div>
+        <div [class.theme-primary]="course.id === selectedCourse()?.id">{{ course.name }}</div>
       </button>
     }
   </mat-menu>

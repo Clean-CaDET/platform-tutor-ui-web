@@ -9,7 +9,7 @@
     <div class="controls">
       @if (statistics(); as stats) {
         <div class="flex-row gap">
-          <div [class.theme-highlight-accent]="stats.isSatisfied" class="flex-col">
+          <div [class.theme-accent]="stats.isSatisfied" class="flex-col">
             <div class="accent-text">{{ (stats.mastery * 100).toFixed(0) }} %</div>
             <div class="small-text flex-row" style="align-items: start;">
               vičnost

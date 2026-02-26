@@ -48,6 +48,12 @@
   justify-content: center;
 }
 
+.report-container {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
 .summary {
   text-align: center;
   h2 { margin-top: 0; }
