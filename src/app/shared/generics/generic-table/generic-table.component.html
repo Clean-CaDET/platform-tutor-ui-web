@@ -80,10 +80,10 @@
       </table>
     }
   </div>
-  @if (pageProperties()) {
-    <mat-paginator (page)="pageChanged($event)" [pageSize]="pageProperties().pageSize"
-      [length]="pageProperties().totalCount" [pageIndex]="pageProperties().page"
-      [pageSizeOptions]="pageProperties().pageSizeOptions" showFirstLastButtons="true">
+  @if (!noPagination()) {
+    <mat-paginator (page)="pageChanged($event)" [pageSize]="pageSize()"
+      [length]="totalCount()" [pageIndex]="currentPage()"
+      [pageSizeOptions]="pageSizeOptions" showFirstLastButtons="true">
     </mat-paginator>
   }
 </mat-card>

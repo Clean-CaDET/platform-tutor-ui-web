@@ -7,7 +7,7 @@ import { Entity } from '../model/entity.model';
 export abstract class CrudService<T extends Entity> {
   protected readonly http = inject(HttpClient);
 
-  getAll(baseUrl: string, pageProperties: { page: number; pageSize: number }): Observable<PagedResults<T>> {
+  getAll(baseUrl: string, pageProperties: { page: number; pageSize: number } | null): Observable<PagedResults<T>> {
     let params = new HttpParams();
     if (pageProperties) {
       params = params

@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, output, signal, computed, effect } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -35,48 +36,45 @@ export class GenericTableComponent {
   readonly title = input<string>('');
   readonly baseUrl = input.required<string>();
   readonly fieldConfiguration = input.required<Field[]>();
+  readonly noPagination = input(false);
   readonly selectItem = output<Entity>();
 
-  readonly pageProperties = signal({
-    page: 0,
-    pageSize: 36,
-    totalCount: 0,
-    pageSizeOptions: [18, 36, 300] as number[],
+  readonly currentPage = signal(0);
+  readonly pageSize = signal(36);
+  readonly totalCount = signal(0);
+  readonly pageSizeOptions = [18, 36, 300];
+
+  readonly columns = computed(() =>
+    this.fieldConfiguration().filter(f => f.type !== 'password').map(f => f.code)
+  );
+  readonly crud = computed(() => this.fieldConfiguration().find(f => f.type === 'CRUD'));
+  readonly selectedItem = signal<Entity | null>(null);
+
+  private readonly entitiesResource = rxResource({
+    params: () => ({
+      baseUrl: this.baseUrl(),
+      fields: this.fieldConfiguration(),
+      pageProps: this.noPagination() ? null : { page: this.currentPage(), pageSize: this.pageSize() },
+    }),
+    stream: ({ params }) => this.httpService.getAll(params.baseUrl, params.pageProps),
+    defaultValue: { results: [] as Entity[], totalCount: 0 },
   });
 
-  readonly dataSource = signal(new MatTableDataSource<Entity>([]));
-  readonly columns = signal<string[]>([]);
-  readonly crud = signal<Field | undefined>(undefined);
-  readonly selectedItem = signal<Entity | null>(null);
+  readonly dataSource = computed(() => new MatTableDataSource(this.entitiesResource.value().results));
 
   constructor() {
     effect(() => {
-      const fields = this.fieldConfiguration();
+      const data = this.entitiesResource.value();
+      this.totalCount.set(data.totalCount);
       this.selectedItem.set(null);
-      const cols: string[] = [];
-      fields.forEach(element => {
-        if (element.type === 'password') return;
-        cols.push(element.code);
-      });
-      this.columns.set(cols);
-      this.crud.set(fields.find(f => f.type === 'CRUD'));
-      this.getPagedEntities();
+      if (data.results.length === 1) this.selectElement(data.results[0]);
     });
   }
 
   pageChanged(pageEvent: PageEvent): void {
     if (!pageEvent) return;
-    this.pageProperties.update(p => ({ ...p, page: pageEvent.pageIndex, pageSize: pageEvent.pageSize }));
-    this.getPagedEntities();
-  }
-
-  private getPagedEntities(): void {
-    this.httpService.getAll(this.baseUrl(), this.pageProperties())
-      .subscribe(response => {
-        this.dataSource.set(new MatTableDataSource(response.results));
-        this.pageProperties.update(p => ({ ...p, totalCount: response.totalCount }));
-        if (response.results.length === 1) this.selectElement(response.results[0]);
-      });
+    this.currentPage.set(pageEvent.pageIndex);
+    this.pageSize.set(pageEvent.pageSize);
   }
 
   applyFilter(event: Event): void {
@@ -89,7 +87,7 @@ export class GenericTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       this.httpService.create(this.baseUrl(), result).subscribe({
-        next: () => this.getPagedEntities(),
+        next: () => this.entitiesResource.reload(),
         error: (error) => {
           if (error.error?.status === 400)
             this.errorsBar.open('Nevalidni podaci.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
@@ -105,7 +103,7 @@ export class GenericTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       this.httpService.bulkCreate(this.baseUrl(), result).subscribe(() => {
-        this.getPagedEntities();
+        this.entitiesResource.reload();
       });
     });
   }
@@ -116,7 +114,7 @@ export class GenericTableComponent {
       if (!result) return;
       delete result.id;
       this.httpService.clone(this.baseUrl(), id, result).subscribe(() => {
-        this.getPagedEntities();
+        this.entitiesResource.reload();
       });
     });
   }
@@ -126,7 +124,7 @@ export class GenericTableComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       this.httpService.update(this.baseUrl(), result).subscribe(response => {
-        this.dataSource.set(new MatTableDataSource(this.dataSource().data.map(e => e.id !== id ? e : response)));
+        this.dataSource().data = this.dataSource().data.map(e => e.id !== id ? e : response);
       });
     });
   }
@@ -139,7 +137,7 @@ export class GenericTableComponent {
 
   onArchive(id: number, archive: boolean): void {
     this.httpService.archive(this.baseUrl(), id, archive).subscribe(response => {
-      this.dataSource.set(new MatTableDataSource(this.dataSource().data.map(e => e.id !== id ? e : response)));
+      this.dataSource().data = this.dataSource().data.map(e => e.id !== id ? e : response);
     });
   }
 
@@ -148,7 +146,7 @@ export class GenericTableComponent {
     diagRef.afterClosed().subscribe(result => {
       if (result) {
         this.httpService.delete(this.baseUrl(), id).subscribe(() => {
-          this.dataSource.set(new MatTableDataSource(this.dataSource().data.filter(e => e.id !== id)));
+          this.dataSource().data = this.dataSource().data.filter(e => e.id !== id);
         });
       }
     });

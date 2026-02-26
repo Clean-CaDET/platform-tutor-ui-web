@@ -1,0 +1,35 @@
+<mat-card appearance="outlined" class="flex-col gap" style="height: 100%;">
+  <div class="flex-row" style="align-items: center; padding: 0 10px; justify-content: space-between;">
+    <h2>Vlastiti moduli</h2>
+    <button matMiniFab (click)="onAddOwnedCourse()" matTooltip="Dodaj">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div style="overflow-y: auto; flex-grow: 1;">
+    @if (data().length > 0) {
+      <table mat-table [dataSource]="data()" multiTemplateDataRows>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Šifra</th>
+          <td mat-cell *matCellDef="let element">{{ element.code }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Naziv</th>
+          <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+        </ng-container>
+        <ng-container matColumnDef="CRUD">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <span class="flex-row">
+              <span style="flex-grow: 1;"></span>
+              <button matIconButton matTooltip="Obriši" (click)="onDelete(element.id); $event.stopPropagation()">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let element; columns: columns;"></tr>
+      </table>
+    }
+  </div>
+</mat-card>
