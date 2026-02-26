@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, signal, computed, effect, untracked } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { Component, ChangeDetectionStrategy, inject, input, output, signal, computed } from '@angular/core';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
 import { DatePipe } from '@angular/common';
+import { map } from 'rxjs';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -40,9 +41,40 @@ export class WeeklyProgressComponent {
   readonly selectedDate = input.required<Date>();
   readonly learnerChanged = output<Learner>();
 
-  readonly units = signal<UnitHeader[]>([]);
-  readonly readyForFeedback = signal(false);
   readonly questionGroups = toSignal(inject(WeeklyFeedbackQuestionsService).getAll(), { initialValue: [] });
+  readonly filterReflections = signal(false);
+
+  private readonly groupMemberIds = computed(() => new Set(this.learners().map(l => l.id)));
+
+  private readonly rawUnits = rxResource({
+    params: () => ({ courseId: this.courseId(), learnerId: this.selectedLearnerId(), date: this.selectedDate() }),
+    stream: ({ params }) => this.weeklyActivityService.getWeeklyUnitsWithItems(params.courseId, params.learnerId, params.date)
+      .pipe(map(units => units.sort((a, b) => a.order - b.order))),
+    defaultValue: [],
+  });
+
+  private readonly statistics = rxResource({
+    params: () => {
+      const rawUnits = this.rawUnits.value();
+      if (!rawUnits.length) return undefined;
+      return {
+        unitIds: rawUnits.map(u => u.id),
+        learnerId: this.selectedLearnerId(),
+        groupMemberIds: [...this.groupMemberIds()],
+      };
+    },
+    stream: ({ params }) => this.weeklyActivityService.getTaskAndKcStatistics(params.unitIds, params.learnerId, params.groupMemberIds),
+    defaultValue: [],
+  });
+
+  readonly units = computed(() => this.mergeStatistics(this.rawUnits.value(), this.statistics.value()));
+
+  readonly readyForFeedback = computed(() => {
+    if (!this.rawUnits.value().length) return false;
+    const status = this.statistics.status();
+    return status === 'resolved' || status === 'local';
+  });
+
   readonly weeklyResults = computed(() => calculateWeeklyProgressStatistics(this.units()));
   readonly reflectionIds = computed(() =>
     this.units()
@@ -51,73 +83,10 @@ export class WeeklyProgressComponent {
       .filter(id => id != null),
   );
 
-  readonly filterReflections = signal(false);
-  private groupMemberIds = new Set<number>();
+  private mergeStatistics(rawUnits: UnitHeader[], unitSummaries: UnitProgressStatistics[]): UnitHeader[] {
+    if (!unitSummaries.length) return rawUnits;
 
-  constructor() {
-    effect(() => {
-      const learners = this.learners();
-      untracked(() => {
-        this.groupMemberIds = new Set(learners.map(l => l.id));
-        if (this.units().length) {
-          this.updateUnitItemStatistics();
-        }
-      });
-    });
-
-    effect(() => {
-      this.selectedLearnerId();
-      untracked(() => {
-        if (this.units().length) this.updateUnitItemStatistics();
-      });
-    });
-
-    effect(() => {
-      this.selectedDate();
-      untracked(() => this.getUnits());
-    });
-  }
-
-  private getUnits(invokedByGroupChange = false): void {
-    this.weeklyActivityService.getWeeklyUnitsWithItems(this.courseId(), this.selectedLearnerId(), this.selectedDate()).subscribe(units => {
-      units.sort((a, b) => a.order - b.order);
-      if (this.retrievedUnitsAlreadyLoaded(units)) {
-        if (invokedByGroupChange && this.units().length) {
-          this.updateUnitItemStatistics();
-        }
-        return;
-      }
-      this.units.set(units);
-      if (!units.length) return;
-      this.updateUnitItemStatistics();
-    });
-  }
-
-  filterItems(timelineItems: TimelineItem[]): readonly TimelineItem[] {
-    if (!this.filterReflections() || !this.weeklyResults().avgSatisfaction) return timelineItems;
-    return timelineItems.filter(i => i.type === 'reflection');
-  }
-
-  private retrievedUnitsAlreadyLoaded(newUnits: UnitHeader[]): boolean {
-    const current = this.units();
-    if (current.length === 0 && newUnits.length === 0) return true;
-    if (newUnits.length !== current.length) return false;
-    return current.every((unit, index) => unit.id === newUnits[index].id);
-  }
-
-  private updateUnitItemStatistics(): void {
-    if (!this.selectedLearnerId()) return;
-    this.readyForFeedback.set(false);
-    this.weeklyActivityService.getTaskAndKcStatistics(
-      this.units().map(u => u.id), this.selectedLearnerId(), [...this.groupMemberIds],
-    ).subscribe(unitSummaries => {
-      this.linkAndSummarizeStatistics(unitSummaries);
-      this.readyForFeedback.set(true);
-    });
-  }
-
-  private linkAndSummarizeStatistics(unitSummaries: UnitProgressStatistics[]): void {
-    const updatedUnits = this.units().map(unit => {
+    return rawUnits.map(unit => {
       const summary = unitSummaries.find(s => s.unitId === unit.id);
       if (!summary) return unit;
 
@@ -150,8 +119,11 @@ export class WeeklyProgressComponent {
       updateTimelineItems(updated);
       return updated;
     });
+  }
 
-    this.units.set(updatedUnits);
+  filterItems(timelineItems: TimelineItem[]): readonly TimelineItem[] {
+    if (!this.filterReflections() || !this.weeklyResults().avgSatisfaction) return timelineItems;
+    return timelineItems.filter(i => i.type === 'reflection');
   }
 
   asKc(item: TimelineItem): KcHeader { return item.item as KcHeader; }

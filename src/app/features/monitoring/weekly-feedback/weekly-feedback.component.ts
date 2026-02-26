@@ -1,6 +1,8 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { skip } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
@@ -62,6 +64,14 @@ export class WeeklyFeedbackComponent {
         this.feedback.set(fb);
         this.selectOrInitializeFeedback();
       });
+    });
+
+    toObservable(this.selectedDate).pipe(
+      skip(1),
+      takeUntilDestroyed(),
+    ).subscribe(() => {
+      this.feedback.update(list => list.filter(f => f.id));
+      this.selectOrInitializeFeedback();
     });
 
     effect(() => {

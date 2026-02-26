@@ -3,7 +3,7 @@
     @if (units().length) {
       <mat-form-field appearance="fill" class="unit-select">
         <mat-label>Lekcija</mat-label>
-        <mat-select [value]="selectedUnitId()" (selectionChange)="selectedUnitId.set($event.value); getTasks()">
+        <mat-select [value]="selectedUnitId()" (selectionChange)="selectedUnitId.set($event.value)">
           @for (unit of units(); track unit.id) {
             <mat-option [value]="unit.id">{{ unit.name }}</mat-option>
           }

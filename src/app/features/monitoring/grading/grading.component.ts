@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, signal, effect, untracked } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, output, signal, computed, effect, untracked } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,7 +12,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MonitoringUnit } from '../model/unit.model';
+import { map } from 'rxjs';
 import { Learner, getAdjacentLearner } from '../model/learner.model';
 import { GradingService } from './grading.service';
 import { GradingTask, GradingStep } from './model/grading-task.model';
@@ -46,94 +47,116 @@ export class GradingComponent {
   readonly learnerChanged = output<Learner>();
   readonly gradesChanged = output<GradingTaskProgress[]>();
 
-  readonly units = signal<MonitoringUnit[]>([]);
-  readonly tasks = signal<GradingTask[]>([]);
   readonly selectedTask = signal<GradingTask | null>(null);
   readonly selectedStep = signal<GradingStep | null>(null);
   readonly progressBarActive = signal(false);
   readonly structuredFormShown = signal(true);
   readonly sortedStandards = signal<GradingStep['standards']>([]);
-
   readonly selectedUnitId = signal(0);
   gradingForm: FormGroup | null = null;
 
+  private readonly learnerIds = computed(
+    () => this.learners().map(l => l.id),
+    { equal: (a, b) => a.length === b.length && a.every((id, i) => id === b[i]) },
+  );
+
+  private readonly unitsResource = rxResource({
+    params: () => {
+      const date = this.selectedDate();
+      if (!date) return undefined;
+      return { courseId: this.courseId(), learnerId: this.selectedLearnerId(), date };
+    },
+    stream: ({ params }) => this.gradingService.getWeeklyUnits(params.courseId, params.learnerId, params.date)
+      .pipe(map(units => units.sort((a, b) => a.order - b.order))),
+    defaultValue: [],
+  });
+
+  readonly units = computed(() => this.unitsResource.value());
+
+  private readonly gradeSummaries = rxResource({
+    params: () => {
+      const units = this.unitsResource.value();
+      if (!units.length) return undefined;
+      return { unitIds: units.map(u => u.id), learnerIds: this.learnerIds() };
+    },
+    stream: ({ params }) => this.gradingService.getGroupSummaries(params.unitIds, params.learnerIds),
+    defaultValue: [],
+  });
+
+  private readonly rawTasksResource = rxResource({
+    params: () => this.selectedUnitId() || undefined,
+    stream: ({ params: unitId }) => this.gradingService.getTasks(unitId)
+      .pipe(map(data => {
+        if (!data?.length) return [];
+        const sorted = data.sort((a, b) => a.order - b.order);
+        sorted.forEach(task =>
+          task.steps = task.steps
+            .filter(s => !s.parentId)
+            .sort((a, b) => a.order - b.order),
+        );
+        return sorted;
+      })),
+    defaultValue: [],
+  });
+
+  private readonly taskProgresses = rxResource({
+    params: () => {
+      const unitId = this.selectedUnitId();
+      if (!unitId || !this.rawTasksResource.value().length) return undefined;
+      return { unitId, learnerId: this.selectedLearnerId() };
+    },
+    stream: ({ params }) => this.gradingService.getTaskProgresses(params.unitId, params.learnerId),
+    defaultValue: [],
+  });
+
+  readonly tasks = computed(() => this.mergeTasks(this.rawTasksResource.value(), this.taskProgresses.value()));
+
   constructor() {
     effect(() => {
-      this.selectedDate();
-      this.getUnits();
+      const summaries = this.gradeSummaries.value();
+      if (summaries.length) {
+        this.gradesChanged.emit(summaries);
+      }
     });
 
     effect(() => {
-      this.selectedLearnerId();
-      if (untracked(() => this.selectedUnitId())) {
-        this.getTaskProgresses();
-      }
+      const units = this.unitsResource.value();
+      untracked(() => {
+        if (this.selectedUnitId() && !units.some(u => u.id === this.selectedUnitId())) {
+          this.selectedUnitId.set(0);
+          this.selectedStep.set(null);
+        }
+      });
+    });
+
+    effect(() => {
+      const tasks = this.tasks();
+      untracked(() => {
+        if (!tasks.length) return;
+        const currentStep = this.selectedStep();
+        if (currentStep) {
+          for (const task of tasks) {
+            const step = task.steps.find(s => s.id === currentStep.id);
+            if (step) {
+              this.selectedTask.set(task);
+              this.selectedStep.set(step);
+              this.createForm();
+              return;
+            }
+          }
+        }
+        this.selectedTask.set(tasks[0]);
+        this.selectedStep.set(tasks[0].steps[0]);
+        this.createForm();
+      });
     });
   }
 
-  private getUnits(): void {
-    const date = this.selectedDate();
-    if (!date) return;
-    this.gradingService.getWeeklyUnits(this.courseId(), this.selectedLearnerId(), date).subscribe(units => {
-      const sorted = units.sort((a, b) => a.order - b.order);
-      if (this.selectedUnitId() && !sorted.some(u => u.id === this.selectedUnitId())) {
-        this.selectedUnitId.set(0);
-        this.tasks.set([]);
-        this.selectedStep.set(null);
-      }
-      this.units.set(sorted);
-      this.updateGradeSummaries();
-    });
-  }
+  private mergeTasks(rawTasks: GradingTask[], taskProgresses: GradingTaskProgress[]): GradingTask[] {
+    if (!rawTasks.length) return [];
+    if (!taskProgresses.length) return rawTasks;
 
-  private updateGradeSummaries(): void {
-    this.gradingService.getGroupSummaries(this.units().map(u => u.id), this.learners().map(l => l.id)).subscribe(summaries => {
-      this.gradesChanged.emit(summaries);
-    });
-  }
-
-  getTasks(): void {
-    this.tasks.set([]);
-    this.selectedStep.set(null);
-    this.gradingService.getTasks(this.selectedUnitId()).subscribe(data => {
-      if (!data?.length) return;
-      const sorted = data.sort((a, b) => a.order - b.order);
-      sorted.forEach(task =>
-        task.steps = task.steps
-          .filter(s => !s.parentId)
-          .sort((a, b) => a.order - b.order),
-      );
-      this.tasks.set(sorted);
-      this.selectedTask.set(sorted[0]);
-      this.selectedStep.set(sorted[0].steps[0]);
-      this.getTaskProgresses();
-    });
-  }
-
-  private getTaskProgresses(): void {
-    this.gradingService.getTaskProgresses(this.selectedUnitId(), this.selectedLearnerId()).subscribe(data => {
-      this.addStepProgressToTasks(data);
-      this.refreshSelectedStepFromTasks();
-      if (this.selectedStep()) this.createForm();
-    });
-  }
-
-  private refreshSelectedStepFromTasks(): void {
-    const currentStep = this.selectedStep();
-    if (!currentStep) return;
-    const tasks = this.tasks();
-    for (const task of tasks) {
-      const step = task.steps.find(s => s.id === currentStep.id);
-      if (step) {
-        this.selectedTask.set(task);
-        this.selectedStep.set(step);
-        return;
-      }
-    }
-  }
-
-  private addStepProgressToTasks(taskProgresses: GradingTaskProgress[]): void {
-    const updated = this.tasks().map(task => {
+    return rawTasks.map(task => {
       const progress = taskProgresses.find(p => p.learningTaskId === task.id);
       const steps = task.steps.map(step => {
         const stepProgress = progress?.stepProgresses?.find(s => s.stepId === step.id);
@@ -144,7 +167,6 @@ export class GradingComponent {
       });
       return { ...task, steps };
     });
-    this.tasks.set(updated);
   }
 
   isUnanswered(step: GradingStep): boolean {
@@ -218,14 +240,11 @@ export class GradingComponent {
           if (updatedProgress) {
             const updatedStep = { ...step, progress: { ...updatedProgress, taskProgressId } };
             this.selectedStep.set(updatedStep);
-            this.tasks.update(tasks => tasks.map(t => ({
-              ...t,
-              steps: t.steps.map(s => s.id === step.id ? updatedStep : s),
-            })));
           }
           this.gradingForm!.markAsPristine();
           this.progressBarActive.set(false);
-          this.updateGradeSummaries();
+          this.taskProgresses.reload();
+          this.gradeSummaries.reload();
         },
         error: () => this.progressBarActive.set(false),
       });
