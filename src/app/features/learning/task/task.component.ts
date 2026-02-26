@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
 import { CanComponentDeactivate } from '../../../core/confirm-exit.guard';
-import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
+import { onNavigationEnd } from '../../../core/route.util';
 import { TaskService } from './task.service';
 import { TaskProgressService } from './task-progress.service';
 import { LearningTask } from './model/learning-task.model';
@@ -75,7 +75,7 @@ export class TaskComponent implements CanComponentDeactivate {
   readonly viewingTab = signal('');
   readonly videoUrl = signal('');
   readonly selectedExample = signal<ActivityExample | null>(null);
-  protected courseId: number;
+  protected courseId = 0;
 
   answerForm!: FormGroup;
   selectedTab = new FormControl(0);
@@ -92,10 +92,6 @@ export class TaskComponent implements CanComponentDeactivate {
     ).subscribe(() => this.isWideScreen.set(window.innerWidth >= 1600));
 
     this.destroyRef.onDestroy(() => clearTimeout(this.videoEventDelayerId));
-
-    const params = getRouteParams(this.route);
-    this.courseId = +params['courseId'];
-    this.loadTask(+params['unitId'], +params['taskId']);
 
     onNavigationEnd((_url, p) => {
       this.courseId = +p['courseId'];

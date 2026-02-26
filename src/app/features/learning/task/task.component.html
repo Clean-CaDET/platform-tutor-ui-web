@@ -163,7 +163,7 @@
     <mat-divider></mat-divider>
     <div class="panel">
       @if (!selectedStep()) {
-        <button matButton="elevated" (click)="start()">Započni rešavanje</button>
+        <button matButton="filled" (click)="start()">Započni rešavanje</button>
       }
       @if (selectedStep()?.progress?.status === 'Graded' && viewingTab() === 'Submission') {
         <i style="font-size: 0.75em;">
@@ -179,7 +179,7 @@
           Sačuvaj
         </button>
       }
-      @if (selectedStepIndex() < steps().length - 1) {
+      @if (selectedStep() && selectedStepIndex() < steps().length - 1) {
         <button [matButton]="selectedStep()?.progress?.answer && !hasUnsavedChanges() && !steps()[selectedStepIndex() + 1]?.progress?.answer ? 'filled' : 'elevated'"
           (click)="viewStep(steps()[selectedStepIndex() + 1])">
           <mat-icon>arrow_forward</mat-icon>
