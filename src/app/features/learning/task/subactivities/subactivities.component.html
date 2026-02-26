@@ -4,7 +4,7 @@
       [attr.id]="'accordion-header-' + index" [attr.aria-expanded]="accordionItem.expanded"
       [attr.aria-controls]="'accordion-body-' + index">
       <div class="theme-hover item-header" (click)="accordionItem.toggle()"
-        [class.theme-highlight-primary]="accordionItem.expanded">
+        [class.theme-highlight-flat]="accordionItem.expanded">
         <span>
           {{ order() }}.{{ subactivity.order }}. {{ subactivity.name }}
         </span>
