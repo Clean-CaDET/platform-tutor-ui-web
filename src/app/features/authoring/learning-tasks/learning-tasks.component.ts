@@ -76,7 +76,7 @@ export class LearningTasksComponent {
   move(task: LearningTask): void {
     const dialogRef = this.dialog.open(TaskMovingFormComponent, {
       data: { units: this.units(), taskName: task.name },
-      height: '220px', width: '900px',
+      minHeight: '220px', minWidth: '900px',
     });
     dialogRef.afterClosed().subscribe(destinationUnitId => {
       if (!destinationUnitId || task.unitId === destinationUnitId) return;

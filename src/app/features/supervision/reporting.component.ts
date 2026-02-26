@@ -80,10 +80,8 @@ export class ReportingComponent {
     if (otherCourseReports.length > 0) {
       this.dialog.open(CourseReportDialogComponent, {
         data: { reports: otherCourseReports, currentIndex: 0 },
-        width: '90vw',
-        maxWidth: '1400px',
-        height: '90vh',
-        maxHeight: '900px',
+        minWidth: '90vw',
+        minHeight: '90vh'
       });
     }
   }

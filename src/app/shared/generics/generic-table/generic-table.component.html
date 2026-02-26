@@ -1,4 +1,4 @@
-<mat-card appearance="outlined" class="flex-col" style="margin-bottom: 10px; height: 100%">
+<div class="flex-col" style="margin-bottom: 10px; height: 100%">
   <div class="flex-row gap" style="padding: 0 10px; align-items: center; justify-content: space-between;">
     <h2>{{ title() }}</h2>
     <span class="flex-row gap">
@@ -76,7 +76,7 @@
 
         <tr mat-header-row *matHeaderRowDef="columns()"></tr>
         <tr mat-row *matRowDef="let element; columns: columns();" (click)="selectElement(element)"
-          [class.theme-highlight-primary]="selectedItem()?.id === element.id" [class.fade]="element.isArchived"></tr>
+          [class.highlight]="selectedItem()?.id === element.id" [class.fade]="element.isArchived"></tr>
       </table>
     }
   </div>
@@ -86,4 +86,4 @@
       [pageSizeOptions]="pageSizeOptions" showFirstLastButtons="true">
     </mat-paginator>
   }
-</mat-card>
+</div>

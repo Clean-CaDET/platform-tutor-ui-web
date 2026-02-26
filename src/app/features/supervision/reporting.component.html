@@ -24,7 +24,7 @@
               <div class="flex-col">
                 @for (l of g.learners; track l.id) {
                   <div class="theme-hover" (click)="selectedLearner.set(l)"
-                    [class.theme-highlight-primary]="selectedLearner()?.index === l.index">
+                    [class.theme-highlight-flat]="selectedLearner()?.index === l.index">
                     <mat-divider />
                     <div class="flex-row" style="align-items: center; padding: 10px; gap: 8px;">
                       <div style="flex-grow: 1;">

@@ -16,7 +16,7 @@
   </div>
   <mat-divider />
   @if (groups().length) {
-    <div class="flex-row" style="height: calc(100% - 103px)">
+    <div class="flex-row" style="height: 100%">
       <div class="flex-col gap course-overview" style="padding: 10px; width: 33.33%;">
         @for (g of groups(); track g.id) {
           <div>
@@ -25,7 +25,7 @@
               @for (l of g.learners; track l.id) {
                 <mat-card appearance="outlined" style="padding: 10px; width: 200px;"
                   class="theme-hover" (click)="selectLearner(l)"
-                  [class.theme-highlight-primary]="selectedLearner()?.index === l.index">
+                  [class.highlight]="selectedLearner()?.index === l.index">
                   <div class="flex-row" style="align-items: center;">
                     <small style="flex-grow: 1;">{{ l.name }} {{ l.surname }} <br>{{ l.index }}</small>
                     @if (l.summarySemaphore !== -1) {
@@ -76,8 +76,8 @@
                   <div class="flex-row" style="padding: 5px; gap: 5px; align-items: center;">
                     <mat-icon matTooltip="Mišljenje studenta o progresu">record_voice_over</mat-icon>
                     <span style="flex-grow: 1;">Student kaže:</span>
-                    <button matButton="elevated"
-                      [class.theme-highlight-primary]="selectedFeedback() !== f"
+                    <button [matButton]="selectedFeedback() === f ? 'filled': 'elevated'"
+                      [disabled]="!f.reflectionIds?.length"
                       (click)="showReflections(f)">Refleksije</button>
                     @if (f.averageSatisfaction) {
                       <span>
@@ -91,7 +91,7 @@
                     @if (!f.averageSatisfaction) {
                       <span>
                         Nije stigao
-                        <mat-icon matTooltip="Nije iskomunicirao zadovoljstvo do momenta formiranja mišljenja.">radio_button_unchecked</mat-icon>
+                        <mat-icon matTooltip="Nije iskomunicirao zadovoljstvo">radio_button_unchecked</mat-icon>
                       </span>
                     }
                   </div>

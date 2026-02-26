@@ -12,12 +12,13 @@ import { StakeholderAccount } from '../model/stakeholder-account.model';
 import { OwnersComponent } from './owners/owners.component';
 import { EnrolledLearnersComponent } from './enrolled-learners/enrolled-learners.component';
 import { environment } from '../../../../environments/environment';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-courses',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CrudService, useClass: ManagementCrudService }],
-  imports: [GenericTableComponent, OwnersComponent, EnrolledLearnersComponent],
+  imports: [GenericTableComponent, OwnersComponent, EnrolledLearnersComponent, MatDividerModule],
   templateUrl: './courses.component.html',
 })
 export class CoursesComponent {

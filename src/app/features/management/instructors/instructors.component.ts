@@ -10,12 +10,13 @@ import { StakeholderAccount } from '../model/stakeholder-account.model';
 import { Course } from '../../../shared/model/course.model';
 import { OwnedCoursesComponent } from './owned-courses/owned-courses.component';
 import { environment } from '../../../../environments/environment';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-instructors',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{ provide: CrudService, useClass: ManagementCrudService }],
-  imports: [GenericTableComponent, OwnedCoursesComponent],
+  imports: [GenericTableComponent, OwnedCoursesComponent, MatDividerModule],
   template: `
     <div class="flex-row gap" style="width: 98%; height: 100%;">
       <cc-generic-table style="flex-grow: 1;"
@@ -23,6 +24,7 @@ import { environment } from '../../../../environments/environment';
         [fieldConfiguration]="instructorFields"
         [baseUrl]="baseUrl"
         (selectItem)="onSelect($event)" />
+      <mat-divider vertical="true" />
       <div style="width: 350px; height: 100%;">
         @if (selectedInstructor()) {
           <cc-owned-courses [instructor]="selectedInstructor()!" [allCourses]="allCourses()" />

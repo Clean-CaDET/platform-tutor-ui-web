@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, inject, input, linkedSignal } from 
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -16,7 +15,7 @@ import { environment } from '../../../../../environments/environment';
 @Component({
   selector: 'cc-enrolled-learners',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './enrolled-learners.component.html',
 })
 export class EnrolledLearnersComponent {
@@ -40,7 +39,7 @@ export class EnrolledLearnersComponent {
   }
 
   onAddBulk(): void {
-    const dialogRef = this.dialog.open(BulkEnrollLearnersComponent, { height: '600px', width: '900px' });
+    const dialogRef = this.dialog.open(BulkEnrollLearnersComponent, { minHeight: '600px', minWidth: '900px' });
     dialogRef.afterClosed().subscribe((learners: StakeholderAccount[]) => {
       if (!learners) return;
       this.membershipService.bulkCreate(this.buildBaseUrl(this.group().id), learners).subscribe(() => {

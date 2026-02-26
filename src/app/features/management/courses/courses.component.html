@@ -5,20 +5,23 @@
     [fieldConfiguration]="fields"
     [baseUrl]="baseUrl"
     (selectItem)="onSelect($event)" />
+    <mat-divider vertical="true" />
   @if (selectedCourse()) {
     <div class="flex-col gap" style="width: 20%;">
-      <div style="height: 50%">
+      <div style="height: calc(50% - 11px)">
         <cc-generic-table
-          [title]="'Grupe (' + selectedCourse()!.code + ')'"
+          [title]="'Grupe'"
           [fieldConfiguration]="groupFields"
           [baseUrl]="baseGroupUrl()"
           [noPagination]="true"
           (selectItem)="onSelectGroup($event)" />
       </div>
-      <div style="height: 50%">
+      <mat-divider style="margin: 0 -10px"/>
+      <div style="height: calc(50% - 11px)">
         <cc-owners [course]="selectedCourse()!" [allInstructors]="allInstructors()" />
       </div>
     </div>
+    <mat-divider vertical="true" />
   }
   @if (selectedGroup()) {
     <div style="width: calc(40% - 30px);">

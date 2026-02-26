@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,7 +21,7 @@ import { FieldOptionsPipe } from './field-option.pipe';
   selector: 'cc-generic-table',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    DatePipe, MatCardModule, MatIconModule, MatTableModule, MatPaginatorModule,
+    DatePipe, MatIconModule, MatTableModule, MatPaginatorModule,
     MatFormFieldModule, MatInputModule, MatButtonModule, MatTooltipModule, FieldOptionsPipe,
   ],
   templateUrl: './generic-table.component.html',
@@ -99,7 +98,7 @@ export class GenericTableComponent {
   onBulkCreate(): void {
     const bulkCreateDialogComponent = this.crud()?.crud?.bulkCreateDialogComponent;
     if (!bulkCreateDialogComponent) return;
-    const dialogRef = this.dialog.open(bulkCreateDialogComponent, { width: '900px' });
+    const dialogRef = this.dialog.open(bulkCreateDialogComponent, { minWidth: '900px' });
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
       this.httpService.bulkCreate(this.baseUrl(), result).subscribe(() => {

@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, inject, input, linkedSignal } from 
 import { rxResource } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -15,7 +14,7 @@ import { Course } from '../../../../shared/model/course.model';
 @Component({
   selector: 'cc-owned-courses',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCardModule, MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule],
+  imports: [MatTableModule, MatIconModule, MatButtonModule, MatTooltipModule],
   templateUrl: './owned-courses.component.html',
 })
 export class OwnedCoursesComponent {
