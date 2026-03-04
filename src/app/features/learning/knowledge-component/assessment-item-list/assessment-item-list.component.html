@@ -1,49 +1,78 @@
 @for (item of items(); track item.id; let i = $index) {
   <mat-card appearance="outlined" class="review-card">
-    <mat-card-content>
-      <div class="card-header">
-        <span class="item-number">{{ i + 1 }}.</span>
-        <button matIconButton (click)="toggleAnswer(item.id)">
-          <mat-icon>{{ isVisible(item.id) ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <div class="card-header theme-highlight-primary">
+      <span class="item-number">{{ i + 1 }}.</span>
+      @if(!isVisible(item.id)) {
+        <button matIconButton (click)="toggleAnswer(item.id)" matTooltip="Prikaži odgovor i povratnu informaciju">
+          <mat-icon>visibility</mat-icon>
         </button>
-      </div>
-
-      <cc-markdown>{{ item.text }}</cc-markdown>
-
-      @if (isVisible(item.id)) {
-        <div class="answer-section">
-          @switch (item.$type) {
-            @case ('multiChoiceQuestion') {
-              <ul>
-                @for (answer of item.possibleAnswers; track answer) {
-                  <li [class.correct]="answer === item.correctAnswer">
-                    @if (answer === item.correctAnswer) {
-                      <mat-icon class="inline-icon correct-icon">check</mat-icon>
-                    }
-                    {{ answer }}
-                  </li>
-                }
-              </ul>
-              @if (item.feedback) {
-                <p class="feedback"><b>Objašnjenje:</b> {{ item.feedback }}</p>
-              }
-            }
-            @case ('multiResponseQuestion') {
-              <ul>
-                @for (mrqItem of item.items; track mrqItem.text) {
-                  <li>{{ mrqItem.text }}</li>
-                }
-              </ul>
-            }
-            @case ('shortAnswerQuestion') {
-              <p><b>Prihvatljivi odgovori:</b> {{ item.acceptableAnswers.join(', ') }}</p>
-              @if (item.feedback) {
-                <p class="feedback"><b>Objašnjenje:</b> {{ item.feedback }}</p>
-              }
-            }
-          }
-        </div>
       }
-    </mat-card-content>
+    </div>
+    <div class="card-content">
+
+      <cc-markdown [lineNumbers]="true">{{ item.text }}</cc-markdown>
+
+      @switch (item.$type) {
+        @case ('multiChoiceQuestion') {
+          <b>Ponuđeni odgovori:</b>
+          @for (answer of item.possibleAnswers; track answer) {
+            <p class="flex-row gap">
+              @if (isVisible(item.id)) {
+                @if (answer === item.correctAnswer) {
+                  <mat-icon>check</mat-icon>
+                } @else {
+                  <mat-icon></mat-icon>
+                }
+              } @else {
+                <mat-icon>radio_button_unchecked</mat-icon>
+              }
+              <span>{{ answer }}</span>
+            </p>
+          }
+          @if (isVisible(item.id)) {
+            <div>
+              <b>Povratna informacija</b>:
+              <cc-markdown>{{ item.feedback }}</cc-markdown>
+            </div>
+          }
+        }
+        @case ('multiResponseQuestion') {
+          <b>Ponuđeni odgovori:</b>
+          @for (mrqItem of item.items; track mrqItem.text) {
+            <p class="flex-col">
+              <span class="flex-row gap">
+                @if (isVisible(item.id)) {
+                  @if (mrqItem.isCorrect) {
+                    <mat-icon>check</mat-icon>
+                  } @else {
+                    <mat-icon>clear</mat-icon>
+                  }
+                } @else {
+                  <mat-icon>check_box_outline_blank</mat-icon>
+                }
+                <span>{{ mrqItem.text }}</span>
+              </span>
+              @if (isVisible(item.id) && mrqItem.feedback) {
+                <small style="margin-left:34px">{{ mrqItem.feedback }}</small>
+              }
+            </p>
+          }
+        }
+        @case ('shortAnswerQuestion') {
+          @if (isVisible(item.id)) {
+            <b>Prihvatljivi odgovori:</b>
+            @for (answer of item.acceptableAnswers; track answer) {
+              <p class="flex-row">
+                <mat-icon>arrow_right</mat-icon>
+                <span>{{ answer }}</span>
+              </p>
+            }
+            <div>
+              <b>Povratna informacija</b>: {{ item.feedback }}
+            </div>
+          }
+        }
+      }
+    </div>
   </mat-card>
 }

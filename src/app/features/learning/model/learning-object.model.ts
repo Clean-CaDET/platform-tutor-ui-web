@@ -37,6 +37,8 @@ export interface MultipleChoiceQuestion {
 
 export interface MrqItem {
   text: string;
+  isCorrect?: boolean;
+  feedback?: string;
 }
 
 export interface MultipleResponseQuestion {
