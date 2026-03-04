@@ -2,7 +2,6 @@ import { Component, ChangeDetectionStrategy, input, inject, signal, OnInit, Dest
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CcMarkdownComponent } from '../../../../../shared/markdown/cc-markdown.component';
 import { MultipleChoiceQuestion } from '../../../model/learning-object.model';
 import { McqEvaluation } from '../../../model/evaluation.model';
@@ -13,7 +12,7 @@ import { shuffleArray } from '../../../model/arrays';
 @Component({
   selector: 'cc-mcq',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatRadioModule, MatButtonModule, MatProgressSpinnerModule, CcMarkdownComponent],
+  imports: [MatRadioModule, MatButtonModule, CcMarkdownComponent],
   templateUrl: './mcq.component.html',
   styleUrl: './mcq.component.scss',
 })
@@ -34,6 +33,7 @@ export class McqComponent implements OnInit {
     this.answers.set(shuffleArray([...this.item().possibleAnswers]));
 
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
+      this.isProcessing.set(false);
       if (feedback.type === 'Solution' || feedback.type === 'Correctness') {
         this.evaluation.set(feedback.evaluation as McqEvaluation);
       }
@@ -49,11 +49,9 @@ export class McqComponent implements OnInit {
     }).subscribe({
       next: feedback => {
         this.reattemptCount++;
-        this.isProcessing.set(false);
         this.connector.sendToResult(feedback);
       },
       error: () => {
-        this.isProcessing.set(false);
         this.connector.sendToResult({ type: 'Error' });
       },
     });

@@ -19,13 +19,11 @@
     }
   </div>
 
-  <div class="actions">
-    @if (isProcessing()) {
-      <mat-spinner diameter="36" />
-    } @else {
-      <button matButton="filled" [disabled]="!hasCheckedAnswers() || !!evaluation()" (click)="onSubmit()">
+  @if (!evaluation()) {
+    <div class="actions">
+      <button matButton="filled" [disabled]="!hasCheckedAnswers() || isProcessing()" (click)="onSubmit()">
         Odgovori
       </button>
-    }
-  </div>
+    </div>
+  }
 }

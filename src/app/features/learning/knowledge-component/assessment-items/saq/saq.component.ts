@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CcMarkdownComponent } from '../../../../../shared/markdown/cc-markdown.component';
 import { ShortAnswerQuestion } from '../../../model/learning-object.model';
 import { SaqEvaluation } from '../../../model/evaluation.model';
@@ -14,7 +13,7 @@ import { AssessmentFeedbackConnectorService } from '../../assessment-feedback-co
 @Component({
   selector: 'cc-saq',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatProgressSpinnerModule, CcMarkdownComponent],
+  imports: [FormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, CcMarkdownComponent],
   templateUrl: './saq.component.html',
   styleUrl: './saq.component.scss',
 })
@@ -32,6 +31,7 @@ export class SaqComponent implements OnInit {
 
   ngOnInit(): void {
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
+      this.isProcessing.set(false);
       if (feedback.type === 'Solution' || feedback.type === 'Correctness') {
         this.evaluation.set(feedback.evaluation as SaqEvaluation);
       }
@@ -47,11 +47,9 @@ export class SaqComponent implements OnInit {
     }).subscribe({
       next: feedback => {
         this.reattemptCount++;
-        this.isProcessing.set(false);
         this.connector.sendToResult(feedback);
       },
       error: () => {
-        this.isProcessing.set(false);
         this.connector.sendToResult({ type: 'Error' });
       },
     });

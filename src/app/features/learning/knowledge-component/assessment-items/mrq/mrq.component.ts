@@ -3,7 +3,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CcMarkdownComponent } from '../../../../../shared/markdown/cc-markdown.component';
 import { MultipleResponseQuestion, MrqItem } from '../../../model/learning-object.model';
 import { MrqEvaluation, MrqItemEvaluation } from '../../../model/evaluation.model';
@@ -14,7 +13,7 @@ import { shuffleArray } from '../../../model/arrays';
 @Component({
   selector: 'cc-mrq',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [MatCheckboxModule, MatButtonModule, MatListModule, MatProgressSpinnerModule, CcMarkdownComponent],
+  imports: [MatCheckboxModule, MatButtonModule, MatListModule, CcMarkdownComponent],
   templateUrl: './mrq.component.html',
   styleUrl: './mrq.component.scss',
 })
@@ -36,6 +35,7 @@ export class MrqComponent implements OnInit {
     this.checked.set(new Array(this.items().length).fill(false));
 
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
+      this.isProcessing.set(false);
       if (feedback.type === 'Solution' || feedback.type === 'Correctness') {
         this.evaluation.set(feedback.evaluation as MrqEvaluation);
       }
@@ -62,11 +62,9 @@ export class MrqComponent implements OnInit {
     }).subscribe({
       next: feedback => {
         this.reattemptCount++;
-        this.isProcessing.set(false);
         this.connector.sendToResult(feedback);
       },
       error: () => {
-        this.isProcessing.set(false);
         this.connector.sendToResult({ type: 'Error' });
       },
     });

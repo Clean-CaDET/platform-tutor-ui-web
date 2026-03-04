@@ -17,13 +17,11 @@
     </div>
   }
 
-  <div class="actions">
-    @if (isProcessing()) {
-      <mat-spinner diameter="36" />
-    } @else {
-      <button matButton="filled" [disabled]="!answer() || !!evaluation()" (click)="onSubmit()">
+  @if (!evaluation()) {
+    <div class="actions">
+      <button matButton="filled" [disabled]="!answer() || isProcessing()" (click)="onSubmit()">
         Odgovori
       </button>
-    }
-  </div>
+    </div>
+  }
 }

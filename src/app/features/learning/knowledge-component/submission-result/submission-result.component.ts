@@ -56,6 +56,7 @@ export class SubmissionResultComponent implements OnInit {
       this.messageTimeout = setTimeout(() => {
         this.feedbackMessages.set([createFeedbackMessage(feedback)]);
         this.feedbackProcessed.set(true);
+        this.connector.sendToAssessment(feedback);
       }, 400);
       return;
     }

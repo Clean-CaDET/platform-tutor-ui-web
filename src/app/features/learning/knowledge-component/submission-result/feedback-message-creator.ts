@@ -42,7 +42,7 @@ export function createFeedbackMessage(feedback: Feedback): string {
         ? `Tačnost: ${Math.round(feedback.evaluation.correctnessLevel * 100)}%. Prostudiraj tačan odgovor iznad.`
         : 'Pogledaj tačan odgovor.';
     case 'Error':
-      return 'Došlo je do greške. Pokušaj ponovo.';
+      return '🤕 Došlo je do greške. Pokušaj ponovo.';
     default:
       return '';
   }
