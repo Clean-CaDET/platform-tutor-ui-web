@@ -21,7 +21,7 @@
           </button>
         } @else {
           <button matMiniFab matTooltip="Sačuvaj"
-            [disabled]="!activityForm.valid || updateStatus() === RequestStatus.Started" (click)="submit()">
+            [disabled]="!activityForm.valid || (!activity().parentId && !guidelines()) || updateStatus() === RequestStatus.Started" (click)="submit()">
             <mat-icon>check</mat-icon>
           </button>
           <button matMiniFab matTooltip="Odbaci" class="warn-fab"

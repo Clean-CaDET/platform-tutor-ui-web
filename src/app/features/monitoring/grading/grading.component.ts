@@ -63,8 +63,9 @@ export class GradingComponent {
   private readonly unitsResource = rxResource({
     params: () => {
       const date = this.selectedDate();
-      if (!date) return undefined;
-      return { courseId: this.courseId(), learnerId: this.selectedLearnerId(), date };
+      const learnerId = this.learnerIds()[0];
+      if (!date || !learnerId) return undefined;
+      return { courseId: this.courseId(), learnerId, date };
     },
     stream: ({ params }) => this.gradingService.getWeeklyUnits(params.courseId, params.learnerId, params.date)
       .pipe(map(units => units.sort((a, b) => a.order - b.order))),

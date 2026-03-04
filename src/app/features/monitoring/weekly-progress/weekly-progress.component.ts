@@ -45,9 +45,10 @@ export class WeeklyProgressComponent {
   readonly filterReflections = signal(false);
 
   private readonly groupMemberIds = computed(() => new Set(this.learners().map(l => l.id)));
+  private readonly stableLearnerId = computed(() => this.learners()[0]?.id ?? 0);
 
   private readonly rawUnits = rxResource({
-    params: () => ({ courseId: this.courseId(), learnerId: this.selectedLearnerId(), date: this.selectedDate() }),
+    params: () => ({ courseId: this.courseId(), learnerId: this.stableLearnerId(), date: this.selectedDate() }),
     stream: ({ params }) => this.weeklyActivityService.getWeeklyUnitsWithItems(params.courseId, params.learnerId, params.date)
       .pipe(map(units => units.sort((a, b) => a.order - b.order))),
     defaultValue: [],

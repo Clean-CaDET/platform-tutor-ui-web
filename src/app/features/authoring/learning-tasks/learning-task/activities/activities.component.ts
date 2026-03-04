@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, output, linkedSignal } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,20 +28,18 @@ export class ActivitiesComponent {
   readonly activitySaved = output<Activity>();
   readonly activityDeleted = output<number>();
 
-  activeActivity = signal<Activity | null>(null);
-
-  constructor() {
-    effect(() => {
-      const activities = this.activities();
-      const status = this.updateStatus();
-      if (status === RequestStatus.Started || status === RequestStatus.Error) return;
-      const active = this.activeActivity();
-      if (active) {
-        const match = activities.find(a => a.id === active.id || a.code === active.code);
-        this.activeActivity.set(match ?? null);
+  activeActivity = linkedSignal<{ activities: Activity[]; status: RequestStatus }, Activity | null>({
+    source: () => ({ activities: this.activities(), status: this.updateStatus() }),
+    computation: (source, previous) => {
+      if (source.status === RequestStatus.Started || source.status === RequestStatus.Error)
+        return previous?.value ?? null;
+      const prev = previous?.value;
+      if (prev) {
+        return source.activities.find(a => a.id === prev.id || a.code === prev.code) ?? null;
       }
-    });
-  }
+      return null;
+    },
+  });
 
   view(activity: Activity): void {
     this.activeActivity.set(activity);

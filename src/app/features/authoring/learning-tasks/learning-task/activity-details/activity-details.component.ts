@@ -45,6 +45,8 @@ export class ActivityDetailsComponent {
         this.setInitialValues(activity);
         this.view();
       } else {
+        this.guidance.set('');
+        this.guidelines.set('');
         this.edit();
       }
     });
@@ -61,7 +63,6 @@ export class ActivityDetailsComponent {
       this.activityForm.addControl('submissionFormat', new FormGroup({
         type: new FormControl('Code', { nonNullable: true, validators: [Validators.required] }),
         validationRule: new FormControl('^.{1,500}$', { nonNullable: true }),
-        guidelines: new FormControl('Nalepi kompletan sadržaj programa...', { nonNullable: true, validators: [Validators.required] }),
       }));
       this.activityForm.addControl('standards', new FormArray<FormGroup>([]));
     }
@@ -152,20 +153,20 @@ export class ActivityDetailsComponent {
   deleteStandard(index: number): void { this.standards.removeAt(index); }
 
   submit(): void {
-    if (this.activityForm.valid) {
-      const value = this.activityForm.getRawValue();
-      const changed: Activity = {
-        ...value,
-        id: this.activity().id,
-        parentId: this.activity().parentId,
-        order: this.activity().order,
-        guidance: this.guidance(),
-      };
-      if (changed.submissionFormat) {
-        changed.submissionFormat.guidelines = this.guidelines();
-      }
-      this.activitySaved.emit(changed);
+    if (!this.activityForm.valid) return;
+    if (!this.activity().parentId && !this.guidelines()?.trim()) return;
+    const value = this.activityForm.getRawValue();
+    const changed: Activity = {
+      ...value,
+      id: this.activity().id,
+      parentId: this.activity().parentId,
+      order: this.activity().order,
+      guidance: this.guidance(),
+    };
+    if (changed.submissionFormat) {
+      changed.submissionFormat.guidelines = this.guidelines();
     }
+    this.activitySaved.emit(changed);
   }
 
   discardChanges(): void {
@@ -174,6 +175,8 @@ export class ActivityDetailsComponent {
       this.view();
     } else {
       this.createForm(this.activity());
+      this.guidance.set('');
+      this.guidelines.set('');
     }
   }
 
