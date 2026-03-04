@@ -1,12 +1,9 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, Observable, share, switchMap, throwError } from 'rxjs';
+import { catchError, switchMap, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TokenStorage } from './token.storage';
 import { AuthService } from './auth.service';
-import { AuthenticationResponse } from './model/authentication-response.model';
-
-let refreshInFlight$: Observable<AuthenticationResponse> | null = null;
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenStorage = inject(TokenStorage);
@@ -27,21 +24,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         isApiRequest &&
         authService.user() !== null
       ) {
-        if (!refreshInFlight$) {
-          refreshInFlight$ = authService.refreshToken().pipe(
-            share({
-              resetOnComplete: true,
-              resetOnError: true,
-              resetOnRefCountZero: true,
-            })
-          );
-          refreshInFlight$.subscribe({
-            complete: () => (refreshInFlight$ = null),
-            error: () => (refreshInFlight$ = null),
-          });
-        }
-
-        return refreshInFlight$.pipe(
+        return authService.refreshToken().pipe(
           switchMap((response) => {
             const retryReq = req.clone({
               setHeaders: { Authorization: `Bearer ${response.accessToken}` },

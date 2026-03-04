@@ -46,6 +46,7 @@ export class SubmissionResultComponent implements OnInit {
 
   onChangePage(page: 'AE' | 'IE'): void {
     if (this.messageTimeout) clearTimeout(this.messageTimeout);
+    this.expanded.set(false);
     this.feedbackProcessed.set(false);
     this.feedbackMessages.set([]);
     this.changePage.emit(page);

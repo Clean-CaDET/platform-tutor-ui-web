@@ -8,7 +8,7 @@
         <div [class.theme-highlight-flat]="selectedUnit()?.code === ''"
              class="flex-row unit-row" style="justify-content: space-between; align-items: center;">
           <b>Lekcije</b>
-          <button matIconButton (click)="createUnit()" matTooltip="Dodaj">
+          <button matIconButton [class.highlight]="selectedUnit()?.code === '' || !course.knowledgeUnits?.length" (click)="createUnit()" matTooltip="Dodaj">
             <mat-icon>add</mat-icon>
           </button>
         </div>
@@ -37,7 +37,7 @@
                     <mat-icon>record_voice_over</mat-icon>
                   </button>
                   <span style="flex-grow: 1;"></span>
-                  <button matIconButton (click)="deleteUnit(unit.id!)" matTooltip="Obrisi">
+                  <button matIconButton (click)="deleteUnit(unit.id!)" matTooltip="Obriši">
                     <mat-icon>delete</mat-icon>
                   </button>
                 </span>

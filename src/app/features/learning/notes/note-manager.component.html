@@ -19,7 +19,7 @@
       <div class="flex-row gap">
         <span style="flex-grow: 1;"></span>
         <button matButton="filled" (click)="onSaveNote()" [disabled]="!newNoteText()">Sačuvaj</button>
-        <button matButton="filled" (click)="onCancelAddNote()">Otkaži</button>
+        <button matButton (click)="onCancelAddNote()">Otkaži</button>
       </div>
     </mat-card>
   }
@@ -46,7 +46,7 @@
             <span style="flex-grow: 1;"></span>
             <div class="flex-row gap">
               <button matButton="filled" (click)="onUpdate(nv)" [disabled]="!nv.note.text">Sačuvaj</button>
-              <button matButton="filled" (click)="onCancelEditNote(nv)">Otkaži</button>
+              <button matButton (click)="onCancelEditNote(nv)">Otkaži</button>
             </div>
           </div>
         }

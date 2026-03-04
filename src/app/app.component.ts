@@ -50,7 +50,6 @@ export class AppComponent {
   readonly isDarkMode = signal(localStorage.getItem('theme') === 'Dark');
 
   constructor() {
-    this.authService.checkIfUserExists();
     this.defineClientSessionId();
 
     effect(() => {

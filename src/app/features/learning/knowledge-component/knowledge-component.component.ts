@@ -1,4 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, signal, OnDestroy, HostListener } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,6 +25,7 @@ import { MatDividerModule } from '@angular/material/divider';
 })
 export class KnowledgeComponentComponent implements OnDestroy {
   private readonly route = inject(ActivatedRoute);
+  private readonly title = inject(Title);
   private readonly kcService = inject(KnowledgeComponentService);
   private readonly sessionPause = inject(SessionPauseService);
 
@@ -43,13 +45,17 @@ export class KnowledgeComponentComponent implements OnDestroy {
     this.unitId = +params['unitId'];
     this.courseId = +params['courseId'];
 
-    this.kcService.getKnowledgeComponent(this.kcId).subscribe(kc => this.kc.set(kc));
-    this.kcService.launchSession(this.kcId).subscribe();
-    this.sessionPause.start(this.kcId);
-    this.loadInstructionalItems();
-    this.kcService.getStatistics(this.kcId).subscribe(stats => {
-      this.isSatisfied.set(stats.isSatisfied);
+    this.kcService.launchSession(this.kcId).subscribe(() => {
+      this.kcService.getKnowledgeComponent(this.kcId).subscribe(kc => {
+        this.kc.set(kc);
+        this.title.setTitle(`${kc.name} - Tutor`);
+      });
+      this.loadInstructionalItems();
+      this.kcService.getStatistics(this.kcId).subscribe(stats => {
+        this.isSatisfied.set(stats.isSatisfied);
+      });
     });
+    this.sessionPause.start(this.kcId);
   }
 
   ngOnDestroy(): void {
@@ -57,8 +63,9 @@ export class KnowledgeComponentComponent implements OnDestroy {
     this.kcService.terminateSession(this.kcId).subscribe();
   }
 
-  @HostListener('window:beforeunload')
-  onBeforeUnload(): void {
+  @HostListener('window:beforeunload', ['$event'])
+  onBeforeUnload(event: BeforeUnloadEvent): void {
+    event.preventDefault();
     this.sessionPause.stop();
     this.kcService.abandonSession(this.kcId).subscribe();
   }

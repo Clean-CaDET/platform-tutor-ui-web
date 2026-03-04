@@ -13,6 +13,7 @@ import { MatDividerModule } from '@angular/material/divider';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule],
   templateUrl: './course-details.component.html',
+  styles: `.highlight { color: var(--mat-sys-primary); }`,
 })
 export class CourseDetailsComponent {
   course = input.required<Course>();

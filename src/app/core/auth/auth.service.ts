@@ -1,7 +1,7 @@
 import { Injectable, signal, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, map, tap } from 'rxjs';
+import { firstValueFrom, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { TokenStorage } from './token.storage';
 import { AuthenticationResponse } from './model/authentication-response.model';
@@ -33,21 +33,27 @@ export class AuthService {
   }
 
   logout(): void {
-    this.tokenStorage.clear();
-    this.user.set(null);
-    this.router.navigate(['/login']);
+    this.router.navigate(['/login']).then(() => {
+      this.tokenStorage.clear();
+      this.user.set(null);
+    });
   }
 
-  checkIfUserExists(): void {
+  checkIfUserExists(): Promise<void> {
     const accessToken = this.tokenStorage.getAccessToken();
-    if (accessToken === null) {
-      return;
-    }
+    if (accessToken === null) return Promise.resolve();
     if (isTokenExpired(accessToken)) {
+      const refreshToken = this.tokenStorage.getRefreshToken();
+      if (refreshToken) {
+        return firstValueFrom(this.refreshToken())
+          .then(() => this.setUser())
+          .catch(() => this.logout());
+      }
       this.tokenStorage.clear();
-      return;
+      return Promise.resolve();
     }
     this.setUser();
+    return Promise.resolve();
   }
 
   setUser(): void {
@@ -69,10 +75,10 @@ export class AuthService {
     return this.http
       .post<AuthenticationResponse>(environment.apiHost + 'users/refresh', data)
       .pipe(
-        map((response) => {
+        tap((response) => {
           this.tokenStorage.saveAccessToken(response.accessToken);
           this.tokenStorage.saveRefreshToken(response.refreshToken);
-          return response;
+          this.setUser();
         })
       );
   }
