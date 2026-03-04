@@ -1,6 +1,6 @@
 import { Injectable, inject, OnDestroy } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subscription, interval, fromEvent, merge } from 'rxjs';
+import { Subscription, interval, fromEvent, merge, throttleTime } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { VideoPlaybackService } from './video-playback.service';
 
@@ -33,7 +33,7 @@ export class SessionPauseService implements OnDestroy {
       fromEvent(document, 'click'),
       fromEvent(document, 'wheel'),
       fromEvent(document, 'mousemove'),
-    ).subscribe(() => {
+    ).pipe(throttleTime(2000)).subscribe(() => {
       this.recordLastActiveDate();
       if (this.isPaused) {
         this.continueSession();
