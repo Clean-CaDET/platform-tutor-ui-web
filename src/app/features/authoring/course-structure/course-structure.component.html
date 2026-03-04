@@ -8,7 +8,7 @@
         <div [class.theme-highlight-flat]="selectedUnit()?.code === ''"
              class="flex-row unit-row" style="justify-content: space-between; align-items: center;">
           <b>Lekcije</b>
-          <button matIconButton [class.highlight]="selectedUnit()?.code === '' || !course.knowledgeUnits?.length" (click)="createUnit()" matTooltip="Dodaj">
+          <button matIconButton [class.active-tab]="selectedUnit()?.code === '' || !course.knowledgeUnits?.length" (click)="createUnit()" matTooltip="Dodaj">
             <mat-icon>add</mat-icon>
           </button>
         </div>

@@ -13,7 +13,7 @@
       <section class="flex-col" style="width: auto;">
         <span class="flex-row gap">
           @if (!editMode()) {
-            <button matIconButton [class.highlight]="!course().description" (click)="editMode.set(true)" matTooltip="Izmeni">
+            <button matIconButton [class.theme-primary]="!course().description" (click)="editMode.set(true)" matTooltip="Izmeni">
               <mat-icon>edit</mat-icon>
             </button>
           }

@@ -18,6 +18,14 @@ a {
   color: var(--mat-sys-primary);
 }
 
+.mat-mdc-outlined-button {
+  color: var(--mat-sys-on-surface) !important;
+
+  .mat-icon {
+    color: inherit;
+  }
+}
+
 .theme-hover {
   &:hover {
     background-color: var(--mat-sys-secondary-container);
@@ -50,4 +58,8 @@ a {
 .warn-fab {
   background-color: var(--mat-sys-error-container) !important;
   color: var(--mat-sys-on-error-container) !important;
+}
+
+.active-tab {
+  color: var(--mat-sys-primary) !important;
 }
