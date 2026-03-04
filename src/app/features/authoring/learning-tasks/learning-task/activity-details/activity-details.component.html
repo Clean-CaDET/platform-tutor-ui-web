@@ -6,7 +6,7 @@
         <mat-label>Kod</mat-label>
         <input formControlName="code" matInput [readonly]="!editMode()">
         @if (activityForm.get('code')?.hasError('notUnique')) {
-          <mat-error>Jedinstven za zadatak</mat-error>
+          <mat-error  style="margin: 0 -50px 0 -10px;">Jedinstven za zadatak</mat-error>
         }
       </mat-form-field>
       <mat-form-field style="flex-grow: 1;" [appearance]="editMode() ? 'fill' : 'outline'">

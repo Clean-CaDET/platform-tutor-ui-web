@@ -171,13 +171,13 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
     let item: AuthoringAssessmentItem;
     switch (type) {
       case 'multiChoiceQuestion':
-        item = { ...base, $type: type, possibleAnswers: [], correctAnswer: '', feedback: '' };
+        item = { $type: type, ...base, possibleAnswers: [], correctAnswer: '', feedback: '' };
         break;
       case 'multiResponseQuestion':
-        item = { ...base, $type: type, items: [] };
+        item = { $type: type, ...base, items: [] };
         break;
       case 'shortAnswerQuestion':
-        item = { ...base, $type: type, acceptableAnswers: [], feedback: '', tolerance: 0 };
+        item = { $type: type, ...base, acceptableAnswers: [], feedback: '', tolerance: 0 };
         break;
     }
     this.setEditing(0, item);
