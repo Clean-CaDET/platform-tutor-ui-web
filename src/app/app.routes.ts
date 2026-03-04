@@ -16,12 +16,14 @@ export const routes: Routes = [
   {
     path: 'courses',
     canActivate: [authGuard],
+    data: { role: ['learner', 'learnercommercial'] },
     loadChildren: () =>
       import('./features/learning/learning.routes').then((m) => m.LEARNING_ROUTES),
   },
   {
     path: 'authoring',
     canActivate: [authGuard],
+    data: { role: ['instructor'] },
     loadChildren: () =>
       import('./features/authoring/authoring.routes').then((m) => m.AUTHORING_ROUTES),
   },

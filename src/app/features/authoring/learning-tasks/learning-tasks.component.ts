@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,7 +24,6 @@ import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.compon
   templateUrl: './learning-tasks.component.html',
 })
 export class LearningTasksComponent {
-  private readonly route = inject(ActivatedRoute);
   private readonly taskService = inject(LearningTasksAuthoringService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);

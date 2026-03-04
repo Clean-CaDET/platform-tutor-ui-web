@@ -46,7 +46,7 @@ export class ActivityDetailsComponent {
         this.view();
       } else {
         this.guidance.set('');
-        this.guidelines.set('');
+        this.setGuidelines();
         this.edit();
       }
     });
@@ -202,10 +202,10 @@ export class ActivityDetailsComponent {
   private setGuidelines(): void {
     const type = this.activityForm.get('submissionFormat')!.get('type')!.value;
     switch (type) {
-      case 'Code': this.guidelines.set('Nalepi kompletan sadržaj programa koji si iskucao...'); break;
-      case 'GitPR': this.guidelines.set('Navedi link do pull requesta...\nPrimer: https://github.com/Clean-CaDET/tutor/pull/106'); break;
-      case 'GitCommit': this.guidelines.set('Navedi link do commita na GitHubu...\nPrimer: https://github.com/Clean-CaDET/tutor/commit/9d3f671042e91bda63e20dfdbe9c31204f9d6b12'); break;
-      case 'TrelloCard': this.guidelines.set('Navedi link do kartice na Trello tabli...\nPrimer: https://trello.com/c/GXSjvfIs/test'); break;
+      case 'Code': this.guidelines.set('Nalepi kompletan sadržaj programa koji si iskucao (u editor Ctrl+A da se sve odabere, Ctrl+C da se kopira i onda ovde Ctrl+V da se nalepi).'); break;
+      case 'GitPR': this.guidelines.set('Navedi link do pull requesta koji sabira sve izmene koje si napravio.\nPrimer: https://github.com/Clean-CaDET/tutor/pull/106'); break;
+      case 'GitCommit': this.guidelines.set('Navedi link do commita na GitHubu koji uključuje naziv repozitorijuma i heš kod commita.\nPrimer: https://github.com/Clean-CaDET/tutor/commit/9d3f671042e91bda63e20dfdbe9c31204f9d6b12'); break;
+      case 'TrelloCard': this.guidelines.set('Navedi link do kartice na Trello tabli koji se dobija otvaranjem kartice u browseru i kopiranjem linka.\nPrimer: https://trello.com/c/GXSjvfIs/test'); break;
     }
   }
 }

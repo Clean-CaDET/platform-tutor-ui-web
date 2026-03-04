@@ -1,9 +1,4 @@
-export enum RequestStatus {
-  None = 0,
-  Started = 1,
-  Completed = 2,
-  Error = 3,
-}
+import { RequestStatus } from "../../model/request-status.model";
 
 export function isRequestStartedOrError(changes: { currentValue: RequestStatus; previousValue: RequestStatus }): boolean {
   if (!changes) return false;

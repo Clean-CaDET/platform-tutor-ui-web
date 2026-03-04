@@ -5,7 +5,7 @@
   <div class="flex-row gap" style="flex-wrap: wrap; padding: 10px;">
     @for (f of feedback(); track $index; let i = $index) {
       <button matButton="outlined" class="week-button"
-        [class.theme-highlight-flat]="f === selectedFeedback()"
+        [class.theme-highlight-flat]="f === selectedFeedback() || (f.id != null && f.id === selectedFeedback()?.id)"
         [style.color]="getSemaphoreCss(f)"
         [matTooltip]="(f.weekEnd | date: 'dd.MM.y.') ?? ''"
         (click)="selectFeedback(f)">{{ i + 1 }}</button>

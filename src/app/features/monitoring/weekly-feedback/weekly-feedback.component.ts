@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, signal, effect, untracked } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
@@ -70,6 +70,7 @@ export class WeeklyFeedbackComponent {
       skip(1),
       takeUntilDestroyed(),
     ).subscribe(() => {
+      if (!this.feedback().length) return;
       this.feedback.update(list => list.filter(f => f.id));
       this.selectOrInitializeFeedback();
     });
@@ -77,7 +78,7 @@ export class WeeklyFeedbackComponent {
     effect(() => {
       const results = this.results();
       if (!results) return;
-      const sf = this.selectedFeedback();
+      const sf = untracked(() => this.selectedFeedback());
       if (sf?.id) return;
       const opinions = createOpinions(results);
       opinions?.forEach(o => this.form?.get(o.code)?.setValue(o.value));
