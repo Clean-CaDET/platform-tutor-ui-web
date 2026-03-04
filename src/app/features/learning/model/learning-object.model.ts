@@ -66,5 +66,5 @@ export type LearningObject = InstructionalItem | AssessmentItem;
 
 export function getVideoId(url: string): string {
   const parts = url.split('/');
-  return parts[parts.length - 1];
+  return parts.pop()!.slice(-11);
 }
