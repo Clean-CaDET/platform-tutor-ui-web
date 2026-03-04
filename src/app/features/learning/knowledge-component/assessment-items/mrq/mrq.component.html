@@ -1,5 +1,5 @@
 @if (item(); as q) {
-  <cc-markdown>{{ q.text }}</cc-markdown>
+  <cc-markdown [lineNumbers]="true" [clipboard]="true">{{ q.text }}</cc-markdown>
 
   <div class="items-list">
     @for (mrqItem of items(); track mrqItem.text; let i = $index) {

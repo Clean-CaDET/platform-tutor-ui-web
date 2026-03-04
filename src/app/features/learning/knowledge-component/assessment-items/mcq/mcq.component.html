@@ -1,5 +1,5 @@
 @if (item(); as q) {
-  <cc-markdown>{{ q.text }}</cc-markdown>
+  <cc-markdown [lineNumbers]="true" [clipboard]="true">{{ q.text }}</cc-markdown>
 
   <mat-radio-group [value]="checked()" (change)="checked.set($event.value)">
     @for (answer of answers(); track answer) {
