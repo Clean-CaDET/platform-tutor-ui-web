@@ -163,6 +163,17 @@ export class GroupMonitoringComponent {
     });
   }
 
+  onStepGraded(event: { learnerId: number; taskStatusChanged: boolean }): void {
+    this.learners.update(learners => learners.map(l => {
+      if (l.id !== event.learnerId) return l;
+      return {
+        ...l,
+        completedStepCount: Math.max(0, l.completedStepCount - 1),
+        completedTaskCount: event.taskStatusChanged ? Math.max(0, l.completedTaskCount - 1) : l.completedTaskCount,
+      };
+    }));
+  }
+
   hasReportFromOtherCourse(learner: Learner): boolean {
     if (!learner.reports || !this.courseId()) return false;
     return learner.reports.some(report => report.courseId !== this.courseId());

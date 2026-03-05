@@ -46,6 +46,7 @@ export class GradingComponent {
   readonly selectedDate = input.required<Date>();
   readonly learnerChanged = output<Learner>();
   readonly gradesChanged = output<GradingTaskProgress[]>();
+  readonly stepGraded = output<{ learnerId: number; taskStatusChanged: boolean }>();
 
   readonly selectedTask = signal<GradingTask | null>(null);
   readonly selectedStep = signal<GradingStep | null>(null);
@@ -233,6 +234,8 @@ export class GradingComponent {
     this.progressBarActive.set(true);
     const step = this.selectedStep()!;
     const taskProgressId = step.progress!.taskProgressId;
+    const oldTaskProgress = this.taskProgresses.value().find(p => p.id === taskProgressId);
+    const oldTaskStatus = oldTaskProgress?.status;
     const { rawEvaluation, ...grade } = this.gradingForm!.value;
     this.gradingService.submitGrade(this.selectedUnitId(), taskProgressId, grade)
       .subscribe({
@@ -244,8 +247,13 @@ export class GradingComponent {
           }
           this.gradingForm!.markAsPristine();
           this.progressBarActive.set(false);
-          this.taskProgresses.reload();
-          this.gradeSummaries.reload();
+          this.taskProgresses.value.update(progresses =>
+            progresses.map(p => p.id === data.id ? data : p),
+          );
+          this.stepGraded.emit({
+            learnerId: this.selectedLearnerId(),
+            taskStatusChanged: oldTaskStatus === 'Completed' && data.status !== 'Completed',
+          });
         },
         error: () => this.progressBarActive.set(false),
       });

@@ -59,8 +59,10 @@ export class LearningTaskComponent {
     this.courseId.set(+params['courseId']);
     this.unitId.set(+params['unitId']);
     this.loadTask(+params['ltId']);
+    let initialLoaded = true;
 
     onNavigationEnd((_url, p) => {
+      if (initialLoaded) { initialLoaded = false; return; }
       const ltId = +p['ltId'];
       if (!ltId || ltId === this.task()?.id) return;
       this.courseId.set(+p['courseId']);

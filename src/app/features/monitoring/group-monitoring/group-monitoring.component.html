@@ -81,7 +81,8 @@
       @case ('grading') {
         @if (selectedLearner(); as sl) {
           <cc-grading [courseId]="courseId()" [selectedLearnerId]="sl.id" [learners]="learners()"
-            (learnerChanged)="changeLearner($event)" (gradesChanged)="getTaskSummaries($event)" [selectedDate]="selectedDate()" />
+            (learnerChanged)="changeLearner($event)" (gradesChanged)="getTaskSummaries($event)"
+            (stepGraded)="onStepGraded($event)" [selectedDate]="selectedDate()" />
         }
       }
       @case ('progress') {
