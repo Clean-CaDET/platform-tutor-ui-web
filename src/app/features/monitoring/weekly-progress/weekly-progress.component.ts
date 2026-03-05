@@ -44,7 +44,11 @@ export class WeeklyProgressComponent {
   readonly questionGroups = toSignal(inject(WeeklyFeedbackQuestionsService).getAll(), { initialValue: [] });
   readonly filterReflections = signal(false);
 
-  private readonly groupMemberIds = computed(() => new Set(this.learners().map(l => l.id)));
+  private readonly groupMemberIds = computed(() => {
+    const ids = this.learners().map(l => l.id);
+    ids.sort((a, b) => a - b);
+    return ids;
+  }, { equal: (a, b) => a.length === b.length && a.every((v, i) => v === b[i]) });
   private readonly stableLearnerId = computed(() => this.learners()[0]?.id ?? 0);
 
   private readonly rawUnits = rxResource({
@@ -61,7 +65,7 @@ export class WeeklyProgressComponent {
       return {
         unitIds: rawUnits.map(u => u.id),
         learnerId: this.selectedLearnerId(),
-        groupMemberIds: [...this.groupMemberIds()],
+        groupMemberIds: this.groupMemberIds(),
       };
     },
     stream: ({ params }) => this.weeklyActivityService.getTaskAndKcStatistics(params.unitIds, params.learnerId, params.groupMemberIds),

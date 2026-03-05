@@ -201,9 +201,9 @@ export class WeeklyFeedbackComponent {
   }
 
   private readonly colorCssMap: Record<string, string> = {
-    primary: 'var(--mat-sys-primary)',
-    accent: 'light-dark(#7c6f00, #e6d44a)',
-    warn: 'var(--mat-sys-error)',
+    primary: 'var(--mat-sys-primary) !important',
+    accent: 'light-dark(#7c6f00, #e6d44a) !important',
+    warn: 'var(--mat-sys-error) !important',
   };
 
   getColorCss(formControlName: string, options?: QuestionOptions[]): string {
