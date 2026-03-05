@@ -27,6 +27,7 @@ export class ActivitiesComponent {
   readonly updateStatus = input(RequestStatus.None);
   readonly activitySaved = output<Activity>();
   readonly activityDeleted = output<number>();
+  readonly statusReset = output();
 
   activeActivity = linkedSignal<{ activities: Activity[]; status: RequestStatus }, Activity | null>({
     source: () => ({ activities: this.activities(), status: this.updateStatus() }),
@@ -42,10 +43,12 @@ export class ActivitiesComponent {
   });
 
   view(activity: Activity): void {
+    this.statusReset.emit();
     this.activeActivity.set(activity);
   }
 
   createSubactivity(activity: Activity): void {
+    this.statusReset.emit();
     this.activeActivity.set({
       parentId: activity.id,
       order: (activity.subactivities?.length ?? 0) + 1,

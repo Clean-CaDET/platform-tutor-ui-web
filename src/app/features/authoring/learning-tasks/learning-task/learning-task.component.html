@@ -84,7 +84,8 @@
       }
       @if (mode() === 'subactivities' && selectedStep()) {
         <cc-activities [activities]="subactivities()" [updateStatus]="updateStatus()"
-          (activitySaved)="createOrUpdateStep($event)" (activityDeleted)="deleteActivity($event)" />
+          (activitySaved)="createOrUpdateStep($event)" (activityDeleted)="deleteActivity($event)"
+          (statusReset)="updateStatus.set(RequestStatus.None)" />
       }
     </div>
   </div>

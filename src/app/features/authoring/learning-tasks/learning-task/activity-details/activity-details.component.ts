@@ -187,8 +187,10 @@ export class ActivityDetailsComponent {
   }
 
   private setValidationRule(): void {
-    const type = this.activityForm.get('submissionFormat')!.get('type')!.value;
-    const ctrl = this.activityForm.get('submissionFormat')!.get('validationRule')!;
+    const sf = this.activityForm.get('submissionFormat');
+    if (!sf) return;
+    const type = sf.get('type')!.value;
+    const ctrl = sf.get('validationRule')!;
     switch (type) {
       case 'Text': ctrl.setValue('^.{1,1000}$'); break;
       case 'Link': ctrl.setValue(''); break;
@@ -200,7 +202,9 @@ export class ActivityDetailsComponent {
   }
 
   private setGuidelines(): void {
-    const type = this.activityForm.get('submissionFormat')!.get('type')!.value;
+    const sf = this.activityForm.get('submissionFormat');
+    if (!sf) return;
+    const type = sf.get('type')!.value;
     switch (type) {
       case 'Code': this.guidelines.set('Nalepi kompletan sadržaj programa koji si iskucao (u editor Ctrl+A da se sve odabere, Ctrl+C da se kopira i onda ovde Ctrl+V da se nalepi).'); break;
       case 'GitPR': this.guidelines.set('Navedi link do pull requesta koji sabira sve izmene koje si napravio.\nPrimer: https://github.com/Clean-CaDET/tutor/pull/106'); break;
