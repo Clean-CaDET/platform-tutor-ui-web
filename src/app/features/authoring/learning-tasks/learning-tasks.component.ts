@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -26,8 +25,6 @@ import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.compon
 export class LearningTasksComponent {
   private readonly taskService = inject(LearningTasksAuthoringService);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
-
   readonly units = input.required<Unit[]>();
   readonly unitId = input.required<number>();
 
@@ -61,12 +58,12 @@ export class LearningTasksComponent {
         result.id = template.id;
         this.taskService.clone(this.unitId(), result).subscribe({
           next: newTask => this.learningTasks.update(t => this.sortTasks([...t, newTask])),
-          error: () => this.showError(),
+          error: () => {},
         });
       } else {
         this.taskService.create(this.unitId(), result).subscribe({
           next: newTask => this.learningTasks.update(t => this.sortTasks([...t, newTask])),
-          error: () => this.showError(),
+          error: () => {},
         });
       }
     });
@@ -81,7 +78,7 @@ export class LearningTasksComponent {
       if (!destinationUnitId || task.unitId === destinationUnitId) return;
       this.taskService.move(task.unitId!, task.id!, destinationUnitId).subscribe({
         next: () => this.learningTasks.update(t => t.filter(a => a.id !== task.id)),
-        error: () => this.showError(),
+        error: () => {},
       });
     });
   }
@@ -92,7 +89,7 @@ export class LearningTasksComponent {
       if (!result) return;
       this.taskService.delete(this.unitId(), taskId).subscribe({
         next: () => this.learningTasks.update(t => t.filter(a => a.id !== taskId)),
-        error: () => this.showError(),
+        error: () => {},
       });
     });
   }
@@ -112,9 +109,5 @@ export class LearningTasksComponent {
       if (a.isTemplate !== b.isTemplate) return a.isTemplate ? -1 : 1;
       return (a.order ?? 0) - (b.order ?? 0);
     });
-  }
-
-  private showError(): void {
-    this.snackBar.open('Greška: Zahtev nije obrađen. Probaj da ponoviš operaciju.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
   }
 }

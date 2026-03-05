@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { LearningTask } from '../../learning/task/model/learning-task.model';
@@ -29,8 +29,8 @@ export class LearningTasksAuthoringService {
     return this.http.patch(this.baseUrl + unitId + '/learning-tasks/' + id + '/move', destinationUnitId);
   }
 
-  update(unitId: number, task: LearningTask): Observable<LearningTask> {
-    return this.http.put<LearningTask>(this.baseUrl + unitId + '/learning-tasks', task);
+  update(unitId: number, task: LearningTask, context?: HttpContext): Observable<LearningTask> {
+    return this.http.put<LearningTask>(this.baseUrl + unitId + '/learning-tasks', task, { context });
   }
 
   delete(unitId: number, taskId: number): Observable<unknown> {

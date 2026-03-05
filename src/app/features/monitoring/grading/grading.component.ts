@@ -11,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { NotificationService } from '../../../core/notification/notification.service';
 import { map } from 'rxjs';
 import { Learner, getAdjacentLearner } from '../model/learner.model';
 import { GradingService } from './grading.service';
@@ -38,7 +38,7 @@ export class GradingComponent {
   readonly clipboardComponent = ClipboardButtonComponent;
   private readonly gradingService = inject(GradingService);
   private readonly clipboard = inject(Clipboard);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notify = inject(NotificationService);
 
   readonly courseId = input.required<number>();
   readonly selectedLearnerId = input.required<number>();
@@ -269,9 +269,7 @@ export class GradingComponent {
       this.createTag('standards', standards),
     );
     this.clipboard.copy(prompt);
-    this.snackBar.open('Kopirano. Odgovor ChatGPTa stavi u "Sirova evaluacija" i klikni "Zameni formu".', 'OK', {
-      horizontalPosition: 'right', verticalPosition: 'bottom', duration: 3000,
-    });
+    this.notify.info('Kopirano. Odgovor ChatGPTa stavi u "Sirova evaluacija" i klikni "Zameni formu".');
   }
 
   private createTag(tag: string, content: string): string {

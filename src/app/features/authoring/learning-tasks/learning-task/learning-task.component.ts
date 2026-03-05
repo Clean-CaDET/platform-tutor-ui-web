@@ -3,7 +3,9 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { getRouteParams, onNavigationEnd } from '../../../../core/route.util';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpContext } from '@angular/common/http';
+import { NotificationService } from '../../../../core/notification/notification.service';
+import { SKIP_GLOBAL_ERROR } from '../../../../core/http/global-ui.interceptor';
 import { Title } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,8 +39,9 @@ export class LearningTaskComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notify = inject(NotificationService);
   private readonly title = inject(Title);
+  private readonly skipErrorCtx = new HttpContext().set(SKIP_GLOBAL_ERROR, true);
 
   readonly RequestStatus = RequestStatus;
 
@@ -213,7 +216,7 @@ export class LearningTaskComponent {
 
   updateTask(task: LearningTask): void {
     this.updateStatus.set(RequestStatus.Started);
-    this.taskService.update(this.unitId(), task).subscribe({
+    this.taskService.update(this.unitId(), task, this.skipErrorCtx).subscribe({
       next: updatedTask => {
         this.updateStatus.set(RequestStatus.Completed);
         this.setupTaskAndActivities(updatedTask);
@@ -226,11 +229,11 @@ export class LearningTaskComponent {
       error: error => {
         this.updateStatus.set(RequestStatus.Error);
         if (error.error?.status === 409) {
-          this.snackBar.open('Greška: Aktivnost sa datim kodom već postoji u zadatku. Izmeni kod.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
+          this.notify.error('Greška: Aktivnost sa datim kodom već postoji u zadatku. Izmeni kod.');
         } else if (error.status === 0) {
-          this.snackBar.open('Greška: Server nije prihvatio zahtev. Probaj da ponoviš operaciju.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
+          this.notify.error('Greška: Server nije prihvatio zahtev. Probaj da ponoviš operaciju.');
         } else {
-          this.snackBar.open('Greška: Zahtev nije obrađen. Kod greške je: ' + (error.error?.status ?? error.status) + ' Probaj da ponoviš operaciju.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
+          this.notify.error('Greška: Zahtev nije obrađen. Kod greške je: ' + (error.error?.status ?? error.status) + ' Probaj da ponoviš operaciju.');
         }
       },
     });

@@ -29,7 +29,7 @@ export function createFeedbackMessage(feedback: Feedback): string {
     case 'Pump':
       return pumpMessages[Math.floor(Math.random() * pumpMessages.length)];
     case 'Hint':
-      return feedback.hint ?? 'Pogledaj gradivo za pomoć.';
+      return '💡Odgovor nije skroz tačan. Zamisli se nad sledećim:\n' + feedback.hint;
     case 'Correctness':
       return feedback.evaluation
         ? `Tačnost: ${Math.round(feedback.evaluation.correctnessLevel * 100)}%`

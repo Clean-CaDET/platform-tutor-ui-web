@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
@@ -17,11 +17,11 @@ export class ReportService {
     return this.http.get<CourseReport>(`${this.baseUrl}${courseId}/${learnerId}`);
   }
 
-  saveOrUpdate(report: CourseReport): Observable<CourseReport> {
+  saveOrUpdate(report: CourseReport, context?: HttpContext): Observable<CourseReport> {
     if (report.id) {
-      return this.http.put<CourseReport>(`${this.baseUrl}${report.courseId}/${report.learnerId}`, report);
+      return this.http.put<CourseReport>(`${this.baseUrl}${report.courseId}/${report.learnerId}`, report, { context });
     }
-    return this.http.post<CourseReport>(`${this.baseUrl}${report.courseId}/${report.learnerId}`, report);
+    return this.http.post<CourseReport>(`${this.baseUrl}${report.courseId}/${report.learnerId}`, report, { context });
   }
 
   getAchievements(courseId: number, learnerId: number): Observable<CourseReport> {

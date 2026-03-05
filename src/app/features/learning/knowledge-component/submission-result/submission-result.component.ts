@@ -78,7 +78,7 @@ export class SubmissionResultComponent implements OnInit {
   private processFeedback(feedback: Feedback, isFirstSatisfaction: boolean): void {
     const message = createFeedbackMessage(feedback);
     const messages = isFirstSatisfaction
-      ? [message, 'Čestitamo! Komponenta znanja savladana!']
+      ? [message + "\n\n🥳 Pitanje na stranu, čestitam! Komponenta znanja je rešena! Možeš dalje da ispituješ pitanja ili da se vratiš na 'Lekciju' i pređeš na sledeći izazov."]
       : [message];
 
     if (isFirstSatisfaction) {

@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PagedResults } from '../../model/paged-results.model';
@@ -21,8 +21,8 @@ export abstract class CrudService<T extends Entity> {
     return this.http.get<T>(baseUrl + id);
   }
 
-  create(baseUrl: string, newItem: T): Observable<T> {
-    return this.http.post<T>(baseUrl, newItem);
+  create(baseUrl: string, newItem: T, context?: HttpContext): Observable<T> {
+    return this.http.post<T>(baseUrl, newItem, { context });
   }
 
   bulkCreate(baseUrl: string, items: T[]): Observable<unknown> {

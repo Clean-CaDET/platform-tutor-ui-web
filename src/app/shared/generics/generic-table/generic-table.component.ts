@@ -3,7 +3,9 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpContext } from '@angular/common/http';
+import { NotificationService } from '../../../core/notification/notification.service';
+import { SKIP_GLOBAL_ERROR } from '../../../core/http/global-ui.interceptor';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -30,7 +32,7 @@ import { FieldOptionsPipe } from './field-option.pipe';
 export class GenericTableComponent {
   private readonly dialog = inject(MatDialog);
   private readonly httpService = inject<CrudService<Entity>>(CrudService);
-  private readonly errorsBar = inject(MatSnackBar);
+  private readonly notify = inject(NotificationService);
 
   readonly title = input<string>('');
   readonly baseUrl = input.required<string>();
@@ -85,11 +87,15 @@ export class GenericTableComponent {
     const dialogRef = this.openDialog({}, '### Dodavanje');
     dialogRef.afterClosed().subscribe(result => {
       if (!result) return;
-      this.httpService.create(this.baseUrl(), result).subscribe({
+      const ctx = new HttpContext().set(SKIP_GLOBAL_ERROR, true);
+      this.httpService.create(this.baseUrl(), result, ctx).subscribe({
         next: () => this.entitiesResource.reload(),
         error: (error) => {
-          if (error.error?.status === 400)
-            this.errorsBar.open('Nevalidni podaci.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
+          if (error.error?.status === 400) {
+            this.notify.error('Nevalidni podaci.');
+          } else {
+            this.notify.error();
+          }
         },
       });
     });

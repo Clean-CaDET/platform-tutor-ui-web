@@ -1,7 +1,9 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
 import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpContext } from '@angular/common/http';
+import { NotificationService } from '../../../core/notification/notification.service';
+import { SKIP_GLOBAL_ERROR } from '../../../core/http/global-ui.interceptor';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -34,7 +36,7 @@ interface FeedbackTableRow {
 export class CourseSummaryReportComponent {
   private readonly reportService = inject(ReportService);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
+  private readonly notify = inject(NotificationService);
 
   readonly courseId = input<number>(0);
   readonly learnerId = input<number>(0);
@@ -142,21 +144,22 @@ export class CourseSummaryReportComponent {
       ...r,
       report: this.reportForm.get('reportText')!.value!,
     };
-    this.reportService.saveOrUpdate(updatedReport).subscribe({
+    const ctx = new HttpContext().set(SKIP_GLOBAL_ERROR, true);
+    this.reportService.saveOrUpdate(updatedReport, ctx).subscribe({
       next: (result) => {
         this.report.set(result);
         this.originalReport = result.report;
-        this.snackBar.open('Izveštaj sačuvan!', 'Zatvori', { duration: 3000, horizontalPosition: 'right' });
+        this.notify.success('Izveštaj sačuvan!');
       },
       error: () => {
-        this.snackBar.open('Greška pri čuvanju.', 'Zatvori', { duration: 3000, horizontalPosition: 'right' });
+        this.notify.error('Greška pri čuvanju.');
       },
     });
   }
 
   resetReport(): void {
     this.reportForm.patchValue({ reportText: this.originalReport });
-    this.snackBar.open('Izveštaj vraćen na prethodnu verziju', 'Zatvori', { duration: 2000, horizontalPosition: 'right' });
+    this.notify.info('Izveštaj vraćen na prethodnu verziju');
   }
 
   reloadStats(): void {

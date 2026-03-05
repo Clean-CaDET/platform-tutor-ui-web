@@ -1,7 +1,6 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -30,8 +29,6 @@ import { JsonPipe } from '@angular/common';
 export class ReflectionsComponent {
   private readonly authoringService = inject(ReflectionAuthoringService);
   private readonly dialog = inject(MatDialog);
-  private readonly snackBar = inject(MatSnackBar);
-
   readonly unitId = input.required<number>();
 
   reflections = signal<Reflection[]>([]);
@@ -144,7 +141,7 @@ export class ReflectionsComponent {
       if (!result) return;
       this.authoringService.delete(this.unitId(), id).subscribe({
         next: () => this.reflections.update(r => r.filter(ref => ref.id !== id)),
-        error: () => this.showError(),
+        error: () => {},
       });
     });
   }
@@ -159,7 +156,7 @@ export class ReflectionsComponent {
           this.reflections.update(r => r.map(ref => ref.id === 0 ? newReflection : ref));
           this.isEditing.set(false);
         },
-        error: () => this.showError(),
+        error: () => {},
       });
     } else {
       this.authoringService.update(this.unitId(), formReflection).subscribe({
@@ -168,7 +165,7 @@ export class ReflectionsComponent {
           this.reflections.update(r => r.map(ref => ref.id === updated.id ? updated : ref));
           this.isEditing.set(false);
         },
-        error: () => this.showError(),
+        error: () => {},
       });
     }
   }
@@ -193,9 +190,5 @@ export class ReflectionsComponent {
     if (!this.workingItem?.id) {
       this.reflections.update(r => r.filter(ref => ref.id !== 0));
     }
-  }
-
-  private showError(): void {
-    this.snackBar.open('Greška: Zahtev nije obrađen. Probaj da ponoviš operaciju.', 'OK', { horizontalPosition: 'right', verticalPosition: 'top' });
   }
 }

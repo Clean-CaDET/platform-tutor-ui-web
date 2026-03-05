@@ -6,13 +6,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideMarkdown, CLIPBOARD_OPTIONS } from 'ngx-markdown';
 import { routes } from './app.routes';
 import { authInterceptor } from './core/auth/auth.interceptor';
+import { globalUiInterceptor } from './core/http/global-ui.interceptor';
 import { ClipboardButtonComponent } from './shared/markdown/clipboard-button/clipboard-button.component';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAppInitializer(() => inject(AuthService).checkIfUserExists()),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, globalUiInterceptor])),
     provideAnimationsAsync(),
     provideMarkdown({
       clipboardOptions: {

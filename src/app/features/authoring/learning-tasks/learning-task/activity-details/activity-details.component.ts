@@ -193,8 +193,8 @@ export class ActivityDetailsComponent {
       case 'Text': ctrl.setValue('^.{1,1000}$'); break;
       case 'Link': ctrl.setValue(''); break;
       case 'Code': ctrl.setValue(''); break;
-      case 'GitPR': ctrl.setValue('^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/pull\\/([0-9]{1,4})$'); break;
-      case 'GitCommit': ctrl.setValue('^https:\\/\\/github\\.com\\/([a-zA-Z0-9_-]+)\\/([a-zA-Z0-9_-]+)\\/commit\\/([a-fA-F0-9]{40})$'); break;
+      case 'GitPR': ctrl.setValue('^https:\\/\\/github\\.com\\/([a-zA-Z0-9_.-]+)\\/([a-zA-Z0-9_.-]+)\\/pull\\/([0-9]{1,4})$'); break;
+      case 'GitCommit': ctrl.setValue('^https:\\/\\/github\\.com\\/([a-zA-Z0-9_.-]+)\\/([a-zA-Z0-9_.-]+)\\/commit\\/([a-fA-F0-9]{40})$'); break;
       case 'TrelloCard': ctrl.setValue('^https:\\/\\/trello\\.com\\/c\\/.*'); break;
     }
   }
