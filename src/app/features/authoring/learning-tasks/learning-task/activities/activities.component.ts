@@ -61,11 +61,11 @@ export class ActivitiesComponent {
   }
 
   reorder(activity: Activity, index: number, up: boolean): void {
-    const subs = [...(activity.subactivities ?? [])];
+    const subs = activity.subactivities ?? [];
     const item = subs[index];
     subs.splice(index, 1);
     subs.splice(index + (up ? -1 : 1), 0, item);
-    activity.subactivities = subs.map((s, i) => ({ ...s, order: i + 1 }));
+    subs.forEach((s, i) => s.order = i + 1);
     this.save(activity);
   }
 

@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, signal, effect, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,10 +30,18 @@ export class MrqComponent implements OnInit {
   readonly isProcessing = signal(false);
   private reattemptCount = 0;
 
-  ngOnInit(): void {
-    this.items.set(shuffleArray([...this.item().items]));
-    this.checked.set(new Array(this.items().length).fill(false));
+  constructor() {
+    effect(() => {
+      const currentItem = this.item();
+      this.items.set(shuffleArray([...currentItem.items]));
+      this.checked.set(new Array(this.items().length).fill(false));
+      this.evaluation.set(null);
+      this.isProcessing.set(false);
+      this.reattemptCount = 0;
+    });
+  }
 
+  ngOnInit(): void {
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
       this.isProcessing.set(false);
       if (feedback.type === 'Solution' || feedback.type === 'Correctness') {
@@ -71,7 +79,7 @@ export class MrqComponent implements OnInit {
   }
 
   getAnswerResult(text: string): MrqItemEvaluation | undefined {
-    return this.evaluation()?.itemEvaluations.find(e => e.text === text);
+    return this.evaluation()?.itemEvaluations?.find(e => e.text === text);
   }
 
   hasCheckedAnswers(): boolean {

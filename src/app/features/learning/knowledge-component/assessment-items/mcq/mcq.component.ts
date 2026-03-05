@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, signal, effect, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonModule } from '@angular/material/button';
@@ -29,9 +29,18 @@ export class McqComponent implements OnInit {
   readonly isProcessing = signal(false);
   private reattemptCount = 0;
 
-  ngOnInit(): void {
-    this.answers.set(shuffleArray([...this.item().possibleAnswers]));
+  constructor() {
+    effect(() => {
+      const currentItem = this.item();
+      this.answers.set(shuffleArray([...currentItem.possibleAnswers]));
+      this.checked.set('');
+      this.evaluation.set(null);
+      this.isProcessing.set(false);
+      this.reattemptCount = 0;
+    });
+  }
 
+  ngOnInit(): void {
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
       this.isProcessing.set(false);
       if (feedback.type === 'Solution' || feedback.type === 'Correctness') {

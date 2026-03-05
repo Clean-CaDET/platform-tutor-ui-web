@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, inject, signal, effect, OnInit, DestroyRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -28,6 +28,16 @@ export class SaqComponent implements OnInit {
   readonly evaluation = signal<SaqEvaluation | null>(null);
   readonly isProcessing = signal(false);
   private reattemptCount = 0;
+
+  constructor() {
+    effect(() => {
+      this.item();
+      this.answer.set('');
+      this.evaluation.set(null);
+      this.isProcessing.set(false);
+      this.reattemptCount = 0;
+    });
+  }
 
   ngOnInit(): void {
     this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
