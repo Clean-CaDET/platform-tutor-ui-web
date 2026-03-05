@@ -15,7 +15,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { YouTubePlayer } from '@angular/youtube-player';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
 import { CanComponentDeactivate } from '../../../core/confirm-exit.guard';
-import { onNavigationEnd } from '../../../core/route.util';
+import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 import { TaskService } from './task.service';
 import { TaskProgressService } from './task-progress.service';
 import { LearningTask } from './model/learning-task.model';
@@ -93,7 +93,18 @@ export class TaskComponent implements CanComponentDeactivate {
 
     this.destroyRef.onDestroy(() => clearTimeout(this.videoEventDelayerId));
 
+    const params = getRouteParams(this.route);
+    const unitId = +params['unitId'];
+    const taskId = +params['taskId'];
+    let initialLoaded = false;
+    if (unitId && taskId) {
+      this.courseId = +params['courseId'];
+      this.loadTask(unitId, taskId);
+      initialLoaded = true;
+    }
+
     onNavigationEnd((_url, p) => {
+      if (initialLoaded) { initialLoaded = false; return; }
       this.courseId = +p['courseId'];
       this.loadTask(+p['unitId'], +p['taskId']);
     });
