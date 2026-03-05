@@ -11,18 +11,23 @@
     AI evaluacije nemoj slepo slušati jer nekad nude pogrešne predloge (false positive).<br>Takođe može da ne pronađe problem (false negative), zbog čega je korisno pokrenuti ih više puta u odvojenom četu.
   </small>
   @for (instructionalItem of instructionalItems(); track instructionalItem.id; let i = $index) {
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" [id]="'i' + instructionalItem.id">
       @if (!editMap()[instructionalItem.id]) {
         <div>
-          <div class="flex-row theme-highlight-primary">
-            <span style="flex-grow: 1"></span>
+          <div class="flex-row theme-highlight-primary" [class.theme-warn]="instructionalItem.id === selectedIi()">
+            <small class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;">
+              <b>{{ i + 1 }}.&nbsp;&nbsp;</b>
+              <button matIconButton (click)="copyLink(instructionalItem.id)" matTooltip="Kopiraj link do gradiva">
+                <mat-icon>link</mat-icon>
+              </button>
+            </small>
             @if (i !== 0) {
-              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i - 1])">
+              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i - 1])" [disabled]="reordering()">
                 <mat-icon>arrow_upward</mat-icon>
               </button>
             }
             @if (i !== instructionalItems().length - 1) {
-              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i + 1])">
+              <button matIconButton (click)="swapOrder(instructionalItem, instructionalItems()[i + 1])" [disabled]="reordering()">
                 <mat-icon>arrow_downward</mat-icon>
               </button>
             }

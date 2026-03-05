@@ -47,6 +47,7 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
   readonly assessmentItems = signal<AuthoringAssessmentItem[]>([]);
   readonly editMap = signal<Record<number | string, boolean | AuthoringAssessmentItem>>({});
   readonly selectedAi = signal<number>(0);
+  readonly reordering = signal(false);
 
   private kcId = 0;
 
@@ -111,10 +112,15 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
     const swappedFirst = { ...firstItem, order: secondOrder };
     const swappedSecond = { ...secondItem, order: firstOrder };
 
-    this.assessmentService.updateOrdering(this.kcId, [swappedFirst, swappedSecond]).subscribe(items => {
-      const remaining = this.assessmentItems().filter(i => i.id !== items[0].id && i.id !== items[1].id);
-      this.assessmentItems.set([...remaining, ...items].sort((a, b) => a.order - b.order));
-      this.scrollDeferred((firstItem.id ?? '').toString());
+    this.reordering.set(true);
+    this.assessmentService.updateOrdering(this.kcId, [swappedFirst, swappedSecond]).subscribe({
+      next: items => {
+        const remaining = this.assessmentItems().filter(i => i.id !== items[0].id && i.id !== items[1].id);
+        this.assessmentItems.set([...remaining, ...items].sort((a, b) => a.order - b.order));
+        this.scrollDeferred((firstItem.id ?? '').toString());
+        this.reordering.set(false);
+      },
+      error: () => this.reordering.set(false),
     });
   }
 

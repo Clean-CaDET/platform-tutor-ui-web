@@ -16,7 +16,7 @@
         <div>
           <div class="flex-row gap theme-highlight-primary">
             <small class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;"
-              [class.warn]="item.id === selectedAi()">
+              [class.theme-warn]="item.id === selectedAi()">
               <b>{{ i + 1 }}.&nbsp;&nbsp;</b>
               <span><b>Tip: </b>{{ getTypeLabel(item.$type) }}</span>
               <button matIconButton (click)="copyPrompt(item)" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
@@ -28,13 +28,13 @@
             </small>
             <div class="flex-row">
               @if (i !== 0) {
-                <button matIconButton matTooltip="Rotiraj sa gornjim"
+                <button matIconButton matTooltip="Rotiraj sa gornjim" [disabled]="reordering()"
                   (click)="swapOrder(item, assessmentItems()[i - 1])">
                   <mat-icon>arrow_upward</mat-icon>
                 </button>
               }
               @if (i !== assessmentItems().length - 1) {
-                <button matIconButton matTooltip="Rotiraj sa donjim"
+                <button matIconButton matTooltip="Rotiraj sa donjim" [disabled]="reordering()"
                   (click)="swapOrder(item, assessmentItems()[i + 1])">
                   <mat-icon>arrow_downward</mat-icon>
                 </button>

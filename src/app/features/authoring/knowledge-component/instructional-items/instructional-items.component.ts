@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal, ElementRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
@@ -33,10 +33,13 @@ export class InstructionalItemsComponent implements CanComponentDeactivate {
   private readonly route = inject(ActivatedRoute);
   private readonly dialog = inject(MatDialog);
   private readonly clipboard = inject(Clipboard);
+  private readonly hostEl = inject(ElementRef);
 
   readonly instructionalItems = signal<InstructionalItem[]>([]);
   readonly editMap = signal<Record<number | string, boolean | string>>({});
   readonly emptyVideo = signal<VideoLearningObject | null>(null);
+  readonly reordering = signal(false);
+  readonly selectedIi = signal<number>(0);
 
   private kcId = 0;
 
@@ -67,23 +70,34 @@ export class InstructionalItemsComponent implements CanComponentDeactivate {
       const map: Record<number, boolean> = {};
       items.forEach(i => map[i.id] = false);
       this.editMap.set(map);
+
+      const iiId = +this.route.snapshot.queryParams['iiId'];
+      if (iiId) {
+        this.selectedIi.set(iiId);
+        this.scrollDeferred(iiId.toString());
+      }
     });
   }
 
   swapOrder(firstItem: InstructionalItem, secondItem: InstructionalItem): void {
-    const firstOrder = firstItem.order;
-    const secondOrder = secondItem.order;
-
-    this.instructionalItems.update(items =>
-      items.map(i => {
-        if (i.id === firstItem.id) return { ...i, order: secondOrder };
-        if (i.id === secondItem.id) return { ...i, order: firstOrder };
-        return i;
-      })
-    );
-
-    this.instructionService.updateOrdering(this.kcId, this.instructionalItems()).subscribe(items => {
-      this.instructionalItems.set(items.sort((a, b) => a.order - b.order));
+    const swapped = [
+      { ...firstItem, order: secondItem.order },
+      { ...secondItem, order: firstItem.order },
+    ];
+    this.reordering.set(true);
+    this.instructionService.updateOrdering(this.kcId, swapped).subscribe({
+      next: () => {
+        this.instructionalItems.update(items =>
+          items.map(i => {
+            if (i.id === firstItem.id) return { ...i, order: secondItem.order };
+            if (i.id === secondItem.id) return { ...i, order: firstItem.order };
+            return i;
+          }).sort((a, b) => a.order - b.order)
+        );
+        this.reordering.set(false);
+        this.scrollDeferred(firstItem.id.toString());
+      },
+      error: () => this.reordering.set(false),
     });
   }
 
@@ -185,6 +199,22 @@ export class InstructionalItemsComponent implements CanComponentDeactivate {
       case 'image': return `Slika: ${item.caption}`;
       case 'video': return `Video koji razmatra: ${item.caption}`;
     }
+  }
+
+  copyLink(iiId: number): void {
+    this.selectedIi.set(iiId);
+    const baseUrl = window.location.href.split('?')[0];
+    this.clipboard.copy(baseUrl + '?iiId=' + iiId);
+  }
+
+  private scroll(elem: string): void {
+    if (!elem) return;
+    (this.hostEl.nativeElement as HTMLElement)
+      .querySelector('#i' + elem)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  private scrollDeferred(elem: string): void {
+    setTimeout(() => this.scroll(elem), 100);
   }
 
   private getMaxOrder(): number {
