@@ -20,7 +20,7 @@
         @if (!selectedFeedback()?.id || selectedFeedback()?.opinions) {
           <div class="flex-col gap">
             @for (group of questionGroups(); track group.name) {
-              <div class="question-group">
+              <div>
                 <div class="theme-highlight-flat" style="padding: 0 10px; margin: 0 -10px">
                   <h3 style="margin: 0;"><b>{{ group.name }}</b></h3>
                 </div>
@@ -65,12 +65,11 @@
           <textarea matInput formControlName="semaphoreJustification" rows="4"></textarea>
         </mat-form-field>
         <div class="flex-row">
-          <button matButton="elevated" type="submit" style="width: 100px;" (click)="onSubmit()"
-            [class.theme-primary-bg]="!selectedFeedback()?.id"
+          <button [matButton]="selectedFeedback()?.id ? 'elevated' : 'filled'" type="submit" style="width: 100px;" (click)="onSubmit()"
             [disabled]="progressBarActive() || !loaded()">{{ selectedFeedback()?.id ? 'Ažuriraj' : 'Sačuvaj' }}</button>
           <span style="flex-grow: 1;"></span>
           @if (selectedFeedback()?.id) {
-            <button matButton="elevated" class="warn-button" style="width: 100px;" (click)="onDelete(selectedFeedback()!.id!)"
+            <button matButton="elevated" style="width: 100px;" (click)="onDelete(selectedFeedback()!.id!)"
               [disabled]="progressBarActive() || !loaded()">Obriši</button>
           }
         </div>

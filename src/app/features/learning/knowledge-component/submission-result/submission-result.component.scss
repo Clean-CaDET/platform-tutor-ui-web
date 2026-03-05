@@ -66,8 +66,3 @@ pre {
 .feedback-container > pre:last-child {
   scroll-snap-align: end;
 }
-
-.theme-primary-button {
-  --mat-elevated-button-container-color: var(--mat-sys-primary);
-  --mat-elevated-button-label-text-color: var(--mat-sys-on-primary);
-}

@@ -100,8 +100,7 @@
                   <div class="flex-col gap">
                     <button matButton="elevated" (click)="setAllMin()">Min.</button>
                     <button matButton="elevated" (click)="setAllMax()">Maks.</button>
-                    <button matButton="elevated"
-                      [class.theme-primary-bg]="step.progress!.status === 'Answered' || gradingForm!.dirty"
+                    <button [matButton]="step.progress!.status === 'Answered' || gradingForm!.dirty ? 'filled' : 'elevated'"
                       [disabled]="gradingForm!.invalid" (click)="submit()">
                       Oceni
                     </button>
