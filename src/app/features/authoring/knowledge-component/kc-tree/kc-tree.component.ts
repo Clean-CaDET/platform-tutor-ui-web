@@ -1,12 +1,16 @@
-import { Component, ChangeDetectionStrategy, inject, input, output, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, output, linkedSignal } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
+import { HttpContext } from '@angular/common/http';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
+import { SKIP_GLOBAL_ERROR } from '../../../../core/http/global-ui.interceptor';
+import { NotificationService } from '../../../../core/notification/notification.service';
 import { KnowledgeComponent } from '../../model/knowledge-component.model';
 import { DeleteFormComponent } from '../../../../shared/generics/delete-form/delete-form.component';
 import { KnowledgeComponentAuthoringService } from '../knowledge-component-authoring.service';
@@ -31,27 +35,20 @@ interface TreeNode {
 })
 export class KcTreeComponent {
   private readonly dialog = inject(MatDialog);
+  private readonly notify = inject(NotificationService);
   private readonly kcService = inject(KnowledgeComponentAuthoringService);
 
   readonly unitId = input.required<number>();
   readonly kcsChanged = output<KnowledgeComponent[]>();
-  readonly nodes = signal<TreeNode[]>([]);
 
-  private kcs = signal<KnowledgeComponent[]>([]);
+  private readonly kcsResource = rxResource({
+    params: () => ({ unitId: this.unitId() }),
+    stream: ({ params }) => this.kcService.getByUnit(params.unitId),
+    defaultValue: [],
+  });
 
-  constructor() {
-    effect(() => {
-      const unitId = this.unitId();
-      this.loadKcs(unitId);
-    });
-  }
-
-  private loadKcs(unitId: number): void {
-    this.kcService.getByUnit(unitId).subscribe(kcs => {
-      this.kcs.set(kcs);
-      this.buildTree(kcs);
-    });
-  }
+  private kcs = linkedSignal(() => this.kcsResource.value());
+  readonly nodes = linkedSignal(() => this.buildTree(this.kcs()));
 
   toggleExpand(nodeId: number): void {
     this.nodes.update(nodes => this.toggleNodeInTree(nodes, nodeId));
@@ -65,13 +62,10 @@ export class KcTreeComponent {
     });
   }
 
-  private buildTree(kcs: KnowledgeComponent[]): void {
+  private buildTree(kcs: KnowledgeComponent[]): TreeNode[] {
     const rootKc = kcs.find(kc => !kc.parentId);
-    if (!rootKc) {
-      this.nodes.set([]);
-      return;
-    }
-    this.nodes.set([this.createNode(rootKc, kcs)]);
+    if (!rootKc) return [];
+    return [this.createNode(rootKc, kcs)];
   }
 
   private createNode(kc: KnowledgeComponent, allKcs: KnowledgeComponent[]): TreeNode {
@@ -88,12 +82,6 @@ export class KcTreeComponent {
       children,
       isExpanded: true,
     };
-  }
-
-  private emitKcsChanged(kcs: KnowledgeComponent[]): void {
-    this.kcs.set(kcs);
-    this.buildTree(kcs);
-    this.kcsChanged.emit(kcs);
   }
 
   addKc(parentId?: number): void {
@@ -127,7 +115,9 @@ export class KcTreeComponent {
         return this.kcService.create(kc);
       }),
     ).subscribe(newKc => {
-      this.emitKcsChanged([...kcs, newKc]);
+      const updatedKcs = [...kcs, newKc];
+      this.kcs.set(updatedKcs);
+      this.kcsChanged.emit(updatedKcs);
     });
   }
 
@@ -151,17 +141,28 @@ export class KcTreeComponent {
       switchMap(result => this.kcService.update(result)),
     ).subscribe(updatedKc => {
       const updatedKcs = kcs.map(k => k.id === updatedKc.id ? updatedKc : k);
-      this.emitKcsChanged(updatedKcs);
+      this.kcs.set(updatedKcs);
+      this.kcsChanged.emit(updatedKcs);
     });
   }
 
   deleteKc(id: number): void {
     this.dialog.open(DeleteFormComponent, { data: { secureDelete: true } }).afterClosed().pipe(
       filter(Boolean),
-      switchMap(() => this.kcService.delete(id)),
-    ).subscribe(() => {
-      const kcs = this.kcs().filter(kc => kc.id !== id);
-      this.emitKcsChanged(kcs);
+      switchMap(() => this.kcService.delete(id, new HttpContext().set(SKIP_GLOBAL_ERROR, true))),
+    ).subscribe({
+      next: () => {
+        const updatedKcs = this.kcs().filter(kc => kc.id !== id);
+        this.kcs.set(updatedKcs);
+        this.kcsChanged.emit(updatedKcs);
+      },
+      error: (err) => {
+        if (err.status === 409) {
+          this.notify.error('Nije moguće obrisati KZ koji ima potomke.');
+        } else {
+          this.notify.error();
+        }
+      },
     });
   }
 

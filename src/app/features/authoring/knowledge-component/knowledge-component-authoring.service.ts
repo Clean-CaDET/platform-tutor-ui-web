@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { KnowledgeComponent } from '../model/knowledge-component.model';
 import { environment } from '../../../../environments/environment';
@@ -26,7 +26,7 @@ export class KnowledgeComponentAuthoringService {
     return this.http.put<KnowledgeComponent>(this.baseUrl + kc.id, kc);
   }
 
-  delete(kcId: number): Observable<KnowledgeComponent> {
-    return this.http.delete<KnowledgeComponent>(this.baseUrl + kcId);
+  delete(kcId: number, context?: HttpContext): Observable<KnowledgeComponent> {
+    return this.http.delete<KnowledgeComponent>(this.baseUrl + kcId, { context });
   }
 }

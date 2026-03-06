@@ -9,7 +9,7 @@
   @if (evaluation(); as eval) {
     <div class="evaluation-section">
       @if (eval.acceptableAnswers?.length) {
-        <p><b>Prihvatljivi odgovori:</b> {{ eval.acceptableAnswers.join(', ') }}</p>
+        <p><b>Prihvatljivi odgovori:</b> {{ eval.acceptableAnswers!.join(', ') }}</p>
       }
       @if (eval.feedback) {
         <cc-markdown>{{ eval.feedback }}</cc-markdown>

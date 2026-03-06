@@ -22,7 +22,7 @@ export interface MrqEvaluation extends BaseEvaluation {
 
 export interface SaqEvaluation extends BaseEvaluation {
   $type: 'saqEvaluation';
-  acceptableAnswers: string[];
+  acceptableAnswers?: string[];
   feedback: string;
 }
 

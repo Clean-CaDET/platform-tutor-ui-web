@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, linkedSignal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { LearningTask } from '../../learning/task/model/learning-task.model';
 import { Unit } from '../model/unit.model';
 import { LearningTasksAuthoringService } from './learning-tasks-authoring.service';
@@ -28,20 +29,13 @@ export class LearningTasksComponent {
   readonly units = input.required<Unit[]>();
   readonly unitId = input.required<number>();
 
-  learningTasks = signal<LearningTask[]>([]);
+  private readonly tasksResource = rxResource({
+    params: () => ({ unitId: this.unitId() }),
+    stream: ({ params }) => this.taskService.getByUnit(params.unitId),
+    defaultValue: [],
+  });
 
-  constructor() {
-    effect(() => {
-      const unitId = this.unitId();
-      this.loadTasks(unitId);
-    });
-  }
-
-  private loadTasks(unitId: number): void {
-    this.taskService.getByUnit(unitId).subscribe(tasks => {
-      this.learningTasks.set(this.sortTasks(tasks));
-    });
-  }
+  learningTasks = linkedSignal(() => this.sortTasks(this.tasksResource.value()));
 
   add(template: LearningTask | null): void {
     const tasks = this.learningTasks();

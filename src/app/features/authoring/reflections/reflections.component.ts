@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, signal, effect, linkedSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,6 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { tap } from 'rxjs';
 import { Reflection, ReflectionQuestion } from '../../learning/reflection/reflection.model';
 import { ReflectionAuthoringService } from './reflection-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
@@ -31,7 +33,17 @@ export class ReflectionsComponent {
   private readonly dialog = inject(MatDialog);
   readonly unitId = input.required<number>();
 
-  reflections = signal<Reflection[]>([]);
+  private readonly reflectionsResource = rxResource({
+    params: () => ({ unitId: this.unitId() }),
+    stream: ({ params }) => this.authoringService.getByUnit(params.unitId).pipe(
+      tap(reflections => reflections.forEach(r =>
+        r.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.category)?.name)
+      )),
+    ),
+    defaultValue: [],
+  });
+
+  reflections = linkedSignal(() => this.reflectionsResource.value());
   isEditing = signal(false);
   editId = signal(0);
   categories = getCategories();
@@ -40,17 +52,7 @@ export class ReflectionsComponent {
 
   constructor() {
     effect(() => {
-      const unitId = this.unitId();
-      this.loadReflections(unitId);
-    });
-  }
-
-  private loadReflections(unitId: number): void {
-    this.authoringService.getByUnit(unitId).subscribe(reflections => {
-      reflections.forEach(r =>
-        r.questions.forEach(q => q.categoryName = this.categories.find(c => c.id === q.category)?.name)
-      );
-      this.reflections.set(reflections);
+      this.reflectionsResource.value();
       this.isEditing.set(false);
     });
   }

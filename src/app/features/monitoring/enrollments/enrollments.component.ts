@@ -1,5 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input, computed, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { map } from 'rxjs';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
@@ -31,43 +33,37 @@ export class EnrollmentsComponent {
   readonly courseId = input.required<number>();
   readonly learners = input.required<Learner[]>();
 
-  readonly units = signal<MonitoringUnit[]>([]);
-  readonly progressBarActive = signal(false);
   readonly selectedDate = signal(new Date());
 
-  constructor() {
-    effect(() => {
-      const courseId = this.courseId();
-      if (courseId) this.getCourse();
-    });
-  }
+  private readonly unitsResource = rxResource({
+    params: () => ({ courseId: this.courseId() }),
+    stream: ({ params }) => this.enrollmentsService.getUnits(params.courseId).pipe(
+      map(course => (course.knowledgeUnits ?? []).sort((a, b) => a.order - b.order))
+    ),
+    defaultValue: [],
+  });
 
-  private getCourse(): void {
-    this.progressBarActive.set(true);
-    this.enrollmentsService.getUnits(this.courseId()).subscribe({
-      next: course => {
-        this.units.set((course.knowledgeUnits ?? []).sort((a, b) => a.order - b.order));
-        this.getEnrollments();
-      },
-      error: () => this.progressBarActive.set(false),
-    });
-  }
+  private readonly enrollmentsResource = rxResource({
+    params: () => {
+      const unitIds = this.unitsResource.value().map(u => u.id);
+      const learnerIds = this.learners().map(l => l.id);
+      if (!unitIds.length || !learnerIds.length) return undefined;
+      return { unitIds, learnerIds };
+    },
+    stream: ({ params }) => this.enrollmentsService.get(params.unitIds, params.learnerIds),
+    defaultValue: [],
+  });
 
-  private getEnrollments(): void {
-    this.progressBarActive.set(true);
-    this.enrollmentsService.get(this.units().map(u => u.id), this.learners().map(l => l.id))
-      .subscribe({
-        next: enrollments => {
-          this.progressBarActive.set(false);
-          const updated = this.units().map(u => {
-            const unitEnrollments = enrollments.filter(e => e.knowledgeUnitId === u.id);
-            return { ...u, enrollments: unitEnrollments, groupEnrollment: this.aggregateGroupEnrollment(unitEnrollments) };
-          });
-          this.units.set(updated);
-        },
-        error: () => this.progressBarActive.set(false),
-      });
-  }
+  readonly units = computed(() => {
+    const rawUnits = this.unitsResource.value();
+    const enrollments = this.enrollmentsResource.value();
+    return rawUnits.map(u => {
+      const unitEnrollments = enrollments.filter(e => e.knowledgeUnitId === u.id);
+      return { ...u, enrollments: unitEnrollments, groupEnrollment: this.aggregateGroupEnrollment(unitEnrollments) };
+    });
+  });
+
+  readonly progressBarActive = computed(() => this.unitsResource.isLoading() || this.enrollmentsResource.isLoading());
 
   private aggregateGroupEnrollment(unitEnrollments: Enrollment[]): Enrollment {
     if (!unitEnrollments.length) return { status: 'InactiveAll' };
@@ -104,34 +100,16 @@ export class EnrollmentsComponent {
   }
 
   private groupEnroll(unit: MonitoringUnit, enrollment: Enrollment): void {
-    this.progressBarActive.set(true);
     this.enrollmentsService.bulkEnroll(unit.id, this.learners().map(l => l.id), enrollment)
-      .subscribe({
-        next: newEnrollments => {
-          const updated = this.units().map(u => {
-            if (u.id !== unit.id) return u;
-            return { ...u, enrollments: newEnrollments, groupEnrollment: this.aggregateGroupEnrollment(newEnrollments) };
-          });
-          this.units.set(updated);
-          this.progressBarActive.set(false);
-        },
-        error: () => this.progressBarActive.set(false),
-      });
+      .subscribe(newEnrollments => this.enrollmentsResource.value.update(
+        current => [...current.filter(e => e.knowledgeUnitId !== unit.id), ...newEnrollments]
+      ));
   }
 
   groupUnenroll(unit: MonitoringUnit): void {
-    this.progressBarActive.set(true);
     this.enrollmentsService.bulkUnenroll(unit.id, this.learners().map(l => l.id))
-      .subscribe({
-        next: newEnrollments => {
-          const updated = this.units().map(u => {
-            if (u.id !== unit.id) return u;
-            return { ...u, enrollments: newEnrollments, groupEnrollment: this.aggregateGroupEnrollment(newEnrollments) };
-          });
-          this.units.set(updated);
-          this.progressBarActive.set(false);
-        },
-        error: () => this.progressBarActive.set(false),
-      });
+      .subscribe(newEnrollments => this.enrollmentsResource.value.update(
+        current => [...current.filter(e => e.knowledgeUnitId !== unit.id), ...newEnrollments]
+      ));
   }
 }
