@@ -1,4 +1,4 @@
-import {Crud} from './crud.model';
+import { Crud } from './crud.model';
 import { FieldOption } from './field-option';
 
 export interface Field {
@@ -6,6 +6,7 @@ export interface Field {
   type: string;
   label: string;
   required?: boolean;
+  readOnly?: boolean;
   crud?: Crud;
   options?: FieldOption[];
 }

@@ -1,0 +1,74 @@
+import { Component, ChangeDetectionStrategy, input, inject, signal, effect, OnInit, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatButtonModule } from '@angular/material/button';
+import { CcMarkdownComponent } from '../../../../../shared/markdown/cc-markdown.component';
+import { MultipleChoiceQuestion } from '../../../model/learning-object.model';
+import { McqEvaluation } from '../../../model/evaluation.model';
+import { SubmissionService } from '../../submission.service';
+import { AssessmentFeedbackConnectorService } from '../../assessment-feedback-connector.service';
+import { shuffleArray } from '../../../model/arrays';
+
+@Component({
+  selector: 'cc-mcq',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatRadioModule, MatButtonModule, CcMarkdownComponent],
+  templateUrl: './mcq.component.html',
+  styleUrl: './mcq.component.scss',
+})
+export class McqComponent implements OnInit {
+  private readonly submissionService = inject(SubmissionService);
+  private readonly connector = inject(AssessmentFeedbackConnectorService);
+  private readonly destroyRef = inject(DestroyRef);
+
+  readonly item = input.required<MultipleChoiceQuestion>();
+
+  readonly answers = signal<string[]>([]);
+  readonly checked = signal('');
+  readonly evaluation = signal<McqEvaluation | null>(null);
+  readonly isProcessing = signal(false);
+  private reattemptCount = 0;
+
+  constructor() {
+    effect(() => {
+      const currentItem = this.item();
+      this.answers.set(shuffleArray([...currentItem.possibleAnswers]));
+      this.checked.set('');
+      this.evaluation.set(null);
+      this.isProcessing.set(false);
+      this.reattemptCount = 0;
+    });
+  }
+
+  ngOnInit(): void {
+    this.connector.resultToAssessment$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(feedback => {
+      this.isProcessing.set(false);
+      if (feedback.type === 'Solution' || feedback.type === 'Correctness') {
+        this.evaluation.set(feedback.evaluation as McqEvaluation);
+      }
+    });
+  }
+
+  onSubmit(): void {
+    this.isProcessing.set(true);
+    this.submissionService.submit(this.item().id, {
+      $type: 'mcqSubmission',
+      answer: this.checked(),
+      reattemptCount: this.reattemptCount,
+    }).subscribe({
+      next: feedback => {
+        this.reattemptCount++;
+        this.connector.sendToResult(feedback);
+      },
+      error: () => {
+        this.connector.sendToResult({ type: 'Error' });
+      },
+    });
+  }
+
+  getItemClass(answer: string): string {
+    const eval$ = this.evaluation();
+    if (!eval$ || this.checked() !== answer) return '';
+    return eval$.correctAnswer === answer ? 'color-correct' : 'color-wrong';
+  }
+}

@@ -1,0 +1,43 @@
+<mat-card appearance="outlined" style="height: 100%;"
+    (click)="onCourseClick()"
+    [class.theme-hover]="user().role.includes('learner')"
+    [class.opaque]="course().isArchived">
+  <mat-card-header [matTooltip]="course().isArchived ? 'Arhiviran' : ''">
+    <mat-card-title style="text-align: left;">
+      <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">book</mat-icon>
+      @if (user().role === 'instructor') {
+        <span><b>{{ course().code }}</b>:</span>
+      }
+      <span>{{ course().name }}</span>
+    </mat-card-title>
+    <span style="flex-grow: 1;"></span>
+    <span style="margin-top: 6px;">Početak: {{ course().startDate | date:'d.M.yyyy.' }}</span>
+  </mat-card-header>
+  <mat-card-content>
+    <small><cc-markdown>{{ course().description }}</cc-markdown></small>
+  </mat-card-content>
+  <span style="flex-grow: 1;"></span>
+  @if (user().role === 'instructor') {
+    <mat-card-actions class="flex-row gap">
+      <span style="flex-grow: 1;"></span>
+      <a matButton="outlined" [routerLink]="['/authoring', course().id, 'units']" matTooltip="Autorstvo">
+        <div><mat-icon>edit</mat-icon></div>
+      </a>
+      <a matButton="outlined" [routerLink]="['/analytics', course().id, 'statistics']" matTooltip="Analitike" style="margin-right: 30px;">
+        <div><mat-icon>bar_chart</mat-icon></div>
+      </a>
+      <a matButton="outlined" [routerLink]="['/monitoring', course().id, 'enrollments']" matTooltip="Kontrola pristupa">
+        <div><mat-icon>lock_open</mat-icon></div>
+      </a>
+      <a matButton="outlined" [routerLink]="['/monitoring', course().id, 'grading']" matTooltip="Ocenjivanje zadataka">
+        <div><mat-icon>checklist_rtl</mat-icon></div>
+      </a>
+      <a matButton="outlined" [routerLink]="['/monitoring', course().id, 'progress']" matTooltip="Nedeljni napredak" style="margin-right: 30px;">
+        <div><mat-icon>calendar_month</mat-icon></div>
+      </a>
+      <a matButton="outlined" [routerLink]="['/monitoring', course().id, 'report']" matTooltip="Sumarni izveštaj modula">
+        <div><mat-icon>assignment</mat-icon></div>
+      </a>
+    </mat-card-actions>
+  }
+</mat-card>

@@ -1,0 +1,60 @@
+<div class="flex-col">
+  <button class="navbar-button" matButton [matMenuTriggerFor]="courseMenu">
+    <div>
+      <mat-icon>collections_bookmark</mat-icon><br>
+      Moduli
+    </div>
+  </button>
+  <mat-menu #courseMenu="matMenu">
+    @for (course of courses(); track course.id) {
+      <a [routerLink]="['/', selectedControl(), course.id, selectedSubcontrol()]" mat-menu-item style="text-align: center;">
+        <div [class.theme-primary]="course.id === selectedCourse()?.id">{{ course.code }}</div>
+      </a>
+    }
+  </mat-menu>
+  @if (selectedCourse(); as course) {
+    <div class="flex-col">
+      <small>{{ course.code }}</small>
+      <mat-divider />
+      <a class="navbar-button" matButton [routerLink]="['/authoring', course.id, 'units']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>edit</mat-icon><br>
+          Autorstvo
+        </div>
+      </a>
+      <mat-divider />
+      <small>Grupe</small>
+      <a class="navbar-button" matButton [routerLink]="['/monitoring', course.id, 'enrollments']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>lock_open</mat-icon><br>
+          Pristup
+        </div>
+      </a>
+      <a class="navbar-button" matButton [routerLink]="['/monitoring', course.id, 'grading']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>checklist_rtl</mat-icon><br>
+          Ocenjivanje
+        </div>
+      </a>
+      <a class="navbar-button" matButton [routerLink]="['/monitoring', course.id, 'progress']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>calendar_month</mat-icon><br>
+          Napredak
+        </div>
+      </a>
+      <a class="navbar-button" matButton [routerLink]="['/monitoring', course.id, 'report']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>assignment</mat-icon><br>
+          Izveštaj
+        </div>
+      </a>
+      <mat-divider />
+      <a class="navbar-button" matButton [routerLink]="['/analytics', course.id, 'statistics']" routerLinkActive="nav-active">
+        <div>
+          <mat-icon>bar_chart</mat-icon><br>
+          Analitike
+        </div>
+      </a>
+    </div>
+  }
+</div>

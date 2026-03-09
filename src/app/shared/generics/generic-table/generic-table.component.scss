@@ -1,7 +1,11 @@
 tr.mat-mdc-row {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .fade {
-    opacity: 0.5;
+  opacity: 0.5;
+}
+
+.highlight {
+  background-color: var(--mat-sys-secondary-container);
 }

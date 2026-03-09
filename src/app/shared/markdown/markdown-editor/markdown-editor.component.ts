@@ -1,71 +1,102 @@
-import { Component, ViewChild, ElementRef, ChangeDetectorRef, Input, OnChanges, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnDestroy, AfterViewInit, input, output, model, signal, viewChild, ElementRef, effect, linkedSignal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { CcMarkdownComponent } from '../cc-markdown.component';
 
 @Component({
   selector: 'cc-markdown-editor',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule,
+    MatButtonModule, MatMenuModule, MatDividerModule, MatTooltipModule, CcMarkdownComponent,
+  ],
   templateUrl: './markdown-editor.component.html',
-  styleUrls: ['./markdown-editor.component.css']
+  styleUrl: './markdown-editor.component.scss',
 })
-export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
-  @Input() label = "";
-  @Input() text = "";
+export class MarkdownEditorComponent implements AfterViewInit, OnDestroy {
+  readonly label = input('');
+  readonly authoring = input(true);
+  readonly submitCtrls = input(false);
+  readonly indextab = input(50);
+  readonly sidePreview = input(false);
 
-  @Input() authoring = true;
-  @Input() submitCtrls = false;
-  @Input() indextab = 50;
-  @Output() submit = new EventEmitter<string>();
-  @Output() textChanged = new EventEmitter<string>();
-  
-  @Input() livePreview = true;
-  @Input() sidePreview = false;
-  synchEnabled = false;
-  selection: any;
-  @ViewChild('textAreaElement') textArea: ElementRef<HTMLTextAreaElement>;
-  @ViewChild('markdownContainerElement') markdownContainer: ElementRef<HTMLElement>;
+  readonly text = model('');
+  readonly submit = output<string | undefined>();
 
-  constructor(private changeDetector: ChangeDetectorRef) {}
+  readonly textAreaRef = viewChild<ElementRef<HTMLTextAreaElement>>('textAreaElement');
+  readonly markdownContainerRef = viewChild<ElementRef<HTMLElement>>('markdownContainerElement');
 
-  ngOnChanges(): void {
-    if(this.textArea) {
-      this.textArea.nativeElement.focus();
-      this.changeDetector.detectChanges();
-    }
-    this.synchEnabled = this.sidePreview;
+  readonly textControl = new FormControl('', { nonNullable: true });
+  readonly livePreview = signal(true);
+  readonly synchEnabled = linkedSignal(() => this.sidePreview());
+
+  private scrollAbortController: AbortController | null = null;
+
+  constructor() {
+    // Sync text model → form control (when parent updates text)
+    effect(() => {
+      const value = this.text();
+      if (this.textControl.value !== value) {
+        this.textControl.setValue(value, { emitEvent: false });
+      }
+    });
+
+    // Sync form control → text model (when user types)
+    this.textControl.valueChanges.pipe(takeUntilDestroyed()).subscribe(value => {
+      this.text.set(value);
+    });
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.setupScrollSync();
   }
 
-  setupScrollSync() {
-    if(!this.sidePreview || !this.livePreview) return;
-    setTimeout(() => { // Timeout is needed for ngIf in case the user turns off livePreview and reactivates it.
-      const textArea = this.textArea.nativeElement;
-      const markdownContainer = this.markdownContainer.nativeElement;
-  
+  ngOnDestroy(): void {
+    this.scrollAbortController?.abort();
+  }
+
+  togglePreview(): void {
+    this.livePreview.update(v => !v);
+    this.setupScrollSync();
+  }
+
+  setupScrollSync(): void {
+    this.scrollAbortController?.abort();
+    if (!this.sidePreview() || !this.livePreview()) return;
+
+    this.scrollAbortController = new AbortController();
+    const abortSignal = this.scrollAbortController.signal;
+
+    setTimeout(() => {
+      const textArea = this.textAreaRef()?.nativeElement;
+      const markdownContainer = this.markdownContainerRef()?.nativeElement;
+      if (!textArea || !markdownContainer) return;
+
       const syncScroll = (source: HTMLElement, target: HTMLElement) => {
         const sourceRatio = source.scrollTop / (source.scrollHeight - source.clientHeight);
         const targetScrollTop = sourceRatio * (target.scrollHeight - target.clientHeight);
-  
         if (Math.abs(target.scrollTop - targetScrollTop) > 1) {
           target.scrollTop = targetScrollTop;
         }
       };
-  
+
       let isSyncing = false;
-  
       const handleScroll = (source: HTMLElement, target: HTMLElement) => {
-        if (isSyncing || !this.synchEnabled) return;
+        if (isSyncing || !this.synchEnabled()) return;
         isSyncing = true;
-  
         syncScroll(source, target);
-  
-        setTimeout(() => {
-          isSyncing = false;
-        }, 50);  // Slight delay to prevent rapid firing
+        setTimeout(() => { isSyncing = false; }, 50);
       };
-  
-      textArea.addEventListener('scroll', () => handleScroll(textArea, markdownContainer));
-      markdownContainer.addEventListener('scroll', () => handleScroll(markdownContainer, textArea));
+
+      textArea.addEventListener('scroll', () => handleScroll(textArea, markdownContainer), { signal: abortSignal });
+      markdownContainer.addEventListener('scroll', () => handleScroll(markdownContainer, textArea), { signal: abortSignal });
     }, 100);
   }
 
@@ -89,12 +120,12 @@ export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
         break;
       case 'link':
         tagBegin = '<a href="URL" target="_blank">';
-        tagEnd= '</a>'
+        tagEnd = '</a>';
         tagText = 'Text';
         break;
       case 'hidden':
         tagBegin = '\n<hr></hr>\n<details>\n<summary><b>Kliknite da vidite rešenje</b></summary>\n\n';
-        tagEnd= '\n\n</details>\n<hr></hr>\n'
+        tagEnd = '\n\n</details>\n<hr></hr>\n';
         tagText = 'Hidden until clicked';
         break;
       case 'h1':
@@ -110,61 +141,40 @@ export class MarkdownEditorComponent implements OnChanges, AfterViewInit {
         tagText = 'Heading 3';
         break;
     }
-    if (this.selection) {
-      if (this.selection.selectionStart !== this.selection.selectionEnd) {
-        tagText = this.text.slice(
-          this.selection.selectionStart,
-          this.selection.selectionEnd
-        );
-      }
+
+    const textArea = this.textAreaRef()?.nativeElement;
+    if (textArea && textArea.selectionStart !== textArea.selectionEnd) {
+      tagText = this.textControl.value.slice(textArea.selectionStart, textArea.selectionEnd);
     }
-    const text = tagBegin + tagText + tagEnd;
+    const insertText = tagBegin + tagText + tagEnd;
 
     let selectionStart: number;
-    if (this.selection) {
-      this.text =
-        this.text.slice(0, this.selection.selectionStart) +
-        text +
-        this.text.slice(this.selection.selectionEnd);
-      selectionStart = this.selection.selectionStart + tagBegin.length;
+    const currentValue = this.textControl.value;
+    if (textArea) {
+      const newValue = currentValue.slice(0, textArea.selectionStart) + insertText + currentValue.slice(textArea.selectionEnd);
+      selectionStart = textArea.selectionStart + tagBegin.length;
+      this.textControl.setValue(newValue);
     } else {
-      selectionStart = this.text.length + tagBegin.length;
-      this.text += text;
+      selectionStart = currentValue.length + tagBegin.length;
+      this.textControl.setValue(currentValue + insertText);
     }
 
-    // TODO: Usage of setTimeout() should be avoided. Find a better solution.
     setTimeout(() => {
-      this.textArea.nativeElement.focus();
-      this.textArea.nativeElement.setSelectionRange(
-        selectionStart,
-        selectionStart + tagText.length
-      );
+      const ta = this.textAreaRef()?.nativeElement;
+      if (!ta) return;
+      ta.focus();
+      ta.setSelectionRange(selectionStart, selectionStart + tagText.length);
 
-      // Scroll the textarea to make the selected text visible
-      const textarea = this.textArea.nativeElement;
-      const lineHeight = parseInt(window.getComputedStyle(textarea).lineHeight, 10);
-      const scrollHeight = textarea.scrollHeight;
-      const textBeforeSelection = textarea.value.slice(0, selectionStart);
+      const lineHeight = parseInt(window.getComputedStyle(ta).lineHeight, 10);
+      const textBeforeSelection = ta.value.slice(0, selectionStart);
       const linesBeforeSelection = (textBeforeSelection.match(/\n/g) || []).length;
       const scrollPosition = linesBeforeSelection * lineHeight;
-      textarea.scrollTop = Math.min(scrollPosition, scrollHeight - textarea.clientHeight);
+      ta.scrollTop = Math.min(scrollPosition, ta.scrollHeight - ta.clientHeight);
     });
   }
 
-  onSelect(event: Event): void {
-    this.selection = event.target;
-  }
-
-  onClick(event: Event): void {
-    this.selection = event.target;
-  }
-
-  onChange(): void {
-    this.textChanged.emit(this.text);
-  }
-
   onSubmit(isDiscard: boolean): void {
-    if(isDiscard) this.submit.emit();
-    else this.submit.emit(this.text);
+    if (isDiscard) this.submit.emit(undefined);
+    else this.submit.emit(this.textControl.value);
   }
 }

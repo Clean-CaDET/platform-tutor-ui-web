@@ -1,0 +1,10 @@
+.header {
+  padding: 10px;
+  margin: 5px -10px;
+}
+
+.overflow {
+  overflow-y: auto;
+  height: calc(100vh - 20px);
+  padding: 10px;
+}

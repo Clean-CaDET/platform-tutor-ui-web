@@ -1,0 +1,65 @@
+<h3 mat-dialog-title>Uvezivanje više studenata</h3>
+<mat-dialog-content>
+  @if (!checkView()) {
+    <div class="flex-col">
+      <form class="flex-col" [formGroup]="formGroup">
+        <mat-form-field appearance="fill" style="width: 100%;">
+          <textarea matInput style="height: 380px;" formControlName="learners" autocomplete="off"
+            placeholder="Jedno korisničko ime po redu"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+  } @else {
+    <div class="flex-col gap">
+      @if (missingEntries().length > 0) {
+        <div>
+          <h3>Studenti koji nisu pronađeni</h3>
+          @for (e of missingEntries(); track e) {
+            <div>{{ e }}</div>
+          }
+        </div>
+      }
+      <h3>Studenti koji su pronađeni</h3>
+      @if (dataSource() && dataSource()!.data.length > 0) {
+        <table mat-table [dataSource]="dataSource()!">
+          <ng-container matColumnDef="num">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
+          </ng-container>
+          <ng-container matColumnDef="username">
+            <th mat-header-cell *matHeaderCellDef>Korisničko ime</th>
+            <td mat-cell *matCellDef="let element">{{ element.index }}</td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Ime</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+          <ng-container matColumnDef="surname">
+            <th mat-header-cell *matHeaderCellDef>Prezime</th>
+            <td mat-cell *matCellDef="let element">{{ element.surname }}</td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      }
+    </div>
+  }
+</mat-dialog-content>
+<mat-dialog-actions style="padding-left: 24px; padding-bottom: 16px;">
+  @if (!checkView()) {
+    <div class="flex-row gap">
+      <button matButton="elevated" [disabled]="formGroup.invalid" (click)="onCheck()">Proveri</button>
+      <button matButton="elevated" (click)="onClose()">Zatvori</button>
+    </div>
+  } @else {
+    <div class="flex-row gap">
+      <button matButton="elevated" (click)="onSubmit()">Sačuvaj</button>
+      <button matButton="elevated" (click)="onBack()">Nazad</button>
+      <button matButton="elevated" (click)="onClose()">Zatvori</button>
+    </div>
+  }
+</mat-dialog-actions>

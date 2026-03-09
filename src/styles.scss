@@ -1,6 +1,3 @@
-@import "./cc-primary-theme.scss";
-@import "~css-star-rating/css/star-rating.css";
-
 html, body {
   min-height: 100vh;
   height: 100%;
@@ -10,6 +7,7 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   line-height: 1.5;
+  font-weight: 400;
 }
 
 code {
@@ -17,7 +15,10 @@ code {
 }
 
 p > code, li > code {
-  font-size: 1.05em;
+  font-size: 1em;
+  background-color: var(--mat-sys-surface-container-high);
+  padding: 1px 3px;
+  border-radius: 6px;
 }
 
 b, strong {
@@ -64,13 +65,18 @@ mat-icon {
   width: 100%;
   letter-spacing: normal !important;
   text-align: center;
+  border-radius: 0px !important;
+  padding: 0px !important;
+  color: var(--mat-sys-on-surface) !important;
 }
 
-a.mat-mdc-outlined-button {
-  border-radius: 50% !important;
-  padding: 0px !important;
-  min-width: 48px !important;
-  height: 48px !important;
+.nav-active {
+  color: var(--mat-sys-primary) !important;
+  background-color: var(--mat-sys-surface) !important;
+}
+
+.secondary-nav {
+  background-color: var(--mat-sys-surface-container);
 }
 
 .markdown-clipboard-toolbar {

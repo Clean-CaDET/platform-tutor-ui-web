@@ -1,0 +1,27 @@
+<div class="flex-col">
+  <button class="navbar-button" matButton [matMenuTriggerFor]="courseMenu">
+    <div>
+      <mat-icon>collections_bookmark</mat-icon><br>
+      Moduli
+    </div>
+  </button>
+  <mat-menu #courseMenu="matMenu">
+    @for (course of courses(); track course.id) {
+      <button [routerLink]="['courses', course.id]" mat-menu-item>
+        <div [class.theme-primary]="course.id === selectedCourse()?.id">{{ course.name }}</div>
+      </button>
+    }
+  </mat-menu>
+  @if (selectedCourse(); as course) {
+    <div class="flex-col">
+      <mat-divider />
+      <small>{{ course.name }}</small>
+      <button class="navbar-button" matButton [routerLink]="['courses', course.id]" routerLinkActive="nav-active" [routerLinkActiveOptions]="{ exact: true }">
+        <div>
+          <mat-icon>book</mat-icon><br>
+          Sve lekcije
+        </div>
+      </button>
+    </div>
+  }
+</div>

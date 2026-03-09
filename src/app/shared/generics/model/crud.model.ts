@@ -1,3 +1,5 @@
+import { Type } from '@angular/core';
+
 export interface Crud {
   create?: boolean;
   clone?: boolean;
@@ -7,5 +9,5 @@ export interface Crud {
   secureDelete?: boolean;
   filter?: boolean;
   bulkCreate?: boolean;
-  bulkCreateDialogComponent?: any;
+  bulkCreateDialogComponent?: Type<unknown>;
 }

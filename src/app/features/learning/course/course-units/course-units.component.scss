@@ -1,0 +1,21 @@
+.dashboard {
+  align-content: center;
+  gap: 20px;
+}
+
+.medal-icon {
+  color: var(--mat-sys-primary);
+  transform: scale(1.3);
+}
+
+.unit-title {
+  text-align: left;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.notes-container {
+  padding: 0 16px 16px;
+}

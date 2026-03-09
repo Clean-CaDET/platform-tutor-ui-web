@@ -1,0 +1,43 @@
+<form [formGroup]="formGroup" class="flex-col" style="padding: 20px;">
+  <section class="flex-row gap">
+    <mat-form-field style="width: 15%">
+      <mat-label>Kod</mat-label>
+      <input formControlName="code" matInput>
+      @if (formGroup.get('code')?.hasError('notUnique') && formGroup.get('code')?.touched) {
+        <mat-error style="margin: 0 -30px 0 -10px;">Jedinstveno za lekciju</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field style="width: 65%">
+      <mat-label>Naziv</mat-label>
+      <input formControlName="name" matInput>
+    </mat-form-field>
+    <mat-form-field style="width: 10%">
+      <mat-label>R. br.</mat-label>
+      <input formControlName="order" type="number" matInput>
+    </mat-form-field>
+    <mat-form-field style="width: 15%">
+      <mat-label>Min. minuta rada</mat-label>
+      <input formControlName="expectedDurationInMinutes" type="number" matInput>
+    </mat-form-field>
+  </section>
+  @if (mode === FormMode.AddChild || mode === FormMode.EditChild) {
+    <section>
+      <mat-form-field style="width: 100%;">
+        <mat-label>Roditeljska komponenta</mat-label>
+        <input type="text" placeholder="Odaberi ili pretraži" matInput formControlName="parentComponent" [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+          @for (option of filteredOptions(); track option.id) {
+            <mat-option [value]="presentParent(option)">
+              {{ presentParent(option) }}
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+    </section>
+  }
+  <div class="flex-row gap">
+    <button matButton="filled" [disabled]="formGroup.invalid || noItemSelected()" (click)="onSubmit()">Sačuvaj</button>
+    <button matButton (click)="onReset()">Osveži</button>
+    <button matButton (click)="onClose()">Zatvori</button>
+  </div>
+</form>

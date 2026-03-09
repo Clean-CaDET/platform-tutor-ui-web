@@ -1,0 +1,16 @@
+.full-width {
+  width: 100%;
+  margin: 16px 0;
+}
+
+.evaluation-section {
+  margin-top: 16px;
+  padding: 12px;
+  border-left: 3px solid var(--mat-sys-primary);
+}
+
+.actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+}

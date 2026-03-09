@@ -1,0 +1,92 @@
+@if (task(); as task) {
+  <div class="flex-row">
+    <div class="flex-col" style="width: 25%">
+      <div class="flex-col" [class.theme-highlight-flat]="mode() === 'task'" style="padding: 10px 10px 5px 10px">
+        <small style="height: 75px;">{{ task.name }}</small>
+        <div class="flex-row gap" style="align-items: center;">
+          <button matIconButton matTooltip="Opis zadatka"
+            (click)="openTask()" [class.active-tab]="mode() === 'task'">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button matIconButton (click)="previewTask()" matTooltip="Opis zadatka u modalu">
+            <mat-icon>preview</mat-icon>
+          </button>
+          <span style="flex-grow: 1;"></span>
+          <a matButton="outlined" matTooltip="Pregled zadataka lekcije"
+            [routerLink]="['/authoring', courseId(), 'units']" [queryParams]="{ unit: task.unitId, mode: 'lt' }">
+            <span><mat-icon>rebase_edit</mat-icon></span>
+          </a>
+        </div>
+      </div>
+      <mat-divider style="border-width: 3px;" />
+      <div class="flex-row" style="padding: 10px" [class.theme-highlight-flat]="selectedStep()?.name === ''">
+        <span class="flex-col" style="flex-grow: 1;">
+          <b>Koraci</b>
+          @if (task.maxPoints) { <small>Ukupno bodova: {{ task.maxPoints }}</small> }
+        </span>
+        <button matIconButton (click)="addStep()"
+          [class.active-tab]="selectedStep()?.name === '' || !steps().length">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+      <mat-divider />
+      <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+        @for (step of steps(); track step.id ?? step.code; let i = $index) {
+          <div>
+            <div [class.theme-highlight-flat]="selectedStep()?.id === step.id" style="padding: 10px">
+              <span>{{ step.order }}. {{ step.code }}: {{ step.name }}</span>
+              <div>
+                <small>Broj bodova: {{ step.maxPoints }}</small>
+                @if (step.subactivities?.length) {
+                  <small> | Podaktivnosti: {{ step.subactivities!.length }}</small>
+                }
+              </div>
+              <div class="flex-row">
+                <button matIconButton matTooltip="Smernice i ocenjivanje"
+                  (click)="setParams(step, 'guidance')"
+                  [class.active-tab]="selectedStep()?.id === step.id && mode() === 'guidance'">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button matIconButton matTooltip="Podaktivnosti"
+                  (click)="setParams(step, 'subactivities')"
+                  [class.active-tab]="selectedStep()?.id === step.id && mode() === 'subactivities'">
+                  <mat-icon>account_tree</mat-icon>
+                </button>
+                <span style="flex-grow: 1"></span>
+                <button [disabled]="i === 0" matIconButton (click)="reorder(step, i, true)">
+                  <mat-icon>keyboard_arrow_up</mat-icon>
+                </button>
+                <button [disabled]="i === steps().length - 1" matIconButton (click)="reorder(step, i, false)">
+                  <mat-icon>keyboard_arrow_down</mat-icon>
+                </button>
+                <span style="flex-grow: 1"></span>
+                <button matIconButton matTooltip="Obriši" (click)="deleteStep(step.id!)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+            <mat-divider />
+          </div>
+        }
+      </cdk-virtual-scroll-viewport>
+    </div>
+    <mat-divider vertical style="border-width: 3px;" />
+    <div style="width: 75%">
+      @if (updateStatus() === RequestStatus.Started) {
+        <mat-progress-bar mode="indeterminate" style="position: fixed" />
+      }
+      @if (mode() === 'task') {
+        <cc-task-details [task]="task" [updateStatus]="updateStatus()" (taskSaved)="updateTask($event)" />
+      }
+      @if (mode() === 'guidance' && selectedStep(); as step) {
+        <cc-activity-details [activity]="step" [activities]="task.steps!" [updateStatus]="updateStatus()"
+          (activitySaved)="createOrUpdateStep($event)" />
+      }
+      @if (mode() === 'subactivities' && selectedStep()) {
+        <cc-activities [activities]="subactivities()" [updateStatus]="updateStatus()"
+          (activitySaved)="createOrUpdateStep($event)" (activityDeleted)="deleteActivity($event)"
+          (statusReset)="updateStatus.set(RequestStatus.None)" />
+      }
+    </div>
+  </div>
+}

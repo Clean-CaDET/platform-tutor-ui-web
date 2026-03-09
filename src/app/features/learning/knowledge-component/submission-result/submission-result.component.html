@@ -1,0 +1,38 @@
+<div class="secondary-nav">
+  <mat-divider></mat-divider>
+  <div class="panel" [class.expand]="expanded()">
+    <div class="feedback-container">
+      @if (feedbackMessages().length) {
+        <pre [ccTypingAnimator]="feedbackMessages()"></pre>
+      }
+    </div>
+    <div class="controls">
+      @if (statistics(); as stats) {
+        <div class="flex-row gap">
+          <div [class.theme-accent]="stats.isSatisfied" class="flex-col">
+            <div class="accent-text">{{ (stats.mastery * 100).toFixed(0) }} %</div>
+            <div class="small-text flex-row" style="align-items: start;">
+              vičnost
+              <mat-icon matTooltip="Progres nad trenutnom komponentom znanja. Povećava se sa tačnim odgovorima na pitanja." class="small-icon">help_outline</mat-icon>
+            </div>
+          </div>
+          <div class="flex-col">
+            <div class="accent-text">{{ stats.attemptedCount }} / {{ stats.passedCount }} / {{ stats.totalCount }}</div>
+            <div class="small-text">pokušano / urađeno / ukupno</div>
+          </div>
+        </div>
+      }
+      <div class="flex-row gap">
+        <div matTooltip="Dostupno nakon što odgovoriš na trenutno pitanje" [matTooltipDisabled]="feedbackProcessed()">
+          <button [disabled]="!feedbackProcessed()" [matButton]="!statistics()?.isSatisfied ? 'filled' : 'elevated'" (click)="onChangePage('AE')">
+            Novo pitanje
+          </button>
+        </div>
+        <button matButton="elevated" (click)="onChangePage('IE')">Gradivo</button>
+        <a [matButton]="statistics()?.isSatisfied ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId(), 'units', unitId()]">
+          Lekcija
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

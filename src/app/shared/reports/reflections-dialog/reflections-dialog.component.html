@@ -1,20 +1,22 @@
-<h2 mat-dialog-title>{{unit.unitName}} - Kvalitetne refleksije</h2>
+<h2 mat-dialog-title>{{ unit.unitName }} - Kvalitetne refleksije</h2>
 
 <mat-dialog-content>
   <div class="reflections-list">
-    <div *ngFor="let reflection of unit.meaningfulReflections" class="reflection-item">
-      <div class="reflection-date">{{reflection.created | date:'dd.MM.yyyy HH:mm'}}</div>
-      <div class="reflection-question">
-        <strong>Pitanje:</strong>
-        <markdown [data]="reflection.question"></markdown>
+    @for (reflection of unit.meaningfulReflections; track reflection.reflectionId) {
+      <div class="reflection-item">
+        <div class="reflection-date">{{ reflection.created | date:'dd.MM.yyyy HH:mm' }}</div>
+        <div class="reflection-question">
+          <strong>Pitanje:</strong>
+          <cc-markdown [data]="reflection.question" />
+        </div>
+        <div class="reflection-answer">
+          <strong>Odgovor:</strong> {{ reflection.answer }}
+        </div>
       </div>
-      <div class="reflection-answer">
-        <strong>Odgovor:</strong> {{reflection.answer}}
-      </div>
-    </div>
+    }
   </div>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button (click)="close()">Zatvori</button>
+  <button matButton (click)="close()">Zatvori</button>
 </mat-dialog-actions>

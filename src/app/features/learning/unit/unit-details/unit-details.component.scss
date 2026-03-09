@@ -1,0 +1,69 @@
+#scroller {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.container {
+  max-width: 670px;
+  width: calc(100% - 40px);
+  margin: 0 auto;
+  padding: 20px;
+  text-align: justify;
+}
+
+@media (max-width: 520px) {
+  .container {
+    text-align: left;
+  }
+}
+
+h1 {
+  font-size: xx-large;
+  text-align: left;
+}
+
+.medal-icon {
+  color: var(--mat-sys-primary);
+  transform: scale(1.3);
+}
+
+.mat-mdc-progress-bar {
+  --mat-progress-bar-track-height: 20px;
+  --mat-progress-bar-active-indicator-height: 20px;
+}
+
+.navigation-panel {
+  margin: 0 auto;
+  padding: 10px;
+  width: calc(100vw - 130px);
+  max-width: 670px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.progress-wrapper {
+  flex-grow: 1;
+  margin-top: 6px;
+}
+
+.progress-row {
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.percent-label {
+  padding: 0 5px;
+}
+
+.medal-label {
+  padding: 0 10px;
+}

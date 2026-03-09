@@ -1,0 +1,51 @@
+<div style="margin: 15px 15px 0 15px">
+  <form class="flex-col" [formGroup]="unitForm">
+    <section class="flex-row gap">
+      <mat-form-field style="width: 15%" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Kod</mat-label>
+        <input formControlName="code" matInput [readonly]="!editMode()" tabindex="41">
+      </mat-form-field>
+      <mat-form-field style="width: 55%" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Naziv</mat-label>
+        <input formControlName="name" matInput [readonly]="!editMode()" tabindex="42">
+      </mat-form-field>
+      <mat-form-field style="width: 15%" [appearance]="editMode() ? 'fill' : 'outline'">
+        <mat-label>Redni broj</mat-label>
+        <input formControlName="order" type="number" matInput [readonly]="!editMode()" tabindex="43">
+      </mat-form-field>
+      <span style="flex-grow: 1"></span>
+      <section class="flex-col">
+        <span class="flex-row gap">
+          @if (!editMode()) {
+            <button matIconButton matTooltip="Izmeni"
+              (click)="editMode.set(true)" tabindex="50">
+              <mat-icon>edit</mat-icon>
+            </button>
+          }
+          @if (editMode()) {
+            <button matMiniFab matTooltip="Sačuvaj"
+              (click)="saveChanges()" [disabled]="unitForm.invalid" tabindex="51">
+              <mat-icon>check</mat-icon>
+            </button>
+            <button matMiniFab class="warn-fab" matTooltip="Odbaci"
+              (click)="discardChanges()" tabindex="52">
+              <mat-icon>clear</mat-icon>
+            </button>
+          }
+        </span>
+      </section>
+    </section>
+    <mat-form-field [appearance]="editMode() ? 'fill' : 'outline'">
+      <mat-label>Uvod</mat-label>
+      <textarea formControlName="introduction" matInput [readonly]="!editMode()" tabindex="45" rows="8"></textarea>
+    </mat-form-field>
+    <mat-form-field [appearance]="editMode() ? 'fill' : 'outline'">
+      <mat-label>Cilj</mat-label>
+      <textarea formControlName="goals" matInput [readonly]="!editMode()" tabindex="46" rows="5"></textarea>
+    </mat-form-field>
+    <mat-form-field [appearance]="editMode() ? 'fill' : 'outline'">
+      <mat-label>Smernice za postizanje cilja</mat-label>
+      <textarea formControlName="guidelines" matInput [readonly]="!editMode()" tabindex="47" rows="8"></textarea>
+    </mat-form-field>
+  </form>
+</div>

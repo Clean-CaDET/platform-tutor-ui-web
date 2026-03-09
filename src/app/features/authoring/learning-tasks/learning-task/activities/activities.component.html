@@ -1,0 +1,59 @@
+<div class="flex-row" style="height: 100%;">
+  <div class="flex-col" style="width: 30%;">
+    <cdk-virtual-scroll-viewport itemSize="10" class="viewport">
+      @for (activity of activities(); track activity.id ?? activity.code) {
+        <div>
+          <div [class.theme-highlight-flat]="activeActivity()?.id === activity.id || (!activeActivity()?.id && activeActivity()?.parentId === activity.id)"
+            class="flex-col" style="padding: 10px;">
+            <span>{{ activity.code }}: {{ activity.name }}</span>
+            <span class="flex-row">
+              <button matIconButton (click)="view(activity)" matTooltip="Detalji"
+                [class.active-tab]="activeActivity()?.id === activity.id">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button matIconButton (click)="createSubactivity(activity)" matTooltip="Dodaj podaktivnost"
+                [class.active-tab]="!activeActivity()?.id && activeActivity()?.parentId === activity.id">
+                <mat-icon>playlist_add</mat-icon>
+              </button>
+              <span style="flex-grow: 1;"></span>
+              @if (activity.parentId) {
+                <button matIconButton (click)="delete(activity)" matTooltip="Obriši">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              }
+            </span>
+          </div>
+          @if (activity.subactivities?.length) {
+            @for (subactivity of activity.subactivities; track subactivity.id ?? subactivity.code; let i = $index) {
+              <div class="flex-row theme-hover" style="padding-left: 20px; align-items: center; cursor: pointer;"
+                [class.theme-highlight-flat]="activeActivity()?.id === subactivity.id"
+                (click)="view(subactivity)">
+                <small style="flex-grow: 1;">
+                  {{ subactivity.order }}. {{ subactivity.code }}: {{ subactivity.name }}
+                </small>
+                <span class="flex-row">
+                  <button [disabled]="i === 0" matIconButton
+                    (click)="reorder(activity, i, true); $event.stopPropagation();">
+                    <mat-icon>keyboard_arrow_up</mat-icon>
+                  </button>
+                  <button [disabled]="i === activity.subactivities!.length - 1" matIconButton
+                    (click)="reorder(activity, i, false); $event.stopPropagation();">
+                    <mat-icon>keyboard_arrow_down</mat-icon>
+                  </button>
+                </span>
+              </div>
+            }
+          }
+          <mat-divider />
+        </div>
+      }
+    </cdk-virtual-scroll-viewport>
+  </div>
+  <mat-divider vertical />
+  @if (activeActivity(); as active) {
+    <div style="width: 70%;">
+      <cc-activity-details [activity]="active" (activitySaved)="save($event)"
+        [activities]="activities()" [updateStatus]="updateStatus()" />
+    </div>
+  }
+</div>

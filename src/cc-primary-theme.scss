@@ -1,136 +1,65 @@
-@use "@angular/material" as mat;
-mat.$theme-ignore-duplication-warnings: true;
+@use '@angular/material' as mat;
 
-@include mat.core();
+html {
+  color-scheme: light dark;
+  @include mat.theme((
+    color: mat.$blue-palette,
+    typography: Roboto,
+    density: 0,
+  ));
+}
 
-$cc-palette: (
-  50: #262626,
-  100: #b3bcc7,
-  200: #818fa1,
-  300: #5b97c8,
-  400: #29405f,
-  500: #031e43,
-  600: #031a3d,
-  700: #021634,
-  800: #02122c,
-  900: #010a1e,
-  A100: #5b78ff,
-  A200: #284eff,
-  A400: #002bf4,
-  A700: #0027da,
-  contrast: (
-    50: #E0E0E0,
-    100: #E0E0E0,
-    200: #E0E0E0,
-    300: #E0E0E0,
-    400: #E0E0E0,
-    500: #E0E0E0,
-    600: #E0E0E0,
-    700: #E0E0E0,
-    800: #E0E0E0,
-    900: #E0E0E0,
-    A100: #E0E0E0,
-    A200: #E0E0E0,
-    A400: #E0E0E0,
-    A700: #E0E0E0,
-  ),
-);
+body {
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+}
 
 a {
-  color: #5b78ff;
+  color: var(--mat-sys-primary);
 }
 
-$cc-primary-dark: mat.m2-define-palette($cc-palette, 300, 100, 800);
-$cc-accent-dark: mat.m2-define-palette(mat.$m2-yellow-palette, 600);
-$cc-warn-dark: mat.m2-define-palette(mat.$m2-deep-orange-palette, 400);
+.mat-mdc-outlined-button {
+  color: var(--mat-sys-on-surface) !important;
 
-$cc-dark-theme: mat.m2-define-dark-theme(
-  (
-    color: (
-      primary: $cc-primary-dark,
-      accent: $cc-accent-dark,
-      warn: $cc-warn-dark
-    ),
-    is-dark: true,
-    density: 0
-  )
-);
-
-$cc-primary-light: mat.m2-define-palette(mat.$m2-blue-palette, 700);
-$cc-accent-light: mat.m2-define-palette(mat.$m2-amber-palette, 700);
-$cc-warn-light: mat.m2-define-palette(mat.$m2-red-palette, A200);
-
-$cc-theme: mat.m2-define-light-theme(
-  (
-    color: (
-      primary: $cc-primary-light,
-      accent: $cc-accent-light,
-      warn: $cc-warn-light,
-    ),
-    is-dark: false
-  )
-);
-
-@mixin theme-hover-effect($theme) {
-  $is-dark: map-get($theme, is-dark);
-
-  // Adjusting the hover color based on whether the theme is dark or light
-  $hover-color: if($is-dark, #555, #eee);
-
-  .theme-hover {
-    &:hover {
-      background-color: $hover-color;
-      cursor: pointer;
-    }
-  }
-
-  $color-config: mat.m2-get-color-config($theme);
-  $accent-palette: map-get($color-config, 'accent');
-
-  $primary-highlight: if($is-dark, #122536, #e6e6e6);
-  .theme-highlight-primary {
-    background-color: $primary-highlight;
-  }
-
-  .theme-highlight-accent {
-    color: mat.m2-get-color-from-palette($accent-palette);
-  }
-
-  .theme-primary {
-    color: mat.m2-get-color-from-palette(map-get($color-config, 'primary')) !important;
-  }
-
-  .theme-warn {
-    color: mat.m2-get-color-from-palette(map-get($color-config, 'warn'));
-  }
-
-  .theme-accent {
-    color: mat.m2-get-color-from-palette(map-get($color-config, 'accent'));
-  }
-
-  .mat-mdc-dialog-content {
-    color: if($is-dark, #fffd, #000b) !important;
+  .mat-icon {
+    color: inherit;
   }
 }
 
-.dark-theme-mode {
-  @include mat.all-component-themes($cc-dark-theme);
-  @include theme-hover-effect($cc-dark-theme);
-
-  textarea {
-    caret-color: #fff !important;
-  }
-
-  .mat-mdc-form-field .mat-mdc-form-field-focus-overlay {
-    background-color: rgba(76, 126, 167, 0.35) !important;
+.theme-hover {
+  &:hover {
+    background-color: var(--mat-sys-secondary-container);
+    cursor: pointer;
   }
 }
 
-.light-theme-mode {
-  @include mat.all-component-themes($cc-theme);
-  @include theme-hover-effect($cc-theme);
+.theme-highlight-primary {
+  background-color: var(--mat-sys-secondary-container);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-@include mat.all-component-typographies(mat.m2-define-typography-config(
-  $font-family: 'Roboto, "Helvetica Neue", sans-serif'
-));
+.theme-highlight-flat {
+  background-color: var(--mat-sys-secondary-container);
+}
+
+.theme-primary {
+  color: var(--mat-sys-primary) !important;
+}
+
+.theme-warn {
+  color: var(--mat-sys-error);
+}
+
+.theme-accent {
+  color: light-dark(#7c6f00, #e6d44a);
+}
+
+.warn-fab {
+  background-color: var(--mat-sys-error-container) !important;
+  color: var(--mat-sys-on-error-container) !important;
+}
+
+.active-tab {
+  color: var(--mat-sys-primary) !important;
+}

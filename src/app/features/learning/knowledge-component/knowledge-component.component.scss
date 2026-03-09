@@ -1,0 +1,45 @@
+.full-height {
+  height: 100%;
+}
+
+.scroller {
+  flex: 1 1 auto;
+  overflow-y: auto;
+}
+
+.learning-viewport {
+  max-width: 680px;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: justify;
+}
+
+@media (max-width: 520px) {
+  .learning-viewport {
+    text-align: left;
+  }
+}
+
+h1 {
+  font-size: xx-large;
+  text-align: left;
+}
+
+::ng-deep h1, ::ng-deep h2, ::ng-deep h3, ::ng-deep h4 {
+  font-weight: normal;
+  text-align: left;
+}
+
+.panel {
+  margin: 0 auto;
+  padding: 10px;
+  width: calc(100vw - 130px);
+  max-width: 680px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
