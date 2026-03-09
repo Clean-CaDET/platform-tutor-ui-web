@@ -19,6 +19,9 @@
               [class.theme-warn]="item.id === selectedAi()">
               <b>{{ i + 1 }}.&nbsp;&nbsp;</b>
               <span><b>Tip: </b>{{ getTypeLabel(item.$type) }}</span>
+              <button matIconButton (click)="viewCommonWrongAnswers(item.id!)" matTooltip="Najčešći pogrešni odgovori">
+                <mat-icon>bar_chart</mat-icon>
+              </button>
               <button matIconButton (click)="copyPrompt(item)" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
                 <mat-icon>memory</mat-icon>
               </button>

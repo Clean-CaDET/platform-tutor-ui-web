@@ -15,6 +15,7 @@ import { AssessmentItemsService } from './assessment-items.service';
 import { AuthoringPromptsService } from '../authoring-prompts.service';
 import { AuthoringAssessmentItem, AuthoringMcq, AuthoringMrq, AuthoringSaq } from './model/assessment-item.model';
 import { prepareForPrompt } from './prompt.utility';
+import { SubmissionStatisticsComponent } from '../../../shared/submission-statistics/submission-statistics.component';
 import { McqFormComponent } from './mcq-form/mcq-form.component';
 import { MrqFormComponent } from './mrq-form/mrq-form.component';
 import { SaqFormComponent } from './saq-form/saq-form.component';
@@ -193,6 +194,14 @@ export class AssessmentItemsComponent implements CanComponentDeactivate {
     this.selectedAi.set(aiId);
     const baseUrl = window.location.href.split('?')[0];
     this.clipboard.copy(baseUrl + '?aiId=' + aiId);
+  }
+
+  viewCommonWrongAnswers(aiId: number): void {
+    this.dialog.open(SubmissionStatisticsComponent, {
+      minHeight: '800px',
+      minWidth: '800px',
+      data: { kcId: this.kcId, aiId },
+    });
   }
 
   copyPrompt(ai?: AuthoringAssessmentItem): void {
