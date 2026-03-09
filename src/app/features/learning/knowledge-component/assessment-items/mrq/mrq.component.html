@@ -1,0 +1,29 @@
+@if (item(); as q) {
+  <cc-markdown [lineNumbers]="true" [clipboard]="true">{{ q.text }}</cc-markdown>
+
+  <div class="items-list">
+    @for (mrqItem of items(); track mrqItem.text; let i = $index) {
+      <div class="mrq-item">
+        <mat-checkbox
+          [checked]="checked()[i]"
+          [disabled]="!!evaluation()"
+          (change)="toggleItem(i)">
+          {{ mrqItem.text }}
+        </mat-checkbox>
+        @if (getAnswerResult(mrqItem.text); as result) {
+          <span [class]="result.submissionWasCorrect ? 'color-correct' : 'color-wrong'">
+            {{ result.feedback }}
+          </span>
+        }
+      </div>
+    }
+  </div>
+
+  @if (!evaluation()) {
+    <div class="actions">
+      <button matButton="filled" [disabled]="!hasCheckedAnswers() || isProcessing()" (click)="onSubmit()">
+        Odgovori
+      </button>
+    </div>
+  }
+}

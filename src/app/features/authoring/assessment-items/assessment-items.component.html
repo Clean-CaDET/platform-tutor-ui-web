@@ -1,0 +1,167 @@
+<div class="flex-col gap">
+  <small class="flex-row" style="align-items: center;">
+    <button matIconButton (click)="copyPrompt()" matTooltip="Kopiraj prompt za AI evaluaciju svih pitanja">
+      <mat-icon>memory</mat-icon>
+    </button>
+    <span style="flex-grow: 1;">
+      <b>Preporuke</b>: Sortiraj pitanja po težini; Izbegavaj reprodukciju činjenica i fokusiraj se na analizu primera; Definiši 1 hint za teža pitanja.
+    </span>
+    <span>
+      <b>Broj pitanja</b>: {{ assessmentItems().length }}
+    </span>
+  </small>
+  @for (item of assessmentItems(); track item.id; let i = $index) {
+    <mat-card appearance="outlined" [id]="'a' + item.id">
+      @if (!editMap()[item.id ?? 0]) {
+        <div>
+          <div class="flex-row gap theme-highlight-primary">
+            <small class="flex-row" style="flex-grow: 1; align-items: center; padding-left: 10px;"
+              [class.theme-warn]="item.id === selectedAi()">
+              <b>{{ i + 1 }}.&nbsp;&nbsp;</b>
+              <span><b>Tip: </b>{{ getTypeLabel(item.$type) }}</span>
+              <button matIconButton (click)="viewCommonWrongAnswers(item.id!)" matTooltip="Najčešći pogrešni odgovori">
+                <mat-icon>bar_chart</mat-icon>
+              </button>
+              <button matIconButton (click)="copyPrompt(item)" matTooltip="Kopiraj prompt za AI evaluaciju pitanja">
+                <mat-icon>memory</mat-icon>
+              </button>
+              <button matIconButton (click)="copyLink(item.id!)" matTooltip="Kopiraj link do pitanja">
+                <mat-icon>link</mat-icon>
+              </button>
+            </small>
+            <div class="flex-row">
+              @if (i !== 0) {
+                <button matIconButton matTooltip="Rotiraj sa gornjim" [disabled]="reordering()"
+                  (click)="swapOrder(item, assessmentItems()[i - 1])">
+                  <mat-icon>arrow_upward</mat-icon>
+                </button>
+              }
+              @if (i !== assessmentItems().length - 1) {
+                <button matIconButton matTooltip="Rotiraj sa donjim" [disabled]="reordering()"
+                  (click)="swapOrder(item, assessmentItems()[i + 1])">
+                  <mat-icon>arrow_downward</mat-icon>
+                </button>
+              }
+            </div>
+            <div class="flex-row">
+              <button matIconButton (click)="setEditing(item.id!, true)" matTooltip="Ažuriraj">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button matIconButton (click)="cloneItem(item)" matTooltip="Kloniraj">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            </div>
+            <button matIconButton (click)="deleteItem(item.id!)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <mat-divider />
+          <div style="padding: 0 10px">
+            <cc-markdown [lineNumbers]="true">{{ item.text }}</cc-markdown>
+            <mat-divider style="margin: 10px 0;" />
+            @switch (item.$type) {
+              @case ('multiChoiceQuestion') {
+                <div>
+                  <b>Ponuđeni odgovori:</b>
+                  @for (option of asMcq(item).possibleAnswers; track $index) {
+                    <p class="flex-row gap">
+                      <span>
+                        <mat-icon>{{ option === asMcq(item).correctAnswer ? 'check' : '' }}</mat-icon>
+                      </span>
+                      <span>{{ option }}</span>
+                    </p>
+                  }
+                  <div><b>Povratna informacija</b>:</div>
+                  <cc-markdown>{{ asMcq(item).feedback }}</cc-markdown>
+                </div>
+              }
+              @case ('multiResponseQuestion') {
+                <div>
+                  <b>Ponuđeni odgovori:</b>
+                  @for (option of asMrq(item).items; track $index) {
+                    <p class="flex-col">
+                      <span class="flex-row gap">
+                        <span>
+                          <mat-icon>{{ option.isCorrect ? 'check' : 'clear' }}</mat-icon>
+                        </span>
+                        <span>{{ option.text }}</span>
+                      </span>
+                      <small style="margin-left: 34px">{{ option.feedback }}</small>
+                    </p>
+                  }
+                </div>
+              }
+              @case ('shortAnswerQuestion') {
+                <div>
+                  <b>Prihvatljivi odgovori:</b>
+                  @for (option of asSaq(item).acceptableAnswers; track $index) {
+                    <p class="flex-row">
+                      <mat-icon>arrow_right</mat-icon>
+                      <span>{{ option }}</span>
+                    </p>
+                  }
+                  <div><b>Povratna informacija</b>: {{ asSaq(item).feedback }}</div>
+                  <p><b>Tolerancija</b>: {{ asSaq(item).tolerance }}</p>
+                </div>
+              }
+            }
+            <div>
+              <mat-divider style="margin: 10px 0;" />
+              @if (item.hints.length === 0) {
+                <p><b>Nema definisanih smernica!</b></p>
+              } @else {
+                <p><b>Definisane smernice (hints):</b></p>
+              }
+              <ul>
+                @for (hint of item.hints; track $index) {
+                  <li>{{ hint }}</li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      } @else {
+        @switch (item.$type) {
+          @case ('multiChoiceQuestion') {
+            <cc-mcq-form [item]="asMcq(item)" (saveChanges)="onCloseForm($event, item.id!)" (requestPrompt)="copyPrompt($event)" />
+          }
+          @case ('multiResponseQuestion') {
+            <cc-mrq-form [item]="asMrq(item)" (saveChanges)="onCloseForm($event, item.id!)" (requestPrompt)="copyPrompt($event)" />
+          }
+          @case ('shortAnswerQuestion') {
+            <cc-saq-form [item]="asSaq(item)" (saveChanges)="onCloseForm($event, item.id!)" (requestPrompt)="copyPrompt($event)" />
+          }
+        }
+      }
+    </mat-card>
+  }
+  <mat-card appearance="outlined" id="aform">
+    @if (!editMap()[0]) {
+      <span class="flex-row gap" style="padding: 10px; align-items: center;">
+        <b>Pitanja</b>
+        <button matButton="filled" (click)="createEmptyItem('multiChoiceQuestion')">
+          + Višestruki izbor, jedan odgovor
+        </button>
+        <button matButton="filled" (click)="createEmptyItem('multiResponseQuestion')">
+          + Višestruki izbor, više odgovora
+        </button>
+        <button matButton="filled" (click)="createEmptyItem('shortAnswerQuestion')">
+          + Kratak otvoren odgovor
+        </button>
+      </span>
+    }
+    @if (getEditMapItem(0); as editItem) {
+      @switch (editItem.$type) {
+        @case ('multiChoiceQuestion') {
+          <cc-mcq-form [item]="asMcq(editItem)" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)" />
+        }
+        @case ('multiResponseQuestion') {
+          <cc-mrq-form [item]="asMrq(editItem)" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)" />
+        }
+        @case ('shortAnswerQuestion') {
+          <cc-saq-form [item]="asSaq(editItem)" (saveChanges)="onCloseForm($event)" (requestPrompt)="copyPrompt($event)" />
+        }
+      }
+    }
+  </mat-card>
+</div>

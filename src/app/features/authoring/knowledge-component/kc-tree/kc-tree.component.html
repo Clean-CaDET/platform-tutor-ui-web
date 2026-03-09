@@ -1,0 +1,63 @@
+<div style="margin: 13px">
+  @for (node of nodes(); track node.id) {
+    <ng-container [ngTemplateOutlet]="tmplNode" [ngTemplateOutletContext]="{ node: node }" />
+  }
+  @if (nodes().length === 0) {
+    <button matMiniFab (click)="addKc()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <span>&nbsp;&nbsp;Dodaj komponentu znanja koja sabira svo gradivo vezano za ishod lekcije.</span>
+  }
+</div>
+
+<ng-template #tmplNode let-node="node">
+  <div class="node-item">
+    <div class="flex-row">
+      @if (node.children.length) {
+        <button matIconButton (click)="toggleExpand(node.id)"
+          [matTooltip]="!node.isExpanded ? 'Prikaži podkomponente' : 'Sakrij podkomponente'">
+          <mat-icon>{{ node.isExpanded ? 'remove_circle' : 'add_circle' }}</mat-icon>
+        </button>
+      } @else {
+        <span style="cursor: default;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      }
+      <mat-card appearance="outlined" style="width: 100%; padding: 10px">
+        <div class="flex-row gap" style="align-items: center; justify-content: space-between;">
+          <div class="flex-col">
+            <span><b>{{ node.code }}</b>: {{ node.name }}</span>
+            <small>Redni broj: {{ node.order }} | Minimalno minuta rada: {{ node.expectedDurationInMinutes }}</small>
+          </div>
+          <div class="flex-row" style="gap: 30px">
+            <span class="flex-row gap" style="align-items: center;">
+              <a matButton="outlined" [routerLink]="[unitId(), 'knowledge-components', node.id, 'instruction']" matTooltip="Gradivo">
+                <span><mat-icon>library_books</mat-icon></span>
+              </a>
+              <a matButton="outlined" [routerLink]="[unitId(), 'knowledge-components', node.id, 'assessments']" matTooltip="Pitanja">
+                <span><mat-icon>quiz</mat-icon></span>
+              </a>
+            </span>
+            <span class="flex-row gap">
+              <button matIconButton (click)="addKc(node.id)" matTooltip="Dodaj podkomponentu znanja">
+                <mat-icon>add</mat-icon>
+              </button>
+              <button matIconButton (click)="editKc(node.id)" matTooltip="Ažuriraj">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </span>
+            <button matIconButton (click)="deleteKc(node.id)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
+    @if (node.isExpanded && node.children.length) {
+      <div class="node-children">
+        @for (child of node.children; track child.id) {
+          <ng-container [ngTemplateOutlet]="tmplNode" [ngTemplateOutletContext]="{ node: child }" />
+        }
+      </div>
+    }
+  </div>
+</ng-template>

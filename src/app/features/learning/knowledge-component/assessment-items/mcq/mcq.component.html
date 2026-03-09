@@ -1,0 +1,30 @@
+@if (item(); as q) {
+  <cc-markdown [lineNumbers]="true" [clipboard]="true">{{ q.text }}</cc-markdown>
+
+  <mat-radio-group [value]="checked()" (change)="checked.set($event.value)">
+    @for (answer of answers(); track answer) {
+      <mat-radio-button [value]="answer" [disabled]="!!evaluation()" [class]="getItemClass(answer)">
+        {{ answer }}
+      </mat-radio-button>
+    }
+  </mat-radio-group>
+
+  @if (evaluation(); as eval) {
+    <div class="evaluation-section">
+      @if (eval.correctAnswer) {
+        <p class="correct-answer"><b>Tačan odgovor:</b> {{ eval.correctAnswer }}</p>
+      }
+      @if (eval.feedback) {
+        <cc-markdown>{{ eval.feedback }}</cc-markdown>
+      }
+    </div>
+  }
+
+  @if (!evaluation()) {
+    <div class="actions">
+      <button matButton="filled" [disabled]="!checked() || isProcessing()" (click)="onSubmit()">
+        Odgovori
+      </button>
+    </div>
+  }
+}

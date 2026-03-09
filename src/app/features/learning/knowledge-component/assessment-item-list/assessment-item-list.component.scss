@@ -1,0 +1,20 @@
+.review-card {
+  margin: 12px 0;
+}
+
+.card-header {
+  padding-left: 10px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-content {
+  padding: 10px;
+}
+
+.item-number {
+  font-weight: bold;
+  font-size: 1.1em;
+}

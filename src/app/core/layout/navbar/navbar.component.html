@@ -1,0 +1,49 @@
+<div class="navbar">
+  <div class="logo" [routerLink]="['home']">
+    @if (isDarkMode()) {
+      <img src="images/logo.png" alt="Clean CaDET">
+    } @else {
+      <img src="images/black.png" alt="Clean CaDET">
+    }
+  </div>
+
+  <div class="navbar-controls">
+    @if (user(); as u) {
+      @if (u.role.includes('learner')) {
+        <cc-learner-controls />
+      }
+      @if (u.role === 'instructor') {
+        <cc-instructor-controls />
+      }
+      @if (u.role === 'administrator') {
+        <cc-admin-controls />
+      }
+    }
+    <div style="flex-grow: 1"></div>
+    <div class="flex-col">
+      <mat-divider />
+      <button class="navbar-button theme-hide" matButton (click)="themeToggled.emit()">
+        <div>
+          <mat-icon>{{ isDarkMode() ? 'light_mode' : 'bedtime' }}</mat-icon><br>
+          {{ isDarkMode() ? 'Osvetli' : 'Zatamni' }}
+        </div>
+      </button>
+      @if (user()) {
+        <small>{{ trimmedUsername() }}</small>
+        <button class="navbar-button" matButton (click)="onLogout()">
+          <div>
+            <mat-icon>logout</mat-icon><br>
+            Odjavi se
+          </div>
+        </button>
+      } @else {
+        <button class="navbar-button" matButton [routerLink]="['login']">
+          <div>
+            <mat-icon>login</mat-icon><br>
+            Prijavi se
+          </div>
+        </button>
+      }
+    </div>
+  </div>
+</div>

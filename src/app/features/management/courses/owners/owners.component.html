@@ -1,0 +1,35 @@
+<div class="flex-col" style="height: 100%;">
+  <div class="flex-row gap" style="justify-content: space-between; align-items: center; padding: 0 10px;">
+    <h2>Vlasnici</h2>
+    <button matMiniFab (click)="onAddOwner()" matTooltip="Dodaj">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+  <div style="overflow-y: auto; flex-grow: 1;">
+    @if (data().length > 0) {
+      <table mat-table [dataSource]="data()" multiTemplateDataRows>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Ime</th>
+          <td mat-cell *matCellDef="let element">{{ trim(element.name) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="surname">
+          <th mat-header-cell *matHeaderCellDef>Prezime</th>
+          <td mat-cell *matCellDef="let element">{{ trim(element.surname) }}</td>
+        </ng-container>
+        <ng-container matColumnDef="CRUD">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <span class="flex-row">
+              <span style="flex-grow: 1;"></span>
+              <button matIconButton (click)="onDelete(element.id)" matTooltip="Obriši">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </span>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let element; columns: columns;"></tr>
+      </table>
+    }
+  </div>
+</div>

@@ -1,0 +1,85 @@
+@if (user().role !== 'administrator') {
+  <div class="flex-col gap">
+    <h1>Katalog modula</h1>
+    @for (course of courses(); track course.id) {
+      <cc-course-card [course]="course" [user]="user()" />
+    }
+  </div>
+} @else {
+  <div class="flex-col" style="text-align: left; gap: 20px">
+    <div class="flex-row" style="align-items: stretch; gap: 20px">
+      <mat-card appearance="outlined" class="theme-hover admin-card" routerLink="/supervision/active">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">troubleshooting</mat-icon>
+            <span>Mišljenje mentora i refleksije</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Pregled grupa na aktivnim modulima</li>
+            <li>Poslednja 3 utiska za odabranog studenta</li>
+            <li>Refleksije studenta za odabranu nedelju</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="theme-hover admin-card" routerLink="/supervision/reports">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">analytics</mat-icon>
+            <span>Izveštaj po modulu</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Sumarni rezultati studenta na modulu</li>
+            <li>Sumarni utisci o studentu na modulu</li>
+            <li>Generisanje sumarnog izveštaja za studenta</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="flex-row" style="align-items: stretch; gap: 20px">
+      <mat-card appearance="outlined" class="theme-hover admin-card" routerLink="/management/courses">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">collections_bookmark</mat-icon>
+            <span>Upravljanje modulima</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Kreiranje, kloniranje i arhiviranje modula</li>
+            <li>Kreiranje grupa, uvezivanje mentora i studenata</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="theme-hover admin-card" routerLink="/management/stakeholders/learners">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">group</mat-icon>
+            <span>Upravljanje studentima</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Kreiranje i uklanjanje studentskih naloga</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+      <mat-card appearance="outlined" class="theme-hover admin-card" routerLink="/management/stakeholders/instructors">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon style="margin: 4px 4px 0 0; min-width: 24px;">school</mat-icon>
+            <span>Upravljanje mentorima</span>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <ul>
+            <li>Kreiranje i uklanjanje mentorskih naloga</li>
+          </ul>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+}

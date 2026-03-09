@@ -1,0 +1,39 @@
+.done {
+  opacity: 0.6;
+}
+
+.check-icon {
+  color: var(--mat-sys-primary);
+  margin-top: 4px;
+}
+
+.item-wrapper {
+  padding: 10px 0;
+}
+
+.item-title {
+  text-align: left;
+  padding: 10px;
+}
+
+.item-actions {
+  padding: 10px;
+}
+
+.item-icon {
+  margin-top: 4px;
+  min-width: 24px;
+}
+
+.spacer {
+  flex-grow: 1;
+}
+
+.status-col {
+  min-width: 48px;
+  text-align: right;
+}
+
+.locked-button {
+  width: 90px;
+}

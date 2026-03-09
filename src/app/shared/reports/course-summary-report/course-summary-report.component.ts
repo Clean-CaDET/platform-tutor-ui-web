@@ -1,64 +1,81 @@
-import { Component, Input, OnChanges } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, ChangeDetectionStrategy, inject, input, signal, effect } from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { HttpContext } from '@angular/common/http';
+import { NotificationService } from '../../../core/notification/notification.service';
+import { SKIP_GLOBAL_ERROR } from '../../../core/http/global-ui.interceptor';
+import { MatTableModule } from '@angular/material/table';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 import { CourseReport, UnitReport, FeedbackItemAggregate } from '../course-report.model';
 import { ReflectionsDialogComponent } from '../reflections-dialog/reflections-dialog.component';
 import { FEEDBACK_ITEM_CONFIGS, GROUP_TITLES } from './feedback-config';
 import { ReportService } from './report.service';
 
+interface FeedbackTableRow {
+  label: string;
+  code: string;
+  beginning: string;
+  middle: string;
+  end: string;
+}
+
 @Component({
   selector: 'cc-course-summary-report',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [
+    ReactiveFormsModule, MatTableModule, MatFormFieldModule, MatInputModule,
+    MatIconModule, MatButtonModule, MatDividerModule,
+  ],
   templateUrl: './course-summary-report.component.html',
-  styleUrl: './course-summary-report.component.scss'
+  styleUrl: './course-summary-report.component.scss',
 })
-export class CourseSummaryReportComponent implements OnChanges {
-  @Input() courseId: number;
-  @Input() learnerId: number;
-  @Input() courseReport: CourseReport;
-  @Input() readOnly: boolean = false;
-  report: CourseReport;
-  originalReport: string;
-  reportForm: FormGroup;
-  groupedFeedbackItems: { title: string; items: FeedbackItemAggregate[] }[] = [];
-  feedbackTableData: { label: string; code: string; beginning: string; middle: string; end: string }[] = [];
+export class CourseSummaryReportComponent {
+  private readonly reportService = inject(ReportService);
+  private readonly dialog = inject(MatDialog);
+  private readonly notify = inject(NotificationService);
 
-  constructor(
-    private reportService: ReportService,
-    private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {
-    this.reportForm = new FormGroup({
-      reportText: new FormControl('')
+  readonly courseId = input<number>(0);
+  readonly learnerId = input<number>(0);
+  readonly courseReport = input<CourseReport | undefined>(undefined);
+  readonly readOnly = input(false);
+
+  readonly report = signal<CourseReport | null>(null);
+  readonly feedbackTableData = signal<FeedbackTableRow[]>([]);
+
+  originalReport = '';
+  reportForm = new FormGroup({ reportText: new FormControl('') });
+
+  constructor() {
+    effect(() => {
+      const cr = this.courseReport();
+      if (cr) {
+        this.processReport(cr);
+      } else {
+        const courseId = this.courseId();
+        const learnerId = this.learnerId();
+        if (courseId && learnerId) {
+          this.report.set(null);
+          this.reportService.get(courseId, learnerId).subscribe(data => {
+            this.processReport(data);
+          });
+        }
+      }
     });
   }
 
-  ngOnChanges(): void {
-    if (this.courseReport) {
-      // Read-only mode: use provided report
-      this.report = this.courseReport;
-      this.originalReport = this.courseReport.report || '';
-      this.reportForm.patchValue({ reportText: this.originalReport });
-      if (this.report.unitReports) {
-        this.report.unitReports.sort((a, b) => a.order - b.order);
-      }
-      if (this.report.feedbackItemAggregates?.length) {
-        this.groupFeedbackItems();
-      }
-    } else if (this.courseId && this.learnerId) {
-      // Normal mode: fetch report
-      this.report = null;
-      this.reportService.get(this.courseId, this.learnerId).subscribe(data => {
-        this.report = data;
-        this.originalReport = data.report || '';
-        this.reportForm.patchValue({ reportText: this.originalReport });
-        if (this.report.unitReports) {
-          this.report.unitReports.sort((a, b) => a.order - b.order);
-        }
-        if (this.report.feedbackItemAggregates?.length) {
-          this.groupFeedbackItems();
-        }
-      });
+  private processReport(data: CourseReport): void {
+    if (data.unitReports) {
+      data.unitReports.sort((a, b) => a.order - b.order);
+    }
+    this.report.set(data);
+    this.originalReport = data.report || '';
+    this.reportForm.patchValue({ reportText: this.originalReport });
+    if (data.feedbackItemAggregates?.length) {
+      this.prepareFeedbackTableData(data);
     }
   }
 
@@ -71,74 +88,38 @@ export class CourseSummaryReportComponent implements OnChanges {
     this.dialog.open(ReflectionsDialogComponent, {
       data: unit,
       width: '700px',
-      maxHeight: '80vh'
+      maxHeight: '80vh',
     });
   }
 
-  groupFeedbackItems(): void {
-    const groups = new Map<number, FeedbackItemAggregate[]>();
-    
-    this.report.feedbackItemAggregates.forEach(item => {
-      const minWeek = Math.min(...item.weeks);
-      if (!groups.has(minWeek)) {
-        groups.set(minWeek, []);
-      }
-      groups.get(minWeek).push(item);
-    });
-    
-    const sortedGroups = Array.from(groups.entries())
-      .sort((a, b) => a[0] - b[0])
-      .slice(0, 3);
-    
-    this.groupedFeedbackItems = sortedGroups.map((group, index) => ({
-      title: GROUP_TITLES[index] || `Grupa ${index + 1}`,
-      items: this.sortItemsByCode(group[1])
-    }));
-
-    this.prepareFeedbackTableData();
-  }
-
-  prepareFeedbackTableData(): void {
+  private prepareFeedbackTableData(reportData: CourseReport): void {
     const feedbackByCode = new Map<string, FeedbackItemAggregate[]>();
-    
-    this.report.feedbackItemAggregates.forEach(item => {
+    reportData.feedbackItemAggregates!.forEach(item => {
       if (!feedbackByCode.has(item.code)) {
         feedbackByCode.set(item.code, []);
       }
-      feedbackByCode.get(item.code).push(item);
+      feedbackByCode.get(item.code)!.push(item);
     });
 
-    this.feedbackTableData = FEEDBACK_ITEM_CONFIGS.map(config => {
+    this.feedbackTableData.set(FEEDBACK_ITEM_CONFIGS.map(config => {
       const items = feedbackByCode.get(config.code) || [];
       items.sort((a, b) => Math.min(...a.weeks) - Math.min(...b.weeks));
-      
       return {
         label: config.label,
         code: config.code,
         beginning: items[0] ? this.getValue(items[0]) : '-',
         middle: items[1] ? this.getValue(items[1]) : '-',
-        end: items[2] ? this.getValue(items[2]) : '-'
+        end: items[2] ? this.getValue(items[2]) : '-',
       };
-    });
-  }
-
-  sortItemsByCode(items: FeedbackItemAggregate[]): FeedbackItemAggregate[] {
-    const codeOrder = FEEDBACK_ITEM_CONFIGS.map(c => c.code);
-    return items.sort((a, b) => codeOrder.indexOf(a.code) - codeOrder.indexOf(b.code));
-  }
-
-  getLabel(code: string): string {
-    return FEEDBACK_ITEM_CONFIGS.find(c => c.code === code)?.label || code;
+    }));
   }
 
   getValue(item: FeedbackItemAggregate): string {
     if (!item.hasData) {
       return 'Nemamo mišljenje';
     }
-    
     const config = FEEDBACK_ITEM_CONFIGS.find(c => c.code === item.code);
     if (!config) return '-';
-    
     if (item.average >= config.thresholds.high) {
       return config.labels.high;
     } else if (item.average >= config.thresholds.medium) {
@@ -149,54 +130,43 @@ export class CourseSummaryReportComponent implements OnChanges {
   }
 
   copyToClipboard(): void {
-    const results = `## Procenat pređenih lekcija: ${this.report.satisfiedUnitPercent}\n## Procenat značajnih refleksija ${this.report.meaningfulReflectionAnswerPercent}\n`;
-    const feedbackJson = JSON.stringify(this.feedbackTableData, null, 2);
+    const r = this.report();
+    if (!r) return;
+    const results = `## Procenat pređenih lekcija: ${r.satisfiedUnitPercent}\n## Procenat značajnih refleksija ${r.meaningfulReflectionAnswerPercent}\n`;
+    const feedbackJson = JSON.stringify(this.feedbackTableData(), null, 2);
     navigator.clipboard.writeText(results + feedbackJson);
   }
 
   saveReport(): void {
+    const r = this.report();
+    if (!r) return;
     const updatedReport: CourseReport = {
-      ...this.report,
-      report: this.reportForm.get('reportText').value
+      ...r,
+      report: this.reportForm.get('reportText')!.value!,
     };
-    
-    this.reportService.saveOrUpdate(updatedReport).subscribe({
+    const ctx = new HttpContext().set(SKIP_GLOBAL_ERROR, true);
+    this.reportService.saveOrUpdate(updatedReport, ctx).subscribe({
       next: (result) => {
-        this.report = result;
+        this.report.set(result);
         this.originalReport = result.report;
-        this.snackBar.open('Izveštaj sačuvan!', 'Zatvori', {
-          duration: 3000,
-          horizontalPosition:'right'
-        });
+        this.notify.success('Izveštaj sačuvan!');
       },
-      error: (err) => {
-        this.snackBar.open('Greška pri čuvanju.', 'Zatvori', {
-          duration: 3000,
-          horizontalPosition:'right'
-        });
-      }
+      error: () => {
+        this.notify.error('Greška pri čuvanju.');
+      },
     });
   }
 
   resetReport(): void {
     this.reportForm.patchValue({ reportText: this.originalReport });
-    this.snackBar.open('Izveštaj vraćen na prethodnu verziju', 'Zatvori', {
-      duration: 2000,
-      horizontalPosition:'right'
-    });
+    this.notify.info('Izveštaj vraćen na prethodnu verziju');
   }
 
   reloadStats(): void {
-    this.reportService.getAchievements(this.courseId, this.learnerId).subscribe(data => {
-      data.report = this.reportForm.get('reportText').value;
-      data.id = this.report.id;
-      this.report = data;
-      if (this.report.unitReports) {
-        this.report.unitReports.sort((a, b) => a.order - b.order);
-      }
-      if (this.report.feedbackItemAggregates?.length) {
-        this.groupFeedbackItems();
-      }
+    this.reportService.getAchievements(this.courseId(), this.learnerId()).subscribe(data => {
+      data.report = this.reportForm.get('reportText')!.value!;
+      data.id = this.report()!.id;
+      this.processReport(data);
     });
   }
 }

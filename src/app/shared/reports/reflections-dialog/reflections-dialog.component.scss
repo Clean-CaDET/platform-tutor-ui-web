@@ -6,9 +6,9 @@
 .reflection-item {
   padding: 16px;
   margin-bottom: 16px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
   border-radius: 4px;
-  background-color: #fafafa;
+  background-color: var(--mat-sys-surface-container-low, #fafafa);
 
   &:last-child {
     margin-bottom: 0;
@@ -17,7 +17,7 @@
 
 .reflection-date {
   font-size: 0.75rem;
-  color: rgba(0, 0, 0, 0.54);
+  color: var(--mat-sys-on-surface-variant, rgba(0, 0, 0, 0.54));
   margin-bottom: 8px;
 }
 

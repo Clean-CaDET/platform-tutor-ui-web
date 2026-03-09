@@ -1,0 +1,63 @@
+<div class="flex-row" style="width: 100%;">
+  <div class="unit-list">
+    @if (progressBarActive()) {
+      <mat-progress-bar style="margin: 8px 0 8px 0" mode="indeterminate" />
+    } @else {
+      <div style="margin: 20px"></div>
+    }
+    @for (unit of units(); track unit.id) {
+      @if (unit.groupEnrollment) {
+        <div class="flex-row gap unit-row">
+          <span>
+            <b>{{ unit.code }}</b><br>
+            {{ unit.name }}
+          </span>
+          <span style="flex-grow: 1;"></span>
+          @if (unit.groupEnrollment.status !== 'InactiveAll') {
+            <span>
+              <small>Pristup od</small><br>
+              <small>{{ unit.groupEnrollment.availableFrom | date: 'd.M.y.' }}</small>
+            </span>
+            <span>
+              <small>Najbolje do</small><br>
+              <small>{{ unit.groupEnrollment.bestBefore | date: 'd.M.y.' }}</small>
+            </span>
+          }
+          <span>
+            <small>Status</small><br>
+            @if (unit.groupEnrollment.status === 'Active' || unit.groupEnrollment.status === 'Completed') {
+              <mat-icon matTooltip="Pristup je omogućen za sve studente">check_circle</mat-icon>
+            }
+            @if (unit.groupEnrollment.status === 'InactiveAll') {
+              <mat-icon matTooltip="Nije omogućen pristup za sve studente">cancel</mat-icon>
+            }
+            @if (unit.groupEnrollment.status === 'InactiveSome') {
+              <mat-icon class="theme-warn" matTooltip="Deo studenata nema pristup. To se može desiti kada je student naknadno dodat u grupu i tada samo treba omogućiti pristup lekciji da rešiš problem. Ako ovo nije slučaj javi se administratoru.">cancel</mat-icon>
+            }
+          </span>
+          <span class="flex-row gap">
+            <span></span>
+            <button [disabled]="unit.groupEnrollment.status === 'Active' || unit.groupEnrollment.status === 'Completed'"
+              matMiniFab (click)="startEnrollment(unit)"
+              [class.theme-warn-bg]="unit.groupEnrollment.status === 'InactiveSome'"
+              matTooltip="Omogući pristup lekciji">
+              <mat-icon>refresh</mat-icon>
+            </button>
+            <button [disabled]="unit.groupEnrollment.status === 'InactiveAll'"
+              matMiniFab (click)="groupUnenroll(unit)" matTooltip="Blokiraj pristup lekciji">
+              <mat-icon>stop</mat-icon>
+            </button>
+          </span>
+        </div>
+      }
+      <mat-divider />
+    }
+  </div>
+  <mat-divider vertical="true" />
+  <div style="width: 23%;">
+    <mat-calendar [selected]="selectedDate()" (selectedChange)="selectedDate.set($event)" />
+    <div style="padding-left: 10px;">
+      <small>Početni datum za nov pristup: {{ selectedDate() | date: 'd.M.y.' }}</small>
+    </div>
+  </div>
+</div>

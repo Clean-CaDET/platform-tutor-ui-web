@@ -1,0 +1,31 @@
+<div class="flex-row gap" style="height: 100%;">
+  <cc-generic-table
+    style="width: 40%"
+    [title]="'Moduli'"
+    [fieldConfiguration]="fields"
+    [baseUrl]="baseUrl"
+    (selectItem)="onSelect($event)" />
+    <mat-divider vertical="true" />
+  @if (selectedCourse()) {
+    <div class="flex-col gap" style="width: 20%;">
+      <div style="height: calc(50% - 11px)">
+        <cc-generic-table
+          [title]="'Grupe'"
+          [fieldConfiguration]="groupFields"
+          [baseUrl]="baseGroupUrl()"
+          [noPagination]="true"
+          (selectItem)="onSelectGroup($event)" />
+      </div>
+      <mat-divider style="margin: 0 -10px"/>
+      <div style="height: calc(50% - 11px)">
+        <cc-owners [course]="selectedCourse()!" [allInstructors]="allInstructors()" />
+      </div>
+    </div>
+    <mat-divider vertical="true" />
+  }
+  @if (selectedGroup()) {
+    <div style="width: calc(40% - 30px);">
+      <cc-enrolled-learners [group]="selectedGroup()!" />
+    </div>
+  }
+</div>

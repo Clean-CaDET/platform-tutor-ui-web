@@ -1,10 +1,10 @@
 <div style="flex-grow: 1">
   <div class="flex-row">
     <div class="flex-row">
-      <button mat-icon-button (click)="insertElement('bold')" matTooltip="Dodaj bold">
+      <button matIconButton (click)="insertElement('bold')" matTooltip="Dodaj bold">
         <mat-icon>format_bold</mat-icon>
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="headings" matTooltip="Dodaj zaglavlje">
+      <button matIconButton [matMenuTriggerFor]="headings" matTooltip="Dodaj zaglavlje">
         <mat-icon>title</mat-icon>
       </button>
       <mat-menu #headings="matMenu">
@@ -13,52 +13,68 @@
         <div (click)="insertElement('h3')" mat-menu-item>h3</div>
       </mat-menu>
       <mat-divider vertical="true"></mat-divider>
-      <button mat-icon-button (click)="insertElement('link')" *ngIf="authoring" matTooltip="Dodaj link">
-        <mat-icon>link</mat-icon>
-      </button>
-      <button mat-icon-button (click)="insertElement('code')" matTooltip="Dodaj blok koda">
+      @if (authoring()) {
+        <button matIconButton (click)="insertElement('link')" matTooltip="Dodaj link">
+          <mat-icon>link</mat-icon>
+        </button>
+      }
+      <button matIconButton (click)="insertElement('code')" matTooltip="Dodaj blok koda">
         <mat-icon>code</mat-icon>
       </button>
-      <button mat-icon-button (click)="insertElement('hidden')" *ngIf="authoring" matTooltip="Dodaj skriveni segment">
-        <mat-icon>expand</mat-icon>
-      </button>
+      @if (authoring()) {
+        <button matIconButton (click)="insertElement('hidden')" matTooltip="Dodaj skriveni segment">
+          <mat-icon>expand</mat-icon>
+        </button>
+      }
     </div>
     <span style="flex-grow: 1;"></span>
-    <button *ngIf="sidePreview && livePreview" mat-icon-button (click)="synchEnabled = !synchEnabled"  [matTooltip]="synchEnabled ? 'Ukini skrol sinhronizaciju' : 'Aktiviraj skrol sinhronizaciju'">
-      <mat-icon>{{ synchEnabled ? 'sync_disabled' : 'sync' }}</mat-icon>
-    </button>
-    <button mat-icon-button (click)="livePreview = !livePreview; setupScrollSync();" [matTooltip]="livePreview ? 'Sakrij formatiran tekst' : 'Prikaži formatiran tekst'">
-      <mat-icon>{{ livePreview ? 'visibility_off' : 'visibility' }}</mat-icon>
-    </button>
-    <div *ngIf="submitCtrls">
-      <mat-divider vertical="true"></mat-divider>
-      <button mat-icon-button color="primary" (click)="onSubmit(false)">
-        <mat-icon>check</mat-icon>
+    @if (sidePreview() && livePreview()) {
+      <button matIconButton (click)="synchEnabled.set(!synchEnabled())"
+        [matTooltip]="synchEnabled() ? 'Ukini skrol sinhronizaciju' : 'Aktiviraj skrol sinhronizaciju'">
+        <mat-icon>{{ synchEnabled() ? 'sync_disabled' : 'sync' }}</mat-icon>
       </button>
-      <button mat-icon-button color="warn" (click)="onSubmit(true)">
-        <mat-icon>clear</mat-icon>
-      </button>
+    }
+    <button matIconButton (click)="togglePreview()"
+      [matTooltip]="livePreview() ? 'Sakrij formatiran tekst' : 'Prikaži formatiran tekst'">
+      <mat-icon>{{ livePreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
+    </button>
+    @if (submitCtrls()) {
+      <div>
+        <mat-divider vertical="true"></mat-divider>
+        <button matIconButton class="primary-icon" (click)="onSubmit(false)">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button matIconButton class="warn-icon" (click)="onSubmit(true)">
+          <mat-icon>clear</mat-icon>
+        </button>
+      </div>
+    }
+  </div>
+  @if (!sidePreview()) {
+    <div class="flex-col">
+      <mat-form-field>
+        <mat-label>{{ label() }}</mat-label>
+        <textarea #textAreaElement matInput [formControl]="textControl" [tabindex]="indextab()"
+          style="height: 290px;"></textarea>
+      </mat-form-field>
+      @if (livePreview()) {
+        <small>
+          <cc-markdown [data]="text()" [lineNumbers]="true" [modalImages]="false" />
+        </small>
+      }
     </div>
-  </div>
-  <div *ngIf="!sidePreview" class="flex-col">
-    <mat-form-field appearance="fill">
-      <mat-label>{{label}}</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab"
-        (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"
-        style="height: 290px;"></textarea>
-    </mat-form-field>
-    <small>
-      <markdown *ngIf="livePreview" [data]="text" lineNumbers></markdown>
-    </small>
-  </div>
-  <div *ngIf="sidePreview" class="flex-row" style="height: 65vh; gap: 10px">
-    <mat-form-field appearance="fill" style="flex-grow: 1;">
-      <mat-label>{{label}}</mat-label>
-      <textarea #textAreaElement matInput [(ngModel)]="text" [tabindex]="indextab" style="height: calc(65vh - 40px); resize: none;"
-        (select)="onSelect($event)" (click)="onClick($event)" (ngModelChange)="onChange()"></textarea>
-    </mat-form-field>
-    <small #markdownContainerElement style="width: 50%; overflow-y: auto;" *ngIf="livePreview">
-      <markdown [data]="text" lineNumbers></markdown>
-    </small>
-  </div>
+  } @else {
+    <div class="flex-row" style="height: 65vh; gap: 10px">
+      <mat-form-field style="flex-grow: 1;">
+        <mat-label>{{ label() }}</mat-label>
+        <textarea #textAreaElement matInput [formControl]="textControl" [tabindex]="indextab()"
+          style="height: calc(65vh - 40px); resize: none;"></textarea>
+      </mat-form-field>
+      @if (livePreview()) {
+        <small #markdownContainerElement style="width: 50%; overflow-y: auto;">
+          <cc-markdown [data]="text()" [lineNumbers]="true" [modalImages]="false" />
+        </small>
+      }
+    </div>
+  }
 </div>

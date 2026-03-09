@@ -1,0 +1,54 @@
+@if (unit(); as unit) {
+  <div class="flex-col full-height">
+    <div id="scroller">
+      <div class="container">
+        <h1>{{ unit.name }}</h1>
+        @if (unit.introduction) {
+          <cc-markdown>{{ unit.introduction }}</cc-markdown>
+        }
+        @if (unit.goals) {
+          <cc-markdown>**Cilj**: {{ unit.goals }}</cc-markdown>
+        }
+        @if (unit.guidelines) {
+          <div>
+            <b>Smernice za postizanje cilja</b>:<br>
+            <cc-markdown>{{ unit.guidelines }}</cc-markdown>
+          </div>
+        }
+        @if (error(); as err) {
+          <div class="container">
+            <b>{{ err }} Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.</b>
+          </div>
+        }
+        @for (item of unitItems(); track item.id) {
+          <cc-unit-item [item]="item" />
+        }
+      </div>
+    </div>
+    <div class="secondary-nav">
+      <mat-divider></mat-divider>
+      <div class="navigation-panel">
+        <div class="progress-wrapper">
+          @if (unitItems().length) {
+            <div class="flex-row progress-row">
+              <mat-progress-bar class="spacer" mode="determinate" [value]="percentMastered()" />
+              @if (percentMastered() < 100) {
+                <span matTooltip="% rešenih celina lekcije" class="percent-label">
+                  <b>{{ percentMastered() }}%</b>
+                </span>
+              } @else {
+                <span matTooltip="Lekcija savladana!" class="medal-label">
+                  <mat-icon class="medal-icon">emoji_events</mat-icon>
+                </span>
+              }
+            </div>
+          }
+        </div>
+        <a matButton="elevated" [routerLink]="['/courses', courseId()]">
+          <mat-icon>book</mat-icon>
+          Sve lekcije
+        </a>
+      </div>
+    </div>
+  </div>
+}

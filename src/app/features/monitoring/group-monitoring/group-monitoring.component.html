@@ -1,0 +1,103 @@
+<div class="flex-row" style="height: 100%;">
+  <div style="width: 200px;">
+    @if (mode() === 'enrollments') {
+      <div style="height: 56px; padding: 10px"><small>Izaberi grupu studenata da im otključiš pristup lekcijama.</small></div>
+    }
+    @if (mode() === 'report') {
+      <div style="height: 56px; padding: 10px"><small>Na kraju modula definiši opšti utisak o studentu.</small></div>
+    }
+    @if (mode() !== 'enrollments' && mode() !== 'report') {
+      <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 182px">
+        <mat-label>Dan pred sink (po kalendaru)</mat-label>
+        <input matInput [matDatepicker]="picker" [value]="selectedDate()" (dateChange)="onDateChange($event)">
+        <mat-datepicker-toggle matIconSuffix [for]="picker" />
+        <mat-datepicker #picker />
+      </mat-form-field>
+    }
+    <mat-form-field appearance="fill" style="padding: 10px; margin-bottom: -1.25em; width: 182px">
+      <mat-label>Grupa</mat-label>
+      <mat-select [value]="selectedGroupId()" (selectionChange)="selectedGroupId.set($event.value); getLearners()">
+        @for (group of groups(); track group.id) {
+          <mat-option [value]="group.id">{{ group.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <mat-divider />
+    <cdk-virtual-scroll-viewport itemSize="30" class="viewport">
+      @for (learner of learners(); track learner.id) {
+        <div [class.theme-highlight-flat]="selectedLearner()?.id === learner.id"
+          class="theme-hover flex-row"
+          style="padding: 10px; cursor: pointer; align-items: center;" (click)="changeLearner(learner)">
+          <div style="flex-grow: 1;">
+            <small style="font-size: 12px;">{{ learner.index }}</small><br>
+            <span>{{ learner.name }} {{ learner.surname }}</span>
+          </div>
+          @if (mode() === 'grading') {
+            <div class="theme-warn">
+              @if (learner.completedTaskCount) {
+                <span [matTooltip]="'Broj urađenih i neocenjenih zadataka'">{{ learner.completedTaskCount }}</span>
+              }
+              <br>
+              @if (learner.completedStepCount) {
+                <small [matTooltip]="'Broj urađenih i neocenjenih koraka'">{{ learner.completedStepCount }}</small>
+              }
+            </div>
+          }
+          @if (mode() === 'progress') {
+            <div>
+              @if (learner.semaphore) {
+                <mat-icon [matTooltip]="learner.semaphoreJustification"
+                  [class.theme-warn]="learner.semaphore === 1"
+                  [class.theme-accent]="learner.semaphore === 2"
+                  [class.theme-primary]="learner.semaphore === 3">circle</mat-icon>
+              } @else {
+                <mat-icon matTooltip="Nema povratne informacije o studentu za nedelju">radio_button_off</mat-icon>
+              }
+            </div>
+          }
+          @if (mode() === 'report') {
+            <div>
+              @if (hasReportFromOtherCourse(learner)) {
+                <button matIconButton (click)="openOtherCourseReport(learner, $event)"
+                  matTooltip="Izveštaji sa drugih modula" class="theme-primary">
+                  <mat-icon>assignment</mat-icon>
+                </button>
+              }
+            </div>
+          }
+        </div>
+        <mat-divider />
+      }
+    </cdk-virtual-scroll-viewport>
+  </div>
+  <mat-divider vertical="true" style="border-width: 3px;" />
+  <div style="overflow-y: auto; flex-grow: 1;">
+    @switch (mode()) {
+      @case ('enrollments') {
+        @if (learners().length) {
+          <cc-enrollments [courseId]="courseId()" [learners]="learners()" />
+        }
+      }
+      @case ('grading') {
+        @if (selectedLearner(); as sl) {
+          <cc-grading [courseId]="courseId()" [selectedLearnerId]="sl.id" [learners]="learners()"
+            (learnerChanged)="changeLearner($event)" (gradesChanged)="getTaskSummaries($event)"
+            (stepGraded)="onStepGraded($event)" [selectedDate]="selectedDate()" />
+        }
+      }
+      @case ('progress') {
+        @if (selectedLearner(); as sl) {
+          <cc-weekly-progress [courseId]="courseId()" [selectedLearnerId]="sl.id" [learners]="learners()"
+            (learnerChanged)="changeLearner($event)" [selectedDate]="selectedDate()" />
+        }
+      }
+      @case ('report') {
+        @if (selectedLearner(); as sl) {
+          <div style="height: 100vh">
+            <cc-course-summary-report [courseId]="courseId()" [learnerId]="sl.id" />
+          </div>
+        }
+      }
+    }
+  </div>
+</div>

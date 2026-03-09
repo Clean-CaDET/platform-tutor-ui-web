@@ -1,0 +1,23 @@
+.container {
+  display: block;
+}
+
+.item {
+  display: block;
+  border-bottom: solid 1px #999;
+}
+
+.item:last-child {
+  display: block;
+  border-bottom: none;
+}
+
+.item-header {
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  padding: 10px;
+  z-index: 10;
+}

@@ -1,14 +1,20 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'cc-markdown-image-enhancer',
-  templateUrl: './markdown-image-enhancer.component.html',
-  styleUrl: './markdown-image-enhancer.component.scss'
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    <div class="modal-container">
+      <img [src]="imageSrc" class="full-image" />
+    </div>
+  `,
+  styles: `
+    .modal-container { text-align: center; margin: 10px }
+    .full-image { max-width: 90%; max-height: 90%; }
+  `,
 })
 export class MarkdownImageEnhancerComponent {
-  imageSrc: string;
-  constructor(@Inject(MAT_DIALOG_DATA) data: any) {
-    this.imageSrc = data.src;
-  }
+  private readonly data = inject<{ src: string }>(MAT_DIALOG_DATA);
+  readonly imageSrc = this.data.src;
 }

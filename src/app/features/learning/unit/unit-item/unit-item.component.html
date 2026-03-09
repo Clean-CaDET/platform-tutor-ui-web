@@ -1,0 +1,95 @@
+@if (item(); as item) {
+  <div class="item-wrapper">
+    @switch (item.type) {
+      @case (UnitItemType.Kc) {
+        <mat-card appearance="outlined">
+          <mat-card-title class="item-title">
+            <div class="flex-row gap">
+              <mat-icon matTooltip="Komponenta znanja" class="item-icon"
+                [class.done]="item.isSatisfied || (!item.kc.parentId && !item.isNext)">
+                menu_book
+              </mat-icon>
+              <span class="spacer"
+                [class.done]="item.isSatisfied || (!item.kc.parentId && !item.isNext)">
+                {{ item.name }}
+              </span>
+              <span class="status-col">
+                @if (item.isSatisfied) {
+                  <mat-icon class="check-icon" matTooltip="Rešeno!">check_circle</mat-icon>
+                } @else {
+                  <span [class.done]="!item.kc.parentId && !item.isNext">
+                    {{ item.kcMastery.mastery * 100 | number:'1.0-0' }}%
+                  </span>
+                }
+              </span>
+            </div>
+          </mat-card-title>
+          <mat-card-actions class="item-actions">
+            @if (item.kc.parentId || item.isNext || item.isSatisfied) {
+              <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['kcs', item.id]">
+                Pristupi
+              </a>
+            } @else {
+              <span matTooltip="Reši prethodne stavke">
+                <button matButton="filled" disabled class="locked-button">
+                  <mat-icon>lock</mat-icon>
+                </button>
+              </span>
+            }
+          </mat-card-actions>
+        </mat-card>
+      }
+      @case (UnitItemType.Task) {
+        <mat-card appearance="outlined">
+          <mat-card-title class="item-title">
+            <div class="flex-row gap">
+              <mat-icon matTooltip="Zadatak" class="item-icon" [class.done]="item.isSatisfied">
+                rebase_edit
+              </mat-icon>
+              <span class="spacer" [class.done]="item.isSatisfied">{{ item.name }}</span>
+              <span class="status-col">
+                @if (item.task.status === 'Graded') {
+                  <span>{{ item.task.totalScore }} / {{ item.task.maxPoints }}</span>
+                }
+                @if (item.isSatisfied) {
+                  <mat-icon class="check-icon" matTooltip="Svi koraci rešeni!">check_circle</mat-icon>
+                } @else {
+                  <span>{{ item.task.totalSteps ? (item.task.completedSteps / item.task.totalSteps * 100 | number:'1.0-0') : 0 }}%</span>
+                }
+              </span>
+            </div>
+          </mat-card-title>
+          <mat-card-actions class="item-actions">
+            <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['tasks', item.id]">
+              Pristupi
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      }
+      @case (UnitItemType.Reflection) {
+        <mat-card appearance="outlined">
+          <mat-card-title class="item-title">
+            <div class="flex-row gap">
+              <mat-icon matTooltip="Refleksija" class="item-icon" [class.done]="item.isSatisfied">
+                record_voice_over
+              </mat-icon>
+              <span class="spacer" [class.done]="item.isSatisfied">{{ item.name }}</span>
+              <span class="status-col">
+                @if (item.isSatisfied) {
+                  <mat-icon class="check-icon" matTooltip="Rešeno!">check_circle</mat-icon>
+                } @else {
+                  <span>0%</span>
+                }
+              </span>
+            </div>
+          </mat-card-title>
+          <mat-card-actions class="item-actions">
+            <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['reflections', item.id]">
+              Pristupi
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      }
+    }
+  </div>
+}

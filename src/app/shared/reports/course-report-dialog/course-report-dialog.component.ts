@@ -1,6 +1,10 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { CourseReport } from '../course-report.model';
+import { CourseSummaryReportComponent } from '../course-summary-report/course-summary-report.component';
 
 interface DialogData {
   reports: CourseReport[];
@@ -9,19 +13,21 @@ interface DialogData {
 
 @Component({
   selector: 'cc-course-report-dialog',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [MatIconModule, MatButtonModule, MatTooltipModule, CourseSummaryReportComponent],
   templateUrl: './course-report-dialog.component.html',
-  styleUrl: './course-report-dialog.component.scss'
+  styleUrl: './course-report-dialog.component.scss',
 })
 export class CourseReportDialogComponent {
+  private readonly dialogRef = inject(MatDialogRef<CourseReportDialogComponent>);
+  private readonly data = inject<DialogData>(MAT_DIALOG_DATA);
+
   reports: CourseReport[];
   currentIndex: number;
 
-  constructor(
-    public dialogRef: MatDialogRef<CourseReportDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData
-  ) {
-    this.reports = data.reports;
-    this.currentIndex = data.currentIndex;
+  constructor() {
+    this.reports = this.data.reports;
+    this.currentIndex = this.data.currentIndex;
   }
 
   get currentReport(): CourseReport {
@@ -41,15 +47,11 @@ export class CourseReportDialogComponent {
   }
 
   previous(): void {
-    if (this.hasPrevious) {
-      this.currentIndex--;
-    }
+    if (this.hasPrevious) this.currentIndex--;
   }
 
   next(): void {
-    if (this.hasNext) {
-      this.currentIndex++;
-    }
+    if (this.hasNext) this.currentIndex++;
   }
 
   close(): void {
