@@ -4,7 +4,7 @@ FROM node:22-alpine AS frontBuild
 WORKDIR /src
 COPY . .
 RUN apk --update --no-cache add gettext && \
-    npm ci
+    npm install
 ARG SMART_TUTOR_API_URL
 RUN ./docker/scripts/build-app.sh ${SMART_TUTOR_API_URL}
 
