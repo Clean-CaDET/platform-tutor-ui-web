@@ -36,6 +36,10 @@
                     [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Reflections">
                     <mat-icon>record_voice_over</mat-icon>
                   </button>
+                  <button matIconButton (click)="showElaborations(unit)" matTooltip="Elaboracije"
+                    [class.active-tab]="selectedUnit()?.id === unit.id && display() === DisplayType.Elaborations">
+                    <mat-icon>forum</mat-icon>
+                  </button>
                   <span style="flex-grow: 1;"></span>
                   <button matIconButton (click)="deleteUnit(unit.id!)" matTooltip="Obriši">
                     <mat-icon>delete</mat-icon>
@@ -62,6 +66,9 @@
             }
             @case (DisplayType.Reflections) {
               <cc-reflections [unitId]="unit.id!" />
+            }
+            @case (DisplayType.Elaborations) {
+              <cc-elaboration-authoring [unitId]="unit.id!" [courseId]="course.id!" />
             }
           }
         </div>

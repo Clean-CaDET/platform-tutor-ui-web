@@ -1,0 +1,38 @@
+<mat-dialog-content class="flex-col" style="width: 500px;">
+  <h3>{{ data.task ? 'Ažuriraj zadatak' : 'Novi elaboracijski zadatak' }}</h3>
+
+  <mat-form-field>
+    <mat-label>Koncept</mat-label>
+    <input type="text" placeholder="Odaberi ili pretraži" matInput
+      [formControl]="conceptRecordControl"
+      [matAutocomplete]="auto"
+      (input)="onRecordSelected($any($event.target).value)">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+      (optionSelected)="onRecordSelected($event.option.value)">
+      @for (record of filteredRecords(); track record.id) {
+        <mat-option [value]="record.title">{{ record.title }}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <form [formGroup]="form" class="flex-col gap">
+    <mat-form-field>
+      <mat-label>Očekivani nivo</mat-label>
+      <mat-select formControlName="expectedLevel">
+        @for (level of levels; track level) {
+          <mat-option [value]="level">{{ level }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Redosled</mat-label>
+      <input matInput type="number" formControlName="order">
+    </mat-form-field>
+  </form>
+
+  <div class="flex-row gap" style="margin-top: 10px;">
+    <button matButton="filled" [disabled]="isSubmitDisabled()" (click)="onSubmit()">Sačuvaj</button>
+    <button matButton="outlined" (click)="onClose()">Zatvori</button>
+  </div>
+</mat-dialog-content>

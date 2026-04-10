@@ -16,6 +16,7 @@ import { UnitDetailsComponent } from './unit-details/unit-details.component';
 import { KcTreeComponent } from '../knowledge-component/kc-tree/kc-tree.component';
 import { LearningTasksComponent } from '../learning-tasks/learning-tasks.component';
 import { ReflectionsComponent } from '../reflections/reflections.component';
+import { ElaborationAuthoringComponent } from '../elaboration-tasks/elaboration-authoring.component';
 import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 
 enum DisplayType {
@@ -23,6 +24,7 @@ enum DisplayType {
   Kcs,
   Tasks,
   Reflections,
+  Elaborations,
 }
 
 @Component({
@@ -31,7 +33,7 @@ enum DisplayType {
   imports: [
     MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule,
     ScrollingModule, CourseDetailsComponent, UnitDetailsComponent, KcTreeComponent,
-    LearningTasksComponent, ReflectionsComponent,
+    LearningTasksComponent, ReflectionsComponent, ElaborationAuthoringComponent,
   ],
   templateUrl: './course-structure.component.html',
   styleUrl: './course-structure.component.scss',
@@ -73,6 +75,7 @@ export class CourseStructureComponent {
         if (mode === 'kc') { this.showKcs(unit); return; }
         if (mode === 'lt') { this.showTasks(unit); return; }
         if (mode === 'ref') { this.showReflections(unit); return; }
+        if (mode === 'elab') { this.showElaborations(unit); return; }
         this.showDetails(unit);
       }
     });
@@ -118,6 +121,12 @@ export class CourseStructureComponent {
     this.selectedUnit.set(unit);
     this.display.set(DisplayType.Reflections);
     this.router.navigate([], { queryParams: { unit: unit.id, mode: 'ref' }, queryParamsHandling: 'merge' });
+  }
+
+  showElaborations(unit: Unit): void {
+    this.selectedUnit.set(unit);
+    this.display.set(DisplayType.Elaborations);
+    this.router.navigate([], { queryParams: { unit: unit.id, mode: 'elab' }, queryParamsHandling: 'merge' });
   }
 
   saveOrUpdateUnit(unit: Unit): void {
