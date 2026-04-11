@@ -1,6 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect, linkedSignal } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { HttpContext } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,54 +11,60 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
-import { SKIP_GLOBAL_ERROR } from '../../../core/http/global-ui.interceptor';
-import { NotificationService } from '../../../core/notification/notification.service';
-import { ConceptRecord, KeyProposition, BoundaryCondition, CommonMisconception, KeyRelation } from './model/concept-record.model';
-import { ConceptRecordAuthoringService } from './concept-record-authoring.service';
+import {
+  ConceptElaborationTask,
+  ConceptElaborationTaskSummary,
+  KeyProposition,
+  BoundaryCondition,
+  CommonMisconception,
+  KeyRelation,
+} from './model/concept-elaboration-task.model';
+import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-task-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
 
-const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
-
 @Component({
-  selector: 'cc-concept-records',
+  selector: 'cc-concept-elaboration-tasks',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDividerModule,
     MatTooltipModule,
   ],
-  templateUrl: './concept-records.component.html',
+  templateUrl: './concept-elaboration-tasks.component.html',
 })
-export class ConceptRecordsComponent {
-  private readonly service = inject(ConceptRecordAuthoringService);
+export class ConceptElaborationTasksComponent {
+  private readonly service = inject(ConceptElaborationTaskAuthoringService);
   private readonly dialog = inject(MatDialog);
-  private readonly notify = inject(NotificationService);
-  readonly courseId = input.required<number>();
+  readonly unitId = input.required<number>();
 
-  readonly levels = LEVELS;
-
-  private readonly recordsResource = rxResource({
-    params: () => ({ courseId: this.courseId() }),
-    stream: ({ params }) => this.service.getByCourse(params.courseId),
-    defaultValue: [],
+  private readonly summariesResource = rxResource({
+    params: () => ({ unitId: this.unitId() }),
+    stream: ({ params }) => this.service.getByUnit(params.unitId),
+    defaultValue: [] as ConceptElaborationTaskSummary[],
   });
 
-  records = linkedSignal(() => this.recordsResource.value());
+  summaries = linkedSignal(() =>
+    [...this.summariesResource.value()].sort((a, b) => a.order - b.order),
+  );
   isEditing = signal(false);
   editId = signal(0);
   form!: FormGroup;
-  private workingItem: ConceptRecord | null = null;
+  private workingItem: ConceptElaborationTask | null = null;
 
   constructor() {
     effect(() => {
-      this.recordsResource.value();
+      this.summariesResource.value();
       this.isEditing.set(false);
     });
   }
 
   add(): void {
-    const newRecord: ConceptRecord = {
+    const rows = this.summaries();
+    const maxOrder = rows.length ? Math.max(...rows.map(s => s.order)) : 0;
+    const blank: ConceptElaborationTask = {
       id: 0,
+      unitId: this.unitId(),
+      order: maxOrder + 1,
       title: '',
       canonicalDefinition: '',
       keyPropositions: [],
@@ -67,34 +72,47 @@ export class ConceptRecordsComponent {
       commonMisconceptions: [],
       keyRelations: [],
     };
-    this.records.update(r => [newRecord, ...r]);
-    this.initForm(newRecord);
+    const syntheticSummary: ConceptElaborationTaskSummary = {
+      id: 0,
+      unitId: this.unitId(),
+      order: blank.order,
+      title: '',
+      hasCompletedAttempt: false,
+    };
+    this.summaries.update(s => [syntheticSummary, ...s]);
+    this.initForm(blank);
   }
 
-  edit(item: ConceptRecord): void {
-    this.workingItem = JSON.parse(JSON.stringify(item));
-    this.initForm(this.workingItem!);
+  edit(summary: ConceptElaborationTaskSummary): void {
+    this.service.get(this.unitId(), summary.id).subscribe({
+      next: full => {
+        const clone: ConceptElaborationTask = JSON.parse(JSON.stringify(full));
+        this.initForm(clone);
+      },
+      error: () => {},
+    });
   }
 
-  private initForm(record: ConceptRecord): void {
-    this.workingItem = record;
-    const sortedKps = [...record.keyPropositions].sort((a, b) => a.statement.localeCompare(b.statement));
+  private initForm(task: ConceptElaborationTask): void {
+    this.workingItem = task;
+    const sortedKps = [...task.keyPropositions].sort((a, b) => a.statement.localeCompare(b.statement));
     const kpGroups = sortedKps.map(kp => this.createKpGroup(kp));
     this.form = new FormGroup({
-      id: new FormControl(record.id),
-      title: new FormControl(record.title, { validators: [Validators.required, Validators.maxLength(200)] }),
-      canonicalDefinition: new FormControl(record.canonicalDefinition, { validators: [Validators.required] }),
+      id: new FormControl(task.id),
+      title: new FormControl(task.title, { validators: [Validators.required, Validators.maxLength(200)] }),
+      order: new FormControl(task.order, { validators: [Validators.required, Validators.min(0)] }),
+      canonicalDefinition: new FormControl(task.canonicalDefinition, { validators: [Validators.required] }),
       keyPropositions: new FormArray(kpGroups),
       boundaryConditions: new FormArray(
-        [...record.boundaryConditions].sort((a, b) => a.statement.localeCompare(b.statement))
+        [...task.boundaryConditions].sort((a, b) => a.statement.localeCompare(b.statement))
           .map(bc => this.createBcGroup(bc)),
       ),
       commonMisconceptions: new FormArray(
-        [...record.commonMisconceptions].sort((a, b) => a.description.localeCompare(b.description))
+        [...task.commonMisconceptions].sort((a, b) => a.description.localeCompare(b.description))
           .map(cm => this.createCmGroup(cm)),
       ),
       keyRelations: new FormArray(
-        [...(record.keyRelations ?? [])].sort((a, b) => (a.mechanism ?? '').localeCompare(b.mechanism ?? ''))
+        [...(task.keyRelations ?? [])].sort((a, b) => (a.mechanism ?? '').localeCompare(b.mechanism ?? ''))
           .map(kr => {
             const sourceKpGroup = kpGroups.find(g => g.get('id')?.value === kr.sourceKeyPropositionId) ?? null;
             const targetKpGroup = kpGroups.find(g => g.get('id')?.value === kr.targetKeyPropositionId) ?? null;
@@ -103,14 +121,13 @@ export class ConceptRecordsComponent {
       ),
     });
     this.isEditing.set(true);
-    this.editId.set(record.id ?? 0);
+    this.editId.set(task.id ?? 0);
   }
 
   private createKpGroup(kp: KeyProposition): FormGroup {
     return new FormGroup({
       id: new FormControl(kp.id),
       statement: new FormControl(kp.statement, { validators: [Validators.required] }),
-      level: new FormControl(kp.level, { validators: [Validators.required] }),
     });
   }
 
@@ -118,7 +135,6 @@ export class ConceptRecordsComponent {
     return new FormGroup({
       id: new FormControl(bc.id),
       statement: new FormControl(bc.statement, { validators: [Validators.required] }),
-      level: new FormControl(bc.level, { validators: [Validators.required] }),
     });
   }
 
@@ -136,7 +152,6 @@ export class ConceptRecordsComponent {
       sourceKpCtrl: new FormControl(sourceKpGroup, { validators: [Validators.required] }),
       targetKpCtrl: new FormControl(targetKpGroup, { validators: [Validators.required] }),
       mechanism: new FormControl(kr.mechanism ?? '', { validators: [Validators.required] }),
-      level: new FormControl(kr.level ?? 'Beginner', { validators: [Validators.required] }),
     });
   }
 
@@ -146,11 +161,11 @@ export class ConceptRecordsComponent {
   get keyRelations(): FormArray { return this.form.get('keyRelations') as FormArray; }
 
   addKeyProposition(): void {
-    this.keyPropositions.push(this.createKpGroup({ statement: '', level: 'Beginner' }));
+    this.keyPropositions.push(this.createKpGroup({ statement: '' }));
   }
 
   addBoundaryCondition(): void {
-    this.boundaryConditions.push(this.createBcGroup({ statement: '', level: 'Beginner' }));
+    this.boundaryConditions.push(this.createBcGroup({ statement: '' }));
   }
 
   addCommonMisconception(): void {
@@ -176,34 +191,42 @@ export class ConceptRecordsComponent {
   delete(id: number): void {
     this.dialog.open(DeleteFormComponent).afterClosed().pipe(
       filter(Boolean),
-      switchMap(() => this.service.delete(this.courseId(), id, new HttpContext().set(SKIP_GLOBAL_ERROR, true))),
+      switchMap(() => this.service.delete(this.unitId(), id)),
     ).subscribe({
-      next: () => this.records.update(r => r.filter(rec => rec.id !== id)),
-      error: (err) => {
-        if (err.status === 409) {
-          this.notify.error('Koncept je dodeljen elaboracijskim zadacima. Prvo ukloni zadatke.');
-        } else {
-          this.notify.error();
-        }
-      },
+      next: () => this.summaries.update(s => s.filter(x => x.id !== id)),
+      error: () => {},
     });
   }
 
   saveOrUpdate(): void {
     if (this.form.invalid) return;
-    const record = this.getFormData();
-    if (!record.id) {
-      this.service.create(this.courseId(), record).subscribe({
+    const task = this.getFormData();
+    if (!task.id) {
+      this.service.create(this.unitId(), task).subscribe({
         next: created => {
-          this.records.update(r => r.map(rec => rec.id === 0 ? created : rec));
+          const summary: ConceptElaborationTaskSummary = {
+            id: created.id!,
+            unitId: this.unitId(),
+            order: created.order,
+            title: created.title,
+            hasCompletedAttempt: false,
+          };
+          this.summaries.update(s =>
+            s.map(x => x.id === 0 ? summary : x).sort((a, b) => a.order - b.order),
+          );
           this.isEditing.set(false);
         },
         error: () => {},
       });
     } else {
-      this.service.update(this.courseId(), record).subscribe({
+      this.service.update(this.unitId(), task).subscribe({
         next: updated => {
-          this.records.update(r => r.map(rec => rec.id === updated.id ? updated : rec));
+          this.summaries.update(s =>
+            s.map(x => x.id === updated.id
+              ? { ...x, order: updated.order, title: updated.title }
+              : x,
+            ).sort((a, b) => a.order - b.order),
+          );
           this.isEditing.set(false);
         },
         error: () => {},
@@ -211,11 +234,13 @@ export class ConceptRecordsComponent {
     }
   }
 
-  private getFormData(): ConceptRecord {
+  private getFormData(): ConceptElaborationTask {
     const v = this.form.value;
     const kpControls = this.keyPropositions.controls;
     return {
       id: v.id,
+      unitId: this.unitId(),
+      order: v.order,
       title: v.title,
       canonicalDefinition: v.canonicalDefinition,
       keyPropositions: v.keyPropositions ?? [],
@@ -228,7 +253,6 @@ export class ConceptRecordsComponent {
           sourceKeyPropositionIndex: kpControls.indexOf(krGroup.get('sourceKpCtrl')?.value),
           targetKeyPropositionIndex: kpControls.indexOf(krGroup.get('targetKpCtrl')?.value),
           mechanism: krGroup.get('mechanism')?.value,
-          level: krGroup.get('level')?.value,
         };
       }),
     };
@@ -238,7 +262,7 @@ export class ConceptRecordsComponent {
     if (this.form.dirty && !confirm('Izmene nisu sačuvane. Da li želite da odustanete?')) return;
     this.isEditing.set(false);
     if (!this.workingItem?.id) {
-      this.records.update(r => r.filter(rec => rec.id !== 0));
+      this.summaries.update(s => s.filter(x => x.id !== 0));
     }
   }
 }

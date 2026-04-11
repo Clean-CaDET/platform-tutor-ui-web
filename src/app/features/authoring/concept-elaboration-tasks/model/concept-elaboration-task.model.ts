@@ -1,13 +1,11 @@
 export interface KeyProposition {
   id?: number;
   statement: string;
-  level: string;
 }
 
 export interface BoundaryCondition {
   id?: number;
   statement: string;
-  level: string;
 }
 
 export interface CommonMisconception {
@@ -23,16 +21,24 @@ export interface KeyRelation {
   sourceKeyPropositionIndex?: number;
   targetKeyPropositionIndex?: number;
   mechanism: string;
-  level: string;
 }
 
-export interface ConceptRecord {
+export interface ConceptElaborationTask {
   id?: number;
-  courseId?: number;
+  unitId?: number;
+  order: number;
   title: string;
   canonicalDefinition: string;
   keyPropositions: KeyProposition[];
   boundaryConditions: BoundaryCondition[];
   commonMisconceptions: CommonMisconception[];
   keyRelations: KeyRelation[];
+}
+
+export interface ConceptElaborationTaskSummary {
+  id: number;
+  unitId: number;
+  order: number;
+  title: string;
+  hasCompletedAttempt: boolean;
 }

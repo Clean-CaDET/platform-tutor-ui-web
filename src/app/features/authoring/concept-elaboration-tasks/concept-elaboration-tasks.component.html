@@ -2,20 +2,24 @@
   @if (!isEditing()) {
     <div style="margin: 10px;">
       <button matIconButton (click)="add()"
-        [class.active-tab]="!records().length">
+        [class.active-tab]="!summaries().length">
         <mat-icon>add</mat-icon>
       </button>
-      <span>&nbsp;&nbsp;Koncept opisuje ključne propozicije, granične uslove i zablude.</span>
+      <span>&nbsp;&nbsp;Elaboracije za ovu lekciju. Kreiraj zaseban koncept za svaki nivo težine.</span>
     </div>
   }
 
-  @for (item of records(); track item.id ?? $index) {
+  @for (item of summaries(); track item.id) {
     <mat-card appearance="outlined" style="margin: 10px;">
-      @if (!isEditing() || editId() !== (item.id ?? 0)) {
+      @if (!isEditing() || editId() !== item.id) {
         <div>
           <div class="flex-row gap theme-highlight-primary" style="align-items: center;">
             <div style="flex-grow: 1; padding-left: 10px;">
-              <b>{{ item.title }}</b>
+              <b>{{ item.order }}. {{ item.title }}</b>
+              @if (item.hasCompletedAttempt) {
+                <mat-icon style="vertical-align: middle; margin-left: 6px; font-size: 18px; height: 18px; width: 18px; opacity: 0.7;"
+                  matTooltip="Postoje pokušaji učenika">history_edu</mat-icon>
+              }
             </div>
             @if (!isEditing()) {
               <button matIconButton (click)="edit(item)" matTooltip="Ažuriraj">
@@ -26,20 +30,11 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <div style="padding: 10px;">
-            <small style="opacity: 0.8;">{{ item.canonicalDefinition.length > 150 ? item.canonicalDefinition.substring(0, 150) + '...' : item.canonicalDefinition }}</small>
-            <div style="margin-top: 8px;" class="flex-row gap">
-              <small><b>Propozicije</b>: {{ item.keyPropositions.length }}</small>
-              <small><b>Granice</b>: {{ item.boundaryConditions.length }}</small>
-              <small><b>Zablude</b>: {{ item.commonMisconceptions.length }}</small>
-              <small><b>Relacije</b>: {{ item.keyRelations.length }}</small>
-            </div>
-          </div>
         </div>
       } @else {
         <div>
           <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
-            <span style="flex-grow: 1; padding-left: 10px;"><b>{{ form.get('id')?.value ? 'Ažuriranje' : 'Novi koncept' }}</b></span>
+            <span style="flex-grow: 1; padding-left: 10px;"><b>{{ form.get('id')?.value ? 'Ažuriranje' : 'Nova elaboracija' }}</b></span>
             <span class="flex-row gap">
               <button matMiniFab [disabled]="form.invalid" (click)="saveOrUpdate()">
                 <mat-icon>check</mat-icon>
@@ -51,10 +46,16 @@
           </div>
 
           <form [formGroup]="form" class="flex-col gap" style="padding: 10px;">
-            <mat-form-field>
-              <mat-label>Naslov</mat-label>
-              <input matInput formControlName="title">
-            </mat-form-field>
+            <div class="flex-row gap">
+              <mat-form-field style="flex-grow: 1;">
+                <mat-label>Naslov</mat-label>
+                <input matInput formControlName="title">
+              </mat-form-field>
+              <mat-form-field style="width: 120px;">
+                <mat-label>Redosled</mat-label>
+                <input matInput type="number" formControlName="order">
+              </mat-form-field>
+            </div>
             <mat-form-field>
               <mat-label>Kanonska definicija</mat-label>
               <textarea matInput formControlName="canonicalDefinition" rows="3"></textarea>
@@ -68,14 +69,6 @@
                   <mat-form-field style="flex-grow: 1;">
                     <mat-label>Iskaz</mat-label>
                     <input matInput formControlName="statement">
-                  </mat-form-field>
-                  <mat-form-field style="width: 150px;">
-                    <mat-label>Nivo</mat-label>
-                    <mat-select formControlName="level">
-                      @for (level of levels; track level) {
-                        <mat-option [value]="level">{{ level }}</mat-option>
-                      }
-                    </mat-select>
                   </mat-form-field>
                   <button matIconButton (click)="removeItem(keyPropositions, i)"
                     [disabled]="isKpReferencedByKr(i)"
@@ -99,14 +92,6 @@
                   <mat-form-field style="flex-grow: 1;">
                     <mat-label>Iskaz</mat-label>
                     <input matInput formControlName="statement">
-                  </mat-form-field>
-                  <mat-form-field style="width: 150px;">
-                    <mat-label>Nivo</mat-label>
-                    <mat-select formControlName="level">
-                      @for (level of levels; track level) {
-                        <mat-option [value]="level">{{ level }}</mat-option>
-                      }
-                    </mat-select>
                   </mat-form-field>
                   <button matIconButton (click)="removeItem(boundaryConditions, i)" matTooltip="Obriši">
                     <mat-icon>delete</mat-icon>
@@ -176,20 +161,10 @@
                       <mat-icon>delete</mat-icon>
                     </button>
                   </div>
-                  <div class="flex-row gap">
-                    <mat-form-field style="flex: 1;">
-                      <mat-label>Mehanizam</mat-label>
-                      <input matInput formControlName="mechanism">
-                    </mat-form-field>
-                    <mat-form-field style="width: 150px;">
-                      <mat-label>Nivo</mat-label>
-                      <mat-select formControlName="level">
-                        @for (level of levels; track level) {
-                          <mat-option [value]="level">{{ level }}</mat-option>
-                        }
-                      </mat-select>
-                    </mat-form-field>
-                  </div>
+                  <mat-form-field>
+                    <mat-label>Mehanizam</mat-label>
+                    <input matInput formControlName="mechanism">
+                  </mat-form-field>
                   @if (i !== keyRelations.length - 1) {
                     <mat-divider />
                   }

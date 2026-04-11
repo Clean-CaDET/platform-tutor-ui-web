@@ -16,7 +16,7 @@ import { UnitDetailsComponent } from './unit-details/unit-details.component';
 import { KcTreeComponent } from '../knowledge-component/kc-tree/kc-tree.component';
 import { LearningTasksComponent } from '../learning-tasks/learning-tasks.component';
 import { ReflectionsComponent } from '../reflections/reflections.component';
-import { ElaborationAuthoringComponent } from '../elaboration-tasks/elaboration-authoring.component';
+import { ConceptElaborationTasksComponent } from '../concept-elaboration-tasks/concept-elaboration-tasks.component';
 import { getRouteParams, onNavigationEnd } from '../../../core/route.util';
 
 enum DisplayType {
@@ -33,7 +33,7 @@ enum DisplayType {
   imports: [
     MatButtonModule, MatIconModule, MatDividerModule, MatTooltipModule,
     ScrollingModule, CourseDetailsComponent, UnitDetailsComponent, KcTreeComponent,
-    LearningTasksComponent, ReflectionsComponent, ElaborationAuthoringComponent,
+    LearningTasksComponent, ReflectionsComponent, ConceptElaborationTasksComponent,
   ],
   templateUrl: './course-structure.component.html',
   styleUrl: './course-structure.component.scss',
