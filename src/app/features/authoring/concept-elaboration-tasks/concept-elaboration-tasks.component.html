@@ -5,7 +5,7 @@
         [class.active-tab]="!summaries().length">
         <mat-icon>add</mat-icon>
       </button>
-      <span>&nbsp;&nbsp;Elaboracije za ovu lekciju. Kreiraj zaseban koncept za svaki nivo težine.</span>
+      <span>&nbsp;&nbsp;Kroz elaboraciju koncepta, student artikuliše razumevanje i razvija sposobnost verbalizacije razumevanja.</span>
     </div>
   }
 
@@ -16,10 +16,6 @@
           <div class="flex-row gap theme-highlight-primary" style="align-items: center;">
             <div style="flex-grow: 1; padding-left: 10px;">
               <b>{{ item.order }}. {{ item.title }}</b>
-              @if (item.hasCompletedAttempt) {
-                <mat-icon style="vertical-align: middle; margin-left: 6px; font-size: 18px; height: 18px; width: 18px; opacity: 0.7;"
-                  matTooltip="Postoje pokušaji učenika">history_edu</mat-icon>
-              }
             </div>
             @if (!isEditing()) {
               <button matIconButton (click)="edit(item)" matTooltip="Ažuriraj">
@@ -29,6 +25,9 @@
             <button matIconButton (click)="delete(item.id!)" matTooltip="Obriši">
               <mat-icon>delete</mat-icon>
             </button>
+          </div>
+          <div style="padding: 10px;">
+            {{ item.canonicalDefinition }}
           </div>
         </div>
       } @else {
@@ -70,11 +69,11 @@
                     <mat-label>Iskaz</mat-label>
                     <input matInput formControlName="statement">
                   </mat-form-field>
-                  <button matIconButton (click)="removeItem(keyPropositions, i)"
-                    [disabled]="isKpReferencedByKr(i)"
-                    [matTooltip]="isKpReferencedByKr(i) ? 'Obriši prvo relacije koje koriste propoziciju' : 'Obriši'">
-                    <mat-icon>delete</mat-icon>
-                  </button>
+                  <span [matTooltip]="isKpReferencedByKr(i) ? 'Obriši prvo relacije koje koriste propoziciju' : 'Obriši'">
+                    <button matIconButton (click)="removeItem(keyPropositions, i)" [disabled]="isKpReferencedByKr(i)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </span>
                 </div>
               }
               <button matMiniFab (click)="addKeyProposition()" matTooltip="Dodaj propoziciju">

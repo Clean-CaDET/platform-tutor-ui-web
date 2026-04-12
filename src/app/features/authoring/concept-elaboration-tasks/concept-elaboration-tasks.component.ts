@@ -11,14 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
-import {
-  ConceptElaborationTask,
-  ConceptElaborationTaskSummary,
-  KeyProposition,
-  BoundaryCondition,
-  CommonMisconception,
-  KeyRelation,
-} from './model/concept-elaboration-task.model';
+import { ConceptElaborationTask, KeyProposition, BoundaryCondition, CommonMisconception, KeyRelation } from './model/concept-elaboration-task.model';
 import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-task-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
 
@@ -40,7 +33,7 @@ export class ConceptElaborationTasksComponent {
   private readonly summariesResource = rxResource({
     params: () => ({ unitId: this.unitId() }),
     stream: ({ params }) => this.service.getByUnit(params.unitId),
-    defaultValue: [] as ConceptElaborationTaskSummary[],
+    defaultValue: [] as ConceptElaborationTask[],
   });
 
   summaries = linkedSignal(() =>
@@ -72,25 +65,13 @@ export class ConceptElaborationTasksComponent {
       commonMisconceptions: [],
       keyRelations: [],
     };
-    const syntheticSummary: ConceptElaborationTaskSummary = {
-      id: 0,
-      unitId: this.unitId(),
-      order: blank.order,
-      title: '',
-      hasCompletedAttempt: false,
-    };
-    this.summaries.update(s => [syntheticSummary, ...s]);
+    this.summaries.update(s => [blank, ...s]);
     this.initForm(blank);
   }
 
-  edit(summary: ConceptElaborationTaskSummary): void {
-    this.service.get(this.unitId(), summary.id).subscribe({
-      next: full => {
-        const clone: ConceptElaborationTask = JSON.parse(JSON.stringify(full));
-        this.initForm(clone);
-      },
-      error: () => {},
-    });
+  edit(task: ConceptElaborationTask): void {
+    const clone: ConceptElaborationTask = JSON.parse(JSON.stringify(task));
+    this.initForm(clone);
   }
 
   private initForm(task: ConceptElaborationTask): void {
@@ -126,21 +107,21 @@ export class ConceptElaborationTasksComponent {
 
   private createKpGroup(kp: KeyProposition): FormGroup {
     return new FormGroup({
-      id: new FormControl(kp.id),
+      id: new FormControl(kp.id ?? 0),
       statement: new FormControl(kp.statement, { validators: [Validators.required] }),
     });
   }
 
   private createBcGroup(bc: BoundaryCondition): FormGroup {
     return new FormGroup({
-      id: new FormControl(bc.id),
+      id: new FormControl(bc.id ?? 0),
       statement: new FormControl(bc.statement, { validators: [Validators.required] }),
     });
   }
 
   private createCmGroup(cm: CommonMisconception): FormGroup {
     return new FormGroup({
-      id: new FormControl(cm.id),
+      id: new FormControl(cm.id ?? 0),
       description: new FormControl(cm.description, { validators: [Validators.required] }),
       correction: new FormControl(cm.correction, { validators: [Validators.required] }),
     });
@@ -148,7 +129,7 @@ export class ConceptElaborationTasksComponent {
 
   private createKrGroup(sourceKpGroup: FormGroup | null, targetKpGroup: FormGroup | null, kr: Partial<KeyRelation>): FormGroup {
     return new FormGroup({
-      id: new FormControl(kr.id),
+      id: new FormControl(kr.id ?? 0),
       sourceKpCtrl: new FormControl(sourceKpGroup, { validators: [Validators.required] }),
       targetKpCtrl: new FormControl(targetKpGroup, { validators: [Validators.required] }),
       mechanism: new FormControl(kr.mechanism ?? '', { validators: [Validators.required] }),
@@ -204,15 +185,8 @@ export class ConceptElaborationTasksComponent {
     if (!task.id) {
       this.service.create(this.unitId(), task).subscribe({
         next: created => {
-          const summary: ConceptElaborationTaskSummary = {
-            id: created.id!,
-            unitId: this.unitId(),
-            order: created.order,
-            title: created.title,
-            hasCompletedAttempt: false,
-          };
           this.summaries.update(s =>
-            s.map(x => x.id === 0 ? summary : x).sort((a, b) => a.order - b.order),
+            s.map(x => x.id === 0 ? created : x).sort((a, b) => a.order - b.order),
           );
           this.isEditing.set(false);
         },
@@ -222,10 +196,7 @@ export class ConceptElaborationTasksComponent {
       this.service.update(this.unitId(), task).subscribe({
         next: updated => {
           this.summaries.update(s =>
-            s.map(x => x.id === updated.id
-              ? { ...x, order: updated.order, title: updated.title }
-              : x,
-            ).sort((a, b) => a.order - b.order),
+            s.map(x => x.id === updated.id ? updated : x).sort((a, b) => a.order - b.order),
           );
           this.isEditing.set(false);
         },
