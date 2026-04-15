@@ -34,7 +34,6 @@ export interface ReflectionUnitItem extends BaseUnitItem {
 
 export interface ConceptElaborationUnitItem extends BaseUnitItem {
   type: UnitItemType.ConceptElaboration;
-  hasCompletedAttempt: boolean;
 }
 
 export type UnitItem = KcUnitItem | TaskUnitItem | ReflectionUnitItem | ConceptElaborationUnitItem;

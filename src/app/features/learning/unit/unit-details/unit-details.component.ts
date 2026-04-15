@@ -140,7 +140,6 @@ export class UnitDetailsComponent {
         type: UnitItemType.ConceptElaboration as const,
         isNext: false,
         isSatisfied: task.hasCompletedAttempt,
-        hasCompletedAttempt: task.hasCompletedAttempt,
       } satisfies ConceptElaborationUnitItem);
     });
 

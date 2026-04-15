@@ -1,0 +1,31 @@
+<div class="secondary-nav">
+  @if (pinnedQuestion()) {
+    <div class="pinned-question">
+      <cc-markdown [data]="pinnedQuestion()" [clipboard]="false" [lineNumbers]="false" />
+    </div>
+  }
+  <mat-divider />
+  <div class="panel flex-col">
+    <mat-form-field appearance="fill" class="composer-field">
+      <mat-label>Objasni svojim rečima...</mat-label>
+      <textarea matInput [formControl]="content" rows="5" (keydown)="onKeydown($event)"></textarea>
+    </mat-form-field>
+    <div class="composer-actions flex-row gap">
+      <button matButton (click)="onAbandon()" [disabled]="disabled()">
+        <mat-icon>close</mat-icon>
+        Napusti konverzaciju
+      </button>
+      <span style="flex-grow: 1;"></span>
+      @if (thinking()) {
+        <span class="thinking-indicator" aria-live="polite">
+          <mat-spinner [diameter]="16" [strokeWidth]="2" />
+          Razmišljam
+        </span>
+      }
+      <button matButton="filled" (click)="onSubmit()" [disabled]="disabled()">
+        <mat-icon>send</mat-icon>
+        Pošalji elaborat
+      </button>
+    </div>
+  </div>
+</div>

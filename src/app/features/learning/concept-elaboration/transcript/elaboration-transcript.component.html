@@ -1,0 +1,11 @@
+<div class="transcript">
+  @for (turn of turns(); track turn.id; let last = $last) {
+    <div class="turn" [class.turn-learner]="turn.role === 'Learner'" [class.turn-system]="turn.role === 'System'">
+      @if (turn.role === 'System' && !(isStreaming() && last)) {
+        <cc-markdown [data]="turn.content" [clipboard]="false" [lineNumbers]="false" />
+      } @else {
+        <pre class="plain-text">{{ turn.content }}</pre>
+      }
+    </div>
+  }
+</div>

@@ -1,0 +1,32 @@
+.empty {
+  color: var(--mat-sys-on-surface-variant);
+  font-style: italic;
+  margin: 16px 0;
+}
+
+.status-chip {
+  background-color: var(--mat-sys-secondary-container);
+  color: var(--mat-sys-on-secondary-container);
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  margin-right: 12px;
+  white-space: nowrap;
+}
+
+.started-at {
+  color: var(--mat-sys-on-surface-variant);
+  font-size: 0.9em;
+}
+
+.attempt-summary {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: var(--mat-sys-surface-container);
+  border-radius: 8px;
+}
+
+mat-panel-title {
+  display: flex;
+  align-items: center;
+}

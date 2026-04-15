@@ -1,0 +1,22 @@
+@if (attempts().length === 0) {
+  <p class="empty">Nema prethodnih pokušaja.</p>
+} @else {
+  <mat-accordion>
+    @for (attempt of attempts(); track attempt.id) {
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="status-chip">{{ statusLabel(attempt.status) }}</span>
+            <span class="started-at">{{ attempt.startedAt | date:'dd.MM.yyyy. HH:mm' }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        @if (attempt.summary) {
+          <div class="attempt-summary">
+            <cc-markdown [data]="attempt.summary" [clipboard]="false" [lineNumbers]="false" />
+          </div>
+        }
+        <cc-elaboration-transcript [turns]="attempt.turns" [isStreaming]="false" />
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+}
