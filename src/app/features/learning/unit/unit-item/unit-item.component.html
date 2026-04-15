@@ -90,6 +90,28 @@
           </mat-card-actions>
         </mat-card>
       }
+      @case (UnitItemType.ConceptElaboration) {
+        <mat-card appearance="outlined">
+          <mat-card-title class="item-title">
+            <div class="flex-row gap">
+              <mat-icon matTooltip="Konceptualna elaboracija" class="item-icon" [class.done]="item.isSatisfied">
+                psychology
+              </mat-icon>
+              <span class="spacer" [class.done]="item.isSatisfied">{{ item.name }}</span>
+              <span class="status-col">
+                @if (item.isSatisfied) {
+                  <mat-icon class="check-icon" matTooltip="Rešeno!">check_circle</mat-icon>
+                }
+              </span>
+            </div>
+          </mat-card-title>
+          <mat-card-actions class="item-actions">
+            <a [matButton]="item.isNext ? 'filled' : 'outlined'" [routerLink]="['concept-elaborations', item.id]">
+              Pristupi
+            </a>
+          </mat-card-actions>
+        </mat-card>
+      }
     }
   </div>
 }

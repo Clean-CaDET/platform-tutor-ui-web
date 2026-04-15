@@ -6,6 +6,7 @@ export enum UnitItemType {
   Kc = 1,
   Task,
   Reflection,
+  ConceptElaboration,
 }
 
 interface BaseUnitItem {
@@ -31,4 +32,9 @@ export interface ReflectionUnitItem extends BaseUnitItem {
   type: UnitItemType.Reflection;
 }
 
-export type UnitItem = KcUnitItem | TaskUnitItem | ReflectionUnitItem;
+export interface ConceptElaborationUnitItem extends BaseUnitItem {
+  type: UnitItemType.ConceptElaboration;
+  hasCompletedAttempt: boolean;
+}
+
+export type UnitItem = KcUnitItem | TaskUnitItem | ReflectionUnitItem | ConceptElaborationUnitItem;

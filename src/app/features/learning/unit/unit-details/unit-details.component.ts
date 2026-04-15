@@ -9,13 +9,15 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 import { Unit } from '../../model/unit.model';
-import { UnitItem, UnitItemType, KcUnitItem, TaskUnitItem, ReflectionUnitItem } from '../../model/unit-item.model';
+import { UnitItem, UnitItemType, KcUnitItem, TaskUnitItem, ReflectionUnitItem, ConceptElaborationUnitItem } from '../../model/unit-item.model';
 import { KcWithMastery } from '../../model/kc-with-mastery.model';
 import { TaskProgressSummary } from '../../model/task-progress-summary.model';
 import { Reflection } from '../../reflection/reflection.model';
 import { UnitService } from '../unit.service';
 import { TaskService } from '../../task/task.service';
 import { ReflectionService } from '../../reflection/reflection.service';
+import { ConceptElaborationService } from '../../concept-elaboration/concept-elaboration.service';
+import { ConceptElaborationTaskSummary } from '../../concept-elaboration/model/concept-elaboration-task-summary.model';
 import { UnitItemComponent } from '../unit-item/unit-item.component';
 import { onNavigationEnd } from '../../../../core/route.util';
 import { MatDividerModule } from '@angular/material/divider';
@@ -34,6 +36,7 @@ export class UnitDetailsComponent {
   private readonly unitService = inject(UnitService);
   private readonly taskService = inject(TaskService);
   private readonly reflectionService = inject(ReflectionService);
+  private readonly conceptElaborationService = inject(ConceptElaborationService);
   private readonly title = inject(Title);
   private readonly route = inject(ActivatedRoute);
   private loadedUnitId = 0;
@@ -75,11 +78,12 @@ export class UnitDetailsComponent {
           this.unitService.getKcsWithMasteries(unitId),
           this.taskService.getByUnit(unitId),
           this.reflectionService.getByUnit(unitId),
+          this.conceptElaborationService.getByUnit(unitId),
         ]);
       }),
     ).subscribe({
-      next: ([kcResults, taskResults, reflections]) =>
-        this.createUnitItems(kcResults, taskResults, reflections),
+      next: ([kcResults, taskResults, reflections, elaborationTasks]) =>
+        this.createUnitItems(kcResults, taskResults, reflections, elaborationTasks),
       error: () => this.error.set('Sadržaj nije ispravno dobavljen.'),
     });
   }
@@ -88,6 +92,7 @@ export class UnitDetailsComponent {
     kcResults: KcWithMastery[],
     taskResults: TaskProgressSummary[],
     reflections: Reflection[],
+    elaborationTasks: ConceptElaborationTaskSummary[],
   ): void {
     const items: UnitItem[] = [];
 
@@ -125,6 +130,18 @@ export class UnitDetailsComponent {
         isNext: false,
         isSatisfied: (reflection.submissions?.length ?? 0) > 0,
       } satisfies ReflectionUnitItem);
+    });
+
+    elaborationTasks.forEach(task => {
+      items.push({
+        id: task.id,
+        order: task.order,
+        name: task.title,
+        type: UnitItemType.ConceptElaboration as const,
+        isNext: false,
+        isSatisfied: task.hasCompletedAttempt,
+        hasCompletedAttempt: task.hasCompletedAttempt,
+      } satisfies ConceptElaborationUnitItem);
     });
 
     items.sort((a, b) => a.order - b.order);
