@@ -22,7 +22,6 @@ export class ElaborationAttemptHistoryComponent {
       case 'Completed': return 'Rešen';
       case 'Abandoned': return 'Napušten';
       case 'Expired': return 'Stigao do granice';
-      case 'Blocked': return 'Blokiran';
     }
   }
 }

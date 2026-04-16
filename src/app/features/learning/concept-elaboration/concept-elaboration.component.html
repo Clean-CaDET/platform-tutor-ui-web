@@ -18,14 +18,14 @@
     @if (m.kind === 'idleNoHistory') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" [clipboard]="false" [lineNumbers]="false" />
+        <cc-markdown [data]="m.task.canonicalDefinition" />
       </div>
     }
 
     @if (m.kind === 'idleWithInProgress') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" [clipboard]="false" [lineNumbers]="false" />
+        <cc-markdown [data]="m.task.canonicalDefinition" />
         <div class="resume-banner">
           <p>Imaš nezavršen razgovor. Nastavi prethodnu konverzaciju?</p>
           <div class="flex-row gap">
@@ -45,7 +45,7 @@
     @if (m.kind === 'idleTerminal') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" [clipboard]="false" [lineNumbers]="false" />
+        <cc-markdown [data]="m.task.canonicalDefinition" />
         <h2>Prethodni pokušaji</h2>
         <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
       </div>
@@ -64,7 +64,7 @@
         @if (m.attempt.summary) {
           <div class="summary-panel">
             <h2>Rezime razgovora</h2>
-            <cc-markdown [data]="m.attempt.summary" [clipboard]="false" [lineNumbers]="false" />
+            <cc-markdown [data]="m.attempt.summary" />
           </div>
         }
         <h2>Razgovor</h2>
@@ -75,7 +75,7 @@
 
   @if (m.kind === 'active') {
     <cc-elaboration-composer #composer
-      [disabled]="submitDisabled()"
+      [disabled]="isThinking() || isStreaming()"
       [thinking]="isThinking()"
       [pinnedQuestion]="pinnedQuestion()"
       (submitted)="onComposerSubmit($event)"
