@@ -14,6 +14,7 @@ import { filter, switchMap } from 'rxjs';
 import { ConceptElaborationTask, KeyProposition, BoundaryCondition, CommonMisconception, KeyRelation } from './model/concept-elaboration-task.model';
 import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-task-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
+import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
 
 @Component({
   selector: 'cc-concept-elaboration-tasks',
@@ -22,6 +23,7 @@ import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete
     ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDividerModule,
     MatTooltipModule,
+    CcMarkdownComponent,
   ],
   templateUrl: './concept-elaboration-tasks.component.html',
 })
@@ -159,6 +161,12 @@ export class ConceptElaborationTasksComponent {
 
   removeItem(array: FormArray, index: number): void {
     array.removeAt(index);
+  }
+
+  kpPosition(item: ConceptElaborationTask, id: number | undefined): number {
+    if (id == null) return 0;
+    const idx = item.keyPropositions.findIndex(kp => kp.id === id);
+    return idx >= 0 ? idx + 1 : 0;
   }
 
   isKpReferencedByKr(index: number): boolean {

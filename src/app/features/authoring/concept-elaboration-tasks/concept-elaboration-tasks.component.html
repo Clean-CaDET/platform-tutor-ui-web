@@ -26,8 +26,58 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <div style="padding: 10px;">
-            {{ item.canonicalDefinition }}
+
+          <div class="flex-col gap" style="padding: 10px;">
+            <cc-markdown [data]="item.canonicalDefinition" />
+
+            @if (item.keyPropositions.length) {
+              <small>
+                <b>Ključne propozicije:</b>
+                <ol>
+                  @for (kp of item.keyPropositions; track kp.id) {
+                    <li>{{ kp.statement }}</li>
+                  }
+                </ol>
+              </small>
+            }
+
+            @if (item.boundaryConditions.length) {
+              <small>
+                <b>Granični uslovi:</b>
+                <ol>
+                  @for (bc of item.boundaryConditions; track bc.id) {
+                    <li>{{ bc.statement }}</li>
+                  }
+                </ol>
+              </small>
+            }
+
+            @if (item.commonMisconceptions.length) {
+              <small>
+                <b>Česte zablude:</b>
+                <ol>
+                  @for (cm of item.commonMisconceptions; track cm.id) {
+                    <li>{{ cm.description }}</li>
+                  }
+                </ol>
+              </small>
+            }
+
+            @if (item.keyRelations.length) {
+              <small>
+                <b>Ključne relacije:</b>
+                <ul>
+                  @for (kr of item.keyRelations; track kr.id) {
+                    <li>
+                      {{ kpPosition(item, kr.sourceKeyPropositionId) }}
+                      →
+                      {{ kpPosition(item, kr.targetKeyPropositionId) }}:
+                      {{ kr.mechanism }}
+                    </li>
+                  }
+                </ul>
+              </small>
+            }
           </div>
         </div>
       } @else {
