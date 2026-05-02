@@ -54,7 +54,6 @@ export class ConceptElaborationComponent implements CanComponentDeactivate {
   readonly transcript = this.conversation.transcript;
   readonly isThinking = this.conversation.isThinking;
   readonly isStreaming = this.conversation.isStreaming;
-  readonly pinnedQuestion = this.conversation.pinnedQuestion;
 
   protected courseId = 0;
   protected unitId = 0;

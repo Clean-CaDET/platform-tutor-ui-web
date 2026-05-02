@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, output, viewChild, effect, ElementRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 
 @Component({
   selector: 'cc-elaboration-composer',
@@ -15,7 +14,6 @@ import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.com
     ReactiveFormsModule,
     MatFormFieldModule, MatInputModule, MatButtonModule,
     MatIconModule, MatDividerModule, MatProgressSpinnerModule,
-    CcMarkdownComponent,
   ],
   templateUrl: './elaboration-composer.component.html',
   styleUrl: './elaboration-composer.component.scss',
@@ -23,12 +21,22 @@ import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.com
 export class ElaborationComposerComponent {
   readonly disabled = input(false);
   readonly thinking = input(false);
-  readonly pinnedQuestion = input<string>('');
 
   readonly submitted = output<string>();
   readonly abandoned = output<void>();
 
   readonly content = new FormControl('', { nonNullable: true });
+
+  private readonly textareaRef = viewChild<ElementRef<HTMLTextAreaElement>>('textarea');
+
+  constructor() {
+    effect(() => {
+      const ref = this.textareaRef();
+      if (ref && !this.disabled()) {
+        queueMicrotask(() => ref.nativeElement.focus());
+      }
+    });
+  }
 
   onSubmit(): void {
     if (this.disabled()) return;

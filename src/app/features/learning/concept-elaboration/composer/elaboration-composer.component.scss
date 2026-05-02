@@ -9,17 +9,6 @@
   width: calc(100vw - 130px);
 }
 
-.pinned-question {
-  max-width: 640px;
-  width: calc(100vw - 130px);
-  margin: 0 auto;
-  padding: 10px 10px 0;
-  max-height: 120px;
-  overflow-y: auto;
-  font-size: 0.95em;
-  color: var(--mat-sys-on-surface-variant);
-}
-
 .composer-field {
   width: 100%;
 }

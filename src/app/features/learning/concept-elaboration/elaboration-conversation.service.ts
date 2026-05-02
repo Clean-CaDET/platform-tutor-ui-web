@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConceptElaborationStreamService } from './concept-elaboration-stream.service';
 import { ConversationAttempt } from './model/conversation-attempt.model';
@@ -31,19 +31,6 @@ export class ElaborationConversationService {
   readonly isThinking = this._isThinking.asReadonly();
   readonly isStreaming = this._isStreaming.asReadonly();
   readonly currentAttemptId = this._currentAttemptId.asReadonly();
-
-  // `pinnedQuestion` is the recent tutor question that the composer keeps visible while the learner types an answer;
-  // during streaming it skips the in-flight System turn and falls back to the previous one.
-  readonly pinnedQuestion = computed(() => {
-    const turns = this._transcript();
-    const streaming = this._isStreaming();
-    let startIdx = turns.length - 1;
-    if (streaming && startIdx >= 0 && turns[startIdx].role === 'System') startIdx--;
-    for (let i = startIdx; i >= 0; i--) {
-      if (turns[i].role === 'System') return turns[i].content;
-    }
-    return '';
-  });
 
   // Semantic event streams are emitted once per terminal outcome so the host can transition mode, refetch, notify, etc.
   // `reconciled$` fires on a 409 from the server — our view of the attempt disagrees with reality and the host should re-seed from a fresh GET.

@@ -36,19 +36,19 @@ export class ConceptElaborationStreamService {
     }
 
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
-      const obj = parsed as Record<string, unknown>;
+      const obj = this.normalizeKeys(parsed as Record<string, unknown>);
       if ('error' in obj) {
         return {
           kind: 'error',
           code: typeof obj['code'] === 'number' ? obj['code'] : 0,
           message: String(obj['error']),
-          attemptId: typeof obj['attemptId'] === 'number' ? obj['attemptId'] : undefined,
+          attemptId: typeof obj['attemptid'] === 'number' ? obj['attemptid'] : undefined,
         };
       }
-      if ('status' in obj && 'attemptId' in obj) {
+      if ('status' in obj && 'attemptid' in obj) {
         return {
           kind: 'metadata',
-          attemptId: obj['attemptId'] as number,
+          attemptId: obj['attemptid'] as number,
           status: obj['status'] as AttemptStatus,
           summary: (obj['summary'] as string | null) ?? null,
         };
@@ -56,5 +56,11 @@ export class ConceptElaborationStreamService {
     }
 
     return { kind: 'text', value: raw };
+  }
+
+  private normalizeKeys(obj: Record<string, unknown>): Record<string, unknown> {
+    const out: Record<string, unknown> = {};
+    for (const k of Object.keys(obj)) out[k.toLowerCase()] = obj[k];
+    return out;
   }
 }
