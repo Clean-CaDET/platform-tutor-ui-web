@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, inject, input, signal, effect, linkedSignal } from '@angular/core';
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,10 +11,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
-import { ConceptElaborationTask, KeyProposition, BoundaryCondition, CommonMisconception, KeyRelation } from './model/concept-elaboration-task.model';
+import { ConceptElaborationTask, KeyProposition, CommonMisconception, KeyRelation } from './model/concept-elaboration-task.model';
 import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-task-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
+import { MarkdownEditorComponent } from '../../../shared/markdown/markdown-editor/markdown-editor.component';
 
 @Component({
   selector: 'cc-concept-elaboration-tasks',
@@ -23,7 +24,7 @@ import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.compon
     ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule,
     MatFormFieldModule, MatInputModule, MatSelectModule, MatDividerModule,
     MatTooltipModule,
-    CcMarkdownComponent,
+    CcMarkdownComponent, MarkdownEditorComponent,
   ],
   templateUrl: './concept-elaboration-tasks.component.html',
 })
@@ -61,11 +62,13 @@ export class ConceptElaborationTasksComponent {
       unitId: this.unitId(),
       order: maxOrder + 1,
       title: '',
-      canonicalDefinition: '',
-      keyPropositions: [],
-      boundaryConditions: [],
-      commonMisconceptions: [],
-      keyRelations: [],
+      description: '',
+      conceptRecord: {
+        canonicalDefinition: '',
+        keyPropositions: [],
+        commonMisconceptions: [],
+        keyRelations: [],
+      },
     };
     this.summaries.update(s => [blank, ...s]);
     this.initForm(blank);
@@ -78,30 +81,38 @@ export class ConceptElaborationTasksComponent {
 
   private initForm(task: ConceptElaborationTask): void {
     this.workingItem = task;
-    const sortedKps = [...task.keyPropositions].sort((a, b) => a.statement.localeCompare(b.statement));
-    const kpGroups = sortedKps.map(kp => this.createKpGroup(kp));
+    const cr = task.conceptRecord;
+
+    const kpGroups = [...cr.keyPropositions].sort((a, b) => a.statement.localeCompare(b.statement))
+      .map(kp => this.createKpGroup(kp));
+    const kpArray = new FormArray(kpGroups);
+    kpGroups.forEach(g => this.attachUniqueKeyValidator(g, kpArray));
+
+    const cmGroups = [...cr.commonMisconceptions].sort((a, b) => a.description.localeCompare(b.description))
+      .map(cm => this.createCmGroup(cm));
+    const cmArray = new FormArray(cmGroups);
+    cmGroups.forEach(g => this.attachUniqueKeyValidator(g, cmArray));
+
+    const krGroups = [...cr.keyRelations].sort((a, b) => a.mechanism.localeCompare(b.mechanism))
+      .map(kr => {
+        const sourceKpGroup = kpGroups.find(g => g.get('key')?.value === kr.sourceKey) ?? null;
+        const targetKpGroup = kpGroups.find(g => g.get('key')?.value === kr.targetKey) ?? null;
+        return this.createKrGroup(sourceKpGroup, targetKpGroup, kr);
+      });
+    const krArray = new FormArray(krGroups);
+    krGroups.forEach(g => this.attachUniqueKeyValidator(g, krArray));
+
     this.form = new FormGroup({
       id: new FormControl(task.id),
       title: new FormControl(task.title, { validators: [Validators.required, Validators.maxLength(200)] }),
       order: new FormControl(task.order, { validators: [Validators.required, Validators.min(0)] }),
-      canonicalDefinition: new FormControl(task.canonicalDefinition, { validators: [Validators.required] }),
-      keyPropositions: new FormArray(kpGroups),
-      boundaryConditions: new FormArray(
-        [...task.boundaryConditions].sort((a, b) => a.statement.localeCompare(b.statement))
-          .map(bc => this.createBcGroup(bc)),
-      ),
-      commonMisconceptions: new FormArray(
-        [...task.commonMisconceptions].sort((a, b) => a.description.localeCompare(b.description))
-          .map(cm => this.createCmGroup(cm)),
-      ),
-      keyRelations: new FormArray(
-        [...(task.keyRelations ?? [])].sort((a, b) => (a.mechanism ?? '').localeCompare(b.mechanism ?? ''))
-          .map(kr => {
-            const sourceKpGroup = kpGroups.find(g => g.get('id')?.value === kr.sourceKeyPropositionId) ?? null;
-            const targetKpGroup = kpGroups.find(g => g.get('id')?.value === kr.targetKeyPropositionId) ?? null;
-            return this.createKrGroup(sourceKpGroup, targetKpGroup, kr);
-          }),
-      ),
+      description: new FormControl(task.description, { validators: [Validators.required] }),
+      conceptRecord: new FormGroup({
+        canonicalDefinition: new FormControl(cr.canonicalDefinition, { validators: [Validators.required] }),
+        keyPropositions: kpArray,
+        commonMisconceptions: cmArray,
+        keyRelations: krArray,
+      }),
     });
     this.isEditing.set(true);
     this.editId.set(task.id ?? 0);
@@ -109,21 +120,14 @@ export class ConceptElaborationTasksComponent {
 
   private createKpGroup(kp: KeyProposition): FormGroup {
     return new FormGroup({
-      id: new FormControl(kp.id ?? 0),
+      key: new FormControl(kp.key, { validators: [Validators.required] }),
       statement: new FormControl(kp.statement, { validators: [Validators.required] }),
-    });
-  }
-
-  private createBcGroup(bc: BoundaryCondition): FormGroup {
-    return new FormGroup({
-      id: new FormControl(bc.id ?? 0),
-      statement: new FormControl(bc.statement, { validators: [Validators.required] }),
     });
   }
 
   private createCmGroup(cm: CommonMisconception): FormGroup {
     return new FormGroup({
-      id: new FormControl(cm.id ?? 0),
+      key: new FormControl(cm.key, { validators: [Validators.required] }),
       description: new FormControl(cm.description, { validators: [Validators.required] }),
       correction: new FormControl(cm.correction, { validators: [Validators.required] }),
     });
@@ -131,41 +135,72 @@ export class ConceptElaborationTasksComponent {
 
   private createKrGroup(sourceKpGroup: FormGroup | null, targetKpGroup: FormGroup | null, kr: Partial<KeyRelation>): FormGroup {
     return new FormGroup({
-      id: new FormControl(kr.id ?? 0),
+      key: new FormControl(kr.key ?? '', { validators: [Validators.required] }),
       sourceKpCtrl: new FormControl(sourceKpGroup, { validators: [Validators.required] }),
       targetKpCtrl: new FormControl(targetKpGroup, { validators: [Validators.required] }),
       mechanism: new FormControl(kr.mechanism ?? '', { validators: [Validators.required] }),
     });
   }
 
-  get keyPropositions(): FormArray { return this.form.get('keyPropositions') as FormArray; }
-  get boundaryConditions(): FormArray { return this.form.get('boundaryConditions') as FormArray; }
-  get commonMisconceptions(): FormArray { return this.form.get('commonMisconceptions') as FormArray; }
-  get keyRelations(): FormArray { return this.form.get('keyRelations') as FormArray; }
-
-  addKeyProposition(): void {
-    this.keyPropositions.push(this.createKpGroup({ statement: '' }));
+  private attachUniqueKeyValidator(group: FormGroup, array: FormArray): void {
+    const keyCtrl = group.get('key')!;
+    keyCtrl.addValidators(this.uniqueKeyInArray(array, keyCtrl));
   }
 
-  addBoundaryCondition(): void {
-    this.boundaryConditions.push(this.createBcGroup({ statement: '' }));
+  private uniqueKeyInArray(array: FormArray, self: AbstractControl): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value as string;
+      if (!value) return null;
+      const isDuplicate = array.controls.some(c => {
+        const k = (c as FormGroup).get('key');
+        return k && k !== self && k.value === value;
+      });
+      return isDuplicate ? { duplicateKey: true } : null;
+    };
+  }
+
+  private nextKey(array: FormArray, prefix: string): string {
+    const nums = array.controls
+      .map(c => parseInt(((c as FormGroup).get('key')?.value as string ?? '').replace(prefix, ''), 10))
+      .filter(n => !isNaN(n));
+    return prefix + ((nums.length ? Math.max(...nums) : 0) + 1);
+  }
+
+  get conceptRecord(): FormGroup { return this.form.get('conceptRecord') as FormGroup; }
+  get keyPropositions(): FormArray { return this.conceptRecord.get('keyPropositions') as FormArray; }
+  get commonMisconceptions(): FormArray { return this.conceptRecord.get('commonMisconceptions') as FormArray; }
+  get keyRelations(): FormArray { return this.conceptRecord.get('keyRelations') as FormArray; }
+
+  addKeyProposition(): void {
+    const group = this.createKpGroup({ key: this.nextKey(this.keyPropositions, 'P'), statement: '' });
+    this.attachUniqueKeyValidator(group, this.keyPropositions);
+    this.keyPropositions.push(group);
   }
 
   addCommonMisconception(): void {
-    this.commonMisconceptions.push(this.createCmGroup({ description: '', correction: '' }));
+    const group = this.createCmGroup({ key: this.nextKey(this.commonMisconceptions, 'M'), description: '', correction: '' });
+    this.attachUniqueKeyValidator(group, this.commonMisconceptions);
+    this.commonMisconceptions.push(group);
   }
 
   addKeyRelation(): void {
-    this.keyRelations.push(this.createKrGroup(null, null, {}));
+    const group = this.createKrGroup(null, null, { key: this.nextKey(this.keyRelations, 'R') });
+    this.attachUniqueKeyValidator(group, this.keyRelations);
+    this.keyRelations.push(group);
+  }
+
+  onDescriptionChange(value: string): void {
+    const ctrl = this.form.get('description');
+    ctrl?.setValue(value);
+    ctrl?.markAsDirty();
   }
 
   removeItem(array: FormArray, index: number): void {
     array.removeAt(index);
   }
 
-  kpPosition(item: ConceptElaborationTask, id: number | undefined): number {
-    if (id == null) return 0;
-    const idx = item.keyPropositions.findIndex(kp => kp.id === id);
+  kpIndex(task: ConceptElaborationTask, key: string): number {
+    const idx = task.conceptRecord.keyPropositions.findIndex(kp => kp.key === key);
     return idx >= 0 ? idx + 1 : 0;
   }
 
@@ -215,25 +250,28 @@ export class ConceptElaborationTasksComponent {
 
   private getFormData(): ConceptElaborationTask {
     const v = this.form.value;
-    const kpControls = this.keyPropositions.controls;
     return {
       id: v.id,
       unitId: this.unitId(),
       order: v.order,
       title: v.title,
-      canonicalDefinition: v.canonicalDefinition,
-      keyPropositions: v.keyPropositions ?? [],
-      boundaryConditions: v.boundaryConditions ?? [],
-      commonMisconceptions: v.commonMisconceptions ?? [],
-      keyRelations: this.keyRelations.controls.map(ctrl => {
-        const krGroup = ctrl as FormGroup;
-        return {
-          id: krGroup.get('id')?.value,
-          sourceKeyPropositionIndex: kpControls.indexOf(krGroup.get('sourceKpCtrl')?.value),
-          targetKeyPropositionIndex: kpControls.indexOf(krGroup.get('targetKpCtrl')?.value),
-          mechanism: krGroup.get('mechanism')?.value,
-        };
-      }),
+      description: v.description,
+      conceptRecord: {
+        canonicalDefinition: v.conceptRecord.canonicalDefinition,
+        keyPropositions: v.conceptRecord.keyPropositions,
+        commonMisconceptions: v.conceptRecord.commonMisconceptions,
+        keyRelations: this.keyRelations.controls.map(ctrl => {
+          const krGroup = ctrl as FormGroup;
+          const sourceKpGroup = krGroup.get('sourceKpCtrl')?.value as FormGroup;
+          const targetKpGroup = krGroup.get('targetKpCtrl')?.value as FormGroup;
+          return {
+            key: krGroup.get('key')?.value,
+            sourceKey: sourceKpGroup?.get('key')?.value ?? '',
+            targetKey: targetKpGroup?.get('key')?.value ?? '',
+            mechanism: krGroup.get('mechanism')?.value,
+          };
+        }),
+      },
     };
   }
 

@@ -5,6 +5,6 @@ export interface ConceptElaborationTask {
   unitId: number;
   order: number;
   title: string;
-  canonicalDefinition: string;
+  description: string;
   attempts: ConversationAttempt[];
 }

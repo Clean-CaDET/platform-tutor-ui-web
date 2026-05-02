@@ -18,14 +18,14 @@
     @if (m.kind === 'idleNoHistory') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" />
+        <cc-markdown [data]="m.task.description" />
       </div>
     }
 
     @if (m.kind === 'idleWithInProgress') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" />
+        <cc-markdown [data]="m.task.description" />
         <div class="resume-banner">
           <p>Imaš nezavršen razgovor. Nastavi prethodnu konverzaciju?</p>
           <div class="flex-row gap">
@@ -45,7 +45,7 @@
     @if (m.kind === 'idleTerminal') {
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.canonicalDefinition" />
+        <cc-markdown [data]="m.task.description" />
         <h2>Prethodni pokušaji</h2>
         <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
       </div>
@@ -55,7 +55,7 @@
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
         <div class="first-message">
-          <cc-markdown [data]="m.task.canonicalDefinition" />
+          <cc-markdown [data]="m.task.description" />
         </div>
         <cc-elaboration-transcript [turns]="transcript()" [isStreaming]="isStreaming()" />
       </div>
@@ -65,7 +65,7 @@
       <div class="panel flex-col">
         <h1>{{ m.task.title }}</h1>
         <div class="first-message">
-          <cc-markdown [data]="m.task.canonicalDefinition" />
+          <cc-markdown [data]="m.task.description" />
         </div>
         @if (m.attempt.summary) {
           <div class="summary-panel">
