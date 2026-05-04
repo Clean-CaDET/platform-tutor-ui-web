@@ -5,6 +5,14 @@ import { StreamingJsonStringsClient, StreamingError } from '../../../core/http/s
 import { StreamChunk } from './model/stream-chunk.model';
 import { AttemptStatus } from './model/attempt-status.model';
 
+const SPECIAL_TOKENS: Record<string, string> = {
+  'SOFT_CAP': '\nDa bismo izbegli neproduktivno učenje, saberi misli i formiraj odgovor na originalno pitanje kroz narednih par poteza.',
+  'CLOSING_TRANSITION': '\nVreme je da zaokružimo ovaj razgovor. Saberi kompletnu razmenu koju smo imali i formuliši sveobuhvatan, precizan i koncizan odgovor na originalno pitanje.',
+  'CLOSING_NUDGE': '\nSada je vreme da napišeš kompletan odgovor na originalno pitanje.',
+  'EXPIRED': '\nRazgovor je iscrpljen bez finalnog odgovora. Pregledaj materijale i pokušaj ponovo.',
+  'OFF_TOPIC': '\nDržimo se teme. Formuliši sledeći korak u objašnjenju.',
+};
+
 @Injectable({ providedIn: 'root' })
 export class ConceptElaborationStreamService {
   private readonly client = inject(StreamingJsonStringsClient);
@@ -32,7 +40,7 @@ export class ConceptElaborationStreamService {
     try {
       parsed = JSON.parse(raw);
     } catch {
-      return { kind: 'text', value: raw };
+      return { kind: 'text', value: SPECIAL_TOKENS[raw] ?? raw };
     }
 
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
@@ -55,7 +63,7 @@ export class ConceptElaborationStreamService {
       }
     }
 
-    return { kind: 'text', value: raw };
+    return { kind: 'text', value: SPECIAL_TOKENS[raw] ?? raw };
   }
 
   private normalizeKeys(obj: Record<string, unknown>): Record<string, unknown> {

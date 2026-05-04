@@ -83,17 +83,17 @@ export class ConceptElaborationTasksComponent {
     this.workingItem = task;
     const cr = task.conceptRecord;
 
-    const kpGroups = [...cr.keyPropositions].sort((a, b) => a.statement.localeCompare(b.statement))
+    const kpGroups = [...cr.keyPropositions].sort((a, b) => a.key.localeCompare(b.key))
       .map(kp => this.createKpGroup(kp));
     const kpArray = new FormArray(kpGroups);
     kpGroups.forEach(g => this.attachUniqueKeyValidator(g, kpArray));
 
-    const cmGroups = [...cr.commonMisconceptions].sort((a, b) => a.description.localeCompare(b.description))
+    const cmGroups = [...cr.commonMisconceptions].sort((a, b) => a.key.localeCompare(b.key))
       .map(cm => this.createCmGroup(cm));
     const cmArray = new FormArray(cmGroups);
     cmGroups.forEach(g => this.attachUniqueKeyValidator(g, cmArray));
 
-    const krGroups = [...cr.keyRelations].sort((a, b) => a.mechanism.localeCompare(b.mechanism))
+    const krGroups = [...cr.keyRelations].sort((a, b) => a.key.localeCompare(b.key))
       .map(kr => {
         const sourceKpGroup = kpGroups.find(g => g.get('key')?.value === kr.sourceKey) ?? null;
         const targetKpGroup = kpGroups.find(g => g.get('key')?.value === kr.targetKey) ?? null;
@@ -108,7 +108,7 @@ export class ConceptElaborationTasksComponent {
       order: new FormControl(task.order, { validators: [Validators.required, Validators.min(0)] }),
       description: new FormControl(task.description, { validators: [Validators.required] }),
       conceptRecord: new FormGroup({
-        canonicalDefinition: new FormControl(cr.canonicalDefinition, { validators: [Validators.required] }),
+        canonicalDefinition: new FormControl(cr.canonicalDefinition),
         keyPropositions: kpArray,
         commonMisconceptions: cmArray,
         keyRelations: krArray,
@@ -199,11 +199,6 @@ export class ConceptElaborationTasksComponent {
     array.removeAt(index);
   }
 
-  kpIndex(task: ConceptElaborationTask, key: string): number {
-    const idx = task.conceptRecord.keyPropositions.findIndex(kp => kp.key === key);
-    return idx >= 0 ? idx + 1 : 0;
-  }
-
   isKpReferencedByKr(index: number): boolean {
     const kpGroup = this.keyPropositions.at(index);
     return this.keyRelations.controls.some(ctrl => {
@@ -257,7 +252,7 @@ export class ConceptElaborationTasksComponent {
       title: v.title,
       description: v.description,
       conceptRecord: {
-        canonicalDefinition: v.conceptRecord.canonicalDefinition,
+        canonicalDefinition: v.conceptRecord.canonicalDefinition ?? "",
         keyPropositions: v.conceptRecord.keyPropositions,
         commonMisconceptions: v.conceptRecord.commonMisconceptions,
         keyRelations: this.keyRelations.controls.map(ctrl => {
