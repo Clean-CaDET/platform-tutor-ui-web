@@ -4,12 +4,10 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { CcMarkdownComponent } from '../../../../shared/markdown/cc-markdown.component';
 import { ConversationAttempt } from '../model/conversation-attempt.model';
 import { AttemptStatus } from '../model/attempt-status.model';
-import { ElaborationTranscriptComponent } from '../transcript/elaboration-transcript.component';
-
 @Component({
   selector: 'cc-elaboration-attempt-history',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [DatePipe, MatExpansionModule, CcMarkdownComponent, ElaborationTranscriptComponent],
+  imports: [DatePipe, MatExpansionModule, CcMarkdownComponent],
   templateUrl: './elaboration-attempt-history.component.html',
   styleUrl: './elaboration-attempt-history.component.scss',
 })

@@ -1,112 +1,61 @@
 @let m = mode();
-<div class="flex-col" style="height: 100%;">
-  <div #scrollArea class="scroll-area" (scroll)="onScrollAreaScroll($event)">
-    @if (m.kind === 'loading') {
-      <div class="loading-container">
-        <mat-spinner [diameter]="40" [strokeWidth]="4" />
-      </div>
-    }
+<div class="page">
+  @if (m.kind === 'loading') {
+    <div class="loading-container">
+      <mat-spinner [diameter]="40" [strokeWidth]="4" />
+    </div>
+  }
 
-    @if (m.kind === 'error') {
-      <div class="panel flex-col">
-        <p class="error-text">
-          <b>{{ m.message }}</b> Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.
-        </p>
-      </div>
-    }
+  @if (m.kind === 'error') {
+    <div class="two-panel-layout">
+      <p class="error-text">
+        <b>{{ m.message }}</b> Osvežite stranicu i javite se nastavniku ako je problem i dalje prisutan.
+      </p>
+    </div>
+  }
 
-    @if (m.kind === 'idleNoHistory') {
-      <div class="panel flex-col">
-        <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.description" />
-      </div>
-    }
-
-    @if (m.kind === 'idleWithInProgress') {
-      <div class="panel flex-col">
-        <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.description" />
-        <div class="resume-banner">
-          <p>Imaš nezavršen razgovor. Nastavi prethodnu konverzaciju?</p>
-          <div class="flex-row gap">
-            <button matButton="filled" (click)="resumeInProgress()">
-              <mat-icon>play_arrow</mat-icon>
-              Da
-            </button>
-            <button matButton (click)="declineResume()">
-              <mat-icon>close</mat-icon>
-              Ne
-            </button>
-          </div>
-        </div>
-      </div>
-    }
-
-    @if (m.kind === 'idleTerminal') {
-      <div class="panel flex-col">
-        <h1>{{ m.task.title }}</h1>
-        <cc-markdown [data]="m.task.description" />
-        <h2>Prethodni pokušaji</h2>
-        <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
-      </div>
-    }
-
-    @if (m.kind === 'active') {
-      <div class="panel flex-col">
-        <h1>{{ m.task.title }}</h1>
-        <div class="first-message">
+  @if (m.kind === 'history') {
+    <div class="scroll-area">
+      <div class="two-panel-layout">
+        <div class="left-panel task-info">
+          <h1>{{ m.task.title }}</h1>
           <cc-markdown [data]="m.task.description" />
         </div>
-        <cc-elaboration-transcript [turns]="transcript()" [isStreaming]="isStreaming()" />
-      </div>
-    }
-
-    @if (m.kind === 'terminal') {
-      <div class="panel flex-col">
-        <h1>{{ m.task.title }}</h1>
-        <div class="first-message">
-          <cc-markdown [data]="m.task.description" />
+        <div class="panel-divider"></div>
+        <div class="right-panel">
+          <cc-elaboration-attempt-history [attempts]="m.completedAttempts" />
         </div>
-        @if (m.attempt.summary) {
-          <div class="summary-panel">
-            <h2>Rezime razgovora</h2>
-            <cc-markdown [data]="m.attempt.summary" />
-          </div>
-        }
-        <h2>Razgovor</h2>
-        <cc-elaboration-transcript [turns]="m.attempt.turns" [isStreaming]="false" />
       </div>
-    }
-  </div>
-
-  @if (m.kind === 'active') {
-    <cc-elaboration-composer #composer
-      [disabled]="isThinking() || isStreaming()"
-      [thinking]="isThinking()"
-      (submitted)="onComposerSubmit($event)"
-      (abandoned)="onComposerAbandon()" />
-  } @else if (m.kind !== 'loading') {
-    <div class="secondary-nav">
+    </div>
+    <div class="history-nav">
       <mat-divider />
-      <div class="panel flex-row gap" style="align-items: center;">
-        <span style="flex-grow: 1;"></span>
-        @if (m.kind === 'idleNoHistory') {
-          <button matButton="filled" (click)="startConversation()">
+      <div class="history-nav-actions">
+        @if (m.inProgress) {
+          <button matButton="filled" (click)="continueSession()">
+            <mat-icon>play_arrow</mat-icon>
+            Nastavi konverzaciju
+          </button>
+        } @else {
+          <button matButton="filled" (click)="startSession()">
             <mat-icon>psychology</mat-icon>
-            Započni elaboraciju
+            Novi pokušaj
           </button>
         }
-        @if (m.kind === 'idleTerminal' || m.kind === 'terminal') {
-          <button matButton="filled" (click)="startConversation()">
-            <mat-icon>refresh</mat-icon>
-            Pokušaj ponovo
-          </button>
-        }
+        <span class="spacer"></span>
         <a matButton [routerLink]="['/courses', courseId, 'units', unitId]">
           <mat-icon>article</mat-icon>
           Lekcija
         </a>
       </div>
     </div>
+  }
+
+  @if (m.kind === 'session') {
+    <cc-elaboration-session
+      #sessionRef
+      [task]="m.task"
+      [inProgress]="m.inProgress"
+      [courseId]="courseId"
+      (sessionEnded)="onSessionEnded()" />
   }
 </div>

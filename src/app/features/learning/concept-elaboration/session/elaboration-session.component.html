@@ -1,0 +1,67 @@
+<div class="session-layout">
+  <div class="left-panel">
+    <div class="task-info">
+      <h1>{{ task().title }}</h1>
+      <cc-markdown [data]="task().description" />
+    </div>
+    <div class="composer">
+      <mat-form-field appearance="fill" class="composer-field">
+        <mat-label>Objasni svojim rečima...</mat-label>
+        <textarea matInput [formControl]="contentControl" rows="10" (keydown)="onKeydown($event)"></textarea>
+      </mat-form-field>
+      <div class="composer-actions">
+        <button matButton="filled" (click)="onSubmit()" [disabled]="!canSubmit()">
+          <mat-icon>send</mat-icon>
+          Pošalji elaborat
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-divider"></div>
+
+  <div class="right-panel" #scrollArea (scroll)="onScrollAreaScroll($event)">
+    <div class="transcript">
+      @for (round of rounds(); track round.learner.id; let first = $first) {
+        @if (!first) {
+          <mat-divider />
+        }
+        <div class="turn-learner">
+          <pre class="plain-text">{{ round.learner.content }}</pre>
+        </div>
+        @if (round.system) {
+          <div class="turn-system">
+            @if (round.isSystemStreaming) {
+              <pre class="plain-text">{{ round.system.content }}</pre>
+            } @else {
+              <cc-markdown [data]="round.system.content" />
+            }
+          </div>
+        } @else if (isThinking()) {
+          <div class="thinking-indicator" aria-live="polite">
+            <mat-spinner [diameter]="20" [strokeWidth]="2" />
+          </div>
+        }
+      }
+      @if (isComplete()) {
+        <mat-divider />
+        <div class="completion-message">Elaboracija uspešno zaokružena.</div>
+      }
+    </div>
+  </div>
+</div>
+
+<div class="session-nav">
+  <mat-divider />
+  <div class="session-nav-actions">
+    <button matButton (click)="onAbandon()">
+      <mat-icon>{{ isComplete() ? 'arrow_back' : 'close' }}</mat-icon>
+      {{ isComplete() ? 'Povratak na istoriju' : 'Napusti konverzaciju' }}
+    </button>
+    <span class="spacer"></span>
+    <a matButton [routerLink]="['/courses', courseId(), 'units', task().unitId]">
+      <mat-icon>article</mat-icon>
+      Lekcija
+    </a>
+  </div>
+</div>

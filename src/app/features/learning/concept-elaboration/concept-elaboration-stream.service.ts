@@ -6,11 +6,8 @@ import { StreamChunk } from './model/stream-chunk.model';
 import { AttemptStatus } from './model/attempt-status.model';
 
 const SPECIAL_TOKENS: Record<string, string> = {
-  'SOFT_CAP': '\nDa bismo izbegli neproduktivno učenje, saberi misli i formiraj odgovor na originalno pitanje kroz narednih par poteza.',
-  'CLOSING_TRANSITION': '\nVreme je da zaokružimo ovaj razgovor. Saberi kompletnu razmenu koju smo imali i formuliši sveobuhvatan, precizan i koncizan odgovor na originalno pitanje.',
-  'CLOSING_NUDGE': '\nSada je vreme da napišeš kompletan odgovor na originalno pitanje.',
-  'EXPIRED': '\nRazgovor je iscrpljen bez finalnog odgovora. Pregledaj materijale i pokušaj ponovo.',
-  'OFF_TOPIC': '\nDržimo se teme. Formuliši sledeći korak u objašnjenju.',
+  'STAGNATION_REDIRECT': '\nSlabo napredujemo. Razmisli da li je svrsishodnije da se posvetiš materijalima i produbljivanju razumevanja ispitivanog koncepta.',
+  'EXPIRED': '\nRešenje do kog smo stigli nije potpuno. Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -18,12 +15,12 @@ export class ConceptElaborationStreamService {
   private readonly client = inject(StreamingJsonStringsClient);
   private readonly baseUrl = environment.apiHost + 'learning/concept-elaborations/';
 
-  startConversation(taskId: number, content: string): Observable<StreamChunk> {
-    return this.pipeline(this.client.post(`${this.baseUrl}${taskId}/conversations`, { content }));
+  startConversation(taskId: number, elaboration: string): Observable<StreamChunk> {
+    return this.pipeline(this.client.post(`${this.baseUrl}${taskId}/conversations`, { elaboration }));
   }
 
-  continueConversation(attemptId: number, content: string): Observable<StreamChunk> {
-    return this.pipeline(this.client.post(`${this.baseUrl}attempts/${attemptId}/turns`, { content }));
+  continueConversation(attemptId: number, elaboration: string): Observable<StreamChunk> {
+    return this.pipeline(this.client.post(`${this.baseUrl}attempts/${attemptId}/elaborations`, { elaboration }));
   }
 
   private pipeline(source: Observable<string>): Observable<StreamChunk> {
