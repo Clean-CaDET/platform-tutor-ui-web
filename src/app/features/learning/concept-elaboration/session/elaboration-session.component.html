@@ -1,67 +1,69 @@
-<div class="session-layout">
-  <div class="left-panel">
-    <div class="task-info">
-      <h1>{{ task().title }}</h1>
-      <cc-markdown [data]="task().description" />
+<div class="flex-col" style="height: 100%;">
+  <div class="flex-row" style="flex-grow: 1; overflow: hidden;">
+    <div class="flex-col" style="width: 50%;">
+      <div class="flex-col scrollable-panel" style="flex: 30%">
+        <div style="max-width: 668px;">
+          <h2 style="margin: 0;">{{ task().title }}</h2>
+          <cc-markdown [data]="task().description" />
+        </div>
+      </div>
+      <mat-divider/>
+      <div class="flex-col scrollable-panel" style="flex: 70%">
+        <div style="max-width: 668px; width: 100%;">
+          <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>Objasni svojim rečima...</mat-label>
+            <textarea matInput [formControl]="contentControl" rows="15" (keydown)="onKeydown($event)"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
     </div>
-    <div class="composer">
-      <mat-form-field appearance="fill" class="composer-field">
-        <mat-label>Objasni svojim rečima...</mat-label>
-        <textarea matInput [formControl]="contentControl" rows="10" (keydown)="onKeydown($event)"></textarea>
-      </mat-form-field>
-      <div class="composer-actions">
+    <mat-divider vertical="true" />
+    <div class="flex-col transcript-container" #scrollArea (scroll)="onScrollAreaScroll($event)">
+      <div class="transcript">
+        @for (round of rounds(); track $index; let first = $first) {
+          <div class="turn-learner">
+            <pre class="plain-text">{{ round.elaborationContent }}</pre>
+          </div>
+          @if (round.feedbackContent !== null) {
+            <div class="turn-system">
+              @if (round.isSystemStreaming) {
+                <pre class="plain-text">{{ round.feedbackContent }}</pre>
+              } @else {
+                <cc-markdown [data]="round.feedbackContent" />
+              }
+            </div>
+          } @else if (isThinking()) {
+            <div class="thinking-indicator" aria-live="polite">
+              <mat-spinner [diameter]="20" [strokeWidth]="2" /> Ocenjujem...
+            </div>
+          }
+        }
+        @if (isComplete()) {
+          <mat-divider />
+          <div class="completion-message">Elaboracija uspešno zaokružena.</div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="secondary-nav">
+    <mat-divider />
+    <div class="panel">
+      <div class="flex-row" style="width: 50%; justify-content: flex-end;">
         <button matButton="filled" (click)="onSubmit()" [disabled]="!canSubmit()">
           <mat-icon>send</mat-icon>
           Pošalji elaborat
         </button>
       </div>
+      <div class="flex-row" style="width: 50%; justify-content: flex-end;">
+        <button matButton (click)="onAbandon()">
+          <mat-icon>{{ isComplete() ? 'arrow_back' : 'close' }}</mat-icon>
+          {{ isComplete() ? 'Povratak na istoriju' : 'Napusti konverzaciju' }}
+        </button>
+        <a matButton [routerLink]="['/courses', courseId(), 'units', task().unitId]">
+          <mat-icon>article</mat-icon>
+          Lekcija
+        </a>
+      </div>
     </div>
-  </div>
-
-  <div class="panel-divider"></div>
-
-  <div class="right-panel" #scrollArea (scroll)="onScrollAreaScroll($event)">
-    <div class="transcript">
-      @for (round of rounds(); track $index; let first = $first) {
-        @if (!first) {
-          <mat-divider />
-        }
-        <div class="turn-learner">
-          <pre class="plain-text">{{ round.elaborationContent }}</pre>
-        </div>
-        @if (round.feedbackContent !== null) {
-          <div class="turn-system">
-            @if (round.isSystemStreaming) {
-              <pre class="plain-text">{{ round.feedbackContent }}</pre>
-            } @else {
-              <cc-markdown [data]="round.feedbackContent" />
-            }
-          </div>
-        } @else if (isThinking()) {
-          <div class="thinking-indicator" aria-live="polite">
-            <mat-spinner [diameter]="20" [strokeWidth]="2" />
-          </div>
-        }
-      }
-      @if (isComplete()) {
-        <mat-divider />
-        <div class="completion-message">Elaboracija uspešno zaokružena.</div>
-      }
-    </div>
-  </div>
-</div>
-
-<div class="session-nav">
-  <mat-divider />
-  <div class="session-nav-actions">
-    <button matButton (click)="onAbandon()">
-      <mat-icon>{{ isComplete() ? 'arrow_back' : 'close' }}</mat-icon>
-      {{ isComplete() ? 'Povratak na istoriju' : 'Napusti konverzaciju' }}
-    </button>
-    <span class="spacer"></span>
-    <a matButton [routerLink]="['/courses', courseId(), 'units', task().unitId]">
-      <mat-icon>article</mat-icon>
-      Lekcija
-    </a>
   </div>
 </div>
