@@ -31,17 +31,17 @@
   flex-direction: column;
   max-width: 668px;
   width: 100%;
-  gap: 10px;
-  padding: 10px;
 }
 
 .turn-learner {
   background-color: var(--mat-sys-background);
   border-radius: 10px;
   padding: 10px;
+  margin: 10px 10px 0 10px;
 }
 
 .turn-system {
+  margin: 0 10px 10px 10px;
   padding: 10px;
 }
 
@@ -58,7 +58,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 0;
+  padding: 10px;
+  margin: 10px;
 }
 
 .completion-message {

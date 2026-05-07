@@ -10,9 +10,10 @@
       <mat-divider/>
       <div class="flex-col scrollable-panel" style="flex: 70%">
         <div style="max-width: 668px; width: 100%;">
-          <mat-form-field appearance="fill" style="width: 100%;">
-            <mat-label>Objasni svojim rečima...</mat-label>
-            <textarea matInput [formControl]="contentControl" rows="15" (keydown)="onKeydown($event)"></textarea>
+          <small><i>Objasni svojim rečima, pošalji, analiziraju povratnu informaciju i iterativno unapredi elaborat.</i></small>
+          <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;">
+            <mat-label>Tvoj elaborat</mat-label>
+            <textarea matInput #elaborationTextarea [formControl]="contentControl" rows="15" (keydown)="onKeydown($event)"></textarea>
           </mat-form-field>
         </div>
       </div>

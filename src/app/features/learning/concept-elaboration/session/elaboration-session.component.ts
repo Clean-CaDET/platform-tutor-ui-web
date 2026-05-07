@@ -56,6 +56,7 @@ export class ElaborationSessionComponent {
 
   private readonly userScrolled = signal(false);
   readonly scrollArea = viewChild<ElementRef<HTMLDivElement>>('scrollArea');
+  private readonly elaborationTextarea = viewChild<ElementRef<HTMLTextAreaElement>>('elaborationTextarea');
 
   readonly isThinking = this.conversation.isThinking;
   readonly isStreaming = this.conversation.isStreaming;
@@ -95,6 +96,7 @@ export class ElaborationSessionComponent {
         this.contentControl.disable({ emitEvent: false });
       } else {
         this.contentControl.enable({ emitEvent: false });
+        requestAnimationFrame(() => this.elaborationTextarea()?.nativeElement.focus());
       }
     });
 
