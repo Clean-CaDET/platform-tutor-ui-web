@@ -22,19 +22,19 @@
 
   <div class="right-panel" #scrollArea (scroll)="onScrollAreaScroll($event)">
     <div class="transcript">
-      @for (round of rounds(); track round.learner.id; let first = $first) {
+      @for (round of rounds(); track $index; let first = $first) {
         @if (!first) {
           <mat-divider />
         }
         <div class="turn-learner">
-          <pre class="plain-text">{{ round.learner.content }}</pre>
+          <pre class="plain-text">{{ round.elaborationContent }}</pre>
         </div>
-        @if (round.system) {
+        @if (round.feedbackContent !== null) {
           <div class="turn-system">
             @if (round.isSystemStreaming) {
-              <pre class="plain-text">{{ round.system.content }}</pre>
+              <pre class="plain-text">{{ round.feedbackContent }}</pre>
             } @else {
-              <cc-markdown [data]="round.system.content" />
+              <cc-markdown [data]="round.feedbackContent" />
             }
           </div>
         } @else if (isThinking()) {

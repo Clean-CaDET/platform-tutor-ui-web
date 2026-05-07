@@ -1,5 +1,5 @@
 import { AttemptStatus } from './attempt-status.model';
-import { ConversationTurn } from './conversation-turn.model';
+import { ConversationRound } from './conversation-round.model';
 
 export interface ConversationAttempt {
   id: number;
@@ -8,5 +8,5 @@ export interface ConversationAttempt {
   startedAt?: string;
   completedAt?: string;
   summary: string | null;
-  turns: ConversationTurn[];
+  rounds: ConversationRound[];
 }

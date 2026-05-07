@@ -16,14 +16,15 @@
           </div>
         }
         <div class="transcript">
-          @for (turn of attempt.turns; track turn.id) {
-            <div class="turn" [class.turn-learner]="turn.role === 'Learner'" [class.turn-system]="turn.role === 'System'">
-              @if (turn.role === 'System') {
-                <cc-markdown [data]="turn.content" />
-              } @else {
-                <pre class="plain-text">{{ turn.content }}</pre>
-              }
+          @for (round of attempt.rounds; track round.order) {
+            <div class="turn turn-learner">
+              <pre class="plain-text">{{ round.elaborationContent }}</pre>
             </div>
+            @if (round.feedbackContent) {
+              <div class="turn turn-system">
+                <cc-markdown [data]="round.feedbackContent" />
+              </div>
+            }
           }
         </div>
       </mat-expansion-panel>

@@ -17,11 +17,10 @@ import { ElaborationConversationService } from '../elaboration-conversation.serv
 import { NotificationService } from '../../../../core/notification/notification.service';
 import { ConceptElaborationTask } from '../model/concept-elaboration-task.model';
 import { ConversationAttempt } from '../model/conversation-attempt.model';
-import { ConversationTurn } from '../model/conversation-turn.model';
 
 interface Round {
-  learner: ConversationTurn;
-  system: ConversationTurn | null;
+  elaborationContent: string;
+  feedbackContent: string | null;
   isSystemStreaming: boolean;
 }
 
@@ -62,26 +61,14 @@ export class ElaborationSessionComponent {
   readonly isStreaming = this.conversation.isStreaming;
 
   readonly rounds = computed<Round[]>(() => {
-    const turns = this.conversation.transcript();
+    const conversationRounds = this.conversation.rounds();
     const streaming = this.conversation.isStreaming();
-    const result: Round[] = [];
-    let i = 0;
-    while (i < turns.length) {
-      if (turns[i].role === 'Learner') {
-        const learner = turns[i];
-        const next = turns[i + 1];
-        const system = next?.role === 'System' ? next : null;
-        result.push({
-          learner,
-          system,
-          isSystemStreaming: streaming && system !== null && i + 1 === turns.length - 1,
-        });
-        i += system ? 2 : 1;
-      } else {
-        i++;
-      }
-    }
-    return result;
+    const last = conversationRounds.length - 1;
+    return conversationRounds.map((r, i) => ({
+      elaborationContent: r.elaborationContent,
+      feedbackContent: r.feedbackContent,
+      isSystemStreaming: streaming && r.feedbackContent !== null && i === last,
+    }));
   });
 
   readonly canSubmit = computed(() => {
@@ -97,7 +84,7 @@ export class ElaborationSessionComponent {
 
   readonly isDirty = computed(() =>
     !this.isComplete() &&
-    (this.conversation.transcript().length > 0 || this.conversation.currentAttemptId() !== null)
+    (this.conversation.rounds().length > 0 || this.conversation.currentAttemptId() !== null)
   );
 
   constructor() {
@@ -115,11 +102,10 @@ export class ElaborationSessionComponent {
       const attempt = this.inProgress();
       if (attempt) {
         this.conversation.seed(attempt);
-        const sorted = [...attempt.turns].sort((a, b) => a.order - b.order);
-        const lastLearner = [...sorted].filter(t => t.role === 'Learner').pop();
-        if (lastLearner) {
-          this.contentControl.setValue(lastLearner.content);
-          this.lastSubmitted.set(lastLearner.content);
+        const lastRound = [...attempt.rounds].sort((a, b) => a.order - b.order).at(-1);
+        if (lastRound) {
+          this.contentControl.setValue(lastRound.elaborationContent);
+          this.lastSubmitted.set(lastRound.elaborationContent);
         }
       }
     }, { allowSignalWrites: true });
@@ -137,7 +123,7 @@ export class ElaborationSessionComponent {
       .subscribe(({ code }) => this.handleError(code));
 
     effect(() => {
-      this.conversation.transcript();
+      this.conversation.rounds();
       this.conversation.isStreaming();
       if (this.userScrolled()) return;
       const ref = this.scrollArea();
@@ -193,8 +179,8 @@ export class ElaborationSessionComponent {
         const active = task.attempts.find(a => a.id === attemptId);
         if (active && active.status === 'InProgress') {
           this.conversation.seed(active);
-          const lastLearner = [...active.turns].filter(t => t.role === 'Learner').pop();
-          if (lastLearner) this.lastSubmitted.set(lastLearner.content);
+          const lastRound = [...active.rounds].sort((a, b) => a.order - b.order).at(-1);
+          if (lastRound) this.lastSubmitted.set(lastRound.elaborationContent);
         } else {
           this.isComplete.set(true);
         }

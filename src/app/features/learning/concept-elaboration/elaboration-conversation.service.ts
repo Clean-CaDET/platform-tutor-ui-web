@@ -2,13 +2,13 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { ConceptElaborationStreamService } from './concept-elaboration-stream.service';
 import { ConversationAttempt } from './model/conversation-attempt.model';
-import { ConversationTurn } from './model/conversation-turn.model';
+import { ConversationRound } from './model/conversation-round.model';
 import { StreamChunk } from './model/stream-chunk.model';
 import { AttemptStatus } from './model/attempt-status.model';
 
 /**
  * Owns the lifecycle of a single concept-elaboration conversation: the
- * transcript, the streaming state machine (idle → thinking → streaming →
+ * rounds transcript, the streaming state machine (idle → thinking → streaming →
  * idle/terminal), and optimistic updates with rollback on failure.
  *
  * Scoped per host component — holds mutable per-session state and must not
@@ -20,19 +20,16 @@ import { AttemptStatus } from './model/attempt-status.model';
 export class ElaborationConversationService {
   private readonly streamService = inject(ConceptElaborationStreamService);
 
-  // Private writable signals are the source of truth for the session.
-  private readonly _transcript = signal<ConversationTurn[]>([]);
+  private readonly _rounds = signal<ConversationRound[]>([]);
   private readonly _isThinking = signal(false);
   private readonly _isStreaming = signal(false);
   private readonly _currentAttemptId = signal<number | null>(null);
 
-  // Public `asReadonly()` / `computed()` views are what consumers bind to.
-  readonly transcript = this._transcript.asReadonly();
+  readonly rounds = this._rounds.asReadonly();
   readonly isThinking = this._isThinking.asReadonly();
   readonly isStreaming = this._isStreaming.asReadonly();
   readonly currentAttemptId = this._currentAttemptId.asReadonly();
 
-  // Semantic event streams are emitted once per terminal outcome so the host can transition mode, refetch, notify, etc.
   // `reconciled$` fires on a 409 from the server — our view of the attempt disagrees with reality and the host should re-seed from a fresh GET.
   private readonly _completed$ = new Subject<ConversationAttempt>();
   private readonly _reconciled$ = new Subject<number>();
@@ -40,38 +37,35 @@ export class ElaborationConversationService {
   readonly completed$: Observable<ConversationAttempt> = this._completed$.asObservable();
   readonly reconciled$: Observable<number> = this._reconciled$.asObservable();
   readonly errored$: Observable<{ code: number; attemptId?: number }> = this._errored$.asObservable();
-  
-  // `nextSyntheticId` mints negative ids for optimistically-added turns so they can be distinguished
-  // from server-assigned (positive) ids — used by rollback to drop only what we optimistically appended.
+
+  // `preSyntheticLength` records the round count before an optimistic append so rollback can slice back to it.
   // `currentTaskId` is retained so terminal synthesis can reconstruct a full `ConversationAttempt` without an extra round-trip.
-  private nextSyntheticId = -1;
+  private preSyntheticLength = 0;
   private streamSub: Subscription | null = null;
   private currentTaskId = 0;
 
-  // Clears all session state (called on destroy and before seeding or starting fresh).
   reset(): void {
     this.streamSub?.unsubscribe();
     this.streamSub = null;
     this._isThinking.set(false);
     this._isStreaming.set(false);
-    this._transcript.set([]);
+    this._rounds.set([]);
     this._currentAttemptId.set(null);
     this.currentTaskId = 0;
-    this.nextSyntheticId = -1;
+    this.preSyntheticLength = 0;
   }
 
-  // Rehydrates from a server-provided attempt (resume flow).
   seed(attempt: ConversationAttempt): void {
     this.reset();
-    this._transcript.set([...attempt.turns].sort((a, b) => a.order - b.order));
+    this._rounds.set([...attempt.rounds].sort((a, b) => a.order - b.order));
     this._currentAttemptId.set(attempt.id);
     this.currentTaskId = attempt.conceptElaborationTaskId;
   }
 
-  // Starts or continues a conversation and drives the optimistic flow.
   submit(taskId: number, content: string): void {
     this.currentTaskId = taskId;
-    this.appendLearnerTurn(content);
+    this.preSyntheticLength = this._rounds().length;
+    this.appendLearnerRound(content);
     this._isThinking.set(true);
     this._isStreaming.set(false);
 
@@ -91,9 +85,9 @@ export class ElaborationConversationService {
   }
 
   // The chunk stream drives the state machine:
-  // - the first `text` chunk flips thinking→streaming and opens a new System turn;
+  // - the first `text` chunk flips thinking→streaming and opens feedback on the current round;
   // - subsequent `text` chunks append to it.
-  // - A `metadata` chunk closes the turn and either keeps the attempt in progress or emits completion.
+  // - A `metadata` chunk closes the round and either keeps the attempt in progress or emits completion.
   // - An `error` chunk rolls back the optimistic append and either requests reconciliation (409 with attempt id) or surfaces as a generic error.
   private handleChunk(chunk: StreamChunk): void {
     switch (chunk.kind) {
@@ -101,9 +95,9 @@ export class ElaborationConversationService {
         if (!this._isStreaming()) {
           this._isThinking.set(false);
           this._isStreaming.set(true);
-          this.beginSystemTurn();
+          this.beginFeedback();
         }
-        this.appendToLastSystemTurn(chunk.value);
+        this.appendToFeedback(chunk.value);
         break;
       case 'metadata':
         this.handleMetadata(chunk);
@@ -124,14 +118,13 @@ export class ElaborationConversationService {
     }
   }
 
-  // The server's terminal metadata chunk carries only id/status/summary, but downstream consumers expect a full `ConversationAttempt`.
   private synthesizeTerminalAttempt(chunk: { attemptId: number; status: AttemptStatus; summary: string | null; }): ConversationAttempt {
     return {
       id: chunk.attemptId,
       conceptElaborationTaskId: this.currentTaskId,
       status: chunk.status,
       summary: chunk.summary,
-      turns: this._transcript(),
+      rounds: this._rounds(),
     };
   }
 
@@ -144,56 +137,39 @@ export class ElaborationConversationService {
     }
   }
 
-  // All transcript writes go through these helpers so every optimistic turn gets a synthetic negative id.
-  // `rollbackOptimistic` peels off the trailing System (if any) and Learner turns that carry synthetic ids.
   private rollbackOptimistic(): void {
     this._isThinking.set(false);
     this._isStreaming.set(false);
-    this._transcript.update(turns => {
-      let t = turns;
-      if (t.length && t[t.length - 1].role === 'System' && t[t.length - 1].id < 0) {
-        t = t.slice(0, -1);
-      }
-      if (t.length && t[t.length - 1].role === 'Learner' && t[t.length - 1].id < 0) {
-        t = t.slice(0, -1);
-      }
-      return t;
+    this._rounds.update(rounds => rounds.slice(0, this.preSyntheticLength));
+  }
+
+  private appendLearnerRound(content: string): void {
+    this._rounds.update(rounds => [
+      ...rounds,
+      {
+        order: rounds.length,
+        elaborationContent: content,
+        submittedAt: new Date().toISOString(),
+        feedbackContent: null,
+      },
+    ]);
+  }
+
+  private beginFeedback(): void {
+    this._rounds.update(rounds => {
+      if (rounds.length === 0) return rounds;
+      const idx = rounds.length - 1;
+      return [...rounds.slice(0, idx), { ...rounds[idx], feedbackContent: '' }];
     });
   }
 
-  private appendLearnerTurn(content: string): void {
-    this._transcript.update(turns => [
-      ...turns,
-      {
-        id: this.nextSyntheticId--,
-        role: 'Learner' as const,
-        content,
-        order: turns.length,
-        timestamp: new Date().toISOString(),
-      },
-    ]);
-  }
-
-  private beginSystemTurn(): void {
-    this._transcript.update(turns => [
-      ...turns,
-      {
-        id: this.nextSyntheticId--,
-        role: 'System' as const,
-        content: '',
-        order: turns.length,
-        timestamp: new Date().toISOString(),
-      },
-    ]);
-  }
-
-  private appendToLastSystemTurn(delta: string): void {
-    this._transcript.update(turns => {
-      if (turns.length === 0) return turns;
-      const idx = turns.length - 1;
-      const last = turns[idx];
-      if (last.role !== 'System') return turns;
-      return [...turns.slice(0, idx), { ...last, content: last.content + delta }];
+  private appendToFeedback(delta: string): void {
+    this._rounds.update(rounds => {
+      if (rounds.length === 0) return rounds;
+      const idx = rounds.length - 1;
+      const last = rounds[idx];
+      if (last.feedbackContent === null) return rounds;
+      return [...rounds.slice(0, idx), { ...last, feedbackContent: last.feedbackContent + delta }];
     });
   }
 }
