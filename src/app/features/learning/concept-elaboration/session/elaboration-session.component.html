@@ -26,7 +26,7 @@
             <pre class="plain-text">{{ round.elaborationContent }}</pre>
           </div>
           @if (round.feedbackContent !== null) {
-            <div class="turn-system">
+            <div style="padding: 0 10px;">
               @if (round.isSystemStreaming) {
                 <pre class="plain-text">{{ round.feedbackContent }}</pre>
               } @else {
@@ -39,8 +39,11 @@
             </div>
           }
         }
-        @if (isComplete()) {
-          <div class="completion-message">Elaboracija uspešno zaokružena.</div>
+        @if (status() === 'Completed') {
+          <div class="done-message completion-color">Elaboracija uspešno zaokružena.</div>
+        }
+        @if (status() === 'Expired') {
+          <div class="done-message expiration-color">Rešenje do kog smo stigli nije potpuno.<br>Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.</div>
         }
       </div>
     </div>
@@ -48,18 +51,22 @@
   <div class="secondary-nav">
     <mat-divider />
     <div class="panel">
-      <div class="flex-row" style="width: 50%; justify-content: flex-end;">
+      <div class="flex-row gap" style="width: 50%; justify-content: flex-end;">
         <button matButton="filled" (click)="onSubmit()" [disabled]="!canSubmit()">
           <mat-icon>send</mat-icon>
           Pošalji elaborat
         </button>
-      </div>
-      <div class="flex-row" style="width: 50%; justify-content: flex-end;">
-        <button matButton (click)="onAbandon()">
-          <mat-icon>{{ isComplete() ? 'arrow_back' : 'close' }}</mat-icon>
-          {{ isComplete() ? 'Povratak na istoriju' : 'Napusti konverzaciju' }}
+        <button matButton="elevated" (click)="onAbandon()">
+          <mat-icon>{{ isDone() ? 'arrow_back' : 'close' }}</mat-icon>
+          {{ isDone() ? 'Pregled istorije' : 'Napusti elaboraciju' }}
         </button>
-        <a matButton [routerLink]="['/courses', courseId(), 'units', task().unitId]">
+      </div>
+      <div class="flex-row gap" style="width: 50%">
+        <button matButton="elevated" (click)="onStartNew()" [disabled]="rounds().length === 0">
+          <mat-icon>psychology</mat-icon>
+          Započni novu elaboraciju
+        </button>
+        <a [matButton]="isDone() ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId(), 'units', task().unitId]">
           <mat-icon>article</mat-icon>
           Lekcija
         </a>

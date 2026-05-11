@@ -68,7 +68,7 @@ export class ConceptElaborationComponent implements CanComponentDeactivate {
     if (this.mode().kind !== 'session') return true;
     const session = this.sessionRef();
     if (session && !session.isDirty()) return true;
-    return confirm('Konverzacija je u toku. Ako napustiš stranicu, pokušaj ostaje neobavljen i možeš ga nastaviti kasnije.');
+    return confirm('Elaboracija je u toku. Ako napustiš stranicu, pokušaj ostaje neobavljen i možeš ga nastaviti kasnije.');
   }
 
   startSession(): void {
@@ -93,6 +93,12 @@ export class ConceptElaborationComponent implements CanComponentDeactivate {
     const m = this.mode();
     if (m.kind !== 'session') return;
     this.loadTask(m.task.id);
+  }
+
+  onNewSessionRequested(): void {
+    const m = this.mode();
+    if (m.kind !== 'session') return;
+    this.mode.set({ kind: 'session', task: m.task, inProgress: null });
   }
 
   private loadTask(taskId: number): void {

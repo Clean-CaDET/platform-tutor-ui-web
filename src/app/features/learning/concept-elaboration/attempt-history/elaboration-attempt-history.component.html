@@ -17,11 +17,11 @@
         }
         <div class="transcript">
           @for (round of attempt.rounds; track round.order) {
-            <div class="turn turn-learner">
+            <div class="turn-learner">
               <pre class="plain-text">{{ round.elaborationContent }}</pre>
             </div>
             @if (round.feedbackContent) {
-              <div class="turn turn-system">
+              <div style="padding: 0 10px;">
                 <cc-markdown [data]="round.feedbackContent" />
               </div>
             }

@@ -48,11 +48,13 @@ export class ElaborationSessionComponent {
   readonly courseId = input.required<number>();
 
   readonly sessionEnded = output<void>();
+  readonly newSessionRequested = output<void>();
 
   readonly contentControl = new FormControl('', { nonNullable: true });
   private readonly contentValue = toSignal(this.contentControl.valueChanges, { initialValue: '' });
   private readonly lastSubmitted = signal('');
-  readonly isComplete = signal(false);
+  readonly status = signal('InProgress');
+  readonly isDone = computed(() => this.status() === 'Completed' || this.status() === 'Expired');
 
   private readonly userScrolled = signal(false);
   readonly scrollArea = viewChild<ElementRef<HTMLDivElement>>('scrollArea');
@@ -79,12 +81,12 @@ export class ElaborationSessionComponent {
       val !== this.lastSubmitted().trim() &&
       !this.isThinking() &&
       !this.isStreaming() &&
-      !this.isComplete()
+      this.status() === 'InProgress'
     );
   });
 
   readonly isDirty = computed(() =>
-    !this.isComplete() &&
+    this.status() === 'InProgress' &&
     (this.conversation.rounds().length > 0 || this.conversation.currentAttemptId() !== null)
   );
 
@@ -92,7 +94,7 @@ export class ElaborationSessionComponent {
     this.destroyRef.onDestroy(() => this.conversation.reset());
 
     effect(() => {
-      if (this.isThinking() || this.isStreaming() || this.isComplete()) {
+      if (this.isThinking() || this.isStreaming() || this.status() !== 'InProgress') {
         this.contentControl.disable({ emitEvent: false });
       } else {
         this.contentControl.enable({ emitEvent: false });
@@ -114,7 +116,7 @@ export class ElaborationSessionComponent {
 
     this.conversation.completed$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.isComplete.set(true));
+      .subscribe((attempt) => this.status.set(attempt.status));
 
     this.conversation.reconciled$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -145,8 +147,38 @@ export class ElaborationSessionComponent {
     this.conversation.submit(this.task().id, value);
   }
 
+  onStartNew(): void {
+    if (this.status() !== 'InProgress') {
+      this.resetForNewSession();
+      this.newSessionRequested.emit();
+      return;
+    }
+    if (!confirm('Započinjanjem nove elaboraciju prekidaš trenutnu. Da li ti je to želja?')) return;
+    const attemptId = this.conversation.currentAttemptId();
+    if (attemptId === null) {
+      this.resetForNewSession();
+      this.newSessionRequested.emit();
+      return;
+    }
+    this.service.abandon(attemptId).subscribe({
+      next: () => {
+        this.resetForNewSession();
+        this.newSessionRequested.emit();
+      },
+      error: () => this.notify.error('Greška pri napuštanju konverzacije.'),
+    });
+  }
+
+  private resetForNewSession(): void {
+    this.conversation.reset();
+    this.status.set('InProgress');
+    this.contentControl.setValue('');
+    this.lastSubmitted.set('');
+    this.userScrolled.set(false);
+  }
+
   onAbandon(): void {
-    if (this.isComplete()) {
+    if (this.rounds().length === 0 || this.isDone()) {
       this.sessionEnded.emit();
       return;
     }
@@ -179,13 +211,11 @@ export class ElaborationSessionComponent {
     this.service.get(this.task().id).subscribe({
       next: task => {
         const active = task.attempts.find(a => a.id === attemptId);
-        if (active && active.status === 'InProgress') {
-          this.conversation.seed(active);
-          const lastRound = [...active.rounds].sort((a, b) => a.order - b.order).at(-1);
-          if (lastRound) this.lastSubmitted.set(lastRound.elaborationContent);
-        } else {
-          this.isComplete.set(true);
-        }
+        if(!active) return;
+        this.status.set(active.status);
+        this.conversation.seed(active);
+        const lastRound = [...active.rounds].sort((a, b) => a.order - b.order).at(-1);
+        if (lastRound) this.lastSubmitted.set(lastRound.elaborationContent);
       },
     });
   }

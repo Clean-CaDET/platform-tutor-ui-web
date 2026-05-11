@@ -6,8 +6,7 @@ import { StreamChunk } from './model/stream-chunk.model';
 import { AttemptStatus } from './model/attempt-status.model';
 
 const SPECIAL_TOKENS: Record<string, string> = {
-  'STAGNATION_REDIRECT': '\nSlabo napredujemo. Razmisli da li je svrsishodnije da se posvetiš materijalima i produbljivanju razumevanja ispitivanog koncepta.',
-  'EXPIRED': '\nRešenje do kog smo stigli nije potpuno. Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.',
+  'STAGNATION_REDIRECT': '\n\nSlabo napredujemo. Razmisli da li je svrsishodnije da se posvetiš materijalima i produbljivanju razumevanja ispitivanog koncepta.',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -38,6 +37,10 @@ export class ConceptElaborationStreamService {
       parsed = JSON.parse(raw);
     } catch {
       return { kind: 'text', value: SPECIAL_TOKENS[raw] ?? raw };
+    }
+
+    if (typeof parsed === 'string') {
+      return { kind: 'text', value: SPECIAL_TOKENS[parsed] ?? parsed };
     }
 
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {

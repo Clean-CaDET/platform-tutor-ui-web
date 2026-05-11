@@ -7,33 +7,31 @@
   }
   @if (m.kind === 'history') {
     <div class="flex-row" style="flex-grow: 1; overflow: hidden;">
-      <div class="flex-col" style="width: 50%;">
-        <div class="flex-col scrollable-panel" style="flex: 30%">
-          <div style="max-width: 668px;">
-            <h2 style="margin: 0;">{{ m.task.title }}</h2>
-            <cc-markdown [data]="m.task.description" />
-          </div>
-        </div>
-        <mat-divider/>
-        <div class="flex-col scrollable-panel" style="flex: 70%">
-          <div style="max-width: 668px">
-            <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
-          </div>
+      <div class="flex-col scrollable-panel" style="width: 50%;">
+        <div style="max-width: 668px;">
+          <h2 style="margin: 0;">{{ m.task.title }}</h2>
+          <cc-markdown [data]="m.task.description" />
         </div>
       </div>
       <mat-divider vertical="true" />
-      <div style="width: 50%; background-color: var(--mat-sys-surface-container-high);"></div>
+      <div class="flex-col scrollable-panel" style="width: 50%; background-color: var(--mat-sys-surface-container-high);">
+        <div style="max-width: 668px; width: 100%;">
+          <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
+        </div>
+      </div>
     </div>
     <div class="secondary-nav">
       <mat-divider />
       <div class="panel">
-        <span class="spacer"></span>
+        <div class="flex-row gap" style="width: 50%; justify-content: flex-end;">
         @if (m.inProgress) {
           <button matButton="filled" (click)="continueSession()">
             <mat-icon>play_arrow</mat-icon>
             Dovrši staru elaboraciju
           </button>
         }
+        </div>
+        <div class="flex-row gap" style="width: 50%;">
         <button [matButton]="!m.inProgress && !m.hasCompleted ? 'filled' : 'elevated'" (click)="startSession()">
           <mat-icon>psychology</mat-icon>
           Započni novu elaboraciju
@@ -42,6 +40,7 @@
           <mat-icon>article</mat-icon>
           Lekcija
         </a>
+        </div>
       </div>
     </div>
   }
@@ -49,6 +48,7 @@
   @if (m.kind === 'session') {
     <cc-elaboration-session style="height: 100%;"
       #sessionRef [task]="m.task" [inProgress]="m.inProgress"
-      [courseId]="courseId" (sessionEnded)="onSessionEnded()" />
+      [courseId]="courseId" (sessionEnded)="onSessionEnded()"
+      (newSessionRequested)="onNewSessionRequested()" />
   }
 </div>

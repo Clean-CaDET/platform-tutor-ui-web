@@ -19,7 +19,7 @@ export class ElaborationAttemptHistoryComponent {
       case 'InProgress': return 'U toku';
       case 'Completed': return 'Rešen';
       case 'Abandoned': return 'Napušten';
-      case 'Expired': return 'Stigao do granice';
+      case 'Expired': return 'Istekao';
     }
   }
 }
