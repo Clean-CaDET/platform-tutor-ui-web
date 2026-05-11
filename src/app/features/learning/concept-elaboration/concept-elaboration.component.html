@@ -17,27 +17,28 @@
         <mat-divider/>
         <div class="flex-col scrollable-panel" style="flex: 70%">
           <div style="max-width: 668px">
-            <cc-elaboration-attempt-history [attempts]="m.completedAttempts" />
+            <cc-elaboration-attempt-history [attempts]="m.task.attempts" />
           </div>
         </div>
       </div>
       <mat-divider vertical="true" />
+      <div style="width: 50%; background-color: var(--mat-sys-surface-container-high);"></div>
     </div>
     <div class="secondary-nav">
       <mat-divider />
       <div class="panel">
         <span class="spacer"></span>
         @if (m.inProgress) {
-          <button matButton (click)="continueSession()">
+          <button matButton="filled" (click)="continueSession()">
             <mat-icon>play_arrow</mat-icon>
             Dovrši staru elaboraciju
           </button>
         }
-        <button matButton="filled" (click)="startSession()">
+        <button [matButton]="!m.inProgress && !m.hasCompleted ? 'filled' : 'elevated'" (click)="startSession()">
           <mat-icon>psychology</mat-icon>
           Započni novu elaboraciju
         </button>
-        <a matButton [routerLink]="['/courses', courseId, 'units', unitId]">
+        <a [matButton]="!m.inProgress && m.hasCompleted ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId, 'units', unitId]">
           <mat-icon>article</mat-icon>
           Lekcija
         </a>

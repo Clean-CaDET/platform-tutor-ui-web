@@ -3,7 +3,7 @@
 } @else {
   <mat-accordion>
     @for (attempt of attempts(); track attempt.id) {
-      <mat-expansion-panel>
+      <mat-expansion-panel [expanded]="attempt.status === 'InProgress'">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="status-chip">{{ statusLabel(attempt.status) }}</span>

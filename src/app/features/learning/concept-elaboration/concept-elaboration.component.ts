@@ -19,7 +19,7 @@ import { ElaborationSessionComponent } from './session/elaboration-session.compo
 
 type Mode =
   | { kind: 'loading' }
-  | { kind: 'history'; task: ConceptElaborationTask; completedAttempts: ConversationAttempt[]; inProgress: ConversationAttempt | null }
+  | { kind: 'history'; task: ConceptElaborationTask; inProgress: ConversationAttempt | null; hasCompleted: boolean }
   | { kind: 'session'; task: ConceptElaborationTask; inProgress: ConversationAttempt | null }
   | { kind: 'error'; message: string };
 
@@ -74,7 +74,13 @@ export class ConceptElaborationComponent implements CanComponentDeactivate {
   startSession(): void {
     const m = this.mode();
     if (m.kind !== 'history') return;
-    this.mode.set({ kind: 'session', task: m.task, inProgress: null });
+    if (m.inProgress) {
+      this.service.abandon(m.inProgress.id).subscribe({
+        next: () => this.mode.set({ kind: 'session', task: m.task, inProgress: null }),
+      });
+    } else {
+      this.mode.set({ kind: 'session', task: m.task, inProgress: null });
+    }
   }
 
   continueSession(): void {
@@ -100,12 +106,11 @@ export class ConceptElaborationComponent implements CanComponentDeactivate {
 
   private setModeFromTask(task: ConceptElaborationTask): void {
     this.title.setTitle(`${task.title} - Tutor`);
-    const completedAttempts = task.attempts.filter(a => a.status !== 'InProgress');
     const inProgress = task.attempts.find(a => a.status === 'InProgress') ?? null;
-    if (completedAttempts.length > 0) {
-      this.mode.set({ kind: 'history', task, completedAttempts, inProgress });
+    if (task.attempts.length > 0) {
+      this.mode.set({ kind: 'history', task, inProgress, hasCompleted: task.attempts.find(a => a.status === 'Completed') != null });
     } else {
-      this.mode.set({ kind: 'session', task, inProgress });
+      this.mode.set({ kind: 'session', task, inProgress: null });
     }
   }
 }
