@@ -7,6 +7,7 @@ import { AttemptStatus } from './model/attempt-status.model';
 
 const SPECIAL_TOKENS: Record<string, string> = {
   'STAGNATION_REDIRECT': '\n\nSlabo napredujemo. Razmisli da li je svrsishodnije da se posvetiš materijalima i produbljivanju razumevanja ispitivanog koncepta.',
+  'PUSH': '\n\nRevidiraj tekst iznad i unapredi postojeći elaborat.',
 };
 
 @Injectable({ providedIn: 'root' })

@@ -40,13 +40,22 @@
   margin: 10px 10px 0 10px;
 }
 
-.plain-text {
+.learner-text {
   white-space: pre-wrap;
   word-break: break-word;
   font-family: inherit;
   font-size: 14px;
   line-height: 1.5;
-  margin: 0;
+}
+
+.plain-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.5;
+  margin-block-start: 1em;
+  padding-left: 30px;
 }
 
 .thinking-indicator {
@@ -61,7 +70,6 @@
   margin: 10px;
   padding: 10px;
   border-radius: 10px;
-  font-weight: 500;
 }
 
 .completion-color {

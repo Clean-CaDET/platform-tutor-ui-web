@@ -10,7 +10,11 @@
       <mat-divider/>
       <div class="flex-col scrollable-panel" style="flex: 70%">
         <div style="max-width: 668px; width: 100%;">
-          <small><i>Objasni svojim rečima, pošalji, analiziraju povratnu informaciju i iterativno unapredi elaborat.</i></small>
+          <small><i>
+            1. Objasni svojim rečima i pošalji (Ctrl+Enter)<br>
+            2. Analiziraju povratnu informaciju, koja se fokusira na par odabranih nedostataka<br>
+            3. Unapredi postojeći elaborat bez uklanjanja ispravnog teksta i ponovi proces
+          </i></small>
           <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;">
             <mat-label>Tvoj elaborat</mat-label>
             <textarea matInput #elaborationTextarea [formControl]="contentControl" rows="15" (keydown)="onKeydown($event)"></textarea>
@@ -23,7 +27,7 @@
       <div class="transcript">
         @for (round of rounds(); track $index; let first = $first) {
           <div class="turn-learner">
-            <pre class="plain-text">{{ round.elaborationContent }}</pre>
+            <pre class="learner-text">{{ round.elaborationContent }}</pre>
           </div>
           @if (round.feedbackContent !== null) {
             <div style="padding: 0 10px;">
@@ -35,15 +39,21 @@
             </div>
           } @else if (isThinking()) {
             <div class="thinking-indicator" aria-live="polite">
-              <mat-spinner [diameter]="20" [strokeWidth]="2" /> Ocenjujem...
+              <mat-spinner [diameter]="20" [strokeWidth]="2" /> Analiziram elaborat...
             </div>
           }
         }
         @if (status() === 'Completed') {
-          <div class="done-message completion-color">Elaboracija uspešno zaokružena.</div>
+          <div class="done-message completion-color">
+            <b>Elaboracija uspešno zaokružena.</b><br>
+            Ako uz navedeno možeš za svaki deo svog elaborata da ponudiš konkretan primer, računaj na visok uspeh na usmenom.
+          </div>
         }
         @if (status() === 'Expired') {
-          <div class="done-message expiration-color">Rešenje do kog smo stigli nije potpuno.<br>Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.</div>
+          <div class="done-message expiration-color">
+            <b>Rešenje do kog smo stigli nije potpuno.</b><br>
+            Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.
+          </div>
         }
       </div>
     </div>
