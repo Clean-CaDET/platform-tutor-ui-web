@@ -10,11 +10,6 @@
             <span class="started-at">{{ attempt.startedAt | date:'dd.MM.yyyy. HH:mm' }}</span>
           </mat-panel-title>
         </mat-expansion-panel-header>
-        @if (attempt.summary) {
-          <div class="attempt-summary">
-            <cc-markdown [data]="attempt.summary" [clipboard]="false" [lineNumbers]="false" />
-          </div>
-        }
         <div class="transcript">
           @for (round of attempt.rounds; track round.order) {
             <div class="turn-learner">

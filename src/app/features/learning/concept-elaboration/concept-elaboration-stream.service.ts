@@ -59,7 +59,7 @@ export class ConceptElaborationStreamService {
           kind: 'metadata',
           attemptId: obj['attemptid'] as number,
           status: obj['status'] as AttemptStatus,
-          summary: (obj['summary'] as string | null) ?? null,
+          finalGrade: (obj['finalGrade'] as number | null) ?? null,
         };
       }
     }

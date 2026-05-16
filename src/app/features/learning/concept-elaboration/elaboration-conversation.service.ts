@@ -108,7 +108,7 @@ export class ElaborationConversationService {
     }
   }
 
-  private handleMetadata(chunk: { kind: 'metadata'; attemptId: number; status: AttemptStatus; summary: string | null; }): void {
+  private handleMetadata(chunk: { kind: 'metadata'; attemptId: number; status: AttemptStatus; finalGrade: number | null; }): void {
     this._isThinking.set(false);
     this._isStreaming.set(false);
     this._currentAttemptId.set(chunk.attemptId);
@@ -118,12 +118,12 @@ export class ElaborationConversationService {
     }
   }
 
-  private synthesizeTerminalAttempt(chunk: { attemptId: number; status: AttemptStatus; summary: string | null; }): ConversationAttempt {
+  private synthesizeTerminalAttempt(chunk: { attemptId: number; status: AttemptStatus; finalGrade: number | null; }): ConversationAttempt {
     return {
       id: chunk.attemptId,
       conceptElaborationTaskId: this.currentTaskId,
       status: chunk.status,
-      summary: chunk.summary,
+      finalGrade: chunk.finalGrade,
       rounds: this._rounds(),
     };
   }

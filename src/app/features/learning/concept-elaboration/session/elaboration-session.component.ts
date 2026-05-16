@@ -54,6 +54,7 @@ export class ElaborationSessionComponent {
   private readonly contentValue = toSignal(this.contentControl.valueChanges, { initialValue: '' });
   private readonly lastSubmitted = signal('');
   readonly status = signal('InProgress');
+  readonly finalGrade = signal(0);
   readonly isDone = computed(() => this.status() === 'Completed' || this.status() === 'Expired');
 
   private readonly userScrolled = signal(false);
@@ -116,7 +117,10 @@ export class ElaborationSessionComponent {
 
     this.conversation.completed$
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((attempt) => this.status.set(attempt.status));
+      .subscribe(attempt => {
+        this.status.set(attempt.status);
+        this.finalGrade.set(Math.round(attempt.finalGrade! * 100));
+      });
 
     this.conversation.reconciled$
       .pipe(takeUntilDestroyed(this.destroyRef))

@@ -7,6 +7,6 @@ export interface ConversationAttempt {
   status: AttemptStatus;
   startedAt?: string;
   completedAt?: string;
-  summary: string | null;
+  finalGrade: number | null;
   rounds: ConversationRound[];
 }

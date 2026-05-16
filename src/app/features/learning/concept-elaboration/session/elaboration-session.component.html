@@ -10,20 +10,32 @@
       <mat-divider/>
       <div class="flex-col scrollable-panel" style="flex: 70%">
         <div style="max-width: 668px; width: 100%;">
-          <small><i>
-            1. Objasni svojim rečima i pošalji (Ctrl+Enter)<br>
-            2. Analiziraju povratnu informaciju, koja se fokusira na par odabranih nedostataka<br>
-            3. Unapredi postojeći elaborat bez uklanjanja ispravnog teksta i ponovi proces
-          </i></small>
           <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;">
             <mat-label>Tvoj elaborat</mat-label>
-            <textarea matInput #elaborationTextarea [formControl]="contentControl" rows="15" (keydown)="onKeydown($event)"></textarea>
+            <textarea matInput #elaborationTextarea [formControl]="contentControl" rows="18" (keydown)="onKeydown($event)"></textarea>
           </mat-form-field>
         </div>
       </div>
     </div>
     <mat-divider vertical="true" />
     <div class="flex-col transcript-container" #scrollArea (scroll)="onScrollAreaScroll($event)">
+      @if (!rounds().length) {
+        <div style="height: 100%; margin: auto;">
+          <h2 style="font-weight: 400; padding-left: 20px; margin-top: 10px;">Protokol elaboracije</h2>
+          <ol>
+            <li>Svojim rečima formiraj odgovor na pitanje kao da si na ispitu</li>
+            <li>Pošalji na analizu (Ctrl+Enter)</li>
+            <li>
+              AI će oceniti tvoje rešenje i ponuditi povratnu informaciju<br>
+              AI neće komentarisati odjednom sve nedostatke već par odabranih<br>
+              <b>Napomena</b>: AI može da pogreši i da generiše neadekvatan tekst
+            </li>
+            <li>Analiziraj povratnu informaciju</li>
+            <li>Unapredi postojeći elaborat bez uklanjanja ispravnog teksta</li>
+            <li>Ponovi korake 2-6 dok ne stigneš do dobrog elaborata ili ne iscrpiš pokušaje</li>
+          </ol>
+        </div>
+      }
       <div class="transcript">
         @for (round of rounds(); track $index; let first = $first) {
           <div class="turn-learner">
@@ -51,7 +63,8 @@
         }
         @if (status() === 'Expired') {
           <div class="done-message expiration-color">
-            <b>Rešenje do kog smo stigli nije potpuno.</b><br>
+            <b>Rešenje do kog smo stigli nosi oko {{ finalGrade() }}%.</b><br>
+            Međutim, na ispitu bi ovaj procenat verovatno bio niži jer je više razmena trebalo da stignemo do ovog rezultata.<br>
             Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.
           </div>
         }
