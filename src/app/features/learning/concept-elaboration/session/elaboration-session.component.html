@@ -1,0 +1,99 @@
+<div class="flex-col" style="height: 100%;">
+  <div class="flex-row" style="flex-grow: 1; overflow: hidden;">
+    <div class="flex-col" style="width: 50%;">
+      <div class="flex-col scrollable-panel" style="flex: 30%">
+        <div style="max-width: 668px;">
+          <h2 style="margin: 0;">{{ task().title }}</h2>
+          <cc-markdown [data]="task().description" />
+        </div>
+      </div>
+      <mat-divider/>
+      <div class="flex-col scrollable-panel" style="flex: 70%">
+        <div style="max-width: 668px; width: 100%;">
+          <mat-form-field appearance="fill" style="width: 100%; margin-top: 10px;">
+            <mat-label>Tvoj elaborat</mat-label>
+            <textarea matInput #elaborationTextarea [formControl]="contentControl" rows="18" (keydown)="onKeydown($event)"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <mat-divider vertical="true" />
+    <div class="flex-col transcript-container" #scrollArea (scroll)="onScrollAreaScroll($event)">
+      @if (!rounds().length) {
+        <div style="height: 100%; margin: auto;">
+          <h2 style="font-weight: 400; padding-left: 20px; margin-top: 10px;">Protokol elaboracije</h2>
+          <ol>
+            <li>Svojim rečima formiraj odgovor na pitanje kao da si na ispitu</li>
+            <li>Pošalji na analizu (Ctrl+Enter)</li>
+            <li>
+              AI će oceniti tvoje rešenje i ponuditi povratnu informaciju<br>
+              AI neće komentarisati odjednom sve nedostatke već par odabranih<br>
+              <b>Napomena</b>: AI može da pogreši i da generiše neadekvatan tekst
+            </li>
+            <li>Analiziraj povratnu informaciju</li>
+            <li>Unapredi postojeći elaborat bez uklanjanja ispravnog teksta</li>
+            <li>Ponovi korake 2-6 dok ne stigneš do dobrog elaborata ili ne iscrpiš pokušaje</li>
+          </ol>
+        </div>
+      }
+      <div class="transcript">
+        @for (round of rounds(); track $index; let first = $first) {
+          <div class="turn-learner">
+            <pre class="learner-text">{{ round.elaborationContent }}</pre>
+          </div>
+          @if (round.feedbackContent !== null) {
+            <div style="padding: 0 10px;">
+              @if (round.isSystemStreaming) {
+                <pre class="plain-text">{{ round.feedbackContent }}</pre>
+              } @else {
+                <cc-markdown [data]="round.feedbackContent" />
+              }
+            </div>
+          } @else if (isThinking()) {
+            <div class="thinking-indicator" aria-live="polite">
+              <mat-spinner [diameter]="20" [strokeWidth]="2" /> Analiziram elaborat...
+            </div>
+          }
+        }
+        @if (status() === 'Completed') {
+          <div class="done-message completion-color">
+            <b>Elaboracija uspešno zaokružena.</b><br>
+            Ako uz navedeno možeš za svaki deo svog elaborata da ponudiš konkretan primer, računaj na visok uspeh na usmenom.
+          </div>
+        }
+        @if (status() === 'Expired') {
+          <div class="done-message expiration-color">
+            <b>Rešenje do kog smo stigli nosi oko {{ finalGrade() }}%.</b><br>
+            Međutim, na ispitu bi ovaj procenat verovatno bio niži jer je više razmena trebalo da stignemo do ovog rezultata.<br>
+            Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+  <div class="secondary-nav">
+    <mat-divider />
+    <div class="panel">
+      <div class="flex-row gap" style="width: 50%; justify-content: flex-end;">
+        <button matButton="filled" (click)="onSubmit()" [disabled]="!canSubmit()">
+          <mat-icon>send</mat-icon>
+          Pošalji elaborat
+        </button>
+        <button matButton="elevated" (click)="onAbandon()">
+          <mat-icon>{{ isDone() ? 'arrow_back' : 'close' }}</mat-icon>
+          {{ isDone() ? 'Pregled istorije' : 'Napusti elaboraciju' }}
+        </button>
+      </div>
+      <div class="flex-row gap" style="width: 50%">
+        <button matButton="elevated" (click)="onStartNew()" [disabled]="rounds().length === 0">
+          <mat-icon>psychology</mat-icon>
+          Započni novu elaboraciju
+        </button>
+        <a [matButton]="isDone() ? 'filled' : 'elevated'" [routerLink]="['/courses', courseId(), 'units', task().unitId]">
+          <mat-icon>article</mat-icon>
+          Lekcija
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,242 @@
+<div class="flex-col">
+  @if (!isEditing()) {
+    <div style="margin: 10px;">
+      <button matIconButton (click)="add()"
+        [class.active-tab]="!summaries().length">
+        <mat-icon>add</mat-icon>
+      </button>
+      <span>&nbsp;&nbsp;Kroz elaboraciju koncepta, student artikuliše razumevanje i razvija sposobnost verbalizacije razumevanja.</span>
+    </div>
+  }
+
+  @for (item of summaries(); track item.id) {
+    <mat-card appearance="outlined" style="margin: 10px;">
+      @if (!isEditing() || editId() !== item.id) {
+        <div>
+          <div class="flex-row gap theme-highlight-primary" style="align-items: center;">
+            <div style="flex-grow: 1; padding-left: 10px;">
+              <b>{{ item.order }}. {{ item.title }}</b>
+            </div>
+            @if (!isEditing()) {
+              <button matIconButton (click)="edit(item)" matTooltip="Ažuriraj">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+            <button matIconButton (click)="delete(item.id!)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="flex-col gap" style="padding: 10px;">
+            @if (item.description) {
+              <small>{{ item.description }}</small>
+            }
+            <cc-markdown [data]="item.conceptRecord.canonicalDefinition" />
+
+            @if (item.conceptRecord.keyPropositions.length) {
+              <small>
+                <b>Ključne propozicije:</b>
+                <ul>
+                  @for (kp of item.conceptRecord.keyPropositions; track kp.key) {
+                    <li><code>{{ kp.key }}</code> {{ kp.statement }}</li>
+                  }
+                </ul>
+              </small>
+            }
+
+            @if (item.conceptRecord.keyRelations.length) {
+              <small>
+                <b>Ključne relacije:</b>
+                <ul>
+                  @for (kr of item.conceptRecord.keyRelations; track kr.key) {
+                    <li>
+                      <code>{{ kr.sourceKey }} → {{ kr.targetKey }}</code>:
+                      {{ kr.mechanism }}
+                    </li>
+                  }
+                </ul>
+              </small>
+            }
+
+            @if (item.conceptRecord.commonMisconceptions.length) {
+              <small>
+                <b>Česte zablude:</b>
+                <ul>
+                  @for (cm of item.conceptRecord.commonMisconceptions; track cm.key) {
+                    <li><code>{{ cm.key }}</code> {{ cm.description }}</li>
+                  }
+                </ul>
+              </small>
+            }
+          </div>
+        </div>
+      } @else {
+        <div>
+          <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
+            <span style="flex-grow: 1; padding-left: 10px;"><b>{{ form.get('id')?.value ? 'Ažuriranje' : 'Nova elaboracija' }}</b></span>
+            <span class="flex-row gap">
+              <button matMiniFab [disabled]="form.invalid" (click)="saveOrUpdate()">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button matMiniFab class="warn-fab" (click)="cancel()">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </span>
+          </div>
+
+          <form [formGroup]="form" class="flex-col gap" style="padding: 10px;">
+            <div class="flex-row gap">
+              <mat-form-field style="flex-grow: 1;">
+                <mat-label>Naslov</mat-label>
+                <input matInput formControlName="title">
+              </mat-form-field>
+              <mat-form-field style="width: 120px;">
+                <mat-label>Redosled</mat-label>
+                <input matInput type="number" formControlName="order">
+              </mat-form-field>
+            </div>
+            <cc-markdown-editor
+              label="Opis zadatka elaboracije (ovo student vidi)"
+              [text]="form.get('description')?.value ?? ''"
+              (textChange)="onDescriptionChange($event)"
+            />
+            <div class="theme-highlight-flat" style="margin: 0 -10px; padding: 10px;">
+              <b>Zapis koncepta</b> (student ne vidi)
+            </div>
+            <div formGroupName="conceptRecord" class="flex-col gap">
+              <mat-form-field>
+                <mat-label>
+                  Kanonska definicija
+                  <mat-icon matTooltip="Sveobuhvatni opis koncepta (npr. iz udžbenika ili savršen odgovor studenta). Ne koristi ga LLM, već služi autoru kao pomoć za definisanje elemenata koje LLM koristi.">help_outline</mat-icon>
+                </mat-label>
+                <textarea matInput formControlName="canonicalDefinition" rows="5" placeholder="Sveobuhvatni opis koncepta (npr. iz udžbenika ili savršen odgovor studenta). Ne koristi ga LLM, već služi autoru kao pomoć za definisanje elemenata koje LLM koristi."></textarea>
+              </mat-form-field>
+
+              <!-- Key Propositions -->
+              <div>
+                <b>Ključne propozicije</b>
+                <mat-icon matTooltip="Samostalne, jasne i proverljive tvrdnje koje izražavaju jedan pojam, pravilo, odgovornost, svojstvo, stanje ili ishod u posmatranom domenu. Dobro formulisana KP se razume bez oslanjanja na druge KP, ne objašnjava odnose prema drugim tvrdnjama, ne sadrži uzročno-posledične lance i ne služi kao primer, komentar ili obrazloženje, već kao stabilan čvor znanja u konceptualnom modelu.">help_outline</mat-icon>:
+              </div>
+              <div formArrayName="keyPropositions" class="flex-col gap">
+                @for (ctrl of keyPropositions.controls; track $index; let i = $index) {
+                  <div [formGroup]="$any(ctrl)" class="flex-row gap" style="align-items: center;">
+                    <mat-form-field style="width: 90px;">
+                      <mat-label>Ključ</mat-label>
+                      <input matInput formControlName="key">
+                      @if ($any(ctrl).get('key')?.errors?.['duplicateKey']) {
+                        <mat-error>Ključ mora biti jedinstven</mat-error>
+                      }
+                    </mat-form-field>
+                    <mat-form-field style="flex-grow: 1;">
+                      <mat-label>Iskaz</mat-label>
+                      <input matInput formControlName="statement">
+                    </mat-form-field>
+                    <span [matTooltip]="isKpReferencedByKr(i) ? 'Obriši prvo relacije koje koriste propoziciju' : 'Obriši'">
+                      <button matIconButton (click)="removeItem(keyPropositions, i)" [disabled]="isKpReferencedByKr(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </span>
+                  </div>
+                }
+                <button matMiniFab (click)="addKeyProposition()" matTooltip="Dodaj propoziciju">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <mat-divider />
+
+              <!-- Key Relations -->
+              <div>
+                <b>Ključne relacije</b>
+                <mat-icon matTooltip="Eksplicitne, usmerene veze između dve KP, gde svaka veza objašnjava mehanizam kojim su te dve tvrdnje povezane. KR ne treba da uvodi novu samostalnu temu, već da pokaže da li jedna KP omogućava, uslovljava, ograničava, objašnjava, podržava, razrađuje ili posledično povezuje drugu KP. Svaki KR treba da predstavlja značajnu vezu u strukturi znanja u datom domenu.">help_outline</mat-icon>:
+              </div>
+              <div formArrayName="keyRelations" class="flex-col gap">
+                @for (ctrl of keyRelations.controls; track $index; let i = $index) {
+                  <div [formGroup]="$any(ctrl)" class="flex-col gap">
+                    <div class="flex-row gap" style="align-items: center;">
+                      <mat-form-field style="width: 90px;">
+                        <mat-label>Ključ</mat-label>
+                        <input matInput formControlName="key">
+                        @if ($any(ctrl).get('key')?.errors?.['duplicateKey']) {
+                          <mat-error>Ključ mora biti jedinstven</mat-error>
+                        }
+                      </mat-form-field>
+                      <mat-form-field style="flex: 1;">
+                        <mat-label>Izvorna propozicija</mat-label>
+                        <mat-select formControlName="sourceKpCtrl">
+                          @for (kp of keyPropositions.controls; track $index) {
+                            <mat-option [value]="kp">{{ kp.get('key')?.value }}: {{ kp.get('statement')?.value || '(prazno)' }}</mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      <mat-form-field style="flex: 1;">
+                        <mat-label>Ciljna propozicija</mat-label>
+                        <mat-select formControlName="targetKpCtrl">
+                          @for (kp of keyPropositions.controls; track $index) {
+                            <mat-option [value]="kp">{{ kp.get('key')?.value }}: {{ kp.get('statement')?.value || '(prazno)' }}</mat-option>
+                          }
+                        </mat-select>
+                      </mat-form-field>
+                      <button matIconButton (click)="removeItem(keyRelations, i)" matTooltip="Obriši">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <mat-form-field>
+                      <mat-label>Mehanizam</mat-label>
+                      <input matInput formControlName="mechanism">
+                    </mat-form-field>
+                    @if (i !== keyRelations.length - 1) {
+                      <mat-divider />
+                    }
+                  </div>
+                }
+                <button matMiniFab (click)="addKeyRelation()" matTooltip="Dodaj relaciju"
+                  [disabled]="keyPropositions.length < 2">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <mat-divider />
+
+              <!-- Common Misconceptions -->
+              <b>Česte zablude:</b>
+              <div formArrayName="commonMisconceptions" class="flex-col gap">
+                @for (ctrl of commonMisconceptions.controls; track $index; let i = $index) {
+                  <div [formGroup]="$any(ctrl)" class="flex-col gap">
+                    <div class="flex-row gap" style="align-items: center;">
+                      <mat-form-field style="width: 90px;">
+                        <mat-label>Ključ</mat-label>
+                        <input matInput formControlName="key">
+                        @if ($any(ctrl).get('key')?.errors?.['duplicateKey']) {
+                          <mat-error>Ključ mora biti jedinstven</mat-error>
+                        }
+                      </mat-form-field>
+                      <mat-form-field style="flex-grow: 1;">
+                        <mat-label>Opis zablude</mat-label>
+                        <input matInput formControlName="description">
+                      </mat-form-field>
+                      <button matIconButton (click)="removeItem(commonMisconceptions, i)" matTooltip="Obriši">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    <mat-form-field>
+                      <mat-label>Korekcija</mat-label>
+                      <input matInput formControlName="correction">
+                    </mat-form-field>
+                    @if (i !== commonMisconceptions.length - 1) {
+                      <mat-divider />
+                    }
+                  </div>
+                }
+                <button matMiniFab (click)="addCommonMisconception()" matTooltip="Dodaj zabludu">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
+    </mat-card>
+  }
+
+</div>

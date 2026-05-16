@@ -1,0 +1,28 @@
+@if (attempts().length === 0) {
+  <p class="empty">Nema prethodnih pokušaja.</p>
+} @else {
+  <mat-accordion>
+    @for (attempt of attempts(); track attempt.id) {
+      <mat-expansion-panel [expanded]="attempt.status === 'InProgress'">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="status-chip">{{ statusLabel(attempt.status) }}</span>
+            <span class="started-at">{{ attempt.startedAt | date:'dd.MM.yyyy. HH:mm' }}</span>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="transcript">
+          @for (round of attempt.rounds; track round.order) {
+            <div class="turn-learner">
+              <pre class="plain-text">{{ round.elaborationContent }}</pre>
+            </div>
+            @if (round.feedbackContent) {
+              <div style="padding: 0 10px;">
+                <cc-markdown [data]="round.feedbackContent" />
+              </div>
+            }
+          }
+        </div>
+      </mat-expansion-panel>
+    }
+  </mat-accordion>
+}

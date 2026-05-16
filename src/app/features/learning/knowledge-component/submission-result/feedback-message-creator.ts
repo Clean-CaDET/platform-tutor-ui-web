@@ -4,10 +4,7 @@ export const welcomeMessage = 'Zamisli se nad pitanjem...';
 
 const pumpMessages: Record<string, string[]> = {
   simpleRetry: [
-    'Odgovor nije tačan. Pokušaj ponovo.',
-    'Nije tačno. Razmisli malo i probaj ponovo.',
-    'Nije baš to. Probaj još jednom.',
-    'Odgovor nije baš tačan. Pokušaj ponovo.',
+    'Nije baš to. Razmisli malo i probaj opet.',
   ],
   attentionRedirection: [
     'Odgovor nije tačan. Pažljivo pročitaj tekst pitanja i probaj ponovo.',
