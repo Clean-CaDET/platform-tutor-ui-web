@@ -1,26 +1,17 @@
-export interface KeyProposition {
-  key: string;
-  statement: string;
-}
-
-export interface CommonMisconception {
-  key: string;
+export interface Misconception {
   description: string;
   correction: string;
 }
 
-export interface KeyRelation {
+export interface KeyProposition {
   key: string;
-  sourceKey: string;
-  targetKey: string;
-  mechanism: string;
+  statement: string;
+  misconception?: Misconception | null;
 }
 
 export interface ConceptRecord {
   canonicalDefinition: string;
   keyPropositions: KeyProposition[];
-  commonMisconceptions: CommonMisconception[];
-  keyRelations: KeyRelation[];
 }
 
 export interface ConceptElaborationTask {

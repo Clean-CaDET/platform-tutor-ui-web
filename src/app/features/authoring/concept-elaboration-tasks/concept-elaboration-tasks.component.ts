@@ -6,12 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { filter, switchMap } from 'rxjs';
-import { ConceptElaborationTask, KeyProposition, CommonMisconception, KeyRelation } from './model/concept-elaboration-task.model';
+import { ConceptElaborationTask, KeyProposition, Misconception } from './model/concept-elaboration-task.model';
 import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-task-authoring.service';
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
@@ -22,7 +20,7 @@ import { MarkdownEditorComponent } from '../../../shared/markdown/markdown-edito
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule,
-    MatFormFieldModule, MatInputModule, MatSelectModule, MatDividerModule,
+    MatFormFieldModule, MatInputModule,
     MatTooltipModule,
     CcMarkdownComponent, MarkdownEditorComponent,
   ],
@@ -66,8 +64,6 @@ export class ConceptElaborationTasksComponent {
       conceptRecord: {
         canonicalDefinition: '',
         keyPropositions: [],
-        commonMisconceptions: [],
-        keyRelations: [],
       },
     };
     this.summaries.update(s => [blank, ...s]);
@@ -88,20 +84,6 @@ export class ConceptElaborationTasksComponent {
     const kpArray = new FormArray(kpGroups);
     kpGroups.forEach(g => this.attachUniqueKeyValidator(g, kpArray));
 
-    const cmGroups = [...cr.commonMisconceptions].sort((a, b) => a.key.localeCompare(b.key))
-      .map(cm => this.createCmGroup(cm));
-    const cmArray = new FormArray(cmGroups);
-    cmGroups.forEach(g => this.attachUniqueKeyValidator(g, cmArray));
-
-    const krGroups = [...cr.keyRelations].sort((a, b) => a.key.localeCompare(b.key))
-      .map(kr => {
-        const sourceKpGroup = kpGroups.find(g => g.get('key')?.value === kr.sourceKey) ?? null;
-        const targetKpGroup = kpGroups.find(g => g.get('key')?.value === kr.targetKey) ?? null;
-        return this.createKrGroup(sourceKpGroup, targetKpGroup, kr);
-      });
-    const krArray = new FormArray(krGroups);
-    krGroups.forEach(g => this.attachUniqueKeyValidator(g, krArray));
-
     this.form = new FormGroup({
       id: new FormControl(task.id),
       title: new FormControl(task.title, { validators: [Validators.required, Validators.maxLength(200)] }),
@@ -110,8 +92,6 @@ export class ConceptElaborationTasksComponent {
       conceptRecord: new FormGroup({
         canonicalDefinition: new FormControl(cr.canonicalDefinition),
         keyPropositions: kpArray,
-        commonMisconceptions: cmArray,
-        keyRelations: krArray,
       }),
     });
     this.isEditing.set(true);
@@ -119,26 +99,20 @@ export class ConceptElaborationTasksComponent {
   }
 
   private createKpGroup(kp: KeyProposition): FormGroup {
-    return new FormGroup({
+    const group: FormGroup = new FormGroup({
       key: new FormControl(kp.key, { validators: [Validators.required] }),
       statement: new FormControl(kp.statement, { validators: [Validators.required] }),
     });
+    if (kp.misconception) {
+      group.addControl('misconception', this.createMisconceptionGroup(kp.misconception));
+    }
+    return group;
   }
 
-  private createCmGroup(cm: CommonMisconception): FormGroup {
+  private createMisconceptionGroup(m?: Misconception): FormGroup {
     return new FormGroup({
-      key: new FormControl(cm.key, { validators: [Validators.required] }),
-      description: new FormControl(cm.description, { validators: [Validators.required] }),
-      correction: new FormControl(cm.correction, { validators: [Validators.required] }),
-    });
-  }
-
-  private createKrGroup(sourceKpGroup: FormGroup | null, targetKpGroup: FormGroup | null, kr: Partial<KeyRelation>): FormGroup {
-    return new FormGroup({
-      key: new FormControl(kr.key ?? '', { validators: [Validators.required] }),
-      sourceKpCtrl: new FormControl(sourceKpGroup, { validators: [Validators.required] }),
-      targetKpCtrl: new FormControl(targetKpGroup, { validators: [Validators.required] }),
-      mechanism: new FormControl(kr.mechanism ?? '', { validators: [Validators.required] }),
+      description: new FormControl(m?.description ?? '', { validators: [Validators.required] }),
+      correction: new FormControl(m?.correction ?? '', { validators: [Validators.required] }),
     });
   }
 
@@ -168,8 +142,6 @@ export class ConceptElaborationTasksComponent {
 
   get conceptRecord(): FormGroup { return this.form.get('conceptRecord') as FormGroup; }
   get keyPropositions(): FormArray { return this.conceptRecord.get('keyPropositions') as FormArray; }
-  get commonMisconceptions(): FormArray { return this.conceptRecord.get('commonMisconceptions') as FormArray; }
-  get keyRelations(): FormArray { return this.conceptRecord.get('keyRelations') as FormArray; }
 
   addKeyProposition(): void {
     const group = this.createKpGroup({ key: this.nextKey(this.keyPropositions, 'P'), statement: '' });
@@ -177,16 +149,12 @@ export class ConceptElaborationTasksComponent {
     this.keyPropositions.push(group);
   }
 
-  addCommonMisconception(): void {
-    const group = this.createCmGroup({ key: this.nextKey(this.commonMisconceptions, 'M'), description: '', correction: '' });
-    this.attachUniqueKeyValidator(group, this.commonMisconceptions);
-    this.commonMisconceptions.push(group);
+  addMisconception(kpGroup: FormGroup): void {
+    kpGroup.addControl('misconception', this.createMisconceptionGroup());
   }
 
-  addKeyRelation(): void {
-    const group = this.createKrGroup(null, null, { key: this.nextKey(this.keyRelations, 'R') });
-    this.attachUniqueKeyValidator(group, this.keyRelations);
-    this.keyRelations.push(group);
+  removeMisconception(kpGroup: FormGroup): void {
+    kpGroup.removeControl('misconception');
   }
 
   onDescriptionChange(value: string): void {
@@ -197,14 +165,6 @@ export class ConceptElaborationTasksComponent {
 
   removeItem(array: FormArray, index: number): void {
     array.removeAt(index);
-  }
-
-  isKpReferencedByKr(index: number): boolean {
-    const kpGroup = this.keyPropositions.at(index);
-    return this.keyRelations.controls.some(ctrl => {
-      const kr = ctrl as FormGroup;
-      return kr.get('sourceKpCtrl')?.value === kpGroup || kr.get('targetKpCtrl')?.value === kpGroup;
-    });
   }
 
   delete(id: number): void {
@@ -253,17 +213,15 @@ export class ConceptElaborationTasksComponent {
       description: v.description,
       conceptRecord: {
         canonicalDefinition: v.conceptRecord.canonicalDefinition ?? "",
-        keyPropositions: v.conceptRecord.keyPropositions,
-        commonMisconceptions: v.conceptRecord.commonMisconceptions,
-        keyRelations: this.keyRelations.controls.map(ctrl => {
-          const krGroup = ctrl as FormGroup;
-          const sourceKpGroup = krGroup.get('sourceKpCtrl')?.value as FormGroup;
-          const targetKpGroup = krGroup.get('targetKpCtrl')?.value as FormGroup;
+        keyPropositions: this.keyPropositions.controls.map(ctrl => {
+          const kpGroup = ctrl as FormGroup;
+          const misc = kpGroup.get('misconception') as FormGroup | null;
           return {
-            key: krGroup.get('key')?.value,
-            sourceKey: sourceKpGroup?.get('key')?.value ?? '',
-            targetKey: targetKpGroup?.get('key')?.value ?? '',
-            mechanism: krGroup.get('mechanism')?.value,
+            key: kpGroup.get('key')?.value,
+            statement: kpGroup.get('statement')?.value,
+            misconception: misc
+              ? { description: misc.get('description')?.value, correction: misc.get('correction')?.value }
+              : null,
           };
         }),
       },
