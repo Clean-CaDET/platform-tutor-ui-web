@@ -42,10 +42,10 @@
     <mat-divider vertical="true" style="border-width: 3px;" />
   }
   @if (selectedStep(); as step) {
-    <div class="flex-col main-panel">
+    <div class="flex-col main-panel" [class.split-enabled]="splittable()">
       @if (!isUnanswered(step)) {
         <div class="flex-col scrollable-content">
-          <div style="padding: 10px;" id="text">
+          <div class="text-panel" id="text">
             <cc-markdown [data]="selectedTask()?.description ?? ''" [lineNumbers]="true" [modalImages]="false" />
             <h3>Uputstvo za formatiranje odgovora:</h3>
             <div style="padding-bottom: 20px;">
@@ -53,8 +53,8 @@
             </div>
           </div>
           <mat-divider style="border-width: 5px;" />
-          <div style="flex: 1">
-            <div style="padding: 10px" id="submission">
+          <div class="split-area">
+            <div class="submission-panel" id="submission">
               @if (step.submissionFormat.type === 'Text') {
                 <pre>{{ step.progress?.answer }}</pre>
               } @else if (step.submissionFormat.type === 'Code') {
@@ -67,9 +67,9 @@
                 <pre>{{ step.progress?.commentForMentor }}</pre>
               }
             </div>
-            <mat-divider style="border-width: 5px;" />
+            <div class="split-divider"></div>
             @if (gradingForm) {
-            <div [formGroup]="gradingForm" style="padding: 10px" id="evaluation">
+            <div class="evaluation-panel" [formGroup]="gradingForm" id="evaluation">
               @if (structuredFormShown()) {
                 <div formArrayName="evaluations">
                   @for (evaluation of typedEvaluations; track $index; let i = $index) {
@@ -142,7 +142,7 @@
           }
           <span style="flex-grow: 1;"></span>
           @if (!isUnanswered(step)) {
-            <span class="flex-row gap">
+            <span class="flex-row gap jump-group">
               <button matIconButton (click)="scrollTo('text')" matTooltip="Skoči na opis">
                 <mat-icon>description</mat-icon>
               </button>
