@@ -53,11 +53,70 @@ input[type='number'] {
   height: 100%;
   flex-grow: 1;
   width: 80%;
+  // Establish a query container so the split below reacts to the panel's own
+  // width (which depends on the sidebar), not the raw viewport width.
+  container-type: inline-size;
 }
 
 .scrollable-content {
   flex: 1;
   overflow-y: auto;
+}
+
+.text-panel,
+.submission-panel,
+.evaluation-panel {
+  padding: 10px;
+}
+
+// Submission + grading form. Stacked by default (and on narrow screens); the
+// container query below turns this into a 50/50 row on wide screens.
+.split-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.split-divider {
+  border-top: 5px solid var(--mat-sys-outline-variant);
+}
+
+// Each half gets ~600px once the panel is wide enough. Only applied when the
+// host adds .split-enabled (i.e. Code/Text submissions).
+@container (min-width: 1240px) {
+  .split-enabled .scrollable-content {
+    overflow: hidden;
+  }
+
+  .split-enabled .text-panel {
+    flex: 0 1 auto;
+    max-height: 40%;
+    overflow-y: auto;
+  }
+
+  .split-enabled .split-area {
+    flex-direction: row;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .split-enabled .submission-panel,
+  .split-enabled .evaluation-panel {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow-y: auto;
+  }
+
+  .split-enabled .split-divider {
+    border-top: none;
+    border-left: 3px solid var(--mat-sys-outline-variant);
+  }
+
+  // Both panes are visible at once, so the jump-to-section buttons are redundant.
+  .split-enabled .jump-group {
+    display: none;
+  }
 }
 
 .action-row {
