@@ -50,6 +50,13 @@ export class GradingComponent {
 
   readonly selectedTask = signal<GradingTask | null>(null);
   readonly selectedStep = signal<GradingStep | null>(null);
+
+  /** Side-by-side submission/grading layout is only meaningful for inline submissions. */
+  readonly splittable = computed(() => {
+    const type = this.selectedStep()?.submissionFormat.type;
+    return type === 'Code' || type === 'Text';
+  });
+
   readonly progressBarActive = signal(false);
   readonly structuredFormShown = signal(true);
   readonly sortedStandards = signal<GradingStep['standards']>([]);
