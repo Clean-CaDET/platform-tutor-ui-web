@@ -1,0 +1,162 @@
+<div class="flex-col">
+  @if (!isEditing()) {
+    <div style="margin: 10px;">
+      <button matIconButton (click)="add()"
+        [class.active-tab]="!summaries().length">
+        <mat-icon>add</mat-icon>
+      </button>
+      <span>&nbsp;&nbsp;Kroz elaboraciju koncepta, student artikuliše razumevanje i razvija sposobnost verbalizacije razumevanja.</span>
+    </div>
+  }
+
+  @for (item of summaries(); track item.id) {
+    <mat-card appearance="outlined" style="margin: 10px;">
+      @if (!isEditing() || editId() !== item.id) {
+        <div>
+          <div class="flex-row gap theme-highlight-primary" style="align-items: center;">
+            <div style="flex-grow: 1; padding-left: 10px;">
+              <b>{{ item.order }}. {{ item.title }}</b>
+            </div>
+            @if (!isEditing()) {
+              <button matIconButton (click)="edit(item)" matTooltip="Ažuriraj">
+                <mat-icon>edit</mat-icon>
+              </button>
+            }
+            <button matIconButton (click)="delete(item.id!)" matTooltip="Obriši">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+          <div class="flex-col gap" style="padding: 10px;">
+            @if (item.description) {
+              <cc-markdown [data]="item.description" />
+              <mat-divider></mat-divider>
+            }
+            <small><cc-markdown [data]="item.conceptRecord.canonicalDefinition" /></small>
+
+            @if (item.conceptRecord.keyPropositions.length) {
+              <small>
+                <b>Ključne propozicije:</b>
+                <ol>
+                  @for (kp of item.conceptRecord.keyPropositions; track kp.key) {
+                    <li style="margin-bottom: 10px;">
+                      <code>{{ kp.key }}</code> {{ kp.statement }}
+                      @if (kp.hint) {
+                        <div style="padding-left: 20px;"><b>Pomoć:</b> {{ kp.hint }}</div>
+                      }
+                      @if (kp.misconception) {
+                        <div style="padding-left: 20px;"><b>Zabluda:</b> {{ kp.misconception.description }} <b>Korekcija:</b> {{ kp.misconception.correction }}</div>
+                      }
+                    </li>
+                  }
+                </ol>
+              </small>
+            }
+          </div>
+        </div>
+      } @else {
+        <div>
+          <div class="flex-row theme-highlight-primary" style="height: 48px; align-items: center;">
+            <span style="flex-grow: 1; padding-left: 10px;"><b>{{ form.get('id')?.value ? 'Ažuriranje' : 'Nova elaboracija' }}</b></span>
+            <span class="flex-row gap">
+              <button matMiniFab [disabled]="form.invalid" (click)="saveOrUpdate()">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button matMiniFab class="warn-fab" (click)="cancel()">
+                <mat-icon>clear</mat-icon>
+              </button>
+            </span>
+          </div>
+
+          <form [formGroup]="form" class="flex-col gap" style="padding: 10px;">
+            <div class="flex-row gap">
+              <mat-form-field style="flex-grow: 1;">
+                <mat-label>Naslov</mat-label>
+                <input matInput formControlName="title">
+              </mat-form-field>
+              <mat-form-field style="width: 120px;">
+                <mat-label>Redosled</mat-label>
+                <input matInput type="number" formControlName="order">
+              </mat-form-field>
+            </div>
+            <cc-markdown-editor
+              label="Opis zadatka elaboracije (ovo student vidi)"
+              [text]="form.get('description')?.value ?? ''"
+              (textChange)="onDescriptionChange($event)"
+            />
+            <div class="theme-highlight-flat" style="margin: 0 -10px; padding: 10px;">
+              <b>Zapis koncepta</b> (student ne vidi)
+            </div>
+            <div formGroupName="conceptRecord" class="flex-col gap">
+              <mat-form-field>
+                <mat-label>
+                  Kanonska definicija
+                  <mat-icon matTooltip="Sveobuhvatni opis koncepta (npr. iz udžbenika ili savršen odgovor studenta). Ne koristi ga LLM, već služi autoru kao pomoć za definisanje elemenata koje LLM koristi.">help_outline</mat-icon>
+                </mat-label>
+                <textarea matInput formControlName="canonicalDefinition" rows="5" placeholder="Sveobuhvatni opis koncepta (npr. iz udžbenika ili savršen odgovor studenta). Ne koristi ga LLM, već služi autoru kao pomoć za definisanje elemenata koje LLM koristi."></textarea>
+              </mat-form-field>
+
+              <!-- Key Propositions -->
+              <div>
+                <b>Ključne propozicije</b>
+                <mat-icon matTooltip="Samostalne, jasne i proverljive tvrdnje koje izražavaju jedan pojam, pravilo, odgovornost, svojstvo, stanje ili ishod u posmatranom domenu. Dobro formulisana KP se razume bez oslanjanja na druge KP. KP može i da objasni odnose između drugih KP. KP ne definiše primere, komentare ili obrazloženja, već predstavlja stabilan čvor znanja u konceptualnom modelu.">help_outline</mat-icon>:
+              </div>
+              <div formArrayName="keyPropositions" class="flex-col gap">
+                @for (ctrl of keyPropositions.controls; track $index; let i = $index) {
+                  <div [formGroup]="$any(ctrl)" class="flex-col gap">
+                    <div class="flex-row gap" style="align-items: center;">
+                      <mat-form-field style="width: 90px;">
+                        <mat-label>Ključ</mat-label>
+                        <input matInput formControlName="key">
+                        @if ($any(ctrl).get('key')?.errors?.['duplicateKey']) {
+                          <mat-error>Ključ mora biti jedinstven</mat-error>
+                        }
+                      </mat-form-field>
+                      <mat-form-field style="flex-grow: 1;">
+                        <mat-label>Iskaz</mat-label>
+                        <input matInput formControlName="statement">
+                      </mat-form-field>
+                    </div>
+                    <div class="flex-row gap" style="align-items: center; margin-left: 20px;">
+                      <mat-form-field style="flex-grow: 1;">
+                        <mat-label>Pomoć</mat-label>
+                        <input matInput formControlName="hint">
+                      </mat-form-field>
+                      @if (!$any(ctrl).get('misconception')) {
+                        <button matIconButton (click)="addMisconception($any(ctrl))" matTooltip="Dodaj zabludu">
+                          <mat-icon>psychology_alt</mat-icon>
+                        </button>
+                      }
+                      <button matIconButton (click)="removeItem(keyPropositions, i)" matTooltip="Obriši">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+                    @if ($any(ctrl).get('misconception')) {
+                      <div formGroupName="misconception" class="flex-row gap" style="align-items: center; padding-left: 20px;">
+                        <mat-form-field style="flex: 1;">
+                          <mat-label>Opis zablude</mat-label>
+                          <input matInput formControlName="description">
+                        </mat-form-field>
+                        <mat-form-field style="flex: 1;">
+                          <mat-label>Korekcija</mat-label>
+                          <input matInput formControlName="correction">
+                        </mat-form-field>
+                        <button matIconButton (click)="removeMisconception($any(ctrl))" matTooltip="Ukloni zabludu">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </div>
+                    }
+                  </div>
+                }
+                <button matMiniFab (click)="addKeyProposition()" matTooltip="Dodaj propoziciju">
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      }
+    </mat-card>
+  }
+
+</div>

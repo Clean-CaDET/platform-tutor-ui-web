@@ -33,6 +33,12 @@ export const LEARNING_ROUTES: Routes = [
         loadComponent: () =>
           import('./reflection/reflection.component').then(m => m.ReflectionComponent),
       },
+      {
+        path: 'concept-elaborations/:taskId',
+        loadComponent: () =>
+          import('./concept-elaboration/concept-elaboration.component').then(m => m.ConceptElaborationComponent),
+        canDeactivate: [confirmExitGuard],
+      },
     ],
   },
 ];
