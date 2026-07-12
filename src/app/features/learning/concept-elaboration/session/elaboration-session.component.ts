@@ -236,6 +236,7 @@ export class ElaborationSessionComponent {
         this.notify.error('Sadržaj nije pronađen.');
         break;
       default:
+        this.lastSubmitted.set('');
         this.notify.error('Greška. Pokušaj ponovo.');
         break;
     }

@@ -102,6 +102,7 @@ export class ConceptElaborationTasksComponent {
     const group: FormGroup = new FormGroup({
       key: new FormControl(kp.key, { validators: [Validators.required] }),
       statement: new FormControl(kp.statement, { validators: [Validators.required] }),
+      hint: new FormControl(kp.hint ?? ''),
     });
     if (kp.misconception) {
       group.addControl('misconception', this.createMisconceptionGroup(kp.misconception));
@@ -219,6 +220,7 @@ export class ConceptElaborationTasksComponent {
           return {
             key: kpGroup.get('key')?.value,
             statement: kpGroup.get('statement')?.value,
+            hint: kpGroup.get('hint')?.value?.trim() || null,
             misconception: misc
               ? { description: misc.get('description')?.value, correction: misc.get('correction')?.value }
               : null,

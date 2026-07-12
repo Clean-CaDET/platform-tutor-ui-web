@@ -6,6 +6,9 @@ import { StreamChunk } from './model/stream-chunk.model';
 import { AttemptStatus } from './model/attempt-status.model';
 
 const SPECIAL_TOKENS: Record<string, string> = {
+  'PROGRESS': 'Napredujemo, super. Nastavi sa doradom spram smernica.\n\n',
+  'GREAT_PROGRESS': 'Ovo je značajno unapređenje!\n\n',
+  'WEAK_REDIRECT': 'Ovaj odgovor ima mnogo nedostataka. Razmisli da li je svrsishodnije da iznova prođeš materijale pre nego da nastaviš. Ako ipak želiš da pokušaš, sagledaj par izdvojenih smernica ispod.\n\n',
   'STAGNATION_REDIRECT': '\n\nSlabo napredujemo. Razmisli da li je svrsishodnije da se posvetiš materijalima i produbljivanju razumevanja ispitivanog koncepta.',
   'PUSH': '\n\nRevidiraj tekst iznad i unapredi postojeći elaborat.',
 };

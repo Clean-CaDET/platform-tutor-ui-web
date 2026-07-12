@@ -38,10 +38,13 @@
                 <b>Ključne propozicije:</b>
                 <ul>
                   @for (kp of item.conceptRecord.keyPropositions; track kp.key) {
-                    <li>
+                    <li style="margin-bottom: 10px;">
                       <code>{{ kp.key }}</code> {{ kp.statement }}
+                      @if (kp.hint) {
+                        <div style="padding-left: 20px;"><b>Pomoć:</b> {{ kp.hint }}</div>
+                      }
                       @if (kp.misconception) {
-                        <div><b>Zabluda:</b> {{ kp.misconception.description }} <b>Korekcija:</b> {{ kp.misconception.correction }}</div>
+                        <div style="padding-left: 20px;"><b>Zabluda:</b> {{ kp.misconception.description }} <b>Korekcija:</b> {{ kp.misconception.correction }}</div>
                       }
                     </li>
                   }
@@ -111,6 +114,12 @@
                       <mat-form-field style="flex-grow: 1;">
                         <mat-label>Iskaz</mat-label>
                         <input matInput formControlName="statement">
+                      </mat-form-field>
+                    </div>
+                    <div class="flex-row gap" style="align-items: center; margin-left: 20px;">
+                      <mat-form-field style="flex-grow: 1;">
+                        <mat-label>Pomoć</mat-label>
+                        <input matInput formControlName="hint">
                       </mat-form-field>
                       @if (!$any(ctrl).get('misconception')) {
                         <button matIconButton (click)="addMisconception($any(ctrl))" matTooltip="Dodaj zabludu">

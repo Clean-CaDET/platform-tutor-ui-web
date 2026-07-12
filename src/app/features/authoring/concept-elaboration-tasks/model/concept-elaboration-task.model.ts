@@ -6,6 +6,7 @@ export interface Misconception {
 export interface KeyProposition {
   key: string;
   statement: string;
+  hint?: string | null;
   misconception?: Misconception | null;
 }
 

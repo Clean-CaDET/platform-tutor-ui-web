@@ -58,14 +58,16 @@
         @if (status() === 'Completed') {
           <div class="done-message completion-color">
             <b>Elaboracija uspešno zaokružena.</b><br>
-            Ako uz navedeno možeš za svaki deo svog elaborata da ponudiš konkretan primer, računaj na visok uspeh na usmenom.
+            Da upotpuniš vežbu, ispričaj naglas tvoj poslednji tekst.<br>
+            U svoju priču ubaci i konkretan primer za svaki aspekt tvog elaborata.
           </div>
         }
         @if (status() === 'Expired') {
           <div class="done-message expiration-color">
-            <b>Rešenje do kog smo stigli nosi oko {{ finalGrade() }}%.</b><br>
-            Međutim, na ispitu bi ovaj procenat verovatno bio niži jer je više razmena trebalo da stignemo do ovog rezultata.<br>
-            Vrati se na materijale i produbi razumevanje, pa pokušaj ponovo.
+            <b>Poslednji elaborat nosi oko {{ finalGrade() }}%.</b><br>
+            Na ispitu bi procenat bio nešto niži jer je više razmena trebalo da stignemo do ove verzije.<br>
+            Sagledaj materijal koji opisuje ovaj koncept, identifikuj njegove ključne karakteristike i termine koji precizno definišu svaku karakteristiku.<br>
+            Zatim se vrati na ovu vežbu da proveriš svoje razumevanje koncepta.
           </div>
         }
       </div>
