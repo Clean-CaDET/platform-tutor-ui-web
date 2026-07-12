@@ -29,14 +29,15 @@
 
           <div class="flex-col gap" style="padding: 10px;">
             @if (item.description) {
-              <small>{{ item.description }}</small>
+              <cc-markdown [data]="item.description" />
+              <mat-divider></mat-divider>
             }
-            <cc-markdown [data]="item.conceptRecord.canonicalDefinition" />
+            <small><cc-markdown [data]="item.conceptRecord.canonicalDefinition" /></small>
 
             @if (item.conceptRecord.keyPropositions.length) {
               <small>
                 <b>Ključne propozicije:</b>
-                <ul>
+                <ol>
                   @for (kp of item.conceptRecord.keyPropositions; track kp.key) {
                     <li style="margin-bottom: 10px;">
                       <code>{{ kp.key }}</code> {{ kp.statement }}
@@ -48,7 +49,7 @@
                       }
                     </li>
                   }
-                </ul>
+                </ol>
               </small>
             }
           </div>
@@ -98,7 +99,7 @@
               <!-- Key Propositions -->
               <div>
                 <b>Ključne propozicije</b>
-                <mat-icon matTooltip="Samostalne, jasne i proverljive tvrdnje koje izražavaju jedan pojam, pravilo, odgovornost, svojstvo, stanje ili ishod u posmatranom domenu. Dobro formulisana KP se razume bez oslanjanja na druge KP, ne objašnjava odnose prema drugim tvrdnjama, ne sadrži uzročno-posledične lance i ne služi kao primer, komentar ili obrazloženje, već kao stabilan čvor znanja u konceptualnom modelu.">help_outline</mat-icon>:
+                <mat-icon matTooltip="Samostalne, jasne i proverljive tvrdnje koje izražavaju jedan pojam, pravilo, odgovornost, svojstvo, stanje ili ishod u posmatranom domenu. Dobro formulisana KP se razume bez oslanjanja na druge KP. KP može i da objasni odnose između drugih KP. KP ne definiše primere, komentare ili obrazloženja, već predstavlja stabilan čvor znanja u konceptualnom modelu.">help_outline</mat-icon>:
               </div>
               <div formArrayName="keyPropositions" class="flex-col gap">
                 @for (ctrl of keyPropositions.controls; track $index; let i = $index) {

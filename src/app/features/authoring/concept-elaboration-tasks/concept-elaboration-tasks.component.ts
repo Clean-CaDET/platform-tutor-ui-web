@@ -14,12 +14,13 @@ import { ConceptElaborationTaskAuthoringService } from './concept-elaboration-ta
 import { DeleteFormComponent } from '../../../shared/generics/delete-form/delete-form.component';
 import { CcMarkdownComponent } from '../../../shared/markdown/cc-markdown.component';
 import { MarkdownEditorComponent } from '../../../shared/markdown/markdown-editor/markdown-editor.component';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'cc-concept-elaboration-tasks',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
-    ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule,
+    ReactiveFormsModule, MatButtonModule, MatIconModule, MatCardModule, MatDividerModule,
     MatFormFieldModule, MatInputModule,
     MatTooltipModule,
     CcMarkdownComponent, MarkdownEditorComponent,
